@@ -1,344 +1,20 @@
 <template>
   <div class="main" @contextmenu.prevent="contextmenu($event)">
-    <!-- <nav class="tabs">
-      <ul>
-        <li>test
-        </li>
-        <li>test
-        </li>
-        <li>test
-        </li>
-      </ul>
-    </nav> -->
-    <div class="user-status">
-      <cTooltip placement="bottom">
-        <template v-slot:content>
-          <div class="lv">
-            <div class="value">
-              <span>lv {{playerLv}}</span>
-              <span>转生次数：{{playerLv}}</span>
-            </div>
-          </div>
-        </template>
-        <template v-slot:tip>
-          <p class="info">* 玩家当前等级与转生次数</p>
-          <p class="info">* 成功挑战首领时会提升等级</p>
-          <p class="info">* 超过30级时可以转生获取更强力的初始属性</p>
-        </template>
-      </cTooltip>
-      <cTooltip placement="bottom">
-        <template v-slot:content>
-          <div class="hpmp">
-            <div class="progress" style="width:100%;">
-              <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" :style="{width:attribute.CURHP.value/attribute.MAXHP.value*100+'%'}">
-                <small class="justify-content-center d-flex position-absolute w-80" style="color:black">{{attribute.CURHP.showValue}} / {{attribute.MAXHP.showValue}} </small>
-              </div>
-            </div>
-            <div class="progress" style="width:100%;">
-              <div class="progress-bar progress-bar-striped progress-bar-animated" :style="{width:attribute.CURMP.value/attribute.MAXMP.value*100+'%'}">
-                <small class="justify-content-center d-flex position-absolute w-80" style="color:black">{{attribute.CURMP.showValue}} / {{attribute.MAXMP.showValue}} </small>
-              </div>
-            </div>
-          </div>
-        </template>
-        <template v-slot:tip>
-            <p class="info">
-              * 生命值
-              <br>
-              基础：{{attribute.HP.baseVal}}
-              <span v-if="attribute.HPP.value != 0">{{' +' + attribute.HPP.showValue}}</span>
-              <br>
-              基础恢复：1%/秒
-            </p>
-            <p class="info">
-              * 魔法值
-              <br>
-              基础：{{attribute.MP.baseVal}}
-              <span v-if="attribute.MPP.value != 0">{{' +' + attribute.MPP.showValue}}</span>
-              <br>
-              基础恢复：1%/秒
-            </p>
-        </template>
-      </cTooltip>
-
-      <div class="other">
-        <cTooltip placement="bottom">
-          <template v-slot:content>
-            <div class="item">
-              <img src="../assets/icons/stat/str.png" alt="">
-              <div class="value">
-                <span>{{attribute.STR.showValue}}</span>
-              </div>
-            </div>
-          </template>
-          <template v-slot:tip>
-            <p class="info">* 力量
-              <br>
-              基础：{{attribute.STR.baseVal }}
-              <span v-if="attribute.STRP.value != 0">{{' +' + attribute.STRP.showValue}}</span>
-              <span class="info" v-if="attribute.ALL.value>0">
-                <br>
-                全属性：{{attribute.ALL.baseVal}}
-                <span v-if="attribute.ALLP.value>0">{{' +'+attribute.ALLP.showValue}}</span>
-              </span>
-            </p>
-            <p class="info">* 每点提升属性
-              <br>
-              +1攻击
-              <br>
-              +5生命值
-              <br>
-              +1生命恢复
-            </p>
-            </template>
-        </cTooltip>
-        <cTooltip placement="bottom">
-          <template v-slot:content>
-            <div class="item">
-              <img src="../assets/icons/stat/agi.png" alt="">
-              <div class="value">
-                <span>{{attribute.AGI.showValue}}</span>
-              </div>
-            </div>
-          </template>
-          <template v-slot:tip>
-            <p class="info">* 敏捷
-              <br>
-              基础：{{attribute.AGI.baseVal }}
-              <span v-if="attribute.AGIP.value != 0">{{' +' + attribute.AGIP.showValue}}</span>
-              <span class="info" v-if="attribute.ALL.value>0">
-                <br>
-                全属性：{{attribute.ALL.baseVal}}
-                <span v-if="attribute.ALLP.value>0">{{' +'+attribute.ALLP.showValue}}</span>
-              </span>
-            </p>
-            <p class="info">* 每点提升属性
-              <br>
-              +1护甲
-              <br>
-              +1格挡
-              <br>
-              +2%暴击伤害
-            </p>
-          </template>
-        </cTooltip>
-        <cTooltip placement="bottom">
-          <template v-slot:content>
-            <div class="item">
-              <img src="../assets/icons/stat/int.png" alt="">
-              <div class="value">
-                <span>{{attribute.INT.showValue}}</span>
-              </div>
-            </div>
-          </template>
-          <template v-slot:tip>
-            <p class="info">* 智力
-              <br>
-              基础：{{attribute.INT.baseVal }}
-              <span v-if="attribute.INTP.value != 0">{{' +' + attribute.INTP.showValue}}</span>
-              <span class="info" v-if="attribute.ALL.value>0">
-                <br>
-                全属性：{{attribute.ALL.baseVal}}
-                <span v-if="attribute.ALLP.value>0">{{' +'+attribute.ALLP.showValue}}</span>
-              </span>
-            </p>
-            <p class="info">* 每点提升属性
-              <br>
-              +1元素伤害
-              <br>
-              +3魔法值
-              <br>
-              +1魔法恢复
-            </p>
-          </template>
-        </cTooltip>
-        <cTooltip placement="bottom">
-          <template v-slot:content>
-            <div class="item">
-              <img src="../assets/icons/stat/atk.png" alt="">
-              <div class="value">
-                <span>{{attribute.ATK.showValue}}</span>
-              </div>
-            </div>
-          </template>
-          <template v-slot:tip>
-            <p class="info">* 攻击力
-              <br>
-              基础：{{attribute.ATK.baseVal }}
-              <span v-if="attribute.ATKP.value != 0">{{' +' + attribute.ATKP.showValue}}</span>
-            </p>
-          </template>
-        </cTooltip>
-        <cTooltip placement="bottom">
-          <template v-slot:content>
-            <div class="item">
-              <img src="../assets/icons/stat/ap.png" alt="">
-              <div class="value">
-                <span>{{attribute.AP.showValue}}</span>
-              </div>
-            </div>
-          </template>
-          <template v-slot:tip>
-            <p class="info">* 元素伤害
-              <br>
-              基础：{{attribute.AP.baseVal }}
-              <span v-if="attribute.APP.value != 0">{{' +' + attribute.APP.showValue}}</span>
-            </p>
-            <p class="info">额外造成无视护甲、格挡的伤害</p>
-          </template>
-        </cTooltip>
-        <cTooltip placement="bottom">
-          <template v-slot:content>
-            <div class="item">
-              <img src="../assets/icons/stat/crit.png" alt="">
-              <div class="value">
-                <span>{{attribute.CRIT.showValue}}</span>
-              </div>
-            </div>
-          </template>
-          <template v-slot:tip>
-            <p class="info">* 暴击率</p>
-          </template>
-        </cTooltip>
-        <cTooltip placement="bottom">
-          <template v-slot:content>
-            <div class="item">
-              <img src="../assets/icons/stat/arm.png" alt="">
-              <div class="value">
-                <span>
-                  {{attribute.DEF.showValue}}
-                  <div class="reducePercent">
-                    ({{attribute.DEFRED.showValue}})
-                  </div>
-                </span>
-              </div>
-            </div>
-          </template>
-          <template v-slot:tip>
-            <p class="info">* 护甲
-              <br>
-              基础：{{attribute.DEF.baseVal }}
-              <span v-if="attribute.DEFP.value != 0">{{' +' + attribute.DEFP.showValue}}</span>
-              <br>
-              减伤：{{attribute.DEFRED.showValue}}
-            </p>
-          </template>
-        </cTooltip>
-        <cTooltip placement="bottom">
-          <template v-slot:content>
-            <div class="item">
-              <img src="../assets/icons/stat/mr2.png" alt="">
-              <div class="value">
-                <span>
-                  {{attribute.MR.showValue}}
-                </span>
-              </div>
-            </div>
-          </template>
-          <template v-slot:tip>
-            <p class="info">* 格挡
-              <br>
-              基础：{{attribute.MR.baseVal }}
-              <span v-if="attribute.MRP.value != 0">{{' +' + attribute.MRP.showValue}}</span>
-            </p>
-            <p class="info">减少计算完护甲后的伤害</p>
-          </template>
-        </cTooltip>
-        <cTooltip placement="bottom">
-          <template v-slot:content>
-            <div class="item">
-              <img src="../assets/icons/stat/critDmg2.png" alt="">
-              <div class="value">
-                <span>{{attribute.CRITDMG.showValue}}</span>
-              </div>
-            </div>
-          </template>
-          <template v-slot:tip>
-            <p class="info">* 暴击伤害
-              <br>
-              基础：{{attribute.CRITDMG.baseVal }}
-            </p>
-          </template>
-        </cTooltip>
-      </div>
-    </div>
-
-    <div class="user-item">
-      <div class="uii">
-        <cTooltip placement="bottom">
-          <template v-slot:content>
-              <div class="gold" :style="{fontSize:userGold>=1000000?'1em':'1em'}">金币: <span :style="{fontSize:userGold>=1000000?'1em':'1em'}">{{(userGold || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')}}</span></div>
-          </template>
-          <template v-slot:tip>
-              <p class="info">* 你拥有的金币数量</p>
-              <p class="info">* 在这里，钱就是万能的</p>
-          </template>
-        </cTooltip>
-      </div>
-      
-      <div class="equips">
-        <div class="equip helmet" @mouseover="showInfo($event,'helmet',playerHelmet,false)" @mouseleave="closeInfo('equip')">
-          <div class="title">
-            <div class='icon' :style="{'box-shadow':'inset 0 0 7px 2px '+playerHelmet.quality.color}">
-              <img :src="playerHelmet.description.iconSrc" alt="">
-            </div>
-            <div class='name' :class="{'red-flash':playerHelmet.enhanceLv>=20}" :style="{color:playerHelmet.quality.color}">
-              {{playerHelmet.description.name}} {{playerHelmet.enhanceLv?'(+'+playerHelmet.enhanceLv+')':''}}
-            </div>
-          </div>
-        </div>
-        <div class="equip necklace" @mouseover="showInfo($event,'necklace',playerNecklace,false)" @mouseleave="closeInfo('equip')">
-          <div class="title">
-            <div class='icon' :style="{'box-shadow':'inset 0 0 7px 2px '+playerNecklace.quality.color}">
-              <img :src="playerNecklace.description.iconSrc" alt="">
-            </div>
-            <div class='name' :class="{'red-flash':playerNecklace.enhanceLv>=20}" :style="{color:playerNecklace.quality.color}">
-              {{playerNecklace.description.name}} {{playerNecklace.enhanceLv?'(+'+playerNecklace.enhanceLv+')':''}}
-            </div>
-          </div>
-        </div>
-        <div class="equip weapon" @mouseover="showInfo($event,'weapon',playerWeapon,false)" @mouseleave="closeInfo('equip')">
-          <div class="title" v-if="playerWeapon">
-            <div class='icon' :class="{'red-flash':playerWeapon.enhanceLv>=20}" :style="{'box-shadow':'inset 0 0 7px 2px '+playerWeapon.quality.color}">
-              <img :src="playerWeapon.description.iconSrc" alt="">
-            </div>
-            <div class='name' :style="{color:playerWeapon.quality.color}">
-              {{playerWeapon.description.name}} {{playerWeapon.enhanceLv?'(+'+playerWeapon.enhanceLv+')':''}}
-            </div>          
-          </div>
-        </div>
-        <div class="equip armor" @mouseover="showInfo($event,'armor',playerArmor,false)" @mouseleave="closeInfo('equip')">
-          <div class="title">
-            <div class='icon' :class="{'red-flash':playerArmor.enhanceLv>=20}" :style="{'box-shadow':'inset 0 0 7px 2px'+playerArmor.quality.color}">
-              <img :src="playerArmor.description.iconSrc" alt="">
-            </div>
-            <div class='name' :style="{color:playerArmor.quality.color}">
-              {{playerArmor.description.name}} {{playerArmor.enhanceLv?'(+'+playerArmor.enhanceLv+')':''}}
-            </div>        
-          </div>
-        </div>
-        <div class="equip shoe" @mouseover="showInfo($event,'shoe',playerShoe,false)" @mouseleave="closeInfo('equip')">
-          <div class="title">
-            <div class='icon' :class="{'red-flash':playerShoe.enhanceLv>=20}" :style="{'box-shadow':'inset 0 0 7px 2px'+playerShoe.quality.color}">
-              <img :src="playerShoe.description.iconSrc" alt="">
-            </div>
-            <div class='name' :style="{color:playerShoe.quality.color}">
-              {{playerShoe.description.name}} {{playerShoe.enhanceLv?'(+'+playerShoe.enhanceLv+')':''}}
-            </div>
-          </div>
-        </div>
-        <div class="equip ring" @mouseover="showInfo($event,'ring',playerRing,false)" @mouseleave="closeInfo('equip')">
-          <div class="title">
-            <div class='icon' :class="{'red-flash':playerRing.enhanceLv>=20}" :style="{'box-shadow':'inset 0 0 7px 2px'+playerRing.quality.color}">
-              <img :src="playerRing.description.iconSrc" alt="">
-            </div>
-            <div class='name' :style="{color:playerRing.quality.color}">
-              {{playerRing.description.name}} {{playerRing.enhanceLv?'(+'+playerRing.enhanceLv+')':''}}
-            </div>        
-          </div>
-        </div>
-      </div>
-    </div>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link active" id="charInfo" @click="switchTab('charInfo')">角色信息</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="construct" @click="switchTab('construct')">建设</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+      </li>
+    </ul>
+    <charInfo id="charInfo" v-show="displayPage=='charInfo'"></charInfo>
 
     <div class="sysInfo">
       <div class="battleInfo">
@@ -507,6 +183,7 @@ import equipEnhance from './component/equipEnhance'
 import equipForge from './component/equipForge'
 import mapEvent from './component/mapEvent'
 import backpack from './component/backpack'
+import charInfo from './component/charInfo'
 import { assist } from '../assets/js/assist'
 import { dungeon } from '../assets/js/dungeon'
 export default {
@@ -528,10 +205,11 @@ export default {
       dungeonInfo: {},
       enermyInfo: {},
       equipEnhancePanel: false,
-      equipForgePanel: false
+      equipForgePanel: false,
+      displayPage: 'charInfo'
     }
   },
-  components: {cTooltip, equipInfo, mapEvent, assist, backpack, equipEnhance, equipForge},
+  components: {cTooltip, equipInfo, mapEvent, assist, backpack, equipEnhance, equipForge, charInfo},
   mounted() {    
     //初始系统、战斗信息
     this.sysInfo = this.$store.state.sysInfo;
@@ -606,6 +284,15 @@ export default {
     },
   },
   methods: {
+    switchTab(type){
+      if(this.displayPage != type) {
+        var element = document.getElementById(this.displayPage);
+        element.classList.remove('active');
+        var element = document.getElementById(type);
+        element.classList.add('active');
+        this.displayPage = type;
+      }
+    },
     switchZone(type){
       if(this.$store.state.dungeonInfo.inBattle) {
         this.autoBattle(false);
