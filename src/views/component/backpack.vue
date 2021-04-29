@@ -1,36 +1,44 @@
 <template>
-    <div name="backpack">
-        <a href="#" class="close" @click="closeBackpack()"></a>
-        <div class="title">
-            背包
-        </div>
-        <div class="item">
-            <div class="grid" v-on:drop="drop($event, k)" v-on:dragover="allowDrop($event)" v-for="(v, k) in grid" :key="k">
-                <div v-if="v.lv" draggable="true" v-on:dragstart="dragStart($event,k)" v-on:dragend="dragEnd" @contextmenu.prevent="openMenu(k,$event)" @touchstart.stop.prevent="openMenu(k,$event)"  @mouseover="showInfo($event,v.itemType,v,true)" @mouseleave="closeInfo">
-                    <div class="icon" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v.quality.color }">
-                        <img :src="v.description.iconSrc" alt="" />
+<draggable class="backpack">
+    <template slot="header">
+    </template>
+    <template slot="main" >
+        <div>
+            <a href="#" class="close" @click="closeBackpack()"></a>
+            <div class="title">
+                背包
+            </div>
+            <div class="item">
+                <div class="grid" v-on:drop="drop($event, k)" v-on:dragover="allowDrop($event)" v-for="(v, k) in grid" :key="k">
+                    <div v-if="v.lv" draggable="true" v-on:dragstart="dragStart($event,k)" v-on:dragend="dragEnd" @contextmenu.prevent="openMenu(k,$event)" @touchstart.stop.prevent="openMenu(k,$event)"  @mouseover="showInfo($event,v.itemType,v,true)" @mouseleave="closeInfo">
+                        <div class="icon" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v.quality.color }">
+                            <img :src="v.description.iconSrc" alt="" />
+                        </div>
+                        <!-- <div class="title-lock" v-if="v.locked">
+                            <img src="../../assets/icons/lock.png" alt="">
+                        </div> -->
                     </div>
-                    <!-- <div class="title-lock" v-if="v.locked">
-                        <img src="../../assets/icons/lock.png" alt="">
-                    </div> -->
                 </div>
             </div>
+            <ul v-show="visible" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
+                <li @click="equip()">装备</li>
+                <li @click="equipEnhance()">强化</li>
+                <li @click="equipForge()">重铸</li>
+                <!-- <li @click="lockTheEquipment(true)" v-if="!currentItem.locked">锁定</li>
+                <li @click="lockTheEquipment(false)" v-if="currentItem.locked">解锁</li> -->
+                <li @click="sellEquipment()">出售</li>
+            </ul>
         </div>
-        <ul v-show="visible" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
-            <li @click="equip()">装备</li>
-            <li @click="equipEnhance()">强化</li>
-            <li @click="equipForge()">重铸</li>
-            <!-- <li @click="lockTheEquipment(true)" v-if="!currentItem.locked">锁定</li>
-            <li @click="lockTheEquipment(false)" v-if="currentItem.locked">解锁</li> -->
-            <li @click="sellEquipment()">出售</li>
-        </ul>
-    </div>
+    </template>
+</draggable>
 </template>
 <script>
 import { assist } from '../../assets/js/assist';
+import draggable from '../uiComponent/draggable'
 export default {
     name: 'backpack',
     mixins: [assist],
+    components: {draggable},
     data() {
         return {
             type: 'equip',
@@ -257,7 +265,7 @@ export default {
         width: 32px;
         height: 32px;
         opacity: 0.7;
-        z-index: 10;
+        z-index: 6;
     }
     .close:hover {
         opacity: 1;

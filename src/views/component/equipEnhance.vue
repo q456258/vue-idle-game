@@ -1,56 +1,64 @@
 <template>
-    <div class="equip" v-if="equip.quality">
-        <span class="title">· 强化 ·</span>
-        <div class="info">
-            <div class="name" :style="{color:equip.quality.color}">
-                {{ equip.description.name }}
+<draggable class="equip">
+    <template slot="header">
+    </template>
+    <template slot="main" >
+        <div v-if="equip.quality">
+            <span class="title">· 强化 ·</span>
+            <div class="info">
+                <div class="name" :style="{color:equip.quality.color}">
+                    {{ equip.description.name }}
+                </div>
+                <div class='icon'>
+                    <img :src="equip.description.iconSrc" alt="icon">
+                </div>
+                <span class="enhanceLv">
+                    <div v-if="equip.enhanceLv >= equip.maxEnhanceLv" style="color:#c00;">强化等级已达到上限</div>
+                    强化等级：{{equip.enhanceLv+'/'+equip.maxEnhanceLv}}
+                </span>
             </div>
-            <div class='icon'>
-                <img :src="equip.description.iconSrc" alt="icon">
-            </div>
-            <span class="enhanceLv">
-                <div v-if="equip.enhanceLv >= equip.maxEnhanceLv" style="color:#c00;">强化等级已达到上限</div>
-                强化等级：{{equip.enhanceLv+'/'+equip.maxEnhanceLv}}
-            </span>
-        </div>
-        <div class="enhance">
-            <div class="beforeEnhance">
-                <div v-for="v in equip.baseEntry" :key="v.id">
-                    <div>
-                        <span>{{v.name}} : {{v.showVal}}</span> 
-                        <!-- <span v-if="equip.enhanceLv>0">&nbsp;({{v.base}}&nbsp;
-                            <span style="color:#ABF6F4">+{{v.value-v.base}}</span>)
-                        </span> -->
+            <div class="enhance">
+                <div class="beforeEnhance">
+                    <div v-for="v in equip.baseEntry" :key="v.id">
+                        <div>
+                            <span>{{v.name}} : {{v.showVal}}</span> 
+                            <!-- <span v-if="equip.enhanceLv>0">&nbsp;({{v.base}}&nbsp;
+                                <span style="color:#ABF6F4">+{{v.value-v.base}}</span>)
+                            </span> -->
+                        </div>
                     </div>
                 </div>
-            </div>
-            <span class="pointer" v-show="equip.enhanceLv < equip.maxEnhanceLv">→</span>
-            <div class="afterEnhance" v-show="equip.enhanceLv < equip.maxEnhanceLv">
-                <div v-for="v in equip.baseEntry" :key="v.id">
-                    <div>
-                        &nbsp;{{Math.floor(v.base*(1+(equip.enhanceLv+1)*0.1))}}
-                        <span class="bonus">
-                            ↑({{Math.floor(v.base*(1+(equip.enhanceLv+1)*0.1)-v.value)}})
-                        </span>
+                <span class="pointer" v-show="equip.enhanceLv < equip.maxEnhanceLv">→</span>
+                <div class="afterEnhance" v-show="equip.enhanceLv < equip.maxEnhanceLv">
+                    <div v-for="v in equip.baseEntry" :key="v.id">
+                        <div>
+                            &nbsp;{{Math.floor(v.base*(1+(equip.enhanceLv+1)*0.1))}}
+                            <span class="bonus">
+                                ↑({{Math.floor(v.base*(1+(equip.enhanceLv+1)*0.1)-v.value)}})
+                            </span>
+                        </div>
                     </div>
                 </div>
+            <span class="cost" :class="{'warning':warning}" v-show="equip.enhanceLv < equip.maxEnhanceLv">消耗金币：{{cost}}</span>
+            <span class="successRate" v-show="equip.enhanceLv < equip.maxEnhanceLv">成功率：{{successRate+'%'}}</span>
             </div>
-        <span class="cost" :class="{'warning':warning}" v-show="equip.enhanceLv < equip.maxEnhanceLv">消耗金币：{{cost}}</span>
-        <span class="successRate" v-show="equip.enhanceLv < equip.maxEnhanceLv">成功率：{{successRate+'%'}}</span>
+            <div class="confirm" @click="enhance()" v-show="equip.enhanceLv < equip.maxEnhanceLv">
+                强化
+            </div>
+            <div class="cancel" @click="closeInfo()">
+                取消
+            </div>
         </div>
-        <div class="confirm" @click="enhance()" v-show="equip.enhanceLv < equip.maxEnhanceLv">
-            强化
-        </div>
-        <div class="cancel" @click="closeInfo()">
-            取消
-        </div>
-    </div>
+    </template>
+</draggable>
 </template>
 <script>
 import { assist } from '../../assets/js/assist';
+import draggable from '../uiComponent/draggable'
 export default {
     name: "equipEnhance",
     mixins: [assist, ],
+    components: {draggable},
     data() {
         return {
         };
@@ -109,6 +117,7 @@ export default {
     background-image: url("/icons/enhancePanel2.png");
     background-repeat: no-repeat;
     background-size: 49rem 28rem;
+    z-index: 10;
     .title {
         position: absolute;
         top: 1.4rem;

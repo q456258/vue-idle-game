@@ -129,7 +129,7 @@
       </div>
     </div>
 
-    <backpack class="backpack" v-show="showBackpack"></backpack>
+    <backpack v-show="showBackpack"></backpack>
 
     <div class="menus">
       <cTooltip :placement="'top'">
