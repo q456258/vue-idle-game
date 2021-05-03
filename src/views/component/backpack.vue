@@ -3,31 +3,33 @@
     <template slot="header">
     </template>
     <template slot="main" >
-        <div>
-            <a href="#" class="close" @click="closeBackpack()"></a>
-            <div class="title">
-                背包
-            </div>
-            <div class="item">
-                <div class="grid" v-on:drop="drop($event, k)" v-on:dragover="allowDrop($event)" v-for="(v, k) in grid" :key="k">
-                    <div v-if="v.lv" draggable="true" v-on:dragstart="dragStart($event,k)" v-on:dragend="dragEnd" @contextmenu.prevent="openMenu(k,$event)" @touchstart.stop.prevent="openMenu(k,$event)"  @mouseover="showInfo($event,v.itemType,v,true)" @mouseleave="closeInfo">
-                        <div class="icon" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v.quality.color }">
-                            <img :src="v.description.iconSrc" alt="" />
-                        </div>
-                        <!-- <div class="title-lock" v-if="v.locked">
-                            <img src="../../assets/icons/lock.png" alt="">
-                        </div> -->
+        <a href="#" class="close" @click="closeBackpack()"></a>
+        <div class="title">
+            背包
+        </div>
+        <div class="item">
+            <div class="grid" v-on:drop="drop($event, k)" v-on:dragover="allowDrop($event)" v-for="(v, k) in grid" :key="k">
+                <div v-if="v.lv" draggable="true" v-on:dragstart="dragStart($event,k)" v-on:dragend="dragEnd" @contextmenu.prevent="openMenu(k,$event)" @touchstart.stop.prevent="openMenu(k,$event)"  @mouseover="showInfo($event,v.itemType,v,true)" @mouseleave="closeInfo">
+                    <div class="icon" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v.quality.color }">
+                        <img :src="v.description.iconSrc" alt="" />
+                    </div>
+                    <div class="lock" v-if="v.locked">
+                        <img src="../../assets/icons/lock.png" alt="">
                     </div>
                 </div>
             </div>
-            <ul v-show="visible" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
-                <li @click="equip()">装备</li>
-                <li @click="equipEnhance()">强化</li>
-                <li @click="equipForge()">重铸</li>
-                <!-- <li @click="lockTheEquipment(true)" v-if="!currentItem.locked">锁定</li>
-                <li @click="lockTheEquipment(false)" v-if="currentItem.locked">解锁</li> -->
-                <li @click="sellEquipment()">出售</li>
-            </ul>
+        </div>
+        <ul v-show="visible" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
+            <li @click="equip()">装备</li>
+            <li @click="equipEnhance()">强化</li>
+            <li @click="equipForge()">重铸</li>
+            <li @click="lockEquipment(true)" v-if="!currentItem.locked">锁定</li>
+            <li @click="lockEquipment(false)" v-if="currentItem.locked">解锁</li>
+            <li @click="sellEquipment()" v-if="!currentItem.locked">出售</li>
+        </ul>
+        <div class="footer">
+            <a class="function" @click="sellAll()">一键出售</a>
+            <a class="function" @click="sort()">整理背包</a>
         </div>
     </template>
 </draggable>
@@ -41,12 +43,14 @@ export default {
     components: {draggable},
     data() {
         return {
+            currentItemIndex: 0,
+            currentItem: {},
             type: 'equip',
             grid: [],
             visible: false,
             dragging: false,
             top: '',
-            left: ''
+            left: '',
         }
     },  
     watch: {
@@ -104,19 +108,59 @@ export default {
             index.enhanceEquip = this.grid[this.currentItemIndex];
             index.equipForgePanel = true;
         },
-        sellEquipment(eq) {
+        lockEquipment(lock) {
             var equip = this.grid[this.currentItemIndex];
-            if(eq != undefined)
-                equip = eq;
+            equip.locked = lock;
+        },
+        sellEquipment(index) {
+            if(index == undefined)
+                index = this.currentItemIndex;
+            var equip = this.grid[index];
             var cost = 8+4*Math.random();
             cost *= (1+equip.lv/10)*(1+equip.enhanceLv*equip.quality.qualityCoefficient+equip.quality.extraEntryNum*2);
             cost = Math.round(cost);
-            this.grid[this.currentItemIndex] = {};
+            this.grid[index] = {};
             this.$store.state.playerAttribute.GOLD += cost;
             this.$store.commit("set_sys_info", {
                 type: 'reward',
                 msg: '出售装备获得金币: '+cost
             });
+        },
+        sellAll() {
+            for(var i=0; i<this.grid.length; i++) {
+                if(Object.keys(this.grid[i]).length > 1 && !this.grid[i].locked) {
+                    this.sellEquipment(i);
+                }
+            }
+            this.$forceUpdate();
+        },
+        sort() {
+            // var current = 0;
+            // for(var i=0; i<this.grid.length; i++) {
+            //     if(Object.keys(this.grid[current]).length > 1) {
+            //         current++;
+            //     } 
+            //     else if(Object.keys(this.grid[i]).length > 1) {
+            //         this.grid[current] = this.grid[i];
+            //         this.grid[i] = {};
+            //         current++;
+            //     }
+            // }
+            this.grid.sort((a, b) => {
+                if(a == b)
+                    return 0;
+                if(Object.keys(a).length == 0)
+                    return 1;
+                if(Object.keys(b).length == 0)
+                    return -1;
+                if(a.quality.qualityLv != b.quality.qualityLv)
+                    return a.quality.qualityLv - b.quality.qualityLv;
+                if(a.enhanceLv != b.enhanceLv)
+                    return a.enhanceLv - b.enhanceLv;
+                if(a.lv != b.lv)
+                    return a.lv - b.lv;
+            });
+            this.$forceUpdate();
         },
         showInfo($event, type, item, compare) {
             if(this.dragging)
@@ -231,6 +275,63 @@ export default {
                     border-radius: 1rem;
                 }
             }
+            .lock {
+                position: relative;
+                top: -3.1rem;
+                left: 0.9rem;
+                // right: 0;
+                // bottom: 0;
+                width: 0;
+                height: 0;
+                border-left: 1.5rem solid transparent;
+                border-right: 1.5rem solid transparent;
+                border-bottom: 1.5rem solid rgba(255, 0, 0, 0.658);
+                border-radius: 0.3rem;
+                font-size: 0;
+                line-height: 0;
+                transform: rotate(45deg);
+                img {
+                    width: 1rem;
+                    height: 0.9rem;
+                    transform: rotate(-45deg) translate(-50%, -0%);
+                    position: absolute;
+                    // top: 30%;
+                    // left: 50%;
+                }
+            }
+        }
+    }
+    .footer {
+        position: absolute;
+        bottom: 2rem;
+        right: 2rem;
+
+        $pink-hot: rgb(68, 55, 55);
+        $blue-sky: #3498DB;
+        .function{
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+            // a {
+                text-decoration: none;
+                color: white;
+                width: 2rem;
+                height: 1rem;
+                background: $pink-hot;
+                position: relative;
+                margin: 1rem;
+                top: 0.3rem;
+                padding: 0.4rem;
+                font-size: 1rem;
+                border-radius: 10px;
+                box-shadow: 0px 10px 0px 0px darken($pink-hot, 5%), 0px 0px 10px 0px #bbb;
+
+                transition: all 0.2s;
+            // }
+            &:active{
+                top: 0.5rem;
+                box-shadow: 0px 7px 0px 0px darken($pink-hot, 5%);
+            }
         }
     }
     .contextmenu {
@@ -284,5 +385,8 @@ export default {
     .close:after {
         transform: rotate(-45deg);
     }
+
+
+    
 }
 </style>
