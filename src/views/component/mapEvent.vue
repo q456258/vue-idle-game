@@ -180,22 +180,22 @@ export default {
             var equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
             var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
             var index = this.findComponentUpward(this, 'index');
-            var limit = -1;
+            var bonus = 0;
             switch(type) {
                 case 'normal':
-                    limit = 3;
+                    bonus = 0;
                     break;
                 case 'elite':
-                    limit = 4;
+                    bonus = 1;
                     break;
                 case 'boss':
-                    limit = 5;
+                    bonus = 2;
                     break;
                 case 'chest':
-                    limit = 4;
+                    bonus = 1;
                     break;
             }
-            var equip = equipInfo.createEquip(-1, this.$store.state.enermyAttribute.lv, 'random', limit);  
+            var equip = equipInfo.createEquip(-1, this.$store.state.enermyAttribute.lv, 'random', bonus);  
             this.$store.commit("set_sys_info", {
                 type: 'reward',
                 msg: '获得战利品',

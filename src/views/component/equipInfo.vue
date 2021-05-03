@@ -71,7 +71,7 @@ export default {
     data() {
         return {
             newEquip: {},
-            qualityProbability: [0.25, 0.7, 0.925, 0.98, 0.995, 1],
+            qualityProbability: [0.25, 0.65, 0.9, 0.99, 0.999, 1],
             typeName: ['helmet', 'necklace', 'weapon', 'armor', 'shoe', 'ring']
         };
     },
@@ -81,11 +81,11 @@ export default {
         }
     },
     methods: {
-        createEquip(qualityIndex, lv, type, limit) {
+        createEquip(qualityIndex, lv, type, bonus) {
             var newEquip = {};
             newEquip.itemType = type != 'random' ? type : this.createType();
             newEquip.lv = lv || this.createLv();
-            newEquip.quality = qualityIndex > -1 ? this.quality[qualityIndex] : this.createQuality(limit);
+            newEquip.quality = qualityIndex > -1 ? this.quality[qualityIndex] : this.createQuality(bonus);
             newEquip.maxEnhanceLv = (newEquip.quality.extraEntryNum-1)*5;
             newEquip.enhanceLv = Math.min(0, newEquip.maxEnhanceLv);
             newEquip.baseEntry = this.createBaseEntry(newEquip);
@@ -100,7 +100,7 @@ export default {
             var random = Math.floor(Math.random()*6)
             return this.typeName[random];
         },
-        createQuality(limit) {
+        createQuality(bonus) {
             var random = Math.round(Math.random()*1000)/1000;
             var quality = 0;
             for(var i=0; i<this.qualityProbability.length; i++) {
@@ -109,10 +109,9 @@ export default {
                     break;
                 }
             }
-            if(quality > limit)
-                return this.quality[limit];
-            if(quality < limit-3)
-                return this.quality[limit-3];
+            quality += bonus;
+            if(quality > 5)
+                return this.quality[5];
             return this.quality[quality];
         },
         createBaseEntry(newEquip) {
