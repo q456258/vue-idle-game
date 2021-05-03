@@ -6,31 +6,37 @@ export const equipConfig = {
     return{
       quality: [{
         name: '破旧',
-        qualityCoefficient: 2,
+        qualityLv: 1,
+        qualityCoefficient: 1.8,
         color: '#a1a1a1',
         extraEntryNum: 1,
       }, {
         name: '普通',
+        qualityLv: 2,
         qualityCoefficient: 1.5,
         color: '#D9D9D9', 
         extraEntryNum: 2,
       }, {
         name: '精良',
+        qualityLv: 3,
         qualityCoefficient: 1.25,
         color: '#00BBFF', 
         extraEntryNum: 3,
       }, {
         name: '完美',
+        qualityLv: 4,
         qualityCoefficient: 1.1,
         color: '#BB00FF', 
         extraEntryNum: 4,
       }, {
         name: '史诗',
+        qualityLv: 5,
         qualityCoefficient: 1,
         color: '#FFBB00', 
         extraEntryNum: 5,
       }, {
         name: '传说',
+        qualityLv: 6,
         qualityCoefficient: 0.95,
         color: '#FF0000', 
         extraEntryNum: 6,
