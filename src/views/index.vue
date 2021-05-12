@@ -160,11 +160,11 @@ export default {
     this.dungeonInfo = this.$store.state.dungeonInfo;
     // 自动恢复
     this.autoHealthRecovery = setInterval(() => {
-      this.$store.commit('set_player_hp', Math.round(this.attribute.MAXHP.value*0.01)+this.attribute.STR.value);
+      this.$store.commit('set_player_hp', Math.round(this.attribute.MAXHP.value*0.001+this.attribute.STR.value/10));
       if(this.attribute.CURHP.value == this.attribute.MAXHP.value && this.dungeonInfo.auto && !this.dungeonInfo.inBattle) {
         this.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
       }
-    }, 1000);
+    }, 100);
     this.autoManRecovery = setInterval(() => {
       this.$store.commit('set_player_mp', Math.round(this.attribute.MAXMP.value*0.01)+this.attribute.INT.value);
     }, 1000);
@@ -405,7 +405,7 @@ export default {
           this.mapArr[dungeon.current][dungeon.option].status = 'option';
           break;
       }
-      if(type == 'normal' || type == 'elite' || type == 'boss' || type == 'trial')
+      if(type == 'gold' || type == 'wood' || type == 'equip' || type=='trial')
         mapEvent.battle(type);
       if(type == 'chest')
         mapEvent.chest();

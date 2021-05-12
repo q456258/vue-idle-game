@@ -3,10 +3,10 @@ export const dungeon = {
     methods: {
         generateDungeon(type, count) {
             var map = [];
-            // normal, elite, chest, boss
-            var types = ['normal', 'elite', 'chest', 'boss']
-            var img = ['normal', 'elite', 'chest', 'boss']
-            var probability = [0.7, 0.85, 0.95, 1];
+            // gold, wood, chest, equip
+            var types = ['gold', 'wood', 'chest', 'equip']
+            var img = ['gold', 'wood', 'chest', 'equip']
+            var probability = [0.25, 0.5, 0.75, 1];
             for(var i=0; i<count; i++) {
                 let temp = []
                 for(var j=0; j<3; j++) {
@@ -21,28 +21,6 @@ export const dungeon = {
                     temp.push(choice);
                 }
                 map.push(temp);
-            }
-            if(type == 'trial') {
-                map[4] = [
-                    {type: 'elite', img: './icons/elite.png'},
-                    {type: 'elite', img: './icons/elite.png'},
-                    {type: 'elite', img: './icons/elite.png'},
-                ]
-                map[9] = [
-                    {type: 'elite', img: './icons/elite.png'},
-                    {type: 'elite', img: './icons/elite.png'},
-                    {type: 'elite', img: './icons/elite.png'},
-                ]
-                map[14] = [
-                    {type: 'elite', img: './icons/elite.png'},
-                    {type: 'elite', img: './icons/elite.png'},
-                    {type: 'elite', img: './icons/elite.png'},
-                ]
-                map[19] = [
-                    {type: 'boss', img: './icons/boss.png'},
-                    {type: 'boss', img: './icons/boss.png'},
-                    {type: 'boss', img: './icons/boss.png'},
-                ]
             }
             return map;
         }

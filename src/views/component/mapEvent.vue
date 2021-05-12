@@ -23,7 +23,6 @@ export default {
 
             if(type == 'trial') {
                 enermyAttribute = this.$store.state.trialAttribute;
-                type = 'boss';
             }
             if(enermyAttribute.attribute.CURHP.value == 0) {
                 this.generateEnermy(type, dungeonInfo[dungeonInfo.current].level);
@@ -36,13 +35,19 @@ export default {
             this.battleTimer = setInterval(() => {
                 this.$store.commit('set_enermy_hp', -1*this.dmgCalculate(playerAttribute, enermyAttribute, 'player'));
                 if(enermyAttribute.attribute.CURHP.value == 0) {
-                    this.reward(type);
+                    this.reward(type, enermyAttribute.lv);
                     this.setBattleStatus(false);
                     clearInterval(this.battleTimer);
                     let index = this.findComponentUpward(this, 'index'); 
-                    index.enableOption(dungeonInfo.current);
+                    if(dungeonInfo.current == 'advanture')
+                        index.enableOption(dungeonInfo.current);
+                    else if(dungeonInfo.current == 'trial')
+                        this.generateEnermy(type, dungeonInfo[dungeonInfo.current].level+1);
                     if(dungeonInfo.auto) {
                         index.startBattle();
+                    }
+                    if(enermyAttribute.lv == playerAttribute.lv) {
+                        this.levelUp();
                     }
                     this.$store.commit("set_battle_info", {
                         type: 'win',
@@ -91,16 +96,18 @@ export default {
             }, 1000)
         },
         generateEnermy(type, level) {
-            var enermyAttribute = this.$deepCopy(this.monster),
-            attribute = enermyAttribute.attribute,
+            var enermyAttribute = {};
+            enermyAttribute.attribute = this.$deepCopy(this.monster[this.name[level].template]);
+            var attribute = enermyAttribute.attribute,
             val = 0.0,
             flexStats = ['MAXHP', 'ATK', 'AP', 'DEF', 'MR'];
             enermyAttribute.lv = level;
-            enermyAttribute.name = this.name[level];
+            enermyAttribute.name = this.name[level].name;
             flexStats.forEach(stat => {
                 let attribute = enermyAttribute.attribute[stat];
                 // attribute.value = Math.round(attribute.value*(1+enermyAttribute.lv*0.15)*(1+Math.random()/10));
-                attribute.value = Math.round(attribute.value*(1+enermyAttribute.lv*0.15));
+                // attribute.value = Math.round(attribute.value*(1+enermyAttribute.lv*0.15));
+                attribute.value = Math.round(attribute.value*(1+enermyAttribute.lv*enermyAttribute.lv));
                 attribute.showValue = attribute.value;
                 enermyAttribute.attribute[stat] = attribute;
             });
@@ -183,40 +190,63 @@ export default {
             }
             return dmg;
         },
-        reward(type) {
+        reward(type, lv) {
             var equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
             var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
             var index = this.findComponentUpward(this, 'index');
             var bonus = 0;
+            var equip = null; 
             switch(type) {
-                case 'normal':
-                    bonus = 0;
+                case 'gold':
+                    let gold = 20+lv**2
+                    this.$store.state.playerAttribute.GOLD += gold;
+                    this.$store.commit("set_sys_info", {
+                        type: 'reward',
+                        msg: '获得'+gold+'金币'
+                    });
                     break;
-                case 'elite':
-                    bonus = 1;
-                    break;
-                case 'boss':
-                    bonus = 2;
+                case 'wood':
+                    this.$store.commit("set_sys_info", {
+                        type: 'reward',
+                        msg: '获得木材'
+                    });
                     break;
                 case 'chest':
-                    bonus = 1;
+                    this.$store.commit("set_sys_info", {
+                        type: 'reward',
+                        msg: '获得宝箱'
+                    });
+                    break;
+                case 'equip':
+                    equip = equipInfo.createEquip(-1, lv, 'random', bonus);  
+                    break;
+                case 'trial':
+                    bonus = 2;
+                    equip = equipInfo.createEquip(-1, lv, 'random', bonus);  
                     break;
             }
-            var equip = equipInfo.createEquip(-1, this.$store.state.enermyAttribute.lv, 'random', bonus);  
-            this.$store.commit("set_sys_info", {
-                type: 'reward',
-                msg: '获得战利品',
-                equip: JSON.parse(equip)
-            });
-            for (let i = 0; i < backpack.grid.length; i++) {
-              if (JSON.stringify(backpack.grid[i]).length < 3) {
-                this.$set(backpack.grid, i, JSON.parse(equip));
-                break;
-              }
-              if(i==backpack.grid.length-1)
-                backpack.sellEquipment(JSON.parse(equip));
+            if(equip != null) {
+                this.$store.commit("set_sys_info", {
+                    type: 'reward',
+                    msg: '获得战利品',
+                    equip: JSON.parse(equip)
+                });
+                for (let i = 0; i < backpack.grid.length; i++) {
+                    if (JSON.stringify(backpack.grid[i]).length < 3) {
+                        this.$set(backpack.grid, i, JSON.parse(equip));
+                        break;
+                    }
+                    if(i==backpack.grid.length-1){
+                        backpack.sellEquipmentByEquip(JSON.parse(equip));
+                    }
+                }
             }
             index.nextLevel();
+        },
+        levelUp() {
+            this.$store.state.playerAttribute.lv += 1;
+            this.$store.state.dungeonInfo.advanture.level += 1;
+            this.$store.state.dungeonInfo.trial.level += 1;
         }
     }
 }

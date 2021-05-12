@@ -126,6 +126,16 @@ export default {
                 msg: '出售装备获得金币: '+cost
             });
         },
+        sellEquipmentByEquip(equip) {
+            var cost = 8+4*Math.random();
+            cost *= (1+equip.lv/10)*(1+equip.enhanceLv*equip.quality.qualityCoefficient+equip.quality.extraEntryNum*2);
+            cost = Math.round(cost);
+            this.$store.state.playerAttribute.GOLD += cost;
+            this.$store.commit("set_sys_info", {
+                type: 'reward',
+                msg: '出售装备获得金币: '+cost
+            });
+        },
         sellAll() {
             for(var i=0; i<this.grid.length; i++) {
                 if(Object.keys(this.grid[i]).length > 1 && !this.grid[i].locked) {

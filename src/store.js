@@ -287,7 +287,7 @@ export default new Vuex.Store({
         AP: { value: 0, showValue: 0, },
         MR: { value: 0, showValue: 0, },
         CRIT: { value: 0, showValue: 0, },
-        CRITDMG: { value: 200, showValue: 200, },
+        CRITDMG: { value: 0, showValue: 0, },
       },
     },       
     baseAttribute: {
