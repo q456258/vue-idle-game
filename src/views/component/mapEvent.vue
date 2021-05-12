@@ -20,12 +20,16 @@ export default {
             var playerAttribute = this.$store.state.playerAttribute,
                 enermyAttribute = this.$store.state.enermyAttribute,
                 dungeonInfo = this.$store.state.dungeonInfo;
-            if(enermyAttribute.attribute.CURHP.value == 0){
+
+            if(type == 'trial') {
+                enermyAttribute = this.$store.state.trialAttribute;
+                type = 'boss';
+            }
+            if(enermyAttribute.attribute.CURHP.value == 0) {
                 this.generateEnermy(type, dungeonInfo[dungeonInfo.current].level);
                 enermyAttribute = this.$store.state.enermyAttribute;
             }
-            playerAttribute.tempSpells = this.$deepCopy(playerAttribute.spells),
-            enermyAttribute.tempSpells = this.$deepCopy(enermyAttribute.spells);
+            playerAttribute.tempSpells = this.createTempSpell(playerAttribute);
             if(this.$store.state.dungeonInfo.inBattle)
                 return;
             this.setBattleStatus(true);
@@ -87,15 +91,16 @@ export default {
             }, 1000)
         },
         generateEnermy(type, level) {
-            var index = Math.floor(Math.random()*this[type].type.length),
-            enermyAttribute = this.$deepCopy(this[type].type[index]),
+            var enermyAttribute = this.$deepCopy(this.monster),
             attribute = enermyAttribute.attribute,
             val = 0.0,
             flexStats = ['MAXHP', 'ATK', 'AP', 'DEF', 'MR'];
             enermyAttribute.lv = level;
+            enermyAttribute.name = this.name[level];
             flexStats.forEach(stat => {
                 let attribute = enermyAttribute.attribute[stat];
-                attribute.value = Math.round(attribute.value*(1+enermyAttribute.lv*0.15)*(1+Math.random()/10));
+                // attribute.value = Math.round(attribute.value*(1+enermyAttribute.lv*0.15)*(1+Math.random()/10));
+                attribute.value = Math.round(attribute.value*(1+enermyAttribute.lv*0.15));
                 attribute.showValue = attribute.value;
                 enermyAttribute.attribute[stat] = attribute;
             });
@@ -109,26 +114,17 @@ export default {
                 value: val,
                 showValue: val+'%'
             }
-            enermyAttribute.spells = {
-                total: 0,
-                spell: {}
-            };
-            enermyAttribute.initSpell.forEach(spell => {
-                enermyAttribute.spells.spell[spell] = this.spell[spell]
-                enermyAttribute.spells.total += this.spell[spell].weight
-            });
             if(this.$store.state.dungeonInfo.current == 'trial') {
                 attribute['RECOVERY'] = {
-                    value: Math.round(attribute['MAXHP'].value*0.05),
-                    showValue: Math.round(attribute['MAXHP'].value*0.05),
+                    value: Math.round(attribute['MAXHP'].value*0.01),
+                    showValue: Math.round(attribute['MAXHP'].value*0.01),
                 }
             }
-
             this.$store.commit('set_enermy_attribute', enermyAttribute);
         },
         dmgCalculate(source, target, type) {
             var spell = this.getSpell(source);
-            var spellInfo = source.spells.spell[spell];
+            var spellInfo = this.spell[spell];
             var dmg = this.getSpellDmg(spell, source)*(1-target.attribute.DEFRED.value/100);
             var crit = Math.round(Math.random()*100);
             if(crit<source.attribute.CRIT.value) 
@@ -151,20 +147,31 @@ export default {
             }
             return dmg;
         },
+        createTempSpell(source) {
+            var tempSpells = {total:0, spell: []};
+            source.spells.forEach(spell => {
+                tempSpells.total += this.spell[spell].weight;
+            });
+            tempSpells.spell = source.spells;
+            return tempSpells;
+        },
         getSpell(source) {
+            if(source.tempSpells == undefined)
+                return 'attack'
             var random = Math.floor(Math.random()*source.tempSpells.total);
             var curWeight = 0;
             var selectSpell = '';
             for(var spell in source.tempSpells.spell) {
-                let tempSpell = source.tempSpells.spell[spell];
+                let name = source.tempSpells.spell[spell];
+                let tempSpell = this.spell[name];
                 curWeight += tempSpell.weight;
                 if(curWeight > random) {
-                    selectSpell = spell;
+                    selectSpell = name;
                     break;
                 }
             }   
             if(selectSpell != 'attack') {
-                source.tempSpells.total -= source.tempSpells.spell[selectSpell].weight;
+                source.tempSpells.total -= this.spell[selectSpell].weight;
                 delete source.tempSpells.spell[selectSpell];
             }
             return selectSpell;

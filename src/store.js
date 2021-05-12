@@ -211,11 +211,11 @@ export default new Vuex.Store({
         max:3
       },
       trial: {
-        level: 0,
-        current: 0,
-        option: 1,
-        max:20
+        level: 1,
       }
+    },
+    villageAttribute: {
+      wood: 100
     },
     playerAttribute: {
       name: '无名',
@@ -251,19 +251,7 @@ export default new Vuex.Store({
         APP: { baseVal: 0, value: 0, showbaseVal: 0},
         MRP: { baseVal: 0, value: 0, showbaseVal: 0},
       },
-      spells: {
-        total: 110,
-        spell: {
-          attack: {
-            name: "普通攻击",
-            weight: 100
-          },
-          thunder: {
-            name: "雷霆一击",
-            weight: 10
-          },
-        }
-      },
+      spells: ['attack', 'thunder'],
       tempSpells: {},
       helmet: initial_helmet,
       weapon: initial_weapon,
@@ -272,7 +260,7 @@ export default new Vuex.Store({
       necklace: initial_necklace,
       shoe: initial_shoe,
     },
-    enermyAttribute: {
+    trialAttribute: {
       name: "海的那边",
       lv: 1,
       attribute: {
@@ -286,21 +274,22 @@ export default new Vuex.Store({
         CRIT: { value: 0, showValue: 0, },
         CRITDMG: { value: 200, showValue: 200, },
       },
-      spells: {
-        total: 200,
-        spell: {
-          attack: {
-            name: "普通攻击",
-            weight: 100
-          },
-          thunder: {
-            name: "雷霆一击",
-            weight: 100
-          },
-        }
+    },
+    enermyAttribute: {
+      name: "海的那边",
+      lv: 0,
+      attribute: {
+        CURHP: { value: 0, showValue: 0, },
+        MAXHP: { value: 0, showValue: 0, },        
+        ATK: { value: 0, showValue: 0, },
+        DEF: { value: 0, showValue: 0, },
+        DEFRED: { value: 0, showValue: 0, },
+        AP: { value: 0, showValue: 0, },
+        MR: { value: 0, showValue: 0, },
+        CRIT: { value: 0, showValue: 0, },
+        CRITDMG: { value: 200, showValue: 200, },
       },
-      tempSpells: {},
-    },      
+    },       
     baseAttribute: {
       CURHP: 0,
       MAXHP: 0,
@@ -487,11 +476,19 @@ export default new Vuex.Store({
       CURMP.showValue = CURMP.value;
     },
     set_enermy_attribute(state, data) {
-      this.state.enermyAttribute = data;
+      if(this.state.dungeonInfo.current == 'trial')
+        this.state.trialAttribute = data;
+      else
+        this.state.enermyAttribute = data;
     },
     set_enermy_hp(state, data) {
       var CURHP = this.state.enermyAttribute.attribute.CURHP,
         MAXHP = this.state.enermyAttribute.attribute.MAXHP
+
+      if(this.state.dungeonInfo.current == 'trial') {
+          CURHP = this.state.trialAttribute.attribute.CURHP,
+          MAXHP = this.state.trialAttribute.attribute.MAXHP
+      }
       if(data == 'full'){
         CURHP.value = MAXHP.value;
       }

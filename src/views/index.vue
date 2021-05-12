@@ -15,6 +15,7 @@
       </li>
     </ul>
     <charInfo id="charInfo" v-show="displayPage=='charInfo'"></charInfo>
+    <construct id="construct" v-show="displayPage=='construct'"></construct>
 
     <div class="sysInfo">
       <div class="battleInfo">
@@ -38,59 +39,7 @@
     
     <div class="map">
       <mapEvent></mapEvent>
-      <div class="enermy">{{enermyName+" (Lv:"+enermyLv+")"}}
-        <div class="progress" style="width:100%;">
-          <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" :style="{width:enermyAttribute.CURHP.value/enermyAttribute.MAXHP.value*100+'%'}">
-            <small class="justify-content-center d-flex position-absolute w-90" style="color:black">{{enermyAttribute.CURHP.showValue}} / {{enermyAttribute.MAXHP.showValue}} </small>
-          </div>
-        </div>
-        
-        <div class="other">
-          <div class="item">
-            <img src="../assets/icons/stat/atk.png" alt="">
-            <div class="value">
-              <span>{{enermyAttribute.ATK.showValue}}</span>
-            </div>
-          </div>
-          <div class="item">
-            <img src="../assets/icons/stat/ap.png" alt="">
-            <div class="value">
-              <span>{{enermyAttribute.AP.showValue}}</span>
-            </div>
-          </div>
-          <div class="item">
-            <img src="../assets/icons/stat/crit.png" alt="">
-            <div class="value">
-              <span>{{enermyAttribute.CRIT.showValue}}</span>
-            </div>
-          </div>
-          <div class="item">
-            <img src="../assets/icons/stat/arm.png" alt="">
-            <div class="value">
-              <span>
-                {{enermyAttribute.DEF.showValue}}
-                <div class="reducePercent">
-                  ({{enermyAttribute.DEFRED.showValue}})
-                </div>
-              </span>
-            </div>
-          </div>
-          <div class="item">
-            <img src="../assets/icons/stat/mr2.png" alt="">
-            <div class="value">
-              <span>
-                {{enermyAttribute.MR.showValue}}
-              </span>
-            </div>
-          </div>
-          <div class="item">
-            <img src="../assets/icons/stat/critDmg2.png" alt="">
-            <div class="value">
-              <span>{{enermyAttribute.CRITDMG.showValue}}</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <enermyInfo :enermy="enermyInfo"></enermyInfo>
       <div class="zoneSelect">    
         <div class="zoneAction">
           <button id="trial" class="btn btn-outline-light btn-sm lvZone" @click="switchZone('trial')">
@@ -103,21 +52,14 @@
             自动战斗
           </button>        
           <br>
-          <button class="btn btn-outline-light btn-sm" id="stopBattle" v-show="enermyAttribute.CURHP.value > 0" @click="stopBattle()">
-            暂停/继续战斗
+          <button class="btn btn-outline-light btn-sm" id="stopBattle" @click="stopBattle()">
+            开始/暂停战斗
           </button>        
-          <button class="btn btn-outline-light btn-sm" id="forfeitBattle" @click="forfeitBattle()">
-            放弃当前战斗
+          <button class="btn btn-outline-light btn-sm" id="resetMap" v-show="dungeonInfo.current=='advanture'" @click="resetMap()">
+            重置地图
           </button>   
         </div>    
         <div class="zone scrollbar-morpheus-den scrollbar-square">
-          <div v-if="dungeonInfo.current=='trial'">
-            <div class="zoneRow " v-for="(dungeon, key) in trialArr" :key="key">
-              <span class="zoneCol" :class="{chose:v.status=='chose',restrict:v.status=='restrict',option:v.status=='option'}" @click="choseOption($event, k)" v-for="(v,k) in dungeon" :key="k">
-                <img :src="v.img" alt="" v-if="v.img" :class="{option:v.status=='option'}">
-              </span>
-            </div>
-          </div>
           <div v-if="dungeonInfo.current=='advanture'">
             <div class="zoneRow" v-for="(dungeon, key) in mapArr" :key="key">
               <span class="zoneCol" :class="{chose:v.status=='chose',restrict:v.status=='restrict',option:v.status=='option'}" @click="choseOption($event, k)" v-for="(v,k) in dungeon" :key="k">
@@ -184,6 +126,8 @@ import equipForge from './component/equipForge'
 import mapEvent from './component/mapEvent'
 import backpack from './component/backpack'
 import charInfo from './component/charInfo'
+import construct from './component/construct'
+import enermyInfo from './component/enermyInfo'
 import { assist } from '../assets/js/assist'
 import { dungeon } from '../assets/js/dungeon'
 export default {
@@ -197,19 +141,18 @@ export default {
       sysInfo: {},
       battleInfo: {},
       itemDialogStyle: {},
-      trialArr: [],
       mapArr: [],
       equip: {},
       compareEquip: {},
       enhanceEquip: {},
       dungeonInfo: {},
-      enermyInfo: {},
+      enermyInfo: 'advanture',
       equipEnhancePanel: false,
       equipForgePanel: false,
       displayPage: 'charInfo'
     }
   },
-  components: {cTooltip, equipInfo, mapEvent, assist, backpack, equipEnhance, equipForge, charInfo},
+  components: {cTooltip, equipInfo, mapEvent, assist, backpack, equipEnhance, equipForge, charInfo, construct, enermyInfo},
   mounted() {    
     //初始系统、战斗信息
     this.sysInfo = this.$store.state.sysInfo;
@@ -226,8 +169,7 @@ export default {
       this.$store.commit('set_player_mp', Math.round(this.attribute.MAXMP.value*0.01)+this.attribute.INT.value);
     }, 1000);
     //初始生成地图
-    this.createMaps('trial');
-    this.createMaps('advanture');
+    this.createMaps();
     //测试·随机装备
     var equipInfo = this.findComponentDownward(this, 'equipInfo');   
     // var newEquip = JSON.parse(equipInfo.createEquip(0,2,'helmet'));
@@ -250,9 +192,6 @@ export default {
     this.$store.commit('set_player_ring', this.$deepCopy(newEquip));
   },
   computed: {
-    enermyAttribute() { return this.$store.state.enermyAttribute.attribute },
-    enermyName() { return this.$store.state.enermyAttribute.name },
-    enermyLv() { return this.$store.state.enermyAttribute.lv },
     baseAttribute() { return this.$store.state.baseAttribute },
     attribute() { return this.$store.state.playerAttribute.attribute },
     userGold() { return this.$store.state.playerAttribute.GOLD },
@@ -303,34 +242,31 @@ export default {
           element.classList.replace('btn-light', 'btn-outline-light');
           var element = document.getElementById(type);
           element.classList.replace('btn-outline-light', 'btn-light');
-          this.$store.commit('set_enermy_hp', 'dead');
+          // this.$store.commit('set_enermy_hp', 0);
         }
         this.dungeonInfo.current = type;
+        if(type == 'trial') {
+          this.startBattle();
+          this.stopBattle();
+          this.enermyInfo = 'trial';
+        }
+        else
+          this.enermyInfo = 'advanture';
       }
     },
-    createMaps(type, level) {    
+    createMaps(level) {    
       var count = 5;  
-      switch(type) {
-        case 'trial':
-          count = 20; 
-          this.trialArr = this.generateDungeon(type, count);
-          this.trialArr[0].forEach(e => {
-              e.status = 'option';
-          });
-          break;
-        case 'advanture':
-          count = 5; 
-          this.mapArr = this.generateDungeon(type, count);
-          this.mapArr[0].forEach(e => {
-              e.status = 'option';
-          });
-          break;
-      }
+      var type = 'advanture';
+      this.mapArr = this.generateDungeon(type, count);
+      this.mapArr[0].forEach(e => {
+          e.status = 'option';
+      });
+
       this.dungeonInfo[type].max = count;
       this.dungeonInfo[type].current = 0;
       this.dungeonInfo.current = type;
       if(level == undefined)
-        this.dungeonInfo[type].level = this.$store.state.playerAttribute.lv;
+        this.dungeonInfo[type].level = this.$store.state.playerAttribute.lv-1;
       else
         this.dungeonInfo[type].level = level;
     },
@@ -415,7 +351,7 @@ export default {
         element.innerHTML = '自动战斗';
       }
     },
-    forfeitBattle() {
+    resetMap() {
       if(this.$store.state.dungeonInfo.inBattle)
         this.stopBattle();
       this.$message({
@@ -424,7 +360,7 @@ export default {
         confirmBtnText: '重置',
         onClose: () => {
           this.$store.commit('set_enermy_hp', 'dead');
-          this.createMaps(this.dungeonInfo.current);
+          this.createMaps();
         }
       })
     },
@@ -446,7 +382,7 @@ export default {
     startBattle(key) {
       var dungeon = this.dungeonInfo[this.dungeonInfo.current];
       if(dungeon.current >= dungeon.max) {
-        this.createMaps(this.dungeonInfo.current);
+        this.createMaps();
         dungeon.current = 0;
         this.startBattle();
         return;
@@ -455,38 +391,24 @@ export default {
       var type = "";
       switch(this.dungeonInfo.current) {
         case 'trial':
-          var ran = Math.floor(Math.random() * this.trialArr[dungeon.current].length);
-          if(key != undefined)
-            ran = key;
-          type = this.trialArr[dungeon.current][ran].type;
+          type = 'trial';
           break;
         case 'advanture':
           var ran = Math.floor(Math.random() * this.mapArr[dungeon.current].length);
           if(key != undefined)
             ran = key;
           type = this.mapArr[dungeon.current][ran].type;
-          break;
-      }
-      this.dungeonInfo[this.dungeonInfo.current].option = ran;
-      if(type == 'normal' || type == 'elite' || type == 'boss')
-        mapEvent.battle(type);
-      if(type == 'chest')
-        mapEvent.chest();
-
-      switch(this.dungeonInfo.current) {
-        case 'trial':
-          this.trialArr[dungeon.current].forEach(e => {
-              e.status = 'restrict';
-          });
-          this.trialArr[dungeon.current][dungeon.option].status = 'option';
-          break;
-        case 'advanture':
           this.mapArr[dungeon.current].forEach(e => {
               e.status = 'restrict';
           });
+          dungeon.option = ran;
           this.mapArr[dungeon.current][dungeon.option].status = 'option';
           break;
       }
+      if(type == 'normal' || type == 'elite' || type == 'boss' || type == 'trial')
+        mapEvent.battle(type);
+      if(type == 'chest')
+        mapEvent.chest();
     },
     nextLevel() {
       var dungeon = this.dungeonInfo[this.dungeonInfo.current];
@@ -495,7 +417,7 @@ export default {
         if(this.dungeonInfo.current == 'trial') {
           this.$store.state.playerAttribute.lv += 1;
         }
-        this.createMaps(this.dungeonInfo.current);
+        this.createMaps();
         dungeon.current = 0;
       }
     },
@@ -506,26 +428,15 @@ export default {
     enableOption(type) {
       var dungeon = this.dungeonInfo[type];
       if(dungeon.current < dungeon.max) {
-        switch(type) {
-          case 'trial':
-              if(dungeon.current > 0) {
-                this.trialArr[dungeon.current-1][dungeon.option].status = 'chose';
-              }
-              this.trialArr[dungeon.current].forEach(e => {
-                  e.status = 'option';
-              });
-            break;
-          case 'advanture':
-              if(dungeon.current > 0) {
-                this.mapArr[dungeon.current-1][dungeon.option].status = 'chose';
-              }
-              this.mapArr[dungeon.current].forEach(e => {
-                  e.status = 'option';
-              });
+        if(dungeon.current > 0) {
+          this.mapArr[dungeon.current-1][dungeon.option].status = 'chose';
         }
+        this.mapArr[dungeon.current].forEach(e => {
+            e.status = 'option';
+        });
       }
       else
-        this.createMaps(type);
+        this.createMaps();
     },
     openMenuPanel(type) {
       switch(type) {

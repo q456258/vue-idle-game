@@ -212,9 +212,11 @@ export default {
         drop(event, k) {
             event.preventDefault();
             var gridId = event.dataTransfer.getData("gridId");
-            var temp = this.grid[gridId];
-            this.$set(this.grid, gridId, this.grid[k]);
-            this.$set(this.grid, k, temp);
+            if(gridId) {
+                var temp = this.grid[gridId];
+                this.$set(this.grid, gridId, this.grid[k]);
+                this.$set(this.grid, k, temp);
+            }
         }
     }
 }
@@ -326,7 +328,7 @@ export default {
                 border-radius: 10px;
                 box-shadow: 0px 10px 0px 0px darken($pink-hot, 5%), 0px 0px 10px 0px #bbb;
 
-                transition: all 0.2s;
+                transition: all 0.1s;
             // }
             &:active{
                 top: 0.5rem;
