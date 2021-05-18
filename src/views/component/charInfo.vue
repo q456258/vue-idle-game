@@ -74,11 +74,11 @@
                         </p>
                         <p class="info">* 每点提升属性
                             <br>
-                            +1攻击
+                            +10生命值
                             <br>
-                            +5生命值
+                            +0.5生命恢复
                             <br>
-                            +1生命恢复
+                            +0.25格挡
                         </p>
                         </template>
                 </cTooltip>
@@ -104,11 +104,9 @@
                         </p>
                         <p class="info">* 每点提升属性
                             <br>
-                            +1护甲
+                            +1攻击
                             <br>
-                            +1格挡
-                            <br>
-                            +2%暴击伤害
+                            +0.5护甲
                         </p>
                     </template>
                 </cTooltip>
@@ -138,7 +136,7 @@
                             <br>
                             +3魔法值
                             <br>
-                            +1魔法恢复
+                            +0.25魔法恢复
                         </p>
                     </template>
                 </cTooltip>
@@ -267,8 +265,8 @@
             </div>
             
             <div class="equips">
-                <div class="equip helmet" @mouseover="showInfo($event,'helmet',playerHelmet,false)" @mouseleave="closeInfo('equip')">
-                    <div class="title">
+                <div class="equip helmet" @mouseover="showInfo($event,'helmet',playerHelmet,false)" @contextmenu.prevent="openMenu(playerHelmet,$event)" @touchstart.stop.prevent="openMenu(playerHelmet,$event)" @mouseleave="closeInfo('equip')">
+                    <div class="title" v-if="playerHelmet.quality">
                         <div class='icon' :style="{'box-shadow':'inset 0 0 7px 2px '+playerHelmet.quality.color}">
                             <img :src="playerHelmet.description.iconSrc" alt="">
                         </div>
@@ -276,9 +274,15 @@
                             {{playerHelmet.description.name}} {{playerHelmet.enhanceLv?'(+'+playerHelmet.enhanceLv+')':''}}
                         </div>
                     </div>
+                    <div class="title" v-else>
+                        <div class='icon' :style="{'box-shadow':'inset 0 0 7px 2px #ccc'}">
+                        </div>
+                        <div class='name'>
+                        </div>
+                    </div>
                 </div>
-                <div class="equip necklace" @mouseover="showInfo($event,'necklace',playerNecklace,false)" @mouseleave="closeInfo('equip')">
-                    <div class="title">
+                <div class="equip necklace" @mouseover="showInfo($event,'necklace',playerNecklace,false)" @contextmenu.prevent="openMenu(playerNecklace,$event)" @touchstart.stop.prevent="openMenu(playerNecklace,$event)" @mouseleave="closeInfo('equip')">
+                    <div class="title" v-if="playerNecklace.quality">
                         <div class='icon' :style="{'box-shadow':'inset 0 0 7px 2px '+playerNecklace.quality.color}">
                             <img :src="playerNecklace.description.iconSrc" alt="">
                         </div>
@@ -286,9 +290,15 @@
                             {{playerNecklace.description.name}} {{playerNecklace.enhanceLv?'(+'+playerNecklace.enhanceLv+')':''}}
                         </div>
                     </div>
+                    <div class="title" v-else>
+                        <div class='icon' :style="{'box-shadow':'inset 0 0 7px 2px #ccc'}">
+                        </div>
+                        <div class='name'>
+                        </div>
+                    </div>
                 </div>
-                <div class="equip weapon" @mouseover="showInfo($event,'weapon',playerWeapon,false)" @mouseleave="closeInfo('equip')">
-                    <div class="title" v-if="playerWeapon">
+                <div class="equip weapon" @mouseover="showInfo($event,'weapon',playerWeapon,false)" @contextmenu.prevent="openMenu(playerWeapon,$event)" @touchstart.stop.prevent="openMenu(playerWeapon,$event)" @mouseleave="closeInfo('equip')">
+                    <div class="title" v-if="playerWeapon.quality">
                         <div class='icon' :class="{'red-flash':playerWeapon.enhanceLv>=20}" :style="{'box-shadow':'inset 0 0 7px 2px '+playerWeapon.quality.color}">
                             <img :src="playerWeapon.description.iconSrc" alt="">
                         </div>
@@ -296,9 +306,15 @@
                             {{playerWeapon.description.name}} {{playerWeapon.enhanceLv?'(+'+playerWeapon.enhanceLv+')':''}}
                         </div>                    
                     </div>
+                    <div class="title" v-else>
+                        <div class='icon' :style="{'box-shadow':'inset 0 0 7px 2px #ccc'}">
+                        </div>
+                        <div class='name'>
+                        </div>
+                    </div>
                 </div>
-                <div class="equip armor" @mouseover="showInfo($event,'armor',playerArmor,false)" @mouseleave="closeInfo('equip')">
-                    <div class="title">
+                <div class="equip armor" @mouseover="showInfo($event,'armor',playerArmor,false)" @contextmenu.prevent="openMenu(playerArmor,$event)" @touchstart.stop.prevent="openMenu(playerArmor,$event)" @mouseleave="closeInfo('equip')">
+                    <div class="title" v-if="playerArmor.quality">
                         <div class='icon' :class="{'red-flash':playerArmor.enhanceLv>=20}" :style="{'box-shadow':'inset 0 0 7px 2px'+playerArmor.quality.color}">
                             <img :src="playerArmor.description.iconSrc" alt="">
                         </div>
@@ -306,9 +322,15 @@
                             {{playerArmor.description.name}} {{playerArmor.enhanceLv?'(+'+playerArmor.enhanceLv+')':''}}
                         </div>                
                     </div>
+                    <div class="title" v-else>
+                        <div class='icon' :style="{'box-shadow':'inset 0 0 7px 2px #ccc'}">
+                        </div>
+                        <div class='name'>
+                        </div>
+                    </div>
                 </div>
-                <div class="equip shoe" @mouseover="showInfo($event,'shoe',playerShoe,false)" @mouseleave="closeInfo('equip')">
-                    <div class="title">
+                <div class="equip shoe" @mouseover="showInfo($event,'shoe',playerShoe,false)" @contextmenu.prevent="openMenu(playerShoe,$event)" @touchstart.stop.prevent="openMenu(playerShoe,$event)" @mouseleave="closeInfo('equip')">
+                    <div class="title" v-if="playerShoe.quality">
                         <div class='icon' :class="{'red-flash':playerShoe.enhanceLv>=20}" :style="{'box-shadow':'inset 0 0 7px 2px'+playerShoe.quality.color}">
                             <img :src="playerShoe.description.iconSrc" alt="">
                         </div>
@@ -316,9 +338,15 @@
                             {{playerShoe.description.name}} {{playerShoe.enhanceLv?'(+'+playerShoe.enhanceLv+')':''}}
                         </div>
                     </div>
+                    <div class="title" v-else>
+                        <div class='icon' :style="{'box-shadow':'inset 0 0 7px 2px #ccc'}">
+                        </div>
+                        <div class='name'>
+                        </div>
+                    </div>
                 </div>
-                <div class="equip ring" @mouseover="showInfo($event,'ring',playerRing,false)" @mouseleave="closeInfo('equip')">
-                    <div class="title">
+                <div class="equip ring" @mouseover="showInfo($event,'ring',playerRing,false)" @contextmenu.prevent="openMenu(playerRing,$event)" @touchstart.stop.prevent="openMenu(playerRing,$event)" @mouseleave="closeInfo('equip')">
+                    <div class="title" v-if="playerRing.quality">
                         <div class='icon' :class="{'red-flash':playerRing.enhanceLv>=20}" :style="{'box-shadow':'inset 0 0 7px 2px'+playerRing.quality.color}">
                             <img :src="playerRing.description.iconSrc" alt="">
                         </div>
@@ -326,9 +354,18 @@
                             {{playerRing.description.name}} {{playerRing.enhanceLv?'(+'+playerRing.enhanceLv+')':''}}
                         </div>                
                     </div>
+                    <div class="title" v-else>
+                        <div class='icon' :style="{'box-shadow':'inset 0 0 7px 2px #ccc'}">
+                        </div>
+                        <div class='name'>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+        <ul v-show="visible" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
+            <li @click="unEquip()">卸下</li>
+        </ul>
     </div>
 </template>
 <script>
@@ -340,9 +377,22 @@ export default {
     components: {cTooltip},
     data() {
         return {
+            visible: false,
+            currentEquip: {},
+            top: 0,
+            left: 0,
         };
     },
     props: {
+    },
+    watch: {
+        visible(value) {
+            if (value) {
+                document.body.addEventListener("click", this.closeMenu);
+            } else {
+                document.body.removeEventListener("click", this.closeMenu);
+            }
+        },
     },
     computed: {
         baseAttribute() { return this.$store.state.baseAttribute },
@@ -357,6 +407,43 @@ export default {
         playerLv() { return this.$store.state.playerAttribute.lv },
     },
     methods: {        
+        unEquip() {
+            var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            for (let i = 0; i < backpack.grid.length; i++) {
+                if (JSON.stringify(backpack.grid[i]).length < 3) {
+                    this.$set(backpack.grid, i, this.currentEquip);
+                    switch (this.currentEquip.itemType) {
+                        case 'helmet':
+                            this.$store.commit('set_player_helmet', {});
+                            break;
+                        case 'necklace':
+                            this.$store.commit('set_player_necklace', {});
+                            break;
+                        case 'weapon':
+                            this.$store.commit('set_player_weapon', {});
+                            break;
+                        case 'armor':
+                            this.$store.commit('set_player_armor', {});
+                            break;
+                        case 'ring':
+                            this.$store.commit('set_player_ring', {});
+                            break;
+                        case 'shoe':
+                            this.$store.commit('set_player_shoe', {});
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                }
+                if(i==backpack.grid.length-1){
+                    this.$store.commit("set_sys_info", {
+                        type: 'warning',
+                        msg: '背包已满',
+                    });
+                }
+            }
+        },
         showInfo($event, type, item, compare) {
             var index = this.findComponentUpward(this, 'index');
             index.showInfo($event, type, item, compare);
@@ -364,6 +451,26 @@ export default {
         closeInfo() {
             var index = this.findComponentUpward(this, 'index');
             index.closeInfo('equip');
+        },
+        openMenu(equip, e) {
+            this.currentEquip = equip;
+            // this.$store.commit('set_need_strengthen_equipment', this.currentItem)
+            const menuMinWidth = 105;
+            const offsetLeft = this.$el.getBoundingClientRect().left; // container margin left
+            const offsetWidth = this.$el.offsetWidth; // container width
+            const maxLeft = offsetWidth - menuMinWidth; // left boundary
+            var left = e.clientX - offsetLeft + 10; // 15: margin right
+
+            if (left > maxLeft) {
+                this.left = maxLeft;
+            } else {
+                this.left = left;
+            }
+            this.top = e.clientY;
+            this.visible = true;
+        },
+        closeMenu() {
+            this.visible = false;
         },
     }
 }
@@ -504,6 +611,31 @@ export default {
                     line-height: 1rem;
                 }
             }
+        }
+    }
+}
+.contextmenu {
+    margin: 0;
+    background: #000;
+    border: 1px solid #fff;
+    z-index: 3000;
+    position: absolute;
+    list-style-type: none;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #fff;
+    box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.3);
+    li {
+        margin: 0;
+        padding: 9px 16px;
+        cursor: pointer;
+        border-top: 1px solid #ccc;
+        margin-top: -1px;
+        font-size: 14px;
+        letter-spacing: 6px;
+        &:hover {
+            color: #ccc;
         }
     }
 }

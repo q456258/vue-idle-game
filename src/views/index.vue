@@ -160,39 +160,47 @@ export default {
     this.dungeonInfo = this.$store.state.dungeonInfo;
     // 自动恢复
     this.autoHealthRecovery = setInterval(() => {
-      this.$store.commit('set_player_hp', Math.round(this.attribute.MAXHP.value*0.001+this.attribute.STR.value/10));
+      this.$store.commit('set_player_hp', Math.round(this.attribute.MAXHP.value*0.001+this.attribute.STR.value/20));
       if(this.attribute.CURHP.value == this.attribute.MAXHP.value && this.dungeonInfo.auto && !this.dungeonInfo.inBattle) {
         this.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
       }
     }, 100);
     this.autoManRecovery = setInterval(() => {
-      this.$store.commit('set_player_mp', Math.round(this.attribute.MAXMP.value*0.01)+this.attribute.INT.value);
-    }, 1000);
+      this.$store.commit('set_player_mp', Math.round(this.attribute.MAXMP.value*0.001+this.attribute.INT.value/40));
+    }, 100);
+    this.trialAutoHealthRecovery = setInterval(() => {
+      this.$store.commit('set_trial_hp', Math.round(this.trialAttribute.MAXHP.value*0.001));
+    }, 100);
     //初始生成地图
     this.createMaps();
     //测试·随机装备
-    var equipInfo = this.findComponentDownward(this, 'equipInfo');   
-    // var newEquip = JSON.parse(equipInfo.createEquip(0,2,'helmet'));
-    var newEquip = JSON.parse(equipInfo.createEquip(0,1,'helmet'));
-    this.$store.commit('set_player_helmet', this.$deepCopy(newEquip));
-    // var newEquip = JSON.parse(equipInfo.createEquip(1,2,'necklace'));
-    var newEquip = JSON.parse(equipInfo.createEquip(0,1,'necklace'));
-    this.$store.commit('set_player_necklace', this.$deepCopy(newEquip));
-    // var newEquip = JSON.parse(equipInfo.createEquip(2,2,'weapon'));
-    var newEquip = JSON.parse(equipInfo.createEquip(0,1,'weapon'));
-    this.$store.commit('set_player_weapon', this.$deepCopy(newEquip));
-    // var newEquip = JSON.parse(equipInfo.createEquip(3,2,'armor'));
-    var newEquip = JSON.parse(equipInfo.createEquip(0,1,'armor'));
-    this.$store.commit('set_player_armor', this.$deepCopy(newEquip));
-    // var newEquip = JSON.parse(equipInfo.createEquip(4,10,'shoe'));
-    var newEquip = JSON.parse(equipInfo.createEquip(0,1,'shoe'));
-    this.$store.commit('set_player_shoe', this.$deepCopy(newEquip));
-    // var newEquip = JSON.parse(equipInfo.createEquip(5,20,'ring'));
-    var newEquip = JSON.parse(equipInfo.createEquip(0,1,'ring'));
-    this.$store.commit('set_player_ring', this.$deepCopy(newEquip));
+    let equipLv = 3;
+    let equipQuality = 2;
+    // var equipInfo = this.findComponentDownward(this, 'equipInfo');   
+    // // var newEquip = JSON.parse(equipInfo.createEquip(0,2,'helmet'));
+    // var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'helmet'));
+    // this.$store.commit('set_player_helmet', this.$deepCopy(newEquip));
+    // // var newEquip = JSON.parse(equipInfo.createEquip(1,2,'necklace'));
+    // var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'necklace'));
+    // this.$store.commit('set_player_necklace', this.$deepCopy(newEquip));
+    // // var newEquip = JSON.parse(equipInfo.createEquip(2,2,'weapon'));
+    // var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'weapon'));
+    // this.$store.commit('set_player_weapon', this.$deepCopy(newEquip));
+    // // var newEquip = JSON.parse(equipInfo.createEquip(3,2,'armor'));
+    // var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'armor'));
+    // this.$store.commit('set_player_armor', this.$deepCopy(newEquip));
+    // // var newEquip = JSON.parse(equipInfo.createEquip(4,10,'shoe'));
+    // var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'shoe'));
+    // this.$store.commit('set_player_shoe', this.$deepCopy(newEquip));
+    // // var newEquip = JSON.parse(equipInfo.createEquip(5,20,'ring'));
+    // var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'ring'));
+    // this.$store.commit('set_player_ring', this.$deepCopy(newEquip));
+    this.$store.commit('set_player_attribute');
+
   },
   computed: {
     baseAttribute() { return this.$store.state.baseAttribute },
+    trialAttribute() { return this.$store.state.trialAttribute.attribute },
     attribute() { return this.$store.state.playerAttribute.attribute },
     userGold() { return this.$store.state.playerAttribute.GOLD },
     playerWeapon() { return this.$store.state.playerAttribute.weapon },
@@ -233,25 +241,24 @@ export default {
       }
     },
     switchZone(type){
-      if(this.$store.state.dungeonInfo.inBattle) {
-        this.autoBattle(false);
-      }
-      else {
-        if(this.dungeonInfo.current != type) {
+      if(this.dungeonInfo.current != type) {
+          if(this.$store.state.dungeonInfo.inBattle) {
+              this.stopBattle();
+          }
+          this.autoBattle(false);
           var element = document.getElementById(this.dungeonInfo.current);
           element.classList.replace('btn-light', 'btn-outline-light');
           var element = document.getElementById(type);
           element.classList.replace('btn-outline-light', 'btn-light');
           // this.$store.commit('set_enermy_hp', 0);
-        }
-        this.dungeonInfo.current = type;
-        if(type == 'trial') {
-          this.startBattle();
-          this.stopBattle();
-          this.enermyInfo = 'trial';
-        }
-        else
-          this.enermyInfo = 'advanture';
+          this.dungeonInfo.current = type;
+          if(type == 'trial') {
+            this.startBattle();
+            this.stopBattle();
+            this.enermyInfo = 'trial';
+          }
+          else
+            this.enermyInfo = 'advanture';
       }
     },
     createMaps(level) {    
@@ -266,7 +273,7 @@ export default {
       this.dungeonInfo[type].current = 0;
       this.dungeonInfo.current = type;
       if(level == undefined)
-        this.dungeonInfo[type].level = this.$store.state.playerAttribute.lv-1;
+        this.dungeonInfo[type].level = this.$store.state.playerAttribute.lv;
       else
         this.dungeonInfo[type].level = level;
     },

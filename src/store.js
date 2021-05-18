@@ -8,176 +8,164 @@ Vue.use(Vuex)
 var initial_helmet = {
     lv: 1,
     itemType: 'helmet',
-    maxEnhanceLv: 25,
-    enhanceLv: 7,
+    maxEnhanceLv: 0,
+    enhanceLv: 0,
     quality: {
-      name: '精良',
-      color: '#00BBFF',
+      color: "#a1a1a1",
       extraEntryNum: 1,
+      name: "破旧",
+      qualityCoefficient: 1.8,
+      qualityLv: 1
     },
     description: {
       name: "村里最好的头盔",
       desc: "新手菜鸡使用的短剑",
-      type: "鞋子",
-      iconSrc: "./icons/A_A1.png",
+      type: "头盔",
+      iconSrc: "./icons/helmet/Inv_helm_cloth_sunhat_b_01.png",
     },
     baseEntry: [{
-      value: 10,
-      showVal: "+15",
-      type: "STR",
-      name: "力量"
+      value: 100,
+      showVal: "+100",
+      type: "HP",
+      name: "生命值"
     }],
-    extraEntry: [{
-      value: 6,
-      showVal: "+6",
-      type: "ATK",
-      name: "攻击力"
-    }]
+    extraEntry: [],
+    potential: []
   },
   initial_shoe = {
     lv: 1,
     itemType: 'shoe',
-    maxEnhanceLv: 25,
-    enhanceLv: 7,
+    maxEnhanceLv: 0,
+    enhanceLv: 0,
     quality: {
-      name: '完美',
-      color: '#FF0000',
+      color: "#a1a1a1",
       extraEntryNum: 1,
+      name: "破旧",
+      qualityCoefficient: 1.8,
+      qualityLv: 1
     },
     description: {
       name: "村里最好的鞋子",
       desc: "新手菜鸡使用的短剑",
       type: "鞋子",
-      iconSrc: "./icons/A_A1.png",
+      iconSrc: "./icons/shoe/INV_Boots_Leather_01.png",
     },
     baseEntry: [{
       value: 10,
-      showVal: "+15",
-      type: "STR",
-      name: "力量"
+      showVal: "+10",
+      type: "AGI",
+      name: "敏捷"
     }],
-    extraEntry: [{
-      value: 6,
-      showVal: "+6",
-      type: "ATK",
-      name: "攻击力"
-    }]
+    extraEntry: [],
+    potential: []
   },
   initial_weapon = {
     lv: 1,
     itemType: 'weapon',
-    maxEnhanceLv: 25,
-    enhanceLv: 7,
+    maxEnhanceLv: 0,
+    enhanceLv: 0,
     quality: {
-      name: '精良',
-      color: '#00BBFF',
+      color: "#a1a1a1",
       extraEntryNum: 1,
+      name: "破旧",
+      qualityCoefficient: 1.8,
+      qualityLv: 1
     },
     description: {
-      name: "村里最好的头盔",
+      name: "村里最好的武器",
       desc: "新手菜鸡使用的短剑",
-      type: "鞋子",
-      iconSrc: "./icons/A_A1.png",
+      type: "武器",
+      iconSrc: "./icons/weapon/INV_Axe_75.png",
     },
     baseEntry: [{
-      value: 10,
+      value: 15,
       showVal: "+15",
-      type: "STR",
-      name: "力量"
-    }],
-    extraEntry: [{
-      value: 6,
-      showVal: "+6",
       type: "ATK",
-      name: "攻击力"
-    }]
+      name: "攻击"
+    }],
+    extraEntry: [],
+    potential: []
   },
   initial_armor = {
     lv: 1,
     itemType: 'armor',
-    maxEnhanceLv: 25,
-    enhanceLv: 7,
+    maxEnhanceLv: 0,
+    enhanceLv: 0,
     quality: {
-      name: '精良',
-      color: '#00BBFF',
+      color: "#a1a1a1",
       extraEntryNum: 1,
+      name: "破旧",
+      qualityCoefficient: 1.8,
+      qualityLv: 1
     },
     description: {
-      name: "村里最好的头盔",
+      name: "村里最好的铠甲",
       desc: "新手菜鸡使用的短剑",
-      type: "鞋子",
-      iconSrc: "./icons/A_A1.png",
+      type: "铠甲",
+      iconSrc: "./icons/armor/INV_Chest_Cloth_71.png",
     },
     baseEntry: [{
-      value: 10,
+      value: 15,
       showVal: "+15",
-      type: "STR",
-      name: "力量"
+      type: "DEF",
+      name: "护甲"
     }],
-    extraEntry: [{
-      value: 6,
-      showVal: "+6",
-      type: "ATK",
-      name: "攻击力"
-    }]
+    extraEntry: [],
+    potential: []
   },
   initial_necklace = {
     lv: 1,
     itemType: 'necklace',
-    maxEnhanceLv: 25,
-    enhanceLv: 7,
+    maxEnhanceLv: 0,
+    enhanceLv: 0,
     quality: {
-      name: '精良',
-      color: '#00BBFF',
+      color: "#a1a1a1",
       extraEntryNum: 1,
+      name: "破旧",
+      qualityCoefficient: 1.8,
+      qualityLv: 1
     },
     description: {
-      name: "村里最好的头盔",
+      name: "村里最好的项链",
       desc: "新手菜鸡使用的短剑",
-      type: "鞋子",
+      type: "项链",
       iconSrc: "./icons/A_A1.png",
     },
     baseEntry: [{
       value: 10,
       showVal: "+15",
-      type: "STR",
-      name: "力量"
-    }],
-    extraEntry: [{
-      value: 6,
-      showVal: "+6",
       type: "ATK",
-      name: "攻击力"
-    }]
+      name: "攻击"
+    }],
+    extraEntry: [],
+    potential: []
   },
   initial_ring = {
     lv: 1,
     itemType: 'ring',
-    maxEnhanceLv: 25,
-    enhanceLv: 7,
+    maxEnhanceLv: 0,
+    enhanceLv: 0,
     quality: {
-      name: '精良',
-      color: '#00BBFF',
+      color: "#a1a1a1",
       extraEntryNum: 1,
+      name: "破旧",
+      qualityCoefficient: 1.8,
+      qualityLv: 1
     },
     description: {
-      name: "村里最好的头盔",
+      name: "村里最好的戒指",
       desc: "新手菜鸡使用的短剑",
-      type: "鞋子",
-      iconSrc: "./icons/A_A1.png",
+      type: "戒指",
+      iconSrc: "./icons/ring/Inv_jewelry_ring_19.png",
     },
     baseEntry: [{
       value: 10,
-      showVal: "+15",
+      showVal: "+10",
       type: "STR",
       name: "力量"
     }],
-    extraEntry: [{
-      value: 6,
-      showVal: "+6",
-      type: "ATK",
-      name: "攻击力"
-    }]
+    extraEntry: [],
+    potential: []
   };
 
 export default new Vuex.Store({
@@ -205,13 +193,13 @@ export default new Vuex.Store({
       inBattle: false,
       current: 'advanture',
       advanture: {
-        level: 0,
+        level: 1,
         current: 0,
         option: 1,
         max:3
       },
       trial: {
-        level: 1,
+        level: 2,
       }
     },
     villageAttribute: {
@@ -297,12 +285,12 @@ export default new Vuex.Store({
       MAXMP: 0,
       HP: 300,
       MP: 100,
-      STR: 0,
-      AGI: 0,
-      INT: 0,
+      STR: 1,
+      AGI: 1,
+      INT: 1,
       ALL: 0,
-      ATK: 5,
-      DEF: 0,
+      ATK: 20,
+      DEF: 10,
       DEFRED: 0,
       AP: 0,
       MR: 0,
@@ -374,19 +362,21 @@ export default new Vuex.Store({
         'STR','AGI','INT','ALL','ATK','DEF','AP','MR','HP','MP'
       ];
       var advancedAttr = {
-        STR: { HP: 5, ATK: 1 }, 
-        AGI: { DEF: 1, MR: 1, CRITDMG: 2 }, 
+        STR: { HP: 10, MR: 0.25}, 
+        AGI: { ATK: 1, DEF: 0.5}, 
         INT: { MP: 3, AP: 1 }, 
       };
       attributes.forEach(attr => {
         attribute[attr] = { baseVal: this.state.baseAttribute[attr], value: this.state.baseAttribute[attr], showValue: this.state.baseAttribute[attr]}
       });
-      entries = [].concat(weapon.baseEntry, weapon.extraEntry, 
-                          helmet.baseEntry, helmet.extraEntry, 
-                          necklace.baseEntry, necklace.extraEntry, 
-                          armor.baseEntry, armor.extraEntry, 
-                          shoe.baseEntry, shoe.extraEntry, 
-                          ring.baseEntry, ring.extraEntry);
+
+      entries = helmet.baseEntry ? entries.concat(helmet.baseEntry, helmet.extraEntry) : entries;
+      entries = weapon.baseEntry ? entries.concat(weapon.baseEntry, weapon.extraEntry) : entries;
+      entries = necklace.baseEntry ? entries.concat(necklace.baseEntry, necklace.extraEntry) : entries;
+      entries = armor.baseEntry ? entries.concat(armor.baseEntry, armor.extraEntry) : entries;
+      entries = shoe.baseEntry ? entries.concat(shoe.baseEntry, shoe.extraEntry) : entries;
+      entries = ring.baseEntry ? entries.concat(ring.baseEntry, ring.extraEntry) : entries;
+
       entries.forEach(entry => {
         attribute[entry.type].baseVal += entry.value;
       });
@@ -434,8 +424,8 @@ export default new Vuex.Store({
       attribute['MAXMP'].showValue += attribute['MP'].value;
       attribute['CURMP'].showValue += playerAttribute.attribute['CURMP'].value;
       attribute['DEFRED'].value = Math.round(0.01 * attribute['DEF'].value / (1 + (0.0105 * attribute['DEF'].value))*10000)/100;
+      // attribute['DEFRED'].value = Math.round(0.01 * attribute['DEF'].value / (1 + (0.01 * attribute['DEF'].value))*10000)/100;
       attribute['DEFRED'].showValue = attribute['DEFRED'].value+'%';
-      
       playerAttribute.attribute = attribute;
     },
     set_player_hp(state, data) {
@@ -506,6 +496,26 @@ export default new Vuex.Store({
       }
       CURHP.showValue = CURHP.value;
     },    
+    set_trial_hp(state, data) {
+      var CURHP = this.state.trialAttribute.attribute.CURHP,
+          MAXHP = this.state.trialAttribute.attribute.MAXHP;
+      if(data == 'full'){
+        CURHP.value = MAXHP.value;
+      }
+      else if(data == 'dead'){
+        CURHP.value = 0;
+      }
+      else if(CURHP.value > 0){
+        CURHP.value += Number(data);;
+        if (CURHP.value > MAXHP.value) {
+          CURHP.value = MAXHP.value;
+        }
+        if (CURHP.value <= 0) {
+          CURHP.value = 0;
+        }
+      }
+      CURHP.showValue = CURHP.value;
+    },  
     set_sys_info(state, data) {
       this.state.sysInfo.push(data);
       // var time = +new Date()

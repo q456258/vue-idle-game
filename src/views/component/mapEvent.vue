@@ -18,15 +18,12 @@ export default {
     methods: {
         battle(type) {
             var playerAttribute = this.$store.state.playerAttribute,
-                enermyAttribute = this.$store.state.enermyAttribute,
+                enermyAttribute = type == 'trial' ? this.$store.state.trialAttribute : this.$store.state.enermyAttribute,
                 dungeonInfo = this.$store.state.dungeonInfo;
 
-            if(type == 'trial') {
-                enermyAttribute = this.$store.state.trialAttribute;
-            }
             if(enermyAttribute.attribute.CURHP.value == 0) {
                 this.generateEnermy(type, dungeonInfo[dungeonInfo.current].level);
-                enermyAttribute = this.$store.state.enermyAttribute;
+                enermyAttribute = type == 'trial' ? this.$store.state.trialAttribute : this.$store.state.enermyAttribute;
             }
             playerAttribute.tempSpells = this.createTempSpell(playerAttribute);
             if(this.$store.state.dungeonInfo.inBattle)
@@ -41,12 +38,13 @@ export default {
                     let index = this.findComponentUpward(this, 'index'); 
                     if(dungeonInfo.current == 'advanture')
                         index.enableOption(dungeonInfo.current);
-                    else if(dungeonInfo.current == 'trial')
+                    else if(dungeonInfo.current == 'trial') {
                         this.generateEnermy(type, dungeonInfo[dungeonInfo.current].level+1);
+                    }
                     if(dungeonInfo.auto) {
                         index.startBattle();
                     }
-                    if(enermyAttribute.lv == playerAttribute.lv) {
+                    if(enermyAttribute.lv > playerAttribute.lv) {
                         this.levelUp();
                     }
                     this.$store.commit("set_battle_info", {
@@ -56,14 +54,14 @@ export default {
                     return;
                 } 
                 this.$store.commit('set_player_hp', -1*this.dmgCalculate(enermyAttribute, playerAttribute, 'enermy'));
-                if(enermyAttribute.attribute.RECOVERY != undefined) {
-                    this.$store.commit('set_enermy_hp', enermyAttribute.attribute.RECOVERY.value);
-                    this.$store.commit("set_battle_info", {
-                        type: 'dmged',
-                        msg: '【试炼】对方恢复了'+ enermyAttribute.attribute.RECOVERY.value+'点生命值'
-                    })
+                // if(enermyAttribute.attribute.RECOVERY != undefined) {
+                //     this.$store.commit('set_enermy_hp', enermyAttribute.attribute.RECOVERY.value);
+                //     this.$store.commit("set_battle_info", {
+                //         type: 'dmged',
+                //         msg: '【试炼】对方恢复了'+ enermyAttribute.attribute.RECOVERY.value+'点生命值'
+                //     })
 
-                }
+                // }
                 if(playerAttribute.attribute.CURHP.value == 0) {
                     clearInterval(this.battleTimer);
                     // let index = this.findComponentUpward(this, 'index'); 
@@ -74,7 +72,7 @@ export default {
                         msg: '战斗结束，你扑街了'
                     });
                 } 
-            }, 1000)
+            }, 100)
         },
         setBattleStatus(inBattle) {
             this.$store.state.dungeonInfo.inBattle = inBattle;
@@ -107,7 +105,7 @@ export default {
                 let attribute = enermyAttribute.attribute[stat];
                 // attribute.value = Math.round(attribute.value*(1+enermyAttribute.lv*0.15)*(1+Math.random()/10));
                 // attribute.value = Math.round(attribute.value*(1+enermyAttribute.lv*0.15));
-                attribute.value = Math.round(attribute.value*(1+enermyAttribute.lv*enermyAttribute.lv));
+                attribute.value = Math.round(attribute.value*(2+enermyAttribute.lv*(enermyAttribute.lv-2)));
                 attribute.showValue = attribute.value;
                 enermyAttribute.attribute[stat] = attribute;
             });
@@ -117,6 +115,7 @@ export default {
             }
 
             val = Math.round(0.01 * attribute['DEF'].value / (1 + (0.0105 * attribute['DEF'].value))*10000)/100;
+            // val = Math.round(0.01 * attribute['DEF'].value / (1 + (0.01 * attribute['DEF'].value))*10000)/100;
             attribute['DEFRED'] = {
                 value: val,
                 showValue: val+'%'
@@ -136,7 +135,7 @@ export default {
             var crit = Math.round(Math.random()*100);
             if(crit<source.attribute.CRIT.value) 
                 dmg *= source.attribute.CRITDMG.value/100;
-            dmg += target.attribute.MR.value;
+            dmg -= target.attribute.MR.value;
             dmg = Math.round(dmg);
             if(dmg < 0)
                 dmg = 0;
@@ -198,7 +197,7 @@ export default {
             var equip = null; 
             switch(type) {
                 case 'gold':
-                    let gold = 20+lv**2
+                    let gold = (100+lv**2)*(2+2*Math.random())
                     this.$store.state.playerAttribute.GOLD += gold;
                     this.$store.commit("set_sys_info", {
                         type: 'reward',

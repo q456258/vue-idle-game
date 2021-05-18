@@ -202,7 +202,7 @@ export default {
                 this.left = left;
             }
 
-            this.top = e.offsetY+90;
+            this.top = e.clientY-this.$el.getBoundingClientRect().top;
             this.visible = true;
         },
         closeMenu() {
