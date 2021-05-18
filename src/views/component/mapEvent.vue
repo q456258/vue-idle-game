@@ -197,7 +197,7 @@ export default {
             var equip = null; 
             switch(type) {
                 case 'gold':
-                    let gold = (100+lv**2)*(2+2*Math.random())
+                    let gold = round((100+lv**2)*(2+2*Math.random()))
                     this.$store.state.playerAttribute.GOLD += gold;
                     this.$store.commit("set_sys_info", {
                         type: 'reward',
