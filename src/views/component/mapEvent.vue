@@ -195,7 +195,6 @@ export default {
             var index = this.findComponentUpward(this, 'index');
             var bonus = 0;
             var equip = null; 
-            console.log(type)
             switch(type) {
                 case 'gold':
                     let gold = Math.round((100+lv**2)*(2+2*Math.random()))

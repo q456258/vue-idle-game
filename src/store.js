@@ -188,6 +188,12 @@ export default new Vuex.Store({
       type: '',
       msg: "菜单栏可以刷新当前世界副"
     }],
+    timer: {
+      trainTimer1: 0,
+      trainTimer2: 0,
+      trainTimer3: 0,
+      trainTimer4: 0,
+    },
     dungeonInfo: {
       auto: false,
       inBattle: false,
@@ -306,6 +312,35 @@ export default new Vuex.Store({
       DEFP: 0,
       APP: 0,
       MRP: 0,
+    },  
+    trainAttribute: {
+      CURHP: 0,
+      MAXHP: 0,
+      CURMP: 0,
+      MAXMP: 0,
+      HP: 0,
+      MP: 0,
+      STR: 0,
+      AGI: 0,
+      INT: 0,
+      ALL: 0,
+      ATK: 0,
+      DEF: 0,
+      DEFRED: 0,
+      AP: 0,
+      MR: 0,
+      CRIT: 0,
+      CRITDMG: 0,
+      STRP: 0,
+      AGIP: 0,
+      INTP: 0,
+      ALLP: 0,
+      HPP: 0,
+      MPP: 0,
+      ATKP: 0,
+      DEFP: 0,
+      APP: 0,
+      MRP: 0,
     },
   },
   mutations: {
@@ -367,7 +402,10 @@ export default new Vuex.Store({
         INT: { MP: 3, AP: 1 }, 
       };
       attributes.forEach(attr => {
-        attribute[attr] = { baseVal: this.state.baseAttribute[attr], value: this.state.baseAttribute[attr], showValue: this.state.baseAttribute[attr]}
+        attribute[attr] = { 
+          baseVal: this.state.baseAttribute[attr] + this.state.trainAttribute[attr], 
+          value: this.state.baseAttribute[attr] + this.state.trainAttribute[attr], 
+          showValue: this.state.baseAttribute[attr] + this.state.trainAttribute[attr]}
       });
 
       entries = helmet.baseEntry ? entries.concat(helmet.baseEntry, helmet.extraEntry) : entries;
