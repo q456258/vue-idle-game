@@ -209,7 +209,9 @@ export default new Vuex.Store({
       }
     },
     villageAttribute: {
-      wood: 100
+      wood: 100,
+      shop: 0,
+      smith: 0
     },
     playerAttribute: {
       name: '无名',
@@ -289,7 +291,7 @@ export default new Vuex.Store({
       MAXHP: 0,
       CURMP: 0,
       MAXMP: 0,
-      HP: 300,
+      HP: 500,
       MP: 100,
       STR: 1,
       AGI: 1,
@@ -468,22 +470,8 @@ export default new Vuex.Store({
     },
     set_player_hp(state, data) {
       var CURHP = this.state.playerAttribute.attribute.CURHP,
-        MAXHP = this.state.playerAttribute.attribute.MAXHP
-      if(data == 'full'){
-        CURHP.value = MAXHP.value
-      }
-      else if(data == 'dead'){
-        CURHP.value = 0;
-      }
-      else {
-        CURHP.value += Number(data);
-        if (CURHP.value > MAXHP.value) {
-          CURHP.value = MAXHP.value;
-        }
-        else if (CURHP.value <= 0) {
-          CURHP.value = 0;
-        }
-      }
+          MAXHP = this.state.playerAttribute.attribute.MAXHP
+      vueInstance.$store.commit('set_hp', {data, CURHP, MAXHP});
       CURHP.showValue = CURHP.value;
     },
     set_player_mp(state, data) {
@@ -517,43 +505,40 @@ export default new Vuex.Store({
           CURHP = this.state.trialAttribute.attribute.CURHP,
           MAXHP = this.state.trialAttribute.attribute.MAXHP
       }
-      if(data == 'full'){
-        CURHP.value = MAXHP.value;
-      }
-      else if(data == 'dead'){
-        CURHP.value = 0;
-      }
-      else {
-        CURHP.value += Number(data);;
-        if (CURHP.value > MAXHP.value) {
-          CURHP.value = MAXHP.value;
-        }
-        if (CURHP.value <= 0) {
-          CURHP.value = 0;
-        }
-      }
+      vueInstance.$store.commit('set_hp', {data, CURHP, MAXHP});
       CURHP.showValue = CURHP.value;
     },    
     set_trial_hp(state, data) {
       var CURHP = this.state.trialAttribute.attribute.CURHP,
           MAXHP = this.state.trialAttribute.attribute.MAXHP;
+      vueInstance.$store.commit('set_hp', {data, CURHP, MAXHP});
+      CURHP.showValue = CURHP.value;
+    },  
+    set_hp(state, data) {
+      var CURHP = data.CURHP,
+        MAXHP = data.MAXHP,
+        data = data.data;
       if(data == 'full'){
-        CURHP.value = MAXHP.value;
+        CURHP.value = MAXHP.value
       }
       else if(data == 'dead'){
         CURHP.value = 0;
       }
-      else if(CURHP.value > 0){
-        CURHP.value += Number(data);;
+      else {
+        if(data.toString().indexOf('%') != -1) {
+          let percent = data.substring(0, data.length-1);
+          CURHP.value += Math.round(MAXHP.value*percent*0.01);
+        }
+        else
+          CURHP.value += Math.round(data);
         if (CURHP.value > MAXHP.value) {
           CURHP.value = MAXHP.value;
         }
-        if (CURHP.value <= 0) {
+        else if (CURHP.value <= 0) {
           CURHP.value = 0;
         }
       }
-      CURHP.showValue = CURHP.value;
-    },  
+    },
     set_sys_info(state, data) {
       this.state.sysInfo.push(data);
       // var time = +new Date()

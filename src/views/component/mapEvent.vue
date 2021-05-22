@@ -105,7 +105,7 @@ export default {
                 let attribute = enermyAttribute.attribute[stat];
                 // attribute.value = Math.round(attribute.value*(1+enermyAttribute.lv*0.15)*(1+Math.random()/10));
                 // attribute.value = Math.round(attribute.value*(1+enermyAttribute.lv*0.15));
-                attribute.value = Math.round(attribute.value*(2+enermyAttribute.lv*(enermyAttribute.lv-2)));
+                attribute.value = Math.round(attribute.value*(2+enermyAttribute.lv*(enermyAttribute.lv-2)*(0.7+enermyAttribute.lv/20)));
                 attribute.showValue = attribute.value;
                 enermyAttribute.attribute[stat] = attribute;
             });
