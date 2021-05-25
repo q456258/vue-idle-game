@@ -19,7 +19,9 @@
             <cTooltip placement="bottom">
                 <template v-slot:content>
                     <div class="hpmp">
-                        <div class="progress" style="width:100%;">
+                        <hpmpBar :vpMin="0" :vpNow="attribute.CURHP.value" :vpMax="attribute.MAXHP.value" :target="'player'" :type="'hp'"></hpmpBar>
+                        <hpmpBar :vpMin="0" :vpNow="attribute.CURMP.value" :vpMax="attribute.MAXMP.value" :target="'player'" :type="'mp'"></hpmpBar>
+                        <!-- <div class="progress" style="width:100%;">
                             <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" :style="{width:attribute.CURHP.value/attribute.MAXHP.value*100+'%'}">
                                 <small class="justify-content-center d-flex position-absolute w-80" style="color:black">{{attribute.CURHP.showValue}} / {{attribute.MAXHP.showValue}} </small>
                             </div>
@@ -28,7 +30,7 @@
                             <div class="progress-bar progress-bar-striped progress-bar-animated" :style="{width:attribute.CURMP.value/attribute.MAXMP.value*100+'%'}">
                                 <small class="justify-content-center d-flex position-absolute w-80" style="color:black">{{attribute.CURMP.showValue}} / {{attribute.MAXMP.showValue}} </small>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </template>
                 <template v-slot:tip>
@@ -370,11 +372,12 @@
 </template>
 <script>
 import cTooltip from '../uiComponent/tooltip';
+import hpmpBar from '../uiComponent/hpmpBar';
 import { assist } from '../../assets/js/assist';
 export default {
     name: "charInfo",
     mixins: [assist],
-    components: {cTooltip},
+    components: {cTooltip, hpmpBar},
     data() {
         return {
             visible: false,

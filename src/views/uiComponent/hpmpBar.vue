@@ -1,0 +1,79 @@
+<template>
+    <div class="progress" style="width:100%;">
+        <div class="progress" style="width:100%;">
+            <div class="progress-bar progress-bar-striped insta" :class="{'bg-danger':type=='hp'}" :style="{width:vpNow/vpMax*100+'%'}">
+                <small class="justify-content-center d-flex position-absolute w-90" style="color:black">{{vpNow}} / {{vpMax}} </small>
+            </div>
+            <div ref="bar" class="progress-bar progress-bar-striped delay" :style="{width:(delay-vpNow)/vpMax*100+'%'}">
+            </div>
+        </div>
+    </div>
+
+</template>
+<script>
+export default {
+    name: 'hpmpBar',
+    props: {
+        vpMin: {
+            type: Number,
+            required: true
+        },
+        vpNow: {
+            type: Number,
+            required: true
+        },
+        vpMax: {
+            type: Number,
+            required: true
+        },
+        target: {
+            type: String,
+            required: true
+        },
+        type: {
+            type: String,
+            required: true
+        }
+    },
+    data() {
+        return {
+            delay: 0,
+        };
+    },
+    mounted() {
+    },
+    watch: {
+        vpNow() {            
+            let temp = this.vpNow;
+            let delay = this.$refs.bar;
+            delay.style.transition= 'width 0s linear';
+            setTimeout(() => {
+                if(temp>this.vpNow) {
+                    this.delay = temp;
+                }
+                else {
+                    this.delay = this.vpNow;
+                }
+            delay.style.transition= 'width 0.5s linear';
+            delay.style.width= '0';
+            }, 100)
+        }
+    },
+    computed: {
+    },
+    methods: {
+    }
+};
+
+
+</script>
+<style lang="scss" scoped>
+
+.insta {
+    transition: width 0s linear;
+}
+.delay {
+    transition: width 0.5s linear;
+    background-color: rgb(255, 0, 0);
+}
+</style>

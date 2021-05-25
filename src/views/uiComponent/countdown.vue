@@ -113,7 +113,6 @@ export default {
         },
         setTrainTier(e) {
             this.trainTier = e.target.value;
-            console.log(this.trainTier)
             this.computeTime();
         },
         computeTime() {
@@ -121,8 +120,6 @@ export default {
             let time = 60*(2-(this.trainTier-1)*0.25);
             this.trainTime = Math.round(value*time/this.entryInfo[this.type].base);
             this.gain = value;
-            console.log(time+'  '+this.gain)
-            console.log(this.trainTier)
         }
 
     }

@@ -72,7 +72,7 @@ export default {
                         msg: '战斗结束，你扑街了'
                     });
                 } 
-            }, 100)
+            }, 1000)
         },
         setBattleStatus(inBattle) {
             this.$store.state.dungeonInfo.inBattle = inBattle;

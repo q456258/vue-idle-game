@@ -1,10 +1,6 @@
 <template>
 <div class="enermy">{{attr.name+" (Lv:"+attr.lv+")"}}
-    <div class="progress" style="width:100%;">
-        <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" :style="{width:attr.attribute.CURHP.value/attr.attribute.MAXHP.value*100+'%'}">
-            <small class="justify-content-center d-flex position-absolute w-90" style="color:black">{{attr.attribute.CURHP.showValue}} / {{attr.attribute.MAXHP.showValue}} </small>
-        </div>
-    </div>
+    <hpmpBar :vpMin="0" :vpNow="attr.attribute.CURHP.value" :vpMax="attr.attribute.MAXHP.value" :target="enermy" :type="'hp'"></hpmpBar>
 
     <div class="other">
         <div class="item">
@@ -56,24 +52,31 @@
 </template>
 <script>
 import cTooltip from '../uiComponent/tooltip';
+import hpmpBar from '../uiComponent/hpmpBar';
 export default {
     name: "enermyInfo",
-    components: {cTooltip},
-    data() {
-        return {
-        };
-    },
+    components: {cTooltip, hpmpBar},
     props: {
         enermy: {
             type: String
         }
     },
+    data() {
+        return {
+        };
+    },
+    mounted() {
+    },
+    watch: {
+    },
     computed: {
         attr() {
-            if(this.enermy == 'trial')
+            if(this.enermy == 'trial') {
                 return this.$store.state.trialAttribute;
-            else
+            }
+            else {
                 return this.$store.state.enermyAttribute;
+            }
         },
     },
     methods: {      
