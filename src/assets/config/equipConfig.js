@@ -57,7 +57,7 @@ export const equipConfig = {
         ATK: { base: 8, name: '攻击' }, 
         DEF: { base: 4, name: '护甲' }, 
         AP: { base: 5, name: '元素伤害' }, 
-        MR: { base: 1, name: '格挡' }, 
+        MR: { base: 2, name: '格挡' }, 
         HP: { base: 40, name: '生命值' }, 
         MP: { base: 15, name: '魔法值' }, 
         CRIT: { base: 5, name: '暴击率' }, 

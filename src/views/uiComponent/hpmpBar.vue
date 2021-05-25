@@ -1,7 +1,7 @@
 <template>
     <div class="progress" style="width:100%;">
         <div class="progress" style="width:100%;">
-            <div ref="insta" class="progress-bar progress-bar-striped insta" :class="{'bg-danger':type=='hp'}" :style="{width:vpNow/vpMax*100+'%'}">
+            <div class="progress-bar progress-bar-striped insta" :class="{'bg-danger':type=='hp'}" :style="{width:vpNow/vpMax*100+'%'}">
                 <small class="justify-content-center d-flex position-absolute w-90" style="color:black">{{vpNow}} / {{vpMax}} </small>
             </div>
             <div ref="delay" class="progress-bar progress-bar-striped delay" :style="{width:(delay-vpNow)/vpMax*100+'%'}">
@@ -46,16 +46,13 @@ export default {
         vpNow() {            
             let temp = this.vpNow;
             let delay = this.$refs.delay;
-            let insta = this.$refs.insta;
             delay.style.transition= 'width 0s linear';
-            insta.style.transition= 'width 0s linear';
             setTimeout(() => {
                 if(temp>this.vpNow) {
                     this.delay = temp;
                 }
                 else {
                     this.delay = this.vpNow;
-                    insta.style.transition= 'width 0.5s linear';
                 }
             delay.style.transition= 'width 0.5s linear';
             delay.style.width= '0';

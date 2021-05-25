@@ -106,9 +106,9 @@
                         </p>
                         <p class="info">* 每点提升属性
                             <br>
-                            +1攻击
+                            +2攻击
                             <br>
-                            +0.5护甲
+                            +1护甲
                         </p>
                     </template>
                 </cTooltip>

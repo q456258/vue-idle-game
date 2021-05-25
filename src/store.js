@@ -51,8 +51,8 @@ var initial_helmet = {
       iconSrc: "./icons/shoe/INV_Boots_Leather_01.png",
     },
     baseEntry: [{
-      value: 10,
-      showVal: "+10",
+      value: 5,
+      showVal: "+5",
       type: "AGI",
       name: "敏捷"
     }],
@@ -78,8 +78,8 @@ var initial_helmet = {
       iconSrc: "./icons/weapon/INV_Axe_75.png",
     },
     baseEntry: [{
-      value: 15,
-      showVal: "+15",
+      value: 10,
+      showVal: "+10",
       type: "ATK",
       name: "攻击"
     }],
@@ -105,8 +105,8 @@ var initial_helmet = {
       iconSrc: "./icons/armor/INV_Chest_Cloth_71.png",
     },
     baseEntry: [{
-      value: 15,
-      showVal: "+15",
+      value: 5,
+      showVal: "+5",
       type: "DEF",
       name: "护甲"
     }],
@@ -132,8 +132,8 @@ var initial_helmet = {
       iconSrc: "./icons/A_A1.png",
     },
     baseEntry: [{
-      value: 10,
-      showVal: "+15",
+      value: 5,
+      showVal: "+5",
       type: "ATK",
       name: "攻击"
     }],
@@ -159,8 +159,8 @@ var initial_helmet = {
       iconSrc: "./icons/ring/Inv_jewelry_ring_19.png",
     },
     baseEntry: [{
-      value: 10,
-      showVal: "+10",
+      value: 5,
+      showVal: "+5",
       type: "STR",
       name: "力量"
     }],
@@ -291,14 +291,14 @@ export default new Vuex.Store({
       MAXHP: 0,
       CURMP: 0,
       MAXMP: 0,
-      HP: 500,
+      HP: 200,
       MP: 100,
       STR: 1,
       AGI: 1,
       INT: 1,
       ALL: 0,
-      ATK: 20,
-      DEF: 10,
+      ATK: 10,
+      DEF: 0,
       DEFRED: 0,
       AP: 0,
       MR: 0,
@@ -400,7 +400,7 @@ export default new Vuex.Store({
       ];
       var advancedAttr = {
         STR: { HP: 10, MR: 0.25}, 
-        AGI: { ATK: 1, DEF: 0.5}, 
+        AGI: { ATK: 2, DEF: 1}, 
         INT: { MP: 3, AP: 1 }, 
       };
       attributes.forEach(attr => {

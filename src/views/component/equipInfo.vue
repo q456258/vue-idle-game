@@ -141,7 +141,7 @@ export default {
                     entry.showVal = '+' + entry.value + '%';
                 }
                 else {
-                    entry.base = Math.floor(newEquip.quality.qualityCoefficient * this.entryInfo[entry.type].base * (1+newEquip.lv**2*0.10) * (1+Math.random()/5));
+                    entry.base = Math.floor(newEquip.quality.qualityCoefficient * this.entryInfo[entry.type].base * (1+newEquip.lv**2*0.06) * (1+Math.random()/5));
                     entry.value = Math.floor(entry.base * (1+newEquip.enhanceLv*0.1));
                     entry.showVal = '+' + entry.value;
                 }
@@ -167,7 +167,7 @@ export default {
                     entry.showVal = '+' + entry.value + '%';
                 }
                 else {
-                    entry.value = Math.round((0.5+random) * this.entryInfo[entry.type].base * (1+newEquip.lv**2*0.10));
+                    entry.value = Math.round((0.5+random) * this.entryInfo[entry.type].base * (1+newEquip.lv**2*0.06));
                     entry.showVal = '+' + entry.value;
                 }
                 entry.quality = Math.round(random*100);
@@ -193,7 +193,7 @@ export default {
                 let value = Math.random()>0.5 ? entry.base*1 : entry.base*1.5;
                 
                 if(percent.indexOf(extraEntry[index]) == -1)
-                    value = value * (1+newEquip.lv**2*0.10);
+                    value = value * (1+newEquip.lv**2*0.06);
                 value = Math.round(value);
 
                 potentials.push({

@@ -69,21 +69,21 @@ export const monsterConfig = {
             ],
             monster: [
                 {
-                    MAXHP: { value: 200, showValue: 1000, },        
-                    ATK: { value: 6, showValue: 5, },
+                    MAXHP: { value: 100, showValue: 1000, },        
+                    ATK: { value: 14, showValue: 5, },
                     DEF: { value: 5, showValue: 5, },
                     AP: { value: 0, showValue: 0, },
                     MR: { value: 0, showValue: 0, },
                     CRIT: { value: 100, showValue: '100%', },
                     CRITDMG: { value: 200, showValue: '200%', },
                 }, {
-                    MAXHP: { value: 200, showValue: 800, },        
-                    ATK: { value: 9, showValue: 10, },
+                    MAXHP: { value: 100, showValue: 800, },        
+                    ATK: { value: 20, showValue: 10, },
                     DEF: { value: 5, showValue: 5, },
                     AP: { value: 0, showValue: 0, },
                     MR: { value: 0, showValue: 0, },
                     CRIT: { value: 10, showValue: '10%', },
-                    CRITDMG: { value: 400, showValue: '200%', },
+                    CRITDMG: { value: 400, showValue: '400%', },
                 },
             ]
         }
