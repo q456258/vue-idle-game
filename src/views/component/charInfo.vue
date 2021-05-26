@@ -400,7 +400,7 @@ export default {
     computed: {
         baseAttribute() { return this.$store.state.baseAttribute },
         attribute() { return this.$store.state.playerAttribute.attribute },
-        userGold() { return this.$store.state.playerAttribute.GOLD },
+        userGold() { return this.$store.state.villageAttribute.gold },
         playerWeapon() { return this.$store.state.playerAttribute.weapon },
         playerArmor() { return this.$store.state.playerAttribute.armor },
         playerRing() { return this.$store.state.playerAttribute.ring },

@@ -202,7 +202,7 @@ export default {
     baseAttribute() { return this.$store.state.baseAttribute },
     trialAttribute() { return this.$store.state.trialAttribute.attribute },
     attribute() { return this.$store.state.playerAttribute.attribute },
-    userGold() { return this.$store.state.playerAttribute.GOLD },
+    userGold() { return this.$store.state.villageAttribute.gold },
     playerWeapon() { return this.$store.state.playerAttribute.weapon },
     playerArmor() { return this.$store.state.playerAttribute.armor },
     playerRing() { return this.$store.state.playerAttribute.ring },
@@ -412,7 +412,7 @@ export default {
           this.mapArr[dungeon.current][dungeon.option].status = 'option';
           break;
       }
-      if(type == 'gold' || type == 'wood' || type == 'equip' || type=='trial')
+      if(['gold', 'wood', 'crystal', 'equip', 'trial'].indexOf(type) != -1)
         mapEvent.battle(type);
       if(type == 'chest')
         mapEvent.chest();

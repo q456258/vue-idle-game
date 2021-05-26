@@ -120,7 +120,7 @@ export default {
             cost *= (1+equip.lv/10)*(1+equip.enhanceLv*equip.quality.qualityCoefficient+equip.quality.extraEntryNum*2);
             cost = Math.round(cost);
             this.grid[index] = {};
-            this.$store.state.playerAttribute.GOLD += cost;
+            this.$store.state.villageAttribute.gold += cost;
             this.$store.commit("set_sys_info", {
                 type: 'reward',
                 msg: '出售装备获得金币: '+cost
@@ -130,7 +130,7 @@ export default {
             var cost = 8+4*Math.random();
             cost *= (1+equip.lv/10)*(1+equip.enhanceLv*equip.quality.qualityCoefficient+equip.quality.extraEntryNum*2);
             cost = Math.round(cost);
-            this.$store.state.playerAttribute.GOLD += cost;
+            this.$store.state.villageAttribute.gold += cost;
             this.$store.commit("set_sys_info", {
                 type: 'reward',
                 msg: '出售装备获得金币: '+cost

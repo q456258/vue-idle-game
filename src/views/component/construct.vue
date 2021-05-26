@@ -20,39 +20,69 @@
 -->
 <div class="construct">
     <div id="resource">
-    木材：{{village.wood}}
+        金币：{{village.gold}} <br>
+        木材：{{village.wood}} <br>
+        水晶：{{village.crystal}} <br>
     </div>
     <div id="building">     
         <cTooltip :placement="'bottom'">
             <template v-slot:content>
-                <button class="btn btn-outline-light btn-sm build">村庄</button>
+                <button class="btn btn-outline-light btn-sm build" @click="levelUp('village')">村庄 {{village.village}}</button>
             </template>
             <template v-slot:tip>
-                <p class="info">* 背包</p>
+                <p class="info">* 提升其他建筑等级上限</p>
+                <p class="info">
+                    ————消耗————
+                    <br>
+                    <span :style="{color:village.gold<cost.village.gold?'#f00':''}">金币:{{cost.village.gold}}</span>
+                    <br>
+                    <span :style="{color:village.wood<cost.village.wood?'#f00':''}">木材:{{cost.village.wood}}</span>
+                </p>
             </template>
         </cTooltip>   
         <cTooltip :placement="'bottom'">
             <template v-slot:content>
-                <button class="btn btn-outline-light btn-sm build">练功房</button>
+                <button class="btn btn-outline-light btn-sm build" @click="levelUp('train')">练功房</button>
             </template>
             <template v-slot:tip>
-                <p class="info">* 背包</p>
+                <p class="info">* 每分钟消耗一个水晶</p>
+                <p class="info">
+                    ————消耗————
+                    <br>
+                    <span :style="{color:village.gold<cost.train.gold?'#f00':''}">金币:{{cost.train.gold}}</span>
+                    <br>
+                    <span :style="{color:village.wood<cost.train.wood?'#f00':''}">木材:{{cost.train.wood}}</span>
+                </p>
             </template>
         </cTooltip>
         <cTooltip :placement="'bottom'">
             <template v-slot:content>
-                <button class="btn btn-outline-light btn-sm build">商店</button>
+                <button class="btn btn-outline-light btn-sm build" @click="levelUp('shop')">商店</button>
             </template>
             <template v-slot:tip>
-                <p class="info">* 背包</p>
+                <p class="info">* 出售日常用品</p>
+                <p class="info">
+                    ————消耗————
+                    <br>
+                    <span :style="{color:village.gold<cost.shop.gold?'#f00':''}">金币:{{cost.shop.gold}}</span>
+                    <br>
+                    <span :style="{color:village.wood<cost.shop.wood?'#f00':''}">木材:{{cost.shop.wood}}</span>
+                </p>
             </template>
         </cTooltip>
         <cTooltip :placement="'bottom'">
             <template v-slot:content>
-                <button class="btn btn-outline-light btn-sm build">铁匠铺</button>
+                <button class="btn btn-outline-light btn-sm build" @click="levelUp('smith')">铁匠铺</button>
             </template>
             <template v-slot:tip>
-                <p class="info">* 背包</p>
+                <p class="info">* 提供强化、锻造等服务</p>
+                <p class="info">
+                    ————消耗————
+                    <br>
+                    <span :style="{color:village.gold<cost.smith.gold?'#f00':''}">金币:{{cost.smith.gold}}</span>
+                    <br>
+                    <span :style="{color:village.wood<cost.smith.wood?'#f00':''}">木材:{{cost.smith.wood}}</span>
+                </p>
             </template>
         </cTooltip>
     </div>
@@ -76,6 +106,35 @@ export default {
     },
     data() {
         return {
+            cost: {
+                village: {
+                    gold: 100,
+                    wood: 10
+                },
+                train: {
+                    gold: 100,
+                    wood: 10
+                },
+                shop: {
+                    gold: 100,
+                    wood: 10
+                },
+                smith: {
+                    gold: 100,
+                    wood: 10
+                },
+            },
+            require: {
+                train: {
+                    village: 1
+                },
+                shop: {
+                    village: 1
+                },
+                smith: {
+                    village: 1
+                },
+            }
         };
     },
     props: {
@@ -84,7 +143,27 @@ export default {
         village() {return this.$store.state.villageAttribute;}
     },
     methods: {      
+        levelUp(type) {
+            for(let cost in this.cost[type]) {
+                if(this.village[cost] < this.cost[type][cost])
+                    return;
+            }
+            for(let req in this.require[type]) {
+                if(this.village[req] < this.require[type][req])
+                    return;
+            }
+            for(let cost in this.cost[type]) {
+                this.village[cost] -= this.cost[type][cost];
+            }
+            this.village[type] += 1;
 
+        },
+        getCost(type, level) {
+
+        },
+        getReq(type, level) {
+
+        }
     }
 }
 </script>

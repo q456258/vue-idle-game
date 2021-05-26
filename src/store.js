@@ -209,14 +209,17 @@ export default new Vuex.Store({
       }
     },
     villageAttribute: {
+      gold: 0,
       wood: 100,
+      crystal: 0,
+      village: 0,
+      train: 0,
       shop: 0,
       smith: 0
     },
     playerAttribute: {
       name: '无名',
       lv: 1,
-      GOLD: 0,
       healthRecoverySpeed: 1,
       attribute: {
         CURHP: { baseVal: 0, value: 300, showbaseVal: 0},

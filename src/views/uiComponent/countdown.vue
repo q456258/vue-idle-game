@@ -7,9 +7,9 @@
             <circle cx="80" cy="80" r="70" :stroke-dashoffset="timeRemain/totalTime*440-440" class="progressbar_svg-dark circle shadow-html"> </circle>
         </svg>
         <span class="progressbar_text" v-show="training">
-            <span class="hour"><span v-if="Math.floor(timeRemain/3600)<10">0</span>{{Math.floor(timeRemain/3600)}}:</span>
-            <span class="hour"><span v-if="Math.floor(timeRemain%3600/60)<10">0</span>{{Math.floor(timeRemain%3600/60)}}:</span>
-            <span class="hour"><span v-if="timeRemain%60<10">0</span>{{timeRemain%60}}</span>
+            <span class="time"><span v-if="Math.floor(timeRemain/3600)<10">0</span>{{Math.floor(timeRemain/3600)}}:</span>
+            <span class="time"><span v-if="Math.floor(timeRemain%3600/60)<10">0</span>{{Math.floor(timeRemain%3600/60)}}:</span>
+            <span class="time"><span v-if="timeRemain%60<10">0</span>{{timeRemain%60}}</span>
             <button class="btn btn-sm btn-secondary" @click="cancel">
                 取消
             </button>
@@ -35,10 +35,11 @@
                 <option value="5">625x</option>
             </select>
             <!-- <div :style="{'font-size':gain>10000?'0.8rem':'1rem'}">+{{gain}}{{entryInfo[this.type].name}}</div> -->
-            <span class="hour"><span v-if="Math.floor(trainTime/3600)<10">0</span>{{Math.floor(trainTime/3600)}}:</span>
-            <span class="hour"><span v-if="Math.floor(trainTime%3600/60)<10">0</span>{{Math.floor(trainTime%3600/60)}}:</span>
-            <span class="hour"><span v-if="trainTime%60<10">0</span>{{trainTime%60}}</span>
-            <button class="btn btn-sm btn-danger" @click="startTrain">训练</button>
+            <span class="time"><span v-if="Math.floor(trainTime/3600)<10">0</span>{{Math.floor(trainTime/3600)}}:</span>
+            <span class="time"><span v-if="Math.floor(trainTime%3600/60)<10">0</span>{{Math.floor(trainTime%3600/60)}}:</span>
+            <span class="time"><span v-if="trainTime%60<10">0</span>{{trainTime%60}}</span>
+            <button class="btn btn-sm btn-danger" @click="startTrain">训练<span>({{cost}})</span></button>
+            
             <br>
             <input type="checkbox" v-model="loop">
             <span class="checkmark">循环</span>
@@ -68,6 +69,7 @@ export default {
             countdownTimer: 0,
             type: 'HP',
             gain: 0,
+            cost: 0,
             training: false,
             loop: false,
         }
@@ -85,6 +87,10 @@ export default {
             this.startTimer(this.trainTime);
         },
         startTimer(time) {
+            if(this.$store.state.villageAttribute.crystal >= this.cost)
+                this.$store.state.villageAttribute.crystal -= this.cost;
+            else
+                return;
             this.training = true;
             this.totalTime = time;
             this.timeRemain = time;
@@ -120,6 +126,7 @@ export default {
             let time = 60*(2-(this.trainTier-1)*0.25);
             this.trainTime = Math.round(value*time/this.entryInfo[this.type].base);
             this.gain = value;
+            this.cost = Math.ceil(this.trainTime/60);
         }
 
     }

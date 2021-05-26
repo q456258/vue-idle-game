@@ -75,7 +75,7 @@ export default {
             return cost;
         },
         warning() {
-            return this.$store.state.playerAttribute.GOLD < this.cost;
+            return this.$store.state.villageAttribute.gold < this.cost;
         },
         successRate() {
             var rate = 100;
@@ -89,9 +89,9 @@ export default {
     },
     methods: {
         enhance() {
-            if(this.$store.state.playerAttribute.GOLD < this.cost)
+            if(this.$store.state.villageAttribute.gold < this.cost)
                 return;
-            this.$store.state.playerAttribute.GOLD -= this.cost;
+            this.$store.state.villageAttribute.gold -= this.cost;
             this.equip.enhanceLv = this.equip.enhanceLv + 1;
             var equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
             equipInfo.recomputeBaseEntryValue(this.equip);

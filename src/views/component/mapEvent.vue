@@ -198,16 +198,26 @@ export default {
             switch(type) {
                 case 'gold':
                     let gold = Math.round((100+lv**2)*(2+2*Math.random()))
-                    this.$store.state.playerAttribute.GOLD += gold;
+                    this.$store.state.villageAttribute.gold += gold;
                     this.$store.commit("set_sys_info", {
                         type: 'reward',
                         msg: '获得'+gold+'金币'
                     });
                     break;
                 case 'wood':
+                    let wood = Math.round((10+lv**1.5)*(1+Math.random()))
+                    this.$store.state.villageAttribute.wood += wood;
                     this.$store.commit("set_sys_info", {
                         type: 'reward',
-                        msg: '获得木材'
+                        msg: '获得'+wood+'木材'
+                    });
+                    break;
+                case 'crystal':
+                    let crystal = Math.round((1+lv)*(1+Math.random()))
+                    this.$store.state.villageAttribute.crystal += crystal;
+                    this.$store.commit("set_sys_info", {
+                        type: 'reward',
+                        msg: '获得'+crystal+'水晶'
                     });
                     break;
                 case 'chest':
