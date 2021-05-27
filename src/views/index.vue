@@ -160,16 +160,16 @@ export default {
     this.dungeonInfo = this.$store.state.dungeonInfo;
     // 自动恢复
     this.autoHealthRecovery = setInterval(() => {
-      this.$store.commit('set_player_hp', Math.round(this.attribute.MAXHP.value*0.001+this.attribute.STR.value/20));
+      this.$store.commit('set_player_hp', Math.ceil(this.attribute.MAXHP.value*0.001+this.attribute.STR.value/20));
       if(this.attribute.CURHP.value == this.attribute.MAXHP.value && this.dungeonInfo.auto && !this.dungeonInfo.inBattle) {
         this.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
       }
     }, 100);
     this.autoManRecovery = setInterval(() => {
-      this.$store.commit('set_player_mp', Math.round(this.attribute.MAXMP.value*0.001+this.attribute.INT.value/40));
+      this.$store.commit('set_player_mp', Math.ceil(this.attribute.MAXMP.value*0.001+this.attribute.INT.value/40));
     }, 100);
     this.trialAutoHealthRecovery = setInterval(() => {
-      this.$store.commit('set_trial_hp', Math.round(this.trialAttribute.MAXHP.value*0.001));
+      this.$store.commit('set_trial_hp', Math.ceil(this.trialAttribute.MAXHP.value*0.001));
     }, 100);
     //初始生成地图
     this.createMaps();
@@ -180,9 +180,9 @@ export default {
     // // var newEquip = JSON.parse(equipInfo.createEquip(0,2,'helmet'));
     // var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'helmet'));
     // this.$store.commit('set_player_helmet', this.$deepCopy(newEquip));
-    // // var newEquip = JSON.parse(equipInfo.createEquip(1,2,'necklace'));
-    // var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'necklace'));
-    // this.$store.commit('set_player_necklace', this.$deepCopy(newEquip));
+    // // var newEquip = JSON.parse(equipInfo.createEquip(1,2,'accessory'));
+    // var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'accessory'));
+    // this.$store.commit('set_player_accessory', this.$deepCopy(newEquip));
     // // var newEquip = JSON.parse(equipInfo.createEquip(2,2,'weapon'));
     // var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'weapon'));
     // this.$store.commit('set_player_weapon', this.$deepCopy(newEquip));
@@ -192,9 +192,9 @@ export default {
     // // var newEquip = JSON.parse(equipInfo.createEquip(4,10,'shoe'));
     // var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'shoe'));
     // this.$store.commit('set_player_shoe', this.$deepCopy(newEquip));
-    // // var newEquip = JSON.parse(equipInfo.createEquip(5,20,'ring'));
-    // var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'ring'));
-    // this.$store.commit('set_player_ring', this.$deepCopy(newEquip));
+    // // var newEquip = JSON.parse(equipInfo.createEquip(5,20,'leg'));
+    // var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'shoulder'));
+    // this.$store.commit('set_player_shoulder', this.$deepCopy(newEquip));
     this.$store.commit('set_player_attribute');
 
   },
@@ -205,10 +205,10 @@ export default {
     userGold() { return this.$store.state.villageAttribute.gold },
     playerWeapon() { return this.$store.state.playerAttribute.weapon },
     playerArmor() { return this.$store.state.playerAttribute.armor },
-    playerRing() { return this.$store.state.playerAttribute.ring },
-    playerNecklace() { return this.$store.state.playerAttribute.necklace },
+    playerAccessory() { return this.$store.state.playerAttribute.accessory },
     playerHelmet() { return this.$store.state.playerAttribute.helmet },
     playerShoe() { return this.$store.state.playerAttribute.shoe },
+    playerShoulder() { return this.$store.state.playerAttribute.shoulder },
     playerLv() { return this.$store.state.playerAttribute.lv },
     // operatorSchemaIsMobile() { return this.$store.state.operatorSchemaIsMobile }
     // healthRecoverySpeed() { return this.$store.state.playerAttribute.healthRecoverySpeed },
@@ -287,8 +287,8 @@ export default {
           case 'helmet':
             this.compareEquip = this.playerHelmet;
             break;
-          case 'necklace':
-            this.compareEquip = this.playerNecklace;
+          case 'accessory':
+            this.compareEquip = this.playerAccessory;
             break;
           case 'weapon':
             this.compareEquip = this.playerWeapon;
@@ -299,8 +299,8 @@ export default {
           case 'shoe':
             this.compareEquip = this.playerShoe;
             break;
-          case 'ring':
-            this.compareEquip = this.playerRing;
+          case 'shoulder':
+            this.compareEquip = this.playerShoulder;
             break;
           default:
             this.compareEquip = item;

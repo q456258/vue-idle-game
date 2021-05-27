@@ -113,9 +113,9 @@ var initial_helmet = {
     extraEntry: [],
     potential: []
   },
-  initial_necklace = {
+  initial_accessory = {
     lv: 1,
-    itemType: 'necklace',
+    itemType: 'accessory',
     maxEnhanceLv: 0,
     enhanceLv: 0,
     quality: {
@@ -128,7 +128,7 @@ var initial_helmet = {
     description: {
       name: "村里最好的项链",
       desc: "新手菜鸡使用的短剑",
-      type: "项链",
+      type: "饰品",
       iconSrc: "./icons/A_A1.png",
     },
     baseEntry: [{
@@ -140,9 +140,9 @@ var initial_helmet = {
     extraEntry: [],
     potential: []
   },
-  initial_ring = {
+  initial_shoulder = {
     lv: 1,
-    itemType: 'ring',
+    itemType: 'shoulder',
     maxEnhanceLv: 0,
     enhanceLv: 0,
     quality: {
@@ -153,10 +153,10 @@ var initial_helmet = {
       qualityLv: 1
     },
     description: {
-      name: "村里最好的戒指",
+      name: "村里最好的护肩",
       desc: "新手菜鸡使用的短剑",
-      type: "戒指",
-      iconSrc: "./icons/ring/Inv_jewelry_ring_19.png",
+      type: "肩膀",
+      iconSrc: "./icons/shoulder/inv_shoulder_09.png",
     },
     baseEntry: [{
       value: 5,
@@ -210,7 +210,7 @@ export default new Vuex.Store({
     },
     villageAttribute: {
       gold: 0,
-      wood: 100,
+      wood: 0,
       crystal: 0,
       village: 0,
       train: 0,
@@ -255,8 +255,8 @@ export default new Vuex.Store({
       helmet: initial_helmet,
       weapon: initial_weapon,
       armor: initial_armor,
-      ring: initial_ring,
-      necklace: initial_necklace,
+      shoulder: initial_shoulder,
+      accessory: initial_accessory,
       shoe: initial_shoe,
     },
     trialAttribute: {
@@ -348,13 +348,13 @@ export default new Vuex.Store({
       MRP: 0,
     },
   },
-  mutations: {
+  mutations: {       
     set_player_helmet(state, data) {
       this.state.playerAttribute.helmet = data || initial_helmet;
       vueInstance.$store.commit('set_player_attribute');
     },
-    set_player_necklace(state, data) {
-      this.state.playerAttribute.necklace = data || initial_necklace;
+    set_player_accessory(state, data) {
+      this.state.playerAttribute.accessory = data || initial_accessory;
       vueInstance.$store.commit('set_player_attribute');
     },
     set_player_weapon(state, data) {
@@ -365,8 +365,8 @@ export default new Vuex.Store({
       this.state.playerAttribute.armor = data || initial_armor;
       vueInstance.$store.commit('set_player_attribute');
     },
-    set_player_ring(state, data) {
-      this.state.playerAttribute.ring = data || initial_ring;
+    set_player_shoulder(state, data) {
+      this.state.playerAttribute.shoulder = data || initial_shoulder;
       vueInstance.$store.commit('set_player_attribute');
     },
     set_player_shoe(state, data) {
@@ -376,11 +376,11 @@ export default new Vuex.Store({
     set_player_attribute(state, data) {
       var playerAttribute = this.state.playerAttribute,
         helmet = playerAttribute.helmet,
-        necklace = playerAttribute.necklace,
+        accessory = playerAttribute.accessory,
         weapon = playerAttribute.weapon,
         armor = playerAttribute.armor,
         shoe = playerAttribute.shoe,
-        ring = playerAttribute.ring,
+        shoulder = playerAttribute.shoulder,
         entries = [],
         potentials = [];
       var hpPercent = playerAttribute.attribute.CURHP.value/playerAttribute.attribute.MAXHP.value,
@@ -415,17 +415,18 @@ export default new Vuex.Store({
 
       entries = helmet.baseEntry ? entries.concat(helmet.baseEntry, helmet.extraEntry) : entries;
       entries = weapon.baseEntry ? entries.concat(weapon.baseEntry, weapon.extraEntry) : entries;
-      entries = necklace.baseEntry ? entries.concat(necklace.baseEntry, necklace.extraEntry) : entries;
+      entries = accessory.baseEntry ? entries.concat(accessory.baseEntry, accessory.extraEntry) : entries;
       entries = armor.baseEntry ? entries.concat(armor.baseEntry, armor.extraEntry) : entries;
       entries = shoe.baseEntry ? entries.concat(shoe.baseEntry, shoe.extraEntry) : entries;
-      entries = ring.baseEntry ? entries.concat(ring.baseEntry, ring.extraEntry) : entries;
+      entries = shoulder.baseEntry ? entries.concat(shoulder.baseEntry, shoulder.extraEntry) : entries;
 
       entries.forEach(entry => {
         attribute[entry.type].baseVal += entry.value;
       });
       potentials = [].concat(weapon.potential, helmet.potential, 
-                          necklace.potential, armor.potential, 
-                          shoe.potential, ring.potential);
+                          accessory.potential, armor.potential, 
+                          shoe.potential, shoulder.potential);
+
       potentials.forEach(potential => {
         if(potential != undefined && potential.active)
           attribute[potential.type].baseVal += potential.value;

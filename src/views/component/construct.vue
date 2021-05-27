@@ -12,6 +12,7 @@
     铁匠铺
 
     钱庄
+    食堂
     金矿
     林地
     采石场
@@ -34,107 +35,116 @@
                 <p class="info">
                     ————消耗————
                     <br>
-                    <span :style="{color:village.gold<cost.village.gold?'#f00':''}">金币:{{cost.village.gold}}</span>
+                    <span :style="{color:village.gold<cost.village.cost.gold?'#f00':''}">金币:{{cost.village.cost.gold}}</span>
                     <br>
-                    <span :style="{color:village.wood<cost.village.wood?'#f00':''}">木材:{{cost.village.wood}}</span>
+                    <span :style="{color:village.wood<cost.village.cost.wood?'#f00':''}">木材:{{cost.village.cost.wood}}</span>
                 </p>
             </template>
         </cTooltip>   
-        <cTooltip :placement="'bottom'">
+        <cTooltip :placement="'bottom'" v-if="village.village>0">
             <template v-slot:content>
-                <button class="btn btn-outline-light btn-sm build" @click="levelUp('train')">练功房</button>
+                <button class="btn btn-outline-light btn-sm build" @click="levelUp('train')">练功房 {{village.train}}</button>
             </template>
             <template v-slot:tip>
-                <p class="info">* 每分钟消耗一个水晶</p>
+                <p class="info">* 消耗水晶提升能力的场所</p>
                 <p class="info">
                     ————消耗————
                     <br>
-                    <span :style="{color:village.gold<cost.train.gold?'#f00':''}">金币:{{cost.train.gold}}</span>
+                    <span :style="{color:village.gold<cost.train.cost.gold?'#f00':''}">金币:{{cost.train.cost.gold}}</span>
                     <br>
-                    <span :style="{color:village.wood<cost.train.wood?'#f00':''}">木材:{{cost.train.wood}}</span>
+                    <span :style="{color:village.wood<cost.train.cost.wood?'#f00':''}">木材:{{cost.train.cost.wood}}</span>
+                    <br>
+                    <span :style="{color:village.crystal<cost.train.cost.crystal?'#f00':''}">水晶:{{cost.train.cost.crystal}}</span>
                 </p>
             </template>
         </cTooltip>
-        <cTooltip :placement="'bottom'">
+        <cTooltip :placement="'bottom'" v-if="village.train>10">
             <template v-slot:content>
-                <button class="btn btn-outline-light btn-sm build" @click="levelUp('shop')">商店</button>
+                <button class="btn btn-outline-light btn-sm build" @click="levelUp('train2')">中级练功房 {{village.train2}}</button>
+            </template>
+            <template v-slot:tip>
+                <p class="info">* 消耗水晶提升能力的场所</p>
+                <p class="info">
+                    ————消耗————
+                    <br>
+                    <span :style="{color:village.gold<cost.train2.cost.gold?'#f00':''}">金币:{{cost.train2.cost.gold}}</span>
+                    <br>
+                    <span :style="{color:village.wood<cost.train2.cost.wood?'#f00':''}">木材:{{cost.train2.cost.wood}}</span>
+                    <br>
+                    <span :style="{color:village.crystal<cost.train2.cost.crystal?'#f00':''}">水晶:{{cost.train2.cost.crystal}}</span>
+                </p>
+            </template>
+        </cTooltip>
+        <cTooltip :placement="'bottom'" v-if="village.train2>10">
+            <template v-slot:content>
+                <button class="btn btn-outline-light btn-sm build" @click="levelUp('train3')">高级练功房 {{village.train3}}</button>
+            </template>
+            <template v-slot:tip>
+                <p class="info">* 消耗水晶提升能力的场所</p>
+                <p class="info">
+                    ————消耗————
+                    <br>
+                    <span :style="{color:village.gold<cost.train3.cost.gold?'#f00':''}">金币:{{cost.train3.cost.gold}}</span>
+                    <br>
+                    <span :style="{color:village.wood<cost.train3.cost.wood?'#f00':''}">木材:{{cost.train3.cost.wood}}</span>
+                    <br>
+                    <span :style="{color:village.crystal<cost.train3.cost.crystal?'#f00':''}">水晶:{{cost.train3.cost.crystal}}</span>
+                </p>
+            </template>
+        </cTooltip>
+        <cTooltip :placement="'bottom'" v-if="village.village>0">
+            <template v-slot:content>
+                <button class="btn btn-outline-light btn-sm build" @click="levelUp('shop')">商店 {{village.shop}}</button>
             </template>
             <template v-slot:tip>
                 <p class="info">* 出售日常用品</p>
                 <p class="info">
                     ————消耗————
                     <br>
-                    <span :style="{color:village.gold<cost.shop.gold?'#f00':''}">金币:{{cost.shop.gold}}</span>
+                    <span :style="{color:village.gold<cost.shop.cost.gold?'#f00':''}">金币:{{cost.shop.cost.gold}}</span>
                     <br>
-                    <span :style="{color:village.wood<cost.shop.wood?'#f00':''}">木材:{{cost.shop.wood}}</span>
+                    <span :style="{color:village.wood<cost.shop.cost.wood?'#f00':''}">木材:{{cost.shop.cost.wood}}</span>
                 </p>
             </template>
         </cTooltip>
-        <cTooltip :placement="'bottom'">
+        <cTooltip :placement="'bottom'" v-if="village.village>0">
             <template v-slot:content>
-                <button class="btn btn-outline-light btn-sm build" @click="levelUp('smith')">铁匠铺</button>
+                <button class="btn btn-outline-light btn-sm build" @click="levelUp('smith')">铁匠铺 {{village.smith}}</button>
             </template>
             <template v-slot:tip>
                 <p class="info">* 提供强化、锻造等服务</p>
                 <p class="info">
                     ————消耗————
                     <br>
-                    <span :style="{color:village.gold<cost.smith.gold?'#f00':''}">金币:{{cost.smith.gold}}</span>
+                    <span :style="{color:village.gold<cost.smith.cost.gold?'#f00':''}">金币:{{cost.smith.cost.gold}}</span>
                     <br>
-                    <span :style="{color:village.wood<cost.smith.wood?'#f00':''}">木材:{{cost.smith.wood}}</span>
+                    <span :style="{color:village.wood<cost.smith.cost.wood?'#f00':''}">木材:{{cost.smith.cost.wood}}</span>
                 </p>
             </template>
         </cTooltip>
     </div>
     <div class="training">
         <div class="trainingProgressbars">
-            <countdown :tier="0" :timer="$store.state.timer.trainTimer1"></countdown>
-            <countdown :tier="1" :timer="$store.state.timer.trainTimer2"></countdown>
-            <countdown :tier="2" :timer="$store.state.timer.trainTimer3"></countdown>
+            <countdown :tier="0" :timer="$store.state.timer.trainTimer1" :level="village.train" v-if="village.train>0"></countdown>
+            <countdown :tier="1" :timer="$store.state.timer.trainTimer2" :level="village.train2" v-if="village.train2>0"></countdown>
+            <countdown :tier="2" :timer="$store.state.timer.trainTimer3" :level="village.train3" v-if="village.train3>0"></countdown>
         </div>
     </div>
 </div>
     
 </template>
 <script>
+import {constructConfig} from '@/assets/config/constructConfig'
 import cTooltip from '../uiComponent/tooltip';
 import countdown from '../uiComponent/countdown';
 export default {
     name: "construct",
+    mixins: [constructConfig],
     components: {cTooltip, countdown},
     mounted() {
     },
     data() {
         return {
-            cost: {
-                village: {
-                    gold: 100,
-                    wood: 10
-                },
-                train: {
-                    gold: 100,
-                    wood: 10
-                },
-                shop: {
-                    gold: 100,
-                    wood: 10
-                },
-                smith: {
-                    gold: 100,
-                    wood: 10
-                },
-            },
-            require: {
-                train: {
-                    village: 1
-                },
-                shop: {
-                    village: 1
-                },
-                smith: {
-                    village: 1
-                },
-            }
         };
     },
     props: {
@@ -144,25 +154,29 @@ export default {
     },
     methods: {      
         levelUp(type) {
-            for(let cost in this.cost[type]) {
-                if(this.village[cost] < this.cost[type][cost])
+            for(let cost in this.cost[type].cost) {
+                if(this.village[cost] < this.cost[type].cost[cost])
                     return;
             }
-            for(let req in this.require[type]) {
-                if(this.village[req] < this.require[type][req])
-                    return;
-            }
-            for(let cost in this.cost[type]) {
-                this.village[cost] -= this.cost[type][cost];
+            if(type != 'village' && this.village['village'] <= this.village[type])
+                return;
+            for(let cost in this.cost[type].cost) {
+                this.village[cost] -= this.cost[type].cost[cost];
             }
             this.village[type] += 1;
+            this.getCost(type, this.village[type]+1);
 
         },
         getCost(type, level) {
-
-        },
-        getReq(type, level) {
-
+            let fib0 = 1, fib1 = 1;
+            for(var a=1; a<level; a++) {
+                let temp = fib0 + fib1;
+                fib0 = fib1;
+                fib1 = temp;
+            }
+            for(let cost in this.cost[type].cost) {
+                this.cost[type].cost[cost] = Math.round(this.cost[type].base[cost] * (1+fib1*0.1));
+            }
         }
     }
 }
@@ -172,18 +186,25 @@ export default {
     padding: 0.5rem;
     margin: 0.5rem;
     border: 2px solid #ccc;
-    height: 5rem;
+    height: 100%;
     width: 50rem;
 }
 #building {
     padding: 0.5rem;
     margin: 0.5rem;
     border: 2px solid #ccc;
-    height: 5rem;
+    height: 100%;
     width: 50rem;
     display: flex;
     flex-direction: row;
-
+    flex-wrap: wrap;
+    & > div {
+        width: 25%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-direction: column;
+    }
 }
 .build {
     height: 3rem;

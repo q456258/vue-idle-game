@@ -72,9 +72,9 @@ export default {
                     this.grid[this.currentItemIndex] = this.$store.state.playerAttribute.helmet;
                     this.$store.commit('set_player_helmet', this.currentItem);
                     break;
-                case 'necklace':
-                    this.grid[this.currentItemIndex] = this.$store.state.playerAttribute.necklace;
-                    this.$store.commit('set_player_necklace', this.currentItem);
+                case 'accessory':
+                    this.grid[this.currentItemIndex] = this.$store.state.playerAttribute.accessory;
+                    this.$store.commit('set_player_accessory', this.currentItem);
                     break;
                 case 'weapon':
                     this.grid[this.currentItemIndex] = this.$store.state.playerAttribute.weapon;
@@ -84,9 +84,9 @@ export default {
                     this.grid[this.currentItemIndex] = this.$store.state.playerAttribute.armor;
                     this.$store.commit('set_player_armor', this.currentItem);
                     break;
-                case 'ring':
-                    this.grid[this.currentItemIndex] = this.$store.state.playerAttribute.ring;
-                    this.$store.commit('set_player_ring', this.currentItem);
+                case 'shoulder':
+                    this.grid[this.currentItemIndex] = this.$store.state.playerAttribute.shoulder;
+                    this.$store.commit('set_player_shoulder', this.currentItem);
                     break;
                 case 'shoe':
                     this.grid[this.currentItemIndex] = this.$store.state.playerAttribute.shoe;

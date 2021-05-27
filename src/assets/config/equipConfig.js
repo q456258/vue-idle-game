@@ -1,6 +1,7 @@
 //灰、白、蓝、紫、橙、红
 //破旧，普通，精良，完美，史诗，传说
 //a1a1a1,D9D9D9,00BBFF,BB00FF,FFBB00,FF0000
+//https://wowpedia.fandom.com/wiki/File:Inv_shoulder_09.png
 export const equipConfig = {
   data() {
     return{
@@ -46,8 +47,8 @@ export const equipConfig = {
         weapon: '武器',
         armor: '盔甲',
         shoe: '鞋子',
-        ring: '戒指',
-        necklace: '项链',
+        shoulder: '肩膀',
+        belt: '腰带',
       },
       entryInfo: {
         STR: { base: 3, name: '力量' }, 
@@ -86,7 +87,7 @@ export const equipConfig = {
         type: [{
             description: {
               name: '泰坦铸造拯救兜帽',
-              desc: '哈皮毛毛',
+              desc: '泰坦铸造拯救兜帽',
               iconSrc: "./icons/helmet/INV_Helmet_136.png",
             },
             entry: [
@@ -94,8 +95,8 @@ export const equipConfig = {
             ],
           },{
             description: {
-              name: '哈皮毛毛头盔',
-              desc: '哈皮毛毛',
+              name: '刺绣训鹰兜帽',
+              desc: '这兜帽是用来让鸟儿在训练时保持镇静的，上面有美丽的刺绣',
               iconSrc: "./icons/helmet/INV_Helmet_137.png",
             },
             entry: [
@@ -103,8 +104,8 @@ export const equipConfig = {
             ],
           },{
             description: {
-              name: '哈皮毛毛头盔',
-              desc: '哈皮毛毛',
+              name: '泰坦铸造锁甲统御头盔',
+              desc: '泰坦铸造锁甲统御头盔',
               iconSrc: "./icons/helmet/INV_Helmet_138.png",
             },
             entry: [
@@ -112,8 +113,8 @@ export const equipConfig = {
             ],
           },{
             description: {
-              name: '哈皮毛毛头盔',
-              desc: '哈皮毛毛',
+              name: '暮光之锤兜帽',
+              desc: '暮光之锤兜帽',
               iconSrc: "./icons/helmet/INV_Helmet_139.png",
             },
             entry: [
@@ -133,7 +134,7 @@ export const equipConfig = {
           },
         ],
       },
-      necklace: {
+      accessory: {
         baseEntry: [ 
           'MP'
         ],
@@ -142,9 +143,18 @@ export const equipConfig = {
         ],
         type: [{
             description: {
-              name: '哈皮毛毛挂坠',
-              desc: '哈皮毛毛',
-              iconSrc: "./icons/Ac_1.png",
+              name: '守护指环',
+              desc: '守护指环',
+              iconSrc: "./icons/accessory/Inv_jewelry_ring_02.png",
+            },
+            entry: [
+              'DEF'
+            ],
+          },{
+            description: {
+              name: '全能戒指',
+              desc: '全能戒指',
+              iconSrc: "./icons/accessory/Inv_jewelry_ring_03.png",
             },
             entry: [
               'DEF'
@@ -172,8 +182,8 @@ export const equipConfig = {
         ],
         type: [{
             description: {
-              name: '测试',
-              desc: '哈皮毛毛',
+              name: '染血刀刃',
+              desc: '这把武器的锋刃上还残留着之前激战时留下的血迹',
               iconSrc: "./icons/weapon/INV_Axe_75.png",
             },
             entry: [
@@ -181,8 +191,8 @@ export const equipConfig = {
             ],
           },{
             description: {
-              name: '测试',
-              desc: '哈皮毛毛',
+              name: '狼獾人手斧',
+              desc: '狼獾人常用的武器',
               iconSrc: "./icons/weapon/INV_Axe_77.png",
             },
             entry: [
@@ -213,7 +223,7 @@ export const equipConfig = {
         type: [{
             description: {
               name: '奥术烈焰法衣',
-              desc: '哈皮毛毛',
+              desc: '奥术烈焰法衣',
               iconSrc: "./icons/armor/INV_Chest_Cloth_71.png",
             },
             entry: [
@@ -222,7 +232,7 @@ export const equipConfig = {
           },{
             description: {
               name: '萨布拉的征服法衣',
-              desc: '哈皮毛毛',
+              desc: '萨布拉的征服法衣',
               iconSrc: "./icons/armor/INV_Chest_Cloth_73.png",
             },
             entry: [
@@ -251,8 +261,8 @@ export const equipConfig = {
         ],
         type: [{
             description: {
-              name: '哈皮毛毛连身衣',
-              desc: '哈皮毛毛',
+              name: '沉寂足垫',
+              desc: '沉寂足垫',
               iconSrc: "./icons/shoe/INV_Boots_Leather_01.png",
             },
             entry: [
@@ -260,8 +270,8 @@ export const equipConfig = {
             ],
           },{
             description: {
-              name: '哈皮毛毛连身衣',
-              desc: '哈皮毛毛',
+              name: '踏火之靴',
+              desc: '踏火之靴',
               iconSrc: "./icons/shoe/INV_Boots_Leather_02.png",
             },
             entry: [
@@ -281,7 +291,7 @@ export const equipConfig = {
           },
         ],
       },
-      ring: {
+      shoulder: {
         baseEntry: [ 
           'ATK'
         ],
@@ -290,18 +300,18 @@ export const equipConfig = {
         ],
         type: [{
             description: {
-              name: '守护指环',
-              desc: '哈皮毛毛',
-              iconSrc: "./icons/ring/Inv_jewelry_ring_02.png",
+              name: '仿制的少校鬼纹衬肩',
+              desc: '仿制的少校鬼纹衬肩',
+              iconSrc: "./icons/shoulder/inv_shoulder_23.png",
             },
             entry: [
               'DEF'
             ],
           },{
             description: {
-              name: '哈皮毛毛连身衣',
-              desc: '哈皮毛毛',
-              iconSrc: "./icons/ring/Inv_jewelry_ring_03.png",
+              name: '帆布护肩',
+              desc: '帆布护肩',
+              iconSrc: "./icons/shoulder/inv_shoulder_09.png",
             },
             entry: [
               'ALL'
@@ -319,7 +329,7 @@ export const equipConfig = {
             ]
           },
         ],
-      }
+      },
     }
   },
   methods: {

@@ -38,7 +38,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="extraEntry" v-if="equip.extraEntry">
+                <div class="extraEntry" v-if="equip.extraEntry.length > 0">
                     <div v-for="v in equip.extraEntry" :key="v.id">
                         <!-- <div>{{v.name}} : {{v.showVal}}</div> -->
                         <div>{{v.name}} : {{v.showVal}}</div>
@@ -72,7 +72,7 @@ export default {
         return {
             newEquip: {},
             qualityProbability: [0.25, 0.65, 0.9, 0.99, 0.999, 1],
-            typeName: ['helmet', 'necklace', 'weapon', 'armor', 'shoe', 'ring']
+            typeName: ['helmet', 'accessory', 'weapon', 'armor', 'shoe', 'leg']
         };
     },
     props: {

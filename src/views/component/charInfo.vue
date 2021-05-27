@@ -283,14 +283,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="equip necklace" @mouseover="showInfo($event,'necklace',playerNecklace,false)" @contextmenu.prevent="openMenu(playerNecklace,$event)" @touchstart.stop.prevent="openMenu(playerNecklace,$event)" @mouseleave="closeInfo('equip')">
-                    <div class="title" v-if="playerNecklace.quality">
-                        <div class='icon' :style="{'box-shadow':'inset 0 0 7px 2px '+playerNecklace.quality.color}">
-                            <img :src="playerNecklace.description.iconSrc" alt="">
+                <div class="equip shoulder" @mouseover="showInfo($event,'shoulder',playerShoulder,false)" @contextmenu.prevent="openMenu(playerShoulder,$event)" @touchstart.stop.prevent="openMenu(playerShoulder,$event)" @mouseleave="closeInfo('equip')">
+                    <div class="title" v-if="playerShoulder.quality">
+                        <div class='icon' :class="{'red-flash':playerShoulder.enhanceLv>=20}" :style="{'box-shadow':'inset 0 0 7px 2px'+playerShoulder.quality.color}">
+                            <img :src="playerShoulder.description.iconSrc" alt="">
                         </div>
-                        <div class='name' :class="{'red-flash':playerNecklace.enhanceLv>=20}" :style="{color:playerNecklace.quality.color}">
-                            {{playerNecklace.description.name}} {{playerNecklace.enhanceLv?'(+'+playerNecklace.enhanceLv+')':''}}
-                        </div>
+                        <div class='name' :style="{color:playerShoulder.quality.color}">
+                            {{playerShoulder.description.name}} {{playerShoulder.enhanceLv?'(+'+playerShoulder.enhanceLv+')':''}}
+                        </div>                
                     </div>
                     <div class="title" v-else>
                         <div class='icon' :style="{'box-shadow':'inset 0 0 7px 2px #ccc'}">
@@ -347,14 +347,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="equip ring" @mouseover="showInfo($event,'ring',playerRing,false)" @contextmenu.prevent="openMenu(playerRing,$event)" @touchstart.stop.prevent="openMenu(playerRing,$event)" @mouseleave="closeInfo('equip')">
-                    <div class="title" v-if="playerRing.quality">
-                        <div class='icon' :class="{'red-flash':playerRing.enhanceLv>=20}" :style="{'box-shadow':'inset 0 0 7px 2px'+playerRing.quality.color}">
-                            <img :src="playerRing.description.iconSrc" alt="">
+                <div class="equip accessory" @mouseover="showInfo($event,'accessory',playerAccessory,false)" @contextmenu.prevent="openMenu(playerAccessory,$event)" @touchstart.stop.prevent="openMenu(playerAccessory,$event)" @mouseleave="closeInfo('equip')">
+                    <div class="title" v-if="playerAccessory.quality">
+                        <div class='icon' :style="{'box-shadow':'inset 0 0 7px 2px '+playerAccessory.quality.color}">
+                            <img :src="playerAccessory.description.iconSrc" alt="">
                         </div>
-                        <div class='name' :style="{color:playerRing.quality.color}">
-                            {{playerRing.description.name}} {{playerRing.enhanceLv?'(+'+playerRing.enhanceLv+')':''}}
-                        </div>                
+                        <div class='name' :class="{'red-flash':playerAccessory.enhanceLv>=20}" :style="{color:playerAccessory.quality.color}">
+                            {{playerAccessory.description.name}} {{playerAccessory.enhanceLv?'(+'+playerAccessory.enhanceLv+')':''}}
+                        </div>
                     </div>
                     <div class="title" v-else>
                         <div class='icon' :style="{'box-shadow':'inset 0 0 7px 2px #ccc'}">
@@ -403,11 +403,12 @@ export default {
         userGold() { return this.$store.state.villageAttribute.gold },
         playerWeapon() { return this.$store.state.playerAttribute.weapon },
         playerArmor() { return this.$store.state.playerAttribute.armor },
-        playerRing() { return this.$store.state.playerAttribute.ring },
-        playerNecklace() { return this.$store.state.playerAttribute.necklace },
+        playerAccessory() { return this.$store.state.playerAttribute.accessory },
         playerHelmet() { return this.$store.state.playerAttribute.helmet },
         playerShoe() { return this.$store.state.playerAttribute.shoe },
+        playerShoulder() { return this.$store.state.playerAttribute.shoulder },
         playerLv() { return this.$store.state.playerAttribute.lv },
+
     },
     methods: {        
         unEquip() {
@@ -419,8 +420,8 @@ export default {
                         case 'helmet':
                             this.$store.commit('set_player_helmet', {});
                             break;
-                        case 'necklace':
-                            this.$store.commit('set_player_necklace', {});
+                        case 'accessory':
+                            this.$store.commit('set_player_accessory', {});
                             break;
                         case 'weapon':
                             this.$store.commit('set_player_weapon', {});
@@ -428,11 +429,11 @@ export default {
                         case 'armor':
                             this.$store.commit('set_player_armor', {});
                             break;
-                        case 'ring':
-                            this.$store.commit('set_player_ring', {});
-                            break;
                         case 'shoe':
                             this.$store.commit('set_player_shoe', {});
+                            break;
+                        case 'shoulder':
+                            this.$store.commit('set_player_shoulder', {});
                             break;
                         default:
                             break;

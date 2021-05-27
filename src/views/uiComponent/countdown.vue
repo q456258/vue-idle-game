@@ -25,7 +25,6 @@
                 <option value="DEF" v-if="tier>=0">护甲</option>
                 <option value="AP" v-if="tier>=1">元素伤害</option> 
                 <option value="MR" v-if="tier>=1">格挡</option>
-                <option value="CRITDMG" v-if="tier>=2">暴击伤害</option> 
             </select>
             <select @change="setTrainTier" class="btn btn-xsm btn-secondary" aria-label="training time">
                 <option value="1">1x</option>
@@ -58,11 +57,15 @@ export default {
         },
         timer: {
             type: Number
+        },
+        level: {
+            type: Number
         }
     },
     data () {
         return {
             trainTier: 1,
+            trainLevel: 0,
             trainTime: 0,
             totalTime: 0,
             timeRemain: 0,
@@ -76,9 +79,14 @@ export default {
     },
     mounted () {
         this.countdownTimer = this.timer;
+        this.trainLevel = this.level;
         this.computeTime();
     },
     watch: {
+        level() {
+            this.trainLevel = this.level;
+            this.computeTime();
+        }
     },
     computed: {
     },
@@ -111,6 +119,7 @@ export default {
         cancel() {
             this.timeRemain = 0;
             this.training = false;
+            this.$store.state.villageAttribute.crystal += this.cost;
             clearInterval(this.countdownTimer);
         },
         setTrainType(e) {
@@ -123,7 +132,7 @@ export default {
         },
         computeTime() {
             let value = 5**(this.trainTier-1);
-            let time = 60*(2-(this.trainTier-1)*0.25);
+            let time = 120*(1-(0.01*this.trainLevel)/(1+0.01*this.trainLevel))*(2-(this.trainTier-1)*0.25);
             this.trainTime = Math.round(value*time/this.entryInfo[this.type].base);
             this.gain = value;
             this.cost = Math.ceil(this.trainTime/60);
