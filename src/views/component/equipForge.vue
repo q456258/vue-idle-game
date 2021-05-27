@@ -68,10 +68,12 @@ export default {
         forgeAll() {
             var equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
             equipInfo.forgeAll(this.equip);
+            this.$store.commit('set_player_attribute');
         },
         forge(entry, key) {       
             var equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
             equipInfo.forgeEntry(this.equip, key);
+            this.$store.commit('set_player_attribute');
         },
         closeInfo() {
             var index = this.findComponentUpward(this, 'index');

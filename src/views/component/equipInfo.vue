@@ -72,7 +72,7 @@ export default {
         return {
             newEquip: {},
             qualityProbability: [0.25, 0.65, 0.9, 0.99, 0.999, 1],
-            typeName: ['helmet', 'accessory', 'weapon', 'armor', 'shoe', 'leg']
+            typeName: ['helmet', 'accessory', 'weapon', 'armor', 'shoe', 'shoulder']
         };
     },
     props: {

@@ -367,6 +367,8 @@
         </div>
         <ul v-show="visible" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
             <li @click="unEquip()">卸下</li>
+            <li @click="equipEnhance()">强化</li>
+            <li @click="equipForge()">重铸</li>
         </ul>
     </div>
 </template>
@@ -447,6 +449,18 @@ export default {
                     });
                 }
             }
+        },
+        equipEnhance() {
+            var index = this.findComponentUpward(this, 'index');
+            index.closeInfo();
+            index.enhanceEquip = this.currentEquip;
+            index.equipEnhancePanel = true;
+        },
+        equipForge() {
+            var index = this.findComponentUpward(this, 'index');
+            index.closeInfo();
+            index.enhanceEquip = this.currentEquip;
+            index.equipForgePanel = true;
         },
         showInfo($event, type, item, compare) {
             var index = this.findComponentUpward(this, 'index');

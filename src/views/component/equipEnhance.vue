@@ -96,6 +96,7 @@ export default {
             var equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
             equipInfo.recomputeBaseEntryValue(this.equip);
             equipInfo.activePotential(this.equip);
+            this.$store.commit('set_player_attribute');
         },
         closeInfo() {
             var index = this.findComponentUpward(this, 'index');

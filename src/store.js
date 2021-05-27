@@ -209,7 +209,7 @@ export default new Vuex.Store({
       }
     },
     villageAttribute: {
-      gold: 0,
+      gold: 5000,
       wood: 0,
       crystal: 0,
       village: 0,
