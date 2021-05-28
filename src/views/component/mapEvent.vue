@@ -66,7 +66,7 @@ export default {
                     clearInterval(this.battleTimer);
                     // let index = this.findComponentUpward(this, 'index'); 
                     // index.stopBattle();
-                    this.$store.state.dungeonInfo.inBattle = false;
+                    this.setBattleStatus(false);
                     this.$store.commit("set_battle_info", {
                         type: 'lose',
                         msg: '战斗结束，你扑街了'
@@ -105,7 +105,7 @@ export default {
                 let attribute = enermyAttribute.attribute[stat];
                 // attribute.value = Math.round(attribute.value*(1+enermyAttribute.lv*0.15)*(1+Math.random()/10));
                 // attribute.value = Math.round(attribute.value*(1+enermyAttribute.lv*0.15));
-                attribute.value = Math.round(attribute.value*(2+enermyAttribute.lv*(enermyAttribute.lv-2)*(0.7+enermyAttribute.lv/20)));
+                attribute.value = Math.round(attribute.value*(2+enermyAttribute.lv*(enermyAttribute.lv-2)*(0.3+enermyAttribute.lv/40)));
                 attribute.showValue = attribute.value;
                 enermyAttribute.attribute[stat] = attribute;
             });

@@ -157,7 +157,7 @@ export const equipConfig = {
               iconSrc: "./icons/accessory/Inv_jewelry_ring_03.png",
             },
             entry: [
-              'DEF'
+              'ALL'
             ],
           }
         ],

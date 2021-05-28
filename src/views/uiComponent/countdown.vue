@@ -132,7 +132,7 @@ export default {
         },
         computeTime() {
             let value = 5**(this.trainTier-1);
-            let time = 120*(1-(0.01*this.trainLevel)/(1+0.01*this.trainLevel))*(2-(this.trainTier-1)*0.25);
+            let time = 60*(1-(0.01*this.trainLevel)/(1+0.01*this.trainLevel))*(2-(this.trainTier-1)*0.25);
             this.trainTime = Math.round(value*time/this.entryInfo[this.type].base);
             this.gain = value;
             this.cost = Math.ceil(this.trainTime/60);

@@ -69,7 +69,7 @@ export const monsterConfig = {
             ],
             monster: [
                 {
-                    MAXHP: { value: 100, showValue: 1000, },        
+                    MAXHP: { value: 75, showValue: 1000, },        
                     ATK: { value: 14, showValue: 5, },
                     DEF: { value: 5, showValue: 5, },
                     AP: { value: 0, showValue: 0, },
@@ -77,7 +77,7 @@ export const monsterConfig = {
                     CRIT: { value: 100, showValue: '100%', },
                     CRITDMG: { value: 200, showValue: '200%', },
                 }, {
-                    MAXHP: { value: 100, showValue: 800, },        
+                    MAXHP: { value: 75, showValue: 800, },        
                     ATK: { value: 20, showValue: 10, },
                     DEF: { value: 5, showValue: 5, },
                     AP: { value: 0, showValue: 0, },

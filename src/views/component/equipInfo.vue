@@ -247,7 +247,7 @@ export default {
                     entry.showVal = '+' + entry.value + '%';
                 }
                 else {
-                    entry.value = Math.round((0.5+random) * this.entryInfo[entry.type].base * (1+equip.lv**2*0.10));
+                    entry.value = Math.round((0.5+random) * this.entryInfo[entry.type].base * (1+equip.lv**2*0.06));
                     entry.showVal = '+' + entry.value;
                 }
                 entry.quality = Math.round(random*100);
