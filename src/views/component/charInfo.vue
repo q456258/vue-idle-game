@@ -6,7 +6,7 @@
                     <div class="lv">
                         <div class="value">
                             <span>lv {{playerLv}}</span>
-                            <span>转生次数：{{playerLv}}</span>
+                            <!-- <span>转生次数：{{playerLv}}</span> -->
                         </div>
                     </div>
                 </template>
@@ -106,7 +106,7 @@
                         </p>
                         <p class="info">* 每点提升属性
                             <br>
-                            +2攻击
+                            +4攻击
                             <br>
                             +1护甲
                         </p>
@@ -134,7 +134,7 @@
                         </p>
                         <p class="info">* 每点提升属性
                             <br>
-                            +1元素伤害
+                            +2元素伤害
                             <br>
                             +3魔法值
                             <br>
@@ -156,6 +156,8 @@
                             <br>
                             基础：{{attribute.ATK.baseVal }}
                             <span v-if="attribute.ATKP.value != 0">{{' +' + attribute.ATKP.showValue}}</span>
+                            <br>
+                            DPS:{{Math.round(attribute.ATK.value*(1+attribute.CRIT.value/100*attribute.CRITDMG.value/100)) }}
                         </p>
                     </template>
                 </cTooltip>
@@ -367,8 +369,8 @@
         </div>
         <ul v-show="visible" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
             <li @click="unEquip()">卸下</li>
-            <li @click="equipEnhance()">强化</li>
-            <li @click="equipForge()">重铸</li>
+            <li @click="equipEnhance()" v-if="guild.smith>0">强化</li>
+            <li @click="equipForge()" v-if="guild.smith>10">重铸</li>
         </ul>
     </div>
 </template>
@@ -400,9 +402,10 @@ export default {
         },
     },
     computed: {
+        guild() { return this.$store.state.guildAttribute},
         baseAttribute() { return this.$store.state.baseAttribute },
         attribute() { return this.$store.state.playerAttribute.attribute },
-        userGold() { return this.$store.state.villageAttribute.gold },
+        userGold() { return this.$store.state.guildAttribute.gold },
         playerWeapon() { return this.$store.state.playerAttribute.weapon },
         playerArmor() { return this.$store.state.playerAttribute.armor },
         playerAccessory() { return this.$store.state.playerAttribute.accessory },

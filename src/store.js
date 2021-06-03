@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import vueInstance from './main'
+import equipConfig from './assets/config/equipConfig'
 Vue.use(Vuex)
 //灰、白、蓝、紫、橙、红
 //破旧，普通，精良，完美，史诗，传说
@@ -24,8 +25,8 @@ var initial_helmet = {
       iconSrc: "./icons/helmet/Inv_helm_cloth_sunhat_b_01.png",
     },
     baseEntry: [{
-      value: 100,
-      showVal: "+100",
+      value: 50,
+      showVal: "+50",
       type: "HP",
       name: "生命值"
     }],
@@ -53,8 +54,8 @@ var initial_helmet = {
     baseEntry: [{
       value: 5,
       showVal: "+5",
-      type: "AGI",
-      name: "敏捷"
+      type: "CRIT",
+      name: "暴击率"
     }],
     extraEntry: [],
     potential: []
@@ -208,12 +209,13 @@ export default new Vuex.Store({
         level: 2,
       }
     },
-    villageAttribute: {
+    guildAttribute: {
       gold: 0,
-      wood: 0,
-      crystal: 0,
-      village: 0,
+      crystal: 1000,
+      guild: 0,
       train: 0,
+      train2: 0,
+      train3: 0,
       shop: 0,
       smith: 0
     },
@@ -294,11 +296,11 @@ export default new Vuex.Store({
       MAXHP: 0,
       CURMP: 0,
       MAXMP: 0,
-      HP: 200,
+      HP: 100,
       MP: 100,
-      STR: 1,
-      AGI: 1,
-      INT: 1,
+      STR: 0,
+      AGI: 0,
+      INT: 0,
       ALL: 0,
       ATK: 10,
       DEF: 0,
@@ -346,6 +348,44 @@ export default new Vuex.Store({
       DEFP: 0,
       APP: 0,
       MRP: 0,
+    },
+    trainProgress: {
+      HP: {
+        level: 0,
+        progress: 10
+      },
+      MP: {
+        level: 0,
+        progress: 0
+      },
+      STR: {
+        level: 0,
+        progress: 0
+      },
+      AGI: {
+        level: 0,
+        progress: 0
+      },
+      INT: {
+        level: 0,
+        progress: 0
+      },
+      ATK: {
+        level: 0,
+        progress: 0
+      },
+      DEF: {
+        level: 0,
+        progress: 0
+      },
+      AP: {
+        level: 0,
+        progress: 0
+      },
+      MR: {
+        level: 0,
+        progress: 0
+      },
     },
   },
   mutations: {       
@@ -403,8 +443,8 @@ export default new Vuex.Store({
       ];
       var advancedAttr = {
         STR: { HP: 10, MR: 0.25}, 
-        AGI: { ATK: 2, DEF: 1}, 
-        INT: { MP: 3, AP: 1 }, 
+        AGI: { ATK: 4, DEF: 1}, 
+        INT: { MP: 3, AP: 2 }, 
       };
       attributes.forEach(attr => {
         attribute[attr] = { 

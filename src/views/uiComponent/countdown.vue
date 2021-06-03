@@ -14,8 +14,13 @@
                 取消
             </button>
         </span>
-        <div class="progressbar_text" v-show="!training">
-            <select @change="setTrainType" class="btn btn-secondary btn-xsm " aria-label="training type">
+        <span class="progressbar_text" v-show="timeRemain == 0">
+            <button class="btn btn-danger" @click="collect">
+                结束
+            </button>
+        </span>
+        <div class="progressbar_text" v-show="!training && timeRemain != 0  && !collecting">
+            <!-- <select @change="setTrainType" class="btn btn-secondary btn-xsm " aria-label="training type">
                 <option value="HP" v-if="tier>=0">生命值</option>
                 <option value="MP" v-if="tier>=0">魔法值</option>
                 <option value="STR" v-if="tier>=2">力量</option> 
@@ -25,13 +30,14 @@
                 <option value="DEF" v-if="tier>=0">护甲</option>
                 <option value="AP" v-if="tier>=1">元素伤害</option> 
                 <option value="MR" v-if="tier>=1">格挡</option>
-            </select>
+            </select> -->
             <select @change="setTrainTier" class="btn btn-xsm btn-secondary" aria-label="training time">
                 <option value="1">1x</option>
                 <option value="2">5x</option>
                 <option value="3">25x</option>
                 <option value="4">125x</option>
                 <option value="5">625x</option>
+                <!-- <option value="6">3125x</option> -->
             </select>
             <!-- <div :style="{'font-size':gain>10000?'0.8rem':'1rem'}">+{{gain}}{{entryInfo[this.type].name}}</div> -->
             <span class="time"><span v-if="Math.floor(trainTime/3600)<10">0</span>{{Math.floor(trainTime/3600)}}:</span>
@@ -40,9 +46,12 @@
             <button class="btn btn-sm btn-danger" @click="startTrain">训练<span>({{cost}})</span></button>
             
             <br>
-            <input type="checkbox" v-model="loop">
-            <span class="checkmark">循环</span>
+            <!-- <input type="checkbox" v-model="loop">
+            <span class="checkmark">循环</span> -->
         </div>
+        <span class="progressbar_text">
+            <div id="text"></div>
+        </span>
     </div>
 </template>
 <script>
@@ -64,20 +73,30 @@ export default {
     },
     data () {
         return {
+            trainerTier: 1,
             trainTier: 1,
             trainLevel: 0,
             trainTime: 0,
             totalTime: 0,
-            timeRemain: 0,
+            timeRemain: -1,
             countdownTimer: 0,
-            type: 'HP',
             gain: 0,
             cost: 0,
             training: false,
-            loop: false,
+            collecting: false,
+            values: [],        
         }
     },
     mounted () {
+        // 不要break
+        switch(this.tier) {
+            case 2:
+                this.values = this.values.concat(['STR', 'AGI', 'INT']);
+            case 1:
+                this.values = this.values.concat(['AP', 'MR']);
+            case 0:
+                this.values = this.values.concat(['HP', 'MP', 'ATK', 'DEF']);
+        }
         this.countdownTimer = this.timer;
         this.trainLevel = this.level;
         this.computeTime();
@@ -95,8 +114,8 @@ export default {
             this.startTimer(this.trainTime);
         },
         startTimer(time) {
-            if(this.$store.state.villageAttribute.crystal >= this.cost)
-                this.$store.state.villageAttribute.crystal -= this.cost;
+            if(this.$store.state.guildAttribute.crystal >= this.cost)
+                this.$store.state.guildAttribute.crystal -= this.cost;
             else
                 return;
             this.training = true;
@@ -109,22 +128,55 @@ export default {
                     clearInterval(this.countdownTimer);
                     this.$store.state.trainAttribute[this.type] += this.gain;
                     this.$store.commit('set_player_attribute');
-                    setTimeout(() => {
-                        if(!this.training && this.loop)
-                            this.startTimer(this.trainTime);
-                    }, 1000)
                 }
             }, 1000);
         },
         cancel() {
             this.timeRemain = 0;
             this.training = false;
-            this.$store.state.villageAttribute.crystal += this.cost;
+            this.$store.state.guildAttribute.crystal += this.cost;
             clearInterval(this.countdownTimer);
         },
-        setTrainType(e) {
-            this.type = e.target.value;
-            this.computeTime();
+        collect() {
+            var element = document.getElementById('text');
+            var count = 5**(this.trainTier-1);
+            var gap = 200;
+            this.collecting = true;
+            switch(this.trainTier) {
+                case '6':
+                    gap /=2;
+                case '5':
+                    gap /=2;
+                case '4':
+                    gap /=2;
+            }
+            for(let i=0; i<count; i++) {
+                setTimeout(()=>{
+                    var type = this.values[Math.floor(Math.random()*this.values.length)];
+                    var value = this.trainLevel;
+                    var node = document.createElement("DIV");
+                    var textnode = document.createTextNode(this.entryInfo[type].name+"+"+value);
+                    this.increaseProgress(type, value);
+                    node.appendChild(textnode);
+                    element.appendChild(node); 
+                    node.style.position = 'absolute';
+                    node.style.width = '10rem';
+                    node.style.textAlign = 'left';
+                    node.style.top = '-0.5rem';
+                    node.style.left = '-1rem';
+                    let x = Math.random()*200-100;
+                    let y = Math.sqrt(100**2-x**2)*(Math.random()>0.5?1:-1);
+                    node.animate([{transform: 'translate(0px)', opacity: 1},
+                        {transform: 'translate(' + (x) + 'px, '+ (y) + 'px)', opacity: 0}], { duration: 2000, ease:'ease-in', iterations: 1});
+                    this.timeRemain = this.totalTime*((i+1)/count);
+                    if(i == count-1) 
+                        this.collecting = false;
+                    setTimeout(()=>{
+                        element.removeChild(node);
+                    },2000);
+                }, gap*i);
+            }
+
         },
         setTrainTier(e) {
             this.trainTier = e.target.value;
@@ -132,11 +184,24 @@ export default {
         },
         computeTime() {
             let value = 5**(this.trainTier-1);
-            let time = 60*(1-(0.01*this.trainLevel)/(1+0.01*this.trainLevel))*(2-(this.trainTier-1)*0.25);
-            this.trainTime = Math.round(value*time/this.entryInfo[this.type].base);
+            // let time = 1*(1-(0.01*this.trainLevel)/(1+0.01*this.trainLevel))*(2-(this.trainTier-1)*0.2);
+            let time = 1*(2-(this.trainTier-1)*0.2);
+            // this.trainTime = Math.round(value*time/this.entryInfo[this.type].base);
+            this.trainTime = Math.round(value*time);
             this.gain = value;
             this.cost = Math.ceil(this.trainTime/60);
-        }
+            // this.trainTime = Math.round(2);
+        },
+        increaseProgress(type, value) {
+            this.$store.state.trainProgress[type].progress += value;
+            if(this.$store.state.trainProgress[type].progress >= 100) {
+                let lv = Math.floor(this.$store.state.trainProgress[type].progress/100);
+                this.$store.state.trainProgress[type].level += lv;
+                this.$store.state.trainAttribute[type] += lv*this.entryInfo[type].base;
+                this.$store.state.trainProgress[type].progress -= lv*this.entryInfo[type].base;
+                this.$store.commit('set_player_attribute');
+            }
+        },
 
     }
 }

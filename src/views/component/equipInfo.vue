@@ -90,12 +90,13 @@ export default {
             newEquip.enhanceLv = Math.min(0, newEquip.maxEnhanceLv);
             newEquip.baseEntry = this.createBaseEntry(newEquip);
             newEquip.extraEntry = this.createExtraEntry(newEquip);
-            newEquip.potential = this.createPotential(newEquip);
+            if(newEquip.lv >= 30)
+                newEquip.potential = this.createPotential(newEquip);
             return JSON.stringify(newEquip);
         },
-        createLv(Max) {
-            return parseInt(Math.random() * (Max || 39)) + 1;
-        },
+        // createLv(Max) {
+        //     return parseInt(Math.random() * (Max || 39)) + 1;
+        // },
         createType() {
             var random = Math.floor(Math.random()*6)
             return this.typeName[random];
@@ -163,11 +164,11 @@ export default {
             extraEntry.forEach(entry => {
                 let random = Math.random();
                 if(percent.indexOf(entry.type) > -1) {
-                    entry.value = Math.round((0.5+random) * this.entryInfo[entry.type].base);
+                    entry.value = Math.round((0.5+0.5*random) * this.entryInfo[entry.type].base);
                     entry.showVal = '+' + entry.value + '%';
                 }
                 else {
-                    entry.value = Math.round((0.5+random) * this.entryInfo[entry.type].base * (1+newEquip.lv**2*0.06));
+                    entry.value = Math.round((0.5+0.5*random) * this.entryInfo[entry.type].base * (1+newEquip.lv**2*0.06));
                     entry.showVal = '+' + entry.value;
                 }
                 entry.quality = Math.round(random*100);

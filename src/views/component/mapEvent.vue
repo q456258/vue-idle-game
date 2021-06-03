@@ -98,14 +98,23 @@ export default {
             enermyAttribute.attribute = this.$deepCopy(this.monster[this.name[level].template]);
             var attribute = enermyAttribute.attribute,
             val = 0.0,
-            flexStats = ['MAXHP', 'ATK', 'AP', 'DEF', 'MR'];
+            flexStats = ['MAXHP', 'ATK'],
+            fixStats = ['AP', 'DEF', 'MR'];
             enermyAttribute.lv = level;
             enermyAttribute.name = this.name[level].name;
             flexStats.forEach(stat => {
                 let attribute = enermyAttribute.attribute[stat];
                 // attribute.value = Math.round(attribute.value*(1+enermyAttribute.lv*0.15)*(1+Math.random()/10));
                 // attribute.value = Math.round(attribute.value*(1+enermyAttribute.lv*0.15));
-                attribute.value = Math.round(attribute.value*(2+enermyAttribute.lv*(enermyAttribute.lv-2)*(0.3+enermyAttribute.lv/40)));
+                attribute.value = Math.round(attribute.value*(2+enermyAttribute.lv*(enermyAttribute.lv-1)*(enermyAttribute.lv/40)));
+                attribute.showValue = attribute.value;
+                enermyAttribute.attribute[stat] = attribute;
+            });
+            fixStats.forEach(stat => {
+                let attribute = enermyAttribute.attribute[stat];
+                // attribute.value = Math.round(attribute.value*(1+enermyAttribute.lv*0.15)*(1+Math.random()/10));
+                // attribute.value = Math.round(attribute.value*(1+enermyAttribute.lv*0.15));
+                attribute.value = Math.round(attribute.value*(enermyAttribute.lv));
                 attribute.showValue = attribute.value;
                 enermyAttribute.attribute[stat] = attribute;
             });
@@ -198,23 +207,23 @@ export default {
             switch(type) {
                 case 'gold':
                     let gold = Math.round((100+lv**2)*(2+2*Math.random()))
-                    this.$store.state.villageAttribute.gold += gold;
+                    this.$store.state.guildAttribute.gold += gold;
                     this.$store.commit("set_sys_info", {
                         type: 'reward',
                         msg: '获得'+gold+'金币'
                     });
                     break;
-                case 'wood':
-                    let wood = Math.round((10+lv**1.5)*(1+Math.random()))
-                    this.$store.state.villageAttribute.wood += wood;
-                    this.$store.commit("set_sys_info", {
-                        type: 'reward',
-                        msg: '获得'+wood+'木材'
-                    });
-                    break;
+                // case 'wood':
+                //     let wood = Math.round((10+lv**1.5)*(1+Math.random()))
+                //     this.$store.state.guildAttribute.wood += wood;
+                //     this.$store.commit("set_sys_info", {
+                //         type: 'reward',
+                //         msg: '获得'+wood+'木材'
+                //     });
+                //     break;
                 case 'crystal':
                     let crystal = Math.round((1+lv)*(1+Math.random()))
-                    this.$store.state.villageAttribute.crystal += crystal;
+                    this.$store.state.guildAttribute.crystal += crystal;
                     this.$store.commit("set_sys_info", {
                         type: 'reward',
                         msg: '获得'+crystal+'水晶'
@@ -230,7 +239,7 @@ export default {
                     equip = equipInfo.createEquip(-1, lv, 'random', bonus);  
                     break;
                 case 'trial':
-                    bonus = 2;
+                    bonus = 1;
                     equip = equipInfo.createEquip(-1, lv, 'random', bonus);  
                     break;
             }

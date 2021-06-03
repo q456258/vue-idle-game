@@ -21,8 +21,8 @@
         </div>
         <ul v-show="visible" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
             <li @click="equip()">装备</li>
-            <li @click="equipEnhance()">强化</li>
-            <li @click="equipForge()">重铸</li>
+            <li @click="equipEnhance()" v-if="guild.smith>0">强化</li>
+            <li @click="equipForge()" v-if="guild.smith>10">重铸</li>
             <li @click="lockEquipment(true)" v-if="!currentItem.locked">锁定</li>
             <li @click="lockEquipment(false)" v-if="currentItem.locked">解锁</li>
             <li @click="sellEquipment()" v-if="!currentItem.locked">出售</li>
@@ -36,7 +36,7 @@
 </template>
 <script>
 import { assist } from '../../assets/js/assist';
-import draggable from '../uiComponent/draggable'
+import draggable from '../uiComponent/draggable';
 export default {
     name: 'backpack',
     mixins: [assist],
@@ -64,6 +64,9 @@ export default {
     },
     created() {
         this.grid = new Array(54).fill({});
+    },
+    computed: {
+        guild() { return this.$store.state.guildAttribute; }
     },
     methods: {
         equip() {
@@ -120,7 +123,7 @@ export default {
             cost *= (1+equip.lv/10)*(1+equip.enhanceLv*equip.quality.qualityCoefficient+equip.quality.extraEntryNum*2);
             cost = Math.round(cost);
             this.grid[index] = {};
-            this.$store.state.villageAttribute.gold += cost;
+            this.$store.state.guildAttribute.gold += cost;
             this.$store.commit("set_sys_info", {
                 type: 'reward',
                 msg: '出售装备获得金币: '+cost
@@ -130,7 +133,7 @@ export default {
             var cost = 8+4*Math.random();
             cost *= (1+equip.lv/10)*(1+equip.enhanceLv*equip.quality.qualityCoefficient+equip.quality.extraEntryNum*2);
             cost = Math.round(cost);
-            this.$store.state.villageAttribute.gold += cost;
+            this.$store.state.guildAttribute.gold += cost;
             this.$store.commit("set_sys_info", {
                 type: 'reward',
                 msg: '出售装备获得金币: '+cost

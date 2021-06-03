@@ -4,9 +4,9 @@ export const dungeon = {
         generateDungeon(type, count) {
             var map = [];
             // gold, wood, chest, equip
-            var types = ['gold', 'wood', 'crystal','chest', 'equip']
-            var img = ['gold', 'wood', 'crystal', 'chest', 'equip']
-            var probability = [0.2, 0.4, 0.6, 0.8, 1];
+            var types = ['gold', 'crystal','chest', 'equip']
+            var img = ['gold', 'crystal', 'chest', 'equip']
+            var probability = [0.2, 0.4, 0.6, 1];
             for(var i=0; i<count; i++) {
                 let temp = []
                 for(var j=0; j<3; j++) {

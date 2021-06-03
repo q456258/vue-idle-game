@@ -6,7 +6,7 @@
     石材
     铁矿
 建筑：
-    村庄
+    公会
     练功房
     商店
     铁匠铺
@@ -19,128 +19,118 @@
     矿场
     招募所
 -->
-<div class="construct">
+<div class="guild">
     <div id="resource">
-        金币：{{village.gold}} <br>
-        木材：{{village.wood}} <br>
-        水晶：{{village.crystal}} <br>
+        金币：{{guild.gold}} <br>
+        水晶：{{guild.crystal}} <br>
     </div>
     <div id="building">     
         <cTooltip :placement="'bottom'">
             <template v-slot:content>
-                <button class="btn btn-outline-light btn-sm build" @click="levelUp('village')">村庄 {{village.village}}</button>
+                <button class="btn btn-outline-light btn-sm build" @click="levelUp('guild')">公会 {{guild.guild}}</button>
             </template>
             <template v-slot:tip>
                 <p class="info">* 提升其他建筑等级上限</p>
                 <p class="info">
                     ————消耗————
                     <br>
-                    <span :style="{color:village.gold<cost.village.cost.gold?'#f00':''}">金币:{{cost.village.cost.gold}}</span>
-                    <br>
-                    <span :style="{color:village.wood<cost.village.cost.wood?'#f00':''}">木材:{{cost.village.cost.wood}}</span>
+                    <span :style="{color:guild.gold<cost.guild.cost.gold?'#f00':''}">金币:{{cost.guild.cost.gold}}</span>
                 </p>
             </template>
         </cTooltip>   
-        <cTooltip :placement="'bottom'" v-if="village.village>0">
+        <cTooltip :placement="'bottom'" v-if="guild.guild>0">
             <template v-slot:content>
-                <button class="btn btn-outline-light btn-sm build" @click="levelUp('train')">练功房 {{village.train}}</button>
+                <button class="btn btn-outline-light btn-sm build" @click="levelUp('train')">练功房 {{guild.train}}</button>
             </template>
             <template v-slot:tip>
                 <p class="info">* 消耗水晶提升能力的场所</p>
                 <p class="info">
                     ————消耗————
                     <br>
-                    <span :style="{color:village.gold<cost.train.cost.gold?'#f00':''}">金币:{{cost.train.cost.gold}}</span>
+                    <span :style="{color:guild.gold<cost.train.cost.gold?'#f00':''}">金币:{{cost.train.cost.gold}}</span>
                     <br>
-                    <span :style="{color:village.wood<cost.train.cost.wood?'#f00':''}">木材:{{cost.train.cost.wood}}</span>
-                    <br>
-                    <span :style="{color:village.crystal<cost.train.cost.crystal?'#f00':''}">水晶:{{cost.train.cost.crystal}}</span>
+                    <span :style="{color:guild.crystal<cost.train.cost.crystal?'#f00':''}">水晶:{{cost.train.cost.crystal}}</span>
                 </p>
             </template>
         </cTooltip>
-        <cTooltip :placement="'bottom'" v-if="village.train>10">
+        <cTooltip :placement="'bottom'" v-if="guild.train>10">
             <template v-slot:content>
-                <button class="btn btn-outline-light btn-sm build" @click="levelUp('train2')">中级练功房 {{village.train2}}</button>
+                <button class="btn btn-outline-light btn-sm build" @click="levelUp('train2')">中级练功房 {{guild.train2}}</button>
             </template>
             <template v-slot:tip>
                 <p class="info">* 消耗水晶提升能力的场所</p>
                 <p class="info">
                     ————消耗————
                     <br>
-                    <span :style="{color:village.gold<cost.train2.cost.gold?'#f00':''}">金币:{{cost.train2.cost.gold}}</span>
+                    <span :style="{color:guild.gold<cost.train2.cost.gold?'#f00':''}">金币:{{cost.train2.cost.gold}}</span>
                     <br>
-                    <span :style="{color:village.wood<cost.train2.cost.wood?'#f00':''}">木材:{{cost.train2.cost.wood}}</span>
-                    <br>
-                    <span :style="{color:village.crystal<cost.train2.cost.crystal?'#f00':''}">水晶:{{cost.train2.cost.crystal}}</span>
+                    <span :style="{color:guild.crystal<cost.train2.cost.crystal?'#f00':''}">水晶:{{cost.train2.cost.crystal}}</span>
                 </p>
             </template>
         </cTooltip>
-        <cTooltip :placement="'bottom'" v-if="village.train2>10">
+        <cTooltip :placement="'bottom'" v-if="guild.train2>10">
             <template v-slot:content>
-                <button class="btn btn-outline-light btn-sm build" @click="levelUp('train3')">高级练功房 {{village.train3}}</button>
+                <button class="btn btn-outline-light btn-sm build" @click="levelUp('train3')">高级练功房 {{guild.train3}}</button>
             </template>
             <template v-slot:tip>
                 <p class="info">* 消耗水晶提升能力的场所</p>
                 <p class="info">
                     ————消耗————
                     <br>
-                    <span :style="{color:village.gold<cost.train3.cost.gold?'#f00':''}">金币:{{cost.train3.cost.gold}}</span>
+                    <span :style="{color:guild.gold<cost.train3.cost.gold?'#f00':''}">金币:{{cost.train3.cost.gold}}</span>
                     <br>
-                    <span :style="{color:village.wood<cost.train3.cost.wood?'#f00':''}">木材:{{cost.train3.cost.wood}}</span>
-                    <br>
-                    <span :style="{color:village.crystal<cost.train3.cost.crystal?'#f00':''}">水晶:{{cost.train3.cost.crystal}}</span>
+                    <span :style="{color:guild.crystal<cost.train3.cost.crystal?'#f00':''}">水晶:{{cost.train3.cost.crystal}}</span>
                 </p>
             </template>
         </cTooltip>
-        <cTooltip :placement="'bottom'" v-if="village.village>0">
+        <cTooltip :placement="'bottom'" v-if="guild.guild>0">
             <template v-slot:content>
-                <button class="btn btn-outline-light btn-sm build" @click="levelUp('shop')">商店 {{village.shop}}</button>
+                <button class="btn btn-outline-light btn-sm build" @click="levelUp('shop')">商店 {{guild.shop}}</button>
             </template>
             <template v-slot:tip>
                 <p class="info">* 出售日常用品</p>
                 <p class="info">
                     ————消耗————
                     <br>
-                    <span :style="{color:village.gold<cost.shop.cost.gold?'#f00':''}">金币:{{cost.shop.cost.gold}}</span>
-                    <br>
-                    <span :style="{color:village.wood<cost.shop.cost.wood?'#f00':''}">木材:{{cost.shop.cost.wood}}</span>
+                    <span :style="{color:guild.gold<cost.shop.cost.gold?'#f00':''}">金币:{{cost.shop.cost.gold}}</span>
                 </p>
             </template>
         </cTooltip>
-        <cTooltip :placement="'bottom'" v-if="village.village>0">
+        <cTooltip :placement="'bottom'" v-if="guild.guild>0">
             <template v-slot:content>
-                <button class="btn btn-outline-light btn-sm build" @click="levelUp('smith')">铁匠铺 {{village.smith}}</button>
+                <button class="btn btn-outline-light btn-sm build" @click="levelUp('smith')">铁匠铺 {{guild.smith}}</button>
             </template>
             <template v-slot:tip>
                 <p class="info">* 提供强化、锻造等服务</p>
                 <p class="info">
                     ————消耗————
                     <br>
-                    <span :style="{color:village.gold<cost.smith.cost.gold?'#f00':''}">金币:{{cost.smith.cost.gold}}</span>
-                    <br>
-                    <span :style="{color:village.wood<cost.smith.cost.wood?'#f00':''}">木材:{{cost.smith.cost.wood}}</span>
+                    <span :style="{color:guild.gold<cost.smith.cost.gold?'#f00':''}">金币:{{cost.smith.cost.gold}}</span>
                 </p>
             </template>
         </cTooltip>
     </div>
+    <trainStat></trainStat>
     <div class="training">
         <div class="trainingProgressbars">
-            <countdown :tier="0" :timer="$store.state.timer.trainTimer1" :level="village.train" v-if="village.train>0"></countdown>
-            <countdown :tier="1" :timer="$store.state.timer.trainTimer2" :level="village.train2" v-if="village.train2>0"></countdown>
-            <countdown :tier="2" :timer="$store.state.timer.trainTimer3" :level="village.train3" v-if="village.train3>0"></countdown>
+            <countdown :tier="0" :timer="$store.state.timer.trainTimer1" :level="guild.train" v-if="guild.train>0"></countdown>
+            <!-- <countdown :tier="0" :timer="$store.state.timer.trainTimer1" :level="guild.train"></countdown> -->
+            <countdown :tier="1" :timer="$store.state.timer.trainTimer2" :level="guild.train2" v-if="guild.train2>0"></countdown>
+            <countdown :tier="2" :timer="$store.state.timer.trainTimer3" :level="guild.train3" v-if="guild.train3>0"></countdown>
         </div>
     </div>
 </div>
     
 </template>
 <script>
-import {constructConfig} from '@/assets/config/constructConfig'
+import {guildConfig} from '@/assets/config/guildConfig'
 import cTooltip from '../uiComponent/tooltip';
 import countdown from '../uiComponent/countdown';
+import trainStat from '../component/trainStat';
 export default {
-    name: "construct",
-    mixins: [constructConfig],
-    components: {cTooltip, countdown},
+    name: "guild",
+    mixins: [guildConfig],
+    components: {cTooltip, countdown, trainStat},
     mounted() {
     },
     data() {
@@ -150,21 +140,21 @@ export default {
     props: {
     },
     computed: {
-        village() {return this.$store.state.villageAttribute;}
+        guild() {return this.$store.state.guildAttribute;}
     },
     methods: {      
         levelUp(type) {
             for(let cost in this.cost[type].cost) {
-                if(this.village[cost] < this.cost[type].cost[cost])
+                if(this.guild[cost] < this.cost[type].cost[cost])
                     return;
             }
-            if(type != 'village' && this.village['village'] <= this.village[type])
+            if(type != 'guild' && this.guild['guild'] <= this.guild[type])
                 return;
             for(let cost in this.cost[type].cost) {
-                this.village[cost] -= this.cost[type].cost[cost];
+                this.guild[cost] -= this.cost[type].cost[cost];
             }
-            this.village[type] += 1;
-            this.getCost(type, this.village[type]+1);
+            this.guild[type] += 1;
+            this.getCost(type, this.guild[type]+1);
 
         },
         getCost(type, level) {

@@ -4,7 +4,7 @@
     <ul id="nav">
         <li><a @click="scrollTo('battle')" class="js-anchor-link">战斗</a></li>
         <li><a @click="scrollTo('equip')" class="js-anchor-link">装备</a></li>
-        <li><a @click="scrollTo('construct')" class="js-anchor-link">建设</a></li>
+        <li><a @click="scrollTo('guild')" class="js-anchor-link">公会</a></li>
     </ul>
 
     <div ref="battle" class="tab-wrap">
@@ -25,7 +25,7 @@
                 <br>
                 ✵击败试炼怪物后等级提升
             </p>
-            <h3>试炼怪物等级的多少？</h3>
+            <h3>试炼怪物等级是多少？</h3>
             <p>✵人物等级+1</p>
       </div>
 
@@ -129,12 +129,6 @@
             <p>
                 ✵装备根据品质拥有1-3额外条潜在属性，分别在+15、+20、+25时激活
             </p> -->
-            <h3>为什么低品质装备属性比高品质装备更高？</h3>
-            <p>
-                ✵品质越低，基础属性越高，附加词条越少，强化等级上限越低
-                <br>
-                ✵低品质装备下限高，上限低，高品质装备下限低上限高
-            </p>
             <h3>为什么同品质装备属性不同？</h3>
             <p>
                 ✵品质只影响装备基础属性数值有影响
@@ -147,15 +141,21 @@
             <h3>怎么打开装备界面？</h3>
             <p>✵右键已装备的或者背包中的装备图标</p>
             <h3>强化是什么？</h3>
-            <p>✵提升装备的基础属性，根据装备品质可强化0-25次</p>
+            <p>✵提升装备的基础属性，根据装备品质可强化0-25次
+                <br>
+                ✵解锁条件：1级公会铁匠铺
+            </p>
             <h3>重铸是什么？</h3>
-            <p>✵重置装备的附加词条，可重置单条或者全部</p>
+            <p>✵重置装备的附加词条，可重置单条或者全部
+                <br>
+                ✵解锁条件：10级公会铁匠铺
+            </p>
         </div>
     </div>
 
-    <div ref="construct" class="tab-wrap">
-        <input type="radio" id="construct1" name="construct" class="tab" checked>
-        <label for="construct1">建筑</label>
+    <div ref="guild" class="tab-wrap">
+        <input type="radio" id="guild1" name="guild" class="tab" checked>
+        <label for="guild1">公会</label>
 
         <div class="tab__content">
             <h3></h3>
@@ -194,7 +194,7 @@ export default {
     }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 $max-tab-count: 5;
 $tab-wrap-border-radius: 6px;
 .tab-wrap {

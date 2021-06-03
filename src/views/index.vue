@@ -5,7 +5,7 @@
         <a class="nav-link active" id="charInfo" @click="switchTab('charInfo')">角色信息</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="construct" @click="switchTab('construct')">建设</a>
+        <a class="nav-link" id="guild" @click="switchTab('guild')" v-show="playerLv >= 10">公会</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" id="faq" @click="switchTab('faq')">FA♂Q</a>
@@ -15,7 +15,7 @@
       </li>
     </ul>
     <charInfo id="charInfo" v-show="displayPage=='charInfo'"></charInfo>
-    <construct id="construct" v-show="displayPage=='construct'"></construct>
+    <guild id="guild" v-show="displayPage=='guild'"></guild>
     <faq id="faq" v-show="displayPage=='faq'"></faq>
 
     <div class="sysInfo">
@@ -53,9 +53,9 @@
             自动战斗
           </button>        
           <br>
-          <button class="btn btn-outline-light btn-sm" id="stopBattle" @click="stopBattle()">
-            开始/暂停战斗
-          </button>        
+          <button class="btn btn-success btn-sm" id="stopBattle" @click="stopBattle()">
+            开始/继续战斗
+          </button>
           <button class="btn btn-outline-light btn-sm" id="resetMap" v-show="dungeonInfo.current=='advanture'" @click="resetMap()">
             重置地图
           </button>   
@@ -127,7 +127,7 @@ import equipForge from './component/equipForge'
 import mapEvent from './component/mapEvent'
 import backpack from './component/backpack'
 import charInfo from './component/charInfo'
-import construct from './component/construct'
+import guild from './component/guild'
 import faq from './component/faq'
 import enermyInfo from './component/enermyInfo'
 import { assist } from '../assets/js/assist'
@@ -154,7 +154,7 @@ export default {
       displayPage: 'charInfo'
     }
   },
-  components: {cTooltip, equipInfo, mapEvent, assist, backpack, equipEnhance, equipForge, charInfo, construct, faq, enermyInfo},
+  components: {cTooltip, equipInfo, mapEvent, assist, backpack, equipEnhance, equipForge, charInfo, guild, faq, enermyInfo},
   mounted() {    
     //初始系统、战斗信息
     this.sysInfo = this.$store.state.sysInfo;
@@ -176,27 +176,27 @@ export default {
     //初始生成地图
     this.createMaps();
     //测试·随机装备
-    let equipLv = 6;
-    let equipQuality = 3;
-    // var equipInfo = this.findComponentDownward(this, 'equipInfo');   
-    // // var newEquip = JSON.parse(equipInfo.createEquip(0,2,'helmet'));
-    // var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'helmet'));
-    // this.$store.commit('set_player_helmet', this.$deepCopy(newEquip));
-    // // var newEquip = JSON.parse(equipInfo.createEquip(1,2,'accessory'));
-    // var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'accessory'));
-    // this.$store.commit('set_player_accessory', this.$deepCopy(newEquip));
-    // // var newEquip = JSON.parse(equipInfo.createEquip(2,2,'weapon'));
-    // var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'weapon'));
-    // this.$store.commit('set_player_weapon', this.$deepCopy(newEquip));
-    // // var newEquip = JSON.parse(equipInfo.createEquip(3,2,'armor'));
-    // var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'armor'));
-    // this.$store.commit('set_player_armor', this.$deepCopy(newEquip));
-    // // var newEquip = JSON.parse(equipInfo.createEquip(4,10,'shoe'));
-    // var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'shoe'));
-    // this.$store.commit('set_player_shoe', this.$deepCopy(newEquip));
-    // // var newEquip = JSON.parse(equipInfo.createEquip(5,20,'leg'));
-    // var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'shoulder'));
-    // this.$store.commit('set_player_shoulder', this.$deepCopy(newEquip));
+    let equipLv = 30;
+    let equipQuality = 4;
+    var equipInfo = this.findComponentDownward(this, 'equipInfo');   
+    // var newEquip = JSON.parse(equipInfo.createEquip(0,2,'helmet'));
+    var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'helmet'));
+    this.$store.commit('set_player_helmet', this.$deepCopy(newEquip));
+    // var newEquip = JSON.parse(equipInfo.createEquip(1,2,'accessory'));
+    var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'accessory'));
+    this.$store.commit('set_player_accessory', this.$deepCopy(newEquip));
+    // var newEquip = JSON.parse(equipInfo.createEquip(2,2,'weapon'));
+    var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'weapon'));
+    this.$store.commit('set_player_weapon', this.$deepCopy(newEquip));
+    // var newEquip = JSON.parse(equipInfo.createEquip(3,2,'armor'));
+    var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'armor'));
+    this.$store.commit('set_player_armor', this.$deepCopy(newEquip));
+    // var newEquip = JSON.parse(equipInfo.createEquip(4,10,'shoe'));
+    var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'shoe'));
+    this.$store.commit('set_player_shoe', this.$deepCopy(newEquip));
+    // var newEquip = JSON.parse(equipInfo.createEquip(5,20,'leg'));
+    var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'shoulder'));
+    this.$store.commit('set_player_shoulder', this.$deepCopy(newEquip));
     this.$store.commit('set_player_attribute');
 
   },
@@ -204,7 +204,7 @@ export default {
     baseAttribute() { return this.$store.state.baseAttribute },
     trialAttribute() { return this.$store.state.trialAttribute.attribute },
     attribute() { return this.$store.state.playerAttribute.attribute },
-    userGold() { return this.$store.state.villageAttribute.gold },
+    userGold() { return this.$store.state.guildAttribute.gold },
     playerWeapon() { return this.$store.state.playerAttribute.weapon },
     playerArmor() { return this.$store.state.playerAttribute.armor },
     playerAccessory() { return this.$store.state.playerAttribute.accessory },
@@ -212,6 +212,7 @@ export default {
     playerShoe() { return this.$store.state.playerAttribute.shoe },
     playerShoulder() { return this.$store.state.playerAttribute.shoulder },
     playerLv() { return this.$store.state.playerAttribute.lv },
+    inBattle() { return this.$store.state.dungeonInfo.inBattle;}
     // operatorSchemaIsMobile() { return this.$store.state.operatorSchemaIsMobile }
     // healthRecoverySpeed() { return this.$store.state.playerAttribute.healthRecoverySpeed },
 
@@ -231,6 +232,18 @@ export default {
         element.scrollTop = element.scrollHeight + 20;
       })
     },
+    inBattle() {
+        var element = document.getElementById('stopBattle')
+      if(this.inBattle) {
+        element.innerHTML = '战斗中···（停止）';
+        element.classList.replace('btn-success', 'btn-danger');
+      }
+      else {
+        element.innerHTML = '开始/继续战斗';
+        element.classList.replace('btn-danger', 'btn-success');
+      }
+    }
+    
   },
   methods: {
     switchTab(type){
