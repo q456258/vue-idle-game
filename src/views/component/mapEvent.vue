@@ -95,18 +95,19 @@ export default {
         },
         generateEnermy(type, level) {
             var enermyAttribute = {};
-            enermyAttribute.attribute = this.$deepCopy(this.monster[this.name[level].template]);
+            var lv = level == 1 ? 0 : Math.ceil(level/5);
+            enermyAttribute.attribute = this.$deepCopy(this.monster[lv].template);
             var attribute = enermyAttribute.attribute,
             val = 0.0,
             flexStats = ['MAXHP', 'ATK'],
             fixStats = ['AP', 'DEF', 'MR'];
             enermyAttribute.lv = level;
-            enermyAttribute.name = this.name[level].name;
+            enermyAttribute.name = this.monster[lv].name;
             flexStats.forEach(stat => {
                 let attribute = enermyAttribute.attribute[stat];
                 // attribute.value = Math.round(attribute.value*(1+enermyAttribute.lv*0.15)*(1+Math.random()/10));
                 // attribute.value = Math.round(attribute.value*(1+enermyAttribute.lv*0.15));
-                attribute.value = Math.round(attribute.value*(2+enermyAttribute.lv*(enermyAttribute.lv-1)*(enermyAttribute.lv/40)));
+                attribute.value = Math.round(attribute.value*(1.5+enermyAttribute.lv*(enermyAttribute.lv-1)*(enermyAttribute.lv/50)));
                 attribute.showValue = attribute.value;
                 enermyAttribute.attribute[stat] = attribute;
             });

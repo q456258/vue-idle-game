@@ -22,7 +22,7 @@
         <ul v-show="visible" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
             <li @click="equip()">装备</li>
             <li @click="equipEnhance()" v-if="guild.smith>0">强化</li>
-            <li @click="equipForge()" v-if="guild.smith>10">重铸</li>
+            <li @click="equipForge()" v-if="guild.smith>=10">重铸</li>
             <li @click="lockEquipment(true)" v-if="!currentItem.locked">锁定</li>
             <li @click="lockEquipment(false)" v-if="currentItem.locked">解锁</li>
             <li @click="sellEquipment()" v-if="!currentItem.locked">出售</li>

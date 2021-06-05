@@ -211,7 +211,7 @@ export default new Vuex.Store({
     },
     guildAttribute: {
       gold: 0,
-      crystal: 1000,
+      crystal: 0,
       guild: 0,
       train: 0,
       train2: 0,
@@ -352,7 +352,7 @@ export default new Vuex.Store({
     trainProgress: {
       HP: {
         level: 0,
-        progress: 10
+        progress: 0
       },
       MP: {
         level: 0,

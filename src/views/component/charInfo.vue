@@ -370,7 +370,7 @@
         <ul v-show="visible" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
             <li @click="unEquip()">卸下</li>
             <li @click="equipEnhance()" v-if="guild.smith>0">强化</li>
-            <li @click="equipForge()" v-if="guild.smith>10">重铸</li>
+            <li @click="equipForge()" v-if="guild.smith>=10">重铸</li>
         </ul>
     </div>
 </template>

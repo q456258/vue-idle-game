@@ -5,7 +5,7 @@
         <a class="nav-link active" id="charInfo" @click="switchTab('charInfo')">角色信息</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="guild" @click="switchTab('guild')" v-show="playerLv >= 10">公会</a>
+        <a class="nav-link" :class="{glow: guild.guild==0, active: displayPage=='guild' }" id="guild" @click="switchTab('guild')" v-show="playerLv >= 10">公会</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" id="faq" @click="switchTab('faq')">FA♂Q</a>
@@ -98,7 +98,7 @@
       </cTooltip>      
       <cTooltip :placement="'top'">
         <template v-slot:content>
-          <div class="menu" @click="createMaps()">
+          <div class="menu" @click="createMaps(this.playerLv)">
             <img src="../assets/icons/menu/quest_icon_02.png" alt="">
           </div>
         </template>
@@ -174,29 +174,29 @@ export default {
       this.$store.commit('set_trial_hp', Math.ceil(this.trialAttribute.MAXHP.value*0.002));
     }, 100);
     //初始生成地图
-    this.createMaps();
+    this.createMaps(this.playerLv);
     //测试·随机装备
-    let equipLv = 30;
-    let equipQuality = 4;
-    var equipInfo = this.findComponentDownward(this, 'equipInfo');   
-    // var newEquip = JSON.parse(equipInfo.createEquip(0,2,'helmet'));
-    var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'helmet'));
-    this.$store.commit('set_player_helmet', this.$deepCopy(newEquip));
-    // var newEquip = JSON.parse(equipInfo.createEquip(1,2,'accessory'));
-    var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'accessory'));
-    this.$store.commit('set_player_accessory', this.$deepCopy(newEquip));
-    // var newEquip = JSON.parse(equipInfo.createEquip(2,2,'weapon'));
-    var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'weapon'));
-    this.$store.commit('set_player_weapon', this.$deepCopy(newEquip));
-    // var newEquip = JSON.parse(equipInfo.createEquip(3,2,'armor'));
-    var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'armor'));
-    this.$store.commit('set_player_armor', this.$deepCopy(newEquip));
-    // var newEquip = JSON.parse(equipInfo.createEquip(4,10,'shoe'));
-    var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'shoe'));
-    this.$store.commit('set_player_shoe', this.$deepCopy(newEquip));
-    // var newEquip = JSON.parse(equipInfo.createEquip(5,20,'leg'));
-    var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'shoulder'));
-    this.$store.commit('set_player_shoulder', this.$deepCopy(newEquip));
+    let equipLv = 40;
+    let equipQuality = 3;
+    // var equipInfo = this.findComponentDownward(this, 'equipInfo');   
+    // // var newEquip = JSON.parse(equipInfo.createEquip(0,2,'helmet'));
+    // var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'helmet'));
+    // this.$store.commit('set_player_helmet', this.$deepCopy(newEquip));
+    // // var newEquip = JSON.parse(equipInfo.createEquip(1,2,'accessory'));
+    // var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'accessory'));
+    // this.$store.commit('set_player_accessory', this.$deepCopy(newEquip));
+    // // var newEquip = JSON.parse(equipInfo.createEquip(2,2,'weapon'));
+    // var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'weapon'));
+    // this.$store.commit('set_player_weapon', this.$deepCopy(newEquip));
+    // // var newEquip = JSON.parse(equipInfo.createEquip(3,2,'armor'));
+    // var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'armor'));
+    // this.$store.commit('set_player_armor', this.$deepCopy(newEquip));
+    // // var newEquip = JSON.parse(equipInfo.createEquip(4,10,'shoe'));
+    // var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'shoe'));
+    // this.$store.commit('set_player_shoe', this.$deepCopy(newEquip));
+    // // var newEquip = JSON.parse(equipInfo.createEquip(5,20,'leg'));
+    // var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'shoulder'));
+    // this.$store.commit('set_player_shoulder', this.$deepCopy(newEquip));
     this.$store.commit('set_player_attribute');
 
   },
@@ -212,7 +212,8 @@ export default {
     playerShoe() { return this.$store.state.playerAttribute.shoe },
     playerShoulder() { return this.$store.state.playerAttribute.shoulder },
     playerLv() { return this.$store.state.playerAttribute.lv },
-    inBattle() { return this.$store.state.dungeonInfo.inBattle;}
+    inBattle() { return this.$store.state.dungeonInfo.inBattle;},
+    guild() { return this.$store.state.guildAttribute;}
     // operatorSchemaIsMobile() { return this.$store.state.operatorSchemaIsMobile }
     // healthRecoverySpeed() { return this.$store.state.playerAttribute.healthRecoverySpeed },
 
@@ -279,7 +280,7 @@ export default {
     createMaps(level) {    
       var count = 5;  
       var type = 'advanture';
-      this.mapArr = this.generateDungeon(type, count);
+      this.mapArr = this.generateDungeon(type, count, level);
       this.mapArr[0].forEach(e => {
           e.status = 'option';
       });
@@ -382,7 +383,7 @@ export default {
         confirmBtnText: '重置',
         onClose: () => {
           this.$store.commit('set_enermy_hp', 'dead');
-          this.createMaps();
+          this.createMaps(this.playerLv);
         }
       })
     },
@@ -404,7 +405,7 @@ export default {
     startBattle(key) {
       var dungeon = this.dungeonInfo[this.dungeonInfo.current];
       if(dungeon.current >= dungeon.max) {
-        this.createMaps();
+        this.createMaps(this.playerLv);
         dungeon.current = 0;
         this.startBattle();
         return;
@@ -439,7 +440,7 @@ export default {
         if(this.dungeonInfo.current == 'trial') {
           this.$store.state.playerAttribute.lv += 1;
         }
-        this.createMaps();
+        this.createMaps(this.playerLv);
         dungeon.current = 0;
       }
     },
@@ -458,7 +459,7 @@ export default {
         });
       }
       else
-        this.createMaps();
+        this.createMaps(this.playerLv);
     },
     openMenuPanel(type) {
       switch(type) {

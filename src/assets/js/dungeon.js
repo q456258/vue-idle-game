@@ -1,20 +1,32 @@
 
 export const dungeon = {
     methods: {
-        generateDungeon(type, count) {
+        generateDungeon(type, count, level) {
             var map = [];
             // gold, wood, chest, equip
-            var types = ['gold', 'crystal','chest', 'equip']
-            var img = ['gold', 'crystal', 'chest', 'equip']
-            var probability = [0.2, 0.4, 0.6, 1];
+            var types = {
+                gold : 50, 
+                equip : 50, 
+                crystal : 10, 
+                chest : 1, 
+            }
+            var option = ['gold', 'equip'];
+            var probability = [];
+            if(level > 10) 
+                option.push('crystal');
+            var total = 0;
+            for(var type in option) {
+                total += types[option[type]];
+                probability.push(total);
+            }
             for(var i=0; i<count; i++) {
                 let temp = []
                 for(var j=0; j<3; j++) {
                     let choice = {};
-                    let random = Math.random();
+                    let random = Math.random()*total;
                     for(var k=0; k<probability.length; k++) {
                         if(random <= probability[k]) {
-                            choice = {type: types[k], img: './icons/'+img[k]+'.png'};
+                            choice = {type: option[k], img: './icons/'+option[k]+'.png'};
                             break;
                         }
                     }

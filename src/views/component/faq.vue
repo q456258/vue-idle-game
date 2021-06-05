@@ -46,19 +46,19 @@
                   <span class="centerImg">
                       <img src="../../../public/icons/wood.png">
                   </span>
-                  <span class="description">木材</span>
+                  <span class="centerImg">
+                      <img src="../../../public/icons/equip.png">
+                  </span>
+                  <span class="description">装备</span>
+                  <!-- <span class="description">木材</span>
                   <span class="centerImg">
                       <img src="../../../public/icons/crystal.png">
-                  </span>
+                  </span> -->
                   <span class="description">水晶</span>
                   <span class="centerImg">
                       <img src="../../../public/icons/chest.png">
                   </span>
                   <span class="description">宝箱</span>
-                  <span class="centerImg">
-                      <img src="../../../public/icons/equip.png">
-                  </span>
-                  <span class="description">装备</span>
               </span>
             </p>
             <p>

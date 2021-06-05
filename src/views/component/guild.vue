@@ -53,7 +53,7 @@
                 </p>
             </template>
         </cTooltip>
-        <cTooltip :placement="'bottom'" v-if="guild.train>10">
+        <cTooltip :placement="'bottom'" v-if="guild.train>15">
             <template v-slot:content>
                 <button class="btn btn-outline-light btn-sm build" @click="levelUp('train2')">中级练功房 {{guild.train2}}</button>
             </template>
@@ -68,7 +68,7 @@
                 </p>
             </template>
         </cTooltip>
-        <cTooltip :placement="'bottom'" v-if="guild.train2>10">
+        <cTooltip :placement="'bottom'" v-if="guild.train2>15">
             <template v-slot:content>
                 <button class="btn btn-outline-light btn-sm build" @click="levelUp('train3')">高级练功房 {{guild.train3}}</button>
             </template>

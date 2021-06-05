@@ -189,7 +189,7 @@ export default {
             // this.trainTime = Math.round(value*time/this.entryInfo[this.type].base);
             this.trainTime = Math.round(value*time);
             this.gain = value;
-            this.cost = Math.ceil(this.trainTime/60);
+            this.cost = Math.ceil(this.trainTime/10);
             // this.trainTime = Math.round(2);
         },
         increaseProgress(type, value) {
@@ -198,7 +198,7 @@ export default {
                 let lv = Math.floor(this.$store.state.trainProgress[type].progress/100);
                 this.$store.state.trainProgress[type].level += lv;
                 this.$store.state.trainAttribute[type] += lv*this.entryInfo[type].base;
-                this.$store.state.trainProgress[type].progress -= lv*this.entryInfo[type].base;
+                this.$store.state.trainProgress[type].progress -= lv*100;
                 this.$store.commit('set_player_attribute');
             }
         },

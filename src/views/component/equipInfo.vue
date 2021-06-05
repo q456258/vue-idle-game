@@ -90,8 +90,7 @@ export default {
             newEquip.enhanceLv = Math.min(0, newEquip.maxEnhanceLv);
             newEquip.baseEntry = this.createBaseEntry(newEquip);
             newEquip.extraEntry = this.createExtraEntry(newEquip);
-            if(newEquip.lv >= 30)
-                newEquip.potential = this.createPotential(newEquip);
+            newEquip.potential = newEquip.lv >= 30 ? this.createPotential(newEquip) : [];
             return JSON.stringify(newEquip);
         },
         // createLv(Max) {
