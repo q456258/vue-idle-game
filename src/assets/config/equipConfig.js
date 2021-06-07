@@ -44,11 +44,11 @@ export const equipConfig = {
       }],
       type: {
         helmet: '头盔',
+        shoulder: '肩膀',
         weapon: '武器',
         armor: '盔甲',
         shoe: '鞋子',
-        shoulder: '肩膀',
-        belt: '腰带',
+        accessory: '饰品',
       },
       entryInfo: {
         STR: { base: 2.5, name: '力量' }, 
@@ -86,39 +86,111 @@ export const equipConfig = {
         ],
         type: [{
             description: {
-              name: '泰坦铸造拯救兜帽',
-              desc: '泰坦铸造拯救兜帽',
-              iconSrc: "./icons/helmet/INV_Helmet_136.png",
+              name: '碎魂者兜帽',
+              desc: '',
+              iconSrc: "./icons/helmet/inv_helm_cloth_revendreth_d_01.png",
             },
             entry: [
               'STR'
             ],
           },{
             description: {
-              name: '刺绣训鹰兜帽',
-              desc: '这兜帽是用来让鸟儿在训练时保持镇静的，上面有美丽的刺绣',
-              iconSrc: "./icons/helmet/INV_Helmet_137.png",
-            },
-            entry: [
-              'STR'
-            ],
-          },{
-            description: {
-              name: '泰坦铸造锁甲统御头盔',
-              desc: '泰坦铸造锁甲统御头盔',
+              name: '无面者头盔',
+              desc: '',
               iconSrc: "./icons/helmet/INV_Helmet_138.png",
             },
             entry: [
-              'STR'
+              'AGI'
             ],
           },{
             description: {
-              name: '暮光之锤兜帽',
-              desc: '暮光之锤兜帽',
-              iconSrc: "./icons/helmet/INV_Helmet_139.png",
+              name: '灵风头冠',
+              desc: '',
+              iconSrc: "./icons/helmet/inv_helmet_70.png",
             },
             entry: [
-              'STR'
+              'INT'
+            ],
+          },{
+            description: {
+              name: '闪电皇冠',
+              desc: '',
+              iconSrc: "./icons/helmet/inv_helmet_06.png",
+            },
+            entry: [
+              'ALL'
+            ],
+          },{
+            description: {
+              name: '欺诈者面具',
+              desc: '',
+              iconSrc: "./icons/helmet/inv_helmet_73.png",
+            },
+            entry: [
+              'CRIT'
+            ],
+          },{
+            description: {
+              name: '凶星头巾',
+              desc: '',
+              iconSrc: "./icons/helmet/inv_helmet_103.png",
+            },
+            entry: [
+              'CRITDMG'
+            ],
+          },{
+            description: {
+              name: '烈焰王冠',
+              desc: '',
+              iconSrc: "./icons/helmet/inv_helm_circlet_firelands_d_01.png",
+            },
+            entry: [
+              'ATK'
+            ],
+          },{
+            description: {
+              name: '希望炽翼',
+              desc: '',
+              iconSrc: "./icons/helmet/inv_helm_plate_raidpaladin_k_01.png",
+            },
+            entry: [
+              'DEF'
+            ],
+          },{
+            description: {
+              name: '虚空之心头冠',
+              desc: '',
+              iconSrc: "./icons/helmet/inv_helmet_89.png",
+            },
+            entry: [
+              'AP'
+            ],
+          },{
+            description: {
+              name: '星界守护者',
+              desc: '',
+              iconSrc: "./icons/helmet/inv_helmet_leather_raiddruid_q_01.png",
+            },
+            entry: [
+              'MR'
+            ],
+          },{
+            description: {
+              name: '熔铸头盔',
+              desc: '',
+              iconSrc: "./icons/helmet/inv_helmet_08.png",
+            },
+            entry: [
+              'HP'
+            ],
+          },{
+            description: {
+              name: '永冬之冠',
+              desc: '',
+              iconSrc: "./icons/helmet/inv_helm_eternalwinter_d_01.png",
+            },
+            entry: [
+              'MP'
             ],
           }
         ],
@@ -143,6 +215,69 @@ export const equipConfig = {
         ],
         type: [{
             description: {
+              name: '地狱火坠饰',
+              desc: '',
+              iconSrc: "./icons/accessory/Inv_jewelry_necklace_17.png",
+            },
+            entry: [
+              'STR'
+            ],
+          },{
+            description: {
+              name: '叶须指环',
+              desc: '',
+              iconSrc: "./icons/accessory/Inv_jewelry_ring_37.png",
+            },
+            entry: [
+              'AGI'
+            ],
+          },{
+            description: {
+              name: '弧光护符',
+              desc: '',
+              iconSrc: "./icons/accessory/Inv_jewelry_necklace_11.png",
+            },
+            entry: [
+              'INT'
+            ],
+          },{
+            description: {
+              name: '全能戒指',
+              desc: '虽然图标特效不多，但是它厉害啊',
+              iconSrc: "./icons/accessory/Inv_jewelry_ring_03.png",
+            },
+            entry: [
+              'ALL'
+            ],
+          },{
+            description: {
+              name: '豹爪护符',
+              desc: '极为锋利的豹爪制作的护符，经常刮伤携带者',
+              iconSrc: "./icons/accessory/inv_jewelry_necklace_34.png",
+            },
+            entry: [
+              'CRIT'
+            ],
+          },{
+            description: {
+              name: '统御坠饰',
+              desc: '',
+              iconSrc: "./icons/accessory/inv_jewelry_necklace_36.png",
+            },
+            entry: [
+              'CRITDMG'
+            ],
+          },{
+            description: {
+              name: '赤红怒火指环',
+              desc: '',
+              iconSrc: "./icons/accessory/inv_jewelry_ring_65.png",
+            },
+            entry: [
+              'ATK'
+            ],
+          },{
+            description: {
               name: '守护指环',
               desc: '守护指环',
               iconSrc: "./icons/accessory/Inv_jewelry_ring_02.png",
@@ -152,12 +287,39 @@ export const equipConfig = {
             ],
           },{
             description: {
-              name: '全能戒指',
-              desc: '全能戒指',
-              iconSrc: "./icons/accessory/Inv_jewelry_ring_03.png",
+              name: '循环之戒',
+              desc: '',
+              iconSrc: "./icons/accessory/inv_jewelry_ring_15.png",
             },
             entry: [
-              'ALL'
+              'AP'
+            ],
+          },{
+            description: {
+              name: '统御之戒',
+              desc: '',
+              iconSrc: "./icons/accessory/inv_jewelry_ring_60.png",
+            },
+            entry: [
+              'MR'
+            ],
+          },{
+            description: {
+              name: '魔铁血戒',
+              desc: '',
+              iconSrc: "./icons/accessory/Inv_jewelry_ring_39.png",
+            },
+            entry: [
+              'HP'
+            ],
+          },{
+            description: {
+              name: '黎明勋章',
+              desc: '',
+              iconSrc: "./icons/accessory/inv_jewelry_amulet_04.png",
+            },
+            entry: [
+              'MP'
             ],
           }
         ],
@@ -182,28 +344,118 @@ export const equipConfig = {
         ],
         type: [{
             description: {
-              name: '染血刀刃',
-              desc: '这把武器的锋刃上还残留着之前激战时留下的血迹',
-              iconSrc: "./icons/weapon/INV_Axe_75.png",
+              name: '燃烧战斧',
+              desc: '燃烧战斧',
+              iconSrc: "./icons/weapon/Inv_axe_02.png",
+            },
+            entry: [
+              'STR'
+            ],
+          },{
+            description: {
+              name: '铭银灭愿者短刀',
+              desc: '',
+              iconSrc: "./icons/weapon/inv_knife_1h_revendrethquest_b_03.png",
+            },
+            entry: [
+              'AGI'
+            ],
+          },{
+            description: {
+              name: '奥金尼法杖',
+              desc: '',
+              iconSrc: "./icons/weapon/inv_staff_14.png",
+            },
+            entry: [
+              'INT'
+            ],
+          },{
+            description: {
+              name: '荣耀的召唤',
+              desc: '',
+              iconSrc: "./icons/weapon/inv_sword_11.png",
+            },
+            entry: [
+              'ALL'
+            ],
+          },{
+            description: {
+              name: '玛格汉愤怒指虎',
+              desc: '',
+              iconSrc: "./icons/weapon/inv_gauntlets_04.png",
+            },
+            entry: [
+              'CRIT'
+            ],
+          },{
+            description: {
+              name: '锋利手镰',
+              desc: '',
+              iconSrc: "./icons/weapon/inv_gauntlets_02.png",
+            },
+            entry: [
+              'CRITDMG'
+            ],
+          },{
+            description: {
+              name: '毁灭之刃',
+              desc: '',
+              iconSrc: "./icons/weapon/Inv_sword_48.png",
+            },
+            entry: [
+              'ATK'
+            ],
+          },{
+            description: {
+              name: '日怒长弓',
+              desc: '',
+              iconSrc: "./icons/weapon/inv_weapon_bow_18.png",
             },
             entry: [
               'DEF'
             ],
           },{
             description: {
-              name: '狼獾人手斧',
-              desc: '狼獾人常用的武器',
-              iconSrc: "./icons/weapon/INV_Axe_77.png",
+              name: '奥尔多灵魂魔杖',
+              desc: '',
+              iconSrc: "./icons/weapon/inv_wand_05.png",
             },
             entry: [
-              'DEF'
+              'AP'
+            ],
+          },{
+            description: {
+              name: '大地守卫者',
+              desc: '',
+              iconSrc: "./icons/weapon/inv_hammer_10.png",
+            },
+            entry: [
+              'MR'
+            ],
+          },{
+            description: {
+              name: '染血刀刃',
+              desc: '这把武器的锋刃上还残留着之前激战时留下的血迹',
+              iconSrc: "./icons/weapon/INV_Axe_75.png",
+            },
+            entry: [
+              'HP'
+            ],
+          },{
+            description: {
+              name: '战斗法师的权杖',
+              desc: '',
+              iconSrc: "./icons/weapon/inv_staff_07.png",
+            },
+            entry: [
+              'MP'
             ],
           }
         ],
         unique: [{
             description: {
               name: '先代狂龙战士盔甲',
-              desc: '先代狂龙战士盔甲',
+              desc: '',
               type: "鞋子",
               iconSrc: "./icons/A_A1.png",
             },
@@ -221,9 +473,27 @@ export const equipConfig = {
           'STR','AGI','INT','ALL','CRIT','CRITDMG','ATK','DEF','AP','MR','HP','MP',
         ],
         type: [{
+          description: {
+            name: '裂心胸铠',
+            desc: '',
+            iconSrc: "./icons/armor/inv_chest_plate08.png",
+          },
+          entry: [
+            'STR'
+          ],
+          },{
+            description: {
+              name: '翡翠胸甲',
+              desc: '',
+              iconSrc: "./icons/armor/Inv_chest_plate07.png",
+            },
+            entry: [
+              'AGI'
+            ],
+          },{
             description: {
               name: '奥术烈焰法衣',
-              desc: '奥术烈焰法衣',
+              desc: '',
               iconSrc: "./icons/armor/INV_Chest_Cloth_71.png",
             },
             entry: [
@@ -231,12 +501,84 @@ export const equipConfig = {
             ],
           },{
             description: {
-              name: '萨布拉的征服法衣',
-              desc: '萨布拉的征服法衣',
-              iconSrc: "./icons/armor/INV_Chest_Cloth_73.png",
+              name: '圣日胸甲',
+              desc: '',
+              iconSrc: "./icons/armor/inv_chest_plate02.png",
+            },
+            entry: [
+              'ALL'
+            ],
+          },{
+            description: {
+              name: '猩红胸甲',
+              desc: '',
+              iconSrc: "./icons/armor/inv_chest_plate_revendreth_d_01.png",
+            },
+            entry: [
+              'CRIT'
+            ],
+          },{
+            description: {
+              name: '凶星长袍',
+              desc: '',
+              iconSrc: "./icons/armor/inv_chest_cloth_68.png",
+            },
+            entry: [
+              'CRITDMG'
+            ],
+          },{
+            description: {
+              name: '熔火巨人',
+              desc: '',
+              iconSrc: "./icons/armor/inv_chest_plate_raidwarrior_j_01.png",
+            },
+            entry: [
+              'ATK'
+            ],
+          },{
+            description: {
+              name: '自律守护者',
+              desc: '',
+              iconSrc: "./icons/armor/inv_chest_plate_24.png",
             },
             entry: [
               'DEF'
+            ],
+          },{
+            description: {
+              name: '虚空之心长袍',
+              desc: '',
+              iconSrc: "./icons/armor/inv_chest_cloth_62.png",
+            },
+            entry: [
+              'AP'
+            ],
+          },{
+            description: {
+              name: '巨兽胸铠',
+              desc: '',
+              iconSrc: "./icons/armor/inv_chest_plate_23.png",
+            },
+            entry: [
+              'MR'
+            ],
+          },{
+            description: {
+              name: '血伤胸铠',
+              desc: '',
+              iconSrc: "./icons/armor/inv_chest_plate20.png",
+            },
+            entry: [
+              'HP'
+            ],
+          },{
+            description: {
+              name: '梅林法袍',
+              desc: '',
+              iconSrc: "./icons/armor/inv_chest_cloth_75.png",
+            },
+            entry: [
+              'MP'
             ],
           }
         ],
@@ -261,23 +603,113 @@ export const equipConfig = {
         ],
         type: [{
             description: {
-              name: '沉寂足垫',
-              desc: '沉寂足垫',
-              iconSrc: "./icons/shoe/INV_Boots_Leather_01.png",
-            },
-            entry: [
-              'DEF'
-            ],
-          },{
-            description: {
               name: '踏火之靴',
-              desc: '踏火之靴',
+              desc: '',
               iconSrc: "./icons/shoe/INV_Boots_Leather_02.png",
             },
             entry: [
-              'DEF'
+              'STR'
             ],
-          }
+            },{
+              description: {
+                name: '永恒混沌软鞋',
+                desc: '',
+                iconSrc: "./icons/shoe/inv_boot_cloth_raidwarlock_q_01.png",
+              },
+              entry: [
+                'AGI'
+              ],
+            },{
+              description: {
+                name: '魔古重靴',
+                desc: '',
+                iconSrc: "./icons/shoe/inv_boots_plate_raidwarrior_n_01.png",
+              },
+              entry: [
+                'INT'
+              ],
+            },{
+              description: {
+                name: '黑曜石战靴',
+                desc: '',
+                iconSrc: "./icons/shoe/inv_boots_plate_raidwarrior_j_01.png",
+              },
+              entry: [
+                'ALL'
+              ],
+            },{
+              description: {
+                name: '坚定净化者战靴',
+                desc: '',
+                iconSrc: "./icons/shoe/inv_boot_plate_raidpaladin_r_01.png",
+              },
+              entry: [
+                'CRIT'
+              ],
+            },{
+              description: {
+                name: '践踏战靴',
+                desc: '',
+                iconSrc: "./icons/shoe/inv_plate_raidwarriormythic_q_01.png",
+              },
+              entry: [
+                'CRITDMG'
+              ],
+            },{
+              description: {
+                name: '天定亡者护胫',
+                desc: '',
+                iconSrc: "./icons/shoe/Inv_plate_legionraid_d_01boots.png",
+              },
+              entry: [
+                'ATK'
+              ],
+            },{
+              description: {
+                name: '皇裔护靴',
+                desc: '',
+                iconSrc: "./icons/shoe/inv_boots_plate_12.png",
+              },
+              entry: [
+                'DEF'
+              ],
+            },{
+              description: {
+                name: '既定命运战靴',
+                desc: '',
+                iconSrc: "./icons/shoe/inv_boot_plate_raiddeathknight_q_01.png",
+              },
+              entry: [
+                'AP'
+              ],
+            },{
+              description: {
+                name: '磐石长靴',
+                desc: '',
+                iconSrc: "./icons/shoe/inv_boots_mail_06.png",
+              },
+              entry: [
+                'MR'
+              ],
+            },{
+              description: {
+                name: '生命使者',
+                desc: '',
+                iconSrc: "./icons/shoe/inv_boot_inv_leather_raidmonk_s_01.png",
+              },
+              entry: [
+                'HP'
+              ],
+            },{
+              description: {
+                name: '基柱之靴',
+                desc: '',
+                iconSrc: "./icons/shoe/inv_boots_plate_raidpaladin_k_01.png",
+              },
+              entry: [
+                'MP'
+              ],
+            }
         ],
         unique: [{
             description: {
@@ -299,24 +731,114 @@ export const equipConfig = {
           'STR','AGI','INT','ALL','CRIT','CRITDMG','ATK','DEF','AP','MR','HP','MP',
         ],
         type: [{
-            description: {
-              name: '仿制的少校鬼纹衬肩',
-              desc: '仿制的少校鬼纹衬肩',
-              iconSrc: "./icons/shoulder/inv_shoulder_23.png",
-            },
-            entry: [
-              'DEF'
-            ],
-          },{
-            description: {
-              name: '帆布护肩',
-              desc: '帆布护肩',
-              iconSrc: "./icons/shoulder/inv_shoulder_09.png",
-            },
-            entry: [
-              'ALL'
-            ],
-          }
+              description: {
+                name: '獠牙肩甲',
+                desc: '',
+                iconSrc: "./icons/shoulder/inv_shoulder_plate_garrosh_d_01.png",
+              },
+              entry: [
+                'STR'
+              ],
+            },{
+              description: {
+                name: '玛洛恩护肩',
+                desc: '',
+                iconSrc: "./icons/shoulder/Inv_shoulder_44.png",
+              },
+              entry: [
+                'AGI'
+              ],
+            },{
+              description: {
+                name: '灵风衬肩',
+                desc: '',
+                iconSrc: "./icons/shoulder/inv_shoulder_32.png",
+              },
+              entry: [
+                'INT'
+              ],
+            },{
+              description: {
+                name: '月光护肩',
+                desc: '',
+                iconSrc: "./icons/shoulder/inv_shoulder_02.png",
+              },
+              entry: [
+                'ALL'
+              ],
+            },{
+              description: {
+                name: '恐惧之龙肩甲',
+                desc: '',
+                iconSrc: "./icons/shoulder/inv_shoulder_plate_raiddeathknight_q_01.png",
+              },
+              entry: [
+                'CRIT'
+              ],
+            },{
+              description: {
+                name: '凶星衬肩',
+                desc: '',
+                iconSrc: "./icons/shoulder/inv_shoulder_68.png",
+              },
+              entry: [
+                'CRITDMG'
+              ],
+            },{
+              description: {
+                name: '战神肩铠',
+                desc: '',
+                iconSrc: "./icons/shoulder/Inv_shoulder_54.png",
+              },
+              entry: [
+                'ATK'
+              ],
+            },{
+              description: {
+                name: '巨石肩垫',
+                desc: '',
+                iconSrc: "./icons/shoulder/inv_shoulder_51.png",
+              },
+              entry: [
+                'DEF'
+              ],
+            },{
+              description: {
+                name: '虚空之心衬肩',
+                desc: '',
+                iconSrc: "./icons/shoulder/inv_shoulder_52.png",
+              },
+              entry: [
+                'AP'
+              ],
+            },{
+              description: {
+                name: '冥界衬肩',
+                desc: '',
+                iconSrc: "./icons/shoulder/inv_shoulder_97.png",
+              },
+              entry: [
+                'MR'
+              ],
+            },{
+              description: {
+                name: '生命之地护肩',
+                desc: '',
+                iconSrc: "./icons/shoulder/inv_shoulder_66.png",
+              },
+              entry: [
+                'HP'
+              ],
+            },{
+              description: {
+                name: '野性魔法肩甲',
+                desc: '',
+                iconSrc: "./icons/shoulder/inv_shoulder_33.png",
+              },
+              entry: [
+                'MP'
+              ],
+            }
         ],
         unique: [{
             description: {

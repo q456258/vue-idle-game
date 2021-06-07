@@ -85,6 +85,9 @@
         <input type="radio" id="equip3" name="equip" class="tab">
         <label for="equip3">打造</label>
 
+        <input type="radio" id="equip4" name="equip" class="tab">
+        <label for="equip4">图鉴</label>
+
         <div class="tab__content">
             <h3>装备品质哪个最好？</h3>
             <p style="background-color: #000;">            
@@ -114,6 +117,8 @@
             <h3>基础属性是什么？</h3>
             <p>
                 ✵装备必带的三条属性（初始装备除外），初始显示为白色文字，可以通过强化提升
+                <br>
+                ✵第一条属性受装备类型影响，第二条属性受属性类型影响（请查看装备图鉴），第三条属性随机生成
             </p>
             <h3>附加属性是什么？</h3>
             <p>
@@ -151,6 +156,42 @@
                 ✵解锁条件：10级公会铁匠铺
             </p>
         </div>
+
+        <div class="tab__content">
+            <table class="table">
+                <thead>
+                    <tr>
+                    <th scope="col">属性类型</th>
+                    <th v-for="(v, k) in type" :key="k">
+                        {{v}}
+                    </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="index in 12" :key="index">
+                        <th>{{entryInfo[weapon.type[index-1].entry].name}}</th>
+                        <td>
+                            <span><img :src="helmet.type[index-1].description.iconSrc" alt="helmet" /><br>{{helmet.type[index-1].description.name}}</span>
+                        </td>
+                        <td>
+                            <span><img :src="shoulder.type[index-1].description.iconSrc" alt="shoulder" /><br>{{shoulder.type[index-1].description.name}}</span>
+                        </td>
+                        <td>
+                            <span><img :src="weapon.type[index-1].description.iconSrc" alt="weapon" /><br>{{weapon.type[index-1].description.name}}</span>
+                        </td>
+                        <td>
+                            <span><img :src="armor.type[index-1].description.iconSrc" alt="armor" /><br>{{armor.type[index-1].description.name}}</span>
+                        </td>
+                        <td>
+                            <span><img :src="shoe.type[index-1].description.iconSrc" alt="shoe" /><br>{{shoe.type[index-1].description.name}}</span>
+                        </td>
+                        <td>
+                            <span><img :src="accessory.type[index-1].description.iconSrc" alt="accessory" /><br>{{accessory.type[index-1].description.name}}</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div ref="guild" class="tab-wrap">
@@ -167,6 +208,7 @@
     
 </template>
 <script>
+
 import {equipConfig} from '@/assets/config/equipConfig'
 export default {
     name: "faq",
@@ -195,6 +237,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+
 $max-tab-count: 5;
 $tab-wrap-border-radius: 6px;
 .tab-wrap {
@@ -358,5 +401,9 @@ h3 {
     .description {
         width: 5rem;
     }
+}
+img {
+    width: 50px;
+    height: 50px;
 }
 </style>
