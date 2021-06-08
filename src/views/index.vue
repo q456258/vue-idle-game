@@ -78,7 +78,7 @@
       <cTooltip :placement="'top'">
         <template v-slot:content>
           <div class="menu" @click="openMenuPanel('backpack')">
-            <img src="../assets/icons/menu/quest_icon_02.png" alt="">
+            <img src="../assets/icons/menu/backpack1.png" alt="">
           </div>
         </template>
         <template v-slot:tip>
@@ -86,27 +86,24 @@
         </template>
       </cTooltip>
 
-      <cTooltip :placement="'top'">
+      <!-- <cTooltip :placement="'top'">
         <template v-slot:content>
           <div class="menu" @click="openMenuPanel('shop')">
-            <img src="../assets/icons/menu/quest_icon_02.png" alt="">
+            <img src="../assets/icons/menu/shop.png" alt="">
           </div>
         </template>
         <template v-slot:tip>
           <p class="info">* 商 店</p>
         </template>
-      </cTooltip>      
+      </cTooltip>       -->
       <cTooltip :placement="'top'">
         <template v-slot:content>
-          <div class="menu" @click="createMaps(this.playerLv)">
-            <img src="../assets/icons/menu/quest_icon_02.png" alt="">
+          <div class="menu" @click="openMenuPanel('save')">
+            <img src="../assets/icons/menu/save1.png" alt="">
           </div>
         </template>
         <template v-slot:tip>
-          <p class="info">* 刷新当前世界副本</p>
-          <p class="info">* 刷新有30秒钟的间隔</p>
-          <p class="info">* 刷新时有较低概率同时刷新出高难度副本</p>
-          <p class="info">* 刷新规则[lv-5,lv+6]</p>
+          <p class="info">* 保存/加载游戏</p>
         </template>
       </cTooltip>
     </div>
@@ -115,23 +112,25 @@
       <equipInfo :equip="compareEquip" v-show="showEquipInfo&&compare"></equipInfo>
     </div>
     <equipEnhance :equip="enhanceEquip" v-show="equipEnhancePanel"></equipEnhance>
-    <equipForge :equip="enhanceEquip" v-show="equipForgePanel"></equipForge>
+    <equipForge :equip="enhanceEquip" v-show="equipForgePanel"></equipForge>    
+    <saveload v-show="savePanel"></saveload>
   </div>
 
 </template>
 <script>
-import cTooltip from './uiComponent/tooltip'
-import equipInfo from './component/equipInfo'
-import equipEnhance from './component/equipEnhance'
-import equipForge from './component/equipForge'
-import mapEvent from './component/mapEvent'
-import backpack from './component/backpack'
-import charInfo from './component/charInfo'
-import guild from './component/guild'
-import faq from './component/faq'
-import enermyInfo from './component/enermyInfo'
-import { assist } from '../assets/js/assist'
-import { dungeon } from '../assets/js/dungeon'
+import cTooltip from './uiComponent/tooltip';
+import equipInfo from './component/equipInfo';
+import equipEnhance from './component/equipEnhance';
+import equipForge from './component/equipForge';
+import mapEvent from './component/mapEvent';
+import backpack from './component/backpack';
+import charInfo from './component/charInfo';
+import guild from './component/guild';
+import faq from './component/faq';
+import saveload from './component/saveload';
+import enermyInfo from './component/enermyInfo';
+import { assist } from '../assets/js/assist';
+import { dungeon } from '../assets/js/dungeon';
 export default {
   name: 'index',
   mixins: [assist, dungeon],
@@ -151,10 +150,12 @@ export default {
       enermyInfo: 'advanture',
       equipEnhancePanel: false,
       equipForgePanel: false,
-      displayPage: 'charInfo'
+      savePanel: false,
+      displayPage: 'charInfo',
+      saveDateString: '',
     }
   },
-  components: {cTooltip, equipInfo, mapEvent, assist, backpack, equipEnhance, equipForge, charInfo, guild, faq, enermyInfo},
+  components: {cTooltip, equipInfo, mapEvent, assist, backpack, equipEnhance, equipForge, charInfo, guild, faq, saveload, enermyInfo},
   mounted() {    
     //初始系统、战斗信息
     this.sysInfo = this.$store.state.sysInfo;
@@ -176,7 +177,7 @@ export default {
     //初始生成地图
     this.createMaps(this.playerLv);
     //测试·随机装备
-    let equipLv = 40;
+    let equipLv = 30;
     let equipQuality = 3;
     // var equipInfo = this.findComponentDownward(this, 'equipInfo');   
     // // var newEquip = JSON.parse(equipInfo.createEquip(0,2,'helmet'));
@@ -465,6 +466,11 @@ export default {
       switch(type) {
         case 'backpack':
           this.showBackpack = !this.showBackpack;
+          break;
+        case 'save':
+          this.savePanel = !this.savePanel;
+          var saveload = this.findComponentDownward(this, 'saveload');  
+          saveload.saveGame();
           break;
       }
     },

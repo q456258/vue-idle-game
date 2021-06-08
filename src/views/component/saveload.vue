@@ -1,0 +1,153 @@
+<template>
+<draggable class="saveload">
+    <template slot="header">
+    </template>
+    <template slot="main" >
+        <a href="#" class="close" @click="closeSaveload()"></a>
+        <div class="save">
+            <div class="title">
+                <span>导出存档</span>
+            </div>
+            <div class="body">
+                <textarea id="imSavedata" class="scrollbar-morpheus-den form-control z-depth-1 savedata-textarea" v-model="saveData"></textarea>
+            </div>
+
+            <div class="footer">
+                <button class="btn btn-outline-light btn-sm" @click="saveGame">刷新</button>
+                <button class="btn btn-outline-light btn-sm" @click="copySavaData">复制文本到剪贴板</button>
+            </div>
+        </div>
+        <div class="save">
+            <div class="title">
+                <span>导入存档</span>
+            </div>
+            <div class="body">
+                <textarea id="exSavadata" class="scrollbar-morpheus-den form-control z-depth-1 savedata-textarea" @focus="loadData = ''" v-model="loadData" placeholder="请先输入存档数据"></textarea></div>
+            <div class="footer">
+                <button class="btn btn-outline-light btn-sm" @click="loadGame">导入</button>
+
+            </div>
+        </div>
+    </template>
+</draggable>
+</template>
+<script>
+import draggable from '../uiComponent/draggable';
+import { assist } from '../../assets/js/assist';
+import { Base64 } from 'js-base64';
+export default {    
+    name: 'saveload',
+    props: {
+    },
+    mixins: [assist],
+    components: {draggable},
+    data() {
+        return {
+            dragging: false,
+            saveData: '',
+            loadData: ''
+        };
+    },
+    mounted() {
+        this.saveGame();
+    },
+    watch: {
+    },
+    computed: {
+    },
+    methods: {
+        copySavaData() {
+            var imSavadataTextArea = document.getElementById("imSavedata");
+            imSavadataTextArea.select(); // 选中文本
+            document.execCommand("copy"); // 执行浏览器复制命令
+        }, 
+        async saveGame(needInfo) {
+            var data = {}
+            var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            data = {
+                state: this.$store.state,
+                backpackEquipment: backpack.grid,
+            }
+            var saveData = Base64.encode(Base64.encode(JSON.stringify(data)));
+            // localStorage.setItem('_sd', saveData);
+
+            // needInfo && this.$store.commit("set_sys_info", {
+            //     msg: `
+            //         游戏进度已保存。
+            //         `,
+            //     type: 'win'
+            // });
+            this.saveData = saveData;
+        },
+        loadGame() {
+            var data = JSON.parse(Base64.decode(Base64.decode(this.loadData)));
+            this.$store.replaceState(data.state);
+            var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            backpack.grid = data.backpackEquipment;
+        },
+        closeSaveload() {
+            var index = this.findComponentUpward(this, 'index');
+            index.openMenuPanel('save');
+        }
+    }
+}
+</script>
+<style lang="scss" scoped>
+#draggable-header {
+    left: 0px;
+    top: 0px;
+    height: 2.5rem;
+}
+.saveload {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 20rem;
+    width: 50rem;
+    border: 4px solid rgb(37, 32, 32);
+    // padding: 1rem;
+    background: linear-gradient(180deg, rgb(99, 87, 90) 0%, rgb(139, 139, 139) 20%, rgb(104, 101, 98) 100%);
+    margin: auto;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    
+    .save{
+        margin: 2rem 0.5rem 0.5rem 0.5rem;
+        width: 50%;
+    }
+}
+.savedata-textarea {
+    height: 10rem;
+}
+.close {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    width: 32px;
+    height: 32px;
+    opacity: 0.7;
+    z-index: 6;
+}
+.close:hover {
+    opacity: 1;
+}
+.close:before, .close:after {
+    position: absolute;
+    left: 15px;
+    content: ' ';
+    height: 33px;
+    width: 2px;
+    background-color: rgb(255, 255, 255);
+}
+.close:before {
+    transform: rotate(45deg);
+}
+.close:after {
+    transform: rotate(-45deg);
+}
+
+</style>
