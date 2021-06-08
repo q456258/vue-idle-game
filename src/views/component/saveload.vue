@@ -80,10 +80,34 @@ export default {
             this.saveData = saveData;
         },
         loadGame() {
-            var data = JSON.parse(Base64.decode(Base64.decode(this.loadData)));
-            this.$store.replaceState(data.state);
-            var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
-            backpack.grid = data.backpackEquipment;
+            try {
+                var data = JSON.parse(Base64.decode(Base64.decode(this.loadData)));
+                this.$store.replaceState(data.state);
+                
+                var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+                backpack.grid = data.backpackEquipment;
+
+                var index = this.findComponentUpward(this, 'index');
+                this.$store.state.dungeonInfo.auto = false;
+                this.$store.state.dungeonInfo.inBattle = false;
+                this.$store.state.enermyAttribute.attribute.CURHP.value = 0;
+                index.sysInfo = this.$store.state.sysInfo;
+                index.battleInfo = this.$store.state.battleInfo;
+                index.dungeonInfo = this.$store.state.dungeonInfo;
+                index.createMaps(this.$store.state.playerAttribute.lv);
+                index.switchZone(this.$store.state.dungeonInfo.current);
+
+                var guild = this.findComponentDownward(index, 'guild');
+                guild.getAllCost();
+            } catch (error) {
+                console.log(error)
+                this.$store.commit("set_sys_info", {
+                    msg: `
+                        存档加载失败！
+                        `,
+                    type: 'warning'
+                });
+            }
         },
         closeSaveload() {
             var index = this.findComponentUpward(this, 'index');

@@ -148,17 +148,7 @@ export default {
             this.$forceUpdate();
         },
         sort() {
-            // var current = 0;
-            // for(var i=0; i<this.grid.length; i++) {
-            //     if(Object.keys(this.grid[current]).length > 1) {
-            //         current++;
-            //     } 
-            //     else if(Object.keys(this.grid[i]).length > 1) {
-            //         this.grid[current] = this.grid[i];
-            //         this.grid[i] = {};
-            //         current++;
-            //     }
-            // }
+            var type = ['头盔', '肩膀', '武器', '盔甲', '鞋子', '饰品'];
             this.grid.sort((a, b) => {
                 if(a == b)
                     return 0;
@@ -168,6 +158,8 @@ export default {
                     return -1;
                 if(a.quality.qualityLv != b.quality.qualityLv)
                     return a.quality.qualityLv - b.quality.qualityLv;
+                if(type.indexOf(a.description.type) != type.indexOf(b.description.type))
+                    return type.indexOf(a.description.type) - type.indexOf(b.description.type);
                 if(a.enhanceLv != b.enhanceLv)
                     return a.enhanceLv - b.enhanceLv;
                 if(a.lv != b.lv)

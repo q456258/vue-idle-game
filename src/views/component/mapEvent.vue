@@ -123,7 +123,7 @@ export default {
                 value: attribute['MAXHP'].value,
                 showValue: attribute['MAXHP'].value
             }
-
+            
             val = Math.round(0.01 * attribute['DEF'].value / (1 + (0.0105 * attribute['DEF'].value))*10000)/100;
             // val = Math.round(0.01 * attribute['DEF'].value / (1 + (0.01 * attribute['DEF'].value))*10000)/100;
             attribute['DEFRED'] = {

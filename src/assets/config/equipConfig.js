@@ -243,7 +243,7 @@ export const equipConfig = {
           },{
             description: {
               name: '全能戒指',
-              desc: '虽然图标特效不多，但是它厉害啊',
+              desc: '',
               iconSrc: "./icons/accessory/Inv_jewelry_ring_03.png",
             },
             entry: [
@@ -252,7 +252,7 @@ export const equipConfig = {
           },{
             description: {
               name: '豹爪护符',
-              desc: '极为锋利的豹爪制作的护符，经常刮伤携带者',
+              desc: '',
               iconSrc: "./icons/accessory/inv_jewelry_necklace_34.png",
             },
             entry: [
@@ -279,7 +279,7 @@ export const equipConfig = {
           },{
             description: {
               name: '守护指环',
-              desc: '守护指环',
+              desc: '',
               iconSrc: "./icons/accessory/Inv_jewelry_ring_02.png",
             },
             entry: [
@@ -326,7 +326,7 @@ export const equipConfig = {
         unique: [{
             description: {
               name: '先代狂龙战士盔甲',
-              desc: '先代狂龙战士盔甲',
+              desc: '',
               iconSrc: "./icons/A_A1.png",
             },
             entry: [
@@ -345,7 +345,7 @@ export const equipConfig = {
         type: [{
             description: {
               name: '燃烧战斧',
-              desc: '燃烧战斧',
+              desc: '',
               iconSrc: "./icons/weapon/Inv_axe_02.png",
             },
             entry: [
@@ -389,27 +389,27 @@ export const equipConfig = {
             ],
           },{
             description: {
-              name: '锋利手镰',
+              name: '毁灭之刃',
               desc: '',
-              iconSrc: "./icons/weapon/inv_gauntlets_02.png",
+              iconSrc: "./icons/weapon/Inv_sword_48.png",
             },
             entry: [
               'CRITDMG'
             ],
           },{
             description: {
-              name: '毁灭之刃',
+              name: '日怒长弓',
               desc: '',
-              iconSrc: "./icons/weapon/Inv_sword_48.png",
+              iconSrc: "./icons/weapon/inv_weapon_bow_18.png",
             },
             entry: [
               'ATK'
             ],
           },{
             description: {
-              name: '日怒长弓',
+              name: '锋利手镰',
               desc: '',
-              iconSrc: "./icons/weapon/inv_weapon_bow_18.png",
+              iconSrc: "./icons/weapon/inv_gauntlets_02.png",
             },
             entry: [
               'DEF'
@@ -435,7 +435,7 @@ export const equipConfig = {
           },{
             description: {
               name: '染血刀刃',
-              desc: '这把武器的锋刃上还残留着之前激战时留下的血迹',
+              desc: '',
               iconSrc: "./icons/weapon/INV_Axe_75.png",
             },
             entry: [
@@ -585,7 +585,7 @@ export const equipConfig = {
         unique: [{
             description: {
               name: '先代狂龙战士盔甲',
-              desc: '先代狂龙战士盔甲',
+              desc: '',
               iconSrc: "./icons/A_A1.png",
             },
             entry: [
@@ -714,7 +714,7 @@ export const equipConfig = {
         unique: [{
             description: {
               name: '先代狂龙战士盔甲',
-              desc: '先代狂龙战士盔甲',
+              desc: '',
               iconSrc: "./icons/A_A1.png",
             },
             entry: [
@@ -843,7 +843,7 @@ export const equipConfig = {
         unique: [{
             description: {
               name: '先代狂龙战士盔甲',
-              desc: '先代狂龙战士盔甲',
+              desc: '',
               iconSrc: "./icons/A_A1.png",
             },
             entry: [

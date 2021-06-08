@@ -126,13 +126,11 @@ export default {
                 if(this.timeRemain == 0) {
                     this.training = false;
                     clearInterval(this.countdownTimer);
-                    this.$store.state.trainAttribute[this.type] += this.gain;
-                    this.$store.commit('set_player_attribute');
                 }
             }, 1000);
         },
         cancel() {
-            this.timeRemain = 0;
+            this.timeRemain = this.totalTime;
             this.training = false;
             this.$store.state.guildAttribute.crystal += this.cost;
             clearInterval(this.countdownTimer);

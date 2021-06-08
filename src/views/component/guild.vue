@@ -167,6 +167,12 @@ export default {
             for(let cost in this.cost[type].cost) {
                 this.cost[type].cost[cost] = Math.round(this.cost[type].base[cost] * (1+fib1*0.1));
             }
+        },
+        getAllCost() {
+            var construct = ['guild', 'train', 'train2', 'train3', 'shop', 'smith']
+            construct.forEach(type => {
+                this.getCost(type, this.guild[type]);
+            });
         }
     }
 }

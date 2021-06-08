@@ -12,7 +12,7 @@ export const dungeon = {
             }
             var option = ['gold', 'equip'];
             var probability = [];
-            if(level > 10) 
+            if(level >= 10) 
                 option.push('crystal');
             var total = 0;
             for(var type in option) {

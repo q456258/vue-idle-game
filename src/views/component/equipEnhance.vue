@@ -92,6 +92,10 @@ export default {
             if(this.$store.state.guildAttribute.gold < this.cost)
                 return;
             this.$store.state.guildAttribute.gold -= this.cost;
+            console.log(this.successRate)
+            console.log(Math.random()*100 )
+            if(Math.random()*100 >= this.successRate)
+                return;
             this.equip.enhanceLv = this.equip.enhanceLv + 1;
             var equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
             equipInfo.recomputeBaseEntryValue(this.equip);
