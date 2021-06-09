@@ -6,8 +6,16 @@
         <a href="#" class="close" @click="closeBackpack()"></a>
         <div class="title">
             背包
-        </div>
-        <div class="item">
+        </div>    
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" id="equip" @click="switchTab('equip')">装备</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="item" @click="switchTab('item')">物品</a>
+            </li>
+        </ul>
+        <div class="equip" v-show="displayPage=='equip'">
             <div class="grid" v-on:drop="drop($event, k)" v-on:dragover="allowDrop($event)" v-for="(v, k) in grid" :key="k">
                 <div v-if="v.lv" draggable="true" v-on:dragstart="dragStart($event,k)" v-on:dragend="dragEnd" @contextmenu.prevent="openMenu(k,$event)" @touchstart.stop.prevent="openMenu(k,$event)"  @mouseover="showInfo($event,v.itemType,v,true)" @mouseleave="closeInfo">
                     <div class="icon" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v.quality.color }">
@@ -19,16 +27,30 @@
                 </div>
             </div>
         </div>
+        <div class="item" v-show="displayPage=='item'">
+            <div class="grid" v-on:drop="drop($event, k)" v-on:dragover="allowDrop($event)" v-for="(v, k) in itemGrid" :key="k">
+                <div v-if="v.description" draggable="true" v-on:dragstart="dragStart($event,k)" v-on:dragend="dragEnd" @contextmenu.prevent="openMenu(k,$event)" @touchstart.stop.prevent="openMenu(k,$event)"  @mouseover="showInfo($event,v.itemType,v,true)" @mouseleave="closeInfo">
+                    <div class="icon" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v.quality.color }">
+                        <img :src="v.description.iconSrc" alt="" />
+                    </div>
+                    <div class="quantity">
+                        {{v.quantity}}
+                    </div>
+                </div>
+            </div>
+        </div>
         <ul v-show="visible" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
             <li @click="equip()">装备</li>
             <li @click="equipEnhance()" v-if="guild.smith>0">强化</li>
             <li @click="equipForge()" v-if="guild.smith>=10">重铸</li>
             <li @click="lockEquipment(true)" v-if="!currentItem.locked">锁定</li>
             <li @click="lockEquipment(false)" v-if="currentItem.locked">解锁</li>
+            <li @click="disintegrate()" v-if="guild.smith>=5 && !currentItem.locked">分解</li>
             <li @click="sellEquipment()" v-if="!currentItem.locked">出售</li>
         </ul>
         <div class="footer">
-            <a class="function" @click="sellAll()">一键出售</a>
+            <a class="function" v-show="displayPage=='equip'" @click="disintegrateAll()">一键分解</a>
+            <a class="function" v-show="displayPage=='equip'" @click="sellAll()">一键出售</a>
             <a class="function" @click="sort()">整理背包</a>
         </div>
     </template>
@@ -47,10 +69,12 @@ export default {
             currentItem: {},
             type: 'equip',
             grid: [],
+            itemGrid: [],
             visible: false,
             dragging: false,
             top: '',
             left: '',
+            displayPage: 'equip'
         }
     },  
     watch: {
@@ -64,6 +88,7 @@ export default {
     },
     created() {
         this.grid = new Array(54).fill({});
+        this.itemGrid = new Array(54).fill({});
     },
     computed: {
         guild() { return this.$store.state.guildAttribute; }
@@ -139,6 +164,32 @@ export default {
                 msg: '出售装备获得金币: '+cost
             });
         },
+        disintegrate(index) {
+            if(index == undefined)
+                index = this.currentItemIndex;
+            var equip = this.grid[index];
+            var dust = ['dust2', 'dust3', 'dust4', 'dust5', 'dust6'];
+
+            var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            var quantity = Math.ceil(equip.lv/10);
+            var item = itemInfo.createItem(dust[equip.quality.qualityLv-2], quantity);  
+            itemInfo.addItem(JSON.parse(item));  
+            this.grid[index] = {};
+            this.$store.commit("set_sys_info", {
+                type: 'reward',
+                msg: '分解装备获得物品: ',
+                item: JSON.parse(item)
+            });
+        },
+        disintegrateAll() {
+            for(var i=0; i<this.grid.length; i++) {
+                if(Object.keys(this.grid[i]).length > 1 && !this.grid[i].locked) {
+                    if(this.grid[i].quality.qualityLv >= 2)
+                        this.disintegrate(i);
+                }
+            }
+            this.$forceUpdate();
+        },
         sellAll() {
             for(var i=0; i<this.grid.length; i++) {
                 if(Object.keys(this.grid[i]).length > 1 && !this.grid[i].locked) {
@@ -175,7 +226,7 @@ export default {
         },
         closeInfo() {
             var index = this.findComponentUpward(this, 'index');
-            index.closeInfo('equip');
+            index.closeInfo(this.displayPage);
         },
         closeBackpack() {
             var index = this.findComponentUpward(this, 'index');
@@ -218,11 +269,29 @@ export default {
             event.preventDefault();
             var gridId = event.dataTransfer.getData("gridId");
             if(gridId) {
-                var temp = this.grid[gridId];
-                this.$set(this.grid, gridId, this.grid[k]);
-                this.$set(this.grid, k, temp);
+                switch(this.displayPage) {
+                    case 'equip':
+                        var temp = this.grid[gridId];
+                        this.$set(this.grid, gridId, this.grid[k]);
+                        this.$set(this.grid, k, temp);
+                        break;
+                    case 'item':
+                        var temp = this.itemGrid[gridId];
+                        this.$set(this.itemGrid, gridId, this.itemGrid[k]);
+                        this.$set(this.itemGrid, k, temp);
+                        break;
+                }
             }
-        }
+        },
+        switchTab(type){
+            if(this.displayPage != type) {
+                var element = document.getElementById(this.displayPage);
+                element.classList.remove('active');
+                var element = document.getElementById(type);
+                element.classList.add('active');
+                this.displayPage = type;
+            }
+        },
     }
 }
 </script>
@@ -234,18 +303,11 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
-    // border: 4px solid rgb(37, 32, 32);
-    // padding: 1rem;
     margin: auto;
     border-radius: 15px;
-    // box-shadow: 0 0 2px 2px rgba(43, 38, 38, 0.8);
-    // background: rgb(43, 41, 41);
-    // background: linear-gradient(90deg, rgba(43, 41, 41,1) 0%, rgba(0,0,0,1) 50%, rgba(43, 41, 41,1) 100%);
-    // background: linear-gradient(90deg, rgba(40,40,40,1) 0%, rgba(60,60,60,1) 50%, rgba(40,40,40,1) 100%);
     background: linear-gradient(130deg, rgba(0, 0, 0, 0.7) 0%, rgb(44, 37, 24) 40%, rgb(14, 10, 6) 100%);
-    // border-image: url("/icons/border2.png") 81 40/60px 50px/0.5rem round;
     width: 33rem;
-    height: 30rem;
+    height: 31rem;
     .title {
         position: absolute;
         top: 1.4rem;
@@ -254,10 +316,10 @@ export default {
         font-weight: bold;
         font-size: 1.5rem;
     }
-    .item {
+    .equip {
         display: flex;
         flex-wrap: wrap;
-        padding: 6rem 1.5rem 1.5rem 1.7rem;
+        padding: 1rem 1.5rem 1.5rem 1.7rem;
         width: 33rem;
         height: 20rem;
         .grid {
@@ -286,8 +348,6 @@ export default {
                 position: relative;
                 top: -3.1rem;
                 left: 0.9rem;
-                // right: 0;
-                // bottom: 0;
                 width: 0;
                 height: 0;
                 border-left: 1.5rem solid transparent;
@@ -302,9 +362,46 @@ export default {
                     height: 0.9rem;
                     transform: rotate(-45deg) translate(-50%, -0%);
                     position: absolute;
-                    // top: 30%;
-                    // left: 50%;
                 }
+            }
+        }
+    }
+    .item {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 1rem 1.5rem 1.5rem 1.7rem;
+        width: 33rem;
+        height: 20rem;
+        .grid {
+            border: 1px solid rgb(72, 70, 63);
+            border-radius: 0.3rem;
+            background: linear-gradient(180deg, rgb(99, 87, 90) 0%, rgb(41, 33, 19) 30%, rgb(14, 10, 6) 100%);
+            margin: 2px;
+            height: 3rem;
+            width: 3rem;
+            .icon {
+                width: 2.9rem;
+                height: 2.9rem;
+                background-color: #000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: auto;
+                border-radius: 0.3rem;
+                img {
+                    width:2.9rem;
+                    height:2.9rem;
+                    border-radius: 1rem;
+                }
+            }
+            .quantity {
+                position: relative;
+                top: -0.6rem;
+                left: 2rem;
+                width: 0.5rem;
+                height: 0.5rem;
+                font-size: 1rem;
+                line-height: 0;
             }
         }
     }
@@ -392,7 +489,36 @@ export default {
     .close:after {
         transform: rotate(-45deg);
     }
-
+    .nav {
+        // background-color: #ccc;
+        margin-top: 3.5rem;
+        width: 100%;
+        .nav-item {
+            .nav-link {
+                cursor: pointer;
+                margin-bottom: -1px;
+                border: 1px solid transparent;
+                border-top-left-radius: .25rem;
+                border-top-right-radius: .25rem;
+                color: rgba(255, 255, 255, 0.795);
+            }
+            .nav-link:hover {
+                color: rgb(255, 255, 255);
+            }
+            .active {
+                color: #495057;
+                background-color: #fff;
+            }
+            .active:hover {
+                color: #495057;
+            }
+        }
+    }
+    .nav-tabs {
+        // border-right: 1px solid #dee2e6;
+        // border-bottom-right-radius: 0.25rem;
+        border-bottom: 1px solid #e6e5de;
+    }
 
     
 }

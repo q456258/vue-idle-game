@@ -243,11 +243,11 @@ export default {
             extraEntry.forEach(entry => {
                 let random = Math.random();
                 if(percent.indexOf(entry.type) > -1) {
-                    entry.value = Math.round((0.5+random) * this.entryInfo[entry.type].base);
+                    entry.value = Math.round((0.5+0.5*random) * this.entryInfo[entry.type].base);
                     entry.showVal = '+' + entry.value + '%';
                 }
                 else {
-                    entry.value = Math.round((0.5+random) * this.entryInfo[entry.type].base * (1+equip.lv**2*0.06));
+                    entry.value = Math.round((0.5+0.5*random) * this.entryInfo[entry.type].base * (1+equip.lv**2*0.06));
                     entry.showVal = '+' + entry.value;
                 }
                 entry.quality = Math.round(random*100);

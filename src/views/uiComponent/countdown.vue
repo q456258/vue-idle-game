@@ -50,7 +50,7 @@
             <span class="checkmark">循环</span> -->
         </div>
         <span class="progressbar_text">
-            <div id="text"></div>
+            <div ref="text"></div>
         </span>
     </div>
 </template>
@@ -136,7 +136,7 @@ export default {
             clearInterval(this.countdownTimer);
         },
         collect() {
-            var element = document.getElementById('text');
+            var element = this.$refs['text'];
             var count = 5**(this.trainTier-1);
             var gap = 200;
             this.collecting = true;

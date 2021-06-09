@@ -33,6 +33,7 @@
           <div class="info warning" :class="{warning:v.type=='dmged',battle:v.type=='battle',win:v.type=='win',reward:v.type=='reward',}" v-for="(v,k) in sysInfo" :key="k">
             <span>{{v.msg}}</span>
             <a v-if="v.equip" :style="{color:v.equip.quality.color}" @mouseover="showInfo($event,v.equip.itemType,v.equip)" @mouseleave="closeInfo">{{v.equip.description.name}}</a>
+            <a v-if="v.item" :style="{color:v.item.quality.color}" @mouseover="showInfo($event,'',v.item)" @mouseleave="closeInfo">{{v.item.description.name}}*{{v.item.quantity}}</a>
           </div>
         </div>
       </div>
@@ -110,6 +111,7 @@
     <div class="displayEquip" :style='itemDialogStyle'>
       <equipInfo :equip="equip" v-show="showEquipInfo"></equipInfo>
       <equipInfo :equip="compareEquip" v-show="showEquipInfo&&compare"></equipInfo>
+      <itemInfo :item="item" v-show="showItemInfo"></itemInfo>
     </div>
     <equipEnhance :equip="enhanceEquip" v-show="equipEnhancePanel"></equipEnhance>
     <equipForge :equip="enhanceEquip" v-show="equipForgePanel"></equipForge>    
@@ -120,6 +122,7 @@
 <script>
 import cTooltip from './uiComponent/tooltip';
 import equipInfo from './component/equipInfo';
+import itemInfo from './component/itemInfo';
 import equipEnhance from './component/equipEnhance';
 import equipForge from './component/equipForge';
 import mapEvent from './component/mapEvent';
@@ -137,12 +140,14 @@ export default {
   data() {
     return {
       showEquipInfo: false,
+      showItemInfo: false,
       showBackpack: false,
       compare: false,
       sysInfo: {},
       battleInfo: {},
       itemDialogStyle: {},
       mapArr: [],
+      item: {},
       equip: {},
       compareEquip: {},
       enhanceEquip: {},
@@ -155,7 +160,7 @@ export default {
       saveDateString: '',
     }
   },
-  components: {cTooltip, equipInfo, mapEvent, assist, backpack, equipEnhance, equipForge, charInfo, guild, faq, saveload, enermyInfo},
+  components: {cTooltip, equipInfo, itemInfo, mapEvent, assist, backpack, equipEnhance, equipForge, charInfo, guild, faq, saveload, enermyInfo},
   mounted() {    
     //初始系统、战斗信息
     this.sysInfo = this.$store.state.sysInfo;
@@ -235,7 +240,7 @@ export default {
       })
     },
     inBattle() {
-        var element = document.getElementById('stopBattle')
+      var element = document.getElementById('stopBattle')
       if(this.inBattle) {
         element.innerHTML = '战斗中···（停止）';
         element.classList.replace('btn-success', 'btn-danger');
@@ -295,33 +300,40 @@ export default {
         this.dungeonInfo[type].level = level;
     },
     showInfo(e, type, item, compare) {
-      this.showEquipInfo = true;
       this.compare = compare;
-      this.equip = item;    
-      if(compare) {
-        let type = item.itemType;
-        switch(type){
-          case 'helmet':
-            this.compareEquip = this.playerHelmet;
-            break;
-          case 'accessory':
-            this.compareEquip = this.playerAccessory;
-            break;
-          case 'weapon':
-            this.compareEquip = this.playerWeapon;
-            break;
-          case 'armor':
-            this.compareEquip = this.playerArmor;
-            break;
-          case 'shoe':
-            this.compareEquip = this.playerShoe;
-            break;
-          case 'shoulder':
-            this.compareEquip = this.playerShoulder;
-            break;
-          default:
-            this.compareEquip = item;
+      var equip = ['helmet', 'accessory', 'weapon', 'armor', 'shoe', 'shoulder'];
+      if(equip.indexOf(type) != -1) {
+        this.showEquipInfo = true;
+        this.equip = item;    
+        if(compare) {
+          let type = item.itemType;
+          switch(type){
+            case 'helmet':
+              this.compareEquip = this.playerHelmet;
+              break;
+            case 'accessory':
+              this.compareEquip = this.playerAccessory;
+              break;
+            case 'weapon':
+              this.compareEquip = this.playerWeapon;
+              break;
+            case 'armor':
+              this.compareEquip = this.playerArmor;
+              break;
+            case 'shoe':
+              this.compareEquip = this.playerShoe;
+              break;
+            case 'shoulder':
+              this.compareEquip = this.playerShoulder;
+              break;
+            default:
+              this.compareEquip = item;
+          }
         }
+      }
+      else {
+        this.showItemInfo = true;
+        this.item = item;    
       }
       let x = e.pageX, y = e.pageY, maxH = window.innerHeight;
       if (y < window.innerHeight / 2) {
@@ -340,6 +352,9 @@ export default {
     },
     closeInfo(type='all') {
       switch(type) {
+        case 'item':
+          this.showItemInfo = false;
+          break;
         case 'equip':
           this.showEquipInfo = false;
           this.compare = false;
@@ -351,6 +366,7 @@ export default {
           this.equipForgePanel = false;
           break;
         default:
+          this.showItemInfo = false;
           this.showEquipInfo = false;
           this.equipEnhancePanel = false;
           this.equipForgePanel = false;
@@ -398,6 +414,14 @@ export default {
         this.autoBattle(false);
       }
       else {
+        let attr = this.$store.state.playerAttribute.attribute;
+        if(this.dungeonInfo.current =='trial' && attr.CURHP.value != attr.MAXHP.value) {
+            this.$store.commit("set_sys_info", {
+                type: 'dmged',
+                msg: '试炼太危险了，恢复满血再去挑战吧！'
+            });
+            return;
+        }
         this.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
         // element.innerHTML = '停止战斗';
         this.$store.state.dungeonInfo.inBattle = true;

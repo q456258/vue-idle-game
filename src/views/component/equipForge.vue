@@ -25,7 +25,7 @@
                             <div class="border-bottom"></div>
                             <div class="border-left"></div>
                         </div>
-                        <div class="value">{{v.name}} : {{v.showVal}}<span style="font-size: 0.7rem;">&nbsp;({{v.quality+'%'}})</span></div>
+                        <div :class="'value ' + v.qualityLv+'text'">{{v.name}} : {{v.showVal}}<span style="font-size: 0.7rem;">&nbsp;({{v.quality+'%'}})</span></div>
                         
                     </button>
                     <!-- <button class="btn-5">
@@ -133,12 +133,12 @@ export default {
             justify-content: center;
             width: 60%;
             color: #68d5ed;
-            .value {
-                color: #ccc;
-                &:hover {
-                    box-shadow: inset 0 0 7px 7px #a1a1a1a2;
-                }
-            }
+            // .value {
+                // color: #ccc;
+                // &:hover {
+                //     box-shadow: inset 0 0 7px 7px #a1a1a1a2;
+                // }
+            // }
         }
     }
     .confirm {
@@ -180,6 +180,24 @@ export default {
     
 }
 $blue: #ccc;
+.Etext {
+    color: #D9D9D9A2;
+}
+.Dtext {
+    color: #ccc;
+}
+.Ctext {
+    color: #00bbffc5;
+}
+.Btext {
+    color: #bb00ffd2;
+}
+.Atext {
+    color: #ff9900b7;
+}
+.Stext {
+    color: #ff0000d3;
+}
 button:focus {
     outline: none !important;
     box-shadow: none;

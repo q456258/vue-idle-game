@@ -12,13 +12,38 @@
 			</div>
 		</div>
 		<div class="progress" v-if="guild.train>0">
-			<div class="progress-bar progress-bar-striped" :style="{backgroundColor:'#5bc0de', width: (progress.ATK.progress)+'%'}">
+			<div class="progress-bar progress-bar-striped" :style="{backgroundColor:'#8D8E8E', width: (progress.ATK.progress)+'%'}">
                 <small id="ATKtrain" class="justify-content-center d-flex position-absolute center">攻击训练({{progress.ATK.level}}级) {{progress.ATK.progress}} / 100 </small>
 			</div>
 		</div>
 		<div class="progress" v-if="guild.train>0">
 			<div class="progress-bar progress-bar-striped" :style="{backgroundColor:'#f0ad4e', width: (progress.DEF.progress)+'%'}">
                 <small id="DEFtrain" class="justify-content-center d-flex position-absolute center">护甲训练({{progress.DEF.level}}级) {{progress.DEF.progress}} / 100 </small>
+			</div>
+		</div>
+		<div class="progress" v-if="guild.train2>0">
+			<div class="progress-bar progress-bar-striped" :style="{backgroundColor:'#61CBFF', width: (progress.AP.progress)+'%'}">
+                <small id="APtrain" class="justify-content-center d-flex position-absolute center">元素训练({{progress.AP.level}}级) {{progress.AP.progress}} / 100 </small>
+			</div>
+		</div>
+		<div class="progress" v-if="guild.train2>0">
+			<div class="progress-bar progress-bar-striped" :style="{backgroundColor:'#8A6292', width: (progress.MR.progress)+'%'}">
+                <small id="MRtrain" class="justify-content-center d-flex position-absolute center">格挡训练({{progress.MR.level}}级) {{progress.MR.progress}} / 100 </small>
+			</div>
+		</div>
+		<div class="progress" v-if="guild.train3>0">
+			<div class="progress-bar progress-bar-striped" :style="{backgroundColor:'#DB3A3A', width: (progress.STR.progress)+'%'}">
+                <small id="STRtrain" class="justify-content-center d-flex position-absolute center">力量训练({{progress.STR.level}}级) {{progress.STR.progress}} / 100 </small>
+			</div>
+		</div>
+		<div class="progress" v-if="guild.train3>0">
+			<div class="progress-bar progress-bar-striped" :style="{backgroundColor:'#06B300', width: (progress.AGI.progress)+'%'}">
+                <small id="AGItrain" class="justify-content-center d-flex position-absolute center">敏捷训练({{progress.AGI.level}}级) {{progress.AGI.progress}} / 100 </small>
+			</div>
+		</div>
+		<div class="progress" v-if="guild.train3>0">
+			<div class="progress-bar progress-bar-striped" :style="{backgroundColor:'#5757FF', width: (progress.INT.progress)+'%'}">
+                <small id="INTtrain" class="justify-content-center d-flex position-absolute center">智力训练({{progress.INT.level}}级) {{progress.INT.progress}} / 100 </small>
 			</div>
 		</div>
 	</div>

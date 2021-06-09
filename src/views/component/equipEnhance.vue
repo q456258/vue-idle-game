@@ -39,11 +39,12 @@
                         </div>
                     </div>
                 </div>
+            </div>
             <span class="cost" :class="{'warning':warning}" v-show="equip.enhanceLv < equip.maxEnhanceLv">消耗金币：{{cost}}</span>
             <span class="successRate" v-show="equip.enhanceLv < equip.maxEnhanceLv">成功率：{{successRate+'%'}}</span>
-            </div>
             <div class="confirm" @click="enhance()" v-show="equip.enhanceLv < equip.maxEnhanceLv">
                 强化
+                <span ref="info"></span>
             </div>
             <div class="cancel" @click="closeInfo()">
                 取消
@@ -92,15 +93,35 @@ export default {
             if(this.$store.state.guildAttribute.gold < this.cost)
                 return;
             this.$store.state.guildAttribute.gold -= this.cost;
-            console.log(this.successRate)
-            console.log(Math.random()*100 )
-            if(Math.random()*100 >= this.successRate)
+            if(Math.random()*100 >= this.successRate){
+                this.enhanceInfo("强化失败", "fail");
                 return;
+            }
+            this.enhanceInfo("强化成功", "success");
+            var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            backpack.lockEquipment(true);
             this.equip.enhanceLv = this.equip.enhanceLv + 1;
             var equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
             equipInfo.recomputeBaseEntryValue(this.equip);
             equipInfo.activePotential(this.equip);
             this.$store.commit('set_player_attribute');
+        },
+        enhanceInfo(info, type) {
+            var element = this.$refs['info'];
+            var node = document.createElement("DIV");
+            var textnode = document.createTextNode(info);
+            node.appendChild(textnode);
+            element.appendChild(node); 
+            node.style.position = 'absolute';
+            node.style.width = '10rem';
+            node.style.color = type=='success'?'#0f0' : '#f00';
+            node.style.top = '-0.5rem';
+            node.style.left = '-1rem';
+            node.animate([{transform: 'translate(0px)', opacity: 1},
+                {transform: 'translate(' + (0) + 'px, '+ (-50) + 'px)', opacity: 0.5}], { duration: 1000, ease:'ease-in', iterations: 1});
+            setTimeout(()=>{
+                element.removeChild(node);
+            },900);
         },
         closeInfo() {
             var index = this.findComponentUpward(this, 'index');
@@ -161,10 +182,11 @@ export default {
         justify-content: center;
         .beforeEnhance {
             margin-left: 1rem;
-            width: 40%;
+            text-align: left;
+            // width: 40%;
         }
         .afterEnhance {
-            width: 20%;
+            // width: 20%;
             .bonus {
                 color: #0f0;
             }
@@ -172,22 +194,26 @@ export default {
         .warning {
             color: #D8000C;
         }
-        .cost {
-            position: absolute;
-            bottom: 1.2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
-        }
-        .successRate {
-            position: absolute;
-            bottom: 0rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
-        }
+    }
+    .cost {
+        position: absolute;
+        top: 10rem;
+        left: 35rem;
+        bottom: 1.2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+    }
+    .successRate {
+        position: absolute;
+        top: 11.5rem;
+        left: 35rem;
+        bottom: 0rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
     }
     .confirm {
         position: absolute;

@@ -147,7 +147,9 @@
                         <div class="item">
                             <img src="../../assets/icons/stat/atk.png" alt="">
                             <div class="value">
-                                <span>{{attribute.ATK.showValue}}</span>
+                                <span>
+                                    {{attribute.ATK.showValue}}
+                                </span>
                             </div>
                         </div>
                     </template>
@@ -157,7 +159,7 @@
                             基础：{{attribute.ATK.baseVal }}
                             <span v-if="attribute.ATKP.value != 0">{{' +' + attribute.ATKP.showValue}}</span>
                             <br>
-                            DPS:{{Math.round(attribute.ATK.value*(1+attribute.CRIT.value/100*attribute.CRITDMG.value/100)) }}
+                            DPS:{{Math.round(attribute.ATK.value*(1+attribute.CRIT.value/100*(attribute.CRITDMG.value-100)/100)) }}
                         </p>
                     </template>
                 </cTooltip>

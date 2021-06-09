@@ -99,6 +99,7 @@ export default {
 
                 var guild = this.findComponentDownward(index, 'guild');
                 guild.getAllCost();
+                this.closeSaveload();
             } catch (error) {
                 console.log(error)
                 this.$store.commit("set_sys_info", {

@@ -201,10 +201,12 @@ export default {
         },
         reward(type, lv) {
             var equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
+            var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
             var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
             var index = this.findComponentUpward(this, 'index');
             var bonus = 0;
             var equip = null; 
+            var item = null; 
             switch(type) {
                 case 'gold':
                     let gold = Math.round((100+lv**2)*(2+2*Math.random()))
@@ -257,6 +259,22 @@ export default {
                     }
                     if(i==backpack.grid.length-1){
                         backpack.sellEquipmentByEquip(JSON.parse(equip));
+                    }
+                }
+            }
+            if(item != null) {
+                this.$store.commit("set_sys_info", {
+                    type: 'reward',
+                    msg: '获得战利品',
+                    item: JSON.parse(item)
+                });
+                for (let i = 0; i < backpack.itemGrid.length; i++) {
+                    if (JSON.stringify(backpack.itemGrid[i]).length < 3) {
+                        this.$set(backpack.itemGrid, i, JSON.parse(item));
+                        break;
+                    }
+                    if(i==backpack.itemGrid.length-1){
+                        backpack.sellEquipmentByEquip(JSON.parse(item));
                     }
                 }
             }
