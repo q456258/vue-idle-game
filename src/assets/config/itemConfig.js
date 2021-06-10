@@ -2,7 +2,7 @@
 export const itemConfig = {
     data() {
         return {
-            quality: [{
+            itemQuality: [{
               name: '破旧',
               qualityLv: 1,
               color: '#a1a1a1',
@@ -27,7 +27,7 @@ export const itemConfig = {
               qualityLv: 6,
               color: '#FF0000', 
             }],
-            type:
+            itemType:
             {
                 dust2: {
                     quality: 2,

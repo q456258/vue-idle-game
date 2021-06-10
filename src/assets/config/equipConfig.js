@@ -62,7 +62,7 @@ export const equipConfig = {
         HP: { base: 40, name: '生命值' }, 
         MP: { base: 15, name: '魔法值' }, 
         CRIT: { base: 5, name: '暴击率' }, 
-        CRITDMG: { base: 15, name: '暴击伤害' }, 
+        CRITDMG: { base: 20, name: '暴击伤害' }, 
         STRP: { base: 6, name: '力量' }, 
         AGIP: { base: 6, name: '敏捷' }, 
         INTP: { base: 6, name: '智力' }, 

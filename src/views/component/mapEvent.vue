@@ -247,34 +247,40 @@ export default {
                     break;
             }
             if(equip != null) {
+                equip = JSON.parse(equip);
                 this.$store.commit("set_sys_info", {
                     type: 'reward',
                     msg: '获得战利品',
-                    equip: JSON.parse(equip)
+                    equip: equip
                 });
-                for (let i = 0; i < backpack.grid.length; i++) {
-                    if (JSON.stringify(backpack.grid[i]).length < 3) {
-                        this.$set(backpack.grid, i, JSON.parse(equip));
-                        break;
-                    }
-                    if(i==backpack.grid.length-1){
-                        backpack.sellEquipmentByEquip(JSON.parse(equip));
+                if(backpack.autoSell[equip.quality.qualityLv-1])
+                    backpack.sellEquipmentByEquip(equip);
+                else {
+                    for (let i = 0; i < backpack.grid.length; i++) {
+                        if (JSON.stringify(backpack.grid[i]).length < 3) {
+                            this.$set(backpack.grid, i, equip);
+                            break;
+                        }
+                        if(i==backpack.grid.length-1){
+                            backpack.sellEquipmentByEquip(equip);
+                        }
                     }
                 }
             }
             if(item != null) {
+                item = JSON.parse(item);
                 this.$store.commit("set_sys_info", {
                     type: 'reward',
                     msg: '获得战利品',
-                    item: JSON.parse(item)
+                    item: item
                 });
                 for (let i = 0; i < backpack.itemGrid.length; i++) {
                     if (JSON.stringify(backpack.itemGrid[i]).length < 3) {
-                        this.$set(backpack.itemGrid, i, JSON.parse(item));
+                        this.$set(backpack.itemGrid, i, item);
                         break;
                     }
                     if(i==backpack.itemGrid.length-1){
-                        backpack.sellEquipmentByEquip(JSON.parse(item));
+                        backpack.sellEquipmentByEquip(item);
                     }
                 }
             }

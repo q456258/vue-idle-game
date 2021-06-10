@@ -65,14 +65,19 @@
 </template>
 <script>
 import {equipConfig} from '@/assets/config/equipConfig'
+import { assist } from '../../assets/js/assist';
+import {itemConfig} from '@/assets/config/itemConfig'
 export default {
     name: "equipInfo",
-    mixins: [equipConfig],
+    mixins: [equipConfig, itemConfig, assist],
     data() {
         return {
             newEquip: {},
             qualityProbability: [0.25, 0.65, 0.9, 0.99, 0.999, 1],
-            typeName: ['helmet', 'accessory', 'weapon', 'armor', 'shoe', 'shoulder']
+            typeName: ['helmet', 'accessory', 'weapon', 'armor', 'shoe', 'shoulder'],
+            percent: [
+                'STRP','AGIP','INTP','ALLP','CRIT','CRITDMG','ATKP','DEFP','APP','MRP','HPP','MPP'
+            ],
         };
     },
     props: {
@@ -134,27 +139,40 @@ export default {
             index = Math.floor(Math.random()*this.entries.length);
             baseEntry.push({type: this.entries[index]});
             baseEntry.forEach(entry => {
-                entry.name = this.entryInfo[entry.type].name;
-                if(percent.indexOf(entry.type) > -1) {
-                    entry.base = Math.floor(newEquip.quality.qualityCoefficient * this.entryInfo[entry.type].base);
-                    entry.value = Math.floor(entry.base * (1+newEquip.enhanceLv*0.1));
-                    entry.showVal = '+' + entry.value + '%';
-                }
-                else {
-                    entry.base = Math.floor(newEquip.quality.qualityCoefficient * this.entryInfo[entry.type].base * (1+newEquip.lv**2*0.06) * (1+Math.random()/5));
-                    entry.value = Math.floor(entry.base * (1+newEquip.enhanceLv*0.1));
-                    entry.showVal = '+' + entry.value;
-                }
+                let random = Math.random();
+                this.createBaseEntryValue(newEquip.quality.qualityCoefficient, entry, random, newEquip.lv, newEquip.enhanceLv);
+                // entry.name = this.entryInfo[entry.type].name;
+                // if(percent.indexOf(entry.type) > -1) {
+                //     entry.base = Math.floor(newEquip.quality.qualityCoefficient * this.entryInfo[entry.type].base);
+                //     entry.value = Math.floor(entry.base * (1+newEquip.enhanceLv*0.1));
+                //     entry.showVal = '+' + entry.value + '%';
+                // }
+                // else {
+                //     entry.base = Math.floor(newEquip.quality.qualityCoefficient * this.entryInfo[entry.type].base * (1+newEquip.lv**2*0.06) * (1+random/5));
+                //     entry.value = Math.floor(entry.base * (1+newEquip.enhanceLv*0.1));
+                //     entry.showVal = '+' + entry.value;
+                // }
             });
             return baseEntry;
+        },
+        createBaseEntryValue(qualityCoefficient, entry, random, lv, enhanceLv) {
+            entry.name = this.entryInfo[entry.type].name;
+            if(this.percent.indexOf(entry.type) > -1) {
+                entry.base = Math.floor(qualityCoefficient * this.entryInfo[entry.type].base);
+                entry.value = Math.floor(entry.base * (1+enhanceLv*0.1));
+                entry.showVal = '+' + entry.value + '%';
+            }
+            else {
+                entry.base = Math.floor(qualityCoefficient * this.entryInfo[entry.type].base * (1+lv**2*0.06) * (1+random/5));
+                entry.value = Math.floor(entry.base * (1+enhanceLv*0.1));
+                entry.showVal = '+' + entry.value;
+            }
+
         },
         createExtraEntry(newEquip) {
             var extraEntry = [];
             var extraEntryTypes = [];
             var type = newEquip.itemType;
-            var percent = [
-                'STRP','AGIP','INTP','ALLP','CRIT','CRITDMG','ATKP','DEFP','APP','MRP','HPP','MPP'
-            ];
             extraEntryTypes = this[type].extraEntry;
             for(var i=0; i<newEquip.quality.extraEntryNum; i++) {
                 var index = Math.floor(Math.random()*extraEntryTypes.length);
@@ -162,19 +180,22 @@ export default {
             }
             extraEntry.forEach(entry => {
                 let random = Math.random();
-                if(percent.indexOf(entry.type) > -1) {
-                    entry.value = Math.round((0.5+0.5*random) * this.entryInfo[entry.type].base);
-                    entry.showVal = '+' + entry.value + '%';
-                }
-                else {
-                    entry.value = Math.round((0.5+0.5*random) * this.entryInfo[entry.type].base * (1+newEquip.lv**2*0.06));
-                    entry.showVal = '+' + entry.value;
-                }
-                entry.quality = Math.round(random*100);
-                this.determineQuality(entry);
-                entry.name = this.entryInfo[entry.type].name;
+                this.createExtraEntryValue(entry, random, newEquip.lv);
             })
             return extraEntry;
+        },
+        createExtraEntryValue(entry, random, lv) {
+            if(this.percent.indexOf(entry.type) > -1) {
+                entry.value = Math.round((0.5+0.5*random) * this.entryInfo[entry.type].base);
+                entry.showVal = '+' + entry.value + '%';
+            }
+            else {
+                entry.value = Math.round((0.5+0.5*random) * this.entryInfo[entry.type].base * (1+lv**2*0.06));
+                entry.showVal = '+' + entry.value;
+            }
+            entry.quality = Math.round(random*100);
+            this.determineQuality(entry);
+            entry.name = this.entryInfo[entry.type].name;
         },
         createPotential(newEquip) {
             var extraEntry = [
@@ -254,6 +275,7 @@ export default {
                 this.determineQuality(entry);
                 entry.name = this.entryInfo[entry.type].name;
             })
+
             this.$set(equip.extraEntry, key, extraEntry[0]);
         },
         forgeAll(equip) {
@@ -272,6 +294,33 @@ export default {
                 entry.qualityLv = 'A'
             else if(entry.quality>98&entry.quality<=100)
                 entry.qualityLv = 'S'
+        },
+        levelUpEquip(equip) {
+            var dust = ['dust2', 'dust3', 'dust4', 'dust5', 'dust6'];
+            var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            var quantity = Math.ceil(equip.lv/10);
+            var itemName = this.itemType[dust[equip.quality.qualityLv-2]].description.name;
+            var item = itemInfo.findItem(itemName);  
+            var has = item == -1 ? 0 : backpack.itemGrid[item].quantity;
+            if(has < quantity) {
+                this.$store.commit("set_sys_info", {
+                    type: 'dmged',
+                    msg: '材料不足，无法升级装备！'
+                });
+                return;
+            }
+            backpack.itemGrid[item].quantity -= quantity;
+
+            equip.lv += 1;
+            equip.baseEntry.forEach(entry => {
+                let percent = (entry.base/(this.entryInfo[entry.type].base*(1+(equip.lv-1)**2*0.06))-1)*5;
+                this.createBaseEntryValue(equip.quality.qualityCoefficient, entry, percent, equip.lv, equip.enhanceLv);
+            });
+            equip.extraEntry.forEach(entry => {
+                this.createExtraEntryValue(entry, entry.quality/100, equip.lv);
+            });
+            this.$store.commit('set_player_attribute');
         }
     },
 

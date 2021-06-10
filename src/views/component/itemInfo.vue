@@ -48,9 +48,9 @@ export default {
     methods: {
         createItem(type, quantity) {
             var newItem = {};
-            newItem.description = this.type[type].description;
+            newItem.description = this.itemType[type].description;
             // newEquip.lv = lv || 1;
-            newItem.quality = this.quality[this.type[type].quality-1];
+            newItem.quality = this.itemQuality[this.itemType[type].quality-1];
             newItem.quantity = quantity;
             // newEquip.maxEnhanceLv = (newEquip.quality.extraEntryNum-1)*5;
             // newEquip.enhanceLv = Math.min(0, newEquip.maxEnhanceLv);

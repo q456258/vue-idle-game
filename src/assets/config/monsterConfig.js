@@ -107,9 +107,9 @@ export const monsterConfig = {
                 {
                     name: '硬壳龟', 
                     template: {
-                        MAXHP: { value: 200, showValue: 800, },        
+                        MAXHP: { value: 150, showValue: 800, },        
                         ATK: { value: 35, showValue: 10, },
-                        DEF: { value: 10, showValue: 5, },
+                        DEF: { value: 20, showValue: 5, },
                         AP: { value: 0, showValue: 0, },
                         MR: { value: 75, showValue: 0, },
                         CRIT: { value: 0, showValue: '0%', },
@@ -119,9 +119,9 @@ export const monsterConfig = {
                 {
                     name: '利爪龟', 
                     template: {
-                        MAXHP: { value: 180, showValue: 800, },        
+                        MAXHP: { value: 150, showValue: 800, },        
                         ATK: { value: 50, showValue: 10, },
-                        DEF: { value: 7, showValue: 5, },
+                        DEF: { value: 15, showValue: 5, },
                         AP: { value: 0, showValue: 0, },
                         MR: { value: 50, showValue: 0, },
                         CRIT: { value: 0, showValue: '0%', },

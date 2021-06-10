@@ -373,6 +373,7 @@
             <li @click="unEquip()">卸下</li>
             <li @click="equipEnhance()" v-if="guild.smith>0">强化</li>
             <li @click="equipForge()" v-if="guild.smith>=10">重铸</li>
+            <li @click="equipLevelUp()" v-if="guild.smith>=10 && this.currentEquip.lv < playerLv">升级</li>
         </ul>
     </div>
 </template>
@@ -380,10 +381,11 @@
 import cTooltip from '../uiComponent/tooltip';
 import hpmpBar from '../uiComponent/hpmpBar';
 import { assist } from '../../assets/js/assist';
+import {itemConfig} from '@/assets/config/itemConfig'
 export default {
     name: "charInfo",
-    mixins: [assist],
-    components: {cTooltip, hpmpBar},
+    mixins: [assist, itemConfig],
+    components: {cTooltip, hpmpBar, },
     data() {
         return {
             visible: false,
@@ -466,6 +468,24 @@ export default {
             index.closeInfo();
             index.enhanceEquip = this.currentEquip;
             index.equipForgePanel = true;
+        },
+        equipLevelUp() {
+            var dust = ['dust2', 'dust3', 'dust4', 'dust5', 'dust6'];
+            var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            var equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
+            var quantity = Math.ceil(this.currentEquip.lv/10);
+            var itemName = this.itemType[dust[this.currentEquip.quality.qualityLv-2]].description.name;
+            var item = itemInfo.findItem(itemName);  
+            var has = item == -1 ? 0 : backpack.itemGrid[item].quantity;
+            this.$message({
+                message: '消耗材料'+itemName+"*"+quantity+",目前拥有数量："+has,
+                title: '升级装备',
+                confirmBtnText: '升级',
+                onClose: () => {
+                    equipInfo.levelUpEquip(this.currentEquip);
+                }
+            })
         },
         showInfo($event, type, item, compare) {
             var index = this.findComponentUpward(this, 'index');

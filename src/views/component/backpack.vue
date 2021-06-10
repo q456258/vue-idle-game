@@ -49,6 +49,28 @@
             <li @click="sellEquipment()" v-if="!currentItem.locked">出售</li>
         </ul>
         <div class="footer">
+            <div class="autoSellSetting" v-if="autoSellPanel">
+                <!-- 若勾选会在副本获得该品质装备时自动出售 -->
+                <div>
+                    <span style="color:#a1a1a1;" @click="setAutoSell(0)"><input type="checkbox" name="" v-model="autoSell[0]">破旧</span>
+                    <span style="color:#D9D9D9;" @click="setAutoSell(1)"><input type="checkbox" name="" v-model="autoSell[1]">普通</span>
+                </div>
+                <div>
+                    <span style="color:#00BBFF;" @click="setAutoSell(2)"><input type="checkbox" name="" v-model="autoSell[2]">精良</span>
+                    <span style="color:#BB00FF;" @click="setAutoSell(3)"><input type="checkbox" name="" v-model="autoSell[3]">完美</span>
+                </div>
+                <div>
+                    <span style="color:#FFBB00;" @click="setAutoSell(4)"><input type="checkbox" name="" v-model="autoSell[4]">史诗</span>
+                    <span style="color:#FF0000;" @click="setAutoSell(5)"><input type="checkbox" name="" v-model="autoSell[5]">传说</span>
+                </div>
+
+            </div>
+            <a class="function">
+                <span  @click.stop="autoSellPanel = !autoSellPanel">
+                自动出售设置
+                <!-- <i class="icon icon-setting"></i> -->
+                </span>
+            </a>
             <a class="function" v-show="displayPage=='equip'" @click="disintegrateAll()">一键分解</a>
             <a class="function" v-show="displayPage=='equip'" @click="sellAll()">一键出售</a>
             <a class="function" @click="sort()">整理背包</a>
@@ -72,6 +94,8 @@ export default {
             itemGrid: [],
             visible: false,
             dragging: false,
+            autoSellPanel: false,
+            autoSell:[false,false,false,false,false,false],
             top: '',
             left: '',
             displayPage: 'equip'
@@ -189,6 +213,9 @@ export default {
                 }
             }
             this.$forceUpdate();
+        },    
+        setAutoSell(index){
+            this.$set(this.autoSell,index,!this.autoSell[index])
         },
         sellAll() {
             for(var i=0; i<this.grid.length; i++) {
@@ -518,6 +545,13 @@ export default {
         // border-right: 1px solid #dee2e6;
         // border-bottom-right-radius: 0.25rem;
         border-bottom: 1px solid #e6e5de;
+    }
+    .autoSellSetting {
+        border: 2px solid #fff5;
+        margin-left: 0.5rem;
+        text-align: center;
+        background-color: rgba(0, 0, 0, 0.479);
+        width: 8rem;
     }
 
     

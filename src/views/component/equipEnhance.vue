@@ -41,7 +41,10 @@
                 </div>
             </div>
             <span class="cost" :class="{'warning':warning}" v-show="equip.enhanceLv < equip.maxEnhanceLv">消耗金币：{{cost}}</span>
-            <span class="successRate" v-show="equip.enhanceLv < equip.maxEnhanceLv">成功率：{{successRate+'%'}}</span>
+            <span class="successRate" v-show="equip.enhanceLv < equip.maxEnhanceLv">
+                成功率：{{successRate+'%'}}
+                <span class="smith">{{"&nbsp;+"+(Math.round(successRate*smith)/100)+"%"}}</span>
+            </span>
             <div class="confirm" @click="enhance()" v-show="equip.enhanceLv < equip.maxEnhanceLv">
                 强化
                 <span ref="info"></span>
@@ -75,6 +78,9 @@ export default {
             cost *= (1+this.equip.lv)*this.equip.enhanceLv+10;
             return cost;
         },
+        smith() {
+            return this.$store.state.guildAttribute.smith;
+        },
         warning() {
             return this.$store.state.guildAttribute.gold < this.cost;
         },
@@ -87,19 +93,25 @@ export default {
                 rate = 10*0.85**(target-10);
             return Math.round(rate*100)/100;
         },
+        actualRate() {
+            var rate = this.successRate;
+            rate *= (1+this.smith/100);
+            return Math.round(rate*100)/100;
+        },
     },
     methods: {
         enhance() {
             if(this.$store.state.guildAttribute.gold < this.cost)
                 return;
             this.$store.state.guildAttribute.gold -= this.cost;
-            if(Math.random()*100 >= this.successRate){
+            if(Math.random()*100 >= this.actualRate){
                 this.enhanceInfo("强化失败", "fail");
                 return;
             }
             this.enhanceInfo("强化成功", "success");
             var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
             backpack.lockEquipment(true);
+            backpack.$forceUpdate();
             this.equip.enhanceLv = this.equip.enhanceLv + 1;
             var equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
             equipInfo.recomputeBaseEntryValue(this.equip);
@@ -191,9 +203,9 @@ export default {
                 color: #0f0;
             }
         }
-        .warning {
-            color: #D8000C;
-        }
+    }
+    .warning {
+        color: #D8000C;
     }
     .cost {
         position: absolute;
@@ -214,6 +226,10 @@ export default {
         align-items: center;
         justify-content: center;
         font-size: 1rem;
+        .smith {
+            color:#0f0;
+            font-size: 0.8rem;
+        }
     }
     .confirm {
         position: absolute;
