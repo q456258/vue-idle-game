@@ -171,7 +171,7 @@ export default {
         getAllCost() {
             var construct = ['guild', 'train', 'train2', 'train3', 'shop', 'smith']
             construct.forEach(type => {
-                this.getCost(type, this.guild[type]);
+                this.getCost(type, this.guild[type]+1);
             });
         }
     }

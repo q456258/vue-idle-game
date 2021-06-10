@@ -24,7 +24,7 @@
             <div class="body">
                 <textarea id="exSavadata" class="scrollbar-morpheus-den form-control z-depth-1 savedata-textarea" @focus="loadData = ''" v-model="loadData" placeholder="请先输入存档数据"></textarea></div>
             <div class="footer">
-                <button class="btn btn-outline-light btn-sm" @click="loadGame">导入</button>
+                <button class="btn btn-outline-light btn-sm" @click="loadGame(loadData)">导入</button>
 
             </div>
         </div>
@@ -49,7 +49,6 @@ export default {
         };
     },
     mounted() {
-        this.saveGame();
     },
     watch: {
     },
@@ -67,26 +66,30 @@ export default {
             data = {
                 state: this.$store.state,
                 backpackEquipment: backpack.grid,
+                backpackItem: backpack.itemGrid,
             }
             var saveData = Base64.encode(Base64.encode(JSON.stringify(data)));
-            // localStorage.setItem('_sd', saveData);
+            localStorage.setItem('_sd', saveData);
 
-            // needInfo && this.$store.commit("set_sys_info", {
-            //     msg: `
-            //         游戏进度已保存。
-            //         `,
-            //     type: 'win'
-            // });
+            needInfo && this.$store.commit("set_sys_info", {
+                msg: `
+                    游戏进度已保存。
+                    `,
+                type: 'win'
+            });
             this.saveData = saveData;
         },
-        loadGame() {
+        loadGame(loadData) {
+            if(!loadData)
+                return;
             try {
-                var data = JSON.parse(Base64.decode(Base64.decode(this.loadData)));
+                var data = JSON.parse(Base64.decode(Base64.decode(loadData)));
                 this.$store.replaceState(data.state);
-                
                 var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
                 backpack.grid = data.backpackEquipment;
-
+                if(data.backpackItem != undefined)
+                    backpack.itemGrid = data.backpackItem;
+                
                 var index = this.findComponentUpward(this, 'index');
                 this.$store.state.dungeonInfo.auto = false;
                 this.$store.state.dungeonInfo.inBattle = false;
@@ -112,7 +115,7 @@ export default {
         },
         closeSaveload() {
             var index = this.findComponentUpward(this, 'index');
-            index.openMenuPanel('save');
+            index.closeMenuPanel('save');
         }
     }
 }

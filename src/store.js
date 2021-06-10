@@ -444,7 +444,7 @@ export default new Vuex.Store({
       var advancedAttr = {
         STR: { HP: 10, MR: 0.25}, 
         AGI: { ATK: 4, DEF: 1}, 
-        INT: { MP: 3, AP: 2 }, 
+        INT: { MP: 3, AP: 3 }, 
       };
       attributes.forEach(attr => {
         attribute[attr] = { 

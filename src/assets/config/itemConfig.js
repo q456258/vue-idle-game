@@ -65,7 +65,7 @@ export const itemConfig = {
                         iconSrc: "./icons/item/Inv_enchanting_wod_dust3.png",
                     },
                 },
-                dust: {
+                dust6: {
                     quality: 6,
                     description: {
                         name: '传奇装备精华',

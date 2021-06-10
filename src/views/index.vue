@@ -178,7 +178,19 @@ export default {
     }, 100);
     this.trialAutoHealthRecovery = setInterval(() => {
       this.$store.commit('set_trial_hp', Math.ceil(this.trialAttribute.MAXHP.value*0.002));
-    }, 100);
+    }, 100);    
+
+    //读取本地存档
+    var saveload = this.findComponentDownward(this, 'saveload');  
+    var sd = localStorage.getItem('_sd');
+    saveload.loadGame(sd);
+
+    // 自动保存
+    setInterval(() => {
+      var saveload = this.findComponentDownward(this, 'saveload');  
+      saveload.saveGame(true);
+    }, 5 * 60 * 1000)
+
     //初始生成地图
     this.createMaps(this.playerLv);
     //测试·随机装备
@@ -493,6 +505,18 @@ export default {
           break;
         case 'save':
           this.savePanel = !this.savePanel;
+          var saveload = this.findComponentDownward(this, 'saveload');  
+          saveload.saveGame();
+          break;
+      }
+    },
+    closeMenuPanel(type) {
+      switch(type) {
+        case 'backpack':
+          this.showBackpack = false;
+          break;
+        case 'save':
+          this.savePanel = false;
           var saveload = this.findComponentDownward(this, 'saveload');  
           saveload.saveGame();
           break;
