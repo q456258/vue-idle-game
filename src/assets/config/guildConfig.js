@@ -22,22 +22,22 @@ export const guildConfig = {
             },
             train2: {
                 base: {
-                    gold: 2000,
-                    crystal: 20
+                    gold: 1000,
+                    crystal: 10
                 },
                 cost: {
-                    gold: 2000,
-                    crystal: 20
+                    gold: 1000,
+                    crystal: 10
                 }
             },
             train3: {
                 base: {
-                    gold: 40000,
-                    crystal: 400
+                    gold: 5000,
+                    crystal: 50
                 },
                 cost: {
-                    gold: 40000,
-                    crystal: 400
+                    gold: 5000,
+                    crystal: 50
                 }
             },
             shop: {

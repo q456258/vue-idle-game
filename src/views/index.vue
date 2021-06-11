@@ -427,10 +427,10 @@ export default {
       }
       else {
         let attr = this.$store.state.playerAttribute.attribute;
-        if(this.dungeonInfo.current =='trial' && attr.CURHP.value != attr.MAXHP.value) {
+        if(this.dungeonInfo.current =='trial' && attr.CURHP.value < attr.MAXHP.value/2) {
             this.$store.commit("set_sys_info", {
                 type: 'dmged',
-                msg: '试炼太危险了，恢复满血再去挑战吧！'
+                msg: '试炼太危险了，至少恢复到半血再去挑战吧！'
             });
             return;
         }

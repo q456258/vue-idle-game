@@ -470,14 +470,7 @@ export default {
             index.equipForgePanel = true;
         },
         equipLevelUp() {
-            var dust = ['dust2', 'dust3', 'dust4', 'dust5', 'dust6'];
-            var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
-            var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
             var equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
-            var quantity = Math.ceil(this.currentEquip.lv/10);
-            var itemName = this.itemType[dust[this.currentEquip.quality.qualityLv-2]].description.name;
-            var item = itemInfo.findItem(itemName);  
-            var has = item == -1 ? 0 : backpack.itemGrid[item].quantity;
             this.$message({
                 message: '需要消耗一个等级高于目标的同品质装备，请将要消耗的装备放置在背包最后一格（右下角）',
                 title: '升级装备',

@@ -169,7 +169,7 @@ export default {
                 index = this.currentItemIndex;
             var equip = this.grid[index];
             var cost = 8+4*Math.random();
-            cost *= (1+equip.lv)*(1+equip.enhanceLv*equip.quality.qualityCoefficient+equip.quality.extraEntryNum*2);
+            cost *= (1+equip.lv/2)*(1+equip.enhanceLv*equip.quality.qualityCoefficient+equip.quality.extraEntryNum*2);
             cost = Math.round(cost);
             this.grid[index] = {};
             this.$store.state.guildAttribute.gold += cost;
@@ -180,7 +180,7 @@ export default {
         },
         sellEquipmentByEquip(equip) {
             var cost = 8+4*Math.random();
-            cost *= (1+equip.lv)*(1+equip.enhanceLv*equip.quality.qualityCoefficient+equip.quality.extraEntryNum*2);
+            cost *= (1+equip.lv/2)*(1+equip.enhanceLv*equip.quality.qualityCoefficient+equip.quality.extraEntryNum*2);
             cost = Math.round(cost);
             this.$store.state.guildAttribute.gold += cost;
             this.$store.commit("set_sys_info", {

@@ -306,10 +306,10 @@ button:focus {
     transition: 0.2s;
     &:hover {
         box-shadow: inset 0 0 7px 7px #53a28ec9;
-        .btn-borders {
+        // .btn-borders {
             // 会导致其他文字模糊
             // display: flex !important;
-        }
+        // }
     }
     &.E:hover {
         box-shadow: inset 0 0 7px 7px #696969a2;

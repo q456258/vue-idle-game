@@ -296,22 +296,21 @@ export default {
                 entry.qualityLv = 'S'
         },
         levelUpEquip(equip) {
-            var dust = ['dust2', 'dust3', 'dust4', 'dust5', 'dust6'];
             var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
-            var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-            var quantity = Math.ceil(equip.lv/10);
-            var itemName = this.itemType[dust[equip.quality.qualityLv-2]].description.name;
-            var item = itemInfo.findItem(itemName);  
-            var has = item == -1 ? 0 : backpack.itemGrid[item].quantity;
-            if(has < quantity) {
+            // var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            // var itemName = this.itemType[dust[equip.quality.qualityLv-2]].description.name;
+            var item = backpack.grid[backpack.grid.length-1];  
+            var lvCompare = equip.lv < item.lv;
+            var qualityCompare = item.quality == undefined ? false : equip.quality.qualityLv == item.quality.qualityLv;
+            if(!lvCompare && !qualityCompare) {
                 this.$store.commit("set_sys_info", {
                     type: 'dmged',
                     msg: '材料不足，无法升级装备！'
                 });
                 return;
             }
-            backpack.itemGrid[item].quantity -= quantity;
-
+            backpack.grid[backpack.grid.length-1] = {};
+            backpack.$forceUpdate();
             equip.lv += 1;
             equip.baseEntry.forEach(entry => {
                 let percent = (entry.base/(this.entryInfo[entry.type].base*(1+(equip.lv-1)**2*0.06))-1)*5;
