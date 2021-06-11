@@ -158,14 +158,8 @@ export default {
 
         },
         getCost(type, level) {
-            let fib0 = 1, fib1 = 1;
-            for(var a=1; a<level; a++) {
-                let temp = fib0 + fib1;
-                fib0 = fib1;
-                fib1 = temp;
-            }
             for(let cost in this.cost[type].cost) {
-                this.cost[type].cost[cost] = Math.round(this.cost[type].base[cost] * (1+fib1*0.1));
+                this.cost[type].cost[cost] = Math.round(this.cost[type].base[cost] * (3+level**2*(1+level/10)));
             }
         },
         getAllCost() {

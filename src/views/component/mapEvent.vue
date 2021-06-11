@@ -100,7 +100,8 @@ export default {
             var attribute = enermyAttribute.attribute,
             val = 0.0,
             flexStats = ['MAXHP', 'ATK'],
-            fixStats = ['AP', 'DEF', 'MR'];
+            lvStats = ['AP', 'DEF', 'MR'],
+            fixStats = ['CRIT', 'CRITDMG'];
             enermyAttribute.lv = level;
             enermyAttribute.name = this.monster[lv].name;
             flexStats.forEach(stat => {
@@ -111,12 +112,16 @@ export default {
                 attribute.showValue = attribute.value;
                 enermyAttribute.attribute[stat] = attribute;
             });
-            fixStats.forEach(stat => {
+            lvStats.forEach(stat => {
                 let attribute = enermyAttribute.attribute[stat];
-                // attribute.value = Math.round(attribute.value*(1+enermyAttribute.lv*0.15)*(1+Math.random()/10));
-                // attribute.value = Math.round(attribute.value*(1+enermyAttribute.lv*0.15));
                 attribute.value = Math.round(attribute.value*(enermyAttribute.lv));
                 attribute.showValue = attribute.value;
+                enermyAttribute.attribute[stat] = attribute;
+            });
+            fixStats.forEach(stat => {
+                let attribute = enermyAttribute.attribute[stat];
+                // attribute.value = Math.round(attribute.value*(enermyAttribute.lv));
+                attribute.showValue = attribute.value + '%';
                 enermyAttribute.attribute[stat] = attribute;
             });
             attribute['CURHP'] = {
@@ -225,7 +230,7 @@ export default {
                 //     });
                 //     break;
                 case 'crystal':
-                    let crystal = Math.round((1+lv)*(1+Math.random()))
+                    let crystal = Math.round((1+lv*2)*(1+Math.random()))
                     this.$store.state.guildAttribute.crystal += crystal;
                     this.$store.commit("set_sys_info", {
                         type: 'reward',
@@ -257,7 +262,7 @@ export default {
                     backpack.sellEquipmentByEquip(equip);
                 else {
                     for (let i = 0; i < backpack.grid.length; i++) {
-                        if (JSON.stringify(backpack.grid[i]).length < 3) {
+                        if (Object.keys(backpack.grid[i]).length < 3) {
                             this.$set(backpack.grid, i, equip);
                             break;
                         }
@@ -275,7 +280,7 @@ export default {
                     item: item
                 });
                 for (let i = 0; i < backpack.itemGrid.length; i++) {
-                    if (JSON.stringify(backpack.itemGrid[i]).length < 3) {
+                    if (Object.keys(backpack.itemGrid[i]).length < 3) {
                         this.$set(backpack.itemGrid, i, item);
                         break;
                     }

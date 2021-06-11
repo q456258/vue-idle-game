@@ -423,7 +423,7 @@ export default {
         unEquip() {
             var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
             for (let i = 0; i < backpack.grid.length; i++) {
-                if (JSON.stringify(backpack.grid[i]).length < 3) {
+                if (Object.keys(backpack.grid[i]).length < 3) {
                     this.$set(backpack.grid, i, this.currentEquip);
                     switch (this.currentEquip.itemType) {
                         case 'helmet':
@@ -479,7 +479,7 @@ export default {
             var item = itemInfo.findItem(itemName);  
             var has = item == -1 ? 0 : backpack.itemGrid[item].quantity;
             this.$message({
-                message: '消耗材料'+itemName+"*"+quantity+",目前拥有数量："+has,
+                message: '需要消耗一个等级高于目标的同品质装备，请将要消耗的装备放置在背包最后一格（右下角）',
                 title: '升级装备',
                 confirmBtnText: '升级',
                 onClose: () => {

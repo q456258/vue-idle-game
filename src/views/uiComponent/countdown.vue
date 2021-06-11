@@ -183,11 +183,12 @@ export default {
         computeTime() {
             let value = 5**(this.trainTier-1);
             // let time = 1*(1-(0.01*this.trainLevel)/(1+0.01*this.trainLevel))*(2-(this.trainTier-1)*0.2);
-            let time = 1*(2-(this.trainTier-1)*0.2);
+            // let time = 1*(2-(this.trainTier-1)*0.2);
+            let time = 5;
             // this.trainTime = Math.round(value*time/this.entryInfo[this.type].base);
             this.trainTime = Math.round(value*time);
             this.gain = value;
-            this.cost = Math.ceil(this.trainTime/10);
+            this.cost = Math.ceil(this.trainTime/10*(1+this.trainLevel/20));
             // this.trainTime = Math.round(2);
         },
         increaseProgress(type, value) {

@@ -76,7 +76,7 @@ export default {
         findItem(name) {            
             var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
             for (let i = 0; i < backpack.itemGrid.length; i++) {
-                if (JSON.stringify(backpack.itemGrid[i]).length > 2 && backpack.itemGrid[i].description.name == name) {
+                if (Object.keys(backpack.itemGrid[i]).length > 2 && backpack.itemGrid[i].description.name == name) {
                     return i;
                 }
             }
@@ -88,7 +88,7 @@ export default {
             var stack = this.findItem(name);
             if(stack == -1) {
                 for (let i = 0; i < backpack.itemGrid.length; i++) {
-                    if (JSON.stringify(backpack.itemGrid[i]).length < 3) {
+                    if (Object.keys(backpack.itemGrid[i]).length < 3) {
                         this.$set(backpack.itemGrid, i, item);
                         return;
                     }

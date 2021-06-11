@@ -110,7 +110,8 @@ export default {
             }
             this.enhanceInfo("强化成功", "success");
             var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
-            backpack.lockEquipment(true);
+            // backpack.lockEquipment(true);
+            this.equip.locked = true;
             backpack.$forceUpdate();
             this.equip.enhanceLv = this.equip.enhanceLv + 1;
             var equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];

@@ -42,6 +42,7 @@
         <span class="cost" :class="{'warning':warning}" v-show="equip.enhanceLv < equip.maxEnhanceLv">消耗金币：{{cost}}</span>
         <div class="confirm" @click="forgeAll()">
             重铸
+            <span ref="info"></span>
         </div>
         <div class="cancel" @click="closeInfo()">
             取消
@@ -87,6 +88,14 @@ export default {
             this.$store.state.guildAttribute.gold -= this.cost;
             var equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
             // equipInfo.forgeAll(this.equip);
+            var allLocked = true;
+            for(let entry in this.equip.extraEntry) {
+                if(!this.equip.extraEntry[entry].locked)
+                    allLocked = false;
+            }
+            if(allLocked) {
+                this.forgeInfo("全锁上了你重铸个锤子？", '')
+            }
             for(let entry in this.equip.extraEntry) {
                 if(!this.equip.extraEntry[entry].locked)
                     equipInfo.forgeEntry(this.equip, entry);
@@ -109,12 +118,29 @@ export default {
             this.computeCost();
         },
         computeCost() {
-            var base = 233+this.equip.lv**2;
+            var base = 100+this.equip.lv**2/2;
             for(let entry in this.equip.extraEntry) {
                 if(this.equip.extraEntry[entry].locked)
                     base *= 1.5;
             }
             this.cost = Math.round(base);
+        },
+        forgeInfo(info, type) {
+            var element = this.$refs['info'];
+            var node = document.createElement("DIV");
+            var textnode = document.createTextNode(info);
+            node.appendChild(textnode);
+            element.appendChild(node); 
+            node.style.position = 'absolute';
+            node.style.width = '10rem';
+            node.style.color = type=='success'?'#0f0' : '#f00';
+            node.style.top = '-0.5rem';
+            node.style.left = '-1rem';
+            node.animate([{transform: 'translate(0px)', opacity: 1},
+                {transform: 'translate(' + (0) + 'px, '+ (-50) + 'px)', opacity: 0.5}], { duration: 1000, ease:'ease-in', iterations: 1});
+            setTimeout(()=>{
+                element.removeChild(node);
+            },900);
         },
         closeInfo() {
             var index = this.findComponentUpward(this, 'index');
