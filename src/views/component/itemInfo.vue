@@ -52,6 +52,8 @@ export default {
             // newEquip.lv = lv || 1;
             newItem.quality = this.itemQuality[this.itemType[type].quality-1];
             newItem.quantity = quantity;
+            newItem.type = type;
+            newItem.stack = this.itemType[type].stack;
             // newEquip.maxEnhanceLv = (newEquip.quality.extraEntryNum-1)*5;
             // newEquip.enhanceLv = Math.min(0, newEquip.maxEnhanceLv);
             // newEquip.baseEntry = this.createBaseEntry(newEquip);
@@ -85,7 +87,7 @@ export default {
         addItem(item) {
             var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
             var name = item.description.name;
-            var stack = this.findItem(name);
+            var stack = item.stack ? this.findItem(name) : -1;
             if(stack == -1) {
                 for (let i = 0; i < backpack.itemGrid.length; i++) {
                     if (Object.keys(backpack.itemGrid[i]).length < 3) {
@@ -96,6 +98,22 @@ export default {
             }
             else {
                 backpack.itemGrid[stack].quantity += item.quantity;
+            }
+        },
+        removeItemByIndex(index, quantity) {
+            var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            backpack.itemGrid[index].quantity -= quantity;
+            if(backpack.itemGrid[index].quantity <= 0)
+                backpack.itemGrid[index] = {};
+        },
+        removeItemByItem(item) {
+            var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            var name = item.description.name;
+            var stack = this.findItem(name);
+            if(stack != -1) {
+                backpack.itemGrid[stack].quantity -= item.quantity;
+                if(backpack.itemGrid[stack].quantity <= 0)
+                    backpack.itemGrid[stack] = {};
             }
         }
     },

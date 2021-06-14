@@ -37,6 +37,7 @@ export const itemConfig = {
                         desc: '分解普通装备获得，可用于升级普通品质的装备',
                         iconSrc: "./icons/item/Inv_enchanting_dust.png",
                     },
+                    stack: true,
                 },
                 dust3: {
                     quality: 3,
@@ -46,6 +47,7 @@ export const itemConfig = {
                         desc: '分解精良装备获得，可用于升级精良品质的装备',
                         iconSrc: "./icons/item/Inv_enchanting_70_arkhana.png",
                     },
+                    stack: true,
                 },
                 dust4: {
                     quality: 4,
@@ -55,6 +57,7 @@ export const itemConfig = {
                         desc: '分解完美装备获得，可用于升级完美品质的装备',
                         iconSrc: "./icons/item/Inv_misc_dust_infinite.png",
                     },
+                    stack: true,
                 },
                 dust5: {
                     quality: 5,
@@ -64,6 +67,7 @@ export const itemConfig = {
                         desc: '分解史诗装备获得，可用于升级史诗品质的装备',
                         iconSrc: "./icons/item/Inv_enchanting_wod_dust3.png",
                     },
+                    stack: true,
                 },
                 dust6: {
                     quality: 6,
@@ -73,7 +77,58 @@ export const itemConfig = {
                         desc: '分解传奇装备获得，可用于升级传奇品质的装备',
                         iconSrc: "./icons/item/Inv_enchant_dustillusion.png",
                     },
-                }
+                    stack: true,
+                },
+                inv_box_01: {
+                    quality: 1,
+                    description: {
+                        name: '遗落的宝箱',
+                        category: '消耗品',
+                        desc: '看起来有些年头的宝箱，打开后随机获得金币、水晶、装备、技能书',
+                        iconSrc: "./icons/item/Inv_box_01.png",
+                    },
+                    stack: false,
+                },
+                spell_nature_thunderclap: {
+                    quality: 1,
+                    description: {
+                        name: '雷霆一击技能书',
+                        category: '消耗品',
+                        desc: '学习技能【雷霆一击】',
+                        iconSrc: "./icons/spell/Spell_nature_thunderclap.png",
+                    },
+                    stack: false,
+                },
+                spell_nature_lightning: {
+                    quality: 2,
+                    description: {
+                        name: '闪电箭技能书',
+                        category: '消耗品',
+                        desc: '学习技能【闪电箭】',
+                        iconSrc: "./icons/spell/Spell_nature_lightning.png",
+                    },
+                    stack: false,
+                },
+                spell_holy_crusaderstrike: {
+                    quality: 3,
+                    description: {
+                        name: '十字军打击技能书',
+                        category: '消耗品',
+                        desc: '学习技能【十字军打击】',
+                        iconSrc: "./icons/spell/Spell_holy_crusaderstrike.png",
+                    },
+                    stack: false,
+                },
+                spell_shadow_ritualofsacrifice: {
+                    quality: 4,
+                    description: {
+                        name: '影袭技能书',
+                        category: '消耗品',
+                        desc: '学习技能【影袭】',
+                        iconSrc: "./icons/spell/spell_shadow_ritualofsacrifice.png",
+                    },
+                    stack: false,
+                },
             }
         }
     }

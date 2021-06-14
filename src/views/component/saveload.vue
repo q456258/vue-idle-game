@@ -99,6 +99,14 @@ export default {
                 index.dungeonInfo = this.$store.state.dungeonInfo;
                 index.createMaps(this.$store.state.playerAttribute.lv);
                 index.switchZone(this.$store.state.dungeonInfo.current);
+                if(this.$store.state.playerAttribute.spells.spell == undefined) {
+                    this.$store.state.playerAttribute.spells = {        
+                        weight: 100,
+                        spell: {
+                            attack: true, 
+                        },
+                    }
+                }
 
                 var guild = this.findComponentDownward(index, 'guild');
                 guild.getAllCost();

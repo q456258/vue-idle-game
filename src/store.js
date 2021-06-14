@@ -252,8 +252,16 @@ export default new Vuex.Store({
         APP: { baseVal: 0, value: 0, showbaseVal: 0},
         MRP: { baseVal: 0, value: 0, showbaseVal: 0},
       },
-      spells: ['attack', 'thunder'],
-      tempSpells: {},
+      spells: {
+        weight: 100,
+        spell: {
+          attack: true, 
+          // Spell_nature_thunderclap: true, 
+          // Spell_nature_lightning: false, 
+          // Spell_holy_crusaderstrike: true, 
+          // spell_shadow_ritualofsacrifice: true
+        },
+      },
       helmet: initial_helmet,
       weapon: initial_weapon,
       armor: initial_armor,
@@ -507,7 +515,9 @@ export default new Vuex.Store({
       attribute['CURMP'].value = Math.floor(mpPercent*attribute['MP'].value);
       attribute['MAXMP'].showValue += attribute['MP'].value;
       attribute['CURMP'].showValue += playerAttribute.attribute['CURMP'].value;
-      attribute['DEFRED'].value = Math.round(0.01 * attribute['DEF'].value / (1 + (0.0105 * attribute['DEF'].value))*10000)/100;
+      attribute['DEFRED'].value = 
+        Math.round((attribute['DEF'].value/(100+attribute['DEF'].value) + attribute['DEF'].value/(attribute['DEF'].value+3500))/2*1000000)/10000;
+      // attribute['DEFRED'].value = Math.round(0.01 * attribute['DEF'].value / (1 + (0.0105 * attribute['DEF'].value))*1000000)/10000;
       // attribute['DEFRED'].value = Math.round(0.01 * attribute['DEF'].value / (1 + (0.01 * attribute['DEF'].value))*10000)/100;
       attribute['DEFRED'].showValue = attribute['DEFRED'].value+'%';
       playerAttribute.attribute = attribute;

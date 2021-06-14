@@ -25,7 +25,6 @@ export default {
                 this.generateEnermy(type, dungeonInfo[dungeonInfo.current].level);
                 enermyAttribute = type == 'trial' ? this.$store.state.trialAttribute : this.$store.state.enermyAttribute;
             }
-            playerAttribute.tempSpells = this.createTempSpell(playerAttribute);
             if(this.$store.state.dungeonInfo.inBattle)
                 return;
             this.setBattleStatus(true);
@@ -99,8 +98,8 @@ export default {
             enermyAttribute.attribute = this.$deepCopy(this.monster[lv].template);
             var attribute = enermyAttribute.attribute,
             val = 0.0,
-            flexStats = ['MAXHP', 'ATK'],
-            lvStats = ['AP', 'DEF', 'MR'],
+            flexStats = ['MAXHP', 'ATK', 'DEF'],
+            lvStats = ['AP', 'MR'],
             fixStats = ['CRIT', 'CRITDMG'];
             enermyAttribute.lv = level;
             enermyAttribute.name = this.monster[lv].name;
@@ -129,7 +128,7 @@ export default {
                 showValue: attribute['MAXHP'].value
             }
             
-            val = Math.round(0.01 * attribute['DEF'].value / (1 + (0.0105 * attribute['DEF'].value))*10000)/100;
+            val = Math.round((attribute['DEF'].value/(100+attribute['DEF'].value) + attribute['DEF'].value/(attribute['DEF'].value+3500))/2*1000000)/10000;
             // val = Math.round(0.01 * attribute['DEF'].value / (1 + (0.01 * attribute['DEF'].value))*10000)/100;
             attribute['DEFRED'] = {
                 value: val,
@@ -168,34 +167,42 @@ export default {
             }
             return dmg;
         },
-        createTempSpell(source) {
-            var tempSpells = {total:0, spell: []};
-            source.spells.forEach(spell => {
-                tempSpells.total += this.spell[spell].weight;
-            });
-            tempSpells.spell = source.spells;
-            return tempSpells;
-        },
         getSpell(source) {
-            if(source.tempSpells == undefined)
+            if(source.spells == undefined)
                 return 'attack'
-            var random = Math.floor(Math.random()*source.tempSpells.total);
+            var random = Math.floor(Math.random()*source.spells.weight);
             var curWeight = 0;
             var selectSpell = '';
-            for(var spell in source.tempSpells.spell) {
-                let name = source.tempSpells.spell[spell];
-                let tempSpell = this.spell[name];
+            for(var spell in source.spells.spell) {
+                let tempSpell = this.spell[spell];
                 curWeight += tempSpell.weight;
                 if(curWeight > random) {
-                    selectSpell = name;
+                    selectSpell = spell;
                     break;
                 }
             }   
-            if(selectSpell != 'attack') {
-                source.tempSpells.total -= this.spell[selectSpell].weight;
-                delete source.tempSpells.spell[selectSpell];
+            if(this.checkCost(selectSpell)) {
+                this.useCost(selectSpell);
             }
             return selectSpell;
+        },
+        checkCost(spell) {
+            var attr = this.$store.state.playerAttribute.attribute;
+            for(let cost in this.spell[spell].cost) {
+                if(cost == 'MP') {
+                    if(attr[cost].value < this.spell[spell].cost[cost])
+                        return false;
+                }
+            }
+            return true;
+        },
+        useCost(spell) {
+            var attr = this.$store.state.playerAttribute.attribute;
+            for(let cost in this.spell[spell].cost) {
+                if(cost == 'MP') {
+                    this.$store.commit('set_player_mp', -1*this.spell[spell].cost[cost]);
+                }
+            }
         },
         getSpellDmg(spell, source) {
             var dmg = 0;
@@ -238,10 +245,7 @@ export default {
                     });
                     break;
                 case 'chest':
-                    this.$store.commit("set_sys_info", {
-                        type: 'reward',
-                        msg: '获得宝箱'
-                    });
+                    item = itemInfo.createItem('inv_box_01', 1);
                     break;
                 case 'equip':
                     equip = equipInfo.createEquip(-1, lv, 'random', bonus);  
@@ -258,36 +262,18 @@ export default {
                     msg: '获得战利品',
                     equip: equip
                 });
-                if(backpack.autoSell[equip.quality.qualityLv-1])
-                    backpack.sellEquipmentByEquip(equip);
-                else {
-                    for (let i = 0; i < backpack.grid.length; i++) {
-                        if (Object.keys(backpack.grid[i]).length < 3) {
-                            this.$set(backpack.grid, i, equip);
-                            break;
-                        }
-                        if(i==backpack.grid.length-1){
-                            backpack.sellEquipmentByEquip(equip);
-                        }
-                    }
-                }
+                backpack.giveEquip(equip);
             }
             if(item != null) {
                 item = JSON.parse(item);
+                let quantity = item.quantity;
                 this.$store.commit("set_sys_info", {
                     type: 'reward',
                     msg: '获得战利品',
-                    item: item
+                    item: item,
+                    quantity: quantity
                 });
-                for (let i = 0; i < backpack.itemGrid.length; i++) {
-                    if (Object.keys(backpack.itemGrid[i]).length < 3) {
-                        this.$set(backpack.itemGrid, i, item);
-                        break;
-                    }
-                    if(i==backpack.itemGrid.length-1){
-                        backpack.sellEquipmentByEquip(item);
-                    }
-                }
+                itemInfo.addItem(item);
             }
             index.nextLevel();
         },

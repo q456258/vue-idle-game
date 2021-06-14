@@ -33,13 +33,13 @@
                     <div class="icon" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v.quality.color }">
                         <img :src="v.description.iconSrc" alt="" />
                     </div>
-                    <div class="quantity">
+                    <div class="quantity" v-if="v.stack">
                         {{v.quantity}}
                     </div>
                 </div>
             </div>
         </div>
-        <ul v-show="visible" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
+        <ul v-show="visible && displayPage=='equip'" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
             <li @click="equip()">装备</li>
             <li @click="equipEnhance()" v-if="guild.smith>0">强化</li>
             <li @click="equipForge()" v-if="guild.smith>=10">重铸</li>
@@ -47,6 +47,10 @@
             <li @click="lockEquipment(false)" v-if="currentItem.locked">解锁</li>
             <li @click="disintegrate()" v-if="guild.smith>=5 && !currentItem.locked">分解</li>
             <li @click="sellEquipment()" v-if="!currentItem.locked">出售</li>
+        </ul>
+        <ul v-show="visible && displayPage=='item'" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
+            <li @click="useItem()">使用</li>
+            <li @click="throwItem()">丢弃</li>
         </ul>
         <div class="footer">
             <div class="autoSellSetting" v-if="autoSellPanel">
@@ -65,8 +69,8 @@
                 </div>
 
             </div>
-            <a class="function">
-                <span  @click.stop="autoSellPanel = !autoSellPanel">
+            <a class="function" @click.stop="autoSellPanel = !autoSellPanel">
+                <span>
                 自动出售设置
                 <!-- <i class="icon icon-setting"></i> -->
                 </span>
@@ -80,10 +84,11 @@
 </template>
 <script>
 import { assist } from '../../assets/js/assist';
+import { itemEffect } from '../../assets/js/itemEffect';
 import draggable from '../uiComponent/draggable';
 export default {
     name: 'backpack',
-    mixins: [assist],
+    mixins: [assist, itemEffect],
     components: {draggable},
     data() {
         return {
@@ -202,8 +207,33 @@ export default {
             this.$store.commit("set_sys_info", {
                 type: 'reward',
                 msg: '分解装备获得物品: ',
-                item: JSON.parse(item)
+                item: JSON.parse(item),
+                quantity: quantity
             });
+        },
+        useItem() {
+            var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            var success = this.callItemEffect(this.itemGrid[this.currentItemIndex].type);
+            if(success)
+                itemInfo.removeItemByIndex(this.currentItemIndex, 1);
+        },
+        throwItem() {
+            this.itemGrid[this.currentItemIndex] = {};
+        },
+        giveEquip(equip) {
+            if(this.autoSell[equip.quality.qualityLv-1])
+                this.sellEquipmentByEquip(equip);
+            else {
+                for (let i = 0; i < this.grid.length; i++) {
+                    if (Object.keys(this.grid[i]).length < 3) {
+                        this.$set(this.grid, i, equip);
+                        break;
+                    }
+                    if(i==this.grid.length-1){
+                        this.sellEquipmentByEquip(equip);
+                    }
+                }
+            }
         },
         disintegrateAll() {
             for(var i=0; i<this.grid.length; i++) {

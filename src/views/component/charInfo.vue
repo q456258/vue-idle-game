@@ -369,6 +369,34 @@
                 </div>
             </div>
         </div>
+        <div class="user-spell">
+            <div class="spellInfo">总比重：{{spells.weight}}</div>
+            <div class="container scrollbar-morpheus-den">
+                <div class="spell" v-for="(v, k) in spells.spell" :key="k" @click="activeSpell(k)">
+                    <span class="spellIcon"><img class="icon" :src="spell[k].iconSrc"></span>
+                    <span class="spellName" :style="spellQuality[spell[k].quality]">{{spell[k].name}}</span>
+                    <span class="spellDesc">{{spell[k].des}}</span>
+                    <span class="spellWeight">{{"比重："+spell[k].weight}}</span>
+                    <span class="spellCost" v-if="spell[k].cost['HP']">
+                        {{"消耗："+spell[k].cost['HP']+entryInfo['HP'].name}}
+                    </span>
+                    <span class="spellCost" v-if="spell[k].cost['MP']">
+                        {{"消耗："+spell[k].cost['MP']+entryInfo['MP'].name}}
+                    </span>
+                    <span class="spellSwitch" v-if="k!='attack'">
+                        <!-- <input type="checkbox" class="switch" v-model="spells.spell[k]" @click="activeSpell(k)"> -->
+                                <input type="checkbox" name="" v-model="spells.spell[k]">
+                                <span class="check"></span>
+                        <!-- <li>
+                            <label>
+                                <input type="checkbox" name="" v-model="spells.spell[k]">
+                                <span class="check"></span>
+                            </label>
+                        </li> -->
+                    </span>
+                </div>
+            </div>
+        </div>
         <ul v-show="visible" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
             <li @click="unEquip()">卸下</li>
             <li @click="equipEnhance()" v-if="guild.smith>0">强化</li>
@@ -381,10 +409,12 @@
 import cTooltip from '../uiComponent/tooltip';
 import hpmpBar from '../uiComponent/hpmpBar';
 import { assist } from '../../assets/js/assist';
-import {itemConfig} from '@/assets/config/itemConfig'
+import {itemConfig} from '@/assets/config/itemConfig';
+import {spellConfig} from '@/assets/config/spellConfig';
+import {equipConfig} from '@/assets/config/equipConfig';
 export default {
     name: "charInfo",
-    mixins: [assist, itemConfig],
+    mixins: [assist, itemConfig, spellConfig, equipConfig],
     components: {cTooltip, hpmpBar, },
     data() {
         return {
@@ -410,6 +440,7 @@ export default {
         baseAttribute() { return this.$store.state.baseAttribute },
         attribute() { return this.$store.state.playerAttribute.attribute },
         userGold() { return this.$store.state.guildAttribute.gold },
+        spells() { return this.$store.state.playerAttribute.spells},
         playerWeapon() { return this.$store.state.playerAttribute.weapon },
         playerArmor() { return this.$store.state.playerAttribute.armor },
         playerAccessory() { return this.$store.state.playerAttribute.accessory },
@@ -479,6 +510,19 @@ export default {
                     equipInfo.levelUpEquip(this.currentEquip);
                 }
             })
+        },
+        activeSpell(activeSpell, active=0) {
+            if(activeSpell != 'attack' && active == 0)
+                this.spells.spell[activeSpell] = !this.spells.spell[activeSpell];
+            this.spells.weight = 0;
+            for(let spell in this.spells.spell) {
+                if(this.spells.spell[spell])
+                    this.spells.weight += this.spell[spell].weight;
+            }
+            // if(!this.spells.spell[activeSpell]) 
+            //     this.spells.weight += this.spell[activeSpell].weight;
+            // else
+            //     this.spells.weight -= this.spell[activeSpell].weight;
         },
         showInfo($event, type, item, compare) {
             var index = this.findComponentUpward(this, 'index');
@@ -646,6 +690,118 @@ export default {
                     margin-top: 0.5rem;
                     line-height: 1rem;
                 }
+            }
+        }
+    }
+}
+.user-spell {
+    position: absolute;
+    top: 30rem;
+    left: 0.5rem;
+    border: 2px solid #ccc;
+    border-image: url("/icons/border2.png") 81 40/60px 50px/0.5rem round;
+    height: calc(100% - 31rem);
+    width: 50.5rem;
+    padding: 0.5rem;
+    cursor: pointer;
+    padding: 2rem 2rem;
+    .container{
+        height: 100%;
+        overflow-y: auto;
+        .spell {
+            position: relative;
+            height: 5rem;
+            border: 1px solid rgba(255, 255, 255, 0.404);
+            // border-image: linear-gradient(to right, darkorchid, rgb(0, 129, 123)) 1;
+            border-radius: 1em;
+            margin: 0.1rem;
+            .spellIcon {
+                position: absolute;
+                left: 1rem;
+                top: 0.5rem;
+                height: 4rem;
+                width: 4rem;
+                img {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+            .spellName {
+                position: absolute;
+                left: 5rem;
+                top: 0.5rem;
+            }
+            .spellDesc {
+                position: absolute;
+                left: 5rem;
+                top: 2rem;
+            }
+            .spellSwitch {
+                position: absolute;
+                right: 1rem;
+                top: -0.5rem;
+                input[type='checkbox']{
+                    position: absolute;
+                    opacity:0;
+                    cursor: pointer; 
+                }
+                .check{
+                    position: relative;
+                    display: block;
+                    width: 20px;
+                    height: 20px;
+                    background: linear-gradient(#333,#666);
+                    border-radius: 50%;
+                    margin: 10px auto;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 1
+                } 
+                .check:before{
+                    content: '';
+                    position: absolute;
+                    top: 5px;
+                    left: 5px;
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 50%;
+                    background-color: rgb(255, 0, 0);
+                    box-shadow: 0px 0px 10px rgb(255, 0, 0);
+                    transition: 0.5s;
+                    z-index: 3;
+                }
+                .check:after{
+                    content: '';
+                    position: absolute;
+                    top: 6px;
+                    bottom: 6px;
+                    left: 6px;
+                    right: 6px;
+                    background-color: #666;
+                    border-radius: 50%;
+                    z-index: 2;
+                    border: 2px solid #161616;
+                }
+                input[type='checkbox']:checked ~ .check:before{
+                    background: rgb(0, 255, 0);
+                    box-shadow: 0px 0px 10px rgba(0, 255, 176, 1),
+                                0px 0px 15px rgba(0, 255, 176, 1),
+                                0px 0px 20px rgba(0, 255, 176, 1),
+                                0px 0px 25px rgba(0, 255, 176, 1),
+                                0px 0px 0px 2px rgba(0, 255, 176, 0.1);
+
+                }
+            }
+            .spellWeight {
+                position: absolute;
+                right: 1rem;
+                top: 1.5rem;
+            }
+            .spellCost {
+                position: absolute;
+                right: 1rem;
+                top: 2.75rem;
             }
         }
     }

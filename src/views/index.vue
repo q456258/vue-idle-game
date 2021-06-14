@@ -33,7 +33,7 @@
           <div class="info warning" :class="{warning:v.type=='dmged',battle:v.type=='battle',win:v.type=='win',reward:v.type=='reward',}" v-for="(v,k) in sysInfo" :key="k">
             <span>{{v.msg}}</span>
             <a v-if="v.equip" :style="{color:v.equip.quality.color}" @mouseover="showInfo($event,v.equip.itemType,v.equip)" @mouseleave="closeInfo">{{v.equip.description.name}}</a>
-            <a v-if="v.item" :style="{color:v.item.quality.color}" @mouseover="showInfo($event,'',v.item)" @mouseleave="closeInfo">{{v.item.description.name}}*{{v.item.quantity}}</a>
+            <a v-if="v.item" :style="{color:v.item.quality.color}" @mouseover="showInfo($event,'',v.item)" @mouseleave="closeInfo">{{v.item.description.name}}*{{v.quantity}}</a>
           </div>
         </div>
       </div>
@@ -194,8 +194,8 @@ export default {
     //初始生成地图
     this.createMaps(this.playerLv);
     //测试·随机装备
-    let equipLv = 30;
-    let equipQuality = 3;
+    let equipLv = 200;
+    let equipQuality = 5;
     // var equipInfo = this.findComponentDownward(this, 'equipInfo');   
     // // var newEquip = JSON.parse(equipInfo.createEquip(0,2,'helmet'));
     // var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'helmet'));
@@ -406,15 +406,16 @@ export default {
     resetMap() {
       if(this.$store.state.dungeonInfo.inBattle)
         this.stopBattle();
-      this.$message({
-        message: '这将重置当前地图，确认操作吗？',
-        title: '提示',
-        confirmBtnText: '重置',
-        onClose: () => {
-          this.$store.commit('set_enermy_hp', 'dead');
-          this.createMaps(this.playerLv);
-        }
-      })
+      this.createMaps(this.playerLv);
+      // this.$message({
+      //   message: '这将重置当前地图，确认操作吗？',
+      //   title: '提示',
+      //   confirmBtnText: '重置',
+      //   onClose: () => {
+      //     this.$store.commit('set_enermy_hp', 'dead');
+      //     this.createMaps(this.playerLv);
+      //   }
+      // })
     },
     stopBattle() {
       // var element = document.getElementById('stopBattle')
