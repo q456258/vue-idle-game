@@ -120,7 +120,7 @@ export const itemConfig = {
                     stack: false,
                 },
                 spell_shadow_ritualofsacrifice: {
-                    quality: 4,
+                    quality: 1,
                     description: {
                         name: '影袭技能书',
                         category: '消耗品',
@@ -150,7 +150,7 @@ export const itemConfig = {
                     stack: false,
                 },
                 spell_arcane_starfire: {
-                    quality: 2,
+                    quality: 4,
                     description: {
                         name: '星火术技能书',
                         category: '消耗品',

@@ -529,6 +529,7 @@ export default {
                 this.spells.spell[activeSpell] = !this.spells.spell[activeSpell];
             this.spells.weight = 0;
             for(let spell in this.spells.spell) {
+            console.log(this.spell)
                 if(this.spells.spell[spell])
                     this.spells.weight += this.spell[spell].weight;
             }

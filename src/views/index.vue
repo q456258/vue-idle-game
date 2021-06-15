@@ -218,12 +218,13 @@ export default {
     // var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'shoulder'));
     // this.$store.commit('set_player_shoulder', this.$deepCopy(newEquip));
     
-    // var test = ['spell_fire_flamebolt', 'ability_druid_maul', 'ability_warrior_shieldbash', 'spell_nature_starfall', 'spell_arcane_starfire', 'spell_holy_holybolt']
-    // var itemInfo = this.findComponentDownward(this, 'itemInfo');
-    // test.forEach(name => {
-    //   var item = itemInfo.createItem(name, 1);  
-    //   itemInfo.addItem(JSON.parse(item));
-    // })
+    var test = ['spell_nature_thunderclap', 'spell_nature_lightning', 'spell_holy_crusaderstrike', 'spell_shadow_ritualofsacrifice', 'spell_holy_layonhands',
+            'spell_fire_flamebolt', 'ability_druid_maul', 'ability_warrior_shieldbash', 'spell_nature_starfall', 'spell_arcane_starfire', 'spell_holy_holybolt']
+    var itemInfo = this.findComponentDownward(this, 'itemInfo');
+    test.forEach(name => {
+      var item = itemInfo.createItem(name, 1);  
+      itemInfo.addItem(JSON.parse(item));
+    })
     this.$store.commit('set_player_attribute');
 
   },

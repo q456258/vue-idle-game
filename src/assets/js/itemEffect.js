@@ -91,7 +91,7 @@ export const itemEffect = {
             }
             else {
                 var charInfo = this.findBrothersComponents(this, 'charInfo', false)[0];
-                this.$store.state.playerAttribute.spells.spell[spellName] = {spellName: true};
+                this.$store.state.playerAttribute.spells.spell[spellName] = true;
                 charInfo.activeSpell(spellName, 1);
                 return true;
             }

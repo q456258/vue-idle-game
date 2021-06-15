@@ -47,7 +47,7 @@ data() {
                 },
                 tag: ['攻击']
             },
-            Spell_nature_thunderclap: {
+            spell_nature_thunderclap: {
                 name: '雷霆一击',
                 weight: 50,
                 des: '造成攻击力*1.1点伤害',
@@ -61,7 +61,7 @@ data() {
                 },
                 tag: ['攻击']
             },
-            Spell_holy_crusaderstrike: {
+            spell_holy_crusaderstrike: {
                 name: '十字军打击',
                 weight: 1,
                 des: '造成攻击力*2点伤害',
@@ -75,7 +75,7 @@ data() {
                 },
                 tag: ['攻击']
             },
-            Spell_nature_lightning: {
+            spell_nature_lightning: {
                 name: '闪电箭',
                 weight: 20,
                 des: '向目标投掷一发闪电箭，造成智力*15点伤害。',
@@ -94,7 +94,7 @@ data() {
                 weight: 10,
                 des: '造成敏捷*10点伤害',
                 iconSrc: "./icons/spell/spell_shadow_ritualofsacrifice.png",
-                quality: 4,
+                quality: 1,
                 dmg: {
                     AGI: 10,
                 },
@@ -103,7 +103,7 @@ data() {
                 },
                 tag: ['敏捷']
             },
-            Spell_holy_layonhands: {
+            spell_holy_layonhands: {
                 name: '圣疗术',
                 weight: 1,
                 des: '消耗所有魔法值，恢复自身所有生命值',
@@ -137,15 +137,15 @@ data() {
             },
             spell_arcane_starfire: {
                 name: '星火术',
-                weight: 25,
-                des: '造成元素*10点伤害',
+                weight: 10,
+                des: '造成元素*5点伤害',
                 iconSrc: "./icons/spell/spell_arcane_starfire.png",
-                quality: 2,
+                quality: 4,
                 dmg: {
-                    AP: 10
+                    AP: 5
                 },
                 cost: {
-                    MP: 600,
+                    MP: 6000,
                 },
                 tag: ['元素']
             },
@@ -178,7 +178,7 @@ data() {
                 cost: {
                     MP: 300,
                 },
-                tag: ['护甲']
+                tag: ['攻击', '护甲']
             },
             ability_druid_maul: {
                 name: '槌击',
