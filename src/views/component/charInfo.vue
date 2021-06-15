@@ -458,7 +458,6 @@ export default {
             if(this.dmgFilterSelected == '所有')
                 return Object.keys(spells.spell);
             return Object.keys(spells.spell).filter(s => {
-                // this.spell[s].tag.indexOf('atk') != -1;
                 return this.spell[s].tag != undefined && this.spell[s].tag.indexOf(this.dmgFilterSelected) != -1;
             });
         },

@@ -5,9 +5,9 @@ export const itemEffect = {
             var spellName = '';
             var spellBook = ['spell_nature_thunderclap', 'spell_nature_lightning', 'spell_holy_crusaderstrike', 'spell_shadow_ritualofsacrifice', 'spell_holy_layonhands',
             'spell_fire_flamebolt', 'ability_druid_maul', 'ability_warrior_shieldbash', 'spell_nature_starfall', 'spell_arcane_starfire', 'spell_holy_holybolt'];
-            if(spellBook.indefOf(type) != -1) {
+            if(spellBook.indexOf(type) != -1) {
                 spellName = type;
-                type = spellBook;
+                type = 'spellBook';
             }
             switch(type) {
                 case 'inv_box_01':
@@ -15,6 +15,13 @@ export const itemEffect = {
                     break;
                 case 'spellBook':
                     used = this.learnSpell(spellName);
+                    if(used) {
+                        // 刷新一下过滤技能列表
+                        var charInfo = this.findBrothersComponents(this, 'charInfo', false)[0];
+                        let temp = charInfo.dmgFilterSelected;
+                        charInfo.dmgFilterSelected = '';
+                        charInfo.dmgFilterSelected = temp;
+                    }
                     break;
             }
             return used;

@@ -147,7 +147,6 @@ export default {
         autoEnhance() {
             this.autoing = true;
             this.autoTimer = setInterval(() => {
-                console.log(this.targetLv)
                 if(this.equip.enhanceLv >= this.targetLv) {
                     this.autoing = false;
                     clearInterval(this.autoTimer);
@@ -178,7 +177,6 @@ export default {
         },
         updateTargetLv(e) {
             var value = e.target.value;
-            console.log(this.targetLv)
             if(value > this.equip.enhanceLv && value <= this.equip.maxEnhanceLv)
                 this.targetLv = e.target.value;
         },
