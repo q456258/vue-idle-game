@@ -58,7 +58,7 @@
             开始/继续战斗
           </button>
           <button class="btn btn-outline-light btn-sm" id="resetMap" v-show="dungeonInfo.current=='advanture'" @click="resetMap()">
-            重置地图
+            重置地图<span v-if="resetTime>0">({{resetTime}})</span>
           </button>   
         </div>    
         <div class="zone scrollbar-morpheus-den scrollbar-square">
@@ -158,6 +158,8 @@ export default {
       savePanel: false,
       displayPage: 'charInfo',
       saveDateString: '',
+      resetTimer: 0,
+      resetTime: 0
     }
   },
   components: {cTooltip, equipInfo, itemInfo, mapEvent, assist, backpack, equipEnhance, equipForge, charInfo, guild, faq, saveload, enermyInfo},
@@ -215,6 +217,13 @@ export default {
     // // var newEquip = JSON.parse(equipInfo.createEquip(5,20,'leg'));
     // var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'shoulder'));
     // this.$store.commit('set_player_shoulder', this.$deepCopy(newEquip));
+    
+    // var test = ['spell_fire_flamebolt', 'ability_druid_maul', 'ability_warrior_shieldbash', 'spell_nature_starfall', 'spell_arcane_starfire', 'spell_holy_holybolt']
+    // var itemInfo = this.findComponentDownward(this, 'itemInfo');
+    // test.forEach(name => {
+    //   var item = itemInfo.createItem(name, 1);  
+    //   itemInfo.addItem(JSON.parse(item));
+    // })
     this.$store.commit('set_player_attribute');
 
   },
@@ -404,18 +413,23 @@ export default {
       }
     },
     resetMap() {
+      var element = document.getElementById('resetMap');
+      if(this.resetTime > 0) {
+        return;
+      }
       if(this.$store.state.dungeonInfo.inBattle)
         this.stopBattle();
+      this.$store.commit('set_enermy_hp', 'dead');
       this.createMaps(this.playerLv);
-      // this.$message({
-      //   message: '这将重置当前地图，确认操作吗？',
-      //   title: '提示',
-      //   confirmBtnText: '重置',
-      //   onClose: () => {
-      //     this.$store.commit('set_enermy_hp', 'dead');
-      //     this.createMaps(this.playerLv);
-      //   }
-      // })
+      this.resetTime = 10;
+      element.disabled = true;
+      this.resetTimer = setInterval(() => {
+        this.resetTime -= 1;
+        if(this.resetTime == 0) {
+          clearInterval(this.resetTimer);
+          element.disabled = false;
+        }
+      }, 1000);
     },
     stopBattle() {
       // var element = document.getElementById('stopBattle')

@@ -159,7 +159,12 @@
                             基础：{{attribute.ATK.baseVal }}
                             <span v-if="attribute.ATKP.value != 0">{{' +' + attribute.ATKP.showValue}}</span>
                             <br>
-                            DPS:{{Math.round(attribute.ATK.value*(1+attribute.CRIT.value/100*(attribute.CRITDMG.value-100)/100)) }}
+                            <span v-if="attribute.CRIT.value <= 100">
+                                DPS:{{Math.round(attribute.ATK.value*(1+attribute.CRIT.value/100*(attribute.CRITDMG.value-100)/100)) }}
+                            </span>
+                            <span v-else>
+                                DPS:{{Math.round(attribute.ATK.value*(1+(attribute.CRITDMG.value-100)/100)) }}
+                            </span>
                         </p>
                     </template>
                 </cTooltip>
@@ -265,7 +270,7 @@
                     </template>
                     <template v-slot:tip>
                             <p class="info">* 你拥有的金币数量</p>
-                            <p class="info">* 在这里，钱就是万能的</p>
+                            <p class="info">* 钱不是万能的，但是没钱是万万不能的</p>
                     </template>
                 </cTooltip>
             </div>
@@ -370,29 +375,27 @@
             </div>
         </div>
         <div class="user-spell">
-            <div class="spellInfo">总比重：{{spells.weight}}</div>
+            过滤：<select v-model="dmgFilterSelected">
+                <option v-for="(item, key) in dmgFilter" :key="key">
+                {{item}}
+                </option>
+            </select>
+            <span class="spellInfo">&nbsp;&nbsp;&nbsp;总比重：{{spells.weight}}</span>
             <div class="container scrollbar-morpheus-den">
-                <div class="spell" v-for="(v, k) in spells.spell" :key="k" @click="activeSpell(k)">
-                    <span class="spellIcon"><img class="icon" :src="spell[k].iconSrc"></span>
-                    <span class="spellName" :style="spellQuality[spell[k].quality]">{{spell[k].name}}</span>
-                    <span class="spellDesc">{{spell[k].des}}</span>
-                    <span class="spellWeight">{{"比重："+spell[k].weight}}</span>
-                    <span class="spellCost" v-if="spell[k].cost['HP']">
-                        {{"消耗："+spell[k].cost['HP']+entryInfo['HP'].name}}
+                <div class="spell" v-for="(v, k) in filteredSpell" :key="k" @click="activeSpell(v)">
+                    <span class="spellIcon"><img class="icon" :src="spell[v].iconSrc"></span>
+                    <span class="spellName" :style="spellQuality[spell[v].quality]">{{spell[v].name}}</span>
+                    <span class="spellDesc">{{spell[v].des}}</span>
+                    <span class="spellWeight">{{"比重："+spell[v].weight}}</span>
+                    <span class="spellCost" v-if="spell[v].cost['HP']">
+                        {{"消耗："+spell[v].cost['HP']+entryInfo['HP'].name}}
                     </span>
-                    <span class="spellCost" v-if="spell[k].cost['MP']">
-                        {{"消耗："+spell[k].cost['MP']+entryInfo['MP'].name}}
+                    <span class="spellCost" v-if="spell[v].cost['MP']">
+                        {{"消耗："+spell[v].cost['MP']+entryInfo['MP'].name}}
                     </span>
-                    <span class="spellSwitch" v-if="k!='attack'">
-                        <!-- <input type="checkbox" class="switch" v-model="spells.spell[k]" @click="activeSpell(k)"> -->
-                                <input type="checkbox" name="" v-model="spells.spell[k]">
-                                <span class="check"></span>
-                        <!-- <li>
-                            <label>
-                                <input type="checkbox" name="" v-model="spells.spell[k]">
-                                <span class="check"></span>
-                            </label>
-                        </li> -->
+                    <span class="spellSwitch" v-if="v!='attack'">
+                        <input type="checkbox" name="" v-model="spells.spell[v]">
+                        <span class="check"></span>
                     </span>
                 </div>
             </div>
@@ -401,7 +404,7 @@
             <li @click="unEquip()">卸下</li>
             <li @click="equipEnhance()" v-if="guild.smith>0">强化</li>
             <li @click="equipForge()" v-if="guild.smith>=10">重铸</li>
-            <li @click="equipLevelUp()" v-if="guild.smith>=10 && this.currentEquip.lv < playerLv">升级</li>
+            <li @click="equipLevelUp()" v-if="guild.smith>=20 && this.currentEquip.lv < playerLv">升级</li>
         </ul>
     </div>
 </template>
@@ -422,6 +425,8 @@ export default {
             currentEquip: {},
             top: 0,
             left: 0,
+            dmgFilter: ['所有', '攻击', '力量', '敏捷', '智力', '元素', '护甲', '恢复'],
+            dmgFilterSelected: '所有'
         };
     },
     props: {
@@ -440,7 +445,6 @@ export default {
         baseAttribute() { return this.$store.state.baseAttribute },
         attribute() { return this.$store.state.playerAttribute.attribute },
         userGold() { return this.$store.state.guildAttribute.gold },
-        spells() { return this.$store.state.playerAttribute.spells},
         playerWeapon() { return this.$store.state.playerAttribute.weapon },
         playerArmor() { return this.$store.state.playerAttribute.armor },
         playerAccessory() { return this.$store.state.playerAttribute.accessory },
@@ -448,6 +452,16 @@ export default {
         playerShoe() { return this.$store.state.playerAttribute.shoe },
         playerShoulder() { return this.$store.state.playerAttribute.shoulder },
         playerLv() { return this.$store.state.playerAttribute.lv },
+        spells() { return this.$store.state.playerAttribute.spells},
+        filteredSpell() { 
+            let spells = this.$store.state.playerAttribute.spells;
+            if(this.dmgFilterSelected == '所有')
+                return Object.keys(spells.spell);
+            return Object.keys(spells.spell).filter(s => {
+                // this.spell[s].tag.indexOf('atk') != -1;
+                return this.spell[s].tag != undefined && this.spell[s].tag.indexOf(this.dmgFilterSelected) != -1;
+            });
+        },
 
     },
     methods: {        
@@ -713,7 +727,7 @@ export default {
             height: 5rem;
             border: 1px solid rgba(255, 255, 255, 0.404);
             // border-image: linear-gradient(to right, darkorchid, rgb(0, 129, 123)) 1;
-            border-radius: 1em;
+            border-radius: 1rem;
             margin: 0.1rem;
             .spellIcon {
                 position: absolute;
@@ -756,7 +770,6 @@ export default {
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    z-index: 1
                 } 
                 .check:before{
                     content: '';
@@ -769,19 +782,6 @@ export default {
                     background-color: rgb(255, 0, 0);
                     box-shadow: 0px 0px 10px rgb(255, 0, 0);
                     transition: 0.5s;
-                    z-index: 3;
-                }
-                .check:after{
-                    content: '';
-                    position: absolute;
-                    top: 6px;
-                    bottom: 6px;
-                    left: 6px;
-                    right: 6px;
-                    background-color: #666;
-                    border-radius: 50%;
-                    z-index: 2;
-                    border: 2px solid #161616;
                 }
                 input[type='checkbox']:checked ~ .check:before{
                     background: rgb(0, 255, 0);

@@ -175,14 +175,16 @@ export default {
 #resource {
     padding: 0.5rem;
     margin: 0.5rem;
-    border: 2px solid #ccc;
+    border: 1px solid rgba(255, 255, 255, 0.404);
+    border-radius: 1em;
     height: 100%;
     width: 50rem;
 }
 #building {
     padding: 0.5rem;
     margin: 0.5rem;
-    border: 2px solid #ccc;
+    border: 1px solid rgba(255, 255, 255, 0.404);
+    border-radius: 1em;
     height: 100%;
     width: 50rem;
     display: flex;

@@ -129,6 +129,76 @@ export const itemConfig = {
                     },
                     stack: false,
                 },
+                spell_holy_layonhands: {
+                    quality: 4,
+                    description: {
+                        name: '圣疗技能书',
+                        category: '消耗品',
+                        desc: '学习技能【圣疗】',
+                        iconSrc: "./icons/spell/Spell_holy_layonhands.png",
+                    },
+                    stack: false,
+                },
+                spell_holy_holybolt: {
+                    quality: 2,
+                    description: {
+                        name: '圣光术技能书',
+                        category: '消耗品',
+                        desc: '学习技能【圣光术】',
+                        iconSrc: "./icons/spell/spell_holy_holybolt.png",
+                    },
+                    stack: false,
+                },
+                spell_arcane_starfire: {
+                    quality: 2,
+                    description: {
+                        name: '星火术技能书',
+                        category: '消耗品',
+                        desc: '学习技能【星火术】',
+                        iconSrc: "./icons/spell/spell_arcane_starfire.png",
+                    },
+                    stack: false,
+                },
+                spell_nature_starfall: {
+                    quality: 2,
+                    description: {
+                        name: '月火术技能书',
+                        category: '消耗品',
+                        desc: '学习技能【月火术】',
+                        iconSrc: "./icons/spell/spell_nature_starfall.png",
+                    },
+                    stack: false,
+                },
+                ability_warrior_shieldbash: {
+                    quality: 2,
+                    description: {
+                        name: '盾击技能书',
+                        category: '消耗品',
+                        desc: '学习技能【盾击】',
+                        iconSrc: "./icons/spell/ability_warrior_shieldbash.png",
+                    },
+                    stack: false,
+                },
+                ability_druid_maul: {
+                    quality: 2,
+                    description: {
+                        name: '槌击技能书',
+                        category: '消耗品',
+                        desc: '学习技能【槌击】',
+                        iconSrc: "./icons/spell/ability_druid_maul.png",
+                    },
+                    stack: false,
+                },
+                spell_fire_flamebolt: {
+                    quality: 2,
+                    description: {
+                        name: '火球术技能书',
+                        category: '消耗品',
+                        desc: '学习技能【火球术】',
+                        iconSrc: "./icons/spell/spell_fire_flamebolt.png",
+                    },
+                    stack: false,
+                },
             }
         }
     }

@@ -146,6 +146,7 @@ export default {
             var spell = this.getSpell(source);
             var spellInfo = this.spell[spell];
             var dmg = this.getSpellDmg(spell, source)*(1-target.attribute.DEFRED.value/100);
+            var heal = this.getHeal(spell, source);
             var crit = Math.round(Math.random()*100);
             if(crit<source.attribute.CRIT.value) 
                 dmg *= source.attribute.CRITDMG.value/100;
@@ -153,12 +154,18 @@ export default {
             dmg = Math.round(dmg);
             if(dmg < 0)
                 dmg = 0;
-            dmg += source.attribute.AP.value;
+            dmg += this.getApDmg(spell, source);
             if(type == 'player') {
                 this.$store.commit("set_battle_info", {
                     type: 'dmg',
                     msg: '使用【'+spellInfo.name+'】造成了'+dmg+'点伤害'
                 })
+                if(heal > 0) {
+                    this.$store.commit("set_battle_info", {
+                        type: 'win',
+                        msg: '恢复了' + heal+ '点生命值'
+                    })
+                }
             } else {
                 this.$store.commit("set_battle_info", {
                     type: 'dmged',
@@ -172,10 +179,11 @@ export default {
                 return 'attack'
             var random = Math.floor(Math.random()*source.spells.weight);
             var curWeight = 0;
-            var selectSpell = '';
+            var selectSpell = 'attack';
             for(var spell in source.spells.spell) {
-                let tempSpell = this.spell[spell];
-                curWeight += tempSpell.weight;
+                if(!source.spells.spell[spell])
+                    continue;
+                curWeight += this.spell[spell].weight;
                 if(curWeight > random) {
                     selectSpell = spell;
                     break;
@@ -183,14 +191,15 @@ export default {
             }   
             if(this.checkCost(selectSpell)) {
                 this.useCost(selectSpell);
+                return selectSpell;
             }
-            return selectSpell;
+            return 'attack';
         },
         checkCost(spell) {
             var attr = this.$store.state.playerAttribute.attribute;
             for(let cost in this.spell[spell].cost) {
                 if(cost == 'MP') {
-                    if(attr[cost].value < this.spell[spell].cost[cost])
+                    if(attr['CURMP'].value < this.spell[spell].cost['MP'])
                         return false;
                 }
             }
@@ -199,17 +208,44 @@ export default {
         useCost(spell) {
             var attr = this.$store.state.playerAttribute.attribute;
             for(let cost in this.spell[spell].cost) {
-                if(cost == 'MP') {
-                    this.$store.commit('set_player_mp', -1*this.spell[spell].cost[cost]);
+                switch(cost) {
+                    case 'MP':
+                        this.$store.commit('set_player_mp', -1*this.spell[spell].cost[cost]);
+                        break;
+                    case 'CURMP':
+                        this.$store.commit('set_player_mp', -1*this.spell[spell].cost[cost]*attr['CURMP'].value);
+                        break;
                 }
             }
         },
         getSpellDmg(spell, source) {
-            var dmg = 0;
+            var dmg = this.spell[spell].dmg['fixed'] == undefined ? 0 : this.spell[spell].dmg['fixed'];
             for(var attr in this.spell[spell].dmg) {
-                dmg += source.attribute[attr].value*this.spell[spell].dmg[attr];
+                if(source.attribute[attr] != undefined)
+                    dmg += source.attribute[attr].value*this.spell[spell].dmg[attr];
             }
             return dmg;
+        },
+        getApDmg(spell, source) {
+            if(!this.spell[spell].ap)
+                return source.attribute['AP'].value;
+            var ap = this.spell[spell].ap['fixed'] == undefined ? 0 : this.spell[spell].ap['fixed'];
+            for(var attr in this.spell[spell].ap) {
+                if(source.attribute[attr] != undefined)
+                    ap += source.attribute[attr].value*this.spell[spell].ap[attr];
+            }
+            return ap;
+        },
+        getHeal(spell, source) {
+            if(!this.spell[spell].heal)
+                return 0;
+            var heal = this.spell[spell].heal['fixed'] == undefined ? 0 : this.spell[spell].heal['fixed'];
+            for(var attr in this.spell[spell].heal) {
+                if(source.attribute[attr] != undefined)
+                    heal += source.attribute[attr].value*this.spell[spell].heal[attr];
+            }
+            this.$store.commit('set_player_hp', heal);
+            return heal;
         },
         reward(type, lv) {
             var equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];

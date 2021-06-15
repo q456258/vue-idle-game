@@ -45,11 +45,22 @@
                 成功率：{{successRate+'%'}}
                 <span class="smith">{{"&nbsp;+"+(Math.round(successRate*smith)/100)+"%"}}</span>
             </span>
-            <div class="confirm" @click="enhance()" v-show="equip.enhanceLv < equip.maxEnhanceLv">
+            <span class="auto" v-show="!autoing && equip.enhanceLv < equip.maxEnhanceLv">
+                <input type="checkbox" v-model="auto">自动
+                <br>
+                <input class="target" type="number" :value="targetLv" @input="updateTargetLv" :max="maxLv" :min="minLv" />
+            </span>
+            <div class="confirm" @click="enhance()" v-show="!autoing && !auto && equip.enhanceLv < equip.maxEnhanceLv">
                 强化
-                <span ref="info"></span>
             </div>
-            <div class="cancel" @click="closeInfo()">
+            <div class="confirm" @click="autoEnhance()" v-show="!autoing && auto && equip.enhanceLv < equip.maxEnhanceLv">
+                自动强化
+            </div>
+            <div class="confirm" @click="stopAutoEnhance()" v-show="autoing">
+                中断···
+            </div>
+            <span class="msg" ref="info"></span>
+            <div class="cancel" @click="closeInfo()" v-show="!autoing">
                 取消
             </div>
         </div>
@@ -65,11 +76,20 @@ export default {
     components: {draggable},
     data() {
         return {
+            auto: false,
+            autoing: false,
+            targetLv: 10,
+            autoTimer: 0
         };
     },
     props: {
         equip: {
             type:Object
+        }
+    },
+    watch: {
+        equip() {
+            this.targetLv = this.equip.enhanceLv+1;
         }
     },
     computed: {
@@ -98,11 +118,16 @@ export default {
             rate *= (1+this.smith/100);
             return Math.round(rate*100)/100;
         },
+        maxLv() { return this.equip.maxEnhanceLv; },
+        minLv() { return this.equip.enhanceLv+1; }
     },
     methods: {
         enhance() {
-            if(this.$store.state.guildAttribute.gold < this.cost)
+            if(this.$store.state.guildAttribute.gold < this.cost) {
+                this.autoing = false;
+                clearInterval(this.autoTimer);
                 return;
+            }
             this.$store.state.guildAttribute.gold -= this.cost;
             if(Math.random()*100 >= this.actualRate){
                 this.enhanceInfo("强化失败", "fail");
@@ -118,6 +143,21 @@ export default {
             equipInfo.recomputeBaseEntryValue(this.equip);
             equipInfo.activePotential(this.equip);
             this.$store.commit('set_player_attribute');
+        },
+        autoEnhance() {
+            this.autoing = true;
+            this.autoTimer = setInterval(() => {
+                console.log(this.targetLv)
+                if(this.equip.enhanceLv >= this.targetLv) {
+                    this.autoing = false;
+                    clearInterval(this.autoTimer);
+                }
+                this.enhance();
+            }, 100);
+        },
+        stopAutoEnhance() {
+            this.autoing = false;
+            clearInterval(this.autoTimer);
         },
         enhanceInfo(info, type) {
             var element = this.$refs['info'];
@@ -135,6 +175,12 @@ export default {
             setTimeout(()=>{
                 element.removeChild(node);
             },900);
+        },
+        updateTargetLv(e) {
+            var value = e.target.value;
+            console.log(this.targetLv)
+            if(value > this.equip.enhanceLv && value <= this.equip.maxEnhanceLv)
+                this.targetLv = e.target.value;
         },
         closeInfo() {
             var index = this.findComponentUpward(this, 'index');
@@ -231,6 +277,26 @@ export default {
             color:#0f0;
             font-size: 0.8rem;
         }
+    }
+    .auto {
+        position: absolute;
+        top: 21rem;
+        left: 31rem;
+        bottom: 0rem;
+        .target {
+            width: 3rem;    
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 0.2rem;
+            font-size: 1rem;
+            background-color: #e0e8ea;
+        }
+    }
+    .msg {
+        position: absolute;
+        top: 21rem;
+        left: 35rem;
+        font-size: 1.3rem;
     }
     .confirm {
         position: absolute;

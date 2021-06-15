@@ -45,7 +45,7 @@
             <li @click="equipForge()" v-if="guild.smith>=10">重铸</li>
             <li @click="lockEquipment(true)" v-if="!currentItem.locked">锁定</li>
             <li @click="lockEquipment(false)" v-if="currentItem.locked">解锁</li>
-            <li @click="disintegrate()" v-if="guild.smith>=5 && !currentItem.locked">分解</li>
+            <li @click="disintegrate()" v-if="guild.smith>=20 && !currentItem.locked">分解</li>
             <li @click="sellEquipment()" v-if="!currentItem.locked">出售</li>
         </ul>
         <ul v-show="visible && displayPage=='item'" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
@@ -75,7 +75,7 @@
                 <!-- <i class="icon icon-setting"></i> -->
                 </span>
             </a>
-            <a class="function" v-show="displayPage=='equip'" @click="disintegrateAll()">一键分解</a>
+            <a class="function" v-show="guild.smith>=20 && displayPage=='equip'" @click="disintegrateAll()">一键分解</a>
             <a class="function" v-show="displayPage=='equip'" @click="sellAll()">一键出售</a>
             <a class="function" @click="sort()">整理背包</a>
         </div>
@@ -454,11 +454,12 @@ export default {
             .quantity {
                 position: relative;
                 top: -0.6rem;
-                left: 2rem;
-                width: 0.5rem;
+                right: -0.8rem;
+                width: 2rem;
                 height: 0.5rem;
-                font-size: 1rem;
+                font-size: 0.8rem;
                 line-height: 0;
+                text-align: right;
             }
         }
     }

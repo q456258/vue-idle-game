@@ -139,19 +139,22 @@ export default {
             var element = this.$refs['text'];
             var count = 5**(this.trainTier-1);
             var gap = 200;
+            var multi = 1;
             this.collecting = true;
             switch(this.trainTier) {
                 case '6':
-                    gap /=2;
+                    multi *= 5;
+                    count /= 5;
                 case '5':
-                    gap /=2;
+                    multi *= 5;
+                    count /= 5;
                 case '4':
-                    gap /=2;
+                    gap /= 4;
             }
             for(let i=0; i<count; i++) {
                 setTimeout(()=>{
                     var type = this.values[Math.floor(Math.random()*this.values.length)];
-                    var value = this.trainLevel;
+                    var value = this.trainLevel*multi;
                     var node = document.createElement("DIV");
                     var textnode = document.createTextNode(this.entryInfo[type].name+"+"+value);
                     this.increaseProgress(type, value);
@@ -190,6 +193,7 @@ export default {
             this.gain = value;
             this.cost = Math.ceil(this.trainTime/10*(1+this.trainLevel/20));
             // this.trainTime = Math.round(2);
+            // this.cost = Math.round(2);
         },
         increaseProgress(type, value) {
             this.$store.state.trainProgress[type].progress += value;

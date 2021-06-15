@@ -28,7 +28,7 @@ export const monsterConfig = {
                     name: '高级训练假人', 
                     template:{
                         MAXHP: { value: 150, showValue: 1000, },        
-                        ATK: { value: 21, showValue: 5, },
+                        ATK: { value: 20, showValue: 5, },
                         DEF: { value: 5, showValue: 5, },
                         AP: { value: 0, showValue: 0, },
                         MR: { value: 0, showValue: 0, },
@@ -39,7 +39,7 @@ export const monsterConfig = {
                     name: '幼年史莱姆', 
                     template:{
                         MAXHP: { value: 200, showValue: 1000, },        
-                        ATK: { value: 24, showValue: 5, },
+                        ATK: { value: 21, showValue: 5, },
                         DEF: { value: 0, showValue: 5, },
                         AP: { value: 0, showValue: 0, },
                         MR: { value: 7, showValue: 0, },
@@ -50,7 +50,7 @@ export const monsterConfig = {
                     name: '成年史莱姆', 
                     template: {
                         MAXHP: { value: 220, showValue: 1000, },        
-                        ATK: { value: 24, showValue: 5, },
+                        ATK: { value: 23, showValue: 5, },
                         DEF: { value: 0, showValue: 5, },
                         AP: { value: 0, showValue: 0, },
                         MR: { value: 10, showValue: 0, },
@@ -107,7 +107,7 @@ export const monsterConfig = {
                 {
                     name: '硬壳龟', 
                     template: {
-                        MAXHP: { value: 150, showValue: 800, },        
+                        MAXHP: { value: 130, showValue: 800, },        
                         ATK: { value: 35, showValue: 10, },
                         DEF: { value: 20, showValue: 5, },
                         AP: { value: 0, showValue: 0, },
@@ -119,7 +119,7 @@ export const monsterConfig = {
                 {
                     name: '利爪龟', 
                     template: {
-                        MAXHP: { value: 150, showValue: 800, },        
+                        MAXHP: { value: 140, showValue: 800, },        
                         ATK: { value: 50, showValue: 10, },
                         DEF: { value: 7, showValue: 5, },
                         AP: { value: 0, showValue: 0, },
@@ -156,7 +156,7 @@ export const monsterConfig = {
                     name: '强盗', 
                     template: {
                         MAXHP: { value: 220, showValue: 800, },        
-                        ATK: { value: 50, showValue: 10, },
+                        ATK: { value: 40, showValue: 10, },
                         DEF: { value: 2, showValue: 5, },
                         AP: { value: 0, showValue: 0, },
                         MR: { value: 50, showValue: 0, },
@@ -168,7 +168,7 @@ export const monsterConfig = {
                     name: '强盗头领', 
                     template: {
                         MAXHP: { value: 250, showValue: 800, },        
-                        ATK: { value: 55, showValue: 10, },
+                        ATK: { value: 45, showValue: 10, },
                         DEF: { value: 4, showValue: 5, },
                         AP: { value: 0, showValue: 0, },
                         MR: { value: 75, showValue: 0, },
@@ -179,8 +179,8 @@ export const monsterConfig = {
                 {
                     name: '骷髅战士', 
                     template: {
-                        MAXHP: { value: 250, showValue: 800, },        
-                        ATK: { value: 75, showValue: 10, },
+                        MAXHP: { value: 200, showValue: 800, },        
+                        ATK: { value: 65, showValue: 10, },
                         DEF: { value: 2, showValue: 5, },
                         AP: { value: 0, showValue: 0, },
                         MR: { value: 100, showValue: 0, },
@@ -191,8 +191,8 @@ export const monsterConfig = {
                 {
                     name: '骷髅射手', 
                     template: {
-                        MAXHP: { value: 220, showValue: 800, },        
-                        ATK: { value: 90, showValue: 10, },
+                        MAXHP: { value: 180, showValue: 800, },        
+                        ATK: { value: 70, showValue: 10, },
                         DEF: { value: 1, showValue: 5, },
                         AP: { value: 0, showValue: 0, },
                         MR: { value: 0, showValue: 0, },
@@ -204,8 +204,8 @@ export const monsterConfig = {
                     name: '火蜥蜴', 
                     template: {
                         MAXHP: { value: 250, showValue: 800, },        
-                        ATK: { value: 85, showValue: 10, },
-                        DEF: { value: 5, showValue: 5, },
+                        ATK: { value: 70, showValue: 10, },
+                        DEF: { value: 3, showValue: 5, },
                         AP: { value: 200, showValue: 0, },
                         MR: { value: 300, showValue: 0, },
                         CRIT: { value: 0, showValue: '20%', },
@@ -216,10 +216,10 @@ export const monsterConfig = {
                     name: '雷霆蜥蜴', 
                     template: {
                         MAXHP: { value: 250, showValue: 800, },        
-                        ATK: { value: 85, showValue: 10, },
-                        DEF: { value: 7, showValue: 5, },
-                        AP: { value: 400, showValue: 0, },
-                        MR: { value: 500, showValue: 0, },
+                        ATK: { value: 75, showValue: 10, },
+                        DEF: { value: 5, showValue: 5, },
+                        AP: { value: 300, showValue: 0, },
+                        MR: { value: 400, showValue: 0, },
                         CRIT: { value: 0, showValue: '5%', },
                         CRITDMG: { value: 200, showValue: '400%', },
                     }

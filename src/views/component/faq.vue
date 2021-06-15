@@ -4,6 +4,7 @@
     <ul id="nav">
         <li><a @click="scrollTo('battle')" class="js-anchor-link">战斗</a></li>
         <li><a @click="scrollTo('equip')" class="js-anchor-link">装备</a></li>
+        <li><a @click="scrollTo('spell')" class="js-anchor-link">技能</a></li>
         <li><a @click="scrollTo('guild')" class="js-anchor-link">公会</a></li>
     </ul>
 
@@ -158,9 +159,9 @@
             <h3>升级是什么？</h3>
             <p>✵提升装备的等级，提升基础属性以及附加属性数值，保留强化以及词条属性类别
                 <br>
-                ✵装备等级上限为人物等级
+                ✵右键身上的装备点升级，装备等级上限为人物等级
                 <br>
-                ✵解锁条件：15级公会铁匠铺
+                ✵解锁条件：20级公会铁匠铺
             </p>
         </div>
 
@@ -199,6 +200,42 @@
                 </tbody>
             </table>
         </div>
+    </div>
+
+
+    <div ref="spell" class="tab-wrap">
+        <input type="radio" id="spell1" name="spell" class="tab" checked>
+        <label for="spell1">效果</label>
+
+        <input type="radio" id="spell2" name="spell" class="tab">
+        <label for="spell2">来源</label>
+
+        <div class="tab__content">
+            <h3>比重是什么？</h3>
+            <p>
+                ✵比重为技能的释放概率，每激活一个技能，总比重上升，每个技能的释放概率为 技能比重/总比重
+            </p>
+            <h3>不想要的技能怎么处理？</h3>
+            <p>
+                ✵点击技能激活、取消激活技能，只有激活的技能会被释放，技能右上角绿点为激活，红点为未激活
+            </p>
+            <h3>蓝量不足以释放技能会怎样？</h3>
+            <p>
+                ✵释放技能时，属性不足以支撑技能的释放，则会变为释放普通攻击
+            </p>
+        </div>
+
+        <div class="tab__content">
+            <h3>技能从哪学？</h3>
+            <p>
+                ✵不知道
+            </p>
+            <h3>哪个技能强？</h3>
+            <p>
+                ✵不知道
+            </p>
+        </div>
+
     </div>
 
     <div ref="guild" class="tab-wrap">

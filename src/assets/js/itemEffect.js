@@ -2,21 +2,19 @@ export const itemEffect = {
     methods: {
         callItemEffect(type) {
             var used = false;
+            var spellName = '';
+            var spellBook = ['spell_nature_thunderclap', 'spell_nature_lightning', 'spell_holy_crusaderstrike', 'spell_shadow_ritualofsacrifice', 'spell_holy_layonhands',
+            'spell_fire_flamebolt', 'ability_druid_maul', 'ability_warrior_shieldbash', 'spell_nature_starfall', 'spell_arcane_starfire', 'spell_holy_holybolt'];
+            if(spellBook.indefOf(type) != -1) {
+                spellName = type;
+                type = spellBook;
+            }
             switch(type) {
                 case 'inv_box_01':
                     used = this.inv_box_01();
                     break;
-                case 'spell_nature_thunderclap':
-                    this.learnSpell('Spell_nature_thunderclap');
-                    break;
-                case 'spell_nature_lightning':
-                    used = this.learnSpell('Spell_nature_lightning');
-                    break;
-                case 'spell_holy_crusaderstrike':
-                    used = this.learnSpell('Spell_holy_crusaderstrike');
-                    break;
-                case 'spell_shadow_ritualofsacrifice':
-                    used = this.learnSpell('spell_shadow_ritualofsacrifice');
+                case 'spellBook':
+                    used = this.learnSpell(spellName);
                     break;
             }
             return used;
@@ -57,7 +55,9 @@ export const itemEffect = {
                     backpack.giveEquip(equip);
                     return true;
                 case 'spell':
-                    let spell = ['spell_nature_thunderclap', 'spell_nature_lightning', 'spell_holy_crusaderstrike', 'spell_shadow_ritualofsacrifice'];
+                    let spell = ['spell_nature_thunderclap', 'spell_nature_lightning', 'spell_holy_crusaderstrike', 'spell_shadow_ritualofsacrifice',
+                        'spell_holy_layonhands', 'spell_fire_flamebolt', 'ability_druid_maul', 'ability_warrior_shieldbash', 'spell_nature_starfall', 
+                        'spell_arcane_starfire', 'spell_holy_holybolt'];
                     let spellType = spell[Math.floor(Math.random()*spell.length)];
                     let quantity = 1;
                     let item = itemInfo.createItem(spellType, quantity);  

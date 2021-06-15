@@ -4,7 +4,7 @@
             <div class="progress-bar progress-bar-striped insta" :class="{'bg-danger':type=='hp'}" :style="{width:vpNow/vpMax*100+'%'}">
                 <small class="justify-content-center d-flex position-absolute w-90" style="color:black">{{vpNow}} / {{vpMax}} </small>
             </div>
-            <div ref="delay" class="progress-bar progress-bar-striped delay" :style="{width:(delay-vpNow)/vpMax*100+'%'}">
+            <div ref="delay" class="progress-bar progress-bar-striped" :class="{'delay':type=='hp', 'delayMp':type=='mp'}" :style="{width:(delay-vpNow)/vpMax*100+'%'}">
             </div>
         </div>
     </div>
@@ -75,5 +75,9 @@ export default {
 .delay {
     transition: width 0.5s linear;
     background-color: rgb(255, 0, 0);
+}
+.delayMp {
+    transition: width 0.5s linear;
+    background-color: rgb(50, 190, 255);
 }
 </style>
