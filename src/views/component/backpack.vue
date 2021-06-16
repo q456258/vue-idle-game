@@ -11,13 +11,13 @@
             <li class="nav-item">
                 <a class="nav-link active" id="equip" @click="switchTab('equip')">装备</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" v-show="playerLv >= 20">
                 <a class="nav-link" id="item" @click="switchTab('item')">物品</a>
             </li>
         </ul>
         <div class="equip" v-show="displayPage=='equip'">
             <div class="grid" v-on:drop="drop($event, k)" v-on:dragover="allowDrop($event)" v-for="(v, k) in grid" :key="k">
-                <div v-if="v.lv" draggable="true" v-on:dragstart="dragStart($event,k)" v-on:dragend="dragEnd" @contextmenu.prevent="openMenu(k,$event)" @touchstart.stop.prevent="openMenu(k,$event)"  @mouseover="showInfo($event,v.itemType,v,true)" @mouseleave="closeInfo">
+                <div v-if="v.lv" draggable="true" v-on:dblclick="equip($event, k)" v-on:dragstart="dragStart($event,k)" v-on:dragend="dragEnd" @contextmenu.prevent="openMenu(k,$event)" @touchstart.stop.prevent="openMenu(k,$event)"  @mouseover="showInfo($event,v.itemType,v,true)" @mouseleave="closeInfo">
                     <div class="icon" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v.quality.color }">
                         <img :src="v.description.iconSrc" alt="" />
                     </div>
@@ -29,7 +29,7 @@
         </div>
         <div class="item" v-show="displayPage=='item'">
             <div class="grid" v-on:drop="drop($event, k)" v-on:dragover="allowDrop($event)" v-for="(v, k) in itemGrid" :key="k">
-                <div v-if="v.description" draggable="true" v-on:dragstart="dragStart($event,k)" v-on:dragend="dragEnd" @contextmenu.prevent="openMenu(k,$event)" @touchstart.stop.prevent="openMenu(k,$event)"  @mouseover="showInfo($event,v.itemType,v,true)" @mouseleave="closeInfo">
+                <div v-if="v.description" draggable="true" v-on:dblclick="useItem($event, k)" v-on:dragstart="dragStart($event,k)" v-on:dragend="dragEnd" @contextmenu.prevent="openMenu(k,$event)" @touchstart.stop.prevent="openMenu(k,$event)"  @mouseover="showInfo($event,v.itemType,v,true)" @mouseleave="closeInfo">
                     <div class="icon" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v.quality.color }">
                         <img :src="v.description.iconSrc" alt="" />
                     </div>
@@ -69,7 +69,7 @@
                 </div>
 
             </div>
-            <a class="function" @click.stop="autoSellPanel = !autoSellPanel">
+            <a class="function" @click.stop="autoSellPanel = !autoSellPanel" v-show="displayPage=='equip'">
                 <span>
                 自动出售设置
                 <!-- <i class="icon icon-setting"></i> -->
@@ -120,10 +120,15 @@ export default {
         this.itemGrid = new Array(54).fill({});
     },
     computed: {
-        guild() { return this.$store.state.guildAttribute; }
+        guild() { return this.$store.state.guildAttribute; },
+        playerLv() { return this.$store.state.playerAttribute.lv; }
     },
     methods: {
-        equip() {
+        equip(e, k) {
+            if(k != undefined) {
+                this.currentItemIndex = k; 
+                this.currentItem = this.grid[k];
+            }
             switch (this.currentItem.itemType) {
                 case 'helmet':
                     this.grid[this.currentItemIndex] = this.$store.state.playerAttribute.helmet;
@@ -177,21 +182,15 @@ export default {
             cost *= (1+equip.lv/2)*(1+equip.enhanceLv*equip.quality.qualityCoefficient+equip.quality.extraEntryNum*2);
             cost = Math.round(cost);
             this.grid[index] = {};
-            this.$store.state.guildAttribute.gold += cost;
-            this.$store.commit("set_sys_info", {
-                type: 'reward',
-                msg: '出售装备获得金币: '+cost
-            });
+            var guild = this.findBrothersComponents(this, 'guild', false)[0];
+            guild.getGold('出售装备', cost);
         },
         sellEquipmentByEquip(equip) {
             var cost = 8+4*Math.random();
             cost *= (1+equip.lv/2)*(1+equip.enhanceLv*equip.quality.qualityCoefficient+equip.quality.extraEntryNum*2);
             cost = Math.round(cost);
-            this.$store.state.guildAttribute.gold += cost;
-            this.$store.commit("set_sys_info", {
-                type: 'reward',
-                msg: '出售装备获得金币: '+cost
-            });
+            var guild = this.findBrothersComponents(this, 'guild', false)[0];
+            guild.getGold('出售装备', cost);
         },
         disintegrate(index) {
             if(index == undefined)
@@ -211,11 +210,14 @@ export default {
                 quantity: quantity
             });
         },
-        useItem() {
+        useItem(e, k) {
+            if(k != undefined)
+                this.currentItemIndex = k; 
             var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
             var success = this.callItemEffect(this.itemGrid[this.currentItemIndex].type);
             if(success)
                 itemInfo.removeItemByIndex(this.currentItemIndex, 1);
+            this.$forceUpdate();
         },
         throwItem() {
             this.itemGrid[this.currentItemIndex] = {};
@@ -266,12 +268,12 @@ export default {
                     return -1;
                 if(a.quality.qualityLv != b.quality.qualityLv)
                     return a.quality.qualityLv - b.quality.qualityLv;
-                if(type.indexOf(a.description.type) != type.indexOf(b.description.type))
-                    return type.indexOf(a.description.type) - type.indexOf(b.description.type);
-                if(a.enhanceLv != b.enhanceLv)
-                    return a.enhanceLv - b.enhanceLv;
                 if(a.lv != b.lv)
                     return a.lv - b.lv;
+                if(a.enhanceLv != b.enhanceLv)
+                    return a.enhanceLv - b.enhanceLv;
+                if(type.indexOf(a.description.type) != type.indexOf(b.description.type))
+                    return type.indexOf(a.description.type) - type.indexOf(b.description.type);
             });
             this.$forceUpdate();
         },

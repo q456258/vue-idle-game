@@ -187,7 +187,7 @@ export default {
             let value = 5**(this.trainTier-1);
             // let time = 1*(1-(0.01*this.trainLevel)/(1+0.01*this.trainLevel))*(2-(this.trainTier-1)*0.2);
             // let time = 1*(2-(this.trainTier-1)*0.2);
-            let time = 5;
+            let time = 2.5;
             // this.trainTime = Math.round(value*time/this.entryInfo[this.type].base);
             this.trainTime = Math.round(value*time);
             this.gain = value;

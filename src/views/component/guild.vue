@@ -157,6 +157,14 @@ export default {
             this.getCost(type, this.guild[type]+1);
 
         },
+        getGold(text, gold) {
+            gold = Math.round(gold*(1+this.guild.shop*0.01));
+            this.guild.gold += gold;
+            this.$store.commit("set_sys_info", {
+                type: 'reward',
+                msg: text+'获得'+gold+'金币'
+            });
+        },
         getCost(type, level) {
             for(let cost in this.cost[type].cost) {
                 this.cost[type].cost[cost] = Math.round(this.cost[type].base[cost] * (3+level**2*(1+level/10)));

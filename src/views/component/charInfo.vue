@@ -374,7 +374,7 @@
                 </div>
             </div>
         </div>
-        <div class="user-spell">
+        <div class="user-spell" v-show="playerLv >= 20">
             过滤：<select v-model="dmgFilterSelected">
                 <option v-for="(item, key) in dmgFilter" :key="key">
                 {{item}}
@@ -529,7 +529,6 @@ export default {
                 this.spells.spell[activeSpell] = !this.spells.spell[activeSpell];
             this.spells.weight = 0;
             for(let spell in this.spells.spell) {
-            console.log(this.spell)
                 if(this.spells.spell[spell])
                     this.spells.weight += this.spell[spell].weight;
             }

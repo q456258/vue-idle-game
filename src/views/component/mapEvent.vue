@@ -244,6 +244,7 @@ export default {
                 if(source.attribute[attr] != undefined)
                     heal += source.attribute[attr].value*this.spell[spell].heal[attr];
             }
+            heal = Math.round(heal);
             this.$store.commit('set_player_hp', heal);
             return heal;
         },
@@ -251,6 +252,7 @@ export default {
             var equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
             var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
             var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            var guild = this.findBrothersComponents(this, 'guild', false)[0];
             var index = this.findComponentUpward(this, 'index');
             var bonus = 0;
             var equip = null; 
@@ -258,11 +260,7 @@ export default {
             switch(type) {
                 case 'gold':
                     let gold = Math.round((100+lv**2)*(2+2*Math.random()))
-                    this.$store.state.guildAttribute.gold += gold;
-                    this.$store.commit("set_sys_info", {
-                        type: 'reward',
-                        msg: '获得'+gold+'金币'
-                    });
+                    guild.getGold('', gold);
                     break;
                 // case 'wood':
                 //     let wood = Math.round((10+lv**1.5)*(1+Math.random()))
@@ -317,6 +315,11 @@ export default {
             this.$store.state.playerAttribute.lv += 1;
             this.$store.state.dungeonInfo.advanture.level += 1;
             this.$store.state.dungeonInfo.trial.level += 1;
+            if(this.$store.state.playerAttribute.lv == 20) {
+                var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+                var item = itemInfo.createItem('spell_nature_thunderclap', 1);  
+                itemInfo.addItem(JSON.parse(item));
+            }
         }
     }
 }

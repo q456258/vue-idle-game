@@ -84,11 +84,11 @@ export default {
                 return;
             try {
                 var data = JSON.parse(Base64.decode(Base64.decode(loadData)));
+                if(data.state.setting == undefined)
+                    data.state.setting = {};
                 this.$store.replaceState(data.state);
                 var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
                 backpack.grid = data.backpackEquipment;
-                if(data.backpackItem != undefined)
-                    backpack.itemGrid = data.backpackItem;
                 
                 var index = this.findComponentUpward(this, 'index');
                 this.$store.state.dungeonInfo.auto = false;
@@ -98,7 +98,8 @@ export default {
                 index.battleInfo = this.$store.state.battleInfo;
                 index.dungeonInfo = this.$store.state.dungeonInfo;
                 index.createMaps(this.$store.state.playerAttribute.lv);
-                index.switchZone(this.$store.state.dungeonInfo.current);
+                index.switchZone('trial');
+                index.switchZone('advanture');
                 if(this.$store.state.playerAttribute.spells.spell == undefined) {
                     this.$store.state.playerAttribute.spells = {        
                         weight: 100,

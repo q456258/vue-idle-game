@@ -8,6 +8,9 @@
         <a class="nav-link" :class="{glow: guild.guild==0, active: displayPage=='guild' }" id="guild" @click="switchTab('guild')" v-show="playerLv >= 10">公会</a>
       </li>
       <li class="nav-item">
+        <a class="nav-link" :class="{active: displayPage=='shop' }" id="guild" @click="switchTab('shop')" v-show="guild.shop > 0">商店</a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" id="faq" @click="switchTab('faq')">FA♂Q</a>
       </li>
       <li class="nav-item">
@@ -16,6 +19,7 @@
     </ul>
     <charInfo id="charInfo" v-show="displayPage=='charInfo'"></charInfo>
     <guild id="guild" v-show="displayPage=='guild'"></guild>
+    <shop id="shop" v-show="displayPage=='shop'"></shop>
     <faq id="faq" v-show="displayPage=='faq'"></faq>
 
     <div class="sysInfo">
@@ -107,6 +111,16 @@
           <p class="info">* 保存/加载游戏</p>
         </template>
       </cTooltip>
+      <cTooltip :placement="'top'">
+        <template v-slot:content>
+          <div class="menu" @click="openMenuPanel('setting')">
+            <img src="../assets/icons/menu/setting1.png" alt="">
+          </div>
+        </template>
+        <template v-slot:tip>
+          <p class="info">* 设置</p>
+        </template>
+      </cTooltip>
     </div>
     <div class="displayEquip" :style='itemDialogStyle'>
       <equipInfo :equip="equip" v-show="showEquipInfo"></equipInfo>
@@ -116,6 +130,7 @@
     <equipEnhance :equip="enhanceEquip" v-show="equipEnhancePanel"></equipEnhance>
     <equipForge :equip="enhanceEquip" v-show="equipForgePanel"></equipForge>    
     <saveload v-show="savePanel"></saveload>
+    <setting v-show="settingPanel"></setting>
   </div>
 
 </template>
@@ -129,8 +144,10 @@ import mapEvent from './component/mapEvent';
 import backpack from './component/backpack';
 import charInfo from './component/charInfo';
 import guild from './component/guild';
+import shop from './component/shop';
 import faq from './component/faq';
 import saveload from './component/saveload';
+import setting from './component/setting';
 import enermyInfo from './component/enermyInfo';
 import { assist } from '../assets/js/assist';
 import { dungeon } from '../assets/js/dungeon';
@@ -156,31 +173,21 @@ export default {
       equipEnhancePanel: false,
       equipForgePanel: false,
       savePanel: false,
+      settingPanel: false,
       displayPage: 'charInfo',
       saveDateString: '',
       resetTimer: 0,
       resetTime: 0
     }
   },
-  components: {cTooltip, equipInfo, itemInfo, mapEvent, assist, backpack, equipEnhance, equipForge, charInfo, guild, faq, saveload, enermyInfo},
+  components: {cTooltip, equipInfo, itemInfo, mapEvent, assist, backpack, equipEnhance, equipForge, charInfo, guild, shop, faq, saveload, setting, enermyInfo},
   mounted() {    
     //初始系统、战斗信息
     this.sysInfo = this.$store.state.sysInfo;
     this.battleInfo = this.$store.state.battleInfo;
     this.dungeonInfo = this.$store.state.dungeonInfo;
     // 自动恢复
-    this.autoHealthRecovery = setInterval(() => {
-      this.$store.commit('set_player_hp', Math.ceil(this.attribute.MAXHP.value*0.001+this.attribute.STR.value/20));
-      if(this.attribute.CURHP.value == this.attribute.MAXHP.value && this.dungeonInfo.auto && !this.dungeonInfo.inBattle) {
-        this.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
-      }
-    }, 100);
-    this.autoManRecovery = setInterval(() => {
-      this.$store.commit('set_player_mp', Math.ceil(this.attribute.MAXMP.value*0.001+this.attribute.INT.value/40));
-    }, 100);
-    this.trialAutoHealthRecovery = setInterval(() => {
-      this.$store.commit('set_trial_hp', Math.ceil(this.trialAttribute.MAXHP.value*0.002));
-    }, 100);    
+    this.fastTick(); 
 
     //读取本地存档
     var saveload = this.findComponentDownward(this, 'saveload');  
@@ -218,13 +225,13 @@ export default {
     // var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'shoulder'));
     // this.$store.commit('set_player_shoulder', this.$deepCopy(newEquip));
     
-    var test = ['spell_nature_thunderclap', 'spell_nature_lightning', 'spell_holy_crusaderstrike', 'spell_shadow_ritualofsacrifice', 'spell_holy_layonhands',
-            'spell_fire_flamebolt', 'ability_druid_maul', 'ability_warrior_shieldbash', 'spell_nature_starfall', 'spell_arcane_starfire', 'spell_holy_holybolt']
-    var itemInfo = this.findComponentDownward(this, 'itemInfo');
-    test.forEach(name => {
-      var item = itemInfo.createItem(name, 1);  
-      itemInfo.addItem(JSON.parse(item));
-    })
+    // var test = ['spell_nature_thunderclap', 'spell_nature_lightning', 'spell_holy_crusaderstrike', 'spell_shadow_ritualofsacrifice', 'spell_holy_layonhands',
+    //         'spell_fire_flamebolt', 'ability_druid_maul', 'ability_warrior_shieldbash', 'spell_nature_starfall', 'spell_arcane_starfire', 'spell_holy_holybolt']
+    // var itemInfo = this.findComponentDownward(this, 'itemInfo');
+    // test.forEach(name => {
+    //   var item = itemInfo.createItem(name, 1);  
+    //   itemInfo.addItem(JSON.parse(item));
+    // })
     this.$store.commit('set_player_attribute');
 
   },
@@ -514,6 +521,40 @@ export default {
       else
         this.createMaps(this.playerLv);
     },
+    slowTick() {
+      clearInterval(this.autoHealthRecovery);
+      clearInterval(this.autoManRecovery);
+      clearInterval(this.trialAutoHealthRecovery);
+      this.autoHealthRecovery = setInterval(() => {
+        this.$store.commit('set_player_hp', Math.ceil(this.attribute.MAXHP.value*0.01+this.attribute.STR.value/2));
+        if(this.attribute.CURHP.value == this.attribute.MAXHP.value && this.dungeonInfo.auto && !this.dungeonInfo.inBattle) {
+          this.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
+        }
+      }, 1000);
+      this.autoManRecovery = setInterval(() => {
+        this.$store.commit('set_player_mp', Math.ceil(this.attribute.MAXMP.value*0.01+this.attribute.INT.value/4));
+      }, 1000);
+      this.trialAutoHealthRecovery = setInterval(() => {
+        this.$store.commit('set_trial_hp', Math.ceil(this.trialAttribute.MAXHP.value*0.02));
+      }, 1000);  
+    },
+    fastTick() {
+      clearInterval(this.autoHealthRecovery);
+      clearInterval(this.autoManRecovery);
+      clearInterval(this.trialAutoHealthRecovery);
+      this.autoHealthRecovery = setInterval(() => {
+        this.$store.commit('set_player_hp', Math.ceil(this.attribute.MAXHP.value*0.001+this.attribute.STR.value/20));
+        if(this.attribute.CURHP.value == this.attribute.MAXHP.value && this.dungeonInfo.auto && !this.dungeonInfo.inBattle) {
+          this.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
+        }
+      }, 100);
+      this.autoManRecovery = setInterval(() => {
+        this.$store.commit('set_player_mp', Math.ceil(this.attribute.MAXMP.value*0.001+this.attribute.INT.value/40));
+      }, 100);
+      this.trialAutoHealthRecovery = setInterval(() => {
+        this.$store.commit('set_trial_hp', Math.ceil(this.trialAttribute.MAXHP.value*0.002));
+      }, 100);  
+    },
     openMenuPanel(type) {
       switch(type) {
         case 'backpack':
@@ -523,6 +564,9 @@ export default {
           this.savePanel = !this.savePanel;
           var saveload = this.findComponentDownward(this, 'saveload');  
           saveload.saveGame();
+          break;
+        case 'setting':
+          this.settingPanel = !this.settingPanel;
           break;
       }
     },
@@ -535,6 +579,9 @@ export default {
           this.savePanel = false;
           var saveload = this.findComponentDownward(this, 'saveload');  
           saveload.saveGame();
+          break;
+        case 'setting':
+          this.settingPanel = false;
           break;
       }
     },

@@ -395,6 +395,9 @@ export default new Vuex.Store({
         progress: 0
       },
     },
+    setting: {
+      slowTick: false,
+    }
   },
   mutations: {       
     set_player_helmet(state, data) {

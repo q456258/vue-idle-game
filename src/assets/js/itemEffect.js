@@ -31,17 +31,14 @@ export const itemEffect = {
             var equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
             var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
             var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            var guild = this.findBrothersComponents(this, 'guild', false)[0];
             var reward = ['gold', 'crystal', 'equip', 'spell'];
             var type = reward[Math.floor(Math.random()*reward.length)];
             var lv = this.$store.state.playerAttribute.lv;
             switch(type) {
                 case 'gold':
                     let gold = Math.round((100+lv**2)*(2+2*Math.random()))
-                    this.$store.state.guildAttribute.gold += gold;
-                    this.$store.commit("set_sys_info", {
-                        type: 'reward',
-                        msg: '打开宝箱获得'+gold+'金币'
-                    });
+                    guild.getGold('打开宝箱', gold);
                     return true;
                 case 'crystal':
                     let crystal = Math.round((1+lv*2)*(1+Math.random()))

@@ -30,7 +30,7 @@ data() {
             attack: {
                 name: '普通攻击',
                 // type: '物理',
-                weight: 100,
+                weight: 200,
                 des: '造成攻击力*1点伤害',
                 iconSrc: "./icons/spell/atk.png",
                 quality: 0,
@@ -49,7 +49,7 @@ data() {
             },
             spell_nature_thunderclap: {
                 name: '雷霆一击',
-                weight: 50,
+                weight: 100,
                 des: '造成攻击力*1.1点伤害',
                 iconSrc: "./icons/spell/Spell_nature_thunderclap.png",
                 quality: 1,
@@ -57,7 +57,7 @@ data() {
                     ATK: 1.1,
                 },
                 cost: {
-                    MP: 100,
+                    MP: 500,
                 },
                 tag: ['攻击']
             },
@@ -78,7 +78,7 @@ data() {
             spell_nature_lightning: {
                 name: '闪电箭',
                 weight: 20,
-                des: '向目标投掷一发闪电箭，造成智力*15点伤害。',
+                des: '造成智力*15点伤害。',
                 iconSrc: "./icons/spell/Spell_nature_lightning.png",
                 quality: 2,
                 dmg: {
@@ -99,7 +99,7 @@ data() {
                     AGI: 10,
                 },
                 cost: {
-                    MP: 300,
+                    MP: 750,
                 },
                 tag: ['敏捷']
             },
@@ -111,6 +111,7 @@ data() {
                 quality: 4,
                 dmg: {
                 },
+                ap: {},
                 heal: {
                     MAXHP: 1
                 },
@@ -125,13 +126,13 @@ data() {
                 des: '恢复自身20%最大生命值',
                 iconSrc: "./icons/spell/spell_holy_holybolt.png",
                 quality: 2,
-                dmg: {
-                },
+                dmg: {},
+                ap: {},
                 heal: {
                     MAXHP: 0.2
                 },
                 cost: {
-                    MP: 300,
+                    MP: 2500,
                 },
                 tag: ['恢复']
             },
@@ -155,13 +156,12 @@ data() {
                 des: '元素伤害效果翻倍',
                 iconSrc: "./icons/spell/spell_nature_starfall.png",
                 quality: 2,
-                dmg: {
-                },
+                dmg: {},
                 ap: {
                     AP: 2
                 },
                 cost: {
-                    MP: 600,
+                    MP: 1500,
                 },
                 tag: ['元素']
             },
@@ -176,21 +176,21 @@ data() {
                     DEF: 5
                 },
                 cost: {
-                    MP: 300,
+                    MP: 1000,
                 },
                 tag: ['攻击', '护甲']
             },
             ability_druid_maul: {
                 name: '槌击',
                 weight: 50,
-                des: '造成力量*10点伤害',
+                des: '造成力量*12点伤害',
                 iconSrc: "./icons/spell/ability_druid_maul.png",
                 quality: 2,
                 dmg: {
-                    STR: 10
+                    STR: 12
                 },
                 cost: {
-                    MP: 300,
+                    MP: 750,
                 },
                 tag: ['力量']
             },
@@ -204,7 +204,7 @@ data() {
                     INT: 10
                 },
                 cost: {
-                    MP: 300,
+                    MP: 1000,
                 },
                 tag: ['智力']
             },
