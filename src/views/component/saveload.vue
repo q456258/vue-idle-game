@@ -88,6 +88,7 @@ export default {
                     data.state.setting = {};
                 this.$store.replaceState(data.state);
                 var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+                var mapEvent = this.findBrothersComponents(this, 'mapEvent', false)[0];
                 backpack.grid = data.backpackEquipment;
                 
                 var index = this.findComponentUpward(this, 'index');
@@ -99,6 +100,7 @@ export default {
                 index.dungeonInfo = this.$store.state.dungeonInfo;
                 index.createMaps(this.$store.state.playerAttribute.lv);
                 index.switchZone('trial');
+                mapEvent.generateEnermy('trial', this.$store.state.dungeonInfo['trial'].level);
                 index.switchZone('advanture');
                 if(this.$store.state.playerAttribute.spells.spell == undefined) {
                     this.$store.state.playerAttribute.spells = {        

@@ -150,11 +150,11 @@ export default {
             var crit = Math.round(Math.random()*100);
             if(crit<source.attribute.CRIT.value) 
                 dmg *= source.attribute.CRITDMG.value/100;
-            dmg -= target.attribute.MR.value;
+            dmg += this.getApDmg(spell, source);
+            dmg -= this.getMrValue(type, target);
             dmg = Math.round(dmg);
             if(dmg < 0)
                 dmg = 0;
-            dmg += this.getApDmg(spell, source);
             if(type == 'player') {
                 this.$store.commit("set_battle_info", {
                     type: 'dmg',
@@ -248,6 +248,17 @@ export default {
             this.$store.commit('set_player_hp', heal);
             return heal;
         },
+        getMrValue(type, target) {
+            var attr = this.$store.state.playerAttribute.attribute;
+            var value = attr['MR'].value;
+            if(target == 'enermy')
+                return value;
+            if(attr['CURMP'].value < value/4)
+                value = attr['CURMP'].value * 4;
+            var cost = value/4;
+            this.$store.commit('set_player_mp', -1*Math.round(cost));
+            return Math.round(value);
+        },
         reward(type, lv) {
             var equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
             var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
@@ -309,12 +320,26 @@ export default {
                 });
                 itemInfo.addItem(item);
             }
+            else if(this.$store.state.guildAttribute.smith >= 15 && Math.random() < 0.025){
+                var item = itemInfo.createItem('inv_misc_enchantedpearla', 1);  
+                item = JSON.parse(item);
+                let quantity = item.quantity;
+                this.$store.commit("set_sys_info", {
+                    type: 'reward',
+                    msg: '意外捡到一个',
+                    item: item,
+                    quantity: quantity
+                });
+                itemInfo.addItem(item);
+            }
             index.nextLevel();
         },
         levelUp() {
+            let index = this.findComponentUpward(this, 'index'); 
             this.$store.state.playerAttribute.lv += 1;
-            this.$store.state.dungeonInfo.advanture.level += 1;
             this.$store.state.dungeonInfo.trial.level += 1;
+            index.enermyLvChange = this.$store.state.playerAttribute.lv;
+            this.$store.state.dungeonInfo.advanture.level = index.enermyLvChange;
             if(this.$store.state.playerAttribute.lv == 20) {
                 var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
                 var item = itemInfo.createItem('spell_nature_thunderclap', 1);  

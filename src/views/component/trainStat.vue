@@ -22,13 +22,13 @@
 			</div>
 		</div>
 		<div class="progress" v-if="guild.train2>0">
-			<div class="progress-bar progress-bar-striped" :style="{backgroundColor:'#61CBFF', width: (progress.AP.progress)+'%'}">
+			<div class="progress-bar progress-bar-striped" :style="{backgroundColor:'#ff9900', width: (progress.AP.progress)+'%'}">
                 <small id="APtrain" class="justify-content-center d-flex position-absolute center">元素训练({{progress.AP.level}}级) {{progress.AP.progress}} / 100 </small>
 			</div>
 		</div>
 		<div class="progress" v-if="guild.train2>0">
-			<div class="progress-bar progress-bar-striped" :style="{backgroundColor:'#8A6292', width: (progress.MR.progress)+'%'}">
-                <small id="MRtrain" class="justify-content-center d-flex position-absolute center">格挡训练({{progress.MR.level}}级) {{progress.MR.progress}} / 100 </small>
+			<div class="progress-bar progress-bar-striped" :style="{backgroundColor:'#61CBFF', width: (progress.MR.progress)+'%'}">
+                <small id="MRtrain" class="justify-content-center d-flex position-absolute center">魔法盾训练({{progress.MR.level}}级) {{progress.MR.progress}} / 100 </small>
 			</div>
 		</div>
 		<div class="progress" v-if="guild.train3>0">

@@ -84,20 +84,12 @@ export default {
     right: 0;
     height: 20rem;
     width: 400px;
-    // border: 4px solid rgb(37, 32, 32);
-    // background: linear-gradient(180deg, rgb(99, 87, 90) 0%, rgb(139, 139, 139) 20%, rgb(104, 101, 98) 100%);
     margin: auto;
-    // border-radius: 15px;
-    // display: flex;
-    // flex-direction: row;
-    // align-items: flex-start;
 }
-$navBarColor: #625772;
+
+$navBarColor: #332625;
 
 .wrapper {
-    // background: #FEFAEC;
-    // background: linear-gradient(45deg, rgba(54,54,54,1) 0%,rgba(134,135,138,1) 100%);
-    // height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;

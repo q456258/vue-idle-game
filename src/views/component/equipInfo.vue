@@ -211,7 +211,8 @@ export default {
                     break;
                 var index = Math.floor(Math.random()*extraEntry.length);
                 let entry = this.entryInfo[extraEntry[index]];
-                let value = Math.random()>0.5 ? entry.base*1 : entry.base*1.5;
+                let ran = Math.random();
+                let value = ran>0.5 ? entry.base*1 : entry.base*1.5;
                 
                 if(percent.indexOf(extraEntry[index]) == -1)
                     value = value * (1+newEquip.lv**2*0.06);
@@ -223,6 +224,7 @@ export default {
                     showVal: percent.indexOf(extraEntry[index]) > -1 ? "+"+value+"%": "+"+value,
                     name: entry.name,
                     requirement: (i+1)*3,
+                    quality: ran>0.5 ? 0 : 1,
                     active: newEquip.enhanceLv>=(i+1)*3 ? true : false
                 });
             }

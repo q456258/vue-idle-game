@@ -29,6 +29,16 @@ export const itemConfig = {
             }],
             itemType:
             {
+                inv_misc_enchantedpearla: {
+                    quality: 2,
+                    description: {
+                        name: '神秘宝珠',
+                        category: '材料',
+                        desc: '具有神秘力量的宝珠，能够重置装备的潜在属性',
+                        iconSrc: "./icons/item/Inv_misc_enchantedpearla.png",
+                    },
+                    stack: true,
+                },
                 dust2: {
                     quality: 2,
                     description: {

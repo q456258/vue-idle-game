@@ -43,6 +43,7 @@
             <li @click="equip()">装备</li>
             <li @click="equipEnhance()" v-if="guild.smith>0">强化</li>
             <li @click="equipForge()" v-if="guild.smith>=10">重铸</li>
+            <li @click="equipPotential()" v-if="guild.smith>=15">洗炼</li>
             <li @click="lockEquipment(true)" v-if="!currentItem.locked">锁定</li>
             <li @click="lockEquipment(false)" v-if="currentItem.locked">解锁</li>
             <li @click="disintegrate()" v-if="guild.smith>=20 && !currentItem.locked">分解</li>
@@ -170,6 +171,12 @@ export default {
             index.enhanceEquip = this.grid[this.currentItemIndex];
             index.equipForgePanel = true;
         },
+        equipPotential() {
+            var index = this.findComponentUpward(this, 'index');
+            index.closeInfo();
+            index.enhanceEquip = this.grid[this.currentItemIndex];
+            index.equipPotentialPanel = true;
+        },
         lockEquipment(lock) {
             var equip = this.grid[this.currentItemIndex];
             equip.locked = lock;
@@ -217,10 +224,12 @@ export default {
             var success = this.callItemEffect(this.itemGrid[this.currentItemIndex].type);
             if(success)
                 itemInfo.removeItemByIndex(this.currentItemIndex, 1);
+            this.closeInfo();
             this.$forceUpdate();
         },
         throwItem() {
-            this.itemGrid[this.currentItemIndex] = {};
+            // this.itemGrid[this.currentItemIndex] = {};
+            this.$set(this.itemGrid, this.currentItemIndex, {});
         },
         giveEquip(equip) {
             if(this.autoSell[equip.quality.qualityLv-1])

@@ -29,7 +29,7 @@
                 <option value="ATK" v-if="tier>=0">攻击</option>
                 <option value="DEF" v-if="tier>=0">护甲</option>
                 <option value="AP" v-if="tier>=1">元素伤害</option> 
-                <option value="MR" v-if="tier>=1">格挡</option>
+                <option value="MR" v-if="tier>=1">魔法盾</option>
             </select> -->
             <select @change="setTrainTier" class="btn btn-xsm btn-secondary" aria-label="training time">
                 <option value="1">1x</option>

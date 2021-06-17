@@ -103,8 +103,10 @@ export default {
         removeItemByIndex(index, quantity) {
             var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
             backpack.itemGrid[index].quantity -= quantity;
-            if(backpack.itemGrid[index].quantity <= 0)
-                backpack.itemGrid[index] = {};
+            if(backpack.itemGrid[index].quantity <= 0) {
+                // backpack.itemGrid[index] = {};
+                this.$set(backpack.itemGrid, index, {});
+            }
         },
         removeItemByItem(item) {
             var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
@@ -112,8 +114,10 @@ export default {
             var stack = this.findItem(name);
             if(stack != -1) {
                 backpack.itemGrid[stack].quantity -= item.quantity;
-                if(backpack.itemGrid[stack].quantity <= 0)
-                    backpack.itemGrid[stack] = {};
+                if(backpack.itemGrid[stack].quantity <= 0) {
+                    // backpack.itemGrid[index] = {};
+                    this.$set(backpack.itemGrid, stack, {});
+                }
             }
         }
     },

@@ -151,7 +151,8 @@ export default {
                     this.autoing = false;
                     clearInterval(this.autoTimer);
                 }
-                this.enhance();
+                else
+                    this.enhance();
             }, 100);
         },
         stopAutoEnhance() {

@@ -53,7 +53,7 @@
           </button>             
           <button id="advanture" class="btn btn-light btn-sm lvZone" @click="switchZone('advanture')">
             冒险区
-          </button>       
+          </button>    
           <button class="btn btn-success btn-sm" id="auto" @click="autoBattle()">
             自动战斗
           </button>        
@@ -67,6 +67,8 @@
         </div>    
         <div class="zone scrollbar-morpheus-den scrollbar-square">
           <div v-if="dungeonInfo.current=='advanture'">
+            <!-- <input class="target" type="number" :value="targetLv" @input="updateTargetLv" :max="maxLv" :min="minLv" />   -->
+            怪物等级：<input class="target" type="number" :value="enermyLvChange" @input="updateMonsterLv" :max="playerLv" :min="(playerLv-5)>1?(playerLv-5):1" />   
             <div class="zoneRow" v-for="(dungeon, key) in mapArr" :key="key">
               <span class="zoneCol" :class="{chose:v.status=='chose',restrict:v.status=='restrict',option:v.status=='option'}" @click="choseOption($event, k)" v-for="(v,k) in dungeon" :key="k">
                 <img :src="v.img" alt="" v-if="v.img" :class="{option:v.status=='option'}">
@@ -129,6 +131,7 @@
     </div>
     <equipEnhance :equip="enhanceEquip" v-show="equipEnhancePanel"></equipEnhance>
     <equipForge :equip="enhanceEquip" v-show="equipForgePanel"></equipForge>    
+    <equipPotential :equip="enhanceEquip" v-show="equipPotentialPanel"></equipPotential>    
     <saveload v-show="savePanel"></saveload>
     <setting v-show="settingPanel"></setting>
   </div>
@@ -140,6 +143,7 @@ import equipInfo from './component/equipInfo';
 import itemInfo from './component/itemInfo';
 import equipEnhance from './component/equipEnhance';
 import equipForge from './component/equipForge';
+import equipPotential from './component/equipPotential';
 import mapEvent from './component/mapEvent';
 import backpack from './component/backpack';
 import charInfo from './component/charInfo';
@@ -170,8 +174,10 @@ export default {
       enhanceEquip: {},
       dungeonInfo: {},
       enermyInfo: 'advanture',
+      enermyLvChange: 0,
       equipEnhancePanel: false,
       equipForgePanel: false,
+      equipPotentialPanel: false,
       savePanel: false,
       settingPanel: false,
       displayPage: 'charInfo',
@@ -180,7 +186,8 @@ export default {
       resetTime: 0
     }
   },
-  components: {cTooltip, equipInfo, itemInfo, mapEvent, assist, backpack, equipEnhance, equipForge, charInfo, guild, shop, faq, saveload, setting, enermyInfo},
+  components: {cTooltip, equipInfo, itemInfo, mapEvent, assist, backpack, equipEnhance, equipForge, equipPotential, 
+              charInfo, guild, shop, faq, saveload, setting, enermyInfo},
   mounted() {    
     //初始系统、战斗信息
     this.sysInfo = this.$store.state.sysInfo;
@@ -232,8 +239,12 @@ export default {
     //   var item = itemInfo.createItem(name, 1);  
     //   itemInfo.addItem(JSON.parse(item));
     // })
+      // var itemInfo = this.findComponentDownward(this, 'itemInfo');
+      // var item = itemInfo.createItem('inv_misc_enchantedpearla', 1);  
+      // itemInfo.addItem(JSON.parse(item));
+    
     this.$store.commit('set_player_attribute');
-
+    this.enermyLvChange = this.playerLv;
   },
   computed: {
     baseAttribute() { return this.$store.state.baseAttribute },
@@ -394,11 +405,15 @@ export default {
         case 'forge':
           this.equipForgePanel = false;
           break;
+        case 'potential':
+          this.equipPotentialPanel = false;
+          break;
         default:
           this.showItemInfo = false;
           this.showEquipInfo = false;
           this.equipEnhancePanel = false;
           this.equipForgePanel = false;
+          this.equipPotentialPanel = false;
           this.compare = false;
       }
     },
@@ -521,12 +536,16 @@ export default {
       else
         this.createMaps(this.playerLv);
     },
+    updateMonsterLv(e) {
+      this.enermyLvChange = e.target.value;
+      this.dungeonInfo.advanture.level = this.enermyLvChange;
+    },
     slowTick() {
       clearInterval(this.autoHealthRecovery);
       clearInterval(this.autoManRecovery);
       clearInterval(this.trialAutoHealthRecovery);
       this.autoHealthRecovery = setInterval(() => {
-        this.$store.commit('set_player_hp', Math.ceil(this.attribute.MAXHP.value*0.01+this.attribute.STR.value/2));
+        this.$store.commit('set_player_hp', Math.ceil(this.attribute.MAXHP.value*0.01+this.attribute.STR.value));
         if(this.attribute.CURHP.value == this.attribute.MAXHP.value && this.dungeonInfo.auto && !this.dungeonInfo.inBattle) {
           this.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
         }
@@ -543,17 +562,17 @@ export default {
       clearInterval(this.autoManRecovery);
       clearInterval(this.trialAutoHealthRecovery);
       this.autoHealthRecovery = setInterval(() => {
-        this.$store.commit('set_player_hp', Math.ceil(this.attribute.MAXHP.value*0.001+this.attribute.STR.value/20));
+        this.$store.commit('set_player_hp', Math.ceil(this.attribute.MAXHP.value*0.0005+this.attribute.STR.value/20));
         if(this.attribute.CURHP.value == this.attribute.MAXHP.value && this.dungeonInfo.auto && !this.dungeonInfo.inBattle) {
           this.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
         }
-      }, 100);
+      }, 50);
       this.autoManRecovery = setInterval(() => {
-        this.$store.commit('set_player_mp', Math.ceil(this.attribute.MAXMP.value*0.001+this.attribute.INT.value/40));
-      }, 100);
+        this.$store.commit('set_player_mp', Math.ceil(this.attribute.MAXMP.value*0.0005+this.attribute.INT.value/80));
+      }, 50);
       this.trialAutoHealthRecovery = setInterval(() => {
-        this.$store.commit('set_trial_hp', Math.ceil(this.trialAttribute.MAXHP.value*0.002));
-      }, 100);  
+        this.$store.commit('set_trial_hp', Math.ceil(this.trialAttribute.MAXHP.value*0.001));
+      }, 50);  
     },
     openMenuPanel(type) {
       switch(type) {

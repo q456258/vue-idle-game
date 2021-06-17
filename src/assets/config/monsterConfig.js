@@ -72,12 +72,12 @@ export const monsterConfig = {
                     name: '长矛哥布林', 
                     template:{
                         MAXHP: { value: 150, showValue: 800, },        
-                        ATK: { value: 12, showValue: 10, },
+                        ATK: { value: 14, showValue: 10, },
                         DEF: { value: 2, showValue: 5, },
                         AP: { value: 0, showValue: 0, },
                         MR: { value: 0, showValue: 0, },
                         CRIT: { value: 10, showValue: '10%', },
-                        CRITDMG: { value: 400, showValue: '400%', },
+                        CRITDMG: { value: 250, showValue: '400%', },
                     }
                 }, 
                 {

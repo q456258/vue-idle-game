@@ -29,12 +29,6 @@
                         <div :class="'value ' + v.qualityLv+'text'">{{v.name}} : {{v.showVal}}<span style="font-size: 0.7rem;">&nbsp;({{v.quality+'%'}})</span></div>
                         
                     </button>
-                    <!-- <button class="btn-5">
-                        <div class="value">{{v.name}} : {{v.showVal}}</div>
-                    </button> -->
-                    <!-- <button class="tag" data-content-default="TOUCH ME PLEASE" data-content-spinning="WEEEEEEEE">
-                        <div class="value">{{v.name}} : {{v.showVal}}</div>
-                    </button> -->
                 </div>
             </div>
 
@@ -396,46 +390,6 @@ button:focus {
     to {
         transform: translateY(100%);
     }
-}
-
-.tag {
-    position: relative;
-    display: block;
-    background-color: #FFF;
-    font-weight: 700; 
-    font-size: 1rem;
-    border: none;
-    outline: none;
-    min-width: 150px;
-    text-align: center;
-    box-sizing: border-box;
-    padding: 4vh 8vw;
-    text-decoration: none;
-    color: #000;
-    letter-spacing: 2px;
-    cursor: -webkit-grab;
-    cursor: -moz-grab;
-    &:before {
-    content: attr( data-content-default );	}
-    &:active {
-    cursor: -webkit-grabbing;
-    cursor: -moz-grabbing;
-    animation: spinner 200ms infinite linear;
-        
-        &:before {
-        content: attr( data-content-spinning );	}
-    }
-}
-
-
-@keyframes spinner {
-	from {
-	box-shadow: 0 10px 20px rgba( 0,0,0, 0.2 );
-	transform: rotateX( 0 ) rotateY( -360deg );	}
-	
-	to {
-	box-shadow: 0 10px 20px rgba( 0,0,0, 0.2 );
-	transform: rotateX( 360deg ) rotateY( -360deg ); }
 }
 
 </style>

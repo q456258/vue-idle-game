@@ -151,6 +151,14 @@
                 // height: 20.3rem;
                 margin: auto;
                 overflow-y: auto;
+                .target {
+                    width: 4rem;    
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                    padding: 0.2rem;
+                    font-size: 1rem;
+                    background-color: #e0e8ea;
+                }
                 .zoneRow {
                     height: 4rem;
                     background: #fff;
@@ -196,7 +204,7 @@
         bottom: 0.5rem;
         background: rgba($color: #fff, $alpha: 0.4);
         left: 0.5rem;
-        width: 10rem;
+        width: 15rem;
         padding: 0.1rem;
         border-top-right-radius: 0.1rem;
         display: flex;

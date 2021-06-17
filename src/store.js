@@ -453,7 +453,7 @@ export default new Vuex.Store({
         'STR','AGI','INT','ALL','ATK','DEF','AP','MR','HP','MP'
       ];
       var advancedAttr = {
-        STR: { HP: 10, MR: 0.25}, 
+        STR: { HP: 10}, 
         AGI: { ATK: 4, DEF: 1}, 
         INT: { MP: 3, AP: 3 }, 
       };

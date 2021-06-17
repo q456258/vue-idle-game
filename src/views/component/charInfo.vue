@@ -78,9 +78,7 @@
                             <br>
                             +10生命值
                             <br>
-                            +0.5生命恢复
-                            <br>
-                            +0.25格挡
+                            +1生命恢复
                         </p>
                         </template>
                 </cTooltip>
@@ -183,7 +181,7 @@
                             基础：{{attribute.AP.baseVal }}
                             <span v-if="attribute.APP.value != 0">{{' +' + attribute.APP.showValue}}</span>
                         </p>
-                        <p class="info">额外造成无视护甲、格挡的伤害</p>
+                        <p class="info">额外造成无视护甲的伤害</p>
                     </template>
                 </cTooltip>
                 <cTooltip placement="bottom">
@@ -235,12 +233,12 @@
                         </div>
                     </template>
                     <template v-slot:tip>
-                        <p class="info">* 格挡
+                        <p class="info">* 魔法盾
                             <br>
                             基础：{{attribute.MR.baseVal }}
                             <span v-if="attribute.MRP.value != 0">{{' +' + attribute.MRP.showValue}}</span>
                         </p>
-                        <p class="info">减少计算完护甲后的伤害</p>
+                        <p class="info">使用魔法值抵消伤害，每抵消一点消耗0.25魔法值</p>
                     </template>
                 </cTooltip>
                 <cTooltip placement="bottom">
@@ -660,7 +658,6 @@ export default {
     display: flex;
     flex-direction: column;
     padding: 0.5rem;
-    cursor: pointer;
     .uii {
         display: flex;
         width: calc(100% -0.4rem);
@@ -672,6 +669,7 @@ export default {
         flex: 1;
         flex-wrap: wrap;
         display: flex;
+        cursor: pointer;
         .equip {
             width: 45%;
             display: flex;
@@ -716,13 +714,13 @@ export default {
     height: calc(100% - 31rem);
     width: 50.5rem;
     padding: 0.5rem;
-    cursor: pointer;
     padding: 2rem 2rem;
     .container{
         height: 100%;
         overflow-y: auto;
         .spell {
             position: relative;
+            cursor: pointer;
             height: 5rem;
             border: 1px solid rgba(255, 255, 255, 0.404);
             // border-image: linear-gradient(to right, darkorchid, rgb(0, 129, 123)) 1;
