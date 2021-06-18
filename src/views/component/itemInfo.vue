@@ -108,12 +108,12 @@ export default {
                 this.$set(backpack.itemGrid, index, {});
             }
         },
-        removeItemByItem(item) {
+        removeItemByItem(item, quantity) {
             var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
             var name = item.description.name;
             var stack = this.findItem(name);
             if(stack != -1) {
-                backpack.itemGrid[stack].quantity -= item.quantity;
+                backpack.itemGrid[stack].quantity -= quantity;
                 if(backpack.itemGrid[stack].quantity <= 0) {
                     // backpack.itemGrid[index] = {};
                     this.$set(backpack.itemGrid, stack, {});

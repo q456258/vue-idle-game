@@ -249,9 +249,10 @@ export default {
             return heal;
         },
         getMrValue(type, target) {
-            var attr = this.$store.state.playerAttribute.attribute;
+            var attr = target.attribute;
             var value = attr['MR'].value;
-            if(target == 'enermy')
+            // 玩家进攻时无视目标魔法消耗
+            if(type == 'player')
                 return value;
             if(attr['CURMP'].value < value/4)
                 value = attr['CURMP'].value * 4;

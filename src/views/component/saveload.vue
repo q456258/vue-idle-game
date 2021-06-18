@@ -90,6 +90,7 @@ export default {
                 var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
                 var mapEvent = this.findBrothersComponents(this, 'mapEvent', false)[0];
                 backpack.grid = data.backpackEquipment;
+                backpack.itemGrid = data.backpackItem;
                 
                 var index = this.findComponentUpward(this, 'index');
                 this.$store.state.dungeonInfo.auto = false;

@@ -68,7 +68,7 @@
         <div class="zone scrollbar-morpheus-den scrollbar-square">
           <div v-if="dungeonInfo.current=='advanture'">
             <!-- <input class="target" type="number" :value="targetLv" @input="updateTargetLv" :max="maxLv" :min="minLv" />   -->
-            怪物等级：<input class="target" type="number" :value="enermyLvChange" @input="updateMonsterLv" :max="playerLv" :min="(playerLv-5)>1?(playerLv-5):1" />   
+            怪物等级：<input class="target" type="number" :value="enermyLvChange" @input="updateEnermyLv" :max="playerLv" :min="(playerLv-5)>1?(playerLv-5):1" />   
             <div class="zoneRow" v-for="(dungeon, key) in mapArr" :key="key">
               <span class="zoneCol" :class="{chose:v.status=='chose',restrict:v.status=='restrict',option:v.status=='option'}" @click="choseOption($event, k)" v-for="(v,k) in dungeon" :key="k">
                 <img :src="v.img" alt="" v-if="v.img" :class="{option:v.status=='option'}">
@@ -239,9 +239,9 @@ export default {
     //   var item = itemInfo.createItem(name, 1);  
     //   itemInfo.addItem(JSON.parse(item));
     // })
-      // var itemInfo = this.findComponentDownward(this, 'itemInfo');
-      // var item = itemInfo.createItem('inv_misc_enchantedpearla', 1);  
-      // itemInfo.addItem(JSON.parse(item));
+      var itemInfo = this.findComponentDownward(this, 'itemInfo');
+      var item = itemInfo.createItem('inv_misc_enchantedpearla', 1);  
+      itemInfo.addItem(JSON.parse(item));
     
     this.$store.commit('set_player_attribute');
     this.enermyLvChange = this.playerLv;
@@ -443,7 +443,7 @@ export default {
       if(this.$store.state.dungeonInfo.inBattle)
         this.stopBattle();
       this.$store.commit('set_enermy_hp', 'dead');
-      this.createMaps(this.playerLv);
+      this.createMaps(this.enermyLvChanges);
       this.resetTime = 10;
       element.disabled = true;
       this.resetTimer = setInterval(() => {
@@ -480,7 +480,7 @@ export default {
     startBattle(key) {
       var dungeon = this.dungeonInfo[this.dungeonInfo.current];
       if(dungeon.current >= dungeon.max) {
-        this.createMaps(this.playerLv);
+        this.createMaps(this.enermyLvChange);
         dungeon.current = 0;
         this.startBattle();
         return;
@@ -515,7 +515,7 @@ export default {
         if(this.dungeonInfo.current == 'trial') {
           this.$store.state.playerAttribute.lv += 1;
         }
-        this.createMaps(this.playerLv);
+        this.createMaps(this.enermyLvChange);
         dungeon.current = 0;
       }
     },
@@ -534,11 +534,14 @@ export default {
         });
       }
       else
-        this.createMaps(this.playerLv);
+        this.createMaps(this.enermyLvChange);
     },
-    updateMonsterLv(e) {
-      this.enermyLvChange = e.target.value;
-      this.dungeonInfo.advanture.level = this.enermyLvChange;
+    updateEnermyLv(e) {
+      var value = e.target.value;
+      if(value > 0 && value >= this.playerLv-5 && value <= this.playerLv) {
+        this.enermyLvChange = value;
+        this.dungeonInfo.advanture.level = this.enermyLvChange;
+      }
     },
     slowTick() {
       clearInterval(this.autoHealthRecovery);

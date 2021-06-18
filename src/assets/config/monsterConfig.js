@@ -119,11 +119,11 @@ export const monsterConfig = {
                 {
                     name: '利爪龟', 
                     template: {
-                        MAXHP: { value: 130, showValue: 800, },        
-                        ATK: { value: 26, showValue: 10, },
+                        MAXHP: { value: 120, showValue: 800, },        
+                        ATK: { value: 23, showValue: 10, },
                         DEF: { value: 7, showValue: 5, },
                         AP: { value: 0, showValue: 0, },
-                        MR: { value: 50, showValue: 0, },
+                        MR: { value: 40, showValue: 0, },
                         CRIT: { value: 0, showValue: '0%', },
                         CRITDMG: { value: 200, showValue: '200%', },
                     }
