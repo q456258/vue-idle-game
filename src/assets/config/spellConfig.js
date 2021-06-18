@@ -102,7 +102,7 @@ data() {
                 quality: 4,
                 level: [{
                         des: '消耗所有魔法值，恢复自身所有生命值',
-                        dmg: { AGI: 10, },
+                        dmg: {},
                         ap: {},
                         heal: { MAXHP: 1 },
                         cost: { CURMP: 1, },

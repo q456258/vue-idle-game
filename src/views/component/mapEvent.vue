@@ -232,10 +232,10 @@ export default {
             return dmg;
         },
         getApDmg(spell, source) {
-            if(!this.spell[spell].ap)
-                return source.attribute['AP'].value;
             var spellLv = source.spells == undefined ? 0 : source.spells.spell[spell].lv-1;
             var apDmgs = this.spell[spell].level[spellLv];
+            if(!apDmgs.ap)
+                return source.attribute['AP'].value;
             var ap = apDmgs.ap['fixed'] == undefined ? 0 : apDmgs.ap['fixed'];
             for(var attr in apDmgs.ap) {
                 if(source.attribute[attr] != undefined)
@@ -244,10 +244,10 @@ export default {
             return ap;
         },
         getHeal(spell, source) {
-            if(!this.spell[spell].heal)
-                return 0;
             var spellLv = source.spells == undefined ? 0 : source.spells.spell[spell].lv-1;
             var heals = this.spell[spell].level[spellLv];
+            if(!heals.heal)
+                return 0;
             var heal = heals.heal['fixed'] == undefined ? 0 : heals.heal['fixed'];
             for(var attr in heals.heal) {
                 if(source.attribute[attr] != undefined)
