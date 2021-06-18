@@ -63,6 +63,7 @@ export default {
         async saveGame(needInfo) {
             var data = {}
             var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            this.$store.state.exitTime = Date.now();
             data = {
                 state: this.$store.state,
                 backpackEquipment: backpack.grid,
@@ -84,8 +85,39 @@ export default {
                 return;
             try {
                 var data = JSON.parse(Base64.decode(Base64.decode(loadData)));
+                if(data.state.exitTime == undefined)
+                    data.state.exitTime = 0;
                 if(data.state.setting == undefined)
                     data.state.setting = {};
+                if(data.state.train == undefined)
+                    data.state.train = {
+                        train1: {
+                            timer: 0,
+                            tier: 0,
+                            finishTime: 0
+                        },
+                        train2: {
+                            timer: 0,
+                            tier: 0,
+                            finishTime: 0
+                        },
+                        train3: {
+                            timer: 0,
+                            tier: 0,
+                            finishTime: 0
+                        },
+                        train4: {
+                            timer: 0,
+                            tier: 0,
+                            finishTime: 0
+                        }
+                    };
+                for(var k in data.state.playerAttribute.spells.spell) {
+                    if(data.state.playerAttribute.spells.spell[k].active == undefined) {
+                        data.state.playerAttribute.spells.spell[k] = {active: true, lv: 1};
+                    }
+                }
+
                 this.$store.replaceState(data.state);
                 var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
                 var mapEvent = this.findBrothersComponents(this, 'mapEvent', false)[0];
@@ -114,6 +146,8 @@ export default {
 
                 var guild = this.findComponentDownward(index, 'guild');
                 guild.getAllCost();
+                if(data.state.exitTime != 0)
+                    this.awayReward(Date.now()-data.state.exitTime);
                 this.closeSaveload();
             } catch (error) {
                 console.log(error)
@@ -124,6 +158,40 @@ export default {
                     type: 'warning'
                 });
             }
+        },
+        awayReward(time) {
+            var minute = Math.floor(time/60/1000);
+            if(minute < 5)
+                return;
+            if(minute > 288)
+                minute = 288;
+            var guild = this.findBrothersComponents(this, 'guild', false)[0];
+            var equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
+            var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            var crystal = 0;
+            var gold = 0;
+            var lv = this.$store.state.playerAttribute.lv;
+            for(var i=0; i<Math.floor(minute/5); i++) {
+                gold += Math.round((100+lv**2)*(2+2*Math.random()))
+                if(i%5 == 0)
+                    crystal += Math.round((1+lv*2)*(1+Math.random()));
+                if(Math.random() < 1/24) {
+                    let equip = equipInfo.createEquip(-1, lv, 'random', 1);  
+                    equip = JSON.parse(equip);
+                    this.$store.commit("set_sys_info", {
+                        type: 'reward',
+                        msg: '外出游荡时的意外收获',
+                        equip: equip
+                    });
+                    backpack.giveEquip(equip);
+                }
+            }
+            guild.getGold('外出游荡时的累积', gold);
+            this.$store.state.guildAttribute.crystal += crystal;
+            this.$store.commit("set_sys_info", {
+                type: 'reward',
+                msg: '外出游荡时的累积获得'+crystal+'水晶'
+            });
         },
         closeSaveload() {
             var index = this.findComponentUpward(this, 'index');

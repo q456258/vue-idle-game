@@ -181,7 +181,7 @@ export default {
             var curWeight = 0;
             var selectSpell = 'attack';
             for(var spell in source.spells.spell) {
-                if(!source.spells.spell[spell])
+                if(!source.spells.spell[spell].active)
                     continue;
                 curWeight += this.spell[spell].weight;
                 if(curWeight > random) {
@@ -197,9 +197,10 @@ export default {
         },
         checkCost(spell) {
             var attr = this.$store.state.playerAttribute.attribute;
+            var spellLv = this.$store.state.playerAttribute.spells.spell[spell].lv-1;
             for(let cost in this.spell[spell].cost) {
                 if(cost == 'MP') {
-                    if(attr['CURMP'].value < this.spell[spell].cost['MP'])
+                    if(attr['CURMP'].value < this.spell[spell].level[spellLv].cost['MP'])
                         return false;
                 }
             }
@@ -207,42 +208,50 @@ export default {
         },
         useCost(spell) {
             var attr = this.$store.state.playerAttribute.attribute;
-            for(let cost in this.spell[spell].cost) {
+            var spellLv = this.$store.state.playerAttribute.spells.spell[spell].lv-1;
+            var costs = this.spell[spell].level[spellLv];
+            for(let cost in costs.cost) {
                 switch(cost) {
                     case 'MP':
-                        this.$store.commit('set_player_mp', -1*this.spell[spell].cost[cost]);
+                        this.$store.commit('set_player_mp', -1*costs.cost[cost]);
                         break;
                     case 'CURMP':
-                        this.$store.commit('set_player_mp', -1*this.spell[spell].cost[cost]*attr['CURMP'].value);
+                        this.$store.commit('set_player_mp', -1*costs.cost[cost]*attr['CURMP'].value);
                         break;
                 }
             }
         },
         getSpellDmg(spell, source) {
-            var dmg = this.spell[spell].dmg['fixed'] == undefined ? 0 : this.spell[spell].dmg['fixed'];
-            for(var attr in this.spell[spell].dmg) {
+            var spellLv = source.spells == undefined ? 0 : source.spells.spell[spell].lv-1;
+            var dmgs = this.spell[spell].level[spellLv];
+            var dmg = dmgs.dmg['fixed'] == undefined ? 0 : dmgs.dmg['fixed'];
+            for(var attr in dmgs.dmg) {
                 if(source.attribute[attr] != undefined)
-                    dmg += source.attribute[attr].value*this.spell[spell].dmg[attr];
+                    dmg += source.attribute[attr].value*dmgs.dmg[attr];
             }
             return dmg;
         },
         getApDmg(spell, source) {
             if(!this.spell[spell].ap)
                 return source.attribute['AP'].value;
-            var ap = this.spell[spell].ap['fixed'] == undefined ? 0 : this.spell[spell].ap['fixed'];
-            for(var attr in this.spell[spell].ap) {
+            var spellLv = source.spells == undefined ? 0 : source.spells.spell[spell].lv-1;
+            var apDmgs = this.spell[spell].level[spellLv];
+            var ap = apDmgs.ap['fixed'] == undefined ? 0 : apDmgs.ap['fixed'];
+            for(var attr in apDmgs.ap) {
                 if(source.attribute[attr] != undefined)
-                    ap += source.attribute[attr].value*this.spell[spell].ap[attr];
+                    ap += source.attribute[attr].value*apDmgs.ap[attr];
             }
             return ap;
         },
         getHeal(spell, source) {
             if(!this.spell[spell].heal)
                 return 0;
-            var heal = this.spell[spell].heal['fixed'] == undefined ? 0 : this.spell[spell].heal['fixed'];
-            for(var attr in this.spell[spell].heal) {
+            var spellLv = source.spells == undefined ? 0 : source.spells.spell[spell].lv-1;
+            var heals = this.spell[spell].level[spellLv];
+            var heal = heals.heal['fixed'] == undefined ? 0 : heals.heal['fixed'];
+            for(var attr in heals.heal) {
                 if(source.attribute[attr] != undefined)
-                    heal += source.attribute[attr].value*this.spell[spell].heal[attr];
+                    heal += source.attribute[attr].value*heals.heal[attr];
             }
             heal = Math.round(heal);
             this.$store.commit('set_player_hp', heal);

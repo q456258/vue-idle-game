@@ -233,7 +233,7 @@
                         </div>
                     </template>
                     <template v-slot:tip>
-                        <p class="info">* 魔法盾
+                        <p class="info">* 能量盾
                             <br>
                             基础：{{attribute.MR.baseVal }}
                             <span v-if="attribute.MRP.value != 0">{{' +' + attribute.MRP.showValue}}</span>
@@ -380,19 +380,19 @@
             </select>
             <span class="spellInfo">&nbsp;&nbsp;&nbsp;总比重：{{spells.weight}}</span>
             <div class="container scrollbar-morpheus-den">
-                <div class="spell" v-for="(v, k) in filteredSpell" :key="k" @click="activeSpell(v)">
+                <div class="spell" v-for="(v, k) in filteredSpell" :key="k" @click="activeSpell(v)" :set="curLv=spell[v].level[spells.spell[v].lv-1]">
                     <span class="spellIcon"><img class="icon" :src="spell[v].iconSrc"></span>
-                    <span class="spellName" :style="spellQuality[spell[v].quality]">{{spell[v].name}}</span>
-                    <span class="spellDesc">{{spell[v].des}}</span>
+                    <span class="spellName" :style="spellQuality[spell[v].quality]">{{spell[v].name+' ('+(spells.spell[v].lv)+'级)'}}</span>
+                    <span class="spellDesc">{{curLv.des}}</span>
                     <span class="spellWeight">{{"比重："+spell[v].weight}}</span>
-                    <span class="spellCost" v-if="spell[v].cost['HP']">
-                        {{"消耗："+spell[v].cost['HP']+entryInfo['HP'].name}}
+                    <span class="spellCost" v-if="curLv.cost['HP']">
+                        {{"消耗："+curLv.cost['HP']+entryInfo['HP'].name}}
                     </span>
-                    <span class="spellCost" v-if="spell[v].cost['MP']">
-                        {{"消耗："+spell[v].cost['MP']+entryInfo['MP'].name}}
+                    <span class="spellCost" v-if="curLv.cost['MP']">
+                        {{"消耗："+curLv.cost['MP']+entryInfo['MP'].name}}
                     </span>
                     <span class="spellSwitch" v-if="v!='attack'">
-                        <input type="checkbox" name="" v-model="spells.spell[v]">
+                        <input type="checkbox" name="" v-model="spells.spell[v].active">
                         <span class="check"></span>
                     </span>
                 </div>
@@ -524,10 +524,10 @@ export default {
         },
         activeSpell(activeSpell, active=0) {
             if(activeSpell != 'attack' && active == 0)
-                this.spells.spell[activeSpell] = !this.spells.spell[activeSpell];
+                this.spells.spell[activeSpell].active = !this.spells.spell[activeSpell].active;
             this.spells.weight = 0;
             for(let spell in this.spells.spell) {
-                if(this.spells.spell[spell])
+                if(this.spells.spell[spell].active)
                     this.spells.weight += this.spell[spell].weight;
             }
             // if(!this.spells.spell[activeSpell]) 

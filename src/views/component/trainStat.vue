@@ -28,7 +28,7 @@
 		</div>
 		<div class="progress" v-if="guild.train2>0">
 			<div class="progress-bar progress-bar-striped" :style="{backgroundColor:'#61CBFF', width: (progress.MR.progress)+'%'}">
-                <small id="MRtrain" class="justify-content-center d-flex position-absolute center">魔法盾训练({{progress.MR.level}}级) {{progress.MR.progress}} / 100 </small>
+                <small id="MRtrain" class="justify-content-center d-flex position-absolute center">能量盾训练({{progress.MR.level}}级) {{progress.MR.progress}} / 100 </small>
 			</div>
 		</div>
 		<div class="progress" v-if="guild.train3>0">

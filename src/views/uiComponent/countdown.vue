@@ -29,15 +29,15 @@
                 <option value="ATK" v-if="tier>=0">攻击</option>
                 <option value="DEF" v-if="tier>=0">护甲</option>
                 <option value="AP" v-if="tier>=1">元素伤害</option> 
-                <option value="MR" v-if="tier>=1">魔法盾</option>
+                <option value="MR" v-if="tier>=1">能量盾</option>
             </select> -->
             <select @change="setTrainTier" class="btn btn-xsm btn-secondary" aria-label="training time">
-                <option value="1">1x</option>
-                <option value="2">5x</option>
-                <option value="3">25x</option>
-                <option value="4">125x</option>
-                <option value="5">625x</option>
-                <!-- <option value="6">3125x</option> -->
+                <option value="1">5分钟</option>
+                <option value="2">30分钟</option>
+                <option value="3">1小时</option>
+                <option value="4">2小时</option>
+                <option value="5">8小时</option>
+                <option value="6">24小时</option>
             </select>
             <!-- <div :style="{'font-size':gain>10000?'0.8rem':'1rem'}">+{{gain}}{{entryInfo[this.type].name}}</div> -->
             <span class="time"><span v-if="Math.floor(trainTime/3600)<10">0</span>{{Math.floor(trainTime/3600)}}:</span>
@@ -74,7 +74,7 @@ export default {
     data () {
         return {
             trainerTier: 1,
-            trainTier: 1,
+            trainTier: '1',
             trainLevel: 0,
             trainTime: 0,
             totalTime: 0,
@@ -84,7 +84,7 @@ export default {
             cost: 0,
             training: false,
             collecting: false,
-            values: [],        
+            values: [],   
         }
     },
     mounted () {
@@ -99,7 +99,19 @@ export default {
         }
         this.countdownTimer = this.timer;
         this.trainLevel = this.level;
-        this.computeTime();
+        if(this.train.finishTime != 0 && this.train.finishTime != undefined) {
+            this.trainTier = this.train.tier;
+            this.computeTime();
+            this.totalTime = this.trainTime;
+            if(new Date(this.train.finishTime) > new Date(Date.now())) {
+                this.startOldTimer(this.trainTime, true);
+                this.timeRemain = Math.round((this.train.finishTime - Date.now())/1000);
+            }
+            else
+                this.timeRemain = 0;
+        }
+        else
+            this.computeTime();
     },
     watch: {
         level() {
@@ -108,6 +120,16 @@ export default {
         }
     },
     computed: {
+        train() {
+            switch(this.tier) {
+                case 0:
+                    return this.$store.state.train.train1;
+                case 1:
+                    return this.$store.state.train.train2;
+                case 2:
+                    return this.$store.state.train.train3;
+            }
+        }
     },
     methods: {
         startTrain() {
@@ -118,6 +140,20 @@ export default {
                 this.$store.state.guildAttribute.crystal -= this.cost;
             else
                 return;
+            this.train.finishTime = new Date().getTime()+this.trainTime*1000;
+            this.train.tier = this.trainTier;
+            this.training = true;
+            this.totalTime = time;
+            this.timeRemain = time;
+            this.countdownTimer = setInterval(() => {
+                this.timeRemain -= 1;
+                if(this.timeRemain == 0) {
+                    this.training = false;
+                    clearInterval(this.countdownTimer);
+                }
+            }, 1000);
+        },
+        startOldTimer(time) {
             this.training = true;
             this.totalTime = time;
             this.timeRemain = time;
@@ -136,20 +172,31 @@ export default {
             clearInterval(this.countdownTimer);
         },
         collect() {
+            this.train.finishTime = 0;
             var element = this.$refs['text'];
-            var count = 5**(this.trainTier-1);
-            var gap = 200;
+            var count = 120;
+            var gap = 50;
             var multi = 1;
             this.collecting = true;
             switch(this.trainTier) {
-                case '6':
-                    multi *= 5;
-                    count /= 5;
-                case '5':
-                    multi *= 5;
-                    count /= 5;
+                case '1':
+                    multi = 1;
+                    break;
+                case '2':
+                    multi = 6;
+                    break;
+                case '3':
+                    multi = 12;
+                    break;
                 case '4':
-                    gap /= 4;
+                    multi = 24;
+                    break;
+                case '5':
+                    multi = 96;
+                    break;
+                case '6':
+                    multi = 288;
+                    break;
             }
             for(let i=0; i<count; i++) {
                 setTimeout(()=>{
@@ -180,20 +227,39 @@ export default {
 
         },
         setTrainTier(e) {
-            this.trainTier = e.target.value;
+            var value = e.target.value;
+            this.trainTier = value;
+            this.train.tier = value;
             this.computeTime();
         },
         computeTime() {
-            let value = 5**(this.trainTier-1);
-            // let time = 1*(1-(0.01*this.trainLevel)/(1+0.01*this.trainLevel))*(2-(this.trainTier-1)*0.2);
-            // let time = 1*(2-(this.trainTier-1)*0.2);
             let time = 2.5;
-            // this.trainTime = Math.round(value*time/this.entryInfo[this.type].base);
-            this.trainTime = Math.round(value*time);
-            this.gain = value;
+            switch(this.trainTier) {
+                case '1':
+                    time = 300;
+                    break;
+                case '2':
+                    time = 1800;
+                    break;
+                case '3':
+                    time = 3600;
+                    break;
+                case '4':
+                    time = 7200;
+                    break;
+                case '5':
+                    time = 28800;
+                    break;
+                case '6':
+                    time = 86400;
+                    break;
+                default:
+            }
+            this.trainTime = time;
+            this.gain = time/2.5;
             this.cost = Math.ceil(this.trainTime/10*(1+this.trainLevel/20));
             // this.trainTime = Math.round(2);
-            // this.cost = Math.round(2);
+            // this.cost = Math.round(2);   
         },
         increaseProgress(type, value) {
             this.$store.state.trainProgress[type].progress += value;

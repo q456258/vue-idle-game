@@ -189,11 +189,27 @@ export default new Vuex.Store({
       type: '',
       msg: "菜单栏可以刷新当前世界副"
     }],
-    timer: {
-      trainTimer1: 0,
-      trainTimer2: 0,
-      trainTimer3: 0,
-      trainTimer4: 0,
+    train: {
+      train1: {
+        timer: 0,
+        tier: 0,
+        finishTime: 0
+      },
+      train2: {
+        timer: 0,
+        tier: 0,
+        finishTime: 0
+      },
+      train3: {
+        timer: 0,
+        tier: 0,
+        finishTime: 0
+      },
+      train4: {
+        timer: 0,
+        tier: 0,
+        finishTime: 0
+      }
     },
     dungeonInfo: {
       auto: false,
@@ -255,7 +271,7 @@ export default new Vuex.Store({
       spells: {
         weight: 100,
         spell: {
-          attack: true, 
+          attack: {active: true, lv: 1}
           // Spell_nature_thunderclap: true, 
           // Spell_nature_lightning: false, 
           // Spell_holy_crusaderstrike: true, 
@@ -397,7 +413,8 @@ export default new Vuex.Store({
     },
     setting: {
       slowTick: false,
-    }
+    },
+    exitTime: 0
   },
   mutations: {       
     set_player_helmet(state, data) {

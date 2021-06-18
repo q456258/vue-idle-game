@@ -58,7 +58,7 @@ export const equipConfig = {
         ATK: { base: 16, name: '攻击' }, 
         DEF: { base: 4, name: '护甲' }, 
         AP: { base: 12, name: '元素伤害' }, 
-        MR: { base: 4, name: '魔法盾' }, 
+        MR: { base: 4, name: '能量盾' }, 
         HP: { base: 40, name: '生命值' }, 
         MP: { base: 15, name: '魔法值' }, 
         CRIT: { base: 5, name: '暴击率' }, 
@@ -70,7 +70,7 @@ export const equipConfig = {
         ATKP: { base: 6, name: '攻击力' }, 
         DEFP: { base: 6, name: '防御力' }, 
         APP: { base: 6, name: '元素伤害' }, 
-        MRP: { base: 6, name: '魔法盾' }, 
+        MRP: { base: 6, name: '能量盾' }, 
         HPP: { base: 6, name: '生命值' }, 
         MPP: { base: 6, name: '魔法值' }, 
       },
@@ -596,7 +596,7 @@ export const equipConfig = {
       },
       shoe: {
         baseEntry: [ 
-          'DEF'
+          'AP'
         ],
         extraEntry: [
           'STR','AGI','INT','ALL','CRIT','CRITDMG','ATK','DEF','AP','MR','HP','MP',
@@ -725,7 +725,7 @@ export const equipConfig = {
       },
       shoulder: {
         baseEntry: [ 
-          'ATK'
+          'MR'
         ],
         extraEntry: [
           'STR','AGI','INT','ALL','CRIT','CRITDMG','ATK','DEF','AP','MR','HP','MP',

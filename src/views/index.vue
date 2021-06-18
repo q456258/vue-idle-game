@@ -239,10 +239,9 @@ export default {
     //   var item = itemInfo.createItem(name, 1);  
     //   itemInfo.addItem(JSON.parse(item));
     // })
-      var itemInfo = this.findComponentDownward(this, 'itemInfo');
-      var item = itemInfo.createItem('inv_misc_enchantedpearla', 1);  
-      itemInfo.addItem(JSON.parse(item));
-    
+      // var itemInfo = this.findComponentDownward(this, 'itemInfo');
+      // var item = itemInfo.createItem('inv_misc_enchantedpearla', 1);  
+      // itemInfo.addItem(JSON.parse(item));
     this.$store.commit('set_player_attribute');
     this.enermyLvChange = this.playerLv;
   },

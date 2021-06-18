@@ -113,10 +113,10 @@
     <trainStat></trainStat>
     <div class="training">
         <div class="trainingProgressbars">
-            <countdown :tier="0" :timer="$store.state.timer.trainTimer1" :level="guild.train" v-if="guild.train>0"></countdown>
+            <countdown :tier="0" :timer="$store.state.train.train1.timer" :level="guild.train" v-if="guild.train>0"></countdown>
             <!-- <countdown :tier="0" :timer="$store.state.timer.trainTimer1" :level="guild.train"></countdown> -->
-            <countdown :tier="1" :timer="$store.state.timer.trainTimer2" :level="guild.train2" v-if="guild.train2>0"></countdown>
-            <countdown :tier="2" :timer="$store.state.timer.trainTimer3" :level="guild.train3" v-if="guild.train3>0"></countdown>
+            <countdown :tier="1" :timer="$store.state.train.train2.timer" :level="guild.train2" v-if="guild.train2>0"></countdown>
+            <countdown :tier="2" :timer="$store.state.train.train3.timer" :level="guild.train3" v-if="guild.train3>0"></countdown>
         </div>
     </div>
 </div>
