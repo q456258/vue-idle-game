@@ -31,7 +31,7 @@
                 <option value="AP" v-if="tier>=1">元素伤害</option> 
                 <option value="MR" v-if="tier>=1">能量盾</option>
             </select> -->
-            <select @change="setTrainTier" class="btn btn-xsm btn-secondary" aria-label="training time">
+            <select v-model="trainTier" @change="setTrainTier" class="btn btn-xsm btn-secondary" aria-label="training time">
                 <option value="1">5分钟</option>
                 <option value="2">30分钟</option>
                 <option value="3">1小时</option>
@@ -39,6 +39,7 @@
                 <option value="5">8小时</option>
                 <option value="6">24小时</option>
             </select>
+            <span v-if="trainLevel >= 20"><input type="checkbox" v-model="speedUp" @change="computeTime">加速模式</span>
             <!-- <div :style="{'font-size':gain>10000?'0.8rem':'1rem'}">+{{gain}}{{entryInfo[this.type].name}}</div> -->
             <span class="time"><span v-if="Math.floor(trainTime/3600)<10">0</span>{{Math.floor(trainTime/3600)}}:</span>
             <span class="time"><span v-if="Math.floor(trainTime%3600/60)<10">0</span>{{Math.floor(trainTime%3600/60)}}:</span>
@@ -49,7 +50,7 @@
             <!-- <input type="checkbox" v-model="loop">
             <span class="checkmark">循环</span> -->
         </div>
-        <span class="progressbar_text">
+        <span class="progressbar_text" style="padding:0">
             <div ref="text"></div>
         </span>
     </div>
@@ -85,6 +86,7 @@ export default {
             training: false,
             collecting: false,
             values: [],   
+            speedUp: false,
         }
     },
     mounted () {
@@ -101,6 +103,7 @@ export default {
         this.trainLevel = this.level;
         if(this.train.finishTime != 0 && this.train.finishTime != undefined) {
             this.trainTier = this.train.tier;
+            this.speedUp = this.train.speedUp;
             this.computeTime();
             this.totalTime = this.trainTime;
             if(new Date(this.train.finishTime) > new Date(Date.now())) {
@@ -142,12 +145,15 @@ export default {
                 return;
             this.train.finishTime = new Date().getTime()+this.trainTime*1000;
             this.train.tier = this.trainTier;
+            this.train.speedUp = this.speedUp;
             this.training = true;
             this.totalTime = time;
             this.timeRemain = time;
             this.countdownTimer = setInterval(() => {
                 this.timeRemain -= 1;
                 if(this.timeRemain == 0) {
+                    var element = document.getElementById('guild');
+                    element.classList.add('glow');
                     this.training = false;
                     clearInterval(this.countdownTimer);
                 }
@@ -160,6 +166,8 @@ export default {
             this.countdownTimer = setInterval(() => {
                 this.timeRemain -= 1;
                 if(this.timeRemain == 0) {
+                    var element = document.getElementById('guild');
+                    element.classList.add('glow');
                     this.training = false;
                     clearInterval(this.countdownTimer);
                 }
@@ -255,9 +263,13 @@ export default {
                     break;
                 default:
             }
-            this.trainTime = time;
             this.gain = time/2.5;
-            this.cost = Math.ceil(this.trainTime/10*(1+this.trainLevel/20));
+            this.cost = Math.ceil(time/10*(1+this.trainLevel/20));
+            if(this.speedUp) {
+                time = time/2;
+                this.cost *= 4;
+            }
+            this.trainTime = time;
             // this.trainTime = Math.round(2);
             // this.cost = Math.round(2);   
         },

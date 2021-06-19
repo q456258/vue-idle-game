@@ -407,7 +407,7 @@
             <li @click="unEquip()">卸下</li>
             <li @click="equipEnhance()" v-if="guild.smith>0">强化</li>
             <li @click="equipForge()" v-if="guild.smith>=10">重铸</li>
-            <li @click="equipLevelUp()" v-if="guild.smith>=20 && this.currentEquip.lv < playerLv">升级</li>
+            <li @click="equipLevelUp()" v-if="guild.smith>=20 && this.currentEquip.lv < playerLv" && this.currentEquip.quality.qualityLv>1>升级</li>
         </ul>
     </div>
 </template>
@@ -527,15 +527,22 @@ export default {
             index.equipForgePanel = true;
         },
         equipLevelUp() {
+            var dust = ['dust2', 'dust3', 'dust4', 'dust5', 'dust6'];
+            var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
             var equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
+            var quantity = Math.ceil(this.currentEquip.lv/10);
+            var itemName = this.itemType[dust[this.currentEquip.quality.qualityLv-2]].description.name;
+            var item = itemInfo.findItem(itemName);  
+            var has = item == -1 ? 0 : backpack.itemGrid[item].quantity;
             this.$message({
-                message: '需要消耗一个等级高于目标的同品质装备，请将要消耗的装备放置在背包最后一格（右下角）',
+                message: '消耗材料'+itemName+"*"+quantity+",目前拥有数量："+has,
                 title: '升级装备',
                 confirmBtnText: '升级',
                 onClose: () => {
                     equipInfo.levelUpEquip(this.currentEquip);
                 }
-            })
+            });
         },
         activeSpell(activeSpell, active=0) {
             if(activeSpell != 'attack' && active == 0)
@@ -734,7 +741,7 @@ export default {
     padding: 0.5rem;
     padding: 2rem 2rem;
     .container{
-        height: 100%;
+        height: 90%;
         overflow-y: auto;
         .spell {
             position: relative;

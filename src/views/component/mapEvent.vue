@@ -350,6 +350,10 @@ export default {
             this.$store.state.dungeonInfo.trial.level += 1;
             index.enermyLvChange = this.$store.state.playerAttribute.lv;
             this.$store.state.dungeonInfo.advanture.level = index.enermyLvChange;
+            if(this.$store.state.playerAttribute.lv == 10) {
+                var element = document.getElementById('guild');
+                element.classList.add('glow');
+            }
             if(this.$store.state.playerAttribute.lv == 20) {
                 var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
                 var item = itemInfo.createItem('spell_nature_thunderclap', 1);  

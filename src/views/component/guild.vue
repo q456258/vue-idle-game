@@ -158,7 +158,7 @@ export default {
 
         },
         getGold(text, gold) {
-            gold = Math.round(gold*(1+this.guild.shop*0.01));
+            gold = Math.round(gold*(1+this.guild.shop*0.005));
             this.guild.gold += gold;
             this.$store.commit("set_sys_info", {
                 type: 'reward',

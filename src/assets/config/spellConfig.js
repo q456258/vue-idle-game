@@ -58,7 +58,7 @@ data() {
             },
             spell_holy_crusaderstrike: {
                 name: '十字军打击',
-                weight: 1,
+                weight: 5,
                 iconSrc: "./icons/spell/Spell_holy_crusaderstrike.png",
                 quality: 3,
                 level: [{

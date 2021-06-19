@@ -193,22 +193,26 @@ export default new Vuex.Store({
       train1: {
         timer: 0,
         tier: 0,
-        finishTime: 0
+        finishTime: 0,
+        speedUp: false
       },
       train2: {
         timer: 0,
         tier: 0,
-        finishTime: 0
+        finishTime: 0,
+        speedUp: false
       },
       train3: {
         timer: 0,
         tier: 0,
-        finishTime: 0
+        finishTime: 0,
+        speedUp: false
       },
       train4: {
         timer: 0,
         tier: 0,
-        finishTime: 0
+        finishTime: 0,
+        speedUp: false
       }
     },
     dungeonInfo: {

@@ -5,10 +5,10 @@
         <a class="nav-link active" id="charInfo" @click="switchTab('charInfo')">角色信息</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" :class="{glow: guild.guild==0, active: displayPage=='guild' }" id="guild" @click="switchTab('guild')" v-show="playerLv >= 10">公会</a>
+        <a class="nav-link" :class="{active: displayPage=='guild' }" id="guild" @click="switchTab('guild')" v-show="playerLv >= 10">公会</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" :class="{active: displayPage=='shop' }" id="guild" @click="switchTab('shop')" v-show="guild.shop > 0">商店</a>
+        <a class="nav-link" :class="{active: displayPage=='shop' }" id="shop" @click="switchTab('shop')" v-show="guild.shop > 0">商店</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" id="faq" @click="switchTab('faq')">FA♂Q</a>
@@ -298,6 +298,7 @@ export default {
         element.classList.remove('active');
         var element = document.getElementById(type);
         element.classList.add('active');
+        element.classList.remove('glow');
         this.displayPage = type;
       }
     },
