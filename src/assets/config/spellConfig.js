@@ -45,7 +45,7 @@ data() {
             },
             spell_nature_thunderclap: {
                 name: '雷霆一击',
-                weight: 100,
+                weight: 75,
                 iconSrc: "./icons/spell/Spell_nature_thunderclap.png",
                 quality: 1,
                 level: [{
@@ -71,12 +71,12 @@ data() {
             },
             spell_nature_lightning: {
                 name: '闪电箭',
-                weight: 20,
+                weight: 10,
                 iconSrc: "./icons/spell/Spell_nature_lightning.png",
                 quality: 2,
                 level: [{
-                        des: '造成智力*15点伤害。',
-                        dmg: { INT: 15, },
+                        des: '造成5000+智力*15点伤害。',
+                        dmg: { FIX: 5000, INT: 15, },
                         cost: { MP: 2000, },
                     }
                 ],
@@ -88,8 +88,8 @@ data() {
                 iconSrc: "./icons/spell/spell_shadow_ritualofsacrifice.png",
                 quality: 1,
                 level: [{
-                        des: '造成敏捷*10点伤害',
-                        dmg: { AGI: 10, },
+                        des: '造成攻击力*0.8+敏捷*5点伤害',
+                        dmg: { ATK:0.8, AGI: 5, },
                         cost: { MP: 750, },
                     }
                 ],
@@ -97,7 +97,7 @@ data() {
             },
             spell_holy_layonhands: {
                 name: '圣疗术',
-                weight: 1,
+                weight: 2,
                 iconSrc: "./icons/spell/Spell_holy_layonhands.png",
                 quality: 4,
                 level: [{
@@ -129,7 +129,7 @@ data() {
                 name: '星火术',
                 weight: 10,
                 iconSrc: "./icons/spell/spell_arcane_starfire.png",
-                quality: 4,
+                quality: 3,
                 level: [{
                         des: '造成元素*5点伤害',
                         dmg: { AP: 5},
@@ -144,19 +144,19 @@ data() {
                 iconSrc: "./icons/spell/spell_nature_starfall.png",
                 quality: 2,
                 level: [{
-                        des: '元素伤害效果翻倍',
+                        des: '元素伤害效果*2.5',
                         dmg: {},
-                        ap: { AP: 2 },
-                        cost: { MP: 1500, },
+                        ap: { AP: 2.5 },
+                        cost: { MP: 300, },
                     }
                 ],
                 tag: ['元素']
             },
             ability_warrior_shieldbash: {
                 name: '盾击',
-                weight: 50,
+                weight: 20,
                 iconSrc: "./icons/spell/ability_warrior_shieldbash.png",
-                quality: 2,
+                quality: 1,
                 level: [{
                         des: '造成攻击力*0.5+护甲*5点伤害',
                         dmg: { ATK: 0.5, DEF: 5 },
@@ -167,13 +167,13 @@ data() {
             },
             ability_druid_maul: {
                 name: '槌击',
-                weight: 50,
+                weight: 30,
                 iconSrc: "./icons/spell/ability_druid_maul.png",
-                quality: 2,
+                quality: 1,
                 level: [{
-                        des: '造成力量*12点伤害',
-                        dmg: { STR: 12 },
-                        cost: { MP: 750, },
+                        des: '造成攻击*1+力量*3点伤害',
+                        dmg: { ATK:1, STR: 3 },
+                        cost: { MP: 500, },
                     }
                 ],
                 tag: ['力量']
@@ -184,8 +184,8 @@ data() {
                 iconSrc: "./icons/spell/spell_fire_flamebolt.png",
                 quality: 1,
                 level: [{
-                        des: '造成智力*10点伤害',
-                        dmg: { INT: 10, },
+                        des: '造成元素*3+智力*5点伤害',
+                        dmg: { AP:3, INT: 5, },
                         cost: { MP: 1000, },
                     }
                 ],

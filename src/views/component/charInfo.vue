@@ -373,8 +373,13 @@
             </div>
         </div>
         <div class="user-spell" v-show="playerLv >= 20">
-            过滤：<select v-model="dmgFilterSelected">
-                <option v-for="(item, key) in dmgFilter" :key="key">
+            <ul class="nav nav-tabs">
+                <li class="nav-item" v-for="(v, k) in dmgFilter" :key=k>
+                    <a class="nav-link" :class="{active: dmgFilterSelected==v}" id="charInfo" @click="switchFilter(v)">{{v}}</a>
+                </li>
+            </ul>
+            过滤：<select v-model="activeFilterSelected">
+                <option v-for="(item, key) in activeFilter" :key="key">
                 {{item}}
                 </option>
             </select>
@@ -423,7 +428,9 @@ export default {
             currentEquip: {},
             top: 0,
             left: 0,
-            dmgFilter: ['所有', '攻击', '力量', '敏捷', '智力', '元素', '护甲', '恢复'],
+            activeFilter: ['所有', '已激活', '未激活'],
+            activeFilterSelected: '所有',
+            dmgFilter: ['所有', '力量', '敏捷', '智力', '攻击', '护甲', '元素', '恢复'],
             dmgFilterSelected: '所有'
         };
     },
@@ -453,11 +460,19 @@ export default {
         spells() { return this.$store.state.playerAttribute.spells},
         filteredSpell() { 
             let spells = this.$store.state.playerAttribute.spells;
-            if(this.dmgFilterSelected == '所有')
-                return Object.keys(spells.spell);
-            return Object.keys(spells.spell).filter(s => {
-                return this.spell[s].tag != undefined && this.spell[s].tag.indexOf(this.dmgFilterSelected) != -1;
-            });
+            let filtered = Object.keys(spells.spell);
+            if(this.dmgFilterSelected != '所有') {
+                filtered = Object.keys(spells.spell).filter(s => {
+                    return this.spell[s].tag != undefined && this.spell[s].tag.indexOf(this.dmgFilterSelected) != -1;
+                });
+            }
+            if(this.activeFilterSelected != '所有') {
+                let active = this.activeFilterSelected == '已激活' ? true : false;
+                filtered = Object.keys(spells.spell).filter(s => {
+                    return spells.spell[s].active == active;
+                });
+            }
+            return filtered;
         },
 
     },
@@ -534,6 +549,9 @@ export default {
             //     this.spells.weight += this.spell[activeSpell].weight;
             // else
             //     this.spells.weight -= this.spell[activeSpell].weight;
+        },
+        switchFilter(filter) {
+            this.dmgFilterSelected = filter;
         },
         showInfo($event, type, item, compare) {
             var index = this.findComponentUpward(this, 'index');
@@ -827,5 +845,36 @@ export default {
             color: #ccc;
         }
     }
+}
+.nav {
+    // background-color: #ccc;
+    width: 45rem;
+    .nav-item {
+        .nav-link {
+            cursor: pointer;
+            margin-bottom: -1px;
+            border: 1px solid transparent;
+            border-top-left-radius: .25rem;
+            border-top-right-radius: .25rem;
+            color: rgba(255, 255, 255, 0.795);
+            font-size: 1rem;
+            padding: 5px;
+        }
+        .nav-link:hover {
+            color: rgb(255, 255, 255);
+        }
+        .active {
+            color: #495057;
+            background-color: #fff;
+        }
+        .active:hover {
+            color: #495057;
+        }
+    }
+}
+.nav-tabs {
+    // border-right: 1px solid #dee2e6;
+    // border-bottom-right-radius: 0.25rem;
+    border-bottom: 1px solid #e6e5de;
 }
 </style>

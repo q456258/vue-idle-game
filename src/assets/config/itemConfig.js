@@ -140,7 +140,7 @@ export const itemConfig = {
                     stack: false,
                 },
                 spell_holy_layonhands: {
-                    quality: 4,
+                    quality: 2,
                     description: {
                         name: '圣疗技能书',
                         category: '消耗品',
@@ -160,7 +160,7 @@ export const itemConfig = {
                     stack: false,
                 },
                 spell_arcane_starfire: {
-                    quality: 4,
+                    quality: 3,
                     description: {
                         name: '星火术技能书',
                         category: '消耗品',
@@ -180,7 +180,7 @@ export const itemConfig = {
                     stack: false,
                 },
                 ability_warrior_shieldbash: {
-                    quality: 2,
+                    quality: 1,
                     description: {
                         name: '盾击技能书',
                         category: '消耗品',
@@ -190,7 +190,7 @@ export const itemConfig = {
                     stack: false,
                 },
                 ability_druid_maul: {
-                    quality: 2,
+                    quality: 1,
                     description: {
                         name: '槌击技能书',
                         category: '消耗品',
@@ -200,7 +200,7 @@ export const itemConfig = {
                     stack: false,
                 },
                 spell_fire_flamebolt: {
-                    quality: 2,
+                    quality: 1,
                     description: {
                         name: '火球术技能书',
                         category: '消耗品',

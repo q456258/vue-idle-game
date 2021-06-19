@@ -442,7 +442,7 @@ export default {
       if(this.$store.state.dungeonInfo.inBattle)
         this.stopBattle();
       this.$store.commit('set_enermy_hp', 'dead');
-      this.createMaps(this.enermyLvChanges);
+      this.createMaps(this.enermyLvChange);
       this.resetTime = 10;
       element.disabled = true;
       this.resetTimer = setInterval(() => {
