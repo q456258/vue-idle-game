@@ -68,7 +68,8 @@
         <div class="zone scrollbar-morpheus-den scrollbar-square">
           <div v-if="dungeonInfo.current=='advanture'">
             <!-- <input class="target" type="number" :value="targetLv" @input="updateTargetLv" :max="maxLv" :min="minLv" />   -->
-            怪物等级：<input class="target" type="number" :value="enermyLvChange" @input="updateEnermyLv" :max="playerLv" :min="(playerLv-5)>1?(playerLv-5):1" />   
+            怪物等级：<input class="target" type="number" :value="enermyLvChange" @input="updateEnermyLv" :max="playerLv" :min="(playerLv-5)>1?(playerLv-5):1" />  
+            &nbsp;{{killStreak}}连斩
             <div class="zoneRow" v-for="(dungeon, key) in mapArr" :key="key">
               <span class="zoneCol" :class="{chose:v.status=='chose',restrict:v.status=='restrict',option:v.status=='option'}" @click="choseOption($event, k)" v-for="(v,k) in dungeon" :key="k">
                 <img :src="v.img" alt="" v-if="v.img" :class="{option:v.status=='option'}">
@@ -258,7 +259,12 @@ export default {
     playerShoulder() { return this.$store.state.playerAttribute.shoulder },
     playerLv() { return this.$store.state.playerAttribute.lv },
     inBattle() { return this.$store.state.dungeonInfo.inBattle;},
-    guild() { return this.$store.state.guildAttribute;}
+    guild() { return this.$store.state.guildAttribute;},
+    killStreak() {
+        var mapEvent = this.findComponentDownward(this, 'mapEvent'); 
+        return mapEvent.streak;
+
+    }
     // operatorSchemaIsMobile() { return this.$store.state.operatorSchemaIsMobile }
     // healthRecoverySpeed() { return this.$store.state.playerAttribute.healthRecoverySpeed },
 

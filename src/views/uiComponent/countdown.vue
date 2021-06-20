@@ -110,8 +110,11 @@ export default {
                 this.startOldTimer(this.trainTime, true);
                 this.timeRemain = Math.round((this.train.finishTime - Date.now())/1000);
             }
-            else
+            else {
                 this.timeRemain = 0;
+                var element = document.getElementById('guild');
+                element.classList.add('glow');
+            }
         }
         else
             this.computeTime();
@@ -152,8 +155,11 @@ export default {
             this.countdownTimer = setInterval(() => {
                 this.timeRemain -= 1;
                 if(this.timeRemain == 0) {
-                    var element = document.getElementById('guild');
-                    element.classList.add('glow');
+                    var index = this.findComponentUpward(this, 'index');
+                    if(index.displayPage != 'guild') {
+                        var element = document.getElementById('guild');
+                        element.classList.add('glow');
+                    }
                     this.training = false;
                     clearInterval(this.countdownTimer);
                 }
@@ -166,8 +172,11 @@ export default {
             this.countdownTimer = setInterval(() => {
                 this.timeRemain -= 1;
                 if(this.timeRemain == 0) {
-                    var element = document.getElementById('guild');
-                    element.classList.add('glow');
+                    var index = this.findComponentUpward(this, 'index');
+                    if(index.displayPage != 'guild') {
+                        var element = document.getElementById('guild');
+                        element.classList.add('glow');
+                    }
                     this.training = false;
                     clearInterval(this.countdownTimer);
                 }

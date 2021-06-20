@@ -55,6 +55,18 @@
         </ul>
         <div class="footer">
             <div class="autoSellSetting" v-if="autoSellPanel">
+                <div>
+                    整理锁定装备
+                    <span @click="setSortLocked()"><input type="checkbox" name="" v-model="sortLocked"></span>
+                    ————————
+                </div>
+                <div v-if="guild.smith>=20">
+                    自动出售优先级
+                    <br>
+                    <span @click="setAutoPrio('sell')"><input type="checkbox" name="" v-model="sellPrio">出售</span>
+                    <span @click="setAutoPrio('dis')"><input type="checkbox" name="" v-model="disPrio">分解</span>
+                    ————————
+                </div>
                 <!-- 若勾选会在副本获得该品质装备时自动出售 -->
                 <div>
                     <span style="color:#a1a1a1;" @click="setAutoSell(0)"><input type="checkbox" name="" v-model="autoSell[0]">破旧</span>
@@ -100,8 +112,11 @@ export default {
             itemGrid: [],
             visible: false,
             dragging: false,
+            sortLocked: false,
             autoSellPanel: false,
             autoSell: [false,false,false,false,false,false],
+            sellPrio: true,
+            disPrio: false,
             top: '',
             left: '',
             displayPage: 'equip'
@@ -217,6 +232,23 @@ export default {
                 quantity: quantity
             });
         },
+        disintegrateByEquip(equip) {
+            if(equip.quality.qualityLv < 2)
+                return false;
+            var dust = ['dust2', 'dust3', 'dust4', 'dust5', 'dust6'];
+
+            var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            var quantity = Math.ceil(equip.lv/10);
+            var item = itemInfo.createItem(dust[equip.quality.qualityLv-2], quantity);  
+            itemInfo.addItem(JSON.parse(item));  
+            this.$store.commit("set_sys_info", {
+                type: 'reward',
+                msg: '分解装备获得物品: ',
+                item: JSON.parse(item),
+                quantity: quantity
+            });
+            return true;
+        },
         useItem(e, k) {
             if(k != undefined)
                 this.currentItemIndex = k; 
@@ -232,8 +264,10 @@ export default {
             this.$set(this.itemGrid, this.currentItemIndex, {});
         },
         giveEquip(equip) {
-            if(this.autoSell[equip.quality.qualityLv-1])
-                this.sellEquipmentByEquip(equip);
+            if(this.autoSell[equip.quality.qualityLv-1]) {
+                if(!this.disintegrateByEquip(equip))
+                    this.sellEquipmentByEquip(equip);
+            }
             else {
                 for (let i = 0; i < this.grid.length; i++) {
                     if (Object.keys(this.grid[i]).length < 3) {
@@ -255,8 +289,19 @@ export default {
             }
             this.$forceUpdate();
         },    
+        setAutoPrio(type) {
+            switch(type) {
+                case 'sell':
+                    this.sellPrio = !this.sellPrio;
+                    this.disPrio = !this.sellPrio;
+                    break;
+                case 'dis':
+                    this.disPrio = !this.disPrio;
+                    this.sellPrio = !this.disPrio;
+            }
+        },
         setAutoSell(index){
-            this.$set(this.autoSell,index,!this.autoSell[index])
+            this.$set(this.autoSell, index, !this.autoSell[index])
         },
         sellAll() {
             for(var i=0; i<this.grid.length; i++) {
@@ -266,10 +311,15 @@ export default {
             }
             this.$forceUpdate();
         },
+        setSortLocked() {
+            this.sortLocked = !this.sortLocked;
+        },
         sort() {
             var type = ['头盔', '肩膀', '武器', '盔甲', '鞋子', '饰品'];
             this.grid.sort((a, b) => {
                 if(a == b)
+                    return 0;
+                if(!this.sortLocked && (a.locked || b.locked))
                     return 0;
                 if(Object.keys(a).length == 0)
                     return 1;

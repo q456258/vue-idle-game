@@ -99,6 +99,26 @@ export const itemConfig = {
                     },
                     stack: false,
                 },
+                inv_box_02: {
+                    quality: 2,
+                    description: {
+                        name: '精英宝箱',
+                        category: '消耗品',
+                        desc: '看起来有些年头的宝箱，打开后随机获得金币、水晶、装备、技能书',
+                        iconSrc: "./icons/item/Inv_box_01.png",
+                    },
+                    stack: false,
+                },
+                inv_box_03: {
+                    quality: 3,
+                    description: {
+                        name: 'BOSS宝箱',
+                        category: '消耗品',
+                        desc: '看起来有些年头的宝箱，打开后随机获得金币、水晶、装备、技能书',
+                        iconSrc: "./icons/item/Inv_box_01.png",
+                    },
+                    stack: false,
+                },
                 spell_nature_thunderclap: {
                     quality: 1,
                     description: {

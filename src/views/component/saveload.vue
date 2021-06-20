@@ -68,7 +68,12 @@ export default {
                 state: this.$store.state,
                 backpackEquipment: backpack.grid,
                 backpackItem: backpack.itemGrid,
-                backpackSetting: { autoSell: backpack.autoSell }
+                backpackSetting: { 
+                    sortLocked: backpack.sortLocked,
+                    sellPrio: backpack.sellPrior,
+                    disPrio: backpack.disPior,
+                    autoSell: backpack.autoSell 
+                }
             }
             var saveData = Base64.encode(Base64.encode(JSON.stringify(data)));
             localStorage.setItem('_sd', saveData);
@@ -100,10 +105,16 @@ export default {
 
                 backpack.grid = data.backpackEquipment;
                 backpack.itemGrid = data.backpackItem;
-
+                
                 if(data.backpackSetting != undefined) {
                     if(data.backpackSetting.autoSell != undefined)
                         backpack.autoSell = data.backpackSetting.autoSell;
+                    if(data.backpackSetting.sortLocked != undefined)
+                        backpack.sortLocked = data.backpackSetting.sortLocked;
+                    if(data.backpackSetting.sellPrio != undefined)
+                        backpack.sortLocked = data.backpackSetting.sellPrio;
+                    if(data.backpackSetting.disPrio != undefined)
+                        backpack.sortLocked = data.backpackSetting.disPrio;
                 }
 
                 setting.readSetting();

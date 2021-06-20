@@ -1,6 +1,7 @@
 export const monsterConfig = {
     data() {
         return {
+            bossName: ['', '利姆鲁·特恩佩斯特', '巨人哥布林', '野猪王', '杰尼龟', '精灵女皇', '山贼头目', '俺已自了宫', '科多兽', '鬼神熊', '蛟龙'],
             monster: [
                 {
                     name: '海的那边', 

@@ -13,6 +13,7 @@ export default {
     data() {
         return {
             battleTimer: "",
+            streak: 0
         }
     },
     methods: {
@@ -31,7 +32,7 @@ export default {
             this.battleTimer = setInterval(() => {
                 this.$store.commit('set_enermy_hp', -1*this.dmgCalculate(playerAttribute, enermyAttribute, 'player'));
                 if(enermyAttribute.attribute.CURHP.value == 0) {
-                    this.reward(type, enermyAttribute.lv);
+                    this.reward(type, enermyAttribute.lv, enermyAttribute.special);
                     this.setBattleStatus(false);
                     clearInterval(this.battleTimer);
                     let index = this.findComponentUpward(this, 'index'); 
@@ -62,6 +63,7 @@ export default {
 
                 // }
                 if(playerAttribute.attribute.CURHP.value == 0) {
+                    this.endStreak();
                     clearInterval(this.battleTimer);
                     // let index = this.findComponentUpward(this, 'index'); 
                     // index.stopBattle();
@@ -128,8 +130,7 @@ export default {
                 showValue: attribute['MAXHP'].value
             }
             
-            val = Math.round((attribute['DEF'].value/(100+attribute['DEF'].value) + attribute['DEF'].value/(attribute['DEF'].value+3500))/2*1000000)/10000;
-            // val = Math.round(0.01 * attribute['DEF'].value / (1 + (0.01 * attribute['DEF'].value))*10000)/100;
+            val = this.getDefRed(attribute['DEF'].value);
             attribute['DEFRED'] = {
                 value: val,
                 showValue: val+'%'
@@ -140,7 +141,22 @@ export default {
                     showValue: Math.round(attribute['MAXHP'].value*0.01),
                 }
             }
+            else if(level > 10) {
+                if(this.streak > 0 && this.streak%20 == 0&& this.streak%100 != 0) {
+                    enermyAttribute.special = 'elite';
+                    enermyAttribute.name += '精英';
+                    attribute = this.eliteStat(attribute);
+                }
+                else if(this.streak > 0 && this.streak%100 == 0) {
+                    enermyAttribute.special = 'boss';
+                    enermyAttribute.name = this.bossName[Math.floor((level-1)/10)];
+                    attribute = this.bossStat(attribute);
+                }
+            }
             this.$store.commit('set_enermy_attribute', enermyAttribute);
+        },
+        getDefRed(armor) {
+            return Math.round((armor/(100+armor + armor/(armor+3500))/2*1000000)/10000);
         },
         dmgCalculate(source, target, type) {
             var spell = this.getSpell(source);
@@ -269,7 +285,7 @@ export default {
             this.$store.commit('set_player_mp', -1*Math.round(cost));
             return Math.round(value);
         },
-        reward(type, lv) {
+        reward(type, lv, special='') {
             var equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
             var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
             var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
@@ -280,18 +296,12 @@ export default {
             var item = null; 
             switch(type) {
                 case 'gold':
+                    this.addStreak();
                     let gold = Math.round((100+lv**2)*(2+2*Math.random()))
                     guild.getGold('', gold);
                     break;
-                // case 'wood':
-                //     let wood = Math.round((10+lv**1.5)*(1+Math.random()))
-                //     this.$store.state.guildAttribute.wood += wood;
-                //     this.$store.commit("set_sys_info", {
-                //         type: 'reward',
-                //         msg: '获得'+wood+'木材'
-                //     });
-                //     break;
                 case 'crystal':
+                    this.addStreak();
                     let crystal = Math.round((1+lv*2)*(1+Math.random()))
                     this.$store.state.guildAttribute.crystal += crystal;
                     this.$store.commit("set_sys_info", {
@@ -303,6 +313,7 @@ export default {
                     item = itemInfo.createItem('inv_box_01', 1);
                     break;
                 case 'equip':
+                    this.addStreak();
                     equip = equipInfo.createEquip(-1, lv, 'random', bonus);  
                     break;
                 case 'trial':
@@ -319,9 +330,10 @@ export default {
                 });
                 backpack.giveEquip(equip);
             }
+            var quantity = 0;
             if(item != null) {
                 item = JSON.parse(item);
-                let quantity = item.quantity;
+                quantity = item.quantity;
                 this.$store.commit("set_sys_info", {
                     type: 'reward',
                     msg: '获得战利品',
@@ -333,7 +345,7 @@ export default {
             else if(this.$store.state.guildAttribute.smith >= 15 && Math.random() < 0.025){
                 var item = itemInfo.createItem('inv_misc_enchantedpearla', 1);  
                 item = JSON.parse(item);
-                let quantity = item.quantity;
+                quantity = item.quantity;
                 this.$store.commit("set_sys_info", {
                     type: 'reward',
                     msg: '意外捡到一个',
@@ -341,6 +353,32 @@ export default {
                     quantity: quantity
                 });
                 itemInfo.addItem(item);
+            }
+            switch(special) {
+                case 'elite':
+                    item = itemInfo.createItem('inv_box_02', 1);
+                    item = JSON.parse(item);
+                    quantity = item.quantity;
+                    this.$store.commit("set_sys_info", {
+                        type: 'reward',
+                        msg: '击败精英获得额外奖励',
+                        item: item,
+                        quantity: quantity
+                    });
+                    itemInfo.addItem(item);
+                    break;
+                case 'boss':
+                    item = itemInfo.createItem('inv_box_03', 1);
+                    item = JSON.parse(item);
+                    quantity = item.quantity;
+                    this.$store.commit("set_sys_info", {
+                        type: 'reward',
+                        msg: '击败BOSS获得额外奖励',
+                        item: item,
+                        quantity: quantity
+                    });
+                    itemInfo.addItem(item);
+                    break;
             }
             index.nextLevel();
         },
@@ -358,6 +396,56 @@ export default {
                 var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
                 var item = itemInfo.createItem('spell_nature_thunderclap', 1);  
                 itemInfo.addItem(JSON.parse(item));
+            }
+        },
+        addStreak() {
+            this.streak += 1;
+        },
+        endStreak() {
+            this.streak = 0;
+        },
+        eliteStat(attribute) {
+            attribute['ATK'] = {
+                value: attribute['ATK'].value*2,
+                showValue: attribute['ATK'].value*2
+            }
+            attribute['AP'] = {
+                value: attribute['AP'].value*2,
+                showValue: attribute['AP'].value*2
+            }
+            attribute['MAXHP'] = {
+                value: attribute['MAXHP'].value*10,
+                showValue: attribute['MAXHP'].value*10
+            }
+            attribute['CURHP'] = {
+                value: attribute['MAXHP'].value,
+                showValue: attribute['MAXHP'].value
+            }
+        },
+        bossStat(attribute) {
+            attribute['ATK'] = {
+                value: attribute['ATK'].value*5,
+                showValue: attribute['ATK'].value*5
+            }
+            attribute['DEF'] = {
+                value: attribute['DEF'].value*2,
+                showValue: attribute['DEF'].value*2
+            }
+            attribute['AP'] = {
+                value: attribute['AP'].value*5,
+                showValue: attribute['AP'].value*5
+            }
+            attribute['MR'] = {
+                value: attribute['MR'].value*2,
+                showValue: attribute['MR'].value*2
+            }
+            attribute['MAXHP'] = {
+                value: attribute['MAXHP'].value*100,
+                showValue: attribute['MAXHP'].value*100
+            }
+            attribute['CURHP'] = {
+                value: attribute['MAXHP'].value,
+                showValue: attribute['MAXHP'].value
             }
         }
     }

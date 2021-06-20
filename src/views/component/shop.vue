@@ -64,7 +64,7 @@ export default {
             equipCost: [],
             equipTimer: 0,
             equipTimerRemain: 600,
-            freeRefreshCount: 5
+            freeRefreshCount: 1
         }
     },
     mounted () {
@@ -73,7 +73,7 @@ export default {
             this.equipTimerRemain -= 1;
             if(this.equipTimerRemain == 0) {
                 this.equipTimerRemain = 600;
-                if(this.freeRefreshCount <= 5)
+                if(this.freeRefreshCount < 5)
                     this.freeRefreshCount += 1
             }
         }, 1000);
@@ -128,14 +128,56 @@ export default {
             this.$forceUpdate();
         },
         freeRefresh() {
-            this.freeRefreshCount -= 1;
-            this.forceRefresh(0);
+            if(this.freeRefreshCount <= 0)
+                return
+            var msg = false;
+            for(var index in this.equipShop) {
+                if(this.equipShop[index].quality.qualityLv == 6) {
+                    msg = true;
+                    break;
+                }
+            }
+            if(msg) {
+                this.$message({
+                    message: '有个传说装备没买，考虑考虑？',
+                    title: '奸商的友善提醒',
+                    confirmBtnText: '传说装备？狗都不买',
+                    onClose: () => {
+                        this.freeRefreshCount -= 1;
+                        this.setEquipShopItem();
+                    }
+                });
+            }
+            else {
+                this.freeRefreshCount -= 1;
+                this.setEquipShopItem();
+            }
         },
         forceRefresh(cost) {
             if(this.playerGold < cost)
                 return
-            this.$store.state.guildAttribute.gold -= cost;
-            this.setEquipShopItem();
+            var msg = false;
+            for(var index in this.equipShop) {
+                if(this.equipShop[index].quality.qualityLv == 6) {
+                    msg = true;
+                    break;
+                }
+            }
+            if(msg) {
+                this.$message({
+                    message: '有个传说装备没买，考虑考虑？',
+                    title: '奸商的友善提醒',
+                    confirmBtnText: '传说装备？狗都不买',
+                    onClose: () => {
+                        this.$store.state.guildAttribute.gold -= cost;
+                        this.setEquipShopItem();
+                    }
+                });
+            }
+            else {
+                this.$store.state.guildAttribute.gold -= cost;
+                this.setEquipShopItem();
+            }
         },
         buyEquip(index) {
             if(this.playerGold < this.equipCost[index])
