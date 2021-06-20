@@ -36,9 +36,11 @@
                     </span>
                 </div>
                 <span class="equipTimer">
-                    距离下次刷新还剩：
-                    <span class="time"><span v-if="Math.floor(equipTimerRemain%3600/60)<10">0</span>{{Math.floor(equipTimerRemain%3600/60)}}:</span>
-                    <span class="time"><span v-if="equipTimerRemain%60<10">0</span>{{equipTimerRemain%60}}</span>
+                    <button type="button" class="btn btn-outline-warning"  v-if="freeRefreshCount>0" @click="freeRefresh()">免费刷新({{freeRefreshCount}})</button>
+                    <button type="button" class="btn btn-outline-warning" v-else disabled @click="freeRefresh()">
+                        <span class="time"><span v-if="Math.floor(equipTimerRemain%3600/60)<10">0</span>{{Math.floor(equipTimerRemain%3600/60)}}:</span>
+                        <span class="time"><span v-if="equipTimerRemain%60<10">0</span>{{equipTimerRemain%60}}</span>
+                    </button>
                     &nbsp;
                     <button type="button" class="btn btn-outline-warning"  :disabled="playerGold<100000" @click="forceRefresh(100000)">刷新(10w金)</button>
                 </span>
@@ -61,7 +63,8 @@ export default {
             equipShop: [],
             equipCost: [],
             equipTimer: 0,
-            equipTimerRemain: 600
+            equipTimerRemain: 600,
+            freeRefreshCount: 5
         }
     },
     mounted () {
@@ -70,7 +73,8 @@ export default {
             this.equipTimerRemain -= 1;
             if(this.equipTimerRemain == 0) {
                 this.equipTimerRemain = 600;
-                this.setEquipShopItem();
+                if(this.freeRefreshCount <= 5)
+                    this.freeRefreshCount += 1
             }
         }, 1000);
     },
@@ -117,11 +121,15 @@ export default {
             for(var i=0; i<5; i++) {
                 let equip = JSON.parse(equipInfo.createEquip(-1, this.playerLv, 'random', 0));
                 var cost = 400+100*Math.random();
-                cost *= (1+equip.lv/2)*(1+equip.enhanceLv*equip.quality.qualityCoefficient+equip.quality.extraEntryNum**2);
+                cost *= (1+equip.lv/2)*(1+equip.quality.extraEntryNum**3);
                 this.equipShop[i] = equip;
                 this.equipCost[i] = Math.round(cost);
             }
             this.$forceUpdate();
+        },
+        freeRefresh() {
+            this.freeRefreshCount -= 1;
+            this.forceRefresh(0);
         },
         forceRefresh(cost) {
             if(this.playerGold < cost)

@@ -407,7 +407,7 @@
             <li @click="unEquip()">卸下</li>
             <li @click="equipEnhance()" v-if="guild.smith>0">强化</li>
             <li @click="equipForge()" v-if="guild.smith>=10">重铸</li>
-            <li @click="equipLevelUp()" v-if="guild.smith>=20 && this.currentEquip.lv < playerLv" && this.currentEquip.quality.qualityLv>1>升级</li>
+            <li @click="equipLevelUp()" v-if="guild.smith>=20 && currentEquip.lv < playerLv && currentEquip.quality.qualityLv>1">升级</li>
         </ul>
     </div>
 </template>

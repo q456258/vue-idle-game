@@ -68,6 +68,7 @@ export default {
                 state: this.$store.state,
                 backpackEquipment: backpack.grid,
                 backpackItem: backpack.itemGrid,
+                backpackSetting: { autoSell: backpack.autoSell }
             }
             var saveData = Base64.encode(Base64.encode(JSON.stringify(data)));
             localStorage.setItem('_sd', saveData);
@@ -85,33 +86,7 @@ export default {
                 return;
             try {
                 var data = JSON.parse(Base64.decode(Base64.decode(loadData)));
-                if(data.state.exitTime == undefined)
-                    data.state.exitTime = 0;
-                if(data.state.setting == undefined)
-                    data.state.setting = {};
-                if(data.state.train == undefined)
-                    data.state.train = {
-                        train1: {
-                            timer: 0,
-                            tier: 0,
-                            finishTime: 0
-                        },
-                        train2: {
-                            timer: 0,
-                            tier: 0,
-                            finishTime: 0
-                        },
-                        train3: {
-                            timer: 0,
-                            tier: 0,
-                            finishTime: 0
-                        },
-                        train4: {
-                            timer: 0,
-                            tier: 0,
-                            finishTime: 0
-                        }
-                    };
+
                 for(var k in data.state.playerAttribute.spells.spell) {
                     if(data.state.playerAttribute.spells.spell[k].active == undefined) {
                         data.state.playerAttribute.spells.spell[k] = {active: true, lv: 1};
@@ -121,8 +96,17 @@ export default {
                 this.$store.replaceState(data.state);
                 var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
                 var mapEvent = this.findBrothersComponents(this, 'mapEvent', false)[0];
+                var setting = this.findBrothersComponents(this, 'setting', false)[0];
+
                 backpack.grid = data.backpackEquipment;
                 backpack.itemGrid = data.backpackItem;
+
+                if(data.backpackSetting != undefined) {
+                    if(data.backpackSetting.autoSell != undefined)
+                        backpack.autoSell = data.backpackSetting.autoSell;
+                }
+
+                setting.readSetting();
                 
                 var index = this.findComponentUpward(this, 'index');
                 this.$store.state.dungeonInfo.auto = false;

@@ -101,7 +101,7 @@ export default {
             visible: false,
             dragging: false,
             autoSellPanel: false,
-            autoSell:[false,false,false,false,false,false],
+            autoSell: [false,false,false,false,false,false],
             top: '',
             left: '',
             displayPage: 'equip'
