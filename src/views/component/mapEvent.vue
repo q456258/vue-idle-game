@@ -131,6 +131,8 @@ export default {
             }
             
             val = this.getDefRed(attribute['DEF'].value);
+            console.log(val)
+            console.log(attribute['DEF'].value)
             attribute['DEFRED'] = {
                 value: val,
                 showValue: val+'%'
@@ -156,7 +158,7 @@ export default {
             this.$store.commit('set_enermy_attribute', enermyAttribute);
         },
         getDefRed(armor) {
-            return Math.round((armor/(100+armor + armor/(armor+3500))/2*1000000)/10000);
+            return Math.round((armor/(100+armor) + armor/(armor+3500))/2*1000000)/10000;
         },
         dmgCalculate(source, target, type) {
             var spell = this.getSpell(source);
