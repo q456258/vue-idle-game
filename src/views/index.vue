@@ -211,8 +211,8 @@ export default {
     //初始生成地图
     this.createMaps(this.playerLv);
     //测试·随机装备
-    let equipLv = 200;
-    let equipQuality = 5;
+    // let equipLv = 60;
+    // let equipQuality = 3;
     // var equipInfo = this.findComponentDownward(this, 'equipInfo');   
     // // var newEquip = JSON.parse(equipInfo.createEquip(0,2,'helmet'));
     // var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'helmet'));
@@ -485,6 +485,8 @@ export default {
     },
     startBattle(key) {
       var dungeon = this.dungeonInfo[this.dungeonInfo.current];
+      if(this.enermyLvChange < this.playerLv-5)
+        this.enermyLvChange = this.playerLv;
       if(dungeon.current >= dungeon.max) {
         this.createMaps(this.enermyLvChange);
         dungeon.current = 0;

@@ -43,10 +43,10 @@
             <li @click="equip()">装备</li>
             <li @click="equipEnhance()" v-if="guild.smith>0">强化</li>
             <li @click="equipForge()" v-if="guild.smith>=10">重铸</li>
-            <li @click="equipPotential()" v-if="guild.smith>=15">洗炼</li>
+            <li @click="equipPotential()" v-if="guild.smith>=30">洗炼</li>
             <li @click="lockEquipment(true)" v-if="!currentItem.locked">锁定</li>
             <li @click="lockEquipment(false)" v-if="currentItem.locked">解锁</li>
-            <li @click="disintegrate()" v-if="guild.smith>=20 && !currentItem.locked">分解</li>
+            <li @click="disintegrate()" v-if="guild.smith>=30 && !currentItem.locked">分解</li>
             <li @click="sellEquipment()" v-if="!currentItem.locked">出售</li>
         </ul>
         <ul v-show="visible && displayPage=='item'" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
@@ -60,7 +60,7 @@
                     <span @click="setSortLocked()"><input type="checkbox" name="" v-model="sortLocked"></span>
                     ————————
                 </div>
-                <div v-if="guild.smith>=20">
+                <div v-if="guild.smith>=30">
                     自动出售优先级
                     <br>
                     <span @click="setAutoPrio('sell')"><input type="checkbox" name="" v-model="sellPrio">出售</span>
@@ -88,7 +88,7 @@
                 <!-- <i class="icon icon-setting"></i> -->
                 </span>
             </a>
-            <a class="function" v-show="guild.smith>=20 && displayPage=='equip'" @click="disintegrateAll()">一键分解</a>
+            <a class="function" v-show="guild.smith>=30 && displayPage=='equip'" @click="disintegrateAll()">一键分解</a>
             <a class="function" v-show="displayPage=='equip'" @click="sellAll()">一键出售</a>
             <a class="function" @click="sort()">整理背包</a>
         </div>

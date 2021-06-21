@@ -94,7 +94,11 @@ export default {
 
                 for(var k in data.state.playerAttribute.spells.spell) {
                     if(data.state.playerAttribute.spells.spell[k].active == undefined) {
-                        data.state.playerAttribute.spells.spell[k] = {active: true, lv: 1};
+                        data.state.playerAttribute.spells.spell[k] = {active: true, lv: 1, proficient: 0, learnt: 0};
+                    }
+                    if(data.state.playerAttribute.spells.spell[k].proficient == undefined) {
+                        data.state.playerAttribute.spells.spell[k].proficient = 0;
+                        data.state.playerAttribute.spells.spell[k].learnt = 0;
                     }
                 }
 
@@ -181,11 +185,11 @@ export default {
                     backpack.giveEquip(equip);
                 }
             }
-            guild.getGold('外出游荡时的累积', gold);
+            guild.getGold('外出游荡时累积', gold);
             this.$store.state.guildAttribute.crystal += crystal;
             this.$store.commit("set_sys_info", {
                 type: 'reward',
-                msg: '外出游荡时的累积获得'+crystal+'水晶'
+                msg: '外出游荡时累积获得'+crystal+'水晶'
             });
         },
         closeSaveload() {

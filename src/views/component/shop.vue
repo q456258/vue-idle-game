@@ -5,11 +5,11 @@
                 水晶商城
             <div class="crystal">
                 <div class="buyCrystal">
-                    <input class="target" type="number" v-model="buyCrystalAmt"  @input="checkBuyRange" :max="Math.floor(playerGold/4000)" :min="0" />  
+                    <input class="target" type="number" v-model="buyCrystalAmt"  @input="checkBuyRange" :max="Math.floor(playerGold/2000)" :min="0" />  
                     <button type="button" class="btn btn-outline-success" :disabled="playerGold<buyCrystalGold" @click="buyCrystal">购买水晶</button>
                     <br>
                     <span v-if="buyCrystalGold<100000">{{buyCrystalGold}}</span>
-                    <span v-if="buyCrystalGold>=100000">{{buyCrystalGold/10000}}w</span>金 (1:4000)
+                    <span v-if="buyCrystalGold>=100000">{{buyCrystalGold/10000}}w</span>金 (1:2000)
                 </div>
                 <div class="sellCrystal">
                     <input class="target" type="number" v-model="sellCrystalAmt" @input="checkSellRange" :max="playerCrystal" min="0" />    
@@ -29,6 +29,9 @@
                             <img :src="v.description.iconSrc" alt="" />
                         </div>
                     </div>
+                    <div class='name' :style="{color:v.quality.color}">
+                        {{v.description.name}}
+                    </div>          
                     <span v-if="v.lv">
                         <span :style="{color:playerGold<equipCost[k]?'#f00':''}">{{equipCost[k]}}金</span>
                         <br>
@@ -84,7 +87,7 @@ export default {
         playerLv() { return this.$store.state.playerAttribute.lv; },
         playerGold() { return this.$store.state.guildAttribute.gold; },
         playerCrystal() { return this.$store.state.guildAttribute.crystal; },
-        buyCrystalGold() { return this.buyCrystalAmt * 4000; },
+        buyCrystalGold() { return this.buyCrystalAmt * 2000; },
         sellCrystalGold() { return this.sellCrystalAmt * 500; }
     },
     methods: {
@@ -98,7 +101,7 @@ export default {
         },
         checkBuyRange(e) {
             var value = e.target.value;
-            var limit = Math.floor(this.playerGold/4000);
+            var limit = Math.floor(this.playerGold/2000);
             if(value > limit) {
                 this.buyCrystalAmt = limit;
             }
@@ -254,14 +257,14 @@ export default {
         position: relative;
         display: flex;
         flex-wrap: wrap;
-        padding: 0rem 1.5rem 1.5rem 1.7rem;
+        padding: 0rem 1.5rem 3rem 1.7rem;
         width: 100%;
-        height: 10rem;
+        height: 12rem;
         .grid {
             // border: 1px solid rgba(255, 255, 255, 0.404);
             // border-radius: 0.3rem;
             margin: 0.5rem;
-            height: 7rem;
+            height: 9rem;
             width: 7rem;
             .icon {
                 width: 2.9rem;

@@ -75,9 +75,9 @@ data() {
                 iconSrc: "./icons/spell/Spell_nature_lightning.png",
                 quality: 2,
                 level: [{
-                        des: '造成5000+智力*15点伤害。',
-                        dmg: { FIX: 5000, INT: 15, },
-                        cost: { MP: 2000, },
+                        des: '造成50000+智力*15点伤害。',
+                        dmg: { FIX: 50000, INT: 15, },
+                        cost: { MP: 5000, },
                     }
                 ],
                 tag: ['智力']
@@ -88,9 +88,9 @@ data() {
                 iconSrc: "./icons/spell/spell_shadow_ritualofsacrifice.png",
                 quality: 1,
                 level: [{
-                        des: '造成攻击力*0.8+敏捷*5点伤害',
-                        dmg: { ATK:0.8, AGI: 5, },
-                        cost: { MP: 750, },
+                        des: '造成攻击力*0.8+敏捷*10点伤害',
+                        dmg: { ATK:0.8, AGI: 10, },
+                        cost: { MP: 1750, },
                     }
                 ],
                 tag: ['敏捷']
@@ -120,7 +120,7 @@ data() {
                         dmg: {},
                         ap: {},
                         heal: { MAXHP: 0.2 },
-                        cost: { MP: 2500, },
+                        cost: { MP: 4000, },
                     }
                 ],
                 tag: ['恢复']
@@ -131,9 +131,9 @@ data() {
                 iconSrc: "./icons/spell/spell_arcane_starfire.png",
                 quality: 3,
                 level: [{
-                        des: '造成元素*5点伤害',
-                        dmg: { AP: 5},
-                        cost: { MP: 6000, },
+                        des: '造成元素*7点伤害',
+                        dmg: { AP: 7},
+                        cost: { MP: 10000, },
                     }
                 ],
                 tag: ['元素']
@@ -147,7 +147,7 @@ data() {
                         des: '元素伤害效果*2.5',
                         dmg: {},
                         ap: { AP: 2.5 },
-                        cost: { MP: 300, },
+                        cost: { MP: 5000, },
                     }
                 ],
                 tag: ['元素']
@@ -171,9 +171,9 @@ data() {
                 iconSrc: "./icons/spell/ability_druid_maul.png",
                 quality: 1,
                 level: [{
-                        des: '造成攻击*1+力量*3点伤害',
-                        dmg: { ATK:1, STR: 3 },
-                        cost: { MP: 500, },
+                        des: '造成攻击*1+力量*7点伤害',
+                        dmg: { ATK:1, STR: 7 },
+                        cost: { MP: 1500, },
                     }
                 ],
                 tag: ['力量']
@@ -184,9 +184,9 @@ data() {
                 iconSrc: "./icons/spell/spell_fire_flamebolt.png",
                 quality: 1,
                 level: [{
-                        des: '造成元素*3+智力*5点伤害',
-                        dmg: { AP:3, INT: 5, },
-                        cost: { MP: 1000, },
+                        des: '造成10000+元素*5+智力*5点伤害',
+                        dmg: { FIX: 10000, AP:5, INT: 5, },
+                        cost: { MP: 3000, },
                     }
                 ],
                 tag: ['智力']

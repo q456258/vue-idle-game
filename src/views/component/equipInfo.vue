@@ -148,7 +148,7 @@ export default {
                 //     entry.showVal = '+' + entry.value + '%';
                 // }
                 // else {
-                //     entry.base = Math.floor(newEquip.quality.qualityCoefficient * this.entryInfo[entry.type].base * (1+newEquip.lv**2*0.06) * (1+random/5));
+                //     entry.base = Math.floor(newEquip.quality.qualityCoefficient * this.entryInfo[entry.type].base * (1+newEquip.lv**2*0.07) * (1+random/5));
                 //     entry.value = Math.floor(entry.base * (1+newEquip.enhanceLv*0.1));
                 //     entry.showVal = '+' + entry.value;
                 // }
@@ -163,7 +163,7 @@ export default {
                 entry.showVal = '+' + entry.value + '%';
             }
             else {
-                entry.base = Math.floor(qualityCoefficient * this.entryInfo[entry.type].base * (1+lv**2*0.06) * (1+random/5));
+                entry.base = Math.floor(qualityCoefficient * this.entryInfo[entry.type].base * (1+lv**2*0.07) * (1+random/5));
                 entry.value = Math.floor(entry.base * (1+enhanceLv*0.1));
                 entry.showVal = '+' + entry.value;
             }
@@ -190,7 +190,7 @@ export default {
                 entry.showVal = '+' + entry.value + '%';
             }
             else {
-                entry.value = Math.round((0.5+0.5*random) * this.entryInfo[entry.type].base * (1+lv**2*0.06));
+                entry.value = Math.round((0.5+0.5*random) * this.entryInfo[entry.type].base * (1+lv**2*0.07));
                 entry.showVal = '+' + entry.value;
             }
             entry.quality = Math.round(random*100);
@@ -215,7 +215,7 @@ export default {
                 let value = ran>0.5 ? entry.base*1 : entry.base*1.5;
                 
                 if(percent.indexOf(extraEntry[index]) == -1)
-                    value = value * (1+newEquip.lv**2*0.06);
+                    value = value * (1+newEquip.lv**2*0.07);
                 value = Math.round(value);
 
                 potentials.push({
@@ -270,7 +270,7 @@ export default {
                     entry.showVal = '+' + entry.value + '%';
                 }
                 else {
-                    entry.value = Math.round((0.5+0.5*random) * this.entryInfo[entry.type].base * (1+equip.lv**2*0.06));
+                    entry.value = Math.round((0.5+0.5*random) * this.entryInfo[entry.type].base * (1+equip.lv**2*0.07));
                     entry.showVal = '+' + entry.value;
                 }
                 entry.quality = Math.round(random*100);
@@ -316,7 +316,7 @@ export default {
             itemInfo.removeItemByIndex(item, quantity);
             equip.lv = parseInt(equip.lv)+1;
             equip.baseEntry.forEach(entry => {
-                let percent = (entry.base/(this.entryInfo[entry.type].base*(1+(equip.lv-1)**2*0.06))-1)*5;
+                let percent = (entry.base/(this.entryInfo[entry.type].base*(1+(equip.lv-1)**2*0.07))-1)*5;
                 this.createBaseEntryValue(equip.quality.qualityCoefficient, entry, percent, equip.lv, equip.enhanceLv);
             });
             equip.extraEntry.forEach(entry => {

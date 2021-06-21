@@ -131,8 +131,6 @@ export default {
             }
             
             val = this.getDefRed(attribute['DEF'].value);
-            console.log(val)
-            console.log(attribute['DEF'].value)
             attribute['DEFRED'] = {
                 value: val,
                 showValue: val+'%'
@@ -344,7 +342,7 @@ export default {
                 });
                 itemInfo.addItem(item);
             }
-            else if(this.$store.state.guildAttribute.smith >= 15 && Math.random() < 0.025){
+            else if(this.$store.state.guildAttribute.smith >= 20 && Math.random() < 0.025){
                 var item = itemInfo.createItem('inv_misc_enchantedpearla', 1);  
                 item = JSON.parse(item);
                 quantity = item.quantity;
@@ -390,6 +388,7 @@ export default {
             this.$store.state.dungeonInfo.trial.level += 1;
             index.enermyLvChange = this.$store.state.playerAttribute.lv;
             this.$store.state.dungeonInfo.advanture.level = index.enermyLvChange;
+            this.endStreak();
             if(this.$store.state.playerAttribute.lv == 10) {
                 var element = document.getElementById('guild');
                 element.classList.add('glow');

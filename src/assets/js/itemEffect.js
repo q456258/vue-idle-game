@@ -190,7 +190,7 @@ export const itemEffect = {
             }
             else {
                 var charInfo = this.findBrothersComponents(this, 'charInfo', false)[0];
-                this.$store.state.playerAttribute.spells.spell[spellName] = {active: true, lv: 1};
+                this.$store.state.playerAttribute.spells.spell[spellName] = {active: true, lv: 1, proficient: 0, learnt: 0};;
                 charInfo.activeSpell(spellName, 1);
                 return true;
             }

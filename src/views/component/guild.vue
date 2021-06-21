@@ -44,6 +44,7 @@
             </template>
             <template v-slot:tip>
                 <p class="info">* 消耗水晶提升能力的场所</p>
+                <p class="info">* 每一级提升1点训练效果</p>
                 <p class="info">
                     ————消耗————
                     <br>
@@ -59,6 +60,7 @@
             </template>
             <template v-slot:tip>
                 <p class="info">* 消耗水晶提升能力的场所</p>
+                <p class="info">* 每一级提升1点训练效果</p>
                 <p class="info">
                     ————消耗————
                     <br>
@@ -74,6 +76,7 @@
             </template>
             <template v-slot:tip>
                 <p class="info">* 消耗水晶提升能力的场所</p>
+                <p class="info">* 每一级提升1点训练效果</p>
                 <p class="info">
                     ————消耗————
                     <br>
@@ -89,6 +92,7 @@
             </template>
             <template v-slot:tip>
                 <p class="info">* 出售日常用品</p>
+                <p class="info">* 每一级提升0.5%金币收入</p>
                 <p class="info">
                     ————消耗————
                     <br>
@@ -102,6 +106,7 @@
             </template>
             <template v-slot:tip>
                 <p class="info">* 提供强化、锻造等服务</p>
+                <p class="info">* 每一级提升1%强化成功率</p>
                 <p class="info">
                     ————消耗————
                     <br>
@@ -167,7 +172,14 @@ export default {
         },
         getCost(type, level) {
             for(let cost in this.cost[type].cost) {
-                this.cost[type].cost[cost] = Math.round(this.cost[type].base[cost] * (3+level**2*(1+level/10)));
+                switch(cost) {
+                    case 'gold':
+                        this.cost[type].cost[cost] = Math.round(this.cost[type].base[cost] * (5-level*3+level**3/2));
+                        break;
+                    case 'crystal':
+                        this.cost[type].cost[cost] = Math.round(this.cost[type].base[cost] * (3+level**2*(1+level/10)));
+                        break;
+                }
             }
         },
         getAllCost() {

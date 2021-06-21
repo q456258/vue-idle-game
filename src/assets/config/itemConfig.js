@@ -92,10 +92,10 @@ export const itemConfig = {
                 inv_box_01: {
                     quality: 1,
                     description: {
-                        name: '遗落的宝箱',
+                        name: '遗落的箱子',
                         category: '消耗品',
-                        desc: '看起来有些年头的宝箱，打开后随机获得金币、水晶、装备、技能书',
-                        iconSrc: "./icons/item/Inv_box_01.png",
+                        desc: '行人遗落的箱子，背后有着不为人知的故事，打开后随机获得金币、水晶、装备、技能书',
+                        iconSrc: "./icons/item/Inv_crate_01.png",
                     },
                     stack: false,
                 },
@@ -104,7 +104,7 @@ export const itemConfig = {
                     description: {
                         name: '精英宝箱',
                         category: '消耗品',
-                        desc: '看起来有些年头的宝箱，打开后随机获得金币、水晶、装备、技能书',
+                        desc: '精英怪用私房钱买的家当，来之不易，打开后随机获得金币、水晶、装备、技能书',
                         iconSrc: "./icons/item/Inv_box_01.png",
                     },
                     stack: false,
@@ -114,8 +114,8 @@ export const itemConfig = {
                     description: {
                         name: 'BOSS宝箱',
                         category: '消耗品',
-                        desc: '看起来有些年头的宝箱，打开后随机获得金币、水晶、装备、技能书',
-                        iconSrc: "./icons/item/Inv_box_01.png",
+                        desc: '不是只有巨龙才喜欢财宝，BOSS级怪物多年的藏货，打开后随机获得金币、水晶、装备、技能书',
+                        iconSrc: "./icons/item/Inv_box_02.png",
                     },
                     stack: false,
                 },

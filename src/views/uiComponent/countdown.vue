@@ -32,12 +32,12 @@
                 <option value="MR" v-if="tier>=1">能量盾</option>
             </select> -->
             <select v-model="trainTier" @change="setTrainTier" class="btn btn-xsm btn-secondary" aria-label="training time">
-                <option value="1">5分钟</option>
-                <option value="2">30分钟</option>
-                <option value="3">1小时</option>
-                <option value="4">2小时</option>
-                <option value="5">8小时</option>
-                <option value="6">24小时</option>
+                <option value="1">125x</option>
+                <option value="2">720x</option>
+                <option value="3">1320x</option>
+                <option value="4">2520x</option>
+                <option value="5">9600x</option>
+                <option value="6">27000x</option>
             </select>
             <span v-if="trainLevel >= 20"><input type="checkbox" v-model="speedUp" @change="computeTime">加速模式</span>
             <!-- <div :style="{'font-size':gain>10000?'0.8rem':'1rem'}">+{{gain}}{{entryInfo[this.type].name}}</div> -->
@@ -56,10 +56,11 @@
     </div>
 </template>
 <script>
+import { assist } from '../../assets/js/assist';
 import {equipConfig} from '@/assets/config/equipConfig'
 export default {
     name:"countdown",
-    mixins: [equipConfig],
+    mixins: [assist, equipConfig],
     components: {},
     props: {
         tier: {
@@ -155,13 +156,13 @@ export default {
             this.countdownTimer = setInterval(() => {
                 this.timeRemain -= 1;
                 if(this.timeRemain == 0) {
+                    this.training = false;
+                    clearInterval(this.countdownTimer);
                     var index = this.findComponentUpward(this, 'index');
                     if(index.displayPage != 'guild') {
                         var element = document.getElementById('guild');
                         element.classList.add('glow');
                     }
-                    this.training = false;
-                    clearInterval(this.countdownTimer);
                 }
             }, 1000);
         },
@@ -172,13 +173,13 @@ export default {
             this.countdownTimer = setInterval(() => {
                 this.timeRemain -= 1;
                 if(this.timeRemain == 0) {
+                    this.training = false;
+                    clearInterval(this.countdownTimer);
                     var index = this.findComponentUpward(this, 'index');
                     if(index.displayPage != 'guild') {
                         var element = document.getElementById('guild');
                         element.classList.add('glow');
                     }
-                    this.training = false;
-                    clearInterval(this.countdownTimer);
                 }
             }, 1000);
         },
@@ -197,22 +198,23 @@ export default {
             this.collecting = true;
             switch(this.trainTier) {
                 case '1':
+                    count = 130;
                     multi = 1;
                     break;
                 case '2':
                     multi = 6;
                     break;
                 case '3':
-                    multi = 12;
+                    multi = 11;
                     break;
                 case '4':
-                    multi = 24;
+                    multi = 21;
                     break;
                 case '5':
-                    multi = 96;
+                    multi = 80;
                     break;
                 case '6':
-                    multi = 288;
+                    multi = 225;
                     break;
             }
             for(let i=0; i<count; i++) {
@@ -241,7 +243,6 @@ export default {
                     },2000);
                 }, gap*i);
             }
-
         },
         setTrainTier(e) {
             var value = e.target.value;
@@ -284,11 +285,13 @@ export default {
         },
         increaseProgress(type, value) {
             this.$store.state.trainProgress[type].progress += value;
-            if(this.$store.state.trainProgress[type].progress >= 100) {
-                let lv = Math.floor(this.$store.state.trainProgress[type].progress/100);
+            
+			var req = 200+Math.floor(this.$store.state.trainProgress[type].level/1000)*10;
+            if(this.$store.state.trainProgress[type].progress >= req) {
+                let lv = Math.floor(this.$store.state.trainProgress[type].progress/req);
                 this.$store.state.trainProgress[type].level += lv;
                 this.$store.state.trainAttribute[type] += lv*this.entryInfo[type].base;
-                this.$store.state.trainProgress[type].progress -= lv*100;
+                this.$store.state.trainProgress[type].progress -= lv*req;
                 this.$store.commit('set_player_attribute');
             }
         },

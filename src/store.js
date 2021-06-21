@@ -275,7 +275,7 @@ export default new Vuex.Store({
       spells: {
         weight: 100,
         spell: {
-          attack: {active: true, lv: 1}
+          attack: {active: true, lv: 1, proficient: 0, learnt: 0}
           // Spell_nature_thunderclap: true, 
           // Spell_nature_lightning: false, 
           // Spell_holy_crusaderstrike: true, 
