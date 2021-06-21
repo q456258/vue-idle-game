@@ -142,7 +142,7 @@ export default {
                 }
             }
             else if(level > 10) {
-                if(this.streak > 0 && this.streak%20 == 0&& this.streak%100 != 0) {
+                if(this.streak > 0 && this.streak%10 == 0&& this.streak%100 != 0) {
                     enermyAttribute.special = 'elite';
                     enermyAttribute.name += '精英';
                     attribute = this.eliteStat(attribute);
