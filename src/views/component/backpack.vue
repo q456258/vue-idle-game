@@ -265,7 +265,7 @@ export default {
         },
         giveEquip(equip) {
             if(this.autoSell[equip.quality.qualityLv-1]) {
-                if(!this.disintegrateByEquip(equip))
+                if(this.sellPrio || !this.disintegrateByEquip(equip))
                     this.sellEquipmentByEquip(equip);
             }
             else {
