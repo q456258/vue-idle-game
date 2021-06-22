@@ -426,6 +426,7 @@ export default {
     background: linear-gradient(130deg, rgba(0, 0, 0, 0.7) 0%, rgb(44, 37, 24) 40%, rgb(14, 10, 6) 100%);
     width: 33rem;
     height: 31rem;
+    z-index: 4;
     .title {
         position: absolute;
         top: 1.4rem;

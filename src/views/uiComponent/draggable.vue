@@ -52,7 +52,7 @@ export default {
 <style>
 #draggable-container {
     position: absolute;
-    z-index: 9;
+    /* z-index: 9; */
 }
 #draggable-header {
     position: absolute;
