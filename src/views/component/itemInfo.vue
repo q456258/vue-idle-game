@@ -133,7 +133,6 @@ export default {
         },
         removeItemByIndex(index, quantity) {
             var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
-            backpack.itemGrid[index].quantity -= quantity;
             var temp = backpack.itemGrid[index];
             if(backpack.itemGrid[index].quantity <= quantity) {
                 this.$set(backpack.itemGrid, index, {});
