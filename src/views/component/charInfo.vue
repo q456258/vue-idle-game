@@ -11,9 +11,8 @@
                     </div>
                 </template>
                 <template v-slot:tip>
-                    <p class="info">* 玩家当前等级与转生次数</p>
-                    <p class="info">* 成功挑战首领时会提升等级</p>
-                    <p class="info">* 超过30级时可以转生获取更强力的初始属性</p>
+                    <p class="info">* 玩家当前等级</p>
+                    <p class="info">* 每通过一次试炼提升等级</p>
                 </template>
             </cTooltip>
             <cTooltip placement="bottom">
@@ -34,22 +33,22 @@
                     </div>
                 </template>
                 <template v-slot:tip>
-                        <p class="info">
-                            * 生命值
-                            <br>
-                            基础：{{attribute.HP.baseVal}}
-                            <span v-if="attribute.HPP.value != 0">{{' +' + attribute.HPP.showValue}}</span>
-                            <br>
-                            基础恢复：1%/秒
-                        </p>
-                        <p class="info">
-                            * 魔法值
-                            <br>
-                            基础：{{attribute.MP.baseVal}}
-                            <span v-if="attribute.MPP.value != 0">{{' +' + attribute.MPP.showValue}}</span>
-                            <br>
-                            基础恢复：1%/秒
-                        </p>
+                    <p class="info">
+                        * 生命值
+                        <br>
+                        基础：{{attribute.HP.baseVal}}
+                        <span v-if="attribute.HPP.value != 0">{{' +' + attribute.HPP.showValue}}</span>
+                        <br>
+                        基础恢复：1%/秒
+                    </p>
+                    <p class="info">
+                        * 魔法值
+                        <br>
+                        基础：{{attribute.MP.baseVal}}
+                        <span v-if="attribute.MPP.value != 0">{{' +' + attribute.MPP.showValue}}</span>
+                        <br>
+                        基础恢复：1%/秒
+                    </p>
                 </template>
             </cTooltip>
 
@@ -387,7 +386,8 @@
             <div class="container scrollbar-morpheus-den">
                 <div class="spell" v-for="(v, k) in filteredSpell" :key="k" @click="activeSpell(v)" :set="curLv=spell[v].level[spells.spell[v].lv-1]">
                     <span class="spellIcon"><img class="icon" :src="spell[v].iconSrc"></span>
-                    <span class="spellName" :style="spellQuality[spell[v].quality]">{{spell[v].name+' ('+(spells.spell[v].lv)+'级)'}}</span>
+                    <span class="spellName" :style="spellQuality[spell[v].quality]">{{(spells.spell[v].lv)+'级'+spell[v].name}}</span>
+                    <!-- <span class="proficient" >{{'(专精:'+spells.spell[v].proficient+')'}}</span> -->
                     <span class="spellDesc">{{curLv.des}}</span>
                     <span class="spellWeight">{{"比重："+spell[v].weight}}</span>
                     <span class="spellCost" v-if="curLv.cost['HP']">
@@ -400,6 +400,18 @@
                         <input type="checkbox" name="" v-model="spells.spell[v].active">
                         <span class="check"></span>
                     </span>
+                    <input :id="v" type="checkbox">
+                    <label :for="v" v-if="v!='attack'">
+                        <div class="proficient-heading faq-arrow"></div>
+                        <div class="proficient-text">
+                            <span class="pro-title">精通点数：{{spells.spell[v].learnt}}</span>
+                            <div class="pro-content" v-for="(pro, req) in spell[v].proficient" :key="req">
+                                <span :style="{color: spells.spell[v].learnt>=req ? '#0f0':'#aaa'}">
+                                    {{req}}: {{pro.desc}}
+                                </span>
+                            </div>
+                        </div>
+                    </label>
                 </div>
             </div>
         </div>
@@ -407,7 +419,7 @@
             <li @click="unEquip()">卸下</li>
             <li @click="equipEnhance()" v-if="guild.smith>0">强化</li>
             <li @click="equipForge()" v-if="guild.smith>=10">重铸</li>
-            <li @click="equipLevelUp()" v-if="guild.smith>=20 && currentEquip.lv < playerLv && currentEquip.quality.qualityLv>1">升级</li>
+            <li @click="equipLevelUp()" v-if="guild.smith>=30 && currentEquip.lv < playerLv && currentEquip.quality.qualityLv>1">升级</li>
         </ul>
     </div>
 </template>
@@ -528,13 +540,11 @@ export default {
         },
         equipLevelUp() {
             var dust = ['dust2', 'dust3', 'dust4', 'dust5', 'dust6'];
-            var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
             var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
             var equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
             var quantity = Math.ceil(this.currentEquip.lv/10);
             var itemName = this.itemType[dust[this.currentEquip.quality.qualityLv-2]].description.name;
-            var item = itemInfo.findItem(itemName);  
-            var has = item == -1 ? 0 : backpack.itemGrid[item].quantity;
+            var has = itemInfo.getItemQty(itemName);
             this.$message({
                 message: '消耗材料'+itemName+"*"+quantity+",目前拥有数量："+has,
                 title: '升级装备',
@@ -746,7 +756,7 @@ export default {
         .spell {
             position: relative;
             cursor: pointer;
-            height: 5rem;
+            height: 5.5rem;
             border: 1px solid rgba(255, 255, 255, 0.404);
             // border-image: linear-gradient(to right, darkorchid, rgb(0, 129, 123)) 1;
             border-radius: 1rem;
@@ -825,6 +835,65 @@ export default {
                 right: 1rem;
                 top: 2.75rem;
             }
+        }
+        .proficient-text {
+            font-family: Open Sans;   
+            font-weight: 400;
+            // color: #919191;
+            width:95%;
+            margin-top:1rem;
+        }
+        .spell label {
+            display: block;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            height: 10px;
+            width: calc(100% + 2px);
+            // padding-top: 5rem;
+            margin: 4.5rem 0rem 0rem 0rem;
+        }
+        .spell label:hover .faq-arrow{
+            opacity: 1;
+        }
+        .spell .faq-arrow {
+            width: 12px;
+            height: 12px;
+            transition: -webkit-transform 0.8s;
+            transition: transform 0.8s;
+            transition: transform 0.8s, -webkit-transform 0.8s;
+            -webkit-transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border-bottom: 3px solid rgba(158, 158, 158, 0.70);
+            border-right: 3px solid rgba(158, 158, 158, 0.70);
+            float: right;
+            position: relative;
+            top: -0.3rem;
+            left: -21rem;
+            opacity: 0.7;
+            -webkit-transform: rotate(45deg);
+                transform: rotate(45deg);
+                z-index: 2;
+        }
+        .spell input[type="checkbox"]:checked + label > .faq-arrow {
+        display: none;
+        }
+        .spell input[type="checkbox"] {
+            display: none;
+        }
+
+        .spell input[type="checkbox"]:checked + label {
+            display: block;
+            background: rgba(0,0,0,200) !important;
+            height: 225px;
+            transition: height 0.8s;
+            z-index: 3;
+            -webkit-transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border-left: 1px solid rgba(255, 255, 255, 0.404);
+            border-right: 1px solid rgba(255, 255, 255, 0.404);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.404);
+            border-bottom-left-radius: 1rem;
+            border-bottom-right-radius: 1rem;
+            margin-left: -1px;
         }
     }
 }

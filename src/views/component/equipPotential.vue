@@ -25,7 +25,7 @@
                 消耗<img src="/icons/item/Inv_misc_enchantedpearla.png">*1
             </span>
             <span class="has">
-                目前持有数：{{item.quantity}}
+                目前持有数：{{itemQty}}
             </span>
             <div class="confirm" @click="washPotential()" v-show="item.quantity>0">
             <!-- <div class="confirm" @click="washPotential()"> -->
@@ -72,6 +72,11 @@ export default {
                 return {quantity: 0};
             else
                 return backpack.itemGrid[item];
+        },
+        itemQty() {
+            var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            var qty = itemInfo.getItemQty('神秘宝珠');
+            return qty;
         }
     },
     methods: {

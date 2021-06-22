@@ -38,6 +38,7 @@ export const itemConfig = {
                         iconSrc: "./icons/item/Inv_misc_enchantedpearla.png",
                     },
                     stack: true,
+                    maxStack: 100
                 },
                 dust2: {
                     quality: 2,
@@ -48,6 +49,7 @@ export const itemConfig = {
                         iconSrc: "./icons/item/Inv_enchanting_dust.png",
                     },
                     stack: true,
+                    maxStack: 1000
                 },
                 dust3: {
                     quality: 3,
@@ -58,6 +60,7 @@ export const itemConfig = {
                         iconSrc: "./icons/item/Inv_enchanting_70_arkhana.png",
                     },
                     stack: true,
+                    maxStack: 1000
                 },
                 dust4: {
                     quality: 4,
@@ -68,6 +71,7 @@ export const itemConfig = {
                         iconSrc: "./icons/item/Inv_misc_dust_infinite.png",
                     },
                     stack: true,
+                    maxStack: 1000
                 },
                 dust5: {
                     quality: 5,
@@ -78,6 +82,7 @@ export const itemConfig = {
                         iconSrc: "./icons/item/Inv_enchanting_wod_dust3.png",
                     },
                     stack: true,
+                    maxStack: 1000
                 },
                 dust6: {
                     quality: 6,
@@ -88,6 +93,7 @@ export const itemConfig = {
                         iconSrc: "./icons/item/Inv_enchant_dustillusion.png",
                     },
                     stack: true,
+                    maxStack: 1000
                 },
                 inv_box_01: {
                     quality: 1,
@@ -97,7 +103,8 @@ export const itemConfig = {
                         desc: '行人遗落的箱子，背后有着不为人知的故事，打开后随机获得金币、水晶、装备、技能书',
                         iconSrc: "./icons/item/Inv_crate_01.png",
                     },
-                    stack: false,
+                    stack: true,
+                    maxStack: 20
                 },
                 inv_box_02: {
                     quality: 2,
@@ -107,7 +114,8 @@ export const itemConfig = {
                         desc: '精英怪用私房钱买的家当，来之不易，打开后随机获得金币、水晶、装备、技能书',
                         iconSrc: "./icons/item/Inv_box_01.png",
                     },
-                    stack: false,
+                    stack: true,
+                    maxStack: 20
                 },
                 inv_box_03: {
                     quality: 3,
@@ -117,7 +125,8 @@ export const itemConfig = {
                         desc: '不是只有巨龙才喜欢财宝，BOSS级怪物多年的藏货，打开后随机获得金币、水晶、装备、技能书',
                         iconSrc: "./icons/item/Inv_box_02.png",
                     },
-                    stack: false,
+                    stack: true,
+                    maxStack: 20
                 },
                 spell_nature_thunderclap: {
                     quality: 1,

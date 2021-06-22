@@ -75,19 +75,35 @@ export default {
                 return this.quality[5];
             return this.quality[quality];
         },
-        findItem(name) {            
+        findItem(name, checkStack=false) {            
             var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
             for (let i = 0; i < backpack.itemGrid.length; i++) {
-                if (Object.keys(backpack.itemGrid[i]).length > 2 && backpack.itemGrid[i].description.name == name) {
-                    return i;
+                let item = backpack.itemGrid[i];
+                if(Object.keys(item).length > 2 && item.description.name == name) {
+                    if(!checkStack)
+                        return i;
+                    else if(item.quantity < this.itemType[item.type].maxStack)
+                        return i;
                 }
             }
             return -1;
         },
+        getItemQty(name) {            
+            var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            var total = 0;
+            for (let i = 0; i < backpack.itemGrid.length; i++) {
+                let item = backpack.itemGrid[i];
+                if(Object.keys(item).length > 2 && item.description.name == name) {
+                    total += item.quantity;
+                }
+            }
+            return total;
+        },
         addItem(item) {
             var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
             var name = item.description.name;
-            var stack = item.stack ? this.findItem(name) : -1;
+            // var stack = item.stack ? this.findItem(name) : -1;
+            var stack = this.findItem(name, true);
             if(stack == -1) {
                 for (let i = 0; i < backpack.itemGrid.length; i++) {
                     if (Object.keys(backpack.itemGrid[i]).length < 3) {
@@ -97,27 +113,47 @@ export default {
                 }
             }
             else {
-                backpack.itemGrid[stack].quantity += item.quantity;
+                var remain = this.stackItem(backpack.itemGrid[stack], item);
+                if(remain > 0)
+                    this.addItem(item);
+            }
+        },
+        stackItem(item, item2) {
+            var max = this.itemType[item.type].maxStack;
+            var sum = item.quantity + item2.quantity;
+            if(sum > max) {
+                item.quantity = max;
+                item2.quantity = sum-max;
+                return sum-max;
+            }
+            else {
+                item.quantity = sum;
+                return 0;
             }
         },
         removeItemByIndex(index, quantity) {
             var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
             backpack.itemGrid[index].quantity -= quantity;
-            if(backpack.itemGrid[index].quantity <= 0) {
-                // backpack.itemGrid[index] = {};
+            var temp = backpack.itemGrid[index];
+            if(backpack.itemGrid[index].quantity <= quantity) {
                 this.$set(backpack.itemGrid, index, {});
+                this.removeItemByItem(temp, quantity-temp.quantity);
             }
+            else
+                backpack.itemGrid[index].quantity -= quantity;
         },
         removeItemByItem(item, quantity) {
             var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
             var name = item.description.name;
             var stack = this.findItem(name);
             if(stack != -1) {
-                backpack.itemGrid[stack].quantity -= quantity;
-                if(backpack.itemGrid[stack].quantity <= 0) {
+                if(backpack.itemGrid[stack].quantity <= quantity) {
                     // backpack.itemGrid[index] = {};
                     this.$set(backpack.itemGrid, stack, {});
+                    this.removeItemByItem(item, quantity-item.quantity);
                 }
+                else
+                    backpack.itemGrid[stack].quantity -= quantity;
             }
         }
     },

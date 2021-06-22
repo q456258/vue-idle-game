@@ -182,11 +182,8 @@ export const itemEffect = {
         learnSpell(spellName) {
             var spellList = this.$store.state.playerAttribute.spells;
             if(spellList.spell[spellName] != undefined) {
-                this.$store.commit("set_sys_info", {
-                    type: 'warning',
-                    msg: '技能已习得，无法重复学习',
-                });
-                return false;
+                this.$store.state.playerAttribute.spells.spell[spellName].learnt += 1;
+                return true;
             }
             else {
                 var charInfo = this.findBrothersComponents(this, 'charInfo', false)[0];

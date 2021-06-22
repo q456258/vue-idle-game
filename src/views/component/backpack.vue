@@ -43,7 +43,7 @@
             <li @click="equip()">装备</li>
             <li @click="equipEnhance()" v-if="guild.smith>0">强化</li>
             <li @click="equipForge()" v-if="guild.smith>=10">重铸</li>
-            <li @click="equipPotential()" v-if="guild.smith>=30">洗炼</li>
+            <li @click="equipPotential()" v-if="guild.smith>=20">洗炼</li>
             <li @click="lockEquipment(true)" v-if="!currentItem.locked">锁定</li>
             <li @click="lockEquipment(false)" v-if="currentItem.locked">解锁</li>
             <li @click="disintegrate()" v-if="guild.smith>=30 && !currentItem.locked">分解</li>

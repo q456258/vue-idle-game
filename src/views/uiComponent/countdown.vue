@@ -220,7 +220,7 @@ export default {
             for(let i=0; i<count; i++) {
                 setTimeout(()=>{
                     var type = this.values[Math.floor(Math.random()*this.values.length)];
-                    var value = this.trainLevel*multi;
+                    var value = 10+this.trainLevel*multi;
                     var node = document.createElement("DIV");
                     var textnode = document.createTextNode(this.entryInfo[type].name+"+"+value);
                     this.increaseProgress(type, value);
@@ -286,7 +286,7 @@ export default {
         increaseProgress(type, value) {
             this.$store.state.trainProgress[type].progress += value;
             
-			var req = 200+Math.floor(this.$store.state.trainProgress[type].level/1000)*10;
+			var req = 200;
             if(this.$store.state.trainProgress[type].progress >= req) {
                 let lv = Math.floor(this.$store.state.trainProgress[type].progress/req);
                 this.$store.state.trainProgress[type].level += lv;

@@ -17,10 +17,6 @@
         <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
       </li>
     </ul>
-    <charInfo id="charInfo" v-show="displayPage=='charInfo'"></charInfo>
-    <guild id="guild" v-show="displayPage=='guild'"></guild>
-    <shop id="shop" v-show="displayPage=='shop'"></shop>
-    <faq id="faq" v-show="displayPage=='faq'"></faq>
 
     <div class="sysInfo">
       <div class="battleInfo">
@@ -80,8 +76,6 @@
       </div>
     </div>
 
-    <backpack v-show="showBackpack"></backpack>
-
     <div class="menus">
       <cTooltip :placement="'top'">
         <template v-slot:content>
@@ -135,6 +129,12 @@
     <equipPotential :equip="enhanceEquip" v-show="equipPotentialPanel"></equipPotential>    
     <saveload v-show="savePanel"></saveload>
     <setting v-show="settingPanel"></setting>
+
+    <charInfo id="charInfo" v-show="displayPage=='charInfo'"></charInfo>
+    <guild id="guild" v-show="displayPage=='guild'"></guild>
+    <shop id="shop" v-show="displayPage=='shop'"></shop>
+    <faq id="faq" v-show="displayPage=='faq'"></faq>
+    <backpack v-show="showBackpack"></backpack>
   </div>
 
 </template>
@@ -240,11 +240,13 @@ export default {
     //   var item = itemInfo.createItem(name, 1);  
     //   itemInfo.addItem(JSON.parse(item));
     // })
-      // var itemInfo = this.findComponentDownward(this, 'itemInfo');
-      // var item = itemInfo.createItem('inv_misc_enchantedpearla', 1);  
-      // itemInfo.addItem(JSON.parse(item));
+    var itemInfo = this.findComponentDownward(this, 'itemInfo');
+    var item = itemInfo.createItem('inv_misc_enchantedpearla', 70);  
+    itemInfo.addItem(JSON.parse(item));
     this.$store.commit('set_player_attribute');
     this.enermyLvChange = this.playerLv;
+    var shop = this.findComponentDownward(this, 'shop');  
+    shop.setEquipShopItem();
   },
   computed: {
     baseAttribute() { return this.$store.state.baseAttribute },

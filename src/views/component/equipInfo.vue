@@ -299,12 +299,11 @@ export default {
         },
         levelUpEquip(equip) {
             var dust = ['dust2', 'dust3', 'dust4', 'dust5', 'dust6'];
-            var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
             var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
             var quantity = Math.ceil(equip.lv/10);
             var itemName = this.itemType[dust[equip.quality.qualityLv-2]].description.name;
             var item = itemInfo.findItem(itemName);  
-            var has = item == -1 ? 0 : backpack.itemGrid[item].quantity;
+            var has = itemInfo.getItemQty(itemName);
             if(has < quantity) {
                 this.$store.commit("set_sys_info", {
                     type: 'dmged',
@@ -312,7 +311,7 @@ export default {
                 });
                 return;
             }
-            backpack.itemGrid[item].quantity -= quantity;
+            // backpack.itemGrid[item].quantity -= quantity;
             itemInfo.removeItemByIndex(item, quantity);
             equip.lv = parseInt(equip.lv)+1;
             equip.baseEntry.forEach(entry => {

@@ -54,6 +54,16 @@ data() {
                         cost: { MP: 500, },
                     }
                 ],
+                proficient: {
+                    1: {
+                        effect: { stun: 10 },
+                        desc: '10%的几率麻痹敌人，使其丧失一次攻击机会'
+                    },
+                    10: {
+                        effect: { stun: 10 },
+                        desc: '10%的几率麻痹敌人，使其丧失一次攻击机会'
+                    }
+                },
                 tag: ['攻击']
             },
             spell_holy_crusaderstrike: {
