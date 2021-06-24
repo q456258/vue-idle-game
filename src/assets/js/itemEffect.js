@@ -182,12 +182,12 @@ export const itemEffect = {
         learnSpell(spellName) {
             var spellList = this.$store.state.playerAttribute.spells;
             if(spellList.spell[spellName] != undefined) {
-                this.$store.state.playerAttribute.spells.spell[spellName].learnt += 1;
+                this.$store.state.playerAttribute.spells.spell[spellName].proficient += 1;
                 return true;
             }
             else {
                 var charInfo = this.findBrothersComponents(this, 'charInfo', false)[0];
-                this.$store.state.playerAttribute.spells.spell[spellName] = {active: true, lv: 1, proficient: 0, learnt: 0};;
+                this.$store.state.playerAttribute.spells.spell[spellName] = {active: true, lv: 1, proficient: 0};
                 charInfo.activeSpell(spellName, 1);
                 return true;
             }

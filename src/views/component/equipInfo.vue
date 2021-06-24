@@ -157,7 +157,12 @@ export default {
         },
         createBaseEntryValue(qualityCoefficient, entry, random, lv, enhanceLv) {
             entry.name = this.entryInfo[entry.type].name;
-            if(this.percent.indexOf(entry.type) > -1) {
+            if(entry.type == 'CRITDMG') {
+                entry.base = Math.floor(qualityCoefficient * this.entryInfo[entry.type].base+lv*lv/200);
+                entry.value = Math.floor(entry.base * (1+enhanceLv*0.1));
+                entry.showVal = '+' + entry.value + '%';
+            }
+            else if(this.percent.indexOf(entry.type) > -1) {
                 entry.base = Math.floor(qualityCoefficient * this.entryInfo[entry.type].base);
                 entry.value = Math.floor(entry.base * (1+enhanceLv*0.1));
                 entry.showVal = '+' + entry.value + '%';
@@ -185,7 +190,11 @@ export default {
             return extraEntry;
         },
         createExtraEntryValue(entry, random, lv) {
-            if(this.percent.indexOf(entry.type) > -1) {
+            if(entry.type == 'CRITDMG') {
+                entry.value = Math.round((0.5+0.5*random) * Math.floor(this.entryInfo[entry.type].base+lv*lv/200));
+                entry.showVal = '+' + entry.value + '%';
+            }
+            else if(this.percent.indexOf(entry.type) > -1) {
                 entry.value = Math.round((0.5+0.5*random) * this.entryInfo[entry.type].base);
                 entry.showVal = '+' + entry.value + '%';
             }
@@ -214,6 +223,10 @@ export default {
                 let ran = Math.random();
                 let value = ran>0.5 ? entry.base*1 : entry.base*1.5;
                 
+                if(extraEntry[index] == 'CRITDMG') {
+                    value = Math.floor(entry.base+newEquip.lv*newEquip.lv/200);
+                    value = ran>0.5 ? value*1 : value*1.5;
+                }
                 if(percent.indexOf(extraEntry[index]) == -1)
                     value = value * (1+newEquip.lv**2*0.07);
                 value = Math.round(value);
@@ -237,7 +250,12 @@ export default {
             ];
 
             baseEntry.forEach(entry => {
-                if(percent.indexOf(entry.type) > -1) {
+                if(entry.type == 'CRITDMG') {
+                    entry.base = Math.floor(qualityCoefficient * this.entryInfo[entry.type].base+equip.lv*equip.lv/200);
+                    entry.value = Math.floor(entry.base * (1+enhanceLv*0.1));
+                    entry.showVal = '+' + entry.value + '%';
+                }
+                else if(percent.indexOf(entry.type) > -1) {
                     entry.value = Math.floor(entry.base * (1+equip.enhanceLv*0.1));
                     entry.showVal = '+' + entry.value + '%';
                 }
@@ -265,7 +283,11 @@ export default {
             extraEntry.push({type: extraEntryTypes[index]});
             extraEntry.forEach(entry => {
                 let random = Math.random();
-                if(percent.indexOf(entry.type) > -1) {
+                if(entry.type == 'CRITDMG') {
+                    entry.value = Math.round((0.5+0.5*random) * Math.floor(this.entryInfo[entry.type].base+equip.lv*equip.lv/200));
+                    entry.showVal = '+' + entry.value + '%';
+                }
+                else if(percent.indexOf(entry.type) > -1) {
                     entry.value = Math.round((0.5+0.5*random) * this.entryInfo[entry.type].base);
                     entry.showVal = '+' + entry.value + '%';
                 }

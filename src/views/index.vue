@@ -156,9 +156,10 @@ import setting from './component/setting';
 import enermyInfo from './component/enermyInfo';
 import { assist } from '../assets/js/assist';
 import { dungeon } from '../assets/js/dungeon';
+import { buffSystem } from '../assets/js/buffSystem';
 export default {
   name: 'index',
-  mixins: [assist, dungeon],
+  mixins: [assist, dungeon, buffSystem],
   data() {
     return {
       showEquipInfo: false,
@@ -450,7 +451,7 @@ export default {
       }
       if(this.$store.state.dungeonInfo.inBattle)
         this.stopBattle();
-      this.$store.commit('set_enermy_hp', 'dead');
+      this.set_enermy_hp('dead');
       this.createMaps(this.enermyLvChange);
       this.resetTime = 10;
       element.disabled = true;
@@ -558,7 +559,7 @@ export default {
       clearInterval(this.autoManRecovery);
       clearInterval(this.trialAutoHealthRecovery);
       this.autoHealthRecovery = setInterval(() => {
-        this.$store.commit('set_player_hp', Math.ceil(this.attribute.MAXHP.value*0.01+this.attribute.STR.value));
+        this.set_player_hp(Math.ceil(this.attribute.MAXHP.value*0.01+this.attribute.STR.value));
         if(this.attribute.CURHP.value == this.attribute.MAXHP.value && this.dungeonInfo.auto && !this.dungeonInfo.inBattle) {
           this.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
         }
@@ -567,7 +568,7 @@ export default {
         this.$store.commit('set_player_mp', Math.ceil(this.attribute.MAXMP.value*0.01+this.attribute.INT.value/4));
       }, 1000);
       this.trialAutoHealthRecovery = setInterval(() => {
-        this.$store.commit('set_trial_hp', Math.ceil(this.trialAttribute.MAXHP.value*0.02));
+        this.set_trial_hp(Math.ceil(this.trialAttribute.MAXHP.value*0.02));
       }, 1000);  
     },
     fastTick() {
@@ -575,7 +576,7 @@ export default {
       clearInterval(this.autoManRecovery);
       clearInterval(this.trialAutoHealthRecovery);
       this.autoHealthRecovery = setInterval(() => {
-        this.$store.commit('set_player_hp', Math.ceil(this.attribute.MAXHP.value*0.0005+this.attribute.STR.value/20));
+        this.set_player_hp(Math.ceil(this.attribute.MAXHP.value*0.0005+this.attribute.STR.value/20));
         if(this.attribute.CURHP.value == this.attribute.MAXHP.value && this.dungeonInfo.auto && !this.dungeonInfo.inBattle) {
           this.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
         }
@@ -584,7 +585,7 @@ export default {
         this.$store.commit('set_player_mp', Math.ceil(this.attribute.MAXMP.value*0.0005+this.attribute.INT.value/80));
       }, 50);
       this.trialAutoHealthRecovery = setInterval(() => {
-        this.$store.commit('set_trial_hp', Math.ceil(this.trialAttribute.MAXHP.value*0.001));
+        this.set_trial_hp(Math.ceil(this.trialAttribute.MAXHP.value*0.001));
       }, 50);  
     },
     openMenuPanel(type) {

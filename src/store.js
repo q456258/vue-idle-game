@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import vueInstance from './main'
-import equipConfig from './assets/config/equipConfig'
 Vue.use(Vuex)
 //灰、白、蓝、紫、橙、红
 //破旧，普通，精良，完美，史诗，传说
@@ -260,7 +259,7 @@ export default new Vuex.Store({
         AP: { baseVal: 0, value: 0, showbaseVal: 0},
         MR: { baseVal: 0, value: 0, showbaseVal: 0},
         CRIT: { baseVal: 0, value: 0, showbaseVal: 0},
-        CRITDMG: { baseVal: 0, value: 200, showbaseVal: 0},
+        CRITDMG: { baseVal: 0, value: 150, showbaseVal: 0},
         STRP: { baseVal: 0, value: 0, showbaseVal: 0},
         AGIP: { baseVal: 0, value: 0, showbaseVal: 0},
         INTP: { baseVal: 0, value: 0, showbaseVal: 0},
@@ -275,7 +274,7 @@ export default new Vuex.Store({
       spells: {
         weight: 100,
         spell: {
-          attack: {active: true, lv: 1, proficient: 0, learnt: 0}
+          attack: {active: true, lv: 1, proficient: 0}
           // Spell_nature_thunderclap: true, 
           // Spell_nature_lightning: false, 
           // Spell_holy_crusaderstrike: true, 
@@ -336,7 +335,7 @@ export default new Vuex.Store({
       AP: 0,
       MR: 0,
       CRIT: 0,
-      CRITDMG: 200,
+      CRITDMG: 150,
       STRP: 0,
       AGIP: 0,
       INTP: 0,
@@ -546,12 +545,12 @@ export default new Vuex.Store({
       attribute['DEFRED'].showValue = attribute['DEFRED'].value+'%';
       playerAttribute.attribute = attribute;
     },
-    set_player_hp(state, data) {
-      var CURHP = this.state.playerAttribute.attribute.CURHP,
-          MAXHP = this.state.playerAttribute.attribute.MAXHP
-      vueInstance.$store.commit('set_hp', {data, CURHP, MAXHP});
-      CURHP.showValue = CURHP.value;
-    },
+    // set_player_hp(state, data) {
+    //   var CURHP = this.state.playerAttribute.attribute.CURHP,
+    //       MAXHP = this.state.playerAttribute.attribute.MAXHP
+    //   vueInstance.$store.commit('set_hp', {data, CURHP, MAXHP});
+    //   CURHP.showValue = CURHP.value;
+    // },
     set_player_mp(state, data) {
       var CURMP = this.state.playerAttribute.attribute.CURMP,
         MAXMP = this.state.playerAttribute.attribute.MAXMP
@@ -575,23 +574,6 @@ export default new Vuex.Store({
       else
         this.state.enermyAttribute = data;
     },
-    set_enermy_hp(state, data) {
-      var CURHP = this.state.enermyAttribute.attribute.CURHP,
-        MAXHP = this.state.enermyAttribute.attribute.MAXHP
-
-      if(this.state.dungeonInfo.current == 'trial') {
-          CURHP = this.state.trialAttribute.attribute.CURHP,
-          MAXHP = this.state.trialAttribute.attribute.MAXHP
-      }
-      vueInstance.$store.commit('set_hp', {data, CURHP, MAXHP});
-      CURHP.showValue = CURHP.value;
-    },    
-    set_trial_hp(state, data) {
-      var CURHP = this.state.trialAttribute.attribute.CURHP,
-          MAXHP = this.state.trialAttribute.attribute.MAXHP;
-      vueInstance.$store.commit('set_hp', {data, CURHP, MAXHP});
-      CURHP.showValue = CURHP.value;
-    },  
     set_hp(state, data) {
       var CURHP = data.CURHP,
         MAXHP = data.MAXHP,
@@ -642,6 +624,6 @@ export default new Vuex.Store({
       this.state.battleInfo.splice(0, this.state.battleInfo.length);
     },    
   },
-}
+},
 
 )

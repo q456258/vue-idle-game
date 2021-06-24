@@ -263,8 +263,8 @@ export default {
             // this.itemGrid[this.currentItemIndex] = {};
             this.$set(this.itemGrid, this.currentItemIndex, {});
         },
-        giveEquip(equip) {
-            if(this.autoSell[equip.quality.qualityLv-1]) {
+        giveEquip(equip, auto=true) {
+            if(auto && this.autoSell[equip.quality.qualityLv-1]) {
                 if(this.sellPrio || !this.disintegrateByEquip(equip))
                     this.sellEquipmentByEquip(equip);
             }
@@ -426,7 +426,7 @@ export default {
     background: linear-gradient(130deg, rgba(0, 0, 0, 0.7) 0%, rgb(44, 37, 24) 40%, rgb(14, 10, 6) 100%);
     width: 33rem;
     height: 31rem;
-    z-index: 4;
+    z-index: 9;
     .title {
         position: absolute;
         top: 1.4rem;

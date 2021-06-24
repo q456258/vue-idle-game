@@ -5,11 +5,13 @@
 <script>
 
 import { assist } from '../../assets/js/assist';
+import { buffSystem } from '../../assets/js/buffSystem';
 import { monsterConfig } from '@/assets/config/monsterConfig'
 import { spellConfig } from '@/assets/config/spellConfig'
+import { buffConfig } from '@/assets/config/buffConfig'
 export default {
     name: 'mapEvent',
-    mixins: [assist, monsterConfig, spellConfig],
+    mixins: [assist, buffSystem, monsterConfig, spellConfig, buffConfig],
     data() {
         return {
             battleTimer: "",
@@ -30,7 +32,7 @@ export default {
                 return;
             this.setBattleStatus(true);
             this.battleTimer = setInterval(() => {
-                this.$store.commit('set_enermy_hp', -1*this.dmgCalculate(playerAttribute, enermyAttribute, 'player'));
+                this.set_enermy_hp(-1*this.dmgCalculate(playerAttribute, enermyAttribute, 'player'));
                 if(enermyAttribute.attribute.CURHP.value == 0) {
                     this.reward(type, enermyAttribute.lv, enermyAttribute.special);
                     this.setBattleStatus(false);
@@ -53,20 +55,11 @@ export default {
                     });
                     return;
                 } 
-                this.$store.commit('set_player_hp', -1*this.dmgCalculate(enermyAttribute, playerAttribute, 'enermy'));
-                // if(enermyAttribute.attribute.RECOVERY != undefined) {
-                //     this.$store.commit('set_enermy_hp', enermyAttribute.attribute.RECOVERY.value);
-                //     this.$store.commit("set_battle_info", {
-                //         type: 'dmged',
-                //         msg: '【试炼】对方恢复了'+ enermyAttribute.attribute.RECOVERY.value+'点生命值'
-                //     })
-
-                // }
+                this.set_player_hp(-1*this.dmgCalculate(enermyAttribute, playerAttribute, 'enermy'));
+                // this.$store.commit('set_player_hp', -1*this.dmgCalculate(enermyAttribute, playerAttribute, 'enermy'));
                 if(playerAttribute.attribute.CURHP.value == 0) {
                     this.endStreak();
                     clearInterval(this.battleTimer);
-                    // let index = this.findComponentUpward(this, 'index'); 
-                    // index.stopBattle();
                     this.setBattleStatus(false);
                     this.$store.commit("set_battle_info", {
                         type: 'lose',
@@ -105,6 +98,7 @@ export default {
             fixStats = ['CRIT', 'CRITDMG'];
             enermyAttribute.lv = level;
             enermyAttribute.name = this.monster[lv].name;
+            enermyAttribute.type = type=='trial' ? 'trial' : 'enermy';
             flexStats.forEach(stat => {
                 let attribute = enermyAttribute.attribute[stat];
                 // attribute.value = Math.round(attribute.value*(1+enermyAttribute.lv*0.15)*(1+Math.random()/10));
@@ -159,9 +153,11 @@ export default {
             return Math.round((armor/(100+armor) + armor/(armor+3500))/2*1000000)/10000;
         },
         dmgCalculate(source, target, type) {
-            var spell = this.getSpell(source);
+            if(this.stun(source))
+                return 0;
+            var spell = this.getSpell(source, target);
             var spellInfo = this.spell[spell];
-            var dmg = this.getSpellDmg(spell, source)*(1-target.attribute.DEFRED.value/100);
+            var dmg = this.getReducedDmg(source, target, this.getSpellDmg(spell, source));
             var heal = this.getHeal(spell, source);
             var crit = Math.round(Math.random()*100);
             if(crit<source.attribute.CRIT.value) 
@@ -190,7 +186,7 @@ export default {
             }
             return dmg;
         },
-        getSpell(source) {
+        getSpell(source, target) {
             if(source.spells == undefined)
                 return 'attack'
             var random = Math.floor(Math.random()*source.spells.weight);
@@ -207,9 +203,24 @@ export default {
             }   
             if(this.checkCost(selectSpell)) {
                 this.useCost(selectSpell);
+                this.applyEffect(source, target, selectSpell);
                 return selectSpell;
             }
             return 'attack';
+        },
+        getReducedDmg(source, target, baseDmg) {
+            if(baseDmg == 0)
+                return 0;
+            var sourceType = source.type==undefined? 'player':source.type;
+            baseDmg = this.charge(source, baseDmg);
+            var penDmg = this.penetrate(source, baseDmg);
+            var armor = this.sunder(source, target.attribute.DEF.value);
+            var defRed = this.getDefRed(armor);
+            baseDmg -= penDmg;
+            var dmg = baseDmg*(1-defRed/100)+penDmg;
+            this.lifesteal(source, dmg);
+            this.manasteal(source, dmg);
+            return dmg;
         },
         checkCost(spell) {
             var attr = this.$store.state.playerAttribute.attribute;
@@ -236,6 +247,42 @@ export default {
                         break;
                 }
             }
+        },
+        applyEffect(source, target, spellName) {
+            var sourceType = source.type==undefined? 'player':source.type;
+            var targetType = target.type==undefined? 'player':target.type;
+            var spellLv = source.spells == undefined ? 0 : source.spells.spell[spellName].lv-1;
+            var effect = this.spell[spellName].level[spellLv].effect;
+            var effectList = {};
+            for(var eff in effect) {
+                effectList[eff] = effect[eff];
+            }
+            if(sourceType == 'player')
+                effectList = this.getProficientEffect(source, target, spellName, effectList);
+            for(var eff in effectList) {
+                if(Math.random()*100 < effectList[eff].chance) {
+                    if(effectList[eff].target == 'self')
+                        this.buffApply(source, source, eff, effectList[eff].stack);
+                    else
+                        this.buffApply(source, target, eff, effectList[eff].stack);
+                }
+            }
+        },
+        getProficientEffect(source, target, spellName, effectList) {
+            var proficientList = this.spell[spellName].proficient;
+            if(proficientList == undefined) {
+                return {};
+            }
+            var proficientLv = source.spells.spell[spellName].proficient;
+            for(var proficient in proficientList) {
+                if(proficientLv >= proficient) {
+                    let effect = proficientList[proficient].effect;
+                    for(var eff in effect) {
+                        effectList[eff] = effect[eff];
+                    }
+                }
+            }
+            return effectList;
         },
         getSpellDmg(spell, source) {
             var spellLv = source.spells == undefined ? 0 : source.spells.spell[spell].lv-1;
@@ -270,7 +317,8 @@ export default {
                     heal += source.attribute[attr].value*heals.heal[attr];
             }
             heal = Math.round(heal);
-            this.$store.commit('set_player_hp', heal);
+            this.set_player_hp(heal);
+            // this.$store.commit('set_player_hp', heal);
             return heal;
         },
         getMrValue(type, target) {

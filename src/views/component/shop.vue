@@ -24,18 +24,20 @@
                 奸商
             <div class="equip">
                 <div class="grid" v-for="(v, k) in equipShop" :key="k">
-                    <div v-if="v.lv" @mouseover="showInfo($event,v.itemType,v,true)" @mouseleave="closeInfo">
-                        <div class="icon" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v.quality.color }">
-                            <img :src="v.description.iconSrc" alt="" />
-                        </div>
-                    </div>
-                    <div class='name' :style="{color:v.quality.color}">
-                        {{v.description.name}}
-                    </div>          
                     <span v-if="v.lv">
-                        <span :style="{color:playerGold<equipCost[k]?'#f00':''}">{{equipCost[k]}}金</span>
-                        <br>
-                        <button type="button" class="btn btn-outline-warning" :disabled="playerGold<equipCost[k]" @click="buyEquip(k)">购买</button>
+                        <div @mouseover="showInfo($event,v.itemType,v,true)" @mouseleave="closeInfo">
+                            <div class="icon" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v.quality.color }">
+                                <img :src="v.description.iconSrc" alt="" />
+                            </div>
+                        </div>
+                        <div class='name' :style="{color:v.quality.color}">
+                            {{v.description.name}}
+                        </div>          
+                        <span>
+                            <span :style="{color:playerGold<equipCost[k]?'#f00':''}">{{equipCost[k]}}金</span>
+                            <br>
+                            <button type="button" class="btn btn-outline-warning" :disabled="playerGold<equipCost[k]" @click="buyEquip(k)">购买</button>
+                        </span>
                     </span>
                 </div>
                 <span class="equipTimer">
@@ -93,7 +95,7 @@ export default {
     methods: {
         buyCrystal() {
             this.$store.state.guildAttribute.gold -= this.buyCrystalGold;
-            this.$store.state.guildAttribute.crystal += this.buyCrystalAmt;
+            this.$store.state.guildAttribute.crystal += parseInt(this.buyCrystalAmt);
         },
         sellCrystal() {
             this.$store.state.guildAttribute.gold += this.sellCrystalGold;
@@ -187,7 +189,7 @@ export default {
                 return
             this.$store.state.guildAttribute.gold -= this.equipCost[index];
             var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
-            backpack.giveEquip(this.equipShop[index]);
+            backpack.giveEquip(this.equipShop[index], false);
             this.$set(this.equipShop, index, {});
         },
         showInfo($event, type, item, compare) {

@@ -85,6 +85,7 @@ export default {
     height: 20rem;
     width: 400px;
     margin: auto;
+    z-index: 9;
 }
 
 $navBarColor: #332625;

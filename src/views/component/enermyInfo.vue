@@ -1,7 +1,20 @@
 <template>
 <div class="enermy">{{attr.name+" (Lv:"+attr.lv+")"}}
     <hpmpBar :vpMin="0" :vpNow="attr.attribute.CURHP.value" :vpMax="attr.attribute.MAXHP.value" :target="enermy" :type="'hp'"></hpmpBar>
-
+    <!-- <div class="buffList">
+        <span class="buff" v-for="(v, k) in attr.buff" :key="k">{{attr}}
+            <img :title="buffType.statusBuff[k].desc" :src="buffType.statusBuff[k].iconSrc" alt="">
+            <span class="buffText">{{v}}</span>
+        </span>
+    </div> -->
+    <div class="buffList">
+        <span class="buff" v-for="(v, k) in attr.buff" :key="k">
+            <span v-if="v>0">
+                <img :title="buffType.statusDebuff[k].desc" :src="buffType.statusDebuff[k].iconSrc" alt="">
+                <span class="buffText">{{v}}</span>
+            </span>
+        </span>
+    </div>
     <div class="other">
         <div class="item">
             <img src="../../assets/icons/stat/atk.png" alt="">
@@ -53,8 +66,10 @@
 <script>
 import cTooltip from '../uiComponent/tooltip';
 import hpmpBar from '../uiComponent/hpmpBar';
+import {buffConfig} from '@/assets/config/buffConfig';
 export default {
     name: "enermyInfo",
+    mixins: [buffConfig],
     components: {cTooltip, hpmpBar},
     props: {
         enermy: {
@@ -88,6 +103,26 @@ export default {
 .enermy {
     margin: 1rem 2rem;
 }
+.buffList {
+    margin: 0.1rem 0rem 0 0rem;
+    width: 30.5rem;
+    height: 1.5rem;
+    display: flex;
+    flex-direction: row-reverse;
+    .buff{
+        position: relative;
+        img {
+            height: 1.7rem;
+        }
+        .buffText {
+            position: absolute;
+            font-size: 0.9rem;
+            top: 0.6rem;
+            left: 1rem; 
+            text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
+        }
+    }
+}
 .other {
     width: 100%;
     flex: 1;
@@ -102,7 +137,7 @@ export default {
     & > div,
     .item {
         width: 33.3%;
-        padding-top: 0.3rem;
+        padding-bottom: 0.3rem;
         display: flex;
         align-items: center;
         justify-content: flex-start;

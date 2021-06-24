@@ -51,6 +51,14 @@
                     </p>
                 </template>
             </cTooltip>
+            <div class="buffList">
+                <span class="buff" v-for="(v, k) in playerBuff.buff" :key="k">
+                    <span v-if="v>0">
+                        <img :title="buffType.statusBuff[k].desc" :src="buffType.statusBuff[k].iconSrc" alt="">
+                        <span class="buffText">{{v}}</span>
+                    </span>
+                </span>
+            </div>
 
             <div class="other">
                 <cTooltip placement="bottom">
@@ -404,9 +412,9 @@
                     <label :for="v" v-if="v!='attack'">
                         <div class="proficient-heading faq-arrow"></div>
                         <div class="proficient-text">
-                            <span class="pro-title">精通点数：{{spells.spell[v].learnt}}</span>
+                            <span class="pro-title">精通点数：{{spells.spell[v].proficient}}</span>
                             <div class="pro-content" v-for="(pro, req) in spell[v].proficient" :key="req">
-                                <span :style="{color: spells.spell[v].learnt>=req ? '#0f0':'#aaa'}">
+                                <span :style="{color: spells.spell[v].proficient>=req ? '#0f0':'#aaa'}">
                                     {{req}}: {{pro.desc}}
                                 </span>
                             </div>
@@ -427,12 +435,14 @@
 import cTooltip from '../uiComponent/tooltip';
 import hpmpBar from '../uiComponent/hpmpBar';
 import { assist } from '../../assets/js/assist';
+import { buffSystem } from '../../assets/js/buffSystem';
 import {itemConfig} from '@/assets/config/itemConfig';
 import {spellConfig} from '@/assets/config/spellConfig';
 import {equipConfig} from '@/assets/config/equipConfig';
+import {buffConfig} from '@/assets/config/buffConfig';
 export default {
     name: "charInfo",
-    mixins: [assist, itemConfig, spellConfig, equipConfig],
+    mixins: [assist, buffSystem, itemConfig, spellConfig, equipConfig, buffConfig],
     components: {cTooltip, hpmpBar, },
     data() {
         return {
@@ -458,6 +468,7 @@ export default {
         },
     },
     computed: {
+        playerBuff() { return this.$store.state.playerAttribute; },
         guild() { return this.$store.state.guildAttribute},
         baseAttribute() { return this.$store.state.baseAttribute },
         attribute() { return this.$store.state.playerAttribute.attribute },
@@ -616,8 +627,9 @@ export default {
     .lv {
         cursor: pointer;
         // border: 2px solid #ccc;
-        height: 4rem;
+        height: 3rem;
         width: 100%;
+        margin: 0.7rem 0rem 0.1rem 0rem;
         padding-left: 0.2rem;
         // margin-bottom: 0.5rem;
         display: flex;
@@ -637,18 +649,38 @@ export default {
         width: 100%;
         padding-left: 2rem;
         padding-right: 2rem;
-        margin-bottom: 0.5rem;
+        // margin-bottom: 0.5rem;
         font-weight: bold;
         display: flex;
         align-items: center;
         flex-wrap: wrap;
+    }
+    .buffList {
+        margin: -0.4rem 2rem 0 2rem;
+        width: 19.7rem;
+        height: 2rem;
+        display: flex;
+        flex-direction: row-reverse;
+        .buff{
+            position: relative;
+            img {
+                height: 1.7rem;
+            }
+            .buffText {
+                position: absolute;
+                font-size: 0.9rem;
+                top: 0.6rem;
+                left: 1rem; 
+                text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
+            }
+        }
     }
     .other {
         width: 100%;
         flex: 1;
         padding: 0.1rem;
         // border: 2px solid #ccc;
-        margin-top: 0.06rem;
+        margin-top: -0.06rem;
         flex-wrap: wrap;
         display: flex;
         img {
@@ -659,13 +691,14 @@ export default {
         .item {
             cursor: pointer;
             width: 33.3%;
-            padding-top: 0.3rem;
+            padding-top: 0.1rem;
+            padding-bottom: 0rem;
             display: flex;
             align-items: center;
             justify-content: flex-start;
             flex-direction: column;
             .value {
-                margin-top: 0.3rem;
+                // margin-top: 0.3rem;
                 font-size: 1rem;
                 flex: 1;
                 display: flex;
@@ -872,7 +905,7 @@ export default {
             opacity: 0.7;
             -webkit-transform: rotate(45deg);
                 transform: rotate(45deg);
-                z-index: 2;
+                z-index: 1;
         }
         .spell input[type="checkbox"]:checked + label > .faq-arrow {
         display: none;
@@ -886,7 +919,7 @@ export default {
             background: rgba(0,0,0,200) !important;
             height: 225px;
             transition: height 0.8s;
-            z-index: 3;
+            z-index: 2;
             -webkit-transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
             border-left: 1px solid rgba(255, 255, 255, 0.404);
             border-right: 1px solid rgba(255, 255, 255, 0.404);

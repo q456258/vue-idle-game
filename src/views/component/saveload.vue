@@ -94,11 +94,10 @@ export default {
 
                 for(var k in data.state.playerAttribute.spells.spell) {
                     if(data.state.playerAttribute.spells.spell[k].active == undefined) {
-                        data.state.playerAttribute.spells.spell[k] = {active: true, lv: 1, proficient: 0, learnt: 0};
+                        data.state.playerAttribute.spells.spell[k] = {active: true, lv: 1, proficient: 0};
                     }
                     if(data.state.playerAttribute.spells.spell[k].proficient == undefined) {
                         data.state.playerAttribute.spells.spell[k].proficient = 0;
-                        data.state.playerAttribute.spells.spell[k].learnt = 0;
                     }
                 }
 
@@ -221,7 +220,7 @@ export default {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    
+    z-index: 9;
     .save{
         margin: 2rem 0.5rem 0.5rem 0.5rem;
         width: 50%;

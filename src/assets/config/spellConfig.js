@@ -46,6 +46,7 @@ data() {
             spell_nature_thunderclap: {
                 name: '雷霆一击',
                 weight: 75,
+                // weight: 7500,
                 iconSrc: "./icons/spell/Spell_nature_thunderclap.png",
                 quality: 1,
                 level: [{
@@ -55,13 +56,29 @@ data() {
                     }
                 ],
                 proficient: {
-                    1: {
-                        effect: { stun: 10 },
-                        desc: '10%的几率麻痹敌人，使其丧失一次攻击机会'
-                    },
+                    // 0: {
+                    //     effect: { lifesteal: {stack: 2, chance: 100, target: 'self'},
+                    //     sunder: {stack: 2, chance: 100, target: 'self'} ,
+                    //     penetrate: {stack: 2, chance: 100, target: 'self'} ,
+                    //     manasteal: {stack: 2, chance: 100, target: 'self'} ,
+                    //     charge: {stack: 2, chance: 100, target: 'self'} ,
+                    //     deathImmune: {stack: 2, chance: 100, target: 'self'} ,
+                    //     void: {stack: 2, chance: 100, target: 'self'} ,
+                    //     absorb: {stack: 2, chance: 100, target: 'self'} ,
+                    //     stun: {stack: 2, chance: 100, target: 'enermy'} ,
+                    //     bleed: {stack: 2, chance: 100, target: 'enermy'} ,
+                    //     poison: {stack: 2, chance: 100, target: 'enermy'} ,
+                    //     weak: {stack: 2, chance: 100, target: 'enermy'}
+                    //     },
+                    //     desc: '20%对敌人附加一层眩晕效果'
+                    // },
                     10: {
-                        effect: { stun: 10 },
-                        desc: '10%的几率麻痹敌人，使其丧失一次攻击机会'
+                        effect: { stun: {stack: 1, chance: 10, target: 'enermy'} },
+                        desc: '10%对敌人附加一层眩晕效果'
+                    },
+                    100: {
+                        effect: { stun: {stack: 1, chance: 20, target: 'enermy'} },
+                        desc: '20%对敌人附加一层眩晕效果'
                     }
                 },
                 tag: ['攻击']
@@ -77,6 +94,16 @@ data() {
                         cost: { MP: 5000, },
                     }
                 ],
+                proficient: {
+                    10: {
+                        effect: { sunder: {stack: 1, chance: 10, target: 'self'} },
+                        desc: '10%获得一层破甲效果'
+                    },
+                    100: {
+                        effect: { sunder: {stack: 1, chance: 20, target: 'self'} },
+                        desc: '20%获得一层破甲效果'
+                    }
+                },
                 tag: ['攻击']
             },
             spell_nature_lightning: {
@@ -90,6 +117,16 @@ data() {
                         cost: { MP: 5000, },
                     }
                 ],
+                proficient: {
+                    10: {
+                        effect: { stun: {stack: 1, chance: 10, target: 'enermy'} },
+                        desc: '10%对敌人附加一层眩晕效果'
+                    },
+                    100: {
+                        effect: { stun: {stack: 1, chance: 20, target: 'enermy'} },
+                        desc: '20%对敌人附加一层眩晕效果'
+                    }
+                },
                 tag: ['智力']
             },
             spell_shadow_ritualofsacrifice: {
@@ -103,6 +140,16 @@ data() {
                         cost: { MP: 1750, },
                     }
                 ],
+                proficient: {
+                    10: {
+                        effect: { penetrate: {stack: 1, chance: 10, target: 'self'} },
+                        desc: '10%获得一层破甲效果'
+                    },
+                    100: {
+                        effect: { penetrate: {stack: 1, chance: 20, target: 'self'} },
+                        desc: '20%获得一层破甲效果'
+                    }
+                },
                 tag: ['敏捷']
             },
             spell_holy_layonhands: {
@@ -118,6 +165,16 @@ data() {
                         cost: { CURMP: 1, },
                     }
                 ],
+                proficient: {
+                    10: {
+                        effect: { deathImmune: {stack: 1, chance: 10, target: 'self'} },
+                        desc: '10%获得一层死亡免疫效果'
+                    },
+                    100: {
+                        effect: { deathImmune: {stack: 1, chance: 20, target: 'self'} },
+                        desc: '20%获得一层死亡免疫效果'
+                    }
+                },
                 tag: ['恢复']
             },
             spell_holy_holybolt: {
@@ -133,6 +190,16 @@ data() {
                         cost: { MP: 4000, },
                     }
                 ],
+                proficient: {
+                    10: {
+                        effect: { absorb: {stack: 1, chance: 10, target: 'self'} },
+                        desc: '10%获得一层吸收效果'
+                    },
+                    100: {
+                        effect: { absorb: {stack: 1, chance: 20, target: 'self'} },
+                        desc: '20%获得一层吸收效果'
+                    }
+                },
                 tag: ['恢复']
             },
             spell_arcane_starfire: {
@@ -141,8 +208,8 @@ data() {
                 iconSrc: "./icons/spell/spell_arcane_starfire.png",
                 quality: 3,
                 level: [{
-                        des: '造成元素*7点伤害',
-                        dmg: { AP: 7},
+                        des: '造成元素*5点伤害',
+                        dmg: { AP: 5},
                         cost: { MP: 10000, },
                     }
                 ],
@@ -173,6 +240,16 @@ data() {
                         cost: { MP: 1000, },
                     }
                 ],
+                proficient: {
+                    10: {
+                        effect: { stun: {stack: 1, chance: 20, target: 'enermy'} },
+                        desc: '20%对敌人附加一层眩晕效果'
+                    },
+                    100: {
+                        effect: { stun: {stack: 1, chance: 40, target: 'enermy'} },
+                        desc: '40%对敌人附加一层眩晕效果'
+                    }
+                },
                 tag: ['攻击', '护甲']
             },
             ability_druid_maul: {
@@ -186,6 +263,16 @@ data() {
                         cost: { MP: 1500, },
                     }
                 ],
+                proficient: {
+                    10: {
+                        effect: { sunder: {stack: 1, chance: 20, target: 'self'} },
+                        desc: '20%获得一层破甲效果'
+                    },
+                    100: {
+                        effect: { sunder: {stack: 1, chance: 40, target: 'self'} },
+                        desc: '40%获得一层破甲效果'
+                    }
+                },
                 tag: ['力量']
             },
             spell_fire_flamebolt: {
@@ -194,8 +281,8 @@ data() {
                 iconSrc: "./icons/spell/spell_fire_flamebolt.png",
                 quality: 1,
                 level: [{
-                        des: '造成10000+元素*5+智力*5点伤害',
-                        dmg: { FIX: 10000, AP:5, INT: 5, },
+                        des: '造成10000+元素*2+智力*5点伤害',
+                        dmg: { FIX: 10000, AP:2, INT: 5, },
                         cost: { MP: 3000, },
                     }
                 ],
