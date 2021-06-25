@@ -140,7 +140,7 @@ export default {
             backpack.$forceUpdate();
             this.equip.enhanceLv = this.equip.enhanceLv + 1;
             var equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
-            equipInfo.recomputeBaseEntryValue(this.equip);
+            equipInfo.enhanceBaseEntryValue(this.equip);
             equipInfo.activePotential(this.equip);
             this.$store.commit('set_player_attribute');
         },

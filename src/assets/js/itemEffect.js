@@ -48,11 +48,7 @@ export const itemEffect = {
                     return true;
                 case 'crystal':
                     let crystal = Math.round((1+lv*3)*(1+Math.random()))
-                    this.$store.state.guildAttribute.crystal += crystal;
-                    this.$store.commit("set_sys_info", {
-                        type: 'reward',
-                        msg: '打开宝箱获得'+crystal+'水晶'
-                    });
+                    guild.getCrystal('打开宝箱', crystal);
                     return true;
                 case 'equip':
                     let equip = equipInfo.createEquip(-1, lv, 'random', 0);  
@@ -98,11 +94,7 @@ export const itemEffect = {
                     return true;
                 case 'crystal':
                     let crystal = Math.round((1+lv*3)*(5+Math.random()))
-                    this.$store.state.guildAttribute.crystal += crystal;
-                    this.$store.commit("set_sys_info", {
-                        type: 'reward',
-                        msg: '打开宝箱获得'+crystal+'水晶'
-                    });
+                    guild.getCrystal('打开宝箱', crystal);
                     return true;
                 case 'equip':
                     let equip = equipInfo.createEquip(-1, lv, 'random', 1);  
@@ -146,11 +138,7 @@ export const itemEffect = {
                     return true;
                 case 'crystal':
                     let crystal = Math.round((1+lv*3)*(50+Math.random()))
-                    this.$store.state.guildAttribute.crystal += crystal;
-                    this.$store.commit("set_sys_info", {
-                        type: 'reward',
-                        msg: '打开宝箱获得'+crystal+'水晶'
-                    });
+                    guild.getCrystal('打开宝箱', crystal);
                     return true;
                 case 'equip':
                     let equip = equipInfo.createEquip(-1, lv, 'random', 2);  

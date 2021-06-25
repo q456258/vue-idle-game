@@ -404,22 +404,25 @@
                     <span class="spellCost" v-if="curLv.cost['MP']">
                         {{"消耗："+curLv.cost['MP']+entryInfo['MP'].name}}
                     </span>
-                    <span class="spellSwitch" v-if="v!='attack'">
-                        <input type="checkbox" name="" v-model="spells.spell[v].active">
-                        <span class="check"></span>
-                    </span>
-                    <input :id="v" type="checkbox">
-                    <label :for="v" v-if="v!='attack'">
-                        <div class="proficient-heading faq-arrow"></div>
-                        <div class="proficient-text">
-                            <span class="pro-title">精通点数：{{spells.spell[v].proficient}}</span>
-                            <div class="pro-content" v-for="(pro, req) in spell[v].proficient" :key="req">
-                                <span :style="{color: spells.spell[v].proficient>=req ? '#0f0':'#aaa'}">
-                                    {{req}}: {{pro.desc}}
-                                </span>
+                    <span v-if="v!='attack'">
+                        <span class="spellSwitch">
+                            <input type="checkbox" name="" v-model="spells.spell[v].active">
+                            <span class="check"></span>
+                        </span>
+                        <span class="proficient">
+                            <div class="proficient-heading faq-arrow"></div>
+                        </span>
+                        <label :for="v">
+                            <div class="proficient-text">
+                                <span class="pro-title">精通等级：{{spells.spell[v].proficient}}</span>
+                                <div class="pro-content" v-for="(pro, req) in spell[v].proficient" :key="req">
+                                    <span :style="{color: spells.spell[v].proficient>=req ? '#0f0':'#aaa'}">
+                                        {{req}}: {{pro.desc}}
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-                    </label>
+                        </label>
+                    </span>
                 </div>
             </div>
         </div>
@@ -789,7 +792,7 @@ export default {
         .spell {
             position: relative;
             cursor: pointer;
-            height: 5.5rem;
+            height: 5.3rem;
             border: 1px solid rgba(255, 255, 255, 0.404);
             // border-image: linear-gradient(to right, darkorchid, rgb(0, 129, 123)) 1;
             border-radius: 1rem;
@@ -868,65 +871,69 @@ export default {
                 right: 1rem;
                 top: 2.75rem;
             }
-        }
-        .proficient-text {
-            font-family: Open Sans;   
-            font-weight: 400;
-            // color: #919191;
-            width:95%;
-            margin-top:1rem;
-        }
-        .spell label {
-            display: block;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            height: 10px;
-            width: calc(100% + 2px);
-            // padding-top: 5rem;
-            margin: 4.5rem 0rem 0rem 0rem;
-        }
-        .spell label:hover .faq-arrow{
-            opacity: 1;
-        }
-        .spell .faq-arrow {
-            width: 12px;
-            height: 12px;
-            transition: -webkit-transform 0.8s;
-            transition: transform 0.8s;
-            transition: transform 0.8s, -webkit-transform 0.8s;
-            -webkit-transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            border-bottom: 3px solid rgba(158, 158, 158, 0.70);
-            border-right: 3px solid rgba(158, 158, 158, 0.70);
-            float: right;
-            position: relative;
-            top: -0.3rem;
-            left: -21rem;
-            opacity: 0.7;
-            -webkit-transform: rotate(45deg);
-                transform: rotate(45deg);
+            .proficient-text {
+                font-family: Open Sans;   
+                font-weight: 400;
+                width:95%;
+                margin-top:2rem;
+            }
+            label {
+                display: block;
+                position: relative;
+                overflow: hidden;
+                cursor: pointer;
+                height: 2rem;
+                width: 3rem;
+                margin: auto;
+                margin-top: -0.15rem;
+            }
+            .faq-arrow {
+                width: 12px;
+                height: 12px;
+                display: block;
+                transition: -webkit-transform 0.8s;
+                transition: transform 0.8s;
+                transition: transform 0.8s, -webkit-transform 0.8s;
+                -webkit-transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+                border-bottom: 3px solid rgba(158, 158, 158, 0.70);
+                border-right: 3px solid rgba(158, 158, 158, 0.70);
+                float: right;
+                position: relative;
+                top: 0.1rem;
+                left: -1rem;
+                opacity: 0.7;
+                -webkit-transform: rotate(45deg);
+                    transform: rotate(45deg);
                 z-index: 1;
-        }
-        .spell input[type="checkbox"]:checked + label > .faq-arrow {
-        display: none;
-        }
-        .spell input[type="checkbox"] {
-            display: none;
-        }
-
-        .spell input[type="checkbox"]:checked + label {
-            display: block;
-            background: rgba(0,0,0,200) !important;
-            height: 225px;
-            transition: height 0.8s;
-            z-index: 2;
-            -webkit-transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            border-left: 1px solid rgba(255, 255, 255, 0.404);
-            border-right: 1px solid rgba(255, 255, 255, 0.404);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.404);
-            border-bottom-left-radius: 1rem;
-            border-bottom-right-radius: 1rem;
-            margin-left: -1px;
+            }
+            .proficient {
+                display: block;
+                position: relative;
+                overflow: hidden;
+                cursor: pointer;
+                height: 1.3rem;
+                width: 3rem;
+                margin: auto;
+                margin-top: 3.3rem;
+            }
+            .proficient:hover {
+                opacity: 0;
+            }
+            .proficient:hover + label{
+                display: block;
+                background: rgba(0,0,0,200) !important;
+                height: 225px;
+                width: calc(100% + 2px);
+                transition: height 0.8s;
+                z-index: 2;
+                -webkit-transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+                border-left: 1px solid rgba(255, 255, 255, 0.404);
+                border-right: 1px solid rgba(255, 255, 255, 0.404);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.404);
+                border-bottom-left-radius: 1rem;
+                border-bottom-right-radius: 1rem;
+                margin-left: -1px;
+            }
         }
     }
 }

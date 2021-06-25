@@ -243,19 +243,14 @@ export default {
             }
             return potentials;
         },
-        recomputeBaseEntryValue(equip) {
+        enhanceBaseEntryValue(equip) {
             var baseEntry = equip.baseEntry;
             var percent = [
                 'STRP','AGIP','INTP','ALLP','CRIT','CRITDMG','ATKP','DEFP','APP','MRP','HPP','MPP'
             ];
 
             baseEntry.forEach(entry => {
-                if(entry.type == 'CRITDMG') {
-                    entry.base = Math.floor(qualityCoefficient * this.entryInfo[entry.type].base+equip.lv*equip.lv/200);
-                    entry.value = Math.floor(entry.base * (1+enhanceLv*0.1));
-                    entry.showVal = '+' + entry.value + '%';
-                }
-                else if(percent.indexOf(entry.type) > -1) {
+                if(percent.indexOf(entry.type) > -1) {
                     entry.value = Math.floor(entry.base * (1+equip.enhanceLv*0.1));
                     entry.showVal = '+' + entry.value + '%';
                 }

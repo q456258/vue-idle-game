@@ -186,6 +186,7 @@ export default {
         cancel() {
             this.timeRemain = this.totalTime;
             this.training = false;
+            // 不计入统计
             this.$store.state.guildAttribute.crystal += this.cost;
             clearInterval(this.countdownTimer);
         },

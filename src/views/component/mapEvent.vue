@@ -34,6 +34,7 @@ export default {
             this.battleTimer = setInterval(() => {
                 this.set_enermy_hp(-1*this.dmgCalculate(playerAttribute, enermyAttribute, 'player'));
                 if(enermyAttribute.attribute.CURHP.value == 0) {
+                    this.enermySlain(this.monsterId[enermyAttribute.name], 1);
                     this.reward(type, enermyAttribute.lv, enermyAttribute.special);
                     this.setBattleStatus(false);
                     clearInterval(this.battleTimer);
@@ -351,11 +352,7 @@ export default {
                 case 'crystal':
                     this.addStreak();
                     let crystal = Math.round((1+lv*2)*(1+Math.random()))
-                    this.$store.state.guildAttribute.crystal += crystal;
-                    this.$store.commit("set_sys_info", {
-                        type: 'reward',
-                        msg: '获得'+crystal+'水晶'
-                    });
+                    guild.getCrystal('', crystal);
                     break;
                 case 'chest':
                     item = itemInfo.createItem('inv_box_01', 1);
@@ -446,6 +443,11 @@ export default {
                 var item = itemInfo.createItem('spell_nature_thunderclap', 1);  
                 itemInfo.addItem(JSON.parse(item));
             }
+        },
+        enermySlain(id, qty){
+            var slain = {slain: {}};
+            slain['slain'][id] = qty;
+            this.$store.commit("set_statistic", slain);
         },
         addStreak() {
             this.streak += 1;

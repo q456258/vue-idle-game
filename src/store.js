@@ -417,6 +417,14 @@ export default new Vuex.Store({
     setting: {
       slowTick: false,
     },
+    statistic: {
+      slain: {},
+      gameStartDate: 0,
+      gameTime: 0,
+      awayTime: 0,
+      cumulatedGold: 0,
+      cumulatedCrystal: 0,
+    },
     exitTime: 0
   },
   mutations: {       
@@ -623,6 +631,27 @@ export default new Vuex.Store({
     clear_battle_info(state, data) {
       this.state.battleInfo.splice(0, this.state.battleInfo.length);
     },    
+    set_statistic(state, data) {
+      for(var k in data) {
+        switch(k) {
+          case 'slain':
+            for(var id in data[k]) {
+              if(state.statistic[k][id] == undefined)
+                state.statistic[k][id] = data[k][id];
+              else
+                state.statistic[k][id] += data[k][id];
+            }
+            break;
+          case 'gameStartDate':
+            if(state.statistic[k] == 0)
+              state.statistic[k] = data[k];
+            break;
+          default:
+            state.statistic[k] += data[k];
+            break;
+        }
+      }
+    },
   },
 },
 

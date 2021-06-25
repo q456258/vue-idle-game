@@ -14,8 +14,11 @@
         <a class="nav-link" id="faq" @click="switchTab('faq')">FA♂Q</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+        <a class="nav-link" id="statistic" @click="switchTab('statistic')">统计</a>
       </li>
+      <!-- <li class="nav-item">
+        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+      </li> -->
     </ul>
 
     <div class="sysInfo">
@@ -134,6 +137,7 @@
     <guild id="guild" v-show="displayPage=='guild'"></guild>
     <shop id="shop" v-show="displayPage=='shop'"></shop>
     <faq id="faq" v-show="displayPage=='faq'"></faq>
+    <statistic id="statistic" v-show="displayPage=='statistic'"></statistic>
     <backpack v-show="showBackpack"></backpack>
   </div>
 
@@ -151,6 +155,7 @@ import charInfo from './component/charInfo';
 import guild from './component/guild';
 import shop from './component/shop';
 import faq from './component/faq';
+import statistic from './component/statistic';
 import saveload from './component/saveload';
 import setting from './component/setting';
 import enermyInfo from './component/enermyInfo';
@@ -189,8 +194,9 @@ export default {
     }
   },
   components: {cTooltip, equipInfo, itemInfo, mapEvent, assist, backpack, equipEnhance, equipForge, equipPotential, 
-              charInfo, guild, shop, faq, saveload, setting, enermyInfo},
+              charInfo, guild, shop, faq, statistic, saveload, setting, enermyInfo},
   mounted() {    
+    this.$store.commit("set_statistic", {gameStartDate: Date.now()});
     //初始系统、战斗信息
     this.sysInfo = this.$store.state.sysInfo;
     this.battleInfo = this.$store.state.battleInfo;
@@ -559,6 +565,7 @@ export default {
       clearInterval(this.autoManRecovery);
       clearInterval(this.trialAutoHealthRecovery);
       this.autoHealthRecovery = setInterval(() => {
+        this.$store.commit("set_statistic", {gameTime: 1000});
         this.set_player_hp(Math.ceil(this.attribute.MAXHP.value*0.01+this.attribute.STR.value));
         if(this.attribute.CURHP.value == this.attribute.MAXHP.value && this.dungeonInfo.auto && !this.dungeonInfo.inBattle) {
           this.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
@@ -576,6 +583,7 @@ export default {
       clearInterval(this.autoManRecovery);
       clearInterval(this.trialAutoHealthRecovery);
       this.autoHealthRecovery = setInterval(() => {
+        this.$store.commit("set_statistic", {gameTime: 50});
         this.set_player_hp(Math.ceil(this.attribute.MAXHP.value*0.0005+this.attribute.STR.value/20));
         if(this.attribute.CURHP.value == this.attribute.MAXHP.value && this.dungeonInfo.auto && !this.dungeonInfo.inBattle) {
           this.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);

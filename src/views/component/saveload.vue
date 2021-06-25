@@ -92,15 +92,16 @@ export default {
             try {
                 var data = JSON.parse(Base64.decode(Base64.decode(loadData)));
 
-                for(var k in data.state.playerAttribute.spells.spell) {
-                    if(data.state.playerAttribute.spells.spell[k].active == undefined) {
-                        data.state.playerAttribute.spells.spell[k] = {active: true, lv: 1, proficient: 0};
-                    }
-                    if(data.state.playerAttribute.spells.spell[k].proficient == undefined) {
-                        data.state.playerAttribute.spells.spell[k].proficient = 0;
+                if(data.state.statistic == undefined) {
+                    data.state.statistic = {
+                        slain: {},
+                        gameStartDate: 0,
+                        gameTime: 0,
+                        awayTime: 0,
+                        cumulatedGold: 0,
+                        cumulatedCrystal: 0,
                     }
                 }
-
                 this.$store.replaceState(data.state);
                 var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
                 var mapEvent = this.findBrothersComponents(this, 'mapEvent', false)[0];
@@ -110,14 +111,10 @@ export default {
                 backpack.itemGrid = data.backpackItem;
                 
                 if(data.backpackSetting != undefined) {
-                    if(data.backpackSetting.autoSell != undefined)
-                        backpack.autoSell = data.backpackSetting.autoSell;
-                    if(data.backpackSetting.sortLocked != undefined)
-                        backpack.sortLocked = data.backpackSetting.sortLocked;
-                    if(data.backpackSetting.sellPrio != undefined)
-                        backpack.sortLocked = data.backpackSetting.sellPrio;
-                    if(data.backpackSetting.disPrio != undefined)
-                        backpack.sortLocked = data.backpackSetting.disPrio;
+                    backpack.autoSell = data.backpackSetting.autoSell;
+                    backpack.sortLocked = data.backpackSetting.sortLocked;
+                    backpack.sellPrio = data.backpackSetting.sellPrio;
+                    backpack.disPrio = data.backpackSetting.disPrio;
                 }
 
                 setting.readSetting();
@@ -133,19 +130,14 @@ export default {
                 index.switchZone('trial');
                 mapEvent.generateEnermy('trial', this.$store.state.dungeonInfo['trial'].level);
                 index.switchZone('advanture');
-                if(this.$store.state.playerAttribute.spells.spell == undefined) {
-                    this.$store.state.playerAttribute.spells = {        
-                        weight: 100,
-                        spell: {
-                            attack: true, 
-                        },
-                    }
-                }
 
                 var guild = this.findComponentDownward(index, 'guild');
                 guild.getAllCost();
-                if(data.state.exitTime != 0)
-                    this.awayReward(Date.now()-data.state.exitTime);
+                if(data.state.exitTime != 0) {
+                    var awayTime = Date.now()-data.state.exitTime;
+                    this.$store.commit("set_statistic", {awayTime: awayTime});
+                    this.awayReward(awayTime);
+                }
                 this.closeSaveload();
             } catch (error) {
                 console.log(error)
@@ -185,11 +177,7 @@ export default {
                 }
             }
             guild.getGold('外出游荡时累积', gold);
-            this.$store.state.guildAttribute.crystal += crystal;
-            this.$store.commit("set_sys_info", {
-                type: 'reward',
-                msg: '外出游荡时累积获得'+crystal+'水晶'
-            });
+            guild.getCrystal('外出游荡时累积', crystal);
         },
         closeSaveload() {
             var index = this.findComponentUpward(this, 'index');

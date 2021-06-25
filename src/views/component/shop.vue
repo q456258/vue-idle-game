@@ -1,6 +1,10 @@
 
 <template>
 	<div class="container">
+        <div class="resource">
+            金币：{{playerGold}} <br>
+            水晶：{{playerCrystal}} <br>
+        </div>
         <div class="crystalShop">
                 水晶商城
             <div class="crystal">
@@ -94,11 +98,15 @@ export default {
     },
     methods: {
         buyCrystal() {
+            var guild = this.findBrothersComponents(this, 'guild', false)[0];
             this.$store.state.guildAttribute.gold -= this.buyCrystalGold;
-            this.$store.state.guildAttribute.crystal += parseInt(this.buyCrystalAmt);
+            // this.$store.state.guildAttribute.crystal += parseInt(this.buyCrystalAmt);
+            guild.getCrystal('外出游荡时累积', this.buyCrystalAmt);
         },
         sellCrystal() {
-            this.$store.state.guildAttribute.gold += this.sellCrystalGold;
+            var guild = this.findBrothersComponents(this, 'guild', false)[0];
+            guild.getGold('', this.sellCrystalGold, false, false);
+            // this.$store.state.guildAttribute.gold += this.sellCrystalGold;
             this.$store.state.guildAttribute.crystal -= this.sellCrystalAmt;
         },
         checkBuyRange(e) {
@@ -137,6 +145,8 @@ export default {
                 return
             var msg = false;
             for(var index in this.equipShop) {
+                if(Object.keys(this.equipShop[index]).length == 0)
+                    continue;
                 if(this.equipShop[index].quality.qualityLv == 6) {
                     msg = true;
                     break;
@@ -163,6 +173,8 @@ export default {
                 return
             var msg = false;
             for(var index in this.equipShop) {
+                if(Object.keys(this.equipShop[index]).length == 0)
+                    continue;
                 if(this.equipShop[index].quality.qualityLv == 6) {
                     msg = true;
                     break;
@@ -212,11 +224,19 @@ export default {
     margin: 0.5rem 0.5rem;
     padding: 0.5rem 0.5rem;
 }
+.resource {
+    padding: 0.5rem;
+    margin: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.404);
+    border-radius: 1rem;
+    height: 100%;
+    width: 50rem;
+}
 .crystalShop {
     padding: 0.5rem;
     margin: 0.5rem;
     border: 1px solid rgba(255, 255, 255, 0.404);
-    border-radius: 1em;
+    border-radius: 1rem;
     height: 100%;
     width: 50rem;
     display: flex;
@@ -248,7 +268,7 @@ export default {
     padding: 0.5rem;
     margin: 0.5rem;
     border: 1px solid rgba(255, 255, 255, 0.404);
-    border-radius: 1em;
+    border-radius: 1rem;
     height: 100%;
     width: 50rem;
     display: flex;
