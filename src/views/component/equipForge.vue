@@ -33,7 +33,7 @@
             </div>
 
         </div>
-        <span class="cost" :class="{'warning':warning}" v-show="equip.enhanceLv < equip.maxEnhanceLv">消耗金币：{{cost}}</span>
+        <span class="cost" :class="{'warning':warning}">消耗金币：{{cost}}</span>
         <div class="confirm" @click="forgeAll()">
             重铸
             <span ref="info"></span>

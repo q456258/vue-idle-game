@@ -473,6 +473,7 @@ export default {
                 value: attribute['MAXHP'].value,
                 showValue: attribute['MAXHP'].value
             }
+            return attribute;
         },
         bossStat(attribute) {
             attribute['ATK'] = {
@@ -499,6 +500,7 @@ export default {
                 value: attribute['MAXHP'].value,
                 showValue: attribute['MAXHP'].value
             }
+            return attribute;
         }
     }
 }
