@@ -120,21 +120,23 @@ export const buffSystem = {
         },
         // 生命窃取
         lifesteal(source, dmg) {
+            var sourceType = source.type==undefined? 'player':source.type;
             if(this.buffReduce(source, source, 'lifesteal')) {
                 var lsRatio = 0.5;
                 var value = Math.round(lsRatio*dmg);
-                if(source == 'player')
-                    this.set_player_hp(value);
+                if(sourceType == 'player')
+                    this.set_player_hp(value, source);
                 else
                     this.set_enermy_hp(value);
             }
         },
         // 魔法窃取
         manasteal(source, dmg) {
+            var sourceType = source.type==undefined? 'player':source.type;
             if(this.buffReduce(source, source, 'manasteal')) {
                 var msRatio = 0.1;
                 var value = Math.round(msRatio*dmg);
-                if(source == 'player')
+                if(sourceType == 'player')
                     this.$store.commit('set_player_mp', value);
             }
         },
@@ -202,7 +204,7 @@ export const buffSystem = {
             else
                 return false;
         },    
-        set_player_hp(data) {
+        set_player_hp(data, source) {
             var target = this.$store.state.playerAttribute;
             var CURHP = target.attribute.CURHP,
                 MAXHP = target.attribute.MAXHP;
@@ -210,6 +212,11 @@ export const buffSystem = {
                 data = this.buffOnHurt(target, data);
             if(-1*data >= CURHP.value)
                 data = this.buffBeforeKilled(target, data);
+            if(-1*data >= CURHP.value) {
+                let slainBy = {};
+                slainBy[source.name] = 1;
+                this.$store.commit('set_statistic', {slainBy: slainBy});
+            }
             this.$store.commit('set_hp', {data, CURHP, MAXHP});
             CURHP.showValue = CURHP.value;
         },

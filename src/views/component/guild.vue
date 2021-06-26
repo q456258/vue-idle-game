@@ -181,7 +181,7 @@ export default {
             if(showText) {
                 this.$store.commit("set_sys_info", {
                     type: 'reward',
-                    msg: text+'获得'+crystal+'金币'
+                    msg: text+'获得'+crystal+'水晶'
                 });
             }
             this.$store.commit("set_statistic", {cumulatedCrystal: crystal});

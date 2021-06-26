@@ -35,9 +35,21 @@
             怪物击杀
             </div>
             <div class="content">
-                <span v-for="(v, k) in statistic.slain" :key="k">
+                <span v-for="(v, k) in statistic.slain" :key="k" :set="prev = k">
                     {{monsterName[k]+":  "+v}}
-                    <br v-if="k==0 || k%10==1">
+                    <br>
+                </span>
+            </div>
+        </div>
+        <div class="slainBy">
+            <div class="title">
+            死亡
+            </div>
+            <div class="content">
+                次数：{{statistic.death}}
+                <br>
+                <span v-for="(v, k) in statistic.slainBy" :key="k">
+                    {{k+":  "+v}}
                 </span>
             </div>
         </div>
@@ -126,6 +138,15 @@ export default {
     text-align: left;
 }
 .slain {
+    padding: 0.5rem;
+    margin: 0.5rem;
+    // border: 1px solid rgba(255, 255, 255, 0.404);
+    border-radius: 1rem;
+    height: 100%;
+    width: 50rem;
+    text-align: left;
+}
+.slainBy {
     padding: 0.5rem;
     margin: 0.5rem;
     // border: 1px solid rgba(255, 255, 255, 0.404);

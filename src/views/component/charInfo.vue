@@ -1,11 +1,22 @@
 <template>
     <div class="charInfo">
+        <div id="rename" v-if="player.name=='无名'">
+            <div class="container" >
+                <div class="title">创建角色</div>
+                <div class="content">
+                    <input id="name" placeholder="请输入您的角色名" type="text" @input="updateName"/>  
+                    <div id="nameAlert"></div>
+                    <button class="confirm" @click="confirmName">确认
+                    </button>
+                </div>
+            </div>
+        </div>
         <div class="user-status">
             <cTooltip placement="bottom">
                 <template v-slot:content>
                     <div class="lv">
                         <div class="value">
-                            <span>lv {{playerLv}}</span>
+                            <span>{{player.name}}&nbsp; lv {{playerLv}}</span>
                             <!-- <span>转生次数：{{playerLv}}</span> -->
                         </div>
                     </div>
@@ -52,7 +63,7 @@
                 </template>
             </cTooltip>
             <div class="buffList">
-                <span class="buff" v-for="(v, k) in playerBuff.buff" :key="k">
+                <span class="buff" v-for="(v, k) in player.buff" :key="k">
                     <span v-if="v>0">
                         <img :title="buffType.statusBuff[k].desc" :src="buffType.statusBuff[k].iconSrc" alt="">
                         <span class="buffText">{{v}}</span>
@@ -471,7 +482,7 @@ export default {
         },
     },
     computed: {
-        playerBuff() { return this.$store.state.playerAttribute; },
+        player() { return this.$store.state.playerAttribute; },
         guild() { return this.$store.state.guildAttribute},
         baseAttribute() { return this.$store.state.baseAttribute },
         attribute() { return this.$store.state.playerAttribute.attribute },
@@ -502,7 +513,26 @@ export default {
         },
 
     },
-    methods: {        
+    methods: {       
+        updateName(e) {
+            var name = e.target.value;
+            this.checkValidity(name);
+        },
+        confirmName() {
+            var alert = document.getElementById("nameAlert");
+            var name = document.getElementById("name").value;
+            if(this.checkValidity(name))
+                this.player.name = name;
+        },
+        checkValidity(name) {
+            var alert = document.getElementById("nameAlert");
+            if(name.length < 1 || name.length > 8) {
+                alert.innerHTML = "名字限定在1-8个字符之间，别一天到晚整点阴间活";
+                return false;
+            }
+            alert.innerHTML = "";
+            return true;
+        },
         unEquip() {
             var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
             for (let i = 0; i < backpack.grid.length; i++) {
@@ -616,6 +646,122 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+#rename {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    background-color: rgba(0, 0, 0, 0.774);
+    .container {
+            position: absolute;
+            top: 30%;
+            left: 0;
+            right: 0;
+            padding: 0;
+            margin: auto;
+            overflow: hidden;
+            height: 15rem;
+            width: 30rem;
+            background-color: rgba(15, 15, 15, 0.822);
+            // border-radius: 2rem;
+            box-shadow:  0 0 5px 1px rgba(255, 255, 255, 0.3);
+
+        .title {
+            font-family: "Times New Roman", Times, serif;
+            width: 100%;
+            text-align: center;
+            font-size: 1.5rem;;
+            background: linear-gradient(90deg, rgb(20, 20, 20) 0%, rgb(70, 70, 70) 50%, rgb(20, 20, 20) 100%);
+        }
+        .content {
+            margin-top: 2rem;
+            #nameAlert {
+                color: red;
+            }
+        }
+        #name {
+            width: 70%;
+            padding: 10px 5px;
+            margin: 10px 0;
+            border-top: 0;
+            border-left: 2px solid #57AAB4;
+            border-right:0;
+            border-bottom: 2px solid #57AAB4;
+            outline: none;
+            background: transparent; 
+            color: rgb(234, 234, 235);
+            font-size: 15px;
+            transition: 0.5s;
+        }
+        #name:focus{
+            border-left: 2px solid transparent;
+
+            border-bottom: 2px solid transparent;
+            animation: animINP 5s linear infinite,animBTN 5s linear infinite;;
+        }
+        .confirm {
+            position: relative;
+            display: block;
+            padding: auto;
+            margin: auto;
+            margin-top: 1rem;
+            color: #62BBC1;
+            height: 3rem;
+            width: 6rem;
+            background-color:#333;
+            font-size: 1.5rem;
+            text-align: center;
+            text-decoration: none;
+            border: 1px solid #868686;
+            overflow: hidden;
+            transition: color 150ms ease-in-out 150ms, border-color 300ms ease-out, box-shadow 300ms ease-in-out;
+            z-index: 1;
+            
+            &:after {
+                content: "";
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background-color: darken(#868686, 45%);
+                z-index: -1;
+                transform: scaleX(0);
+                transition: transform 300ms ease-out 200ms;
+            }
+            
+            &:hover {
+                color: rgb(160, 160, 160);
+                border-color: lighten(#868686, 20%);
+                box-shadow: 0 0 16px rgba(255, 255, 255, 0.1);
+                
+                &:after {
+                    transform: scaleX(1);
+                    transform-origin: 50% 50%;
+                    transition: transform 300ms ease-out;
+                }
+            }
+        }
+        @keyframes animBTN {
+            0%{
+                box-shadow:  0 0 10px 9px rgba(3,169,244,0.3);
+            }
+            33%{
+                box-shadow:  0 0 10px 9px rgba(244,65,165,0.3);
+                
+            }
+            66.9%{
+                box-shadow:  0 0 10px 9px rgba(255,235,59,0.3);
+                
+            }
+            100%{
+                box-shadow:  0 0 10px 9px rgba(3,169,244,0.3);
+            }
+        }
+    }
+}
 .user-status {
     position: absolute;
     top: 4rem;
@@ -894,7 +1040,7 @@ export default {
                 transition: -webkit-transform 0.8s;
                 transition: transform 0.8s;
                 transition: transform 0.8s, -webkit-transform 0.8s;
-                -webkit-transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+                transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
                 border-bottom: 3px solid rgba(158, 158, 158, 0.70);
                 border-right: 3px solid rgba(158, 158, 158, 0.70);
                 float: right;
@@ -926,7 +1072,22 @@ export default {
                 width: calc(100% + 2px);
                 transition: height 0.8s;
                 z-index: 2;
-                -webkit-transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+                transition-timing-function: cubic-bezier(0.68, -0.25, 0.265, 1.55);
+                border-left: 1px solid rgba(255, 255, 255, 0.404);
+                border-right: 1px solid rgba(255, 255, 255, 0.404);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.404);
+                border-bottom-left-radius: 1rem;
+                border-bottom-right-radius: 1rem;
+                margin-left: -1px;
+            }
+            label:hover {
+                display: block;
+                background: rgba(0,0,0,200) !important;
+                height: 225px;
+                width: calc(100% + 2px);
+                transition: height 0.8s;
+                z-index: 2;
+                transition-timing-function: cubic-bezier(0.68, -0.25, 0.265, 1.55);
                 border-left: 1px solid rgba(255, 255, 255, 0.404);
                 border-right: 1px solid rgba(255, 255, 255, 0.404);
                 border-bottom: 1px solid rgba(255, 255, 255, 0.404);

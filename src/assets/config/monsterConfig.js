@@ -171,7 +171,7 @@ export const monsterConfig = {
                     name: '强盗', 
                     template: {
                         MAXHP: { value: 240, showValue: 800, },        
-                        ATK: { value: 60, showValue: 10, },
+                        ATK: { value: 65, showValue: 10, },
                         DEF: { value: 2, showValue: 5, },
                         AP: { value: 0, showValue: 0, },
                         MR: { value: 50, showValue: 0, },
@@ -183,7 +183,7 @@ export const monsterConfig = {
                     name: '强盗队长', 
                     template: {
                         MAXHP: { value: 270, showValue: 800, },        
-                        ATK: { value: 65, showValue: 10, },
+                        ATK: { value: 75, showValue: 10, },
                         DEF: { value: 4, showValue: 5, },
                         AP: { value: 0, showValue: 0, },
                         MR: { value: 75, showValue: 0, },

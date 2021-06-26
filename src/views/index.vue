@@ -566,7 +566,7 @@ export default {
       clearInterval(this.trialAutoHealthRecovery);
       this.autoHealthRecovery = setInterval(() => {
         this.$store.commit("set_statistic", {gameTime: 1000});
-        this.set_player_hp(Math.ceil(this.attribute.MAXHP.value*0.01+this.attribute.STR.value));
+        this.set_player_hp(Math.ceil(this.attribute.MAXHP.value*0.01+this.attribute.STR.value), this.$store.state.playerAttribute);
         if(this.attribute.CURHP.value == this.attribute.MAXHP.value && this.dungeonInfo.auto && !this.dungeonInfo.inBattle) {
           this.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
         }
@@ -584,7 +584,7 @@ export default {
       clearInterval(this.trialAutoHealthRecovery);
       this.autoHealthRecovery = setInterval(() => {
         this.$store.commit("set_statistic", {gameTime: 50});
-        this.set_player_hp(Math.ceil(this.attribute.MAXHP.value*0.0005+this.attribute.STR.value/20));
+        this.set_player_hp(Math.ceil(this.attribute.MAXHP.value*0.0005+this.attribute.STR.value/20), this.$store.state.playerAttribute);
         if(this.attribute.CURHP.value == this.attribute.MAXHP.value && this.dungeonInfo.auto && !this.dungeonInfo.inBattle) {
           this.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
         }

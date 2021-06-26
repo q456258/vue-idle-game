@@ -51,6 +51,7 @@
         </ul>
         <ul v-show="visible && displayPage=='item'" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
             <li @click="useItem()">使用</li>
+            <li @click="useAllItem()" v-if="itemGrid[currentItemIndex].quantity > 1">全部使用</li>
             <li @click="throwItem()">丢弃</li>
         </ul>
         <div class="footer">
@@ -250,14 +251,22 @@ export default {
             return true;
         },
         useItem(e, k) {
+            this.closeInfo();
             if(k != undefined)
                 this.currentItemIndex = k; 
             var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
             var success = this.callItemEffect(this.itemGrid[this.currentItemIndex].type);
             if(success)
                 itemInfo.removeItemByIndex(this.currentItemIndex, 1);
-            this.closeInfo();
             this.$forceUpdate();
+            return success;
+        },
+        useAllItem(e, k){
+            var autoUse = setInterval(() => {
+                let used = this.useItem(e, k);
+                if(!used || this.itemGrid[k] == {})
+                    clearInterval(autoUse);
+            }, 50);
         },
         throwItem() {
             // this.itemGrid[this.currentItemIndex] = {};
@@ -560,27 +569,45 @@ export default {
     }
     .contextmenu {
         margin: 0;
-        background: #000;
-        border: 1px solid #fff;
+        background: rgba(0, 0, 0, 0.575);
         z-index: 3000;
         position: absolute;
         list-style-type: none;
         border-radius: 4px;
         font-size: 12px;
         font-weight: 400;
-        color: #fff;
-        box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.3);
+        color: #ccc;
         li {
             margin: 0;
-            padding: 9px 16px;
+            padding: 6px 12px;
             cursor: pointer;
-            border-top: 1px solid #ccc;
-            margin-top: -1px;
             font-size: 14px;
-            letter-spacing: 6px;
+            letter-spacing: 2px;
+            background: linear-gradient(to bottom, rgb(126, 126, 126) 0%, rgb(61, 50, 33) 50%, rgb(49, 38, 27) 100%);
+            box-shadow: inset 0px 0px 1px 1px rgba(20, 16, 16, 0.5);
+            border-radius: 0.4rem;
+            min-width: 6rem;
+            height: 2.5rem; 
+            margin-top: 0.05rem;
             &:hover {
-                color: #ccc;
+                color: #fff;
+            background: linear-gradient(to bottom, rgb(172, 172, 172) 0%, rgb(73, 60, 39) 50%, rgb(56, 44, 32) 100%);
             }
+        }
+        li::after {
+            content: "";
+            display: block;
+            height: 0.1rem;
+            position: relative;
+            top: 0rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100%);
+            // background: rgb(94, 58, 58);
+            border-radius: 100%;
+            
+            opacity: 0.7;
+            background-image: linear-gradient(-270deg, rgba(167, 160, 160, 0) 0%, #ffffff93 40%, #ffffff93 60%, rgba(255,255,255,0.00) 100%);
         }
     }
     .close {

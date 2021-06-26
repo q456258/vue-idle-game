@@ -56,9 +56,10 @@ export default {
                     });
                     return;
                 } 
-                this.set_player_hp(-1*this.dmgCalculate(enermyAttribute, playerAttribute, 'enermy'));
+                this.set_player_hp(-1*this.dmgCalculate(enermyAttribute, playerAttribute, 'enermy'), enermyAttribute);
                 // this.$store.commit('set_player_hp', -1*this.dmgCalculate(enermyAttribute, playerAttribute, 'enermy'));
                 if(playerAttribute.attribute.CURHP.value == 0) {
+                    this.$store.commit("set_statistic", {death: 1});
                     this.endStreak();
                     clearInterval(this.battleTimer);
                     this.setBattleStatus(false);
@@ -125,11 +126,6 @@ export default {
                 showValue: attribute['MAXHP'].value
             }
             
-            val = this.getDefRed(attribute['DEF'].value);
-            attribute['DEFRED'] = {
-                value: val,
-                showValue: val+'%'
-            }
             if(this.$store.state.dungeonInfo.current == 'trial') {
                 attribute['RECOVERY'] = {
                     value: Math.round(attribute['MAXHP'].value*0.01),
@@ -147,6 +143,11 @@ export default {
                     enermyAttribute.name = this.bossName[Math.floor((level-1)/10)];
                     attribute = this.bossStat(attribute);
                 }
+            }
+            val = this.getDefRed(attribute['DEF'].value);
+            attribute['DEFRED'] = {
+                value: val,
+                showValue: val+'%'
             }
             this.$store.commit('set_enermy_attribute', enermyAttribute);
         },
@@ -318,7 +319,7 @@ export default {
                     heal += source.attribute[attr].value*heals.heal[attr];
             }
             heal = Math.round(heal);
-            this.set_player_hp(heal);
+            this.set_player_hp(heal, source);
             // this.$store.commit('set_player_hp', heal);
             return heal;
         },
@@ -457,16 +458,16 @@ export default {
         },
         eliteStat(attribute) {
             attribute['ATK'] = {
-                value: attribute['ATK'].value*2,
-                showValue: attribute['ATK'].value*2
+                value: attribute['ATK'].value*3,
+                showValue: attribute['ATK'].value*3
             }
             attribute['AP'] = {
-                value: attribute['AP'].value*2,
-                showValue: attribute['AP'].value*2
+                value: attribute['AP'].value*3,
+                showValue: attribute['AP'].value*3
             }
             attribute['MAXHP'] = {
-                value: attribute['MAXHP'].value*10,
-                showValue: attribute['MAXHP'].value*10
+                value: attribute['MAXHP'].value*15,
+                showValue: attribute['MAXHP'].value*15
             }
             attribute['CURHP'] = {
                 value: attribute['MAXHP'].value,
@@ -475,16 +476,16 @@ export default {
         },
         bossStat(attribute) {
             attribute['ATK'] = {
-                value: attribute['ATK'].value*5,
-                showValue: attribute['ATK'].value*5
+                value: attribute['ATK'].value*7,
+                showValue: attribute['ATK'].value*7
             }
             attribute['DEF'] = {
                 value: attribute['DEF'].value*2,
                 showValue: attribute['DEF'].value*2
             }
             attribute['AP'] = {
-                value: attribute['AP'].value*5,
-                showValue: attribute['AP'].value*5
+                value: attribute['AP'].value*7,
+                showValue: attribute['AP'].value*7
             }
             attribute['MR'] = {
                 value: attribute['MR'].value*2,
