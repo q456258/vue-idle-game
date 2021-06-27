@@ -53,6 +53,18 @@ data() {
                         des: '造成攻击力*1.1点伤害',
                         dmg: { ATK: 1.1, },
                         cost: { MP: 500, },
+                    }, {
+                        des: '造成攻击力*1.2点伤害',
+                        dmg: { ATK: 1.2, },
+                        cost: { MP: 1500, },
+                    }, {
+                        des: '造成攻击力*1.3点伤害',
+                        dmg: { ATK: 1.3, },
+                        cost: { MP: 4500, },
+                    }, {
+                        des: '造成攻击力*1.4点伤害',
+                        dmg: { ATK: 1.4, },
+                        cost: { MP: 13500, },
                     }
                 ],
                 proficient: {
@@ -91,7 +103,11 @@ data() {
                 level: [{
                         des: '造成攻击力*2点伤害',
                         dmg: { ATK: 2, },
-                        cost: { MP: 5000, },
+                        cost: { MP: 15000, },
+                    }, {
+                        des: '造成攻击力*2.5点伤害',
+                        dmg: { ATK: 2.5, },
+                        cost: { MP: 50000, },
                     }
                 ],
                 proficient: {
@@ -112,9 +128,17 @@ data() {
                 iconSrc: "./icons/spell/Spell_nature_lightning.png",
                 quality: 2,
                 level: [{
-                        des: '造成50000+智力*15点伤害。',
-                        dmg: { FIX: 50000, INT: 15, },
+                        des: '造成5000+智力*10点伤害。',
+                        dmg: { FIX: 5000, INT: 10, },
                         cost: { MP: 5000, },
+                    }, {
+                        des: '造成30000+智力*12点伤害。',
+                        dmg: { FIX: 30000, INT: 12, },
+                        cost: { MP: 15000, },
+                    }, {
+                        des: '造成100000+智力*15点伤害。',
+                        dmg: { FIX: 100000, INT: 15, },
+                        cost: { MP: 45000, },
                     }
                 ],
                 proficient: {
@@ -138,16 +162,24 @@ data() {
                         des: '造成攻击力*0.8+敏捷*10点伤害',
                         dmg: { ATK:0.8, AGI: 10, },
                         cost: { MP: 1750, },
+                    }, {
+                        des: '造成攻击力*0.9+敏捷*12点伤害',
+                        dmg: { ATK:0.9, AGI: 12, },
+                        cost: { MP: 5000, },
+                    }, {
+                        des: '造成攻击力*1+敏捷*15点伤害',
+                        dmg: { ATK:1, AGI: 15, },
+                        cost: { MP: 17500, },
                     }
                 ],
                 proficient: {
                     10: {
                         effect: { penetrate: {stack: 1, chance: 10, target: 'self'} },
-                        desc: '10%获得一层破甲效果'
+                        desc: '10%获得一层穿透效果'
                     },
                     100: {
                         effect: { penetrate: {stack: 1, chance: 20, target: 'self'} },
-                        desc: '20%获得一层破甲效果'
+                        desc: '20%获得一层穿透效果'
                     }
                 },
                 tag: ['敏捷']
@@ -163,6 +195,12 @@ data() {
                         ap: {},
                         heal: { MAXHP: 1 },
                         cost: { CURMP: 1, },
+                    }, {
+                        des: '消耗90%当前魔法值，恢复自身所有生命值',
+                        dmg: {},
+                        ap: {},
+                        heal: { MAXHP: 1 },
+                        cost: { CURMP: 0.9, },
                     }
                 ],
                 proficient: {
@@ -183,11 +221,29 @@ data() {
                 iconSrc: "./icons/spell/spell_holy_holybolt.png",
                 quality: 2,
                 level: [{
-                        des: '恢复自身20%最大生命值',
+                        des: '恢复自身10000+5%最大生命值',
                         dmg: {},
                         ap: {},
-                        heal: { MAXHP: 0.2 },
-                        cost: { MP: 4000, },
+                        heal: { FIX: 10000, MAXHP: 0.05 },
+                        cost: { MP: 800, },
+                    }, {
+                        des: '恢复自身20000+10%最大生命值',
+                        dmg: {},
+                        ap: {},
+                        heal: { FIX: 20000, MAXHP: 0.1 },
+                        cost: { MP: 2500, },
+                    }, {
+                        des: '恢复自身30000+15%最大生命值',
+                        dmg: {},
+                        ap: {},
+                        heal: { FIX: 30000, MAXHP: 0.15 },
+                        cost: { MP: 7000, },
+                    }, {
+                        des: '恢复自身40000+20%最大生命值',
+                        dmg: {},
+                        ap: {},
+                        heal: { FIX: 40000, MAXHP: 0.2 },
+                        cost: { MP: 10000, },
                     }
                 ],
                 proficient: {
@@ -211,6 +267,10 @@ data() {
                         des: '造成元素*5点伤害',
                         dmg: { AP: 5},
                         cost: { MP: 10000, },
+                    }, {
+                        des: '造成元素*7点伤害',
+                        dmg: { AP: 7},
+                        cost: { MP: 30000, },
                     }
                 ],
                 tag: ['元素']
@@ -221,10 +281,20 @@ data() {
                 iconSrc: "./icons/spell/spell_nature_starfall.png",
                 quality: 2,
                 level: [{
+                        des: '元素伤害效果*2',
+                        dmg: {},
+                        ap: { AP: 2 },
+                        cost: { MP: 4000, },
+                    }, {
                         des: '元素伤害效果*2.5',
                         dmg: {},
                         ap: { AP: 2.5 },
-                        cost: { MP: 5000, },
+                        cost: { MP: 10000, },
+                    }, {
+                        des: '元素伤害效果*3',
+                        dmg: {},
+                        ap: { AP: 3 },
+                        cost: { MP: 30000, },
                     }
                 ],
                 tag: ['元素']
@@ -235,9 +305,21 @@ data() {
                 iconSrc: "./icons/spell/ability_warrior_shieldbash.png",
                 quality: 1,
                 level: [{
+                        des: '造成攻击力*0.5+护甲*4点伤害',
+                        dmg: { ATK: 0.5, DEF: 4 },
+                        cost: { MP: 500, },
+                    }, {
                         des: '造成攻击力*0.5+护甲*5点伤害',
                         dmg: { ATK: 0.5, DEF: 5 },
-                        cost: { MP: 1000, },
+                        cost: { MP: 1200, },
+                    }, {
+                        des: '造成攻击力*0.5+护甲*6点伤害',
+                        dmg: { ATK: 0.5, DEF: 6 },
+                        cost: { MP: 2500, },
+                    }, {
+                        des: '造成攻击力*0.5+护甲*7点伤害',
+                        dmg: { ATK: 0.5, DEF: 7 },
+                        cost: { MP: 5000, },
                     }
                 ],
                 proficient: {
@@ -258,9 +340,21 @@ data() {
                 iconSrc: "./icons/spell/ability_druid_maul.png",
                 quality: 1,
                 level: [{
-                        des: '造成攻击*1+力量*7点伤害',
-                        dmg: { ATK:1, STR: 7 },
+                        des: '造成攻击*1+力量*3点伤害',
+                        dmg: { ATK:1, STR: 3 },
+                        cost: { MP: 500, },
+                    }, {
+                        des: '造成攻击*1+力量*6点伤害',
+                        dmg: { ATK:1, STR: 6 },
                         cost: { MP: 1500, },
+                    }, {
+                        des: '造成攻击*1+力量*9点伤害',
+                        dmg: { ATK:1, STR: 9 },
+                        cost: { MP: 5000, },
+                    }, {
+                        des: '造成攻击*1+力量*12点伤害',
+                        dmg: { ATK:1, STR: 12 },
+                        cost: { MP: 10000, },
                     }
                 ],
                 proficient: {
@@ -273,7 +367,7 @@ data() {
                         desc: '40%获得一层破甲效果'
                     }
                 },
-                tag: ['力量']
+                tag: ['攻击', '力量']
             },
             spell_fire_flamebolt: {
                 name: '火球术',
@@ -281,12 +375,24 @@ data() {
                 iconSrc: "./icons/spell/spell_fire_flamebolt.png",
                 quality: 1,
                 level: [{
-                        des: '造成10000+元素*2+智力*5点伤害',
-                        dmg: { FIX: 10000, AP:2, INT: 5, },
+                        des: '造成5000+元素*2+智力*5点伤害',
+                        dmg: { FIX: 5000, AP:2, INT: 5, },
+                        cost: { MP: 600, },
+                    }, {
+                        des: '造成30000+元素*2+智力*5点伤害',
+                        dmg: { FIX: 30000, AP:2, INT: 5, },
                         cost: { MP: 3000, },
+                    }, {
+                        des: '造成100000+元素*2+智力*5点伤害',
+                        dmg: { FIX: 100000, AP:2, INT: 5, },
+                        cost: { MP: 10000, },
+                    }, {
+                        des: '造成300000+元素*2+智力*5点伤害',
+                        dmg: { FIX: 300000, AP:2, INT: 5, },
+                        cost: { MP: 30000, },
                     }
                 ],
-                tag: ['智力']
+                tag: ['智力', '元素']
             },
         },
     }

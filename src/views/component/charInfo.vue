@@ -1099,29 +1099,50 @@ export default {
     }
 }
 .contextmenu {
-    margin: 0;
-    background: #000;
-    border: 1px solid #fff;
-    z-index: 3000;
-    position: absolute;
-    list-style-type: none;
-    border-radius: 4px;
-    font-size: 12px;
-    font-weight: 400;
-    color: #fff;
-    box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.3);
-    li {
         margin: 0;
-        padding: 9px 16px;
-        cursor: pointer;
-        border-top: 1px solid #ccc;
-        margin-top: -1px;
-        font-size: 14px;
-        letter-spacing: 6px;
-        &:hover {
-            color: #ccc;
+        background: rgba(0, 0, 0, 0.575);
+        z-index: 3000;
+        position: absolute;
+        list-style-type: none;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 400;
+        color: #ccc;
+        li {
+            border-color: #111;
+            color: rgb(185, 185, 185);
+            background: linear-gradient(180deg,#555 0%,#222 49%, rgb(31, 21, 21) 51%,rgb(34, 24, 24) 100%);
+            border-radius: 5px;
+            box-shadow: inset 0px 1px 0px rgba(255,255,255,.5),0px 1px 3px rgba(0,0,0,0.3);
+            margin: 0;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 14px;
+            letter-spacing: 2px;
+            border-radius: 0.4rem;
+            min-width: 6rem;
+            height: 2.5rem; 
+            margin-top: 0.05rem;
+            &:hover {
+                color: #eee;
+                background: linear-gradient(180deg,rgb(116, 116, 116) 0%,#222 49%, rgb(34, 23, 23) 51%,rgb(37, 26, 26) 100%);
+            }
         }
-    }
+        li::after {
+            content: "";
+            display: block;
+            height: 0.1rem;
+            position: relative;
+            top: 0rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100%);
+            // background: rgb(94, 58, 58);
+            border-radius: 100%;
+            
+            opacity: 0.7;
+            background-image: linear-gradient(-270deg, rgba(167, 160, 160, 0) 0%, #ffffff93 40%, #ffffff93 60%, rgba(255,255,255,0.00) 100%);
+        }
 }
 .nav {
     // background-color: #ccc;

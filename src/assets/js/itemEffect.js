@@ -1,12 +1,68 @@
 export const itemEffect = {
+// 品质	名	等级
+// 1	spell_nature_thunderclap	20
+// 	spell_nature_thunderclap2	45
+// 	spell_nature_thunderclap3	70
+// 	spell_nature_thunderclap4	95
+// 	spell_shadow_ritualofsacrifice	50
+// 	spell_shadow_ritualofsacrifice2	80
+// 	spell_shadow_ritualofsacrifice3	105
+// 	ability_warrior_shieldbash	30
+// 	ability_warrior_shieldbash2	55
+// 	ability_warrior_shieldbash3	80
+// 	ability_warrior_shieldbash4	105
+// 	ability_druid_maul	35
+// 	ability_druid_maul2	60
+// 	ability_druid_maul3	85
+// 	ability_druid_maul4	110
+// 	spell_fire_flamebolt	25
+// 	spell_fire_flamebolt2	50
+// 	spell_fire_flamebolt3	75
+// 	spell_fire_flamebolt4	100
+// 2	spell_nature_starfall	60
+// 	spell_nature_starfall2	85
+// 	spell_nature_starfall3	110
+// 	spell_holy_holybolt	40
+// 	spell_holy_holybolt2	65
+// 	spell_holy_holybolt3	90
+// 	spell_holy_holybolt4	115
+// 	spell_nature_lightning	40
+// 	spell_nature_lightning2	65
+// 	spell_nature_lightning3	90
+		
+// 3	spell_arcane_starfire	70
+// 	spell_arcane_starfire2	95
+// 	spell_holy_crusaderstrike	80
+// 	spell_holy_crusaderstrike2	105
+// 	spell_holy_layonhands	90
+// 	spell_holy_layonhands2	115
+    data() {
+        return {
+            allSpell: ['spell_nature_thunderclap', 'spell_nature_thunderclap2', 'spell_nature_thunderclap3', 'spell_nature_thunderclap4', 
+                'spell_shadow_ritualofsacrifice', 'spell_shadow_ritualofsacrifice2', 'spell_shadow_ritualofsacrifice3', 
+                'ability_warrior_shieldbash', 'ability_warrior_shieldbash2', 'ability_warrior_shieldbash3', 'ability_warrior_shieldbash4', 
+                'ability_druid_maul', 'ability_druid_maul2', 'ability_druid_maul3', 'ability_druid_maul4', 
+                'spell_fire_flamebolt', 'spell_fire_flamebolt2', 'spell_fire_flamebolt3', 'spell_fire_flamebolt4', 
+                'spell_nature_starfall', 'spell_nature_starfall2', 'spell_nature_starfall3', 
+                'spell_holy_holybolt', 'spell_holy_holybolt2', 'spell_holy_holybolt3', 'spell_holy_holybolt4', 
+                'spell_nature_lightning', 'spell_nature_lightning2', 'spell_nature_lightning3', 
+                'spell_arcane_starfire', 'spell_arcane_starfire2', 
+                'spell_holy_crusaderstrike', 'spell_holy_crusaderstrike2', 
+                'spell_holy_layonhands', 'spell_holy_layonhands2']
+        }
+    },
     methods: {
         callItemEffect(type) {
             var used = false;
             var spellName = '';
-            var spellBook = ['spell_nature_thunderclap', 'spell_nature_lightning', 'spell_holy_crusaderstrike', 'spell_shadow_ritualofsacrifice', 'spell_holy_layonhands',
-            'spell_fire_flamebolt', 'ability_druid_maul', 'ability_warrior_shieldbash', 'spell_nature_starfall', 'spell_arcane_starfire', 'spell_holy_holybolt'];
-            if(spellBook.indexOf(type) != -1) {
+            var spellLv = 0;
+            if(this.allSpell.indexOf(type) != -1) {
                 spellName = type;
+                let tempLv = parseInt(type.charAt(type.length-1));
+                if(!isNaN(tempLv)) {
+                    spellLv = tempLv;
+                    spellName = spellName.substring(0, type.length-1);
+                }
                 type = 'spellBook';
             }
             switch(type) {
@@ -20,7 +76,7 @@ export const itemEffect = {
                     used = this.inv_box_03();
                     break;
                 case 'spellBook':
-                    used = this.learnSpell(spellName);
+                    used = this.learnSpell(spellName, spellLv);
                     if(used) {
                         // 刷新一下过滤技能列表
                         var charInfo = this.findBrothersComponents(this, 'charInfo', false)[0];
@@ -31,6 +87,71 @@ export const itemEffect = {
                     break;
             }
             return used;
+        },
+        getSpellList(lv, rank) {
+            var spellList = ['spell_nature_thunderclap'];
+            var temp = [];
+            switch(rank) {
+                case 1:
+                    if(lv > 20) {
+                        temp = ['spell_nature_thunderclap2', 'spell_nature_lightning', 'spell_holy_holybolt', 
+                            'ability_warrior_shieldbash','ability_druid_maul', 'spell_fire_flamebolt'];
+                        spellList = spellList.concat(temp);
+                    }
+                    if(lv > 50) {
+                        temp = ['spell_nature_thunderclap3', 'spell_nature_lightning2', 'spell_shadow_ritualofsacrifice', 'spell_holy_holybolt2', 
+                            'spell_nature_starfall', 'ability_warrior_shieldbash2', 'ability_druid_maul2', 'spell_fire_flamebolt2'];
+                        spellList = spellList.concat(temp);
+                    }
+                    if(lv > 75) {
+                        temp = ['spell_nature_thunderclap4', 'spell_nature_lightning3', 'spell_shadow_ritualofsacrifice2', 
+                            'spell_holy_holybolt3', 'spell_nature_starfall2', 'ability_warrior_shieldbash3',
+                            'ability_druid_maul3', 'spell_fire_flamebolt3'];
+                        spellList = spellList.concat(temp);
+                    }
+                    if(lv > 100) {
+                        temp = ['spell_shadow_ritualofsacrifice3', 'spell_nature_starfall2', 'ability_warrior_shieldbash4', 
+                            'ability_druid_maul4','spell_fire_flamebolt4'];
+                        spellList = spellList.concat(temp);
+                    }
+                    break;
+                case 2:
+                    if(lv > 20) {
+                        temp = ['spell_nature_thunderclap2', 'spell_nature_lightning', 'spell_holy_holybolt', 
+                            'ability_warrior_shieldbash','ability_druid_maul', 'spell_fire_flamebolt'];
+                        spellList = spellList.concat(temp);
+                    } else if(lv > 50) {
+                        temp = ['spell_nature_thunderclap3', 'spell_nature_lightning2', 'spell_shadow_ritualofsacrifice', 'spell_holy_holybolt2', 
+                            'spell_arcane_starfire','spell_nature_starfall', 'ability_warrior_shieldbash2', 'ability_druid_maul2', 'spell_fire_flamebolt2'];
+                        spellList = spellList.concat(temp);
+                    } else if(lv > 75) {
+                        temp = ['spell_nature_thunderclap4', 'spell_nature_lightning3', 'spell_holy_crusaderstrike', 'spell_shadow_ritualofsacrifice2', 
+                            'spell_holy_layonhands','spell_holy_holybolt3', 'spell_arcane_starfire2', 'spell_nature_starfall2', 'ability_warrior_shieldbash3',
+                            'ability_druid_maul3', 'spell_fire_flamebolt3'];
+                        spellList = spellList.concat(temp);
+                    } else if(lv > 100) {
+                        temp = ['spell_holy_crusaderstrike2', 'spell_shadow_ritualofsacrifice3', 'spell_nature_starfall2', 'ability_warrior_shieldbash4', 
+                            'ability_druid_maul4','spell_fire_flamebolt4'];
+                        spellList = spellList.concat(temp);
+                    }
+                    break;
+                case 3:
+                    if(lv > 20) {
+                        temp = ['spell_holy_layonhands', 'spell_holy_layonhands2', 'spell_holy_crusaderstrike', 'spell_holy_crusaderstrike2', 
+                            'spell_arcane_starfire','spell_arcane_starfire2'];
+                        spellList = spellList.concat(temp);
+                    } else if(lv > 50) {
+                        temp = ['spell_holy_layonhands', 'spell_holy_layonhands2', 'spell_holy_crusaderstrike', 'spell_holy_crusaderstrike2', 
+                            'spell_arcane_starfire','spell_arcane_starfire2'];
+                        spellList = spellList.concat(temp);
+                    } else if(lv > 75) {
+                        temp = ['spell_holy_layonhands', 'spell_holy_layonhands2', 'spell_holy_crusaderstrike', 'spell_holy_crusaderstrike2', 
+                            'spell_arcane_starfire','spell_arcane_starfire2'];
+                        spellList = spellList.concat(temp);
+                    }
+                    break;
+            }
+            return spellList;
         },
         //宝箱
         inv_box_01() {
@@ -61,9 +182,7 @@ export const itemEffect = {
                     backpack.giveEquip(equip);
                     return true;
                 case 'spell':
-                    let spell = ['spell_nature_thunderclap', 'spell_nature_lightning', 'spell_shadow_ritualofsacrifice',
-                        'spell_holy_layonhands', 'spell_fire_flamebolt', 'ability_druid_maul', 'ability_warrior_shieldbash', 'spell_nature_starfall', 
-                        'spell_holy_holybolt'];
+                    let spell = this.getSpellList(lv, 1);
                     let spellType = spell[Math.floor(Math.random()*spell.length)];
                     let quantity = 1;
                     let item = itemInfo.createItem(spellType, quantity);  
@@ -107,7 +226,7 @@ export const itemEffect = {
                     backpack.giveEquip(equip);
                     return true;
                 case 'spell':
-                    let spell = ['spell_holy_crusaderstrike', 'spell_arcane_starfire'];
+                    let spell = this.getSpellList(lv, 2);
                     let spellType = spell[Math.floor(Math.random()*spell.length)];
                     let quantity = 1;
                     let item = itemInfo.createItem(spellType, quantity);  
@@ -151,7 +270,7 @@ export const itemEffect = {
                     backpack.giveEquip(equip);
                     return true;
                 case 'spell':
-                    let spell = ['spell_holy_crusaderstrike', 'spell_arcane_starfire'];
+                    let spell = this.getSpellList(lv, 3);
                     let spellType = spell[Math.floor(Math.random()*spell.length)];
                     let quantity = 1;
                     let item = itemInfo.createItem(spellType, quantity);  
@@ -167,10 +286,13 @@ export const itemEffect = {
             }
             return false;
         },
-        learnSpell(spellName) {
+        learnSpell(spellName, lv) {
             var spellList = this.$store.state.playerAttribute.spells;
             if(spellList.spell[spellName] != undefined) {
-                this.$store.state.playerAttribute.spells.spell[spellName].proficient += 1;
+                if(spellList.spell[spellName].lv < lv)
+                    this.$store.state.playerAttribute.spells.spell[spellName].lv += 1;
+                else
+                    this.$store.state.playerAttribute.spells.spell[spellName].proficient += lv;
                 return true;
             }
             else {

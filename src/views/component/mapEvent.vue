@@ -289,7 +289,7 @@ export default {
         getSpellDmg(spell, source) {
             var spellLv = source.spells == undefined ? 0 : source.spells.spell[spell].lv-1;
             var dmgs = this.spell[spell].level[spellLv];
-            var dmg = dmgs.dmg['fixed'] == undefined ? 0 : dmgs.dmg['fixed'];
+            var dmg = dmgs.dmg['FIX'] == undefined ? 0 : dmgs.dmg['FIX'];
             for(var attr in dmgs.dmg) {
                 if(source.attribute[attr] != undefined)
                     dmg += source.attribute[attr].value*dmgs.dmg[attr];
@@ -301,7 +301,7 @@ export default {
             var apDmgs = this.spell[spell].level[spellLv];
             if(!apDmgs.ap)
                 return source.attribute['AP'].value;
-            var ap = apDmgs.ap['fixed'] == undefined ? 0 : apDmgs.ap['fixed'];
+            var ap = apDmgs.ap['FIX'] == undefined ? 0 : apDmgs.ap['FIX'];
             for(var attr in apDmgs.ap) {
                 if(source.attribute[attr] != undefined)
                     ap += source.attribute[attr].value*apDmgs.ap[attr];
@@ -313,7 +313,7 @@ export default {
             var heals = this.spell[spell].level[spellLv];
             if(!heals.heal)
                 return 0;
-            var heal = heals.heal['fixed'] == undefined ? 0 : heals.heal['fixed'];
+            var heal = heals.heal['FIX'] == undefined ? 0 : heals.heal['FIX'];
             for(var attr in heals.heal) {
                 if(source.attribute[attr] != undefined)
                     heal += source.attribute[attr].value*heals.heal[attr];
@@ -458,12 +458,16 @@ export default {
         },
         eliteStat(attribute) {
             attribute['ATK'] = {
-                value: attribute['ATK'].value*3,
-                showValue: attribute['ATK'].value*3
+                value: attribute['ATK'].value*4,
+                showValue: attribute['ATK'].value*4
+            }
+            attribute['DEF'] = {
+                value: attribute['DEF'].value+200,
+                showValue: attribute['DEF'].value+200
             }
             attribute['AP'] = {
-                value: attribute['AP'].value*3,
-                showValue: attribute['AP'].value*3
+                value: attribute['AP'].value*2,
+                showValue: attribute['AP'].value*2
             }
             attribute['MAXHP'] = {
                 value: attribute['MAXHP'].value*15,
@@ -477,20 +481,20 @@ export default {
         },
         bossStat(attribute) {
             attribute['ATK'] = {
-                value: attribute['ATK'].value*7,
-                showValue: attribute['ATK'].value*7
+                value: (attribute['ATK'].value+200)*7,
+                showValue: (attribute['ATK'].value+200)*7,
             }
             attribute['DEF'] = {
                 value: attribute['DEF'].value*2,
                 showValue: attribute['DEF'].value*2
             }
             attribute['AP'] = {
-                value: attribute['AP'].value*7,
-                showValue: attribute['AP'].value*7
+                value: attribute['AP'].value*3,
+                showValue: attribute['AP'].value*3
             }
             attribute['MR'] = {
-                value: attribute['MR'].value*2,
-                showValue: attribute['MR'].value*2
+                value: attribute['MR'].value*3,
+                showValue: attribute['MR'].value*3
             }
             attribute['MAXHP'] = {
                 value: attribute['MAXHP'].value*100,

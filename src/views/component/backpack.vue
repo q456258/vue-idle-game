@@ -254,6 +254,8 @@ export default {
             this.closeInfo();
             if(k != undefined)
                 this.currentItemIndex = k; 
+            if(this.itemGrid[this.currentItemIndex].lvReq > this.playerLv)
+                return false;
             var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
             var success = this.callItemEffect(this.itemGrid[this.currentItemIndex].type);
             if(success)
@@ -591,7 +593,7 @@ export default {
             margin-top: 0.05rem;
             &:hover {
                 color: #fff;
-            background: linear-gradient(to bottom, rgb(172, 172, 172) 0%, rgb(73, 60, 39) 50%, rgb(56, 44, 32) 100%);
+                background: linear-gradient(to bottom, rgb(172, 172, 172) 0%, rgb(73, 60, 39) 50%, rgb(56, 44, 32) 100%);
             }
         }
         li::after {

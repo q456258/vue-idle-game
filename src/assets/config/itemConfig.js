@@ -136,7 +136,45 @@ export const itemConfig = {
                         desc: '学习技能【雷霆一击】',
                         iconSrc: "./icons/spell/Spell_nature_thunderclap.png",
                     },
-                    stack: false,
+                    stack: true,
+                    maxStack: 20,
+                    lvReq: 20
+                },
+                spell_nature_thunderclap2: {
+                    quality: 1,
+                    description: {
+                        name: '【二级】雷霆一击技能书',
+                        category: '消耗品',
+                        desc: '提升一级技能【雷霆一击】，上限为二级',
+                        iconSrc: "./icons/spell/Spell_nature_thunderclap.png",
+                    },
+                    stack: true,
+                    maxStack: 20,
+                    lvReq: 45
+                },
+                spell_nature_thunderclap3: {
+                    quality: 1,
+                    description: {
+                        name: '【三级】雷霆一击技能书',
+                        category: '消耗品',
+                        desc: '提升一级技能【雷霆一击】，上限为三级',
+                        iconSrc: "./icons/spell/Spell_nature_thunderclap.png",
+                    },
+                    stack: true,
+                    maxStack: 20,
+                    lvReq: 70
+                },
+                spell_nature_thunderclap4: {
+                    quality: 1,
+                    description: {
+                        name: '【四级】雷霆一击技能书',
+                        category: '消耗品',
+                        desc: '提升一级技能【雷霆一击】，上限为四级',
+                        iconSrc: "./icons/spell/Spell_nature_thunderclap.png",
+                    },
+                    stack: true,
+                    maxStack: 20,
+                    lvReq: 95
                 },
                 spell_nature_lightning: {
                     quality: 2,
@@ -146,7 +184,33 @@ export const itemConfig = {
                         desc: '学习技能【闪电箭】',
                         iconSrc: "./icons/spell/Spell_nature_lightning.png",
                     },
-                    stack: false,
+                    stack: true,
+                    maxStack: 10,
+                    lvReq: 40
+                },
+                spell_nature_lightning2: {
+                    quality: 2,
+                    description: {
+                        name: '【二级】闪电箭技能书',
+                        category: '消耗品',
+                        desc: '提升一级技能【闪电箭】，上限为二级',
+                        iconSrc: "./icons/spell/Spell_nature_lightning.png",
+                    },
+                    stack: true,
+                    maxStack: 10,
+                    lvReq: 65
+                },
+                spell_nature_lightning3: {
+                    quality: 2,
+                    description: {
+                        name: '【三级】闪电箭技能书',
+                        category: '消耗品',
+                        desc: '提升一级技能【闪电箭】，上限为三级',
+                        iconSrc: "./icons/spell/Spell_nature_lightning.png",
+                    },
+                    stack: true,
+                    maxStack: 10,
+                    lvReq: 90
                 },
                 spell_holy_crusaderstrike: {
                     quality: 3,
@@ -156,7 +220,21 @@ export const itemConfig = {
                         desc: '学习技能【十字军打击】',
                         iconSrc: "./icons/spell/Spell_holy_crusaderstrike.png",
                     },
-                    stack: false,
+                    stack: true,
+                    maxStack: 5,
+                    lvReq: 80
+                },
+                spell_holy_crusaderstrike2: {
+                    quality: 3,
+                    description: {
+                        name: '【二级】十字军打击技能书',
+                        category: '消耗品',
+                        desc:  '提升一级技能【十字军打击】，上限为二级',
+                        iconSrc: "./icons/spell/Spell_holy_crusaderstrike.png",
+                    },
+                    stack: true,
+                    maxStack: 5,
+                    lvReq: 105
                 },
                 spell_shadow_ritualofsacrifice: {
                     quality: 1,
@@ -166,17 +244,57 @@ export const itemConfig = {
                         desc: '学习技能【影袭】',
                         iconSrc: "./icons/spell/spell_shadow_ritualofsacrifice.png",
                     },
-                    stack: false,
+                    stack: true,
+                    maxStack: 20,
+                    lvReq: 50
+                },
+                spell_shadow_ritualofsacrifice2: {
+                    quality: 1,
+                    description: {
+                        name: '【二级】影袭技能书',
+                        category: '消耗品',
+                        desc: '提升一级技能【影袭】，上限为二级',
+                        iconSrc: "./icons/spell/spell_shadow_ritualofsacrifice.png",
+                    },
+                    stack: true,
+                    maxStack: 20,
+                    lvReq: 75
+                },
+                spell_shadow_ritualofsacrifice3: {
+                    quality: 1,
+                    description: {
+                        name: '【三级】影袭技能书',
+                        category: '消耗品',
+                        desc: '提升一级技能【影袭】，上限为三级',
+                        iconSrc: "./icons/spell/spell_shadow_ritualofsacrifice.png",
+                    },
+                    stack: true,
+                    maxStack: 20,
+                    lvReq: 100
                 },
                 spell_holy_layonhands: {
-                    quality: 2,
+                    quality: 4,
                     description: {
                         name: '圣疗技能书',
                         category: '消耗品',
                         desc: '学习技能【圣疗】',
                         iconSrc: "./icons/spell/Spell_holy_layonhands.png",
                     },
-                    stack: false,
+                    stack: true,
+                    maxStack: 10,
+                    lvReq: 90
+                },
+                spell_holy_layonhands2: {
+                    quality: 4,
+                    description: {
+                        name: '【二级】圣疗技能书',
+                        category: '消耗品',
+                        desc: '提升一级技能【圣疗】，上限为二级',
+                        iconSrc: "./icons/spell/Spell_holy_layonhands.png",
+                    },
+                    stack: true,
+                    maxStack: 10,
+                    lvReq: 115
                 },
                 spell_holy_holybolt: {
                     quality: 2,
@@ -186,7 +304,45 @@ export const itemConfig = {
                         desc: '学习技能【圣光术】',
                         iconSrc: "./icons/spell/spell_holy_holybolt.png",
                     },
-                    stack: false,
+                    stack: true,
+                    maxStack: 10,
+                    lvReq: 40
+                },
+                spell_holy_holybolt2: {
+                    quality: 2,
+                    description: {
+                        name: '【二级】圣光术技能书',
+                        category: '消耗品',
+                        desc: '提升一级技能【圣光术】，上限为二级',
+                        iconSrc: "./icons/spell/spell_holy_holybolt.png",
+                    },
+                    stack: true,
+                    maxStack: 10,
+                    lvReq: 65
+                },
+                spell_holy_holybolt3: {
+                    quality: 2,
+                    description: {
+                        name: '【三级】圣光术技能书',
+                        category: '消耗品',
+                        desc: '提升一级技能【圣光术】，上限为三级',
+                        iconSrc: "./icons/spell/spell_holy_holybolt.png",
+                    },
+                    stack: true,
+                    maxStack: 10,
+                    lvReq: 90
+                },
+                spell_holy_holybolt4: {
+                    quality: 2,
+                    description: {
+                        name: '【四级】圣光术技能书',
+                        category: '消耗品',
+                        desc: '提升一级技能【圣光术】，上限为四级',
+                        iconSrc: "./icons/spell/spell_holy_holybolt.png",
+                    },
+                    stack: true,
+                    maxStack: 10,
+                    lvReq: 115
                 },
                 spell_arcane_starfire: {
                     quality: 3,
@@ -196,7 +352,21 @@ export const itemConfig = {
                         desc: '学习技能【星火术】',
                         iconSrc: "./icons/spell/spell_arcane_starfire.png",
                     },
-                    stack: false,
+                    stack: true,
+                    maxStack: 5,
+                    lvReq: 70
+                },
+                spell_arcane_starfire2: {
+                    quality: 3,
+                    description: {
+                        name: '【二级】星火术技能书',
+                        category: '消耗品',
+                        desc: '提升一级技能【星火术】，上限为二级',
+                        iconSrc: "./icons/spell/spell_arcane_starfire.png",
+                    },
+                    stack: true,
+                    maxStack: 5,
+                    lvReq: 95
                 },
                 spell_nature_starfall: {
                     quality: 2,
@@ -206,7 +376,33 @@ export const itemConfig = {
                         desc: '学习技能【月火术】',
                         iconSrc: "./icons/spell/spell_nature_starfall.png",
                     },
-                    stack: false,
+                    stack: true,
+                    maxStack: 10,
+                    lvReq: 60
+                },
+                spell_nature_starfall2: {
+                    quality: 2,
+                    description: {
+                        name: '【二级】月火术技能书',
+                        category: '消耗品',
+                        desc: '提升一级技能【月火术】，上限为二级',
+                        iconSrc: "./icons/spell/spell_nature_starfall.png",
+                    },
+                    stack: true,
+                    maxStack: 10,
+                    lvReq: 85
+                },
+                spell_nature_starfall3: {
+                    quality: 2,
+                    description: {
+                        name: '【三级】月火术技能书',
+                        category: '消耗品',
+                        desc: '提升一级技能【月火术】，上限为三级',
+                        iconSrc: "./icons/spell/spell_nature_starfall.png",
+                    },
+                    stack: true,
+                    maxStack: 10,
+                    lvReq: 110
                 },
                 ability_warrior_shieldbash: {
                     quality: 1,
@@ -216,7 +412,45 @@ export const itemConfig = {
                         desc: '学习技能【盾击】',
                         iconSrc: "./icons/spell/ability_warrior_shieldbash.png",
                     },
-                    stack: false,
+                    stack: true,
+                    maxStack: 10,
+                    lvReq: 30
+                },
+                ability_warrior_shieldbash2: {
+                    quality: 1,
+                    description: {
+                        name: '【二级】盾击技能书',
+                        category: '消耗品',
+                        desc: '提升一级技能【盾击】，上限为二级',
+                        iconSrc: "./icons/spell/ability_warrior_shieldbash.png",
+                    },
+                    stack: true,
+                    maxStack: 10,
+                    lvReq: 55
+                },
+                ability_warrior_shieldbash3: {
+                    quality: 1,
+                    description: {
+                        name: '【三级】盾击技能书',
+                        category: '消耗品',
+                        desc: '提升一级技能【盾击】，上限为三级',
+                        iconSrc: "./icons/spell/ability_warrior_shieldbash.png",
+                    },
+                    stack: true,
+                    maxStack: 10,
+                    lvReq: 80
+                },
+                ability_warrior_shieldbash4: {
+                    quality: 1,
+                    description: {
+                        name: '【四级】盾击技能书',
+                        category: '消耗品',
+                        desc: '提升一级技能【盾击】，上限为四级',
+                        iconSrc: "./icons/spell/ability_warrior_shieldbash.png",
+                    },
+                    stack: true,
+                    maxStack: 10,
+                    lvReq: 105
                 },
                 ability_druid_maul: {
                     quality: 1,
@@ -226,7 +460,45 @@ export const itemConfig = {
                         desc: '学习技能【槌击】',
                         iconSrc: "./icons/spell/ability_druid_maul.png",
                     },
-                    stack: false,
+                    stack: true,
+                    maxStack: 20,
+                    lvReq: 35
+                },
+                ability_druid_maul2: {
+                    quality: 1,
+                    description: {
+                        name: '【二级】槌击技能书',
+                        category: '消耗品',
+                        desc: '提升一级技能【槌击】，上限为二级',
+                        iconSrc: "./icons/spell/ability_druid_maul.png",
+                    },
+                    stack: true,
+                    maxStack: 20,
+                    lvReq: 60
+                },
+                ability_druid_maul3: {
+                    quality: 1,
+                    description: {
+                        name: '【三级】槌击技能书',
+                        category: '消耗品',
+                        desc: '提升一级技能【槌击】，上限为三级',
+                        iconSrc: "./icons/spell/ability_druid_maul.png",
+                    },
+                    stack: true,
+                    maxStack: 20,
+                    lvReq: 85
+                },
+                ability_druid_maul4: {
+                    quality: 1,
+                    description: {
+                        name: '【四级】槌击技能书',
+                        category: '消耗品',
+                        desc: '提升一级技能【槌击】，上限为四级',
+                        iconSrc: "./icons/spell/ability_druid_maul.png",
+                    },
+                    stack: true,
+                    maxStack: 20,
+                    lvReq: 110
                 },
                 spell_fire_flamebolt: {
                     quality: 1,
@@ -236,7 +508,45 @@ export const itemConfig = {
                         desc: '学习技能【火球术】',
                         iconSrc: "./icons/spell/spell_fire_flamebolt.png",
                     },
-                    stack: false,
+                    stack: true,
+                    maxStack: 20,
+                    lvReq: 25
+                },
+                spell_fire_flamebolt2: {
+                    quality: 1,
+                    description: {
+                        name: '【二级】火球术技能书',
+                        category: '消耗品',
+                        desc: '提升一级技能【火球术】，上限为二级',
+                        iconSrc: "./icons/spell/spell_fire_flamebolt.png",
+                    },
+                    stack: true,
+                    maxStack: 20,
+                    lvReq: 50
+                },
+                spell_fire_flamebolt3: {
+                    quality: 1,
+                    description: {
+                        name: '【三级】火球术技能书',
+                        category: '消耗品',
+                        desc: '提升一级技能【火球术】，上限为三级',
+                        iconSrc: "./icons/spell/spell_fire_flamebolt.png",
+                    },
+                    stack: true,
+                    maxStack: 20,
+                    lvReq: 75
+                },
+                spell_fire_flamebolt4: {
+                    quality: 1,
+                    description: {
+                        name: '【四级】火球术技能书',
+                        category: '消耗品',
+                        desc: '提升一级技能【火球术】，上限为四级',
+                        iconSrc: "./icons/spell/spell_fire_flamebolt.png",
+                    },
+                    stack: true,
+                    maxStack: 20,
+                    lvReq: 100
                 },
             }
         }

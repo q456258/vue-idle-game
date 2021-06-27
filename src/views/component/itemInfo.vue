@@ -11,9 +11,9 @@
                 <div class='icon'>
                     <img :src="item.description.iconSrc" alt="icon">
                 </div>
-                <!-- <div class="lv">
-                    装备等级：{{equip.lv}}
-                </div> -->
+                <div class="lv" v-if="item.lvReq > 0">
+                    等级：{{item.lvReq}}
+                </div>
             </div>
             <div class="description">
                 <div class="type">
@@ -45,6 +45,9 @@ export default {
             type:Object
         }
     },
+    computed: {
+        player() { return this.$store.state.playerAttribute },
+    },
     methods: {
         createItem(type, quantity) {
             var newItem = {};
@@ -54,11 +57,7 @@ export default {
             newItem.quantity = quantity;
             newItem.type = type;
             newItem.stack = this.itemType[type].stack;
-            // newEquip.maxEnhanceLv = (newEquip.quality.extraEntryNum-1)*5;
-            // newEquip.enhanceLv = Math.min(0, newEquip.maxEnhanceLv);
-            // newEquip.baseEntry = this.createBaseEntry(newEquip);
-            // newEquip.extraEntry = this.createExtraEntry(newEquip);
-            // newEquip.potential = newEquip.lv >= 30 ? this.createPotential(newEquip) : [];
+            newItem.lvReq = this.itemType[type].lvReq==undefined ? 0 : this.itemType[type].lvReq;
             return JSON.stringify(newItem);
         },
         createQuality(bonus) {
@@ -199,7 +198,7 @@ export default {
         margin-left: 0.5rem;
         display: flex;
         align-self: flex-end;
-        font-size: 0.75rem;
+        font-size: 0.85rem;
     }
 }
 .description {

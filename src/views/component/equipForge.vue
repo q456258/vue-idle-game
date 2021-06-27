@@ -268,7 +268,7 @@ $blue: #ccc;
     color: #00bbffc5;
 }
 .Btext {
-    color: #bb00ffd2;
+    color: #bb00ff;
 }
 .Atext {
     color: #ff9900b7;
