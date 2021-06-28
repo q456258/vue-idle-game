@@ -254,8 +254,13 @@ export default {
             this.closeInfo();
             if(k != undefined)
                 this.currentItemIndex = k; 
-            if(this.itemGrid[this.currentItemIndex].lvReq > this.playerLv)
+            if(this.itemGrid[this.currentItemIndex].lvReq > this.playerLv) {
+                this.$store.commit("set_sys_info", {
+                    type: 'warning',
+                    msg: '等级不足，无法使用！',
+                });
                 return false;
+            }
             var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
             var success = this.callItemEffect(this.itemGrid[this.currentItemIndex].type);
             if(success)
