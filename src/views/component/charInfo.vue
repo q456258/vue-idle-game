@@ -256,7 +256,7 @@
                             基础：{{attribute.MR.baseVal }}
                             <span v-if="attribute.MRP.value != 0">{{' +' + attribute.MRP.showValue}}</span>
                         </p>
-                        <p class="info">使用魔法值抵消伤害，每抵消一点消耗0.25魔法值</p>
+                        <p class="info">使用魔法值抵消伤害，每抵消一点消耗0.25魔法值，低于20%最大魔法值时无效</p>
                     </template>
                 </cTooltip>
                 <cTooltip placement="bottom">
@@ -652,7 +652,7 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 999;
+    z-index: 8;
     background-color: rgba(0, 0, 0, 0.774);
     .container {
             position: absolute;

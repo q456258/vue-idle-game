@@ -1,12 +1,14 @@
 export const buffSystem = {
     data() {
         return {
-            // buffTarget: {
-            //     player: {},
-            //     enermy: {},
-            //     trial: {}
-            // }
+            centralTimer: 0,
         }
+    },
+    mounted() {
+    },
+    computed: {
+        player() {return this.$store.state.playerAttribute; }
+
     },
     methods: {
         // 内部运算 
@@ -30,11 +32,40 @@ export const buffSystem = {
         // 6、是否改变角色外形？（DNF里的冰冻、WOW里的变形） 
         // 7、以上表现功能可以进行再补充，同上。
 
+        // 启用中心计时器，按时间减少buff时间
+        buffTimer(time){
+            this.centralTimer = setInterval(() => {
+                var now = Date.now();
+                var playerBuff = this.player.buff;
+                for(var buff in this.player.timedBuff) {
+                    let curStack = (this.player.timedBuff[buff] - now)/60000;
+                    if(curStack < 0)
+                        this.buffRemoved(this.player, this.player, buff);
+                    let diff = Math.floor(playerBuff[buff] - curStack);
+                    if(diff > 0)
+                        this.buffReduce(this.player, this.player, buff, diff);
+                }
+            }, 1000);
+        },
         // 添加buff
         buffApply(source, target, type, stack=1){
-            var buffer = ['sunder', 'penetrate', 'lifesteal', 'manasteal','charge']
+            var buffer = ['sunder', 'penetrate', 'lifesteal', 'manasteal','charge'];
+            var timed = ['minionSlayer'];
             if(target.buff == undefined)
                 target.buff = {};
+            if(target.timedBuff == undefined)
+                target.timedBuff = {};
+            if(timed.indexOf(type) != -1) {
+                if(target.timedBuff[type] == undefined){
+                    target.timedBuff[type] = Date.now()+stack*1000;
+                }
+                else
+                    target.timedBuff[type] += stack*1000;
+                if(target.buff[type])
+                    stack = Math.ceil((target.timedBuff[type]-Date.now())/60000)-target.buff[type];
+                else
+                    stack = Math.ceil((target.timedBuff[type]-Date.now())/60000);
+            }
             if(buffer.indexOf(type) == -1) {
                 if(target.buff[type] == undefined) {
                     this.$set(target.buff, type, stack)
@@ -57,8 +88,8 @@ export const buffSystem = {
         },
         // 移除buff
         buffRemoved(source, target, type){
-            delete target.buff[type];
-            this.$set(target.buff, type, undefined)
+            this.$delete(target.buff, type)
+            this.$delete(target.timedBuff, type)
         },
         // 减少buff层数
         buffReduce(source, target, type, stack=1){
@@ -73,18 +104,15 @@ export const buffSystem = {
             }
             return false;
         },
-        // 触发buff
-        buffOccur(source, target, type){
-
-        },
         // 按时间触发buff
         buffOnTick() {
 
         },
         // 受伤触发buff
-        buffOnHurt(target, dmg) {
+        buffOnHurt(source, target, dmg) {
             dmg = this.void(target, dmg);
             dmg = this.absorb(target, dmg);
+            dmg = this.minionSlayer(source, target, dmg);
             return dmg;
         },
         // 受攻击触发buff
@@ -97,8 +125,12 @@ export const buffSystem = {
             return dmg;
         },
         // 死亡后触发buff
-        buffAfterKilled() {
-
+        buffAfterKilled(source, target) {
+            if(target.type == undefined && this.$store.state.statistic.death%50 == 0) {
+                var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+                var item = itemInfo.createItem('inv_potion_27', 1);  
+                itemInfo.addItem(JSON.parse(item));
+            }
         },
         // 返回新护甲值
         sunder(source, armor) {
@@ -183,6 +215,17 @@ export const buffSystem = {
             else
                 return dmg;
         },
+        minionSlayer(source, target, dmg) {
+            if(source.buff['minionSlayer'] != undefined && target.type == 'enermy' && target.special == undefined) {
+                this.$store.commit("set_battle_info", {
+                    type: 'dmg',
+                    msg: '【野怪杀手】额外造成'+Math.round(-0.5*dmg)+'伤害'
+                })
+                return 1.5*dmg;
+            }
+            else
+                return dmg;
+        },
         // stun
         stun(source) {
             var sourceType = source.type==undefined? 'player':source.type;
@@ -209,24 +252,28 @@ export const buffSystem = {
             var CURHP = target.attribute.CURHP,
                 MAXHP = target.attribute.MAXHP;
             if(data < 0)
-                data = this.buffOnHurt(target, data);
+                data = this.buffOnHurt(source, target, data);
             if(-1*data >= CURHP.value)
                 data = this.buffBeforeKilled(target, data);
             if(-1*data >= CURHP.value) {
                 let slainBy = {};
                 slainBy[source.name] = 1;
                 this.$store.commit('set_statistic', {slainBy: slainBy});
+                this.buffAfterKilled(source, target);
             }
             this.$store.commit('set_hp', {data, CURHP, MAXHP});
             CURHP.showValue = CURHP.value;
         },
         set_enermy_hp(data) {
+            var source = this.$store.state.playerAttribute;
             var target = this.$store.state.enermyAttribute;
             if(this.$store.state.dungeonInfo.current == 'trial') {
                 target = this.$store.state.trialAttribute;
             }
             var CURHP = target.attribute.CURHP,
                 MAXHP = target.attribute.MAXHP;
+            if(data < 0)
+                data = this.buffOnHurt(source, target, data);
             if(-1*data >= CURHP.value)
                 data = this.buffBeforeKilled(target, data);
             this.$store.commit('set_hp', {data, CURHP, MAXHP});

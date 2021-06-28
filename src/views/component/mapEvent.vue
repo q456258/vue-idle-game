@@ -329,8 +329,9 @@ export default {
             // 玩家进攻时无视目标魔法消耗
             if(type == 'player')
                 return value;
-            if(attr['CURMP'].value < value/4)
-                value = attr['CURMP'].value * 4;
+            var allowedMp = attr['CURMP'].value-attr['MAXMP'].value/5;
+            if(allowedMp < value/4)
+                value = allowedMp * 4;
             var cost = value/4;
             this.$store.commit('set_player_mp', -1*Math.round(cost));
             return Math.round(value);

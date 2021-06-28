@@ -70,6 +70,11 @@ data() {
                     iconSrc: "./icons/spell/absorb.png",
                     desc: "吸收：将下一次受到的伤害转为等量生命值"
                 },
+                minionSlayer: {
+                    timed: true,
+                    iconSrc: "./icons/item/inv_potion_27.png",
+                    desc: "野怪杀手【分钟】：对冒险区非精英、BOSS类怪物额外造成50%伤害"
+                }
             },
             statusDebuff: {
                 stun: {

@@ -208,6 +208,8 @@ export default {
     var saveload = this.findComponentDownward(this, 'saveload');  
     var sd = localStorage.getItem('_sd');
     saveload.loadGame(sd);
+    // 启用buff中心计时器
+    this.buffTimer();
 
     // 自动保存
     setInterval(() => {

@@ -12,7 +12,7 @@
                     <img :src="item.description.iconSrc" alt="icon">
                 </div>
                 <div class="lv" v-if="item.lvReq > 0">
-                    等级：{{item.lvReq}}
+                    <span :style="{color: player.lv<item.lvReq? '#f00':''}">等级：{{item.lvReq}}</span>
                 </div>
             </div>
             <div class="description">

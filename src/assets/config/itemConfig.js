@@ -95,6 +95,17 @@ export const itemConfig = {
                     stack: true,
                     maxStack: 1000
                 },
+                inv_potion_27: {
+                    quality: 4,
+                    description: {
+                        name: '屠魔药剂',
+                        category: '消耗品',
+                        desc: '使用后获得【野怪杀手】buff，对对冒险区非精英、BOSS类怪物额外造成50%伤害，持续10分钟',
+                        iconSrc: "./icons/item/inv_potion_27.png",
+                    },
+                    stack: true,
+                    maxStack: 5
+                },
                 inv_box_01: {
                     quality: 1,
                     description: {
