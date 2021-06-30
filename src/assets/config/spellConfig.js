@@ -493,34 +493,34 @@ data() {
                 iconSrc: "./icons/spell/Spell_shadow_curseofmannoroth.png",
                 quality: 3,
                 level: [{
-                        des: '造成攻击力*0.8点伤害，50%附加一层虚弱效果',
+                        des: '造成攻击力*0.8点伤害，50%对敌人附加一层虚弱效果',
                         dmg: { ATK: 0.8},
                         ap: {},
-                        effect: { weak: {stack: 1, chance: 50, target: 'self'} },
+                        effect: { weak: {stack: 1, chance: 50, target: 'enermy'} },
                         cost: { MP: 1000, },
                     }, {
-                        des: '造成攻击力*0.9点伤害，50%附加一层虚弱效果',
+                        des: '造成攻击力*0.9点伤害，50%对敌人附加一层虚弱效果',
                         dmg: { ATK: 0.9},
                         ap: {},
-                        effect: { weak: {stack: 1, chance: 50, target: 'self'} },
+                        effect: { weak: {stack: 1, chance: 50, target: 'enermy'} },
                         cost: { MP: 2000, },
                     }, {
-                        des: '造成攻击力*1点伤害，50%附加一层虚弱效果',
+                        des: '造成攻击力*1点伤害，50%对敌人附加一层虚弱效果',
                         dmg: { ATK: 1},
                         ap: {},
-                        effect: { weak: {stack: 1, chance: 50, target: 'self'} },
+                        effect: { weak: {stack: 1, chance: 50, target: 'enermy'} },
                         cost: { MP: 3000, },
                     }, {
-                        des: '造成攻击力*1.1点伤害，50%附加一层虚弱效果',
+                        des: '造成攻击力*1.1点伤害，50%对敌人附加一层虚弱效果',
                         dmg: { ATK: 1.1},
                         ap: {},
-                        effect: { weak: {stack: 1, chance: 50, target: 'self'} },
+                        effect: { weak: {stack: 1, chance: 50, target: 'enermy'} },
                         cost: { MP: 4000, },
                     }
                 ],
                 proficient: {
                 },
-                tag: ['攻击力', 'BUFF']
+                tag: ['攻击力', 'DEBUFF']
             },
             spell_animaardenweald_groundstate: {
                 name: '冥想',
@@ -762,7 +762,7 @@ data() {
                 ],
                 proficient: {
                 },
-                tag: ['攻击力', 'BUFF']
+                tag: ['攻击力', 'BUFF', 'DEBUFF']
             },
             ability_druid_starfall: {
                 name: '无尽之星',

@@ -513,6 +513,10 @@ export default new Vuex.Store({
                     attribute[potential.type].baseVal += potential.value;
             });
 
+            attribute['STRP'].baseVal += attribute['ALLP'].baseVal;
+            attribute['AGIP'].baseVal += attribute['ALLP'].baseVal;
+            attribute['INTP'].baseVal += attribute['ALLP'].baseVal;
+
             advancedAttributes.forEach(attr => {
                 if(hasPercent.indexOf(attr) > -1)
                     attribute[attr].value = Math.round(attribute[attr].baseVal*(1+attribute[attr+'P'].baseVal/100));

@@ -66,7 +66,7 @@ export const equipConfig = {
         STRP: { base: 6, name: '力量' }, 
         AGIP: { base: 6, name: '敏捷' }, 
         INTP: { base: 6, name: '智力' }, 
-        ALLP: { base: 6, name: '全属性'},
+        ALLP: { base: 4, name: '全属性'},
         ATKP: { base: 6, name: '攻击力' }, 
         DEFP: { base: 6, name: '防御力' }, 
         APP: { base: 6, name: '元素伤害' }, 
