@@ -156,7 +156,7 @@ var initial_helmet = {
             name: "村里最好的护肩",
             desc: "新手菜鸡使用的短剑",
             type: "肩膀",
-            iconSrc: "./icons/shoulder/inv_shoulder_09.png",
+            iconSrc: "./icons/shoulder/Inv_shoulder_09.png",
         },
         baseEntry: [{
             value: 5,

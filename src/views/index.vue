@@ -250,8 +250,9 @@ export default {
     //   itemInfo.addItem(JSON.parse(item));
     // })
     // var itemInfo = this.findComponentDownward(this, 'itemInfo');
-    // var item = itemInfo.createItem('inv_misc_enchantedpearla', 70);  
+    // var item = itemInfo.createItem('inv_box_03', 70);  
     // itemInfo.addItem(JSON.parse(item));
+
     this.$store.commit('set_player_attribute');
     this.enermyLvChange = this.playerLv;
     var shop = this.findComponentDownward(this, 'shop');  

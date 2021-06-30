@@ -405,7 +405,7 @@
             <div class="container scrollbar-morpheus-den">
                 <div class="spell" v-for="(v, k) in filteredSpell" :key="k" @click="activeSpell(v)" :set="curLv=spell[v].level[spells.spell[v].lv-1]">
                     <span class="spellIcon"><img class="icon" :src="spell[v].iconSrc"></span>
-                    <span class="spellName" :style="spellQuality[spell[v].quality]">{{(spells.spell[v].lv)+'级'+spell[v].name}}</span>
+                    <span class="spellName" :style="spellQuality[spell[v].quality-1]">{{(spells.spell[v].lv)+'级'+spell[v].name}}</span>
                     <!-- <span class="proficient" >{{'(专精:'+spells.spell[v].proficient+')'}}</span> -->
                     <span class="spellDesc">{{curLv.des}}</span>
                     <span class="spellWeight">{{"比重："+spell[v].weight}}</span>
@@ -414,6 +414,18 @@
                     </span>
                     <span class="spellCost" v-if="curLv.cost['MP']">
                         {{"消耗："+curLv.cost['MP']+entryInfo['MP'].name}}
+                    </span>
+                    <span class="spellCost" v-if="curLv.cost['MAXMP']">
+                        {{"消耗："+curLv.cost['MAXMP']*100+'%最大魔法值'}}
+                    </span>
+                    <span class="spellCost" v-if="curLv.cost['MAXHP']">
+                        {{"消耗："+curLv.cost['MAXHP']*100+'%最大生命值'}}
+                    </span>
+                    <span class="spellCost" v-if="curLv.cost['CURMP']">
+                        {{"消耗："+curLv.cost['CURMP']*100+'%当前魔法值'}}
+                    </span>
+                    <span class="spellCost" v-if="curLv.cost['CURHP']">
+                        {{"消耗："+curLv.cost['CURHP']*100+'%当前生命值'}}
                     </span>
                     <span v-if="v!='attack'">
                         <span class="spellSwitch">
@@ -466,7 +478,7 @@ export default {
             left: 0,
             activeFilter: ['所有', '已激活', '未激活'],
             activeFilterSelected: '所有',
-            dmgFilter: ['所有', '力量', '敏捷', '智力', '攻击', '护甲', '元素', '恢复'],
+            dmgFilter: ['所有', '力量', '敏捷', '智力', '生命', '魔法', '攻击', '护甲', '元素', '恢复', 'BUFF'],
             dmgFilterSelected: '所有'
         };
     },

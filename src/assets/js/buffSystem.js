@@ -49,16 +49,15 @@ export const buffSystem = {
         },
         // 添加buff
         buffApply(source, target, type, stack=1){
-            var buffer = ['sunder', 'penetrate', 'lifesteal', 'manasteal','charge'];
+            var buffer = ['sunder', 'penetrate', 'lifesteal', 'manasteal','charge','deathImmune','void','absorb'];
             var timed = ['minionSlayer'];
             if(target.buff == undefined)
                 target.buff = {};
             if(target.timedBuff == undefined)
                 target.timedBuff = {};
             if(timed.indexOf(type) != -1) {
-                if(target.timedBuff[type] == undefined){
+                if(target.timedBuff[type] == undefined)
                     target.timedBuff[type] = Date.now()+stack*1000;
-                }
                 else
                     target.timedBuff[type] += stack*1000;
                 if(target.buff[type])

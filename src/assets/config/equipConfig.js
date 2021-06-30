@@ -88,7 +88,7 @@ export const equipConfig = {
             description: {
               name: '碎魂者兜帽',
               desc: '',
-              iconSrc: "./icons/helmet/inv_helm_cloth_revendreth_d_01.png",
+              iconSrc: "./icons/helmet/Inv_helm_cloth_revendreth_d_01.png",
             },
             entry: [
               'STR'
@@ -106,7 +106,7 @@ export const equipConfig = {
             description: {
               name: '灵风头冠',
               desc: '',
-              iconSrc: "./icons/helmet/inv_helmet_70.png",
+              iconSrc: "./icons/helmet/Inv_helmet_70.png",
             },
             entry: [
               'INT'
@@ -115,7 +115,7 @@ export const equipConfig = {
             description: {
               name: '闪电皇冠',
               desc: '',
-              iconSrc: "./icons/helmet/inv_helmet_06.png",
+              iconSrc: "./icons/helmet/Inv_helmet_06.png",
             },
             entry: [
               'ALL'
@@ -124,7 +124,7 @@ export const equipConfig = {
             description: {
               name: '欺诈者面具',
               desc: '',
-              iconSrc: "./icons/helmet/inv_helmet_73.png",
+              iconSrc: "./icons/helmet/Inv_helmet_73.png",
             },
             entry: [
               'CRIT'
@@ -133,7 +133,7 @@ export const equipConfig = {
             description: {
               name: '凶星头巾',
               desc: '',
-              iconSrc: "./icons/helmet/inv_helmet_103.png",
+              iconSrc: "./icons/helmet/Inv_helmet_103.png",
             },
             entry: [
               'CRITDMG'
@@ -142,7 +142,7 @@ export const equipConfig = {
             description: {
               name: '烈焰王冠',
               desc: '',
-              iconSrc: "./icons/helmet/inv_helm_circlet_firelands_d_01.png",
+              iconSrc: "./icons/helmet/Inv_helm_circlet_firelands_d_01.png",
             },
             entry: [
               'ATK'
@@ -151,7 +151,7 @@ export const equipConfig = {
             description: {
               name: '希望炽翼',
               desc: '',
-              iconSrc: "./icons/helmet/inv_helm_plate_raidpaladin_k_01.png",
+              iconSrc: "./icons/helmet/Inv_helm_plate_raidpaladin_k_01.png",
             },
             entry: [
               'DEF'
@@ -160,7 +160,7 @@ export const equipConfig = {
             description: {
               name: '虚空之心头冠',
               desc: '',
-              iconSrc: "./icons/helmet/inv_helmet_89.png",
+              iconSrc: "./icons/helmet/Inv_helmet_89.png",
             },
             entry: [
               'AP'
@@ -169,7 +169,7 @@ export const equipConfig = {
             description: {
               name: '星界守护者',
               desc: '',
-              iconSrc: "./icons/helmet/inv_helmet_leather_raiddruid_q_01.png",
+              iconSrc: "./icons/helmet/Inv_helmet_leather_raiddruid_q_01.png",
             },
             entry: [
               'MR'
@@ -178,7 +178,7 @@ export const equipConfig = {
             description: {
               name: '熔铸头盔',
               desc: '',
-              iconSrc: "./icons/helmet/inv_helmet_08.png",
+              iconSrc: "./icons/helmet/Inv_helmet_08.png",
             },
             entry: [
               'HP'
@@ -187,7 +187,7 @@ export const equipConfig = {
             description: {
               name: '永冬之冠',
               desc: '',
-              iconSrc: "./icons/helmet/inv_helm_eternalwinter_d_01.png",
+              iconSrc: "./icons/helmet/Inv_helm_eternalwinter_d_01.png",
             },
             entry: [
               'MP'
@@ -253,7 +253,7 @@ export const equipConfig = {
             description: {
               name: '豹爪护符',
               desc: '',
-              iconSrc: "./icons/accessory/inv_jewelry_necklace_34.png",
+              iconSrc: "./icons/accessory/Inv_jewelry_necklace_34.png",
             },
             entry: [
               'CRIT'
@@ -262,7 +262,7 @@ export const equipConfig = {
             description: {
               name: '统御坠饰',
               desc: '',
-              iconSrc: "./icons/accessory/inv_jewelry_necklace_36.png",
+              iconSrc: "./icons/accessory/Inv_jewelry_necklace_36.png",
             },
             entry: [
               'CRITDMG'
@@ -271,7 +271,7 @@ export const equipConfig = {
             description: {
               name: '赤红怒火指环',
               desc: '',
-              iconSrc: "./icons/accessory/inv_jewelry_ring_65.png",
+              iconSrc: "./icons/accessory/Inv_jewelry_ring_65.png",
             },
             entry: [
               'ATK'
@@ -289,7 +289,7 @@ export const equipConfig = {
             description: {
               name: '循环之戒',
               desc: '',
-              iconSrc: "./icons/accessory/inv_jewelry_ring_15.png",
+              iconSrc: "./icons/accessory/Inv_jewelry_ring_15.png",
             },
             entry: [
               'AP'
@@ -298,7 +298,7 @@ export const equipConfig = {
             description: {
               name: '统御之戒',
               desc: '',
-              iconSrc: "./icons/accessory/inv_jewelry_ring_60.png",
+              iconSrc: "./icons/accessory/Inv_jewelry_ring_60.png",
             },
             entry: [
               'MR'
@@ -316,7 +316,7 @@ export const equipConfig = {
             description: {
               name: '黎明勋章',
               desc: '',
-              iconSrc: "./icons/accessory/inv_jewelry_amulet_04.png",
+              iconSrc: "./icons/accessory/Inv_jewelry_amulet_04.png",
             },
             entry: [
               'MP'
@@ -355,7 +355,7 @@ export const equipConfig = {
             description: {
               name: '铭银灭愿者短刀',
               desc: '',
-              iconSrc: "./icons/weapon/inv_knife_1h_revendrethquest_b_03.png",
+              iconSrc: "./icons/weapon/Inv_knife_1h_revendrethquest_b_03.png",
             },
             entry: [
               'AGI'
@@ -364,7 +364,7 @@ export const equipConfig = {
             description: {
               name: '奥金尼法杖',
               desc: '',
-              iconSrc: "./icons/weapon/inv_staff_14.png",
+              iconSrc: "./icons/weapon/Inv_staff_14.png",
             },
             entry: [
               'INT'
@@ -373,7 +373,7 @@ export const equipConfig = {
             description: {
               name: '荣耀的召唤',
               desc: '',
-              iconSrc: "./icons/weapon/inv_sword_11.png",
+              iconSrc: "./icons/weapon/Inv_sword_11.png",
             },
             entry: [
               'ALL'
@@ -382,7 +382,7 @@ export const equipConfig = {
             description: {
               name: '玛格汉愤怒指虎',
               desc: '',
-              iconSrc: "./icons/weapon/inv_gauntlets_04.png",
+              iconSrc: "./icons/weapon/Inv_gauntlets_04.png",
             },
             entry: [
               'CRIT'
@@ -400,7 +400,7 @@ export const equipConfig = {
             description: {
               name: '日怒长弓',
               desc: '',
-              iconSrc: "./icons/weapon/inv_weapon_bow_18.png",
+              iconSrc: "./icons/weapon/Inv_weapon_bow_18.png",
             },
             entry: [
               'ATK'
@@ -409,7 +409,7 @@ export const equipConfig = {
             description: {
               name: '锋利手镰',
               desc: '',
-              iconSrc: "./icons/weapon/inv_gauntlets_02.png",
+              iconSrc: "./icons/weapon/Inv_gauntlets_02.png",
             },
             entry: [
               'DEF'
@@ -418,7 +418,7 @@ export const equipConfig = {
             description: {
               name: '奥尔多灵魂魔杖',
               desc: '',
-              iconSrc: "./icons/weapon/inv_wand_05.png",
+              iconSrc: "./icons/weapon/Inv_wand_05.png",
             },
             entry: [
               'AP'
@@ -427,7 +427,7 @@ export const equipConfig = {
             description: {
               name: '大地守卫者',
               desc: '',
-              iconSrc: "./icons/weapon/inv_hammer_10.png",
+              iconSrc: "./icons/weapon/Inv_hammer_10.png",
             },
             entry: [
               'MR'
@@ -445,7 +445,7 @@ export const equipConfig = {
             description: {
               name: '战斗法师的权杖',
               desc: '',
-              iconSrc: "./icons/weapon/inv_staff_07.png",
+              iconSrc: "./icons/weapon/Inv_staff_07.png",
             },
             entry: [
               'MP'
@@ -476,7 +476,7 @@ export const equipConfig = {
           description: {
             name: '裂心胸铠',
             desc: '',
-            iconSrc: "./icons/armor/inv_chest_plate08.png",
+            iconSrc: "./icons/armor/Inv_chest_plate08.png",
           },
           entry: [
             'STR'
@@ -503,7 +503,7 @@ export const equipConfig = {
             description: {
               name: '圣日胸甲',
               desc: '',
-              iconSrc: "./icons/armor/inv_chest_plate02.png",
+              iconSrc: "./icons/armor/Inv_chest_plate02.png",
             },
             entry: [
               'ALL'
@@ -512,7 +512,7 @@ export const equipConfig = {
             description: {
               name: '猩红胸甲',
               desc: '',
-              iconSrc: "./icons/armor/inv_chest_plate_revendreth_d_01.png",
+              iconSrc: "./icons/armor/Inv_chest_plate_revendreth_d_01.png",
             },
             entry: [
               'CRIT'
@@ -521,7 +521,7 @@ export const equipConfig = {
             description: {
               name: '凶星长袍',
               desc: '',
-              iconSrc: "./icons/armor/inv_chest_cloth_68.png",
+              iconSrc: "./icons/armor/Inv_chest_cloth_68.png",
             },
             entry: [
               'CRITDMG'
@@ -530,7 +530,7 @@ export const equipConfig = {
             description: {
               name: '熔火巨人',
               desc: '',
-              iconSrc: "./icons/armor/inv_chest_plate_raidwarrior_j_01.png",
+              iconSrc: "./icons/armor/Inv_chest_plate_raidwarrior_j_01.png",
             },
             entry: [
               'ATK'
@@ -539,7 +539,7 @@ export const equipConfig = {
             description: {
               name: '自律守护者',
               desc: '',
-              iconSrc: "./icons/armor/inv_chest_plate_24.png",
+              iconSrc: "./icons/armor/Inv_chest_plate_24.png",
             },
             entry: [
               'DEF'
@@ -548,7 +548,7 @@ export const equipConfig = {
             description: {
               name: '虚空之心长袍',
               desc: '',
-              iconSrc: "./icons/armor/inv_chest_cloth_62.png",
+              iconSrc: "./icons/armor/Inv_chest_cloth_62.png",
             },
             entry: [
               'AP'
@@ -557,7 +557,7 @@ export const equipConfig = {
             description: {
               name: '巨兽胸铠',
               desc: '',
-              iconSrc: "./icons/armor/inv_chest_plate_23.png",
+              iconSrc: "./icons/armor/Inv_chest_plate_23.png",
             },
             entry: [
               'MR'
@@ -566,7 +566,7 @@ export const equipConfig = {
             description: {
               name: '血伤胸铠',
               desc: '',
-              iconSrc: "./icons/armor/inv_chest_plate20.png",
+              iconSrc: "./icons/armor/Inv_chest_plate20.png",
             },
             entry: [
               'HP'
@@ -575,7 +575,7 @@ export const equipConfig = {
             description: {
               name: '梅林法袍',
               desc: '',
-              iconSrc: "./icons/armor/inv_chest_cloth_75.png",
+              iconSrc: "./icons/armor/Inv_chest_cloth_75.png",
             },
             entry: [
               'MP'
@@ -614,7 +614,7 @@ export const equipConfig = {
               description: {
                 name: '永恒混沌软鞋',
                 desc: '',
-                iconSrc: "./icons/shoe/inv_boot_cloth_raidwarlock_q_01.png",
+                iconSrc: "./icons/shoe/Inv_boot_cloth_raidwarlock_q_01.png",
               },
               entry: [
                 'AGI'
@@ -623,7 +623,7 @@ export const equipConfig = {
               description: {
                 name: '魔古重靴',
                 desc: '',
-                iconSrc: "./icons/shoe/inv_boots_plate_raidwarrior_n_01.png",
+                iconSrc: "./icons/shoe/Inv_boots_plate_raidwarrior_n_01.png",
               },
               entry: [
                 'INT'
@@ -632,7 +632,7 @@ export const equipConfig = {
               description: {
                 name: '黑曜石战靴',
                 desc: '',
-                iconSrc: "./icons/shoe/inv_boots_plate_raidwarrior_j_01.png",
+                iconSrc: "./icons/shoe/Inv_boots_plate_raidwarrior_j_01.png",
               },
               entry: [
                 'ALL'
@@ -641,7 +641,7 @@ export const equipConfig = {
               description: {
                 name: '坚定净化者战靴',
                 desc: '',
-                iconSrc: "./icons/shoe/inv_boot_plate_raidpaladin_r_01.png",
+                iconSrc: "./icons/shoe/Inv_boot_plate_raidpaladin_r_01.png",
               },
               entry: [
                 'CRIT'
@@ -650,7 +650,7 @@ export const equipConfig = {
               description: {
                 name: '践踏战靴',
                 desc: '',
-                iconSrc: "./icons/shoe/inv_plate_raidwarriormythic_q_01.png",
+                iconSrc: "./icons/shoe/Inv_plate_raidwarriormythic_q_01.png",
               },
               entry: [
                 'CRITDMG'
@@ -668,7 +668,7 @@ export const equipConfig = {
               description: {
                 name: '皇裔护靴',
                 desc: '',
-                iconSrc: "./icons/shoe/inv_boots_plate_12.png",
+                iconSrc: "./icons/shoe/Inv_boots_plate_12.png",
               },
               entry: [
                 'DEF'
@@ -677,7 +677,7 @@ export const equipConfig = {
               description: {
                 name: '既定命运战靴',
                 desc: '',
-                iconSrc: "./icons/shoe/inv_boot_plate_raiddeathknight_q_01.png",
+                iconSrc: "./icons/shoe/Inv_boot_plate_raiddeathknight_q_01.png",
               },
               entry: [
                 'AP'
@@ -686,7 +686,7 @@ export const equipConfig = {
               description: {
                 name: '磐石长靴',
                 desc: '',
-                iconSrc: "./icons/shoe/inv_boots_mail_06.png",
+                iconSrc: "./icons/shoe/Inv_boots_mail_06.png",
               },
               entry: [
                 'MR'
@@ -695,7 +695,7 @@ export const equipConfig = {
               description: {
                 name: '生命使者',
                 desc: '',
-                iconSrc: "./icons/shoe/inv_boot_inv_leather_raidmonk_s_01.png",
+                iconSrc: "./icons/shoe/Inv_boot_Inv_leather_raidmonk_s_01.png",
               },
               entry: [
                 'HP'
@@ -704,7 +704,7 @@ export const equipConfig = {
               description: {
                 name: '基柱之靴',
                 desc: '',
-                iconSrc: "./icons/shoe/inv_boots_plate_raidpaladin_k_01.png",
+                iconSrc: "./icons/shoe/Inv_boots_plate_raidpaladin_k_01.png",
               },
               entry: [
                 'MP'
@@ -734,7 +734,7 @@ export const equipConfig = {
               description: {
                 name: '獠牙肩甲',
                 desc: '',
-                iconSrc: "./icons/shoulder/inv_shoulder_plate_garrosh_d_01.png",
+                iconSrc: "./icons/shoulder/Inv_shoulder_plate_garrosh_d_01.png",
               },
               entry: [
                 'STR'
@@ -752,7 +752,7 @@ export const equipConfig = {
               description: {
                 name: '灵风衬肩',
                 desc: '',
-                iconSrc: "./icons/shoulder/inv_shoulder_32.png",
+                iconSrc: "./icons/shoulder/Inv_shoulder_32.png",
               },
               entry: [
                 'INT'
@@ -761,7 +761,7 @@ export const equipConfig = {
               description: {
                 name: '月光护肩',
                 desc: '',
-                iconSrc: "./icons/shoulder/inv_shoulder_02.png",
+                iconSrc: "./icons/shoulder/Inv_shoulder_02.png",
               },
               entry: [
                 'ALL'
@@ -770,7 +770,7 @@ export const equipConfig = {
               description: {
                 name: '恐惧之龙肩甲',
                 desc: '',
-                iconSrc: "./icons/shoulder/inv_shoulder_plate_raiddeathknight_q_01.png",
+                iconSrc: "./icons/shoulder/Inv_shoulder_plate_raiddeathknight_q_01.png",
               },
               entry: [
                 'CRIT'
@@ -779,7 +779,7 @@ export const equipConfig = {
               description: {
                 name: '凶星衬肩',
                 desc: '',
-                iconSrc: "./icons/shoulder/inv_shoulder_68.png",
+                iconSrc: "./icons/shoulder/Inv_shoulder_68.png",
               },
               entry: [
                 'CRITDMG'
@@ -797,7 +797,7 @@ export const equipConfig = {
               description: {
                 name: '巨石肩垫',
                 desc: '',
-                iconSrc: "./icons/shoulder/inv_shoulder_51.png",
+                iconSrc: "./icons/shoulder/Inv_shoulder_51.png",
               },
               entry: [
                 'DEF'
@@ -806,7 +806,7 @@ export const equipConfig = {
               description: {
                 name: '虚空之心衬肩',
                 desc: '',
-                iconSrc: "./icons/shoulder/inv_shoulder_52.png",
+                iconSrc: "./icons/shoulder/Inv_shoulder_52.png",
               },
               entry: [
                 'AP'
@@ -815,7 +815,7 @@ export const equipConfig = {
               description: {
                 name: '冥界衬肩',
                 desc: '',
-                iconSrc: "./icons/shoulder/inv_shoulder_97.png",
+                iconSrc: "./icons/shoulder/Inv_shoulder_97.png",
               },
               entry: [
                 'MR'
@@ -824,7 +824,7 @@ export const equipConfig = {
               description: {
                 name: '生命之地护肩',
                 desc: '',
-                iconSrc: "./icons/shoulder/inv_shoulder_66.png",
+                iconSrc: "./icons/shoulder/Inv_shoulder_66.png",
               },
               entry: [
                 'HP'
@@ -833,7 +833,7 @@ export const equipConfig = {
               description: {
                 name: '野性魔法肩甲',
                 desc: '',
-                iconSrc: "./icons/shoulder/inv_shoulder_33.png",
+                iconSrc: "./icons/shoulder/Inv_shoulder_33.png",
               },
               entry: [
                 'MP'

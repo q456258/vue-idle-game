@@ -1,54 +1,40 @@
 export const itemEffect = {
-// 品质	名	等级
-// 1	spell_nature_thunderclap	20
-// 	spell_nature_thunderclap2	45
-// 	spell_nature_thunderclap3	70
-// 	spell_nature_thunderclap4	95
-// 	spell_shadow_ritualofsacrifice	50
-// 	spell_shadow_ritualofsacrifice2	80
-// 	spell_shadow_ritualofsacrifice3	105
-// 	ability_warrior_shieldbash	30
-// 	ability_warrior_shieldbash2	55
-// 	ability_warrior_shieldbash3	80
-// 	ability_warrior_shieldbash4	105
-// 	ability_druid_maul	35
-// 	ability_druid_maul2	60
-// 	ability_druid_maul3	85
-// 	ability_druid_maul4	110
-// 	spell_fire_flamebolt	25
-// 	spell_fire_flamebolt2	50
-// 	spell_fire_flamebolt3	75
-// 	spell_fire_flamebolt4	100
-// 2	spell_nature_starfall	60
-// 	spell_nature_starfall2	85
-// 	spell_nature_starfall3	110
-// 	spell_holy_holybolt	40
-// 	spell_holy_holybolt2	65
-// 	spell_holy_holybolt3	90
-// 	spell_holy_holybolt4	115
-// 	spell_nature_lightning	40
-// 	spell_nature_lightning2	65
-// 	spell_nature_lightning3	90
-		
-// 3	spell_arcane_starfire	70
-// 	spell_arcane_starfire2	95
-// 	spell_holy_crusaderstrike	80
-// 	spell_holy_crusaderstrike2	105
-// 	spell_holy_layonhands	90
-// 	spell_holy_layonhands2	115
     data() {
         return {
             allSpell: ['spell_nature_thunderclap', 'spell_nature_thunderclap2', 'spell_nature_thunderclap3', 'spell_nature_thunderclap4', 
-                'spell_shadow_ritualofsacrifice', 'spell_shadow_ritualofsacrifice2', 'spell_shadow_ritualofsacrifice3', 
+                'spell_fire_flamebolt', 'spell_fire_flamebolt2', 'spell_fire_flamebolt3', 'spell_fire_flamebolt4', 
                 'ability_warrior_shieldbash', 'ability_warrior_shieldbash2', 'ability_warrior_shieldbash3', 'ability_warrior_shieldbash4', 
                 'ability_druid_maul', 'ability_druid_maul2', 'ability_druid_maul3', 'ability_druid_maul4', 
-                'spell_fire_flamebolt', 'spell_fire_flamebolt2', 'spell_fire_flamebolt3', 'spell_fire_flamebolt4', 
-                'spell_nature_starfall', 'spell_nature_starfall2', 'spell_nature_starfall3', 
+                'spell_shadow_ritualofsacrifice', 'spell_shadow_ritualofsacrifice2', 'spell_shadow_ritualofsacrifice3', 
+                'spell_holy_renew', 'spell_holy_renew2',
+                'spell_warlock_soulburn', 'spell_warlock_soulburn2',
+                'ability_warrior_shatteringthrow',
+
                 'spell_holy_holybolt', 'spell_holy_holybolt2', 'spell_holy_holybolt3', 'spell_holy_holybolt4', 
                 'spell_nature_lightning', 'spell_nature_lightning2', 'spell_nature_lightning3', 
+                'spell_nature_starfall', 'spell_nature_starfall2', 'spell_nature_starfall3', 
+                'spell_holy_powerwordshield', 'spell_holy_powerwordshield2', 
+                'spell_animabastion_buff',
+                'spell_animaardenweald_orb',
+
+                'spell_shadow_curseofmannoroth', 'spell_shadow_curseofmannoroth2', 'spell_shadow_curseofmannoroth3',  'spell_shadow_curseofmannoroth4', 
+                'spell_animaardenweald_groundstate', 'spell_animaardenweald_groundstate2', 'spell_animaardenweald_groundstate3',
+                'spell_holy_powerwordshield', 'spell_holy_powerwordshield2', 'spell_holy_powerwordshield3',
                 'spell_arcane_starfire', 'spell_arcane_starfire2', 
                 'spell_holy_crusaderstrike', 'spell_holy_crusaderstrike2', 
-                'spell_holy_layonhands', 'spell_holy_layonhands2']
+                'spell_nature_wispsplode',
+
+                'ability_rogue_shadowstrike', 'ability_rogue_shadowstrike2', 'ability_rogue_shadowstrike3', 'ability_rogue_shadowstrike4',
+                'spell_holy_innerfire', 'spell_holy_innerfire2',
+                'spell_holy_layonhands', 'spell_holy_layonhands2',
+                'spell_shadow_deathscream', 'spell_shadow_deathscream2', 'spell_shadow_deathscream2',
+
+                'ability_druid_starfall', 'ability_druid_starfall2', 'ability_druid_starfall3', 'ability_druid_starfall4', 'ability_druid_starfall5',
+                'warrior_talent_icon_innerrage', 'warrior_talent_icon_innerrage2', 'warrior_talent_icon_innerrage3',
+
+                'ability_revendreth_paladin', 'ability_revendreth_paladin2', 'ability_revendreth_paladin3', 'ability_revendreth_paladin4', 'ability_revendreth_paladin5',
+                'ability_ardenweald_paladin_summer',
+            ]
         }
     },
     methods: {
@@ -92,73 +78,75 @@ export const itemEffect = {
             return used;
         },
         getSpellList(lv, rank) {
-            var spellList = ['spell_nature_thunderclap'];
+            var spellList = [];
             var temp = [];
             switch(rank) {
                 case 1:
                     if(lv > 10) {
-                        temp = ['spell_nature_thunderclap', 'spell_fire_flamebolt'];
+                        temp = ['spell_nature_thunderclap', 'spell_nature_thunderclap2', 'spell_fire_flamebolt', 'ability_warrior_shieldbash', 'spell_holy_holybolt', 
+                            'spell_nature_lightning'];
                         spellList = spellList.concat(temp);
                     }
                     if(lv > 50) {
-                        temp = ['spell_nature_thunderclap2', 'spell_nature_lightning', 'spell_holy_holybolt', 
-                            'ability_warrior_shieldbash','ability_druid_maul'];
+                        temp = ['spell_nature_thunderclap3', 'spell_fire_flamebolt2', 'ability_warrior_shieldbash2', 
+                            'ability_druid_maul', 'spell_shadow_ritualofsacrifice', 'spell_holy_renew', 'spell_holy_holybolt2', 'spell_holy_holybolt3',
+                            'spell_nature_lightning2', 'spell_nature_starfall'];
                         spellList = spellList.concat(temp);
                     }
                     if(lv > 75) {
-                        temp = ['spell_nature_thunderclap3', 'spell_nature_lightning2', 'spell_shadow_ritualofsacrifice', 'spell_holy_holybolt2', 
-                            'spell_nature_starfall', 'ability_warrior_shieldbash2', 'ability_druid_maul2', 'spell_fire_flamebolt2'];
+                        temp = ['spell_nature_thunderclap4', 'spell_fire_flamebolt3', 'ability_warrior_shieldbash3', 'ability_druid_maul2', 
+                            'spell_shadow_ritualofsacrifice2', 'spell_holy_renew2', 'spell_warlock_soulburn', 'ability_warrior_shatteringthrow',
+                            'spell_holy_holybolt4', 'spell_nature_lightning3', 'spell_nature_starfall2', 'spell_holy_powerwordshield'];
                         spellList = spellList.concat(temp);
                     }
                     if(lv > 100) {
-                        temp = ['spell_nature_thunderclap4', 'spell_nature_lightning3', 'spell_shadow_ritualofsacrifice2', 
-                            'spell_holy_holybolt3', 'spell_nature_starfall2', 'ability_warrior_shieldbash3',
-                            'ability_druid_maul3', 'spell_fire_flamebolt3'];
+                        temp = ['spell_fire_flamebolt4', 'ability_warrior_shieldbash4', 'ability_druid_maul3', 'spell_shadow_ritualofsacrifice3', 
+                            'spell_holy_renew3', 'spell_warlock_soulburn2', 'ability_warrior_shatteringthrow2', 'spell_nature_starfall3',
+                            'spell_holy_powerwordshield2', 'spell_animabastion_buff', 'spell_animaardenweald_orb'];
                         spellList = spellList.concat(temp);
                     }
                     if(lv > 125) {
-                        temp = ['spell_shadow_ritualofsacrifice3', 'spell_nature_starfall2', 'ability_warrior_shieldbash4', 
-                            'ability_druid_maul4','spell_fire_flamebolt4'];
+                        temp = ['ability_druid_maul4'];
                         spellList = spellList.concat(temp);
                     }
                     break;
                 case 2:
                     if(lv > 10) {
-                        temp = ['spell_nature_thunderclap2', 'spell_nature_lightning', 'spell_holy_holybolt', 
-                            'ability_warrior_shieldbash','ability_druid_maul', 'spell_fire_flamebolt'];
+                        temp = ['spell_shadow_curseofmannoroth', 'ability_rogue_shadowstrike', ];
                         spellList = spellList.concat(temp);
-                    } else if(lv > 50) {
-                        temp = ['spell_nature_thunderclap3', 'spell_nature_lightning2', 'spell_shadow_ritualofsacrifice', 'spell_holy_holybolt2', 
-                            'spell_arcane_starfire','spell_nature_starfall', 'ability_warrior_shieldbash2', 'ability_druid_maul2', 'spell_fire_flamebolt2'];
+                    } 
+                    if(lv > 50) {
+                        temp = ['spell_shadow_curseofmannoroth2', 'spell_shadow_curseofmannoroth3', 'spell_animaardenweald_groundstate', 'spell_holy_innerfire',
+                            'ability_rogue_shadowstrike2', 'ability_rogue_shadowstrike3'];
                         spellList = spellList.concat(temp);
-                    } else if(lv > 75) {
-                        temp = ['spell_nature_thunderclap4', 'spell_nature_lightning3', 'spell_holy_crusaderstrike', 'spell_shadow_ritualofsacrifice2', 
-                            'spell_holy_layonhands','spell_holy_holybolt3', 'spell_arcane_starfire2', 'spell_nature_starfall2', 'ability_warrior_shieldbash3',
-                            'ability_druid_maul3', 'spell_fire_flamebolt3'];
+                    } 
+                    if(lv > 75) {
+                        temp = ['spell_shadow_curseofmannoroth4', 'spell_animaardenweald_groundstate2', 'spell_arcane_starfire', 'spell_holy_crusaderstrike',
+                            'spell_holy_innerfire2'];
                         spellList = spellList.concat(temp);
-                    } else if(lv > 100) {
-                        temp = ['spell_holy_crusaderstrike2', 'spell_shadow_ritualofsacrifice3', 'spell_nature_starfall2', 'ability_warrior_shieldbash4', 
-                            'ability_druid_maul4','spell_fire_flamebolt4'];
+                    } 
+                    if(lv > 100) {
+                        temp = ['spell_animaardenweald_groundstate3', 'spell_arcane_starfire2', 'spell_holy_crusaderstrike2', 'spell_nature_wispsplode',
+                            'ability_rogue_shadowstrike4', 'spell_holy_innerfire3', 'spell_holy_layonhands'];
+                        spellList = spellList.concat(temp);
+                    }
+                    if(lv > 125) {
+                        temp = ['spell_holy_layonhands2'];
                         spellList = spellList.concat(temp);
                     }
                     break;
                 case 3:
                     if(lv > 10) {
-                        temp = ['spell_nature_thunderclap2', 'spell_nature_lightning', 'spell_holy_holybolt', 
-                            'ability_warrior_shieldbash','ability_druid_maul', 'spell_fire_flamebolt'];
+                        temp = ['ability_druid_starfall', 'ability_revendreth_paladin'];
                         spellList = spellList.concat(temp);
                     } else if(lv > 50) {
-                        temp = ['spell_nature_thunderclap3', 'spell_nature_lightning2', 'spell_shadow_ritualofsacrifice', 'spell_holy_holybolt2', 
-                            'spell_arcane_starfire','spell_nature_starfall', 'ability_warrior_shieldbash2', 'ability_druid_maul2', 'spell_fire_flamebolt2'];
+                        temp = ['ability_druid_starfall2', 'warrior_talent_icon_innerrage', 'ability_revendreth_paladin2'];
                         spellList = spellList.concat(temp);
                     } else if(lv > 75) {
-                        temp = ['spell_nature_thunderclap4', 'spell_nature_lightning3', 'spell_holy_crusaderstrike', 'spell_shadow_ritualofsacrifice2', 
-                            'spell_holy_layonhands','spell_holy_holybolt3', 'spell_arcane_starfire2', 'spell_nature_starfall2', 'ability_warrior_shieldbash3',
-                            'ability_druid_maul3', 'spell_fire_flamebolt3'];
+                        temp = [];
                         spellList = spellList.concat(temp);
                     } else if(lv > 100) {
-                        temp = ['spell_holy_layonhands2', 'spell_holy_crusaderstrike2', 'spell_shadow_ritualofsacrifice3', 'spell_nature_starfall2', 'ability_warrior_shieldbash4', 
-                            'ability_druid_maul4','spell_fire_flamebolt4'];
+                        temp = ['ability_druid_starfall3', 'warrior_talent_icon_innerrage2', 'ability_revendreth_paladin3', 'ability_ardenweald_paladin_summer'];
                         spellList = spellList.concat(temp);
                     }
                     break;

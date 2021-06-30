@@ -70,8 +70,8 @@ export default {
                 backpackItem: backpack.itemGrid,
                 backpackSetting: { 
                     sortLocked: backpack.sortLocked,
-                    sellPrio: backpack.sellPrior,
-                    disPrio: backpack.disPior,
+                    sellPrio: backpack.sellPrio,
+                    disPrio: backpack.disPrio,
                     autoSell: backpack.autoSell 
                 }
             }

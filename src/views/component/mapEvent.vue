@@ -186,6 +186,8 @@ export default {
                     msg: '目标使用【'+spellInfo.name+'】对你造成了'+dmg+'点伤害'
                 })
             }
+            this.useCost(spell);
+            this.applyEffect(source, target, spell);
             return dmg;
         },
         getSpell(source, target) {
@@ -204,8 +206,6 @@ export default {
                 }
             }   
             if(this.checkCost(selectSpell)) {
-                this.useCost(selectSpell);
-                this.applyEffect(source, target, selectSpell);
                 return selectSpell;
             }
             return 'attack';
@@ -241,11 +241,23 @@ export default {
             var costs = this.spell[spell].level[spellLv];
             for(let cost in costs.cost) {
                 switch(cost) {
+                    case 'HP':
+                        this.set_player_hp(-1*costs.cost[cost], this.$store.state.playerAttribute);
+                        break;
+                    case 'CURHP':
+                        this.set_player_hp(-1*costs.cost[cost]*attr['CURHP'].value, this.$store.state.playerAttribute);
+                        break;
+                    case 'MAXHP':
+                        this.set_player_hp(-1*costs.cost[cost]*attr['MAXHP'].value, this.$store.state.playerAttribute);
+                        break;
                     case 'MP':
                         this.$store.commit('set_player_mp', -1*costs.cost[cost]);
                         break;
                     case 'CURMP':
                         this.$store.commit('set_player_mp', -1*costs.cost[cost]*attr['CURMP'].value);
+                        break;
+                    case 'MAXMP':
+                        this.$store.commit('set_player_mp', -1*costs.cost[cost]*attr['MAXMP'].value);
                         break;
                 }
             }
@@ -458,21 +470,31 @@ export default {
             this.streak = 0;
         },
         eliteStat(attribute) {
+            var player = this.$store.state.playerAttribute.attribute;
+            var bonus = Math.round(player.ATK.value*(1+player.CRIT.value/100*(player.CRITDMG.value-100)/100))
             attribute['ATK'] = {
-                value: attribute['ATK'].value*4,
-                showValue: attribute['ATK'].value*4
+                value: attribute['ATK'].value*2+bonus,
+                showValue: attribute['ATK'].value*2+bonus,
             }
+            bonus = Math.round(player.DEF.value/10)
             attribute['DEF'] = {
-                value: attribute['DEF'].value+200,
-                showValue: attribute['DEF'].value+200
+                value: attribute['DEF'].value+bonus,
+                showValue: attribute['DEF'].value+bonus,
             }
+            bonus = Math.round(player.AP.value/10)
             attribute['AP'] = {
-                value: attribute['AP'].value*2,
-                showValue: attribute['AP'].value*2
+                value: attribute['AP'].value+bonus,
+                showValue: attribute['AP'].value+bonus,
             }
+            bonus = Math.round(player.MR.value/5)
+            attribute['MR'] = {
+                value: attribute['MR'].value+bonus,
+                showValue: attribute['MR'].value+bonus,
+            }
+            bonus = Math.round(player.MAXHP.value*5)
             attribute['MAXHP'] = {
-                value: attribute['MAXHP'].value*15,
-                showValue: attribute['MAXHP'].value*15
+                value: attribute['MAXHP'].value*10+bonus,
+                showValue: attribute['MAXHP'].value*10+bonus
             }
             attribute['CURHP'] = {
                 value: attribute['MAXHP'].value,
@@ -481,25 +503,31 @@ export default {
             return attribute;
         },
         bossStat(attribute) {
+            var player = this.$store.state.playerAttribute.attribute;            
+            var bonus = Math.round(player.ATK.value*(1+player.CRIT.value/100*(player.CRITDMG.value-100)/100))
             attribute['ATK'] = {
-                value: (attribute['ATK'].value+200)*7,
-                showValue: (attribute['ATK'].value+200)*7,
+                value: attribute['ATK'].value*5+bonus,
+                showValue: attribute['ATK'].value*5+bonus,
             }
+            bonus = Math.round(player.DEF.value/10)
             attribute['DEF'] = {
-                value: attribute['DEF'].value*2,
-                showValue: attribute['DEF'].value*2
+                value: attribute['DEF'].value+bonus,
+                showValue: attribute['DEF'].value+bonus,
             }
+            bonus = Math.round(player.AP.value/5)
             attribute['AP'] = {
-                value: attribute['AP'].value*3,
-                showValue: attribute['AP'].value*3
+                value: attribute['AP'].value*2+bonus,
+                showValue: attribute['AP'].value*2+bonus,
             }
+            bonus = Math.round(player.MR.value/2)
             attribute['MR'] = {
-                value: attribute['MR'].value*3,
-                showValue: attribute['MR'].value*3
+                value: attribute['MR'].value+bonus,
+                showValue: attribute['MR'].value+bonus,
             }
+            bonus = Math.round(player.MAXHP.value*20)
             attribute['MAXHP'] = {
-                value: attribute['MAXHP'].value*100,
-                showValue: attribute['MAXHP'].value*100
+                value: attribute['MAXHP'].value*90+bonus,
+                showValue: attribute['MAXHP'].value*90+bonus
             }
             attribute['CURHP'] = {
                 value: attribute['MAXHP'].value,
