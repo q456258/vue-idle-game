@@ -413,7 +413,7 @@ data() {
             spell_holy_powerwordshield: {
                 name: '圣佑术',
                 weight: 25,
-                iconSrc: "./icons/spell/Spell_animabastion_buff.png",
+                iconSrc: "./icons/spell/Spell_holy_powerwordshield.png",
                 quality: 2,
                 level: [{
                         des: '获得两层虚无效果',
@@ -821,7 +821,7 @@ data() {
             },
             ability_revendreth_paladin: {
                 name: '血祭',
-                weight: 500,
+                weight: 5,
                 iconSrc: "./icons/spell/Ability_revendreth_paladin.png",
                 quality: 6,
                 level: [{

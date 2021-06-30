@@ -225,6 +225,9 @@
         <input type="radio" id="spell2" name="spell" class="tab">
         <label for="spell2">来源</label>
 
+        <input type="radio" id="spell3" name="spell" class="tab">
+        <label for="spell3">BUFF图鉴</label>
+
         <div class="tab__content">
             <h3>技能伤害怎么算的？</h3>
             <p>
@@ -255,6 +258,28 @@
             <p>
                 ✵不知道
             </p>
+        </div>
+
+        <div class="tab__content">
+            <table class="table">
+                <thead>
+                    <tr>
+                    <th scope="col">状态BUFF</th>
+                    <th scope="col">描述</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(v, k) in buffType.statusBuff" :key="k">
+                        <!-- <th>{{entryInfo[weapon.type[index-1].entry].name}}</th> -->
+                        <td>
+                            <span><img style="width:30px; height:30px" :src="buffType.statusBuff[k].iconSrc" alt="" /></span>
+                        </td>
+                        <td>
+                            <span>{{buffType.statusBuff[k].desc}}</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
     </div>
@@ -318,9 +343,10 @@
 <script>
 
 import {equipConfig} from '@/assets/config/equipConfig'
+import {buffConfig} from '@/assets/config/buffConfig'
 export default {
     name: "faq",
-    mixins: [equipConfig],
+    mixins: [equipConfig, buffConfig],
     components: {},
     props: {
     },
