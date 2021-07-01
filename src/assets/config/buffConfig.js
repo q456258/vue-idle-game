@@ -16,8 +16,8 @@ data() {
                     timed: true,
                 }
             },
-            // 破甲、穿透、吸血、吸蓝、蓄力、死亡免疫、虚无、吸收
-            // 无视部分护甲、部分伤害无视护甲、吸血、吸蓝、提升最终伤害、抵消一次死亡、免疫一次攻击伤害、将伤害转为治疗
+            // 破甲、穿透、吸血、吸蓝、蓄力、死亡免疫、虚无、吸收、格挡、元素亲和、自然之力
+            // 无视部分护甲、部分伤害无视护甲、吸血、吸蓝、提升最终伤害、抵消一次死亡、免疫一次攻击伤害、将伤害转为治疗、降低受到的元素伤害、提升造成的元素伤害
 
             // 眩晕、流血、中毒、虚弱
             // 跳过回合、攻击掉血、每秒掉血、降低最终伤害
@@ -70,6 +70,24 @@ data() {
                     iconSrc: "./icons/spell/absorb.png",
                     desc: "吸收：将下一次受到的伤害转为等量生命值"
                 },
+                block: {
+                    cleanse: true,
+                    stacked: true,
+                    iconSrc: "./icons/spell/absorb.png",
+                    desc: "格挡：免疫下一次受到的攻击伤害"
+                },
+                elementAffinity: {
+                    cleanse: true,
+                    stacked: true,
+                    iconSrc: "./icons/spell/absorb.png",
+                    desc: "元素亲和：免疫下一次受到的元素伤害"
+                },
+                forceOfNature: {
+                    cleanse: true,
+                    stacked: true,
+                    iconSrc: "./icons/spell/absorb.png",
+                    desc: "自然之力：下一次造成的元素伤害翻倍"
+                },
                 minionSlayer: {
                     timed: true,
                     iconSrc: "./icons/item/inv_potion_27.png",
@@ -99,7 +117,7 @@ data() {
                     cleanse: true,
                     stacked: true,
                     iconSrc: "./icons/spell/weak.png",
-                    desc: "虚弱："
+                    desc: "虚弱：造成的伤害降低50%"
                 }
             },
         },

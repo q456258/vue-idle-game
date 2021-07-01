@@ -148,6 +148,10 @@ data() {
                         effect: { stun: {stack: 1, chance: 20, target: 'enermy'} },
                         desc: '20%对敌人附加一层眩晕效果'
                     },
+                    50: {
+                        effect: { block: {stack: 1, chance: 20, target: 'self'} },
+                        desc: '20%获得一层格挡效果'
+                    },
                     100: {
                         effect: { stun: {stack: 1, chance: 40, target: 'enermy'} },
                         desc: '40%对敌人附加一层眩晕效果'
@@ -223,7 +227,7 @@ data() {
             },
             spell_holy_renew: {
                 name: '恢复',
-                weight: 70,
+                weight: 50,
                 iconSrc: "./icons/spell/Spell_holy_renew.png",
                 quality: 1,
                 level: [{
@@ -287,27 +291,29 @@ data() {
             },
             ability_warrior_shatteringthrow: {
                 name: '碎裂投掷',
-                weight: 30,
+                weight: 5,
                 iconSrc: "./icons/spell/Ability_warrior_shatteringthrow.png",
                 quality: 1,
                 level: [{
-                        des: '造成攻击力*1点伤害, 50%获得一层穿透效果',
+                        des: '造成攻击力*1点伤害, 30%获得一层穿透效果',
                         dmg: { ATK: 1 },
                         cost: { MP: 1000, },
+                        effect: { penetrate: {stack: 1, chance: 30, target: 'self'} },
                     }, {
-                        des: '造成攻击力*1.2点伤害, 50%获得一层穿透效果',
+                        des: '造成攻击力*1.2点伤害, 30%获得一层穿透效果',
                         dmg: { ATK: 1.2 },
+                        effect: { penetrate: {stack: 1, chance: 30, target: 'self'} },
                         cost: { MP: 3000, },
                     }
                 ],
                 proficient: {
                     10: {
-                        effect: { penetrate: {stack: 1, chance: 75, target: 'self'} },
-                        desc: '75%获得一层穿透效果'
+                        effect: { penetrate: {stack: 1, chance: 40, target: 'self'} },
+                        desc: '40%获得一层穿透效果'
                     },
                     100: {
-                        effect: { penetrate: {stack: 2, chance: 50, target: 'self'} },
-                        desc: '50%获得两层穿透效果'
+                        effect: { penetrate: {stack: 1, chance: 50, target: 'self'} },
+                        desc: '50%获得一层穿透效果'
                     }
                 },
                 tag: ['攻击', 'BUFF']
@@ -408,11 +414,21 @@ data() {
                         cost: { MP: 30000, },
                     }
                 ],
+                proficient: {
+                    10: {
+                        effect: { forceOfNature: {stack: 1, chance: 10, target: 'self'} },
+                        desc: '10%获得一层自然之力效果'
+                    },
+                    100: {
+                        effect: { forceOfNature: {stack: 1, chance: 20, target: 'self'} },
+                        desc: '20%获得一层自然之力效果'
+                    }
+                },
                 tag: ['元素']
             },
             spell_holy_powerwordshield: {
                 name: '圣佑术',
-                weight: 25,
+                weight: 10,
                 iconSrc: "./icons/spell/Spell_holy_powerwordshield.png",
                 quality: 2,
                 level: [{
@@ -435,7 +451,7 @@ data() {
             },
             spell_animabastion_buff: {
                 name: '灵感',
-                weight: 30,
+                weight: 10,
                 iconSrc: "./icons/spell/Spell_animabastion_buff.png",
                 quality: 2,
                 level: [{
@@ -466,7 +482,7 @@ data() {
             },
             spell_animaardenweald_orb: {
                 name: '法夜祝福',
-                weight: 50,
+                weight: 30,
                 iconSrc: "./icons/spell/Spell_animaardenweald_orb.png",
                 quality: 2,
                 level: [{
@@ -524,7 +540,7 @@ data() {
             },
             spell_animaardenweald_groundstate: {
                 name: '冥想',
-                weight: 30,
+                weight: 20,
                 iconSrc: "./icons/spell/Spell_animaardenweald_groundstate.png",
                 quality: 2,
                 level: [{
@@ -535,11 +551,11 @@ data() {
                                 charge: {stack: 1, chance: 100, target: 'self'} },
                         cost: { MP: 0, },
                     }, {
-                        des: '获得一层吸蓝效果和两层蓄力效果',
+                        des: '获得两层吸蓝效果和一层蓄力效果',
                         dmg: {},
                         ap: {},
-                        effect: { manasteal: {stack: 1, chance: 100, target: 'self'},
-                                charge: {stack: 2, chance: 100, target: 'self'} },
+                        effect: { manasteal: {stack: 2, chance: 100, target: 'self'},
+                                charge: {stack: 1, chance: 100, target: 'self'} },
                         cost: { MP: 0, },
                     }, {
                         des: '获得两层吸蓝效果和两层蓄力效果',
@@ -567,8 +583,18 @@ data() {
                         des: '造成元素*7点伤害',
                         dmg: { AP: 7},
                         cost: { MP: 30000, },
-                    }
+                    },
                 ],
+                proficient: {
+                    10: {
+                        effect: { forceOfNature: {stack: 1, chance: 20, target: 'self'} },
+                        desc: '20%获得一层自然之力效果'
+                    },
+                    100: {
+                        effect: { forceOfNature: {stack: 1, chance: 40, target: 'self'} },
+                        desc: '40%获得一层自然之力效果'
+                    }
+                },
                 tag: ['元素']
             },
             spell_holy_crusaderstrike: {
@@ -611,6 +637,14 @@ data() {
                     }
                 ],
                 proficient: {
+                    10: {
+                        effect: { elementAffinity: {stack: 1, chance: 100, target: 'self'} },
+                        desc: '获得一层元素亲和效果'
+                    },
+                    100: {
+                        effect: { elementAffinity: {stack: 2, chance: 100, target: 'self'} },
+                        desc: '获得两层元素亲和效果'
+                    }
                 },
                 tag: ['元素']
             },
@@ -620,17 +654,17 @@ data() {
                 iconSrc: "./icons/spell/Spell_shadow_deathcoil.png",
                 quality: 3,
                 level: [{
-                        des: '造成当前生命值*10点伤害，0点元素伤害，100%获得一层吸收效果',
+                        des: '造成当前生命值*10点伤害，0点元素伤害，50%获得一层吸收效果',
                         dmg: {CURHP: 10},
                         ap: {},
-                        effect: { absorb: {stack: 1, chance: 100, target: 'self'}},
+                        effect: { absorb: {stack: 1, chance: 50, target: 'self'}},
                         cost: { MP: 10000, },
                     }, {
-                        des: '造成当前生命值*10点伤害，0点元素伤害，100%获得一层吸收效果',
+                        des: '造成当前生命值*10点伤害，0点元素伤害，50%获得一层吸收效果',
                         dmg: {CURHP: 10},
                         ap: {},
-                        effect: { absorb: {stack: 1, chance: 100, target: 'self'}},
-                        cost: { MP: 10000, },
+                        effect: { absorb: {stack: 1, chance: 50, target: 'self'}},
+                        cost: { MP: 100000, },
                     }
                 ],
                 proficient: {
@@ -639,7 +673,7 @@ data() {
             },
             ability_rogue_shadowstrike: {
                 name: '裂缝打击',
-                weight: 50,
+                weight: 3,
                 iconSrc: "./icons/spell/Ability_rogue_shadowstrike.png",
                 quality: 4,
                 level: [{
@@ -666,19 +700,19 @@ data() {
                 ],
                 proficient: {
                     10: {
-                        effect: { penetrate: {stack: 1, chance: 60, target: 'self'} },
-                        desc: '60%获得一层穿透效果'
+                        effect: { penetrate: {stack: 1, chance: 70, target: 'self'} },
+                        desc: '70%获得一层穿透效果'
                     },
                     100: {
-                        effect: { lifesteal: {stack: 1, chance: 70, target: 'self'} },
-                        desc: '70%获得一层穿透效果'
+                        effect: { lifesteal: {stack: 2, chance: 50, target: 'self'} },
+                        desc: '50%获得两层穿透效果'
                     }
                 },
                 tag: ['攻击力', '敏捷', 'BUFF']
             },
             spell_holy_innerfire: {
                 name: '心灵之火',
-                weight: 50,
+                weight: 10,
                 iconSrc: "./icons/spell/Spell_holy_innerfire.png",
                 quality: 4,
                 level: [{
@@ -741,7 +775,7 @@ data() {
             },
             spell_shadow_deathscream: {
                 name: '死亡嚎叫',
-                weight: 20,
+                weight: 10,
                 iconSrc: "./icons/spell/Spell_shadow_deathscream.png",
                 quality: 4,
                 level: [{
@@ -766,33 +800,41 @@ data() {
             },
             ability_druid_starfall: {
                 name: '无尽之星',
-                weight: 50,
+                weight: 30,
                 iconSrc: "./icons/spell/Ability_druid_starfall.png",
                 quality: 5,
                 level: [{
-                        des: '造成当前魔法值*5点元素伤害',
-                        dmg: {},
-                        ap: { CURMP: 5 },
-                        cost: { MAXMP: 1, },
-                    }, {
                         des: '造成当前魔法值*6点元素伤害',
                         dmg: {},
                         ap: { CURMP: 6 },
                         cost: { MAXMP: 1, },
                     }, {
-                        des: '造成当前魔法值*7点元素伤害',
+                        des: '造成当前魔法值*8点元素伤害',
                         dmg: {},
-                        ap: { CURMP: 7 },
+                        ap: { CURMP: 8 },
+                        cost: { MAXMP: 1, },
+                    }, {
+                        des: '造成当前魔法值*10点元素伤害',
+                        dmg: {},
+                        ap: { CURMP: 10 },
                         cost: { MAXMP: 1, },
                     }
                 ],
                 proficient: {
+                    10: {
+                        effect: { forceOfNature: {stack: 1, chance: 100, target: 'self'} },
+                        desc: '获得一层自然之力效果'
+                    },
+                    100: {
+                        effect: { forceOfNature: {stack: 2, chance: 100, target: 'self'} },
+                        desc: '获得两层自然之力效果'
+                    }
                 },
                 tag: ['魔法', '元素']
             },
             warrior_talent_icon_innerrage: {
                 name: '鲁莽',
-                weight: 5,
+                weight: 2,
                 iconSrc: "./icons/spell/warrior_talent_icon_innerrage.png",
                 quality: 5,
                 level: [{
@@ -821,7 +863,7 @@ data() {
             },
             ability_revendreth_paladin: {
                 name: '血祭',
-                weight: 5,
+                weight: 1,
                 iconSrc: "./icons/spell/Ability_revendreth_paladin.png",
                 quality: 6,
                 level: [{
@@ -859,7 +901,7 @@ data() {
                 iconSrc: "./icons/spell/Ability_ardenweald_paladin_summer.png",
                 quality: 6,
                 level: [{
-                        des: '获得一层吸血、吸蓝、蓄力、死亡免疫、虚无、吸收',
+                        des: '获得一层吸血、吸蓝、蓄力、死亡免疫、虚无、吸收、元素亲和、自然之力',
                         dmg: {},
                         ap: {},
                         effect: {lifesteal: {stack: 1, chance: 100, target: 'self'},
@@ -867,10 +909,12 @@ data() {
                                 charge: {stack: 1, chance: 100, target: 'self'} ,
                                 deathImmune: {stack: 1, chance: 100, target: 'self'},
                                 void: {stack: 1, chance: 100, target: 'self'} ,
-                                absorb: {stack: 1, chance: 100, target: 'self'}  },
+                                absorb: {stack: 1, chance: 100, target: 'self'},
+                                elementAffinity: {stack: 1, chance: 100, target: 'self'},
+                                forceOfNature: {stack: 1, chance: 100, target: 'self'},  },
                         cost: { },
                     }, {
-                        des: '获得一层吸血、吸蓝、蓄力、死亡免疫、虚无、吸收',
+                        des: '获得一层吸血、吸蓝、蓄力、死亡免疫、虚无、吸收、元素亲和、自然之力',
                         dmg: {},
                         ap: {},
                         effect: {lifesteal: {stack: 1, chance: 100, target: 'self'},
@@ -878,7 +922,9 @@ data() {
                                 charge: {stack: 1, chance: 100, target: 'self'} ,
                                 deathImmune: {stack: 1, chance: 100, target: 'self'},
                                 void: {stack: 1, chance: 100, target: 'self'} ,
-                                absorb: {stack: 1, chance: 100, target: 'self'}  },
+                                absorb: {stack: 1, chance: 100, target: 'self'},
+                                elementAffinity: {stack: 1, chance: 100, target: 'self'},
+                                forceOfNature: {stack: 1, chance: 100, target: 'self'},   },
                         cost: { },
                     }
                 ],

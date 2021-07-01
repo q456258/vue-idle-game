@@ -7,8 +7,8 @@ export const dungeon = {
             var types = {
                 gold : 50, 
                 equip : 50, 
-                crystal : 15, 
-                chest : 7, 
+                crystal : 10, 
+                chest : 3, 
             }
             var option = ['gold', 'equip'];
             var probability = [];

@@ -27,11 +27,13 @@
     <div id="building">     
         <cTooltip :placement="'bottom'">
             <template v-slot:content>
-                <button class="btn btn-outline-light btn-sm build" @click="levelUp('guild')">公会 {{guild.guild}}</button>
+                <button class="btn btn-outline-light btn-sm build" :disabled="guild.guild*2>=player.lv" @click="levelUp('guild')">公会 {{guild.guild}}</button>
             </template>
             <template v-slot:tip>
                 <p class="info">* 提升其他建筑等级上限</p>
                 <p class="info">
+                    <span :style="{color:guild.guild*2>=player.lv?'#f00':''}">人物等级要求:{{Math.floor(guild.guild*2)}}</span>
+                    <br>
                     ————消耗————
                     <br>
                     <span :style="{color:guild.gold<cost.guild.cost.gold?'#f00':''}">金币:{{cost.guild.cost.gold}}</span>
@@ -40,7 +42,7 @@
         </cTooltip>   
         <cTooltip :placement="'bottom'" v-if="guild.guild>0">
             <template v-slot:content>
-                <button class="btn btn-outline-light btn-sm build" @click="levelUp('train')">练功房 {{guild.train}}</button>
+                <button class="btn btn-outline-light btn-sm build" :disabled="guild.train>=guild.guild" @click="levelUp('train')">练功房 {{guild.train}}</button>
             </template>
             <template v-slot:tip>
                 <p class="info">* 消耗水晶提升能力的场所</p>
@@ -56,7 +58,7 @@
         </cTooltip>
         <cTooltip :placement="'bottom'" v-if="guild.train>15">
             <template v-slot:content>
-                <button class="btn btn-outline-light btn-sm build" @click="levelUp('train2')">中级练功房 {{guild.train2}}</button>
+                <button class="btn btn-outline-light btn-sm build" :disabled="guild.train2>=guild.guild" @click="levelUp('train2')">中级练功房 {{guild.train2}}</button>
             </template>
             <template v-slot:tip>
                 <p class="info">* 消耗水晶提升能力的场所</p>
@@ -72,7 +74,7 @@
         </cTooltip>
         <cTooltip :placement="'bottom'" v-if="guild.train2>15">
             <template v-slot:content>
-                <button class="btn btn-outline-light btn-sm build" @click="levelUp('train3')">高级练功房 {{guild.train3}}</button>
+                <button class="btn btn-outline-light btn-sm build" :disabled="guild.train3>=guild.guild" @click="levelUp('train3')">高级练功房 {{guild.train3}}</button>
             </template>
             <template v-slot:tip>
                 <p class="info">* 消耗水晶提升能力的场所</p>
@@ -88,7 +90,7 @@
         </cTooltip>
         <cTooltip :placement="'bottom'" v-if="guild.guild>0">
             <template v-slot:content>
-                <button class="btn btn-outline-light btn-sm build" @click="levelUp('shop')">商店 {{guild.shop}}</button>
+                <button class="btn btn-outline-light btn-sm build" :disabled="guild.shop>=guild.guild" @click="levelUp('shop')">商店 {{guild.shop}}</button>
             </template>
             <template v-slot:tip>
                 <p class="info">* 出售日常用品</p>
@@ -102,7 +104,7 @@
         </cTooltip>
         <cTooltip :placement="'bottom'" v-if="guild.guild>0">
             <template v-slot:content>
-                <button class="btn btn-outline-light btn-sm build" @click="levelUp('smith')">铁匠铺 {{guild.smith}}</button>
+                <button class="btn btn-outline-light btn-sm build" :disabled="guild.smith>=guild.guild" @click="levelUp('smith')">铁匠铺 {{guild.smith}}</button>
             </template>
             <template v-slot:tip>
                 <p class="info">* 提供强化、锻造等服务</p>
@@ -145,7 +147,8 @@ export default {
     props: {
     },
     computed: {
-        guild() {return this.$store.state.guildAttribute;}
+        guild() {return this.$store.state.guildAttribute;},
+        player() {return this.$store.state.playerAttribute;}
     },
     methods: {      
         levelUp(type) {

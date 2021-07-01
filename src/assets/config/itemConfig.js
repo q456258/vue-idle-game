@@ -121,7 +121,7 @@ export const itemConfig = {
                     description: {
                         name: '精英宝箱',
                         category: '消耗品',
-                        desc: '精英怪用私房钱买的家当，来之不易，打开后随机获得金币、水晶、装备、技能书',
+                        desc: '精英怪用私房钱买的家当，来之不易，打开后随机获得金币、水晶、装备、技能书、BOSS挑战券',
                         iconSrc: "./icons/item/Inv_box_01.png",
                     },
                     stack: true,
@@ -137,6 +137,117 @@ export const itemConfig = {
                     },
                     stack: true,
                     maxStack: 20
+                },
+                //'利姆鲁·特恩佩斯特', '巨人哥布林', '野猪王', '杰尼龟', '精灵女皇', '强盗首领', '俺已自了宫', '科多兽', '鬼神熊', '蛟龙'
+                bossTicket1: {
+                    quality: 3,
+                    description: {
+                        name: 'BOSS挑战券【利姆鲁·特恩佩斯】',
+                        category: '消耗品',
+                        desc: '挑战来自异世界的强大史莱姆',
+                        iconSrc: "./icons/item/Inv_crate_01.png",
+                    },
+                    stack: true,
+                    maxStack: 10
+                },
+                bossTicket2: {
+                    quality: 3,
+                    description: {
+                        name: 'BOSS挑战券【巨人哥布林】',
+                        category: '消耗品',
+                        desc: '挑战哥布林中的王者',
+                        iconSrc: "./icons/item/Inv_crate_01.png",
+                    },
+                    stack: true,
+                    maxStack: 10
+                },
+                bossTicket3: {
+                    quality: 3,
+                    description: {
+                        name: 'BOSS挑战券【野猪王】',
+                        category: '消耗品',
+                        desc: '挑战哥布林中的王者',
+                        iconSrc: "./icons/item/Inv_crate_01.png",
+                    },
+                    stack: true,
+                    maxStack: 10
+                },
+                bossTicket4: {
+                    quality: 3,
+                    description: {
+                        name: 'BOSS挑战券【杰尼龟】',
+                        category: '消耗品',
+                        desc: '',
+                        iconSrc: "./icons/item/Inv_crate_01.png",
+                    },
+                    stack: true,
+                    maxStack: 10
+                },
+                bossTicket5: {
+                    quality: 3,
+                    description: {
+                        name: 'BOSS挑战券【精灵女皇】',
+                        category: '消耗品',
+                        desc: '',
+                        iconSrc: "./icons/item/Inv_crate_01.png",
+                    },
+                    stack: true,
+                    maxStack: 10
+                },
+                bossTicket6: {
+                    quality: 3,
+                    description: {
+                        name: 'BOSS挑战券【强盗首领】',
+                        category: '消耗品',
+                        desc: '',
+                        iconSrc: "./icons/item/Inv_crate_01.png",
+                    },
+                    stack: true,
+                    maxStack: 10
+                },
+                bossTicket7: {
+                    quality: 3,
+                    description: {
+                        name: 'BOSS挑战券【俺已自了宫】',
+                        category: '消耗品',
+                        desc: '',
+                        iconSrc: "./icons/item/Inv_crate_01.png",
+                    },
+                    stack: true,
+                    maxStack: 10
+                },
+                bossTicket8: {
+                    quality: 3,
+                    description: {
+                        name: 'BOSS挑战券【科多兽】',
+                        category: '消耗品',
+                        desc: '',
+                        iconSrc: "./icons/item/Inv_crate_01.png",
+                    },
+                    stack: true,
+                    maxStack: 10
+                },
+                bossTicket9: {
+                    quality: 3,
+                    description: {
+                        name: 'BOSS挑战券【鬼神熊】',
+                        category: '消耗品',
+                        desc: '',
+                        iconSrc: "./icons/item/Inv_crate_01.png",
+                    },
+                    stack: true,
+                    maxStack: 10
+                },
+                bossTicket10: {
+                    quality: 3,
+                    description: {
+                        name: 'BOSS挑战券【蛟龙】',
+                        category: '消耗品',
+                        desc: '',
+                        iconSrc: "./icons/item/Inv_crate_01.png",
+                    },
+                    stack: true,
+                    maxStack: 10
                 },
                 spell_nature_thunderclap: {
                     quality: 1,

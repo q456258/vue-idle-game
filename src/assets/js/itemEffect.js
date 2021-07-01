@@ -61,6 +61,36 @@ export const itemEffect = {
                 case 'inv_box_03':
                     used = this.inv_box_03();
                     break;
+                case 'bossTicket1':
+                    used = this.bossTicket(4);
+                    break;
+                case 'bossTicket2':
+                    used = this.bossTicket(6);
+                    break;
+                case 'bossTicket3':
+                    used = this.bossTicket(8);
+                    break;
+                case 'bossTicket4':
+                    used = this.bossTicket(10);
+                    break;
+                case 'bossTicket5':
+                    used = this.bossTicket(12);
+                    break;
+                case 'bossTicket6':
+                    used = this.bossTicket(14);
+                    break;
+                case 'bossTicket7':
+                    used = this.bossTicket(16);
+                    break;
+                case 'bossTicket8':
+                    used = this.bossTicket(18);
+                    break;
+                case 'bossTicket9':
+                    used = this.bossTicket(20);
+                    break;
+                case 'bossTicket10':
+                    used = this.bossTicket(22);
+                    break;
                 case 'inv_potion_27':
                     used = this.inv_potion_27();
                     break;
@@ -164,11 +194,11 @@ export const itemEffect = {
             var lv = this.$store.state.playerAttribute.lv;
             switch(type) {
                 case 'gold':
-                    let gold = Math.round((100+lv**2)*(2+2*Math.random()))
+                    let gold = Math.round((100+lv**2)*(1+1*Math.random()))
                     guild.getGold('打开宝箱', gold);
                     return true;
                 case 'crystal':
-                    let crystal = Math.round((1+lv*3)*(1+Math.random()))
+                    let crystal = Math.round((1+lv)*(1+Math.random()))
                     guild.getCrystal('打开宝箱', crystal);
                     return true;
                 case 'equip':
@@ -203,9 +233,11 @@ export const itemEffect = {
             var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
             var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
             var guild = this.findBrothersComponents(this, 'guild', false)[0];
-            var reward = ['gold', 'crystal', 'equip', 'spell'];
+            var reward = ['gold', 'crystal', 'equip', 'spell', 'ticket'];
             var type = reward[Math.floor(Math.random()*reward.length)];
             var lv = this.$store.state.playerAttribute.lv;
+            var item = {};
+            var quantity = 0;
             switch(type) {
                 case 'gold':
                     let gold = Math.round((100+lv**2)*(10+4*Math.random()))
@@ -228,8 +260,22 @@ export const itemEffect = {
                 case 'spell':
                     let spell = this.getSpellList(lv, 2);
                     let spellType = spell[Math.floor(Math.random()*spell.length)];
-                    let quantity = 1;
-                    let item = itemInfo.createItem(spellType, quantity);  
+                    quantity = 1;
+                    item = itemInfo.createItem(spellType, quantity);  
+                    item = JSON.parse(item);
+                    this.$store.commit("set_sys_info", {
+                        type: 'reward',
+                        msg: '打开宝箱获得',
+                        item: item,
+                        quantity: quantity
+                    });
+                    itemInfo.addItem(item);
+                    return true;
+                case 'ticket':
+                    let tickets = ['bossTicket1', 'bossTicket2', 'bossTicket3', 'bossTicket4', 'bossTicket5', 'bossTicket6', 'bossTicket7', 'bossTicket8', 'bossTicket9', 
+                            'bossTicket10'];
+                    quantity = 1;
+                    item = itemInfo.createItem(tickets[Math.floor((lv-1)/10)-1], quantity);  
                     item = JSON.parse(item);
                     this.$store.commit("set_sys_info", {
                         type: 'reward',
@@ -256,7 +302,7 @@ export const itemEffect = {
                     guild.getGold('打开宝箱', gold);
                     return true;
                 case 'crystal':
-                    let crystal = Math.round((1+lv*3)*(50+Math.random()))
+                    let crystal = Math.round((1+lv)*(50+Math.random()))
                     guild.getCrystal('打开宝箱', crystal);
                     return true;
                 case 'equip':
@@ -285,6 +331,12 @@ export const itemEffect = {
                     return true;
             }
             return false;
+        },
+        bossTicket(template) {
+            var index = this.findComponentUpward(this, 'index');
+            var mapEvent = this.findBrothersComponents(this, 'mapEvent', false)[0];
+            index.set_enermy_hp('dead');
+            mapEvent.generateEnermy('BOSS', this.$store.state.playerAttribute.lv, template);
         },
         inv_potion_27() {
             var player = this.$store.state.playerAttribute;

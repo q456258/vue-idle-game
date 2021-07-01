@@ -109,6 +109,7 @@ export const buffSystem = {
         },
         // 受伤触发buff
         buffOnHurt(source, target, dmg) {
+            dmg = this.weak(source, dmg);
             dmg = this.void(target, dmg);
             dmg = this.absorb(target, dmg);
             dmg = this.minionSlayer(source, target, dmg);
@@ -163,6 +164,8 @@ export const buffSystem = {
         },
         // 魔法窃取
         manasteal(source, dmg) {
+            if(dmg == 0)
+                return dmg;
             var sourceType = source.type==undefined? 'player':source.type;
             if(this.buffReduce(source, source, 'manasteal')) {
                 var msRatio = 0.1;
@@ -173,6 +176,8 @@ export const buffSystem = {
         },
         // 返回蓄力伤害
         charge(source, dmg) {
+            if(dmg == 0)
+                return dmg;
             if(this.buffReduce(source, source, 'charge')) {
                 var chargeRatio = 1.5;
                 return Math.round(dmg * chargeRatio);
@@ -180,7 +185,10 @@ export const buffSystem = {
             else
                 return dmg;
         },
+        //死亡免疫
         deathImmune(source, dmg) {
+            if(dmg == 0)
+                return dmg;
             if(this.buffReduce(source, source, 'deathImmune')) {
                 return 0;
             }
@@ -188,6 +196,7 @@ export const buffSystem = {
                 return dmg;
 
         },
+        // 虚无
         void(target, dmg) {
             if(dmg == 0)
                 return dmg;
@@ -201,6 +210,7 @@ export const buffSystem = {
             else
                 return dmg;
         },
+        // 吸收
         absorb(target, dmg) {
             if(dmg == 0)
                 return dmg;
@@ -213,6 +223,37 @@ export const buffSystem = {
             }
             else
                 return dmg;
+        },
+        // 格挡
+        block(target, dmg) {
+            if(dmg == 0)
+                return dmg;
+            if(this.buffReduce(target, target, 'block')) {
+                return 0;
+            }
+            else
+                return dmg;
+        },
+        // 元素亲和
+        elementAffinity(source, ap) {
+            if(ap == 0)
+                return ap;
+            if(this.buffReduce(source, source, 'elementAffinity')) {
+                return 0;
+            }
+            else
+                return ap;
+        },
+        // 自然之力
+        forceOfNature(target, ap) {
+            if(ap == 0)
+                return ap;
+            if(this.buffReduce(target, target, 'elementAffinity')) {
+                return ap*2;
+            }
+            else
+                return ap;
+            
         },
         minionSlayer(source, target, dmg) {
             if(source.buff['minionSlayer'] != undefined && target.type == 'enermy' && target.special == undefined) {
@@ -245,6 +286,14 @@ export const buffSystem = {
             }
             else
                 return false;
+        },    
+        // weak
+        weak(source, dmg) {
+            if(this.buffReduce(source, source, 'weak')) {
+                return dmg/2;
+            }
+            else
+                return dmg;
         },    
         set_player_hp(data, source) {
             var target = this.$store.state.playerAttribute;

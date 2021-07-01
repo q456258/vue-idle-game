@@ -44,9 +44,11 @@ export default {
                     else if(dungeonInfo.current == 'trial') {
                         this.generateEnermy(type, dungeonInfo[dungeonInfo.current].level+1);
                     }
-                    if(dungeonInfo.auto) {
-                        index.startBattle();
-                    }
+                    setTimeout(() => {
+                        if(dungeonInfo.auto) {
+                            index.startBattle();
+                        }
+                    }, 1000)
                     if(enermyAttribute.lv > playerAttribute.lv) {
                         this.levelUp();
                     }
@@ -89,17 +91,18 @@ export default {
                 }
             }, 1000)
         },
-        generateEnermy(type, level) {
+        generateEnermy(type, level, templateId) {
             var enermyAttribute = {};
-            var lv = level == 1 ? 0 : Math.ceil(level/5);
-            enermyAttribute.attribute = this.$deepCopy(this.monster[lv].template);
+            if(!templateId)
+                templateId = level == 1 ? 0 : Math.ceil(level/5);
+            enermyAttribute.attribute = this.$deepCopy(this.monster[templateId].template);
             var attribute = enermyAttribute.attribute,
             val = 0.0,
             flexStats = ['MAXHP', 'ATK', 'DEF'],
             lvStats = ['AP', 'MR'],
             fixStats = ['CRIT', 'CRITDMG'];
             enermyAttribute.lv = level;
-            enermyAttribute.name = this.monster[lv].name;
+            enermyAttribute.name = this.monster[templateId].name;
             enermyAttribute.type = type=='trial' ? 'trial' : 'enermy';
             flexStats.forEach(stat => {
                 let attribute = enermyAttribute.attribute[stat];
@@ -131,18 +134,19 @@ export default {
                     value: Math.round(attribute['MAXHP'].value*0.01),
                     showValue: Math.round(attribute['MAXHP'].value*0.01),
                 }
+                attribute = this.trialStat(attribute);
             }
             else if(level > 10) {
-                if(this.streak > 0 && this.streak%10 == 0&& this.streak%100 != 0) {
+                if(this.streak > 0 && this.streak%100 == 0) {
                     enermyAttribute.special = 'elite';
                     enermyAttribute.name += '精英';
                     attribute = this.eliteStat(attribute);
                 }
-                else if(this.streak > 0 && this.streak%100 == 0) {
-                    enermyAttribute.special = 'boss';
-                    enermyAttribute.name = this.bossName[Math.floor((level-1)/10)];
-                    attribute = this.bossStat(attribute);
-                }
+            }
+            if(type=='BOSS') {
+                enermyAttribute.special = 'boss';
+                enermyAttribute.name = this.bossName[Math.floor((templateId-1)/2)];
+                attribute = this.bossStat(attribute);
             }
             val = this.getDefRed(attribute['DEF'].value);
             attribute['DEFRED'] = {
@@ -164,7 +168,7 @@ export default {
             var crit = Math.round(Math.random()*100);
             if(crit<source.attribute.CRIT.value) 
                 dmg *= source.attribute.CRITDMG.value/100;
-            dmg += this.getApDmg(spell, source);
+            dmg += this.getApDmg(spell, source, target);
             dmg -= this.getMrValue(type, target);
             dmg = Math.round(dmg);
             if(dmg < 0)
@@ -213,8 +217,8 @@ export default {
         getReducedDmg(source, target, baseDmg) {
             if(baseDmg == 0)
                 return 0;
-            var sourceType = source.type==undefined? 'player':source.type;
             baseDmg = this.charge(source, baseDmg);
+            baseDmg = this.block(target, baseDmg);
             var penDmg = this.penetrate(source, baseDmg);
             var armor = this.sunder(source, target.attribute.DEF.value);
             var defRed = this.getDefRed(armor);
@@ -318,6 +322,8 @@ export default {
                 if(source.attribute[attr] != undefined)
                     ap += source.attribute[attr].value*apDmgs.ap[attr];
             }
+            ap = this.elementAffinity(source, ap);
+            ap = this.forceOfNature(target, ap);
             return ap;
         },
         getHeal(spell, source) {
@@ -360,12 +366,12 @@ export default {
             switch(type) {
                 case 'gold':
                     this.addStreak();
-                    let gold = Math.round((100+lv**2)*(2+2*Math.random()))
+                    let gold = Math.round((100+lv**2)*(1+Math.random()))
                     guild.getGold('', gold);
                     break;
                 case 'crystal':
                     this.addStreak();
-                    let crystal = Math.round((1+lv*2)*(1+Math.random()))
+                    let crystal = Math.round((1+lv)*(1+Math.random()))
                     guild.getCrystal('', crystal);
                     break;
                 case 'chest':
@@ -401,7 +407,7 @@ export default {
                 });
                 itemInfo.addItem(item);
             }
-            else if(this.$store.state.guildAttribute.smith >= 20 && Math.random() < 0.025){
+            else if(this.$store.state.guildAttribute.smith >= 20 && Math.random() < 0.01){
                 var item = itemInfo.createItem('inv_misc_enchantedpearla', 1);  
                 item = JSON.parse(item);
                 quantity = item.quantity;
@@ -469,32 +475,53 @@ export default {
         endStreak() {
             this.streak = 0;
         },
-        eliteStat(attribute) {
-            var player = this.$store.state.playerAttribute.attribute;
-            var bonus = Math.round(player.ATK.value*(1+player.CRIT.value/100*(player.CRITDMG.value-100)/100))
+        trialStat(attribute) {
             attribute['ATK'] = {
-                value: attribute['ATK'].value*2+bonus,
-                showValue: attribute['ATK'].value*2+bonus,
+                value: Math.round(attribute['ATK'].value*1.2),
+                showValue: Math.round(attribute['ATK'].value*1.2),
             }
-            bonus = Math.round(player.DEF.value/10)
             attribute['DEF'] = {
-                value: attribute['DEF'].value+bonus,
-                showValue: attribute['DEF'].value+bonus,
+                value: attribute['DEF'].value,
+                showValue: attribute['DEF'].value,
             }
-            bonus = Math.round(player.AP.value/10)
             attribute['AP'] = {
-                value: attribute['AP'].value+bonus,
-                showValue: attribute['AP'].value+bonus,
+                value: Math.round(attribute['AP'].value*1.2),
+                showValue: Math.round(attribute['AP'].value*1.2),
             }
-            bonus = Math.round(player.MR.value/5)
             attribute['MR'] = {
-                value: attribute['MR'].value+bonus,
-                showValue: attribute['MR'].value+bonus,
+                value: attribute['MR'].value,
+                showValue: attribute['MR'].value,
             }
-            bonus = Math.round(player.MAXHP.value*5)
             attribute['MAXHP'] = {
-                value: attribute['MAXHP'].value*10+bonus,
-                showValue: attribute['MAXHP'].value*10+bonus
+                value: attribute['MAXHP'].value*4,
+                showValue: attribute['MAXHP'].value*4
+            }
+            attribute['CURHP'] = {
+                value: attribute['MAXHP'].value,
+                showValue: attribute['MAXHP'].value
+            }
+            return attribute;
+        },
+        eliteStat(attribute) {
+            attribute['ATK'] = {
+                value: attribute['ATK'].value,
+                showValue: attribute['ATK'].value,
+            }
+            attribute['DEF'] = {
+                value: attribute['DEF'].value,
+                showValue: attribute['DEF'].value,
+            }
+            attribute['AP'] = {
+                value: attribute['AP'].value,
+                showValue: attribute['AP'].value,
+            }
+            attribute['MR'] = {
+                value: attribute['MR'].value,
+                showValue: attribute['MR'].value,
+            }
+            attribute['MAXHP'] = {
+                value: attribute['MAXHP'].value*20,
+                showValue: attribute['MAXHP'].value*20
             }
             attribute['CURHP'] = {
                 value: attribute['MAXHP'].value,
@@ -503,31 +530,25 @@ export default {
             return attribute;
         },
         bossStat(attribute) {
-            var player = this.$store.state.playerAttribute.attribute;            
-            var bonus = Math.round(player.ATK.value*(1+player.CRIT.value/100*(player.CRITDMG.value-100)/100))
             attribute['ATK'] = {
-                value: attribute['ATK'].value*5+bonus,
-                showValue: attribute['ATK'].value*5+bonus,
+                value: attribute['ATK'].value*2,
+                showValue: attribute['ATK'].value*2,
             }
-            bonus = Math.round(player.DEF.value/10)
             attribute['DEF'] = {
-                value: attribute['DEF'].value+bonus,
-                showValue: attribute['DEF'].value+bonus,
+                value: attribute['DEF'].value*2,
+                showValue: attribute['DEF'].value*2,
             }
-            bonus = Math.round(player.AP.value/5)
             attribute['AP'] = {
-                value: attribute['AP'].value*2+bonus,
-                showValue: attribute['AP'].value*2+bonus,
+                value: attribute['AP'].value*2,
+                showValue: attribute['AP'].value*2,
             }
-            bonus = Math.round(player.MR.value/2)
             attribute['MR'] = {
-                value: attribute['MR'].value+bonus,
-                showValue: attribute['MR'].value+bonus,
+                value: attribute['MR'].value*2,
+                showValue: attribute['MR'].value*2,
             }
-            bonus = Math.round(player.MAXHP.value*20)
             attribute['MAXHP'] = {
-                value: attribute['MAXHP'].value*90+bonus,
-                showValue: attribute['MAXHP'].value*90+bonus
+                value: attribute['MAXHP'].value*100,
+                showValue: attribute['MAXHP'].value*100
             }
             attribute['CURHP'] = {
                 value: attribute['MAXHP'].value,
