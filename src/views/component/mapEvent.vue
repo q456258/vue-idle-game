@@ -310,7 +310,7 @@ export default {
             }
             return dmg;
         },
-        getApDmg(spell, source) {
+        getApDmg(spell, source, target) {
             var spellLv = source.spells == undefined ? 0 : source.spells.spell[spell].lv-1;
             var apDmgs = this.spell[spell].level[spellLv];
             if(!apDmgs.ap)
