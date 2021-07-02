@@ -400,6 +400,11 @@ export default {
         openMenu(k, e) {
             this.currentItemIndex = k;
             this.currentItem = this.grid[k];
+            if(this.displayPage == 'item') {
+                var type = this.itemType[this.itemGrid[this.currentItemIndex].type];
+                this.usable = type.use;
+                this.mergeable = type.merge;
+            }
             // this.$store.commit('set_need_strengthen_equipment', this.currentItem)
             const menuMinWidth = 105;
             const offsetLeft = this.$el.getBoundingClientRect().left; // container margin left
@@ -412,11 +417,7 @@ export default {
             } else {
                 this.left = left;
             }
-
             this.top = e.clientY-this.$el.getBoundingClientRect().top;
-            var type = this.itemType[this.itemGrid[this.currentItemIndex].type];
-            this.usable = type.use;
-            this.mergeable = type.merge;
             this.visible = true;
         },
         closeMenu() {
