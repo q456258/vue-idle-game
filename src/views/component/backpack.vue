@@ -50,8 +50,10 @@
             <li @click="sellEquipment()" v-if="!currentItem.locked">出售</li>
         </ul>
         <ul v-show="visible && displayPage=='item'" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
-            <li @click="useItem()">使用</li>
-            <li @click="useAllItem()" v-if="itemGrid[currentItemIndex].quantity > 1">全部使用</li>
+            <li @click="useItem()" v-if="usable">使用</li>
+            <li @click="useAllItem()" v-if="usable && itemGrid[currentItemIndex].quantity > 1">全部使用</li>
+            <li @click="mergeItem()" v-if="mergeable">合成</li>
+            <li @click="mergeAll()" v-if="mergeable && itemGrid[currentItemIndex].quantity > 1">全部合成</li>
             <li @click="throwItem()">丢弃</li>
         </ul>
         <div class="footer">
@@ -98,11 +100,12 @@
 </template>
 <script>
 import { assist } from '../../assets/js/assist';
+import { itemConfig } from '../../assets/config/itemConfig';
 import { itemEffect } from '../../assets/js/itemEffect';
 import draggable from '../uiComponent/draggable';
 export default {
     name: 'backpack',
-    mixins: [assist, itemEffect],
+    mixins: [assist, itemConfig, itemEffect],
     components: {draggable},
     data() {
         return {
@@ -112,6 +115,8 @@ export default {
             grid: [],
             itemGrid: [],
             visible: false,
+            usable: false,
+            mergeable: false,
             dragging: false,
             sortLocked: false,
             autoSellPanel: false,
@@ -275,6 +280,32 @@ export default {
                     clearInterval(autoUse);
             }, 50);
         },
+        mergeItem(e, k, count=1) {
+            this.closeInfo();
+            if(k != undefined)
+                this.currentItemIndex = k; 
+            var type = this.itemType[this.itemGrid[this.currentItemIndex].type];
+            var mergeCount = type.mergeCount;
+            var result = type.mergeTarget;
+            if(!type.merge)
+                return;
+            if(this.itemGrid[this.currentItemIndex].quantity < mergeCount*count)
+                return;
+            var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            itemInfo.removeItemByIndex(this.currentItemIndex, mergeCount*count);
+            var item = itemInfo.createItem(result, count);
+            itemInfo.addItem(JSON.parse(item));
+            this.$forceUpdate();
+        },
+        mergeAll(e, k) {
+            this.closeInfo();
+            if(k != undefined)
+                this.currentItemIndex = k; 
+            var type = this.itemType[this.itemGrid[this.currentItemIndex].type];
+            var mergeCount = type.mergeCount;
+            var count = Math.floor(this.itemGrid[this.currentItemIndex].quantity/mergeCount);
+            this.mergeItem(e, this.currentItemIndex, count);
+        },
         throwItem() {
             // this.itemGrid[this.currentItemIndex] = {};
             this.$set(this.itemGrid, this.currentItemIndex, {});
@@ -383,6 +414,9 @@ export default {
             }
 
             this.top = e.clientY-this.$el.getBoundingClientRect().top;
+            var type = this.itemType[this.itemGrid[this.currentItemIndex].type];
+            this.usable = type.use;
+            this.mergeable = type.merge;
             this.visible = true;
         },
         closeMenu() {

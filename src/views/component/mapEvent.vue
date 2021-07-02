@@ -44,11 +44,9 @@ export default {
                     else if(dungeonInfo.current == 'trial') {
                         this.generateEnermy(type, dungeonInfo[dungeonInfo.current].level+1);
                     }
-                    setTimeout(() => {
-                        if(dungeonInfo.auto) {
-                            index.startBattle();
-                        }
-                    }, 1000)
+                    if(dungeonInfo.auto) {
+                        index.startBattle();
+                    }
                     if(enermyAttribute.lv > playerAttribute.lv) {
                         this.levelUp();
                     }

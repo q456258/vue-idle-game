@@ -44,10 +44,13 @@ export const itemConfig = {
                     description: {
                         name: '普通装备精华',
                         category: '材料',
-                        desc: '分解普通装备获得，可用于升级普通品质的装备',
+                        desc: '分解普通装备获得，可用于升级普通品质的装备，可消耗10个合成精良装备精华',
                         iconSrc: "./icons/item/Inv_enchanting_dust.png",
                     },
                     stack: true,
+                    merge: true,
+                    mergeCount: 10,
+                    mergeTarget: 'dust3',
                     maxStack: 1000
                 },
                 dust3: {
@@ -55,10 +58,13 @@ export const itemConfig = {
                     description: {
                         name: '精良装备精华',
                         category: '材料',
-                        desc: '分解精良装备获得，可用于升级精良品质的装备',
+                        desc: '分解精良装备获得，可用于升级精良品质的装备，可消耗10个合成完美装备精华',
                         iconSrc: "./icons/item/Inv_enchanting_70_arkhana.png",
                     },
                     stack: true,
+                    merge: true,
+                    mergeCount: 10,
+                    mergeTarget: 'dust4',
                     maxStack: 1000
                 },
                 dust4: {
@@ -66,10 +72,13 @@ export const itemConfig = {
                     description: {
                         name: '完美装备精华',
                         category: '材料',
-                        desc: '分解完美装备获得，可用于升级完美品质的装备',
+                        desc: '分解完美装备获得，可用于升级完美品质的装备，可消耗10个合成史诗装备精华',
                         iconSrc: "./icons/item/Inv_misc_dust_infinite.png",
                     },
                     stack: true,
+                    merge: true,
+                    mergeCount: 10,
+                    mergeTarget: 'dust5',
                     maxStack: 1000
                 },
                 dust5: {
@@ -77,10 +86,13 @@ export const itemConfig = {
                     description: {
                         name: '史诗装备精华',
                         category: '材料',
-                        desc: '分解史诗装备获得，可用于升级史诗品质的装备',
+                        desc: '分解史诗装备获得，可用于升级史诗品质的装备，可消耗10个合成传奇装备精华',
                         iconSrc: "./icons/item/Inv_enchanting_wod_dust3.png",
                     },
                     stack: true,
+                    merge: true,
+                    mergeCount: 10,
+                    mergeTarget: 'dust6',
                     maxStack: 1000
                 },
                 dust6: {
@@ -102,6 +114,7 @@ export const itemConfig = {
                         desc: '使用后获得【野怪杀手】buff，对对冒险区非精英、BOSS类怪物额外造成50%伤害，持续10分钟',
                         iconSrc: "./icons/item/inv_potion_27.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 5
                 },
@@ -113,6 +126,7 @@ export const itemConfig = {
                         desc: '行人遗落的箱子，背后有着不为人知的故事，打开后随机获得金币、水晶、装备、技能书',
                         iconSrc: "./icons/item/Inv_crate_01.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 20
                 },
@@ -124,6 +138,7 @@ export const itemConfig = {
                         desc: '精英怪用私房钱买的家当，来之不易，打开后随机获得金币、水晶、装备、技能书、BOSS挑战券',
                         iconSrc: "./icons/item/Inv_box_01.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 20
                 },
@@ -135,6 +150,7 @@ export const itemConfig = {
                         desc: '不是只有巨龙才喜欢财宝，BOSS级怪物多年的藏货，打开后随机获得金币、水晶、装备、技能书',
                         iconSrc: "./icons/item/Inv_box_02.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 20
                 },
@@ -147,6 +163,7 @@ export const itemConfig = {
                         desc: '挑战来自异世界的强大史莱姆',
                         iconSrc: "./icons/item/Inv_crate_01.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10
                 },
@@ -158,6 +175,7 @@ export const itemConfig = {
                         desc: '挑战哥布林中的王者',
                         iconSrc: "./icons/item/Inv_crate_01.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10
                 },
@@ -169,6 +187,7 @@ export const itemConfig = {
                         desc: '挑战哥布林中的王者',
                         iconSrc: "./icons/item/Inv_crate_01.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10
                 },
@@ -180,6 +199,7 @@ export const itemConfig = {
                         desc: '',
                         iconSrc: "./icons/item/Inv_crate_01.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10
                 },
@@ -191,6 +211,7 @@ export const itemConfig = {
                         desc: '',
                         iconSrc: "./icons/item/Inv_crate_01.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10
                 },
@@ -202,6 +223,7 @@ export const itemConfig = {
                         desc: '',
                         iconSrc: "./icons/item/Inv_crate_01.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10
                 },
@@ -213,6 +235,7 @@ export const itemConfig = {
                         desc: '',
                         iconSrc: "./icons/item/Inv_crate_01.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10
                 },
@@ -224,6 +247,7 @@ export const itemConfig = {
                         desc: '',
                         iconSrc: "./icons/item/Inv_crate_01.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10
                 },
@@ -235,6 +259,7 @@ export const itemConfig = {
                         desc: '',
                         iconSrc: "./icons/item/Inv_crate_01.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10
                 },
@@ -246,6 +271,7 @@ export const itemConfig = {
                         desc: '',
                         iconSrc: "./icons/item/Inv_crate_01.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10
                 },
@@ -257,6 +283,7 @@ export const itemConfig = {
                         desc: '学习技能【雷霆一击】',
                         iconSrc: "./icons/spell/Spell_nature_thunderclap.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 20,
                     lvReq: 20
@@ -269,6 +296,7 @@ export const itemConfig = {
                         desc: '提升一级技能【雷霆一击】，上限为二级',
                         iconSrc: "./icons/spell/Spell_nature_thunderclap.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 20,
                     lvReq: 45
@@ -281,6 +309,7 @@ export const itemConfig = {
                         desc: '提升一级技能【雷霆一击】，上限为三级',
                         iconSrc: "./icons/spell/Spell_nature_thunderclap.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 20,
                     lvReq: 70
@@ -293,6 +322,7 @@ export const itemConfig = {
                         desc: '提升一级技能【雷霆一击】，上限为四级',
                         iconSrc: "./icons/spell/Spell_nature_thunderclap.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 20,
                     lvReq: 95
@@ -305,6 +335,7 @@ export const itemConfig = {
                         desc: '学习技能【火球术】',
                         iconSrc: "./icons/spell/spell_fire_flamebolt.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 20,
                     lvReq: 30
@@ -317,6 +348,7 @@ export const itemConfig = {
                         desc: '提升一级技能【火球术】，上限为二级',
                         iconSrc: "./icons/spell/spell_fire_flamebolt.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 20,
                     lvReq: 55
@@ -329,6 +361,7 @@ export const itemConfig = {
                         desc: '提升一级技能【火球术】，上限为三级',
                         iconSrc: "./icons/spell/spell_fire_flamebolt.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 20,
                     lvReq: 80
@@ -341,6 +374,7 @@ export const itemConfig = {
                         desc: '提升一级技能【火球术】，上限为四级',
                         iconSrc: "./icons/spell/spell_fire_flamebolt.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 20,
                     lvReq: 105
@@ -353,6 +387,7 @@ export const itemConfig = {
                         desc: '学习技能【盾击】',
                         iconSrc: "./icons/spell/ability_warrior_shieldbash.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10,
                     lvReq: 40
@@ -365,6 +400,7 @@ export const itemConfig = {
                         desc: '提升一级技能【盾击】，上限为二级',
                         iconSrc: "./icons/spell/ability_warrior_shieldbash.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10,
                     lvReq: 65
@@ -377,6 +413,7 @@ export const itemConfig = {
                         desc: '提升一级技能【盾击】，上限为三级',
                         iconSrc: "./icons/spell/ability_warrior_shieldbash.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10,
                     lvReq: 90
@@ -389,6 +426,7 @@ export const itemConfig = {
                         desc: '提升一级技能【盾击】，上限为四级',
                         iconSrc: "./icons/spell/ability_warrior_shieldbash.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10,
                     lvReq: 115
@@ -401,6 +439,7 @@ export const itemConfig = {
                         desc: '学习技能【槌击】',
                         iconSrc: "./icons/spell/ability_druid_maul.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 20,
                     lvReq: 50
@@ -413,6 +452,7 @@ export const itemConfig = {
                         desc: '提升一级技能【槌击】，上限为二级',
                         iconSrc: "./icons/spell/ability_druid_maul.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 20,
                     lvReq: 75
@@ -425,6 +465,7 @@ export const itemConfig = {
                         desc: '提升一级技能【槌击】，上限为三级',
                         iconSrc: "./icons/spell/ability_druid_maul.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 20,
                     lvReq: 100
@@ -437,6 +478,7 @@ export const itemConfig = {
                         desc: '提升一级技能【槌击】，上限为四级',
                         iconSrc: "./icons/spell/ability_druid_maul.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 20,
                     lvReq: 125
@@ -449,6 +491,7 @@ export const itemConfig = {
                         desc: '学习技能【影袭】',
                         iconSrc: "./icons/spell/spell_shadow_ritualofsacrifice.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 20,
                     lvReq: 60
@@ -461,6 +504,7 @@ export const itemConfig = {
                         desc: '提升一级技能【影袭】，上限为二级',
                         iconSrc: "./icons/spell/spell_shadow_ritualofsacrifice.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 20,
                     lvReq: 85
@@ -473,6 +517,7 @@ export const itemConfig = {
                         desc: '提升一级技能【影袭】，上限为三级',
                         iconSrc: "./icons/spell/spell_shadow_ritualofsacrifice.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 20,
                     lvReq: 110
@@ -485,6 +530,7 @@ export const itemConfig = {
                         desc: '学习技能【恢复】',
                         iconSrc: "./icons/spell/spell_holy_renew.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 20,
                     lvReq: 70
@@ -497,6 +543,7 @@ export const itemConfig = {
                         desc: '提升一级技能【恢复】，上限为二级',
                         iconSrc: "./icons/spell/spell_holy_renew.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 20,
                     lvReq: 95
@@ -506,12 +553,13 @@ export const itemConfig = {
                     description: {
                         name: '【三级】恢复技能书',
                         category: '消耗品',
-                        desc: '提升一级技能【恢复】，上限为四级',
+                        desc: '提升一级技能【恢复】，上限为三级',
                         iconSrc: "./icons/spell/spell_holy_renew.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 20,
-                    lvReq: 95
+                    lvReq: 120
                 },
                 spell_warlock_soulburn: {
                     quality: 1,
@@ -521,6 +569,7 @@ export const itemConfig = {
                         desc: '学习技能【夺魂】',
                         iconSrc: "./icons/spell/spell_warlock_soulburn.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 20,
                     lvReq: 80
@@ -533,6 +582,7 @@ export const itemConfig = {
                         desc: '提升一级技能【夺魂】，上限为二级',
                         iconSrc: "./icons/spell/spell_warlock_soulburn.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 20,
                     lvReq: 105
@@ -545,6 +595,7 @@ export const itemConfig = {
                         desc: '学习技能【碎裂投掷】',
                         iconSrc: "./icons/spell/ability_warrior_shatteringthrow.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 20,
                     lvReq: 90
@@ -557,6 +608,7 @@ export const itemConfig = {
                         desc: '提升一级技能【碎裂投掷】，上限为二级',
                         iconSrc: "./icons/spell/ability_warrior_shatteringthrow.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 20,
                     lvReq: 115
@@ -569,6 +621,7 @@ export const itemConfig = {
                         desc: '学习技能【圣光术】',
                         iconSrc: "./icons/spell/spell_holy_holybolt.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10,
                     lvReq: 20
@@ -581,6 +634,7 @@ export const itemConfig = {
                         desc: '提升一级技能【圣光术】，上限为二级',
                         iconSrc: "./icons/spell/spell_holy_holybolt.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10,
                     lvReq: 45
@@ -593,6 +647,7 @@ export const itemConfig = {
                         desc: '提升一级技能【圣光术】，上限为三级',
                         iconSrc: "./icons/spell/spell_holy_holybolt.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10,
                     lvReq: 70
@@ -605,6 +660,7 @@ export const itemConfig = {
                         desc: '提升一级技能【圣光术】，上限为四级',
                         iconSrc: "./icons/spell/spell_holy_holybolt.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10,
                     lvReq: 115
@@ -617,6 +673,7 @@ export const itemConfig = {
                         desc: '学习技能【闪电箭】',
                         iconSrc: "./icons/spell/Spell_nature_lightning.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10,
                     lvReq: 40
@@ -629,6 +686,7 @@ export const itemConfig = {
                         desc: '提升一级技能【闪电箭】，上限为二级',
                         iconSrc: "./icons/spell/Spell_nature_lightning.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10,
                     lvReq: 65
@@ -641,6 +699,7 @@ export const itemConfig = {
                         desc: '提升一级技能【闪电箭】，上限为三级',
                         iconSrc: "./icons/spell/Spell_nature_lightning.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10,
                     lvReq: 90
@@ -653,6 +712,7 @@ export const itemConfig = {
                         desc: '学习技能【月火术】',
                         iconSrc: "./icons/spell/spell_nature_starfall.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10,
                     lvReq: 60
@@ -665,6 +725,7 @@ export const itemConfig = {
                         desc: '提升一级技能【月火术】，上限为二级',
                         iconSrc: "./icons/spell/spell_nature_starfall.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10,
                     lvReq: 85
@@ -677,6 +738,7 @@ export const itemConfig = {
                         desc: '提升一级技能【月火术】，上限为三级',
                         iconSrc: "./icons/spell/spell_nature_starfall.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10,
                     lvReq: 110
@@ -689,6 +751,7 @@ export const itemConfig = {
                         desc: '学习技能【圣佑术】',
                         iconSrc: "./icons/spell/spell_holy_powerwordshield.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10,
                     lvReq: 80
@@ -701,6 +764,7 @@ export const itemConfig = {
                         desc: '提升一级技能【圣佑术】，上限为二级',
                         iconSrc: "./icons/spell/spell_holy_powerwordshield.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10,
                     lvReq: 105
@@ -713,6 +777,7 @@ export const itemConfig = {
                         desc: '学习技能【灵感】',
                         iconSrc: "./icons/spell/spell_animabastion_buff.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10,
                     lvReq: 100
@@ -725,6 +790,7 @@ export const itemConfig = {
                         desc: '学习技能【法夜祝福】',
                         iconSrc: "./icons/spell/spell_animaardenweald_orb.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10,
                     lvReq: 120
@@ -737,6 +803,7 @@ export const itemConfig = {
                         desc: '学习技能【残废术】',
                         iconSrc: "./icons/spell/spell_shadow_curseofmannoroth.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10,
                     lvReq: 20
@@ -749,6 +816,7 @@ export const itemConfig = {
                         desc: '提升一级技能【残废术】，上限为二级',
                         iconSrc: "./icons/spell/spell_shadow_curseofmannoroth.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10,
                     lvReq: 45
@@ -761,6 +829,7 @@ export const itemConfig = {
                         desc: '提升一级技能【残废术】，上限为三级',
                         iconSrc: "./icons/spell/spell_shadow_curseofmannoroth.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10,
                     lvReq: 70
@@ -773,6 +842,7 @@ export const itemConfig = {
                         desc: '提升一级技能【残废术】，上限为四级',
                         iconSrc: "./icons/spell/spell_shadow_curseofmannoroth.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10,
                     lvReq: 95
@@ -785,6 +855,7 @@ export const itemConfig = {
                         desc: '提升一级技能【残废术】，上限为五级',
                         iconSrc: "./icons/spell/spell_shadow_curseofmannoroth.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10,
                     lvReq: 120
@@ -797,6 +868,7 @@ export const itemConfig = {
                         desc: '学习技能【冥想】',
                         iconSrc: "./icons/spell/spell_animaardenweald_groundstate.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10,
                     lvReq: 50
@@ -809,6 +881,7 @@ export const itemConfig = {
                         desc: '提升一级技能【冥想】，上限为二级',
                         iconSrc: "./icons/spell/spell_animaardenweald_groundstate.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10,
                     lvReq: 75
@@ -821,6 +894,7 @@ export const itemConfig = {
                         desc: '提升一级技能【冥想】，上限为三级',
                         iconSrc: "./icons/spell/spell_animaardenweald_groundstate.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10,
                     lvReq: 100
@@ -833,6 +907,7 @@ export const itemConfig = {
                         desc: '学习技能【星火术】',
                         iconSrc: "./icons/spell/spell_arcane_starfire.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10,
                     lvReq: 80
@@ -845,6 +920,7 @@ export const itemConfig = {
                         desc: '提升一级技能【星火术】，上限为二级',
                         iconSrc: "./icons/spell/spell_arcane_starfire.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10,
                     lvReq: 105
@@ -857,6 +933,7 @@ export const itemConfig = {
                         desc: '学习技能【十字军打击】',
                         iconSrc: "./icons/spell/Spell_holy_crusaderstrike.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 5,
                     lvReq: 80
@@ -869,6 +946,7 @@ export const itemConfig = {
                         desc:  '提升一级技能【十字军打击】，上限为二级',
                         iconSrc: "./icons/spell/Spell_holy_crusaderstrike.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 5,
                     lvReq: 105
@@ -881,6 +959,7 @@ export const itemConfig = {
                         desc: '学习技能【元素爆破】',
                         iconSrc: "./icons/spell/spell_nature_wispsplode.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10,
                     lvReq: 110
@@ -893,6 +972,7 @@ export const itemConfig = {
                         desc: '学习技能【裂缝打击】',
                         iconSrc: "./icons/spell/ability_rogue_shadowstrike.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 5,
                     lvReq: 20
@@ -905,6 +985,7 @@ export const itemConfig = {
                         desc: '提升一级技能【裂缝打击】，上限为二级',
                         iconSrc: "./icons/spell/ability_rogue_shadowstrike.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 5,
                     lvReq: 45
@@ -917,6 +998,7 @@ export const itemConfig = {
                         desc: '提升一级技能【裂缝打击】，上限为三级',
                         iconSrc: "./icons/spell/ability_rogue_shadowstrike.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 5,
                     lvReq: 70
@@ -929,6 +1011,7 @@ export const itemConfig = {
                         desc: '提升一级技能【裂缝打击】，上限为四级',
                         iconSrc: "./icons/spell/ability_rogue_shadowstrike.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 5,
                     lvReq: 95
@@ -941,6 +1024,7 @@ export const itemConfig = {
                         desc: '学习技能【心灵之火】',
                         iconSrc: "./icons/spell/spell_holy_innerfire.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 5,
                     lvReq: 60
@@ -953,6 +1037,7 @@ export const itemConfig = {
                         desc: '提升一级技能【心灵之火】，上限为二级',
                         iconSrc: "./icons/spell/spell_holy_innerfire.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 5,
                     lvReq: 85
@@ -965,6 +1050,7 @@ export const itemConfig = {
                         desc: '提升一级技能【心灵之火】，上限为三级',
                         iconSrc: "./icons/spell/spell_holy_innerfire.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 5,
                     lvReq: 120
@@ -977,6 +1063,7 @@ export const itemConfig = {
                         desc: '学习技能【圣疗】',
                         iconSrc: "./icons/spell/Spell_holy_layonhands.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10,
                     lvReq: 100
@@ -989,6 +1076,7 @@ export const itemConfig = {
                         desc: '提升一级技能【圣疗】，上限为二级',
                         iconSrc: "./icons/spell/Spell_holy_layonhands.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 10,
                     lvReq: 125
@@ -1001,6 +1089,7 @@ export const itemConfig = {
                         desc: '学习技能【无尽之星】',
                         iconSrc: "./icons/spell/ability_druid_starfall.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 5,
                     lvReq: 20
@@ -1013,6 +1102,7 @@ export const itemConfig = {
                         desc: '提升一级技能【无尽之星】，上限为二级',
                         iconSrc: "./icons/spell/ability_druid_starfall.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 5,
                     lvReq: 70
@@ -1025,6 +1115,7 @@ export const itemConfig = {
                         desc: '提升一级技能【无尽之星】，上限为三级',
                         iconSrc: "./icons/spell/ability_druid_starfall.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 5,
                     lvReq: 120
@@ -1037,6 +1128,7 @@ export const itemConfig = {
                         desc: '学习技能【鲁莽】',
                         iconSrc: "./icons/spell/warrior_talent_icon_innerrage.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 5,
                     lvReq: 70
@@ -1049,6 +1141,7 @@ export const itemConfig = {
                         desc: '提升一级技能【鲁莽】，上限为二级',
                         iconSrc: "./icons/spell/warrior_talent_icon_innerrage.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 5,
                     lvReq: 120
@@ -1061,6 +1154,7 @@ export const itemConfig = {
                         desc: '学习技能【血祭】',
                         iconSrc: "./icons/spell/ability_revendreth_paladin.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 5,
                     lvReq: 10
@@ -1073,6 +1167,7 @@ export const itemConfig = {
                         desc: '提升一级技能【血祭】，上限为二级',
                         iconSrc: "./icons/spell/ability_revendreth_paladin.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 5,
                     lvReq: 60
@@ -1085,6 +1180,7 @@ export const itemConfig = {
                         desc: '提升一级技能【血祭】，上限为三级',
                         iconSrc: "./icons/spell/ability_revendreth_paladin.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 5,
                     lvReq: 110
@@ -1097,6 +1193,7 @@ export const itemConfig = {
                         desc: '学习技能【仲夏祝福】',
                         iconSrc: "./icons/spell/ability_ardenweald_paladin_summer.png",
                     },
+                    use: true,
                     stack: true,
                     maxStack: 5,
                     lvReq: 100

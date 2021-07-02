@@ -333,10 +333,9 @@ export const itemEffect = {
             return false;
         },
         bossTicket(template) {
-            var index = this.findComponentUpward(this, 'index');
             var mapEvent = this.findBrothersComponents(this, 'mapEvent', false)[0];
-            index.set_enermy_hp('dead');
             mapEvent.generateEnermy('BOSS', this.$store.state.playerAttribute.lv, template);
+            return true;
         },
         inv_potion_27() {
             var player = this.$store.state.playerAttribute;
