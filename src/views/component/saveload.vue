@@ -92,15 +92,8 @@ export default {
             try {
                 var data = JSON.parse(Base64.decode(Base64.decode(loadData)));
 
-                if(data.state.statistic == undefined) {
-                    data.state.statistic = {
-                        slain: {},
-                        gameStartDate: 0,
-                        gameTime: 0,
-                        awayTime: 0,
-                        cumulatedGold: 0,
-                        cumulatedCrystal: 0,
-                    }
+                if(data.state.guildAttribute.member == undefined) {
+                    data.state.guildAttribute.member = []
                 }
                 this.$store.replaceState(data.state);
                 var backpack = this.findBrothersComponents(this, 'backpack', false)[0];

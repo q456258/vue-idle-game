@@ -236,7 +236,8 @@ export default new Vuex.Store({
             train2: 0,
             train3: 0,
             shop: 0,
-            smith: 0
+            smith: 0,
+            member: []
         },
         playerAttribute: {
             name: '无名',
