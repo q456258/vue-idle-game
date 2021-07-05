@@ -143,31 +143,6 @@ export default {
             }
             this.guild[type] += 1;
             this.getCost(type, this.guild[type]+1);
-
-        },
-        getGold(text, gold, showText=true, bonus=true) {
-            gold = parseInt(gold);
-            if(bonus)
-                gold = Math.round(gold*(1+this.guild.shop*0.005));
-            this.guild.gold += gold;
-            if(showText) {
-                this.$store.commit("set_sys_info", {
-                    type: 'reward',
-                    msg: text+'获得'+gold+'金币'
-                });
-            }
-            this.$store.commit("set_statistic", {cumulatedGold: gold});
-        },
-        getCrystal(text, crystal, showText=true) {
-            crystal = parseInt(crystal);
-            this.guild.crystal += crystal;
-            if(showText) {
-                this.$store.commit("set_sys_info", {
-                    type: 'reward',
-                    msg: text+'获得'+crystal+'水晶'
-                });
-            }
-            this.$store.commit("set_statistic", {cumulatedCrystal: crystal});
         },
         getCost(type, level) {
             for(let cost in this.cost[type].cost) {

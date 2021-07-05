@@ -124,8 +124,8 @@ export default {
                 mapEvent.generateEnermy('trial', this.$store.state.dungeonInfo['trial'].level);
                 index.switchZone('advanture');
 
-                var guild = this.findComponentDownward(index, 'guild');
-                guild.getAllCost();
+                // var guild = this.findComponentDownward(index, 'guild');
+                // guild.getAllCost();
                 if(data.state.exitTime != 0) {
                     var awayTime = Date.now()-data.state.exitTime;
                     this.$store.commit("set_statistic", {awayTime: awayTime});
