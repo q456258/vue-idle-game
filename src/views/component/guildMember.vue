@@ -2,7 +2,7 @@
 <template>
  <div class="container">
     <div class="member scrollbar-morpheus-den">
-        公会成员
+        公会成员&nbsp;<span :style="{color: guild.member.length>=maxMember?'#F00':''}">{{guild.member.length+'/'+maxMember}}</span>
         <div class="list">
             <div class="grid" v-for="(v, k) in guild.member" :key="k">
                 <div class="info">
@@ -44,6 +44,8 @@
                     </div>
                 </div>
                 <div class="action">
+                    <span v-if="v.job=='None'">空闲</span>
+                    <span v-else>{{typeName[v.job]+levelName[v.position]}}</span>
                     <div class="button kick" v-if="positionType!='None'" @click="assignPosition(k)">任命</div>
                     <div class="button kick" @click="kick(k)">踢出公会</div>
                 </div>
@@ -122,6 +124,8 @@ export default {
             basicSkill: ['train', 'train2', 'train3', 'shop', 'smith'],
             applicantList: [],
             positionList: [['None','空闲'], ['trainManager','练功房管理'], ['train2Manager','中级练功房管理'], ['train3Manager','高级练功房管理']],
+            typeName: {shop:'商店', smith:'铁匠铺', train:'练功房', train2:'中级练功房', train3:'高级练功房'},
+            levelName: {manager:'管理', member:'成员'},
             positionType: 'None',
             positionPosition: 'member',
             positionIndex: 0,
@@ -139,6 +143,7 @@ export default {
     computed: {
         guild() { return this.$store.state.guildAttribute; },
         player() { return this.$store.state.playerAttribute; },
+        maxMember() { return Math.floor(this.guild.guild/5);}
     },
     methods: {
         // 每10级随机升级一级技能
@@ -254,6 +259,8 @@ export default {
             this.computeLevel();
         },
         recruit(k) {
+            if(this.guild.member.length >= this.maxMember)
+                return;
             this.applicantList[k].job = 'None';
             this.applicantList[k].position = 'member';
             this.guild.member.push(this.applicantList[k]);

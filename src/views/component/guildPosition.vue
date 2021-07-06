@@ -1,55 +1,57 @@
 <template>
-<div class="container">
-    
-    <div v-for="(type, typeIndex) in types" :key="typeIndex">
-        <div class="building">
-            {{typeName[type]}}
-            <div class="manager">
-                管理{{building[type].manager.length}}/{{maxMember[type].manager}}
-                <div class="btn btn-outline-success" v-if="building[type].manager.length<maxMember[type].manager" @click="setPosition(type, 'manager', -1)">添加</div>
-                <div class="list">
-                    <div class="grid" v-for="(v, k) in building[type].manager" :key="k">
-                        <div class="info">
-                            <div class="name">
-                                {{v.name}}
-                                <br>
-                                {{race[v.race].name+' '+v.lv}}级
-                                <br>
-                                {{guildSkill[v.job].name}}
-                            </div>
+<div class="container scrollbar-morpheus-den">
+    <div class="building" v-for="(type, typeIndex) in types" :key="typeIndex">
+        {{typeName[type]+' (效率：'+totalEfficiency[type]+'/秒)'}}
+        <div class="progress" style="width:50%;">
+                <div class="progress-bar progress-bar-striped" :style="{width:progress[type].current/progress[type].max*100+'%'}">
+                    <small class="justify-content-center d-flex position-absolute w-90" style="color:black">{{progress[type].current+'/'+progress[type].max}} </small>
+                </div>
+        </div>
+        <div class="manager">
+            管理{{building[type].manager.length}}/{{maxMember[type].manager}}
+            <div class="btn btn-outline-success" v-if="building[type].manager.length<maxMember[type].manager" @click="setPosition(type, 'manager', -1)">添加</div>
+            <div class="list">
+                <div class="grid" v-for="(v, k) in building[type].manager" :key="k">
+                    <div class="info">
+                        <div class="name">
+                            {{v.name}}
+                            <br>
+                            {{race[v.race].name+' '+v.lv}}级
+                            <br>
+                            {{guildSkill[v.job].name}}
                         </div>
-                        <div class="skillList">
-                            <span class="statName">{{guildStat['efficiency'].name+': '+v.stat['efficiency']}}</span>
-                            <div class="skill" v-for="(special, index) in v.special" :key="index">
-                                <span class="skillName">{{guildSpecialSkill[special].name}}</span>
-                                <span class="skillDesc">({{guildSpecialSkill[special].desc}})</span>
-                            </div>
+                    </div>
+                    <div class="skillList">
+                        <span class="statName">{{guildStat['efficiency'].name+': '+v.stat['efficiency']}}</span>
+                        <div class="skill" v-for="(special, index) in v.special" :key="index">
+                            <span class="skillName">{{guildSpecialSkill[special].name}}</span>
+                            <span class="skillDesc">({{guildSpecialSkill[special].desc}})</span>
                         </div>
-                        <div class="action">
-                            <div class="button kick btn btn-outline-warning" @click="setPosition(type, 'manager', k)">更换</div>
-                            <div class="button kick btn btn-outline-danger" @click="cancelPosition(type, 'manager', k)">取消</div>
-                        </div>
+                    </div>
+                    <div class="action">
+                        <div class="button kick btn btn-outline-warning" @click="setPosition(type, 'manager', k)">更换</div>
+                        <div class="button kick btn btn-outline-danger" @click="cancelPosition(type, 'manager', k)">取消</div>
                     </div>
                 </div>
             </div>
-            <div class="member">
-                成员{{building[type].member.length}}/{{maxMember[type].member}}
-                <div class="btn btn-outline-success" v-if="building[type].member.length<maxMember[type].member" @click="setPosition(type, 'member', building[type].member.length)">添加</div>
-                <div class="list">
-                    <div class="grid" v-for="(v, k) in building[type].member" :key="k">
-                        <div class="info">
-                            <div class="name">
-                                {{v.name}}
-                                <br>
-                                {{race[v.race].name+' '+v.lv}}级
-                                <br>
-                                <span class="statName">{{guildStat['efficiency'].name+': '+v.stat['efficiency']}}</span>
-                            </div>
+        </div>
+        <div class="member">
+            成员{{building[type].member.length}}/{{maxMember[type].member}}
+            <div class="btn btn-outline-success" v-if="building[type].member.length<maxMember[type].member" @click="setPosition(type, 'member', -1)">添加</div>
+            <div class="list">
+                <div class="grid" v-for="(v, k) in building[type].member" :key="k">
+                    <div class="info">
+                        <div class="name">
+                            {{v.name}}
+                            <br>
+                            {{race[v.race].name+' '+v.lv}}级
+                            <br>
+                            <span class="statName">{{guildStat['efficiency'].name+': '+v.stat['efficiency']}}</span>
                         </div>
-                        <div class="action">
-                            <div class="button kick btn btn-outline-warning" @click="setPosition(type, 'member', k)">更换</div>
-                            <div class="button kick btn btn-outline-danger" @click="cancelPosition(type, 'member', k)">取消</div>
-                        </div>
+                    </div>
+                    <div class="action">
+                        <div class="button kick btn btn-outline-warning" @click="setPosition(type, 'member', k)">更换</div>
+                        <div class="button kick btn btn-outline-danger" @click="cancelPosition(type, 'member', k)">取消</div>
                     </div>
                 </div>
             </div>
@@ -68,8 +70,6 @@ export default {
     mixins: [assist, guildConfig, guildMemberConfig],
     components: {cTooltip,},
     mounted() {
-        this.initAssign();
-        this.initMember();
     },
     data() {
         return {
@@ -88,7 +88,28 @@ export default {
                 train: { manager: 2, member: 0 },
                 train2: { manager: 2, member: 0 },
                 train3: { manager: 2, member: 0 },
-            }
+            },
+            totalEfficiency: {
+                shop: 0,
+                smith: 0,
+                train: 0,
+                train2: 0,
+                train3: 0,
+            },
+            timerList: {
+                shop: 0,
+                smith: 0,
+                train: 0,
+                train2: 0,
+                train3: 0,
+            },
+            progress: {
+                shop: { current: 0, max: 1000 },
+                smith: { current: 0, max: 1000 },
+                train: { current: 0, max: 1000 },
+                train2: { current: 0, max: 1000 },
+                train3: { current: 0, max: 1000 },
+            },
         };
     },
     props: {
@@ -98,16 +119,20 @@ export default {
         player() {return this.$store.state.playerAttribute;}
     },
     methods: {    
-        initMember() {
+        init() {
             for(var type in this.types) {
                 this.maxMember[this.types[type]].member = this.guild[this.types[type]];
             }
-        },  
-        initAssign() {
             for(var mem in this.guild.member) {
                 if(this.guild.member[mem].job != 'None')
                     this.assignPosition(this.guild.member[mem].job, this.guild.member[mem].position, -1, this.guild.member[mem], true);
             }
+            this.timerList['shop'] = setInterval(() => {
+                this.progress['shop'].current += this.totalEfficiency['shop'];
+                if(this.progress['shop'].current >= this.progress['shop'].max) {
+                    this.progress['shop'].current = 0;
+                }
+            }, 1000);
         },
         findTarget(target) {
             if(target.job == 'None')
@@ -129,8 +154,11 @@ export default {
             }
             if(index == -1)
                 this.building[type][position].push(target);
-            else
+            else {
+                this.cancelPosition(type, position, index);
                 this.building[type][position][index] = target;
+            }
+            this.totalEfficiency[type] += target.stat.efficiency;
             target.job = type;
             target.position = position;
         },
@@ -143,6 +171,7 @@ export default {
             guildMember.positionIndex = index;
         },
         cancelPosition(type, position="member", index) {
+            this.totalEfficiency[type] -= this.building[type][position][index].stat.efficiency;
             this.building[type][position][index].job = 'None';
             this.building[type][position].splice(index, 1);
         }
@@ -153,18 +182,20 @@ export default {
 .container {
     display: flex;
     flex-wrap: wrap;
-    width: 50rem;
+    width: 55rem;
+    max-height: 50rem;
     margin: 0.5rem 0.5rem;
     padding: 0.5rem 0.5rem;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 .building {
     padding: 0.5rem;
-    margin: 0.5rem;
+    margin: 0.25rem;
     border: 1px solid rgba(255, 255, 255, 0.404);
     border-radius: 1rem;
     max-height: 35rem;
     width: 50rem;
-    overflow-y: auto;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -197,7 +228,7 @@ export default {
     position: relative;
     display: flex;
     flex-wrap: wrap;
-    padding: 0rem 0.5rem 1rem 0.5rem;
+    padding: 0rem 0.5rem 0.5rem 0.5rem;
     width: 100%;
     .grid {
         border: 1px solid rgba(255, 255, 255, 0.404);
@@ -258,5 +289,12 @@ export default {
             }
         }
     }
+}
+.progress-bar {
+    transition: 1s linear;
+}
+.w-90 {
+    width: 40%;
+    font-size: 0.8rem;
 }
 </style>

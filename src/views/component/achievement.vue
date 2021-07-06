@@ -22,7 +22,8 @@ export default {
         set_statistic(data) {
             if(data.gameTime != undefined) {
                 var time = this.$store.state.statistic.gameTime;
-                var hourGap = this.timeGap('hour', time, time+data.gameTime);
+                // var hourGap = this.timeGap('hour', time, time+data.gameTime);
+                var hourGap = this.timeGap('min', time, time+data.gameTime);
                 if(hourGap == 1) {
                     var guild = this.findBrothersComponents(this, 'guild', false)[0];
                     var guildMember = this.findComponentDownward(guild, 'guildMember');

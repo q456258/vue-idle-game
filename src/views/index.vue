@@ -208,6 +208,10 @@ export default {
     
     var achievement = this.findComponentDownward(this, 'achievement');  
     achievement.set_statistic({gameStartDate: Date.now()});
+    var guild = this.findComponentDownward(this, 'guild');  
+    var guildPosition = this.findComponentDownward(guild, 'guildPosition');  
+    guildPosition.init();
+    
     // this.$store.commit("set_statistic", {gameStartDate: Date.now()});
     //初始系统、战斗信息
     this.sysInfo = this.$store.state.sysInfo;

@@ -147,7 +147,7 @@ export const guildMemberConfig = {
                 trainManagement: {
                     name: '练功房管理学',
                     type: 'train',
-                    desc: '提升练功房入驻人数',
+                    desc: '提升练功房管理人数',
                     effect: {
                         position: 1
                     }
@@ -155,7 +155,7 @@ export const guildMemberConfig = {
                 train2Management: {
                     name: '中级练功房管理学',
                     type: 'train2',
-                    desc: '提升中级练功房入驻人数',
+                    desc: '提升中级练功房管理人数',
                     effect: {
                         position: 1
                     }
@@ -163,7 +163,7 @@ export const guildMemberConfig = {
                 train3Management: {
                     name: '高级练功房管理学',
                     type: 'train3',
-                    desc: '提升高级练功房入驻人数',
+                    desc: '提升高级练功房管理人数',
                     effect: {
                         position: 1
                     }
@@ -171,7 +171,7 @@ export const guildMemberConfig = {
                 shopManagement: {
                     name: '商店管理学',
                     type: 'shop',
-                    desc: '提升商店入驻人数',
+                    desc: '提升商店管理人数',
                     effect: {
                         position: 1
                     }
@@ -179,7 +179,7 @@ export const guildMemberConfig = {
                 smithManagement: {
                     name: '铁匠铺管理学',
                     type: 'smith',
-                    desc: '提升铁匠铺入驻人数',
+                    desc: '提升铁匠铺管理人数',
                     effect: {
                         position: 1
                     }
