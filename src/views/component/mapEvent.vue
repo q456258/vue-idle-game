@@ -59,7 +59,9 @@ export default {
                 this.set_player_hp(-1*this.dmgCalculate(enermyAttribute, playerAttribute, 'enermy'), enermyAttribute);
                 // this.$store.commit('set_player_hp', -1*this.dmgCalculate(enermyAttribute, playerAttribute, 'enermy'));
                 if(playerAttribute.attribute.CURHP.value == 0) {
-                    this.$store.commit("set_statistic", {death: 1});
+                    var achievement = this.findBrothersComponents(this, 'achievement', false)[0];
+                    achievement.set_statistic({death: 1});
+                    // this.$store.commit("set_statistic", {death: 1});
                     this.endStreak();
                     clearInterval(this.battleTimer);
                     this.setBattleStatus(false);
@@ -465,7 +467,9 @@ export default {
         enermySlain(id, qty){
             var slain = {slain: {}};
             slain['slain'][id] = qty;
-            this.$store.commit("set_statistic", slain);
+            var achievement = this.findBrothersComponents(this, 'achievement', false)[0];
+            achievement.set_statistic(slain);
+            // this.$store.commit("set_statistic", slain);
         },
         addStreak() {
             this.streak += 1;

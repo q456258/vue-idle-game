@@ -31,19 +31,22 @@
         <a class="nav-link" :class="{active: displayPage=='position' }" id="position" @click="switchTab('position')">职位</a>
       </li>
     </ul>
-    <guildInfo v-if="displayPage=='info'"></guildInfo>
-    <guildMember v-if="displayPage=='member'"></guildMember>
+    <guildInfo v-show="displayPage=='info'"></guildInfo>
+    <guildMember v-show="displayPage=='member'"></guildMember>
+    <guildPosition v-show="displayPage=='position'"></guildPosition>
 </div>
 </template>
 <script>
 import {guildConfig} from '@/assets/config/guildConfig'
+import { assist } from '../../assets/js/assist';
 import cTooltip from '../uiComponent/tooltip';
 import guildInfo from '../component/guildInfo';
 import guildMember from '../component/guildMember';
+import guildPosition from '../component/guildPosition';
 export default {
     name: "guild",
-    mixins: [guildConfig],
-    components: {cTooltip, guildInfo, guildMember},
+    mixins: [assist, guildConfig],
+    components: {cTooltip, guildInfo, guildMember, guildPosition},
     mounted() {
     },
     data() {
@@ -79,7 +82,9 @@ export default {
                     msg: text+'获得'+gold+'金币'
                 });
             }
-            this.$store.commit("set_statistic", {cumulatedGold: gold});
+            var achievement = this.findBrothersComponents(this, 'achievement', false)[0];
+            achievement.set_statistic({cumulatedGold: gold});
+            // this.$store.commit("set_statistic", {cumulatedGold: gold});
         },
         getCrystal(text, crystal, showText=true) {
             crystal = parseInt(crystal);
@@ -90,7 +95,9 @@ export default {
                     msg: text+'获得'+crystal+'水晶'
                 });
             }
-            this.$store.commit("set_statistic", {cumulatedCrystal: crystal});
+            var achievement = this.findBrothersComponents(this, 'achievement', false)[0];
+            achievement.set_statistic({cumulatedCrystal: crystal});
+            // this.$store.commit("set_statistic", {cumulatedCrystal: crystal});
         },
     }
 }

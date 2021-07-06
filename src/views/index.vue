@@ -138,6 +138,7 @@
     <shop id="shop" v-show="displayPage=='shop'"></shop>
     <faq id="faq" v-show="displayPage=='faq'"></faq>
     <statistic id="statistic" v-show="displayPage=='statistic'"></statistic>
+    <achievement id="achievement" v-show="displayPage=='achievement'"></achievement>
     <backpack v-show="showBackpack"></backpack>
   </div>
 
@@ -155,6 +156,7 @@ import charInfo from './component/charInfo';
 import guild from './component/guild';
 import shop from './component/shop';
 import faq from './component/faq';
+import achievement from './component/achievement';
 import statistic from './component/statistic';
 import saveload from './component/saveload';
 import setting from './component/setting';
@@ -162,6 +164,7 @@ import enermyInfo from './component/enermyInfo';
 import { assist } from '../assets/js/assist';
 import { dungeon } from '../assets/js/dungeon';
 import { buffSystem } from '../assets/js/buffSystem';
+import Achievement from './component/achievement.vue';
 export default {
   name: 'index',
   mixins: [assist, dungeon, buffSystem],
@@ -194,9 +197,18 @@ export default {
     }
   },
   components: {cTooltip, equipInfo, itemInfo, mapEvent, assist, backpack, equipEnhance, equipForge, equipPotential, 
-              charInfo, guild, shop, faq, statistic, saveload, setting, enermyInfo},
+              charInfo, guild, shop, faq, achievement, statistic, saveload, setting, enermyInfo},
   mounted() {    
-    this.$store.commit("set_statistic", {gameStartDate: Date.now()});
+    //读取本地存档
+    var saveload = this.findComponentDownward(this, 'saveload');  
+    var sd = localStorage.getItem('_sd');
+    saveload.loadGame(sd);
+    // 启用buff中心计时器
+    this.buffTimer();
+    
+    var achievement = this.findComponentDownward(this, 'achievement');  
+    achievement.set_statistic({gameStartDate: Date.now()});
+    // this.$store.commit("set_statistic", {gameStartDate: Date.now()});
     //初始系统、战斗信息
     this.sysInfo = this.$store.state.sysInfo;
     this.battleInfo = this.$store.state.battleInfo;
@@ -204,12 +216,6 @@ export default {
     // 自动恢复
     this.fastTick(); 
 
-    //读取本地存档
-    var saveload = this.findComponentDownward(this, 'saveload');  
-    var sd = localStorage.getItem('_sd');
-    saveload.loadGame(sd);
-    // 启用buff中心计时器
-    this.buffTimer();
 
     // 自动保存
     setInterval(() => {
@@ -568,7 +574,9 @@ export default {
       clearInterval(this.autoManRecovery);
       clearInterval(this.trialAutoHealthRecovery);
       this.autoHealthRecovery = setInterval(() => {
-        this.$store.commit("set_statistic", {gameTime: 1000});
+        var achievement = this.findComponentDownward(this, 'achievement');  
+        achievement.set_statistic({gameTime: 1000});
+        // this.$store.commit("set_statistic", {gameTime: 1000});
         this.set_player_hp(Math.ceil(this.attribute.MAXHP.value*0.01+this.attribute.STR.value), this.$store.state.playerAttribute);
         if(this.attribute.CURHP.value == this.attribute.MAXHP.value && this.dungeonInfo.auto && !this.dungeonInfo.inBattle) {
           this.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
@@ -586,7 +594,9 @@ export default {
       clearInterval(this.autoManRecovery);
       clearInterval(this.trialAutoHealthRecovery);
       this.autoHealthRecovery = setInterval(() => {
-        this.$store.commit("set_statistic", {gameTime: 50});
+        var achievement = this.findComponentDownward(this, 'achievement');  
+        achievement.set_statistic({gameTime: 50});
+        // this.$store.commit("set_statistic", {gameTime: 50});
         this.set_player_hp(Math.ceil(this.attribute.MAXHP.value*0.0005+this.attribute.STR.value/20), this.$store.state.playerAttribute);
         if(this.attribute.CURHP.value == this.attribute.MAXHP.value && this.dungeonInfo.auto && !this.dungeonInfo.inBattle) {
           this.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);

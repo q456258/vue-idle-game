@@ -128,7 +128,9 @@ export default {
                 // guild.getAllCost();
                 if(data.state.exitTime != 0) {
                     var awayTime = Date.now()-data.state.exitTime;
-                    this.$store.commit("set_statistic", {awayTime: awayTime});
+                    var achievement = this.findBrothersComponents(this, 'achievement', false)[0];
+                    achievement.set_statistic({awayTime: awayTime});
+                    // this.$store.commit("set_statistic", {awayTime: awayTime});
                     this.awayReward(awayTime);
                 }
                 this.closeSaveload();

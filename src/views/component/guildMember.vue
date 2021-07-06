@@ -1,101 +1,104 @@
 
 <template>
  <div class="container">
-        <div class="member scrollbar-morpheus-den">
-            公会成员
-            <div class="list">
-                <div class="grid" v-for="(v, k) in guild.member" :key="k">
-                    <div class="info">
-                        <div class="icon"><img :src="v.iconSrc"></div>
-                        <div class="name">
-                            {{v.name}}
-                            <br>
-                            {{race[v.race].name+' '+v.lv}}级
-                            <br>
-                            {{guildSkill[v.job].name}}
+    <div class="member scrollbar-morpheus-den">
+        公会成员
+        <div class="list">
+            <div class="grid" v-for="(v, k) in guild.member" :key="k">
+                <div class="info">
+                    <div class="icon"><img :src="v.iconSrc"></div>
+                    <div class="name">
+                        {{v.name}}
+                        <br>
+                        {{race[v.race].name+' '+v.lv}}级
+                        <br>
+                        {{guildSkill[v.career].name}}
+                    </div>
+                </div>
+                <div class="svg-pentagon">
+                    <div class="statList">
+                        <div :class="'stat ' +type" v-for="(value, type) in v.stat" :key="type">
+                            <span class="statName">{{guildStat[type].name}}</span>
+                            <span class="statDesc">{{'('+value+')'+guildStat[type].desc}}</span>
                         </div>
                     </div>
-                    <div class="svg-pentagon">
-                        <div class="statList">
-                            <div :class="'stat ' +type" v-for="(value, type) in v.stat" :key="type">
-                                <span class="statName">{{guildStat[type].name}}</span>
-                                <span class="statDesc">{{'('+value+')'+guildStat[type].desc}}</span>
-                            </div>
-                        </div>
-                        <svg id="J-svg-pentagon"  width="120" height="120">
-                            <g transform="translate(130, 75)">
-                                <polygon class="pentagon pentagon-5" points="-50 0.00 -2.45 -34.55 -20.61 -90.45 -79.39 -90.45 -97.55 -34.55"/>
-                                <polygon class="pentagon pentagon-4" points="-50 -10.00 -11.96 -37.64 -26.49 -82.36 -73.51 -82.36 -88.04 -37.64"/>
-                                <polygon class="pentagon pentagon-3" points="-50 -20.00 -21.47 -40.73 -32.37 -74.27 -67.63 -74.27 -78.53 -40.73"/>
-                                <polygon class="pentagon pentagon-2" points="-50 -30.00 -30.98 -43.82 -38.24 -66.18 -61.76 -66.18 -69.02 -43.82"/>
-                                <polygon class="pentagon pentagon-1" points="-50 -40.00 -40.49 -46.91 -44.12 -58.09 -55.88 -58.09 -59.51 -46.91"/>
-                                <polygon class="pentagon pentagonAbility" :points="v.points" />
-                            </g>
-                        </svg>
+                    <svg id="J-svg-pentagon"  width="120" height="120">
+                        <g transform="translate(10, 15)">
+                            <polygon class="pentagon pentagon-5" points="-50 0.00 -2.45 -34.55 -20.61 -90.45 -79.39 -90.45 -97.55 -34.55"/>
+                            <polygon class="pentagon pentagon-4" points="-50 -10.00 -11.96 -37.64 -26.49 -82.36 -73.51 -82.36 -88.04 -37.64"/>
+                            <polygon class="pentagon pentagon-3" points="-50 -20.00 -21.47 -40.73 -32.37 -74.27 -67.63 -74.27 -78.53 -40.73"/>
+                            <polygon class="pentagon pentagon-2" points="-50 -30.00 -30.98 -43.82 -38.24 -66.18 -61.76 -66.18 -69.02 -43.82"/>
+                            <polygon class="pentagon pentagon-1" points="-50 -40.00 -40.49 -46.91 -44.12 -58.09 -55.88 -58.09 -59.51 -46.91"/>
+                            <polygon class="pentagon pentagonAbility" :points="v.points" />
+                        </g>
+                    </svg>
+                </div>
+                <div class="skillList">
+                    <div class="skill" v-for="(level, index) in v.skill" :key="index">
+                        <span class="skillName">{{level+'级'+guildSkill[index].name}}</span>
+                        <span class="skillDesc">({{guildSkill[index].desc}})</span>
                     </div>
-                    <div class="skillList">
-                        <div class="skill" v-for="(level, index) in v.skill" :key="index">
-                            <span class="skillName">{{level+'级'+guildSkill[index].name}}</span>
-                            <span class="skillDesc">({{guildSkill[index].desc}})</span>
-                        </div>
+                    <div class="skill" v-for="(special, index) in v.special" :key="index">
+                        <span class="skillName">{{guildSpecialSkill[special].name}}</span>
+                        <span class="skillDesc">({{guildSpecialSkill[special].desc}})</span>
                     </div>
-                    <div class="special" v-for="(special, index) in v.special" :key="index">
-                        {{special}}
-                    </div>
-                    <div class="action">
-                        <div class="button kick">踢出公会</div>
-                    </div>
+                </div>
+                <div class="action">
+                    <div class="button kick" v-if="positionType!='None'" @click="assignPosition(k)">任命</div>
+                    <div class="button kick" @click="kick(k)">踢出公会</div>
                 </div>
             </div>
         </div>
-        <div class="applicant scrollbar-morpheus-den">
-            申请列表
-            <div class="list">
-                <div class="grid" v-for="(v, k) in applicantList" :key="k">
-                    <div class="info">
-                        <div class="icon"><img :src="v.iconSrc"></div>
-                        <div class="name">
-                            {{v.name}}
-                            <br>
-                            {{race[v.race].name+' '+v.lv}}级
-                            <br>
-                            {{guildSkill[v.job].name}}
+    </div>
+    <div class="applicant scrollbar-morpheus-den">
+        申请列表
+        <div class="list">
+            <div class="grid" v-for="(v, k) in applicantList" :key="k">
+                <div class="info">
+                    <div class="icon"><img :src="v.iconSrc"></div>
+                    <div class="name">
+                        {{v.name}}
+                        <br>
+                        {{race[v.race].name+' '+v.lv}}级
+                        <br>
+                        {{guildSkill[v.career].name}}
+                    </div>
+                </div>
+                <div class="svg-pentagon">
+                    <div class="statList">
+                        <div :class="'stat ' +type" v-for="(value, type) in v.stat" :key="type">
+                            <span class="statName">{{guildStat[type].name}}</span>
+                            <span class="statDesc">{{'('+value+')'+guildStat[type].desc}}</span>
                         </div>
                     </div>
-                    <div class="svg-pentagon">
-                        <div class="statList">
-                            <div :class="'stat ' +type" v-for="(value, type) in v.stat" :key="type">
-                                <span class="statName">{{guildStat[type].name}}</span>
-                                <span class="statDesc">{{'('+value+')'+guildStat[type].desc}}</span>
-                            </div>
-                        </div>
-                        <svg id="J-svg-pentagon"  width="120" height="120">
-                            <g transform="translate(130, 75)">
-                                <polygon class="pentagon pentagon-5" points="-50 0.00 -2.45 -34.55 -20.61 -90.45 -79.39 -90.45 -97.55 -34.55"/>
-                                <polygon class="pentagon pentagon-4" points="-50 -10.00 -11.96 -37.64 -26.49 -82.36 -73.51 -82.36 -88.04 -37.64"/>
-                                <polygon class="pentagon pentagon-3" points="-50 -20.00 -21.47 -40.73 -32.37 -74.27 -67.63 -74.27 -78.53 -40.73"/>
-                                <polygon class="pentagon pentagon-2" points="-50 -30.00 -30.98 -43.82 -38.24 -66.18 -61.76 -66.18 -69.02 -43.82"/>
-                                <polygon class="pentagon pentagon-1" points="-50 -40.00 -40.49 -46.91 -44.12 -58.09 -55.88 -58.09 -59.51 -46.91"/>
-                                <polygon class="pentagon pentagonAbility" :points="v.points" />
-                            </g>
-                        </svg>
+                    <svg id="J-svg-pentagon"  width="120" height="120">
+                        <g transform="translate(10, 15)">
+                            <polygon class="pentagon pentagon-5" points="-50 0.00 -2.45 -34.55 -20.61 -90.45 -79.39 -90.45 -97.55 -34.55"/>
+                            <polygon class="pentagon pentagon-4" points="-50 -10.00 -11.96 -37.64 -26.49 -82.36 -73.51 -82.36 -88.04 -37.64"/>
+                            <polygon class="pentagon pentagon-3" points="-50 -20.00 -21.47 -40.73 -32.37 -74.27 -67.63 -74.27 -78.53 -40.73"/>
+                            <polygon class="pentagon pentagon-2" points="-50 -30.00 -30.98 -43.82 -38.24 -66.18 -61.76 -66.18 -69.02 -43.82"/>
+                            <polygon class="pentagon pentagon-1" points="-50 -40.00 -40.49 -46.91 -44.12 -58.09 -55.88 -58.09 -59.51 -46.91"/>
+                            <polygon class="pentagon pentagonAbility" :points="v.points" />
+                        </g>
+                    </svg>
+                </div>
+                <div class="skillList">
+                    <div class="skill" v-for="(level, index) in v.skill" :key="index">
+                        <span class="skillName">{{level+'级'+guildSkill[index].name}}</span>
+                        <span class="skillDesc">({{guildSkill[index].desc}})</span>
                     </div>
-                    <div class="skillList">
-                        <div class="skill" v-for="(level, index) in v.skill" :key="index">
-                            <span class="skillName">{{level+'级'+guildSkill[index].name}}</span>
-                            <span class="skillDesc">({{guildSkill[index].desc}})</span>
-                        </div>
+                    <div class="skill" v-for="(special, index) in v.special" :key="index">
+                        <span class="skillName">{{guildSpecialSkill[special].name}}</span>
+                        <span class="skillDesc">({{guildSpecialSkill[special].desc}})</span>
                     </div>
-                    <div class="special" v-for="(special, index) in v.special" :key="index">
-                        {{special}}
-                    </div>
-                    <div class="action">
-                        <!-- <div class="button accept" @click="recruit(k)">招募</div> -->
-                        <div class="button reject" @click="reject(k)">婉拒</div>
-                    </div>
+                </div>
+                <div class="action">
+                    <div class="button accept" @click="recruit(k)">招募</div>
+                    <div class="button reject" @click="reject(k)">婉拒</div>
                 </div>
             </div>
         </div>
+    </div>
  </div>
 </template>
 <script>
@@ -109,7 +112,6 @@ export default {
     },
     data () {
         return {
-            tierProbability: [0.65, 0.85, 0.9, 0.99, 0.999, 1],
             //人类、矮人、暗夜精灵、侏儒、德莱尼、狼人、兽人、亡灵、牛头人、巨魔、血精灵、地精、熊猫人
             //Human、Dwarf、Night Elf、Gnome、Draenei、Worgen、Orc、Undead、Tauren、Troll、Blood Elf、Goblin、Pandaren、
             
@@ -119,36 +121,40 @@ export default {
             advancedRace: ["Void_Elf", "Lightforged_Draenei", "Dark_Iron_Dwarf", "Kul_Tiran", "Mechagnome", "Nightborne", "Highmountain_Tauren", "Maghar_Orc", "Zandalari_Troll", "Vulpera"],
             basicSkill: ['train', 'train2', 'train3', 'shop', 'smith'],
             applicantList: [],
-            equipCost: [],
+            positionList: [['None','空闲'], ['trainManager','练功房管理'], ['train2Manager','中级练功房管理'], ['train3Manager','高级练功房管理']],
+            positionType: 'None',
+            positionPosition: 'member',
+            positionIndex: 0,
         }
     },
     mounted () {
         this.generateApplicant(29)
         this.generateApplicant(81)
         this.generateApplicant(110)
+        //游戏时间每满1小时升级
+        //this.levelupAll()
     },
     watch: {
     },
     computed: {
         guild() { return this.$store.state.guildAttribute; },
+        player() { return this.$store.state.playerAttribute; },
     },
     methods: {
         // 每10级随机升级一级技能
-        // 每10级技能随机获得一个对应特殊技能
-        // 专注(技能升级的随机性）、悟性（技能升级概率）、机缘（特殊技能获得概率）、潜力（升级概率）、效率（工作效率）
-
-
+        // 每10级技能随机获得一个对应管理技能
+        // 专注(技能升级的随机性）、悟性（技能升级概率）、机缘（管理技能获得概率）、潜力（升级概率）、效率（工作效率）
         generateApplicant(lv, race) {
             var applicant = {};
-            // applicant.tier = tierIndex > -1 ? this.tier[tierIndex] : this.createTier(bonus);
             applicant.lv = lv || 1;
             applicant.name = '阿萨德';
             applicant.race = race || this.createRace();
             applicant.stat = this.createStat(applicant.race);
             applicant.points = this.createPoints(applicant.stat);
-            applicant.job = this.createJob();
+            applicant.career = this.createCareer();
             applicant.skill = this.createSkill(applicant);
-            applicant.special = {};
+            applicant.special = [];
+            applicant.id = Math.round(Math.random()*90071992547);
 
             this.applicantList.push(applicant);
         },
@@ -189,9 +195,9 @@ export default {
             points.trimEnd();
             return points;
         },
-        createJob() {
-            var jobs = ['train', 'train2', 'train3', 'smith', 'shop'];
-            return jobs[Math.floor(Math.random()*jobs.length)];
+        createCareer() {
+            var careers = ['train', 'train2', 'train3', 'smith', 'shop'];
+            return careers[Math.floor(Math.random()*careers.length)];
         },
         createSkill(applicant) {
             var skillList = {};
@@ -207,24 +213,49 @@ export default {
             return skillList;
         },
         generateSkill(applicant) {
-            var job = applicant.job;
+            var career = applicant.career;
             var intellect = applicant.stat.intellect;
             var focus = applicant.stat.focus;
             var skill = '';
-            if(Math.random()*100 < intellect)
+            if(Math.random()*100 > intellect)
                 return;
-            if(Math.random()*100 < focus)
-                skill = job;
+            if(Math.random()*100 <= focus)
+                skill = career;
             else
                 skill = this.basicSkill[Math.floor(Math.random()*this.basicSkill.length)];
-            if(applicant.skill != undefined && applicant.skill[skill] > 5 && applicant.skill[skill]%5 == 4)
-                this.generateSpecialSkill(applicant);
+            // if(applicant.skill != undefined && applicant.skill[skill] > 5 && applicant.skill[skill]%5 == 4)
+            if(applicant.skill != undefined && applicant.skill[skill] >= 4 && applicant.skill[skill]%5 == 4)
+                applicant.special.push(this.generateSpecialSkill(applicant));
             return skill;
         },
         generateSpecialSkill(applicant) {
-            return {};
+            return 'trainManagement';
+        },
+        levelUp(member, computeLv=true) {
+            if(member.lv >= this.player.lv)
+                return;
+            member.lv += 1;
+            if(member.lv%10 == 0) {
+                let temp = this.generateSkill(member);
+                if(temp == undefined)
+                    return;   
+                if(member.skill[temp] == undefined)
+                    member.skill[temp] = 1;
+                else
+                    member.skill[temp]++;
+            }
+            if(computeLv)
+                this.computeLevel();
+        },
+        levelupAll() {
+            for(var index in this.guild.member) {
+                this.levelUp(this.guild.member[index], false);
+            }
+            this.computeLevel();
         },
         recruit(k) {
+            this.applicantList[k].job = 'None';
+            this.applicantList[k].position = 'member';
             this.guild.member.push(this.applicantList[k]);
             this.applicantList.splice(k, 1);
             // this.draw() 
@@ -232,6 +263,21 @@ export default {
         },
         reject(k) {
             this.applicantList.splice(k, 1);
+        },
+        setPosition(e, k) {
+            var value = e.target.value;
+            this.guild.member[k].position = value;
+        },
+        assignPosition(k) {
+            var guild = this.findComponentUpward(this, 'guild');
+            var guildPosition = this.findBrothersComponents(this, 'guildPosition', false)[0];
+            guildPosition.assignPosition(this.positionType, this.positionPosition, this.positionIndex, this.guild.member[k])
+            this.positionType = 'None';
+            guild.displayPage = 'position';
+            guildPosition.$forceUpdate();
+        },
+        kick(k) {
+            this.guild.member.splice(k, 1);
         },
         computeLevel() {
             var memList = this.guild.member;
@@ -245,9 +291,9 @@ export default {
                 }
             }
             //重新计算公会建筑等级
-            // for(let skill in skillList) {
-            //     this.guild[skill] = skillList[skill];
-            // }
+            for(let skill in skillList) {
+                this.guild[skill] = skillList[skill];
+            }
         },
     }
 }
@@ -408,34 +454,30 @@ export default {
         }
         .focus {
             position: absolute;
-            top: 0rem;
-        }
-        .focus {
-            position: absolute;
-            top: 7.3rem;
-            left: 6.3rem;
+            top: 0.2rem;
+            left: 4.3rem;
         }
         .intellect {
             position: absolute;
             top: 3.6rem;
-            left: 8.2rem;
+            left: 0.4rem;
         }
         .luck {
             position: absolute;
-            top: 0.2rem;
-            left: 4.3rem;
+            top: 7.3rem;
+            left: 1.8rem;
+            width: 4.5rem;
+            text-align: left;
         }
         .potential {
             position: absolute;
-            top: 3.6rem;
-            left: 0.4rem;
-        }
-        .effectiveness {
-            position: absolute;
             top: 7.3rem;
-            left: 1.8rem;
-            width: 4rem;
-            text-align: left;
+            left: 6.3rem;
+        }
+        .efficiency {
+            position: absolute;
+            top: 3.6rem;
+            left: 8.2rem;
         }
     }
     .skillList {
@@ -449,9 +491,7 @@ export default {
             }
         }
         .skill:hover .skillName{
-            position: absolute;
-            width: 0px;
-            visibility: hidden;
+            display: none;
         }
         .skill:hover .skillDesc{
             display: inline;
@@ -514,7 +554,7 @@ export default {
 }
 .pentagon {
     stroke-width:0.5px;
-    transform: rotate(-36deg);
+    transform: rotate(180deg);
 }
 .pentagon-1 {
     fill: rgb(46, 46, 51);
@@ -547,5 +587,9 @@ export default {
     fill-opacity: 0.1;
     stroke: rgb(204, 173, 112);
     stroke-width: 1.2px;
+}
+.btn {
+    margin-left: -1rem;
+    padding: .375rem 0rem;
 }
 </style>

@@ -9,7 +9,7 @@ export const guildMemberConfig = {
                         intellect: 50,
                         luck: 50,
                         potential: 50,
-                        effectiveness: 10,
+                        efficiency: 10,
                     }
                 }, 
                 Dwarf: {
@@ -90,13 +90,13 @@ export const guildMemberConfig = {
                 },
                 luck: {
                     name: '运势',
-                    desc: '影响获得特殊技能的概率'
+                    desc: '影响获得管理技能的概率'
                 },
                 potential: {
                     name: '潜力',
                     desc: '影响升级的概率'
                 },
-                effectiveness: {
+                efficiency: {
                     name: '效率',
                     desc: '影响工作效率'
                 },
