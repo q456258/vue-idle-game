@@ -298,9 +298,9 @@ export default {
                 }
             }
             //重新计算公会建筑等级
-            for(let skill in skillList) {
-                this.guild[skill] = skillList[skill];
-            }
+            // for(let skill in skillList) {
+            //     this.guild[skill] = skillList[skill];
+            // }
         },
     }
 }
