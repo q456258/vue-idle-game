@@ -1,7 +1,66 @@
 
 <template>
  <div class="container">
-    <div class="member scrollbar-morpheus-den">
+    <select v-model="viewType" @change="setViewType" class="btn btn-xsm btn-secondary" aria-label="view type">
+        <option value="list">列表</option>
+        <option value="detail">详细</option>
+    </select>
+    <div class="member scrollbar-morpheus-den" v-if="viewType=='list'">
+        公会成员&nbsp;<span :style="{color: guild.member.length>=maxMember?'#F00':''}">{{guild.member.length+'/'+maxMember}}</span>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">名字</th>
+                    <th scope="col" style="cursor:pointer" @click="sortBy('lv')">等级</th>
+                    <th scope="col" style="cursor:pointer" @click="sortBy('intellect')">职业</th>
+                    <th scope="col" style="cursor:pointer" @click="sortBy('focus')">专注</th>
+                    <th scope="col" style="cursor:pointer" @click="sortBy('intellect')">悟性</th>
+                    <th scope="col" style="cursor:pointer" @click="sortBy('luck')">运势</th>
+                    <th scope="col" style="cursor:pointer" @click="sortBy('potential')">潜力</th>
+                    <th scope="col" style="cursor:pointer" @click="sortBy('efficiency')">效率</th>
+                    <th scope="col" @click="sortBy('intellect')">职位</th>
+                    <th scope="col">技能</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(v, k) in guild.member" :key="k">
+                    <td scope="row"><img :src="v.iconSrc"></td>
+                    <td>{{v.name}}</td>
+                    <td>{{v.lv}}</td>
+                    <td>{{guildSkill[v.career].name}}</td>
+                    <td>{{v.stat.focus}}</td>
+                    <td>{{v.stat.intellect}}</td>
+                    <td>{{v.stat.luck}}</td>
+                    <td>{{v.stat.potential}}</td>
+                    <td>{{v.stat.efficiency}}</td>
+                    <td>
+                        <span v-if="v.job=='None'">空闲</span>
+                        <span v-else>{{typeName[v.job]+levelName[v.position]}}</span>
+                    </td>
+                    <td style="width: 8em;">
+                        <div @click="show($event)" > 显示/隐藏
+                            <div class="skillList hidden">
+                                <div class="skill" v-for="(level, index) in v.skill" :key="index">
+                                    <span class="skillName">{{level+'级'+guildSkill[index].name}}</span>
+                                </div>
+                                <div class="skill" v-for="(special, index) in v.special" :key="index">
+                                    <span class="skillName">{{guildSpecialSkill[special].name}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="width: 6em;">
+                        <span class="button kick" v-if="positionType!='None'" @click="assignPosition(k)">任命</span>
+                        <br>
+                        <span class="button kick" @click="kick(k)">踢出</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="member scrollbar-morpheus-den" v-if="viewType=='detail'">
         公会成员&nbsp;<span :style="{color: guild.member.length>=maxMember?'#F00':''}">{{guild.member.length+'/'+maxMember}}</span>
         <div class="list">
             <div class="grid" v-for="(v, k) in guild.member" :key="k">
@@ -129,6 +188,9 @@ export default {
             positionType: 'None',
             positionPosition: 'member',
             positionIndex: 0,
+            viewType: 'list',
+            sortKey: 'name',
+            reverseSort: 1,
         }
     },
     mounted () {
@@ -302,6 +364,21 @@ export default {
             //     this.guild[skill] = skillList[skill];
             // }
         },
+        sortBy(type) {
+            this.reverseSort = type==this.sortKey ? -1*this.reverseSort : 1;
+            this.sortKey = type;
+            this.guild.member.sort((a, b) => {
+                return this.reverseSort*(a.stat[type]-b.stat[type]);
+            })
+        },
+        show(e) {
+            if(e.target.children.length != 0 && e.target.children[0].classList.contains('skillList'))
+                e.target.children[0].classList.toggle('hidden');
+        },
+        setViewType(e) {
+            var value = e.target.value;
+            this.viewType = value;
+        },
     }
 }
 </script>
@@ -336,20 +413,6 @@ export default {
             .action {
                 width: 8rem;
                 margin: auto 0rem;
-                .kick {
-                    font-size: 20px;
-                    line-height: 30px;
-                    margin: 0.5rem;
-                    width: 100px;
-                    height: 40px;
-                    background: linear-gradient(#771d1d, #380e0e);
-                    border: 3px #792525 solid; 
-                    box-shadow: 0 0 50px rgba(117, 0, 0, 0.5);
-                }
-                .kick:active {
-                    background: linear-gradient(#821f1f, #441111);
-                    box-shadow: 0 0 75px rgba(137, 43, 43, 0.5);
-                }
             }
         }
     }
@@ -376,27 +439,6 @@ export default {
             .action {
                 width: 6rem;
                 margin: auto 0rem;
-                .accept {
-                    font-size: 20px;
-                    line-height: 30px;
-                    margin: 0.5rem;
-                    width: 70px;
-                    height: 40px;
-                }
-                .reject {
-                    font-size: 20px;
-                    line-height: 30px;
-                    margin: 0.5rem;
-                    width: 70px;
-                    height: 40px;
-                    background: linear-gradient(#771d1d, #380e0e);
-                    border: 3px #792525 solid; 
-                    box-shadow: 0 0 50px rgba(117, 0, 0, 0.5);
-                }
-                .reject:active {
-                    background: linear-gradient(#821f1f, #441111);
-                    box-shadow: 0 0 75px rgba(137, 43, 43, 0.5);
-                }
             }
         }
     }
@@ -538,23 +580,58 @@ export default {
     box-shadow: 0 0 75px rgba(43,137,68,0.5);
 }
 
-.button:after {
-    content: "";
-    position: relative;
-    top: -120px;
-    left: -90px;
-    display: block;
-    width: 35px;
-    height: 150px;
-    background: rgba(255, 255, 255, 0.5);
-    transform: rotate(35deg);
-    filter: blur(20px);
-    transition: none;
-}
-
+// .button:after {
+//     content: "";
+//     position: relative;
+//     top: -120px;
+//     left: -90px;
+//     display: block;
+//     width: 35px;
+//     height: 150px;
+//     background: rgba(255, 255, 255, 0.5);
+//     transform: rotate(35deg);
+//     filter: blur(20px);
+//     transition: none;
+//     overflow:hidden;
+// }
 .button:hover:after {
     left: 400px;
     transition: .6s ease-in-out;
+}
+.kick {
+    font-size: 20px;
+    line-height: 30px;
+    margin: 0.5rem;
+    width: 100px;
+    height: 40px;
+    background: linear-gradient(#771d1d, #380e0e);
+    border: 3px #792525 solid; 
+    box-shadow: 0 0 50px rgba(117, 0, 0, 0.5);
+}
+.kick:active {
+    background: linear-gradient(#821f1f, #441111);
+    box-shadow: 0 0 75px rgba(137, 43, 43, 0.5);
+}
+.accept {
+    font-size: 20px;
+    line-height: 30px;
+    margin: 0.5rem;
+    width: 70px;
+    height: 40px;
+}
+.reject {
+    font-size: 20px;
+    line-height: 30px;
+    margin: 0.5rem;
+    width: 70px;
+    height: 40px;
+    background: linear-gradient(#771d1d, #380e0e);
+    border: 3px #792525 solid; 
+    box-shadow: 0 0 50px rgba(117, 0, 0, 0.5);
+}
+.reject:active {
+    background: linear-gradient(#821f1f, #441111);
+    box-shadow: 0 0 75px rgba(137, 43, 43, 0.5);
 }
 .svg-pentagon {
     text-align: center;
@@ -598,5 +675,11 @@ export default {
 .btn {
     margin-left: -1rem;
     padding: .375rem 0rem;
+}
+.hidden {
+    display: none;
+}
+.table {
+    color: #fff;
 }
 </style>
