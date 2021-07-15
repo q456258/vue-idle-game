@@ -1,57 +1,74 @@
 <template>
 <div class="container scrollbar-morpheus-den">
-    <div class="building" v-for="(type, typeIndex) in types" :key="typeIndex">
-        {{typeName[type]+' (效率：'+totalEfficiency[type]+'/秒)'}}
-        <div class="progress" style="width:50%;">
-                <div class="progress-bar progress-bar-striped" :style="{width:progress[type].current/progress[type].max*100+'%'}">
-                    <small class="justify-content-center d-flex position-absolute w-90" style="color:black">{{progress[type].current+'/'+progress[type].max}} </small>
-                </div>
+    <div class="building" v-show="displayPage=='guild'">
+        <div class="buildInfo">
+            {{guild.guild.lv+"级 ("+guild.guild.exp+"/"+lvExp[guild.guild.lv]+')'}}
         </div>
-        <div class="manager">
-            管理{{building[type].manager.length}}/{{maxMember[type].manager}}
-            <div class="btn btn-outline-success" v-if="building[type].manager.length<maxMember[type].manager" @click="setPosition(type, 'manager', -1)">添加</div>
+        <trainStat></trainStat>
+        <div class="training">
+            <div class="trainingProgressbars">
+                <countdown ref="countdown" :tier="0" :timer="$store.state.train.train1.timer" :level="guild.train.lv" v-if="guild.train.lv>0"></countdown>
+                <!-- <countdown :tier="0" :timer="$store.state.timer.trainTimer1" :level="guild.train"></countdown> -->
+                <countdown :tier="1" :timer="$store.state.train.train2.timer" :level="guild.train2.lv" v-if="guild.train2.lv>0"></countdown>
+                <countdown :tier="2" :timer="$store.state.train.train3.timer" :level="guild.train3.lv" v-if="guild.train3.lv>0"></countdown>
+            </div>
+        </div>
+    </div>
+    <div class="building" v-show="displayPage==type" v-for="(type, typeIndex) in types" :key="typeIndex">
+        <div class="buildInfo">
+            {{guild[type].lv+"级 ("+guild[type].exp+"/"+lvExp[guild[type].lv]+')'}}
+            <br>
+            {{' (经验获取率：'+totalLevel[type]+'x, 效率：'+totalEfficiency[type]+'/秒)'}}
+        </div>
+        <div class="progress" style="width:100%;">
+            <div class="progress-bar progress-bar-striped" :style="{width:progress[type].current/progress[type].max*100+'%'}">
+                <small class="justify-content-center d-flex position-absolute w-90" style="color:black">{{progress[type].current+'/'+progress[type].max}} </small>
+            </div>
+        </div>
+        <div class="action">
+            <div v-if="!inProgress[type]">
+                <select v-model="selectedType[type]" @change="setSelectedType($event, type)" class="btn btn-light">
+                    <option :value="option.value" v-for="(option, index) in selectOption[type]" :key="index" :disabled="guild[type].lv<option.lv">
+                        {{option.name}}<span v-if="guild[type].lv<option.lv"> {{option.lv}}级</span>
+                    </option>
+                </select>
+                <span v-if="type=='smith' && selectedType[type] != 'smith'">
+                    主材料：<a v-if="smith_main.lv" :style="{color:smith_main.quality.color}" @mouseover="showInfo($event,smith_main.itemType,smith_main)" @mouseleave="closeInfo('equip')">{{smith_main.description.name}}</a>
+                    <div class="btn btn-outline-light" @click="selectEquip('smith_main')">+</div>
+                    副材料：<a v-if="smith_sub.lv" :style="{color:smith_sub.quality.color}" @mouseover="showInfo($event,smith_sub.itemType,smith_sub)" @mouseleave="closeInfo('equip')">{{smith_sub.description.name}}</a>
+                    <div class="btn btn-outline-light" @click="selectEquip('smith_sub')">+</div>
+                </span>
+                &nbsp;<div class="btn btn-success" @click="start(type)">开始</div>
+            </div>
+            <div v-else>
+                &nbsp;<div class="btn btn-danger" @click="stop(type)">停止</div>
+            </div>
+        </div>
+        <div class="member">
+            成员{{building[type].length}}/{{maxMember[type]}}
+            <div class="btn btn-outline-success" v-if="building[type].length<maxMember[type]" @click="setPosition(type, -1)">添加</div>
             <div class="list">
-                <div class="grid" v-for="(v, k) in building[type].manager" :key="k">
+                <div class="grid" v-for="(v, k) in building[type]" :key="k">
                     <div class="info">
                         <div class="name">
                             {{v.name}}
                             <br>
                             {{race[v.race].name+' '+v.lv}}级
                             <br>
-                            {{guildSkill[v.job].name}}
+                            {{guildSkill[v.career].name}}
                         </div>
                     </div>
                     <div class="skillList">
                         <span class="statName">{{guildStat['efficiency'].name+': '+v.stat['efficiency']}}</span>
+                        <span class="statName" v-if="v.skill[type]">{{v.skill[type]+"级"+guildSkill[type].name}}</span>
                         <div class="skill" v-for="(special, index) in v.special" :key="index">
                             <span class="skillName">{{guildSpecialSkill[special].name}}</span>
                             <span class="skillDesc">({{guildSpecialSkill[special].desc}})</span>
                         </div>
                     </div>
                     <div class="action">
-                        <div class="button kick btn btn-outline-warning" @click="setPosition(type, 'manager', k)">更换</div>
-                        <div class="button kick btn btn-outline-danger" @click="cancelPosition(type, 'manager', k)">取消</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="member">
-            成员{{building[type].member.length}}/{{maxMember[type].member}}
-            <div class="btn btn-outline-success" v-if="building[type].member.length<maxMember[type].member" @click="setPosition(type, 'member', -1)">添加</div>
-            <div class="list">
-                <div class="grid" v-for="(v, k) in building[type].member" :key="k">
-                    <div class="info">
-                        <div class="name">
-                            {{v.name}}
-                            <br>
-                            {{race[v.race].name+' '+v.lv}}级
-                            <br>
-                            <span class="statName">{{guildStat['efficiency'].name+': '+v.stat['efficiency']}}</span>
-                        </div>
-                    </div>
-                    <div class="action">
-                        <div class="button kick btn btn-outline-warning" @click="setPosition(type, 'member', k)">更换</div>
-                        <div class="button kick btn btn-outline-danger" @click="cancelPosition(type, 'member', k)">取消</div>
+                        <div class="button kick btn btn-outline-warning" @click="setPosition(type, k)">更换</div>
+                        <div class="button kick btn btn-outline-danger" @click="cancelPosition(type, k)">取消</div>
                     </div>
                 </div>
             </div>
@@ -65,10 +82,12 @@ import { assist } from '../../assets/js/assist';
 import {guildConfig} from '@/assets/config/guildConfig'
 import {guildMemberConfig} from '@/assets/config/guildMemberConfig'
 import cTooltip from '../uiComponent/tooltip';
+import countdown from '../uiComponent/countdown';
+import trainStat from '../component/trainStat';
 export default {
     name: "guildPosition",
     mixins: [assist, guildConfig, guildMemberConfig],
-    components: {cTooltip,},
+    components: {cTooltip, countdown, trainStat},
     mounted() {
     },
     data() {
@@ -76,32 +95,27 @@ export default {
             types: ['shop','smith','train','train2','train3'],
             typeName: {shop:'商店', smith:'铁匠铺', train:'练功房', train2:'中级练功房', train3:'高级练功房'},
             building: {
-                shop: { manager: [], member: [] },
-                smith: { manager: [], member: [] },
-                train: { manager: [], member: [] },
-                train2: { manager: [], member: [] },
-                train3: { manager: [], member: [] },
+                shop: [],
+                smith: [],
+                train: [],
+                train2: [],
+                train3: [],
             },
             maxMember: {
-                shop: { manager: 2, member: 0 },
-                smith: { manager: 2, member: 0 },
-                train: { manager: 2, member: 0 },
-                train2: { manager: 2, member: 0 },
-                train3: { manager: 2, member: 0 },
+                shop: 2,
+                smith: 2,
+                train: 2,
+                train2: 2,
+                train3: 2,
+            },
+            totalLevel: {
+                shop: 1, smith: 1, train: 1, train2: 1, train3: 1
             },
             totalEfficiency: {
-                shop: 0,
-                smith: 0,
-                train: 0,
-                train2: 0,
-                train3: 0,
+                shop: 0, smith: 0, train: 0, train2: 0, train3: 0,
             },
             timerList: {
-                shop: 0,
-                smith: 0,
-                train: 0,
-                train2: 0,
-                train3: 0,
+                shop: 0, smith: 0, train: 0, train2: 0, train3: 0,
             },
             progress: {
                 shop: { current: 0, max: 1000 },
@@ -110,6 +124,30 @@ export default {
                 train2: { current: 0, max: 1000 },
                 train3: { current: 0, max: 1000 },
             },
+            smith_main: {},
+            smith_sub: {},
+            selectFor: 'None',
+            selectOption: {
+                shop: [{name: '1级贸易', value: 'shop1', lv: 0}, {name: '2级贸易', value: 'shop2', lv: 15}, {name: '3级贸易', value: 'shop3', lv: 30}, 
+                        {name: '4级贸易', value: 'shop4', lv: 45}],
+                smith: [{name: '打造', value: 'smith', lv: 0},{name: '精炼', value: 'refine', lv: 15}, {name: '熔炼', value: 'melt', lv: 30}],
+                train: [{name: '生命训练', value: 'HP', lv: 0}, {name: '魔法训练', value: 'MP', lv: 0}, {name: '攻击训练', value: 'ATK', lv: 0},
+                        {name: '防御训练', value: 'DEF', lv: 0}],
+                train2: [{name: '元素训练', value: 'AP', lv: 0}, {name: '能量盾训练', value: 'MR', lv: 0}],
+                train3: [{name: '力量训练', value: 'STR', lv: 0}, {name: '敏捷训练', value: 'AGI', lv: 0}, {name: '智力训练', value: 'INT', lv: 0}],
+            },
+            selectedType: {
+                shop: 'shop1',
+                smith: 'smith',
+                train: 'HP',
+                train2: 'AP',
+                train3: 'STR',
+            },
+            inProgress: {
+                shop: false, smith: false, train:  false, train2: false, train3: false,
+            },
+            displayPage: 'guild',
+            lvExp: []
         };
     },
     props: {
@@ -120,61 +158,292 @@ export default {
     },
     methods: {    
         init() {
-            for(var type in this.types) {
-                this.maxMember[this.types[type]].member = this.guild[this.types[type]];
+            for(var mem in this.maxMember) {
+                this.maxMember[mem] = Math.floor(this.guild[mem].lv/10+2);
             }
             for(var mem in this.guild.member) {
                 if(this.guild.member[mem].job != 'None')
-                    this.assignPosition(this.guild.member[mem].job, this.guild.member[mem].position, -1, this.guild.member[mem], true);
+                    this.assignPosition(this.guild.member[mem].job, -1, this.guild.member[mem], true);
             }
-            this.timerList['shop'] = setInterval(() => {
-                this.progress['shop'].current += this.totalEfficiency['shop'];
-                if(this.progress['shop'].current >= this.progress['shop'].max) {
-                    this.progress['shop'].current = 0;
-                }
-            }, 1000);
+            for(let timer in this.timerList) 
+                clearInterval(this.timerList[timer]);
+            this.start('shop');
+            this.start('smith');
+            this.start('train');
+            this.start('train2');
+            this.start('train3');
+            // this.smith_main = this.player.shoulder;
+            // this.smith_sub = this.player.weapon;
+            this.lvExp[0] = 10;
+            for(let i=1; i<100; i++)
+                this.lvExp[i] = Math.round(this.lvExp[i-1]*1.5);
+            var types = ['guild','shop','smith','train','train2','train3'];
+            for(let type in types) 
+                this.computeLv(types[type]);
+        },
+        computeLv(type) {
+            var target = this.guild[type];
+            while(target.exp >= this.lvExp[target.lv])
+                target.lv++;
         },
         findTarget(target) {
             if(target.job == 'None')
                 return -1;
-            var list = this.building[target.job][target.position];
+            var list = this.building[target.job];
             for(var i in list) {
                 if(list[i].id == target.id)
                     return i;
             }
             return -1;
         },
-        assignPosition(type, position="member", index, target, force=false) {
-            if(!force && type == target.job && position == target.position)
+        assignPosition(type, index, target, force=false) {
+            if(!force && type == target.job)
                 return;
             if(target.job != 'None') {
                 let targetIndex = this.findTarget(target);
                 if(targetIndex != -1)
-                    this.cancelPosition(target.job, target.position, targetIndex);
+                    this.cancelPosition(target.job, targetIndex);
             }
             if(index == -1)
-                this.building[type][position].push(target);
+                this.building[type].push(target);
             else {
-                this.cancelPosition(type, position, index);
-                this.building[type][position][index] = target;
+                this.cancelPosition(type, index, true);
+                this.building[type][index] = target;
             }
-            this.totalEfficiency[type] += target.stat.efficiency;
+            if(target.career == type)
+                this.totalEfficiency[type] += Math.floor(target.stat.efficiency*1.5);
+            else
+                this.totalEfficiency[type] += target.stat.efficiency;
+            this.expRate(type);
             target.job = type;
-            target.position = position;
         },
-        setPosition(type, position="member", index) {
-            var guildMember = this.findBrothersComponents(this, 'guildMember', false)[0];
+        setPosition(type, k) {
             var guild = this.findComponentUpward(this, 'guild');
-            guild.displayPage = 'member';
+            var index = this.findComponentUpward(this, 'index');
+            var guildMember = this.findBrothersComponents(guild, 'guildMember', false)[0];
+            index.displayPage = 'guildMember';
             guildMember.positionType = type;
-            guildMember.positionPosition = position;
-            guildMember.positionIndex = index;
+            guildMember.positionIndex = k;
         },
-        cancelPosition(type, position="member", index) {
-            this.totalEfficiency[type] -= this.building[type][position][index].stat.efficiency;
-            this.building[type][position][index].job = 'None';
-            this.building[type][position].splice(index, 1);
-        }
+        cancelPosition(type, index, replace=false) {
+            var target = this.building[type][index];
+            if(target.career == type)
+                this.totalEfficiency[type] -= Math.floor(target.stat.efficiency*1.5);
+            else
+                this.totalEfficiency[type] -= target.stat.efficiency;
+            this.building[type][index].job = 'None';
+            if(!replace)
+                this.building[type].splice(index, 1);
+            this.expRate(type);
+        },
+        expRate(type) {
+            var members = this.building[type];
+            var expRate = 1;
+            for(let member in members) {
+                if(members[member].skill[type])
+                    expRate += members[member].skill[type];
+            }
+            this.totalLevel[type] = expRate;
+        },
+        gainExp(type) {
+            var exp = this.progress[type].max/1000*this.totalLevel[type];
+            this.guild[type].exp += exp;
+            this.guild.guild.exp += exp;
+            this.computeLv(type);
+            this.computeLv('guild');
+        },
+        selectEquip(type) {
+            var guild = this.findComponentUpward(this, 'guild');
+            var backpack = this.findBrothersComponents(guild, 'backpack', false)[0];
+            var index = this.findComponentUpward(guild, 'index');
+            this.selectFor = type;
+            backpack.leftClickEnabled = true;
+            index.closeMenuPanel('backpack');
+            index.openMenuPanel('backpack');
+        },
+        selectedEquip(equip) {
+            var guild = this.findComponentUpward(this, 'guild');
+            var backpack = this.findBrothersComponents(guild, 'backpack', false)[0];
+            switch(this.selectFor){
+                case "smith_main":
+                    if(this.smith_main.lv)
+                        backpack.giveEquip(this.smith_main, false);
+                    this.smith_main = equip;
+                    break;
+                case "smith_sub":
+                    if(this.smith_sub.lv)
+                        backpack.giveEquip(this.smith_sub, false);
+                    this.smith_sub = equip;
+                    break;
+            }
+            this.selectFor = 'None';
+        },
+        setSelectedType(e, type) {
+            var value = e.target.value;
+            this.selectedType[type] = value;
+            this.computeMax(type);
+        },
+        computeMax(type) {
+            var req = {
+                HP: 25000,
+                MP: 25000,
+                ATK: 25000,
+                DEF: 25000,
+                AP: 35000,
+                MR: 35000,
+                STR: 50000,
+                AGI: 50000,
+                INT: 50000,
+                shop1: 1000, 
+                shop2: 5000,
+                shop3: 25000, 
+                shop4: 125000, 
+                smith: 10000,
+                refine: 50000,
+                melt: 1000000
+            };
+            this.progress[type].max = req[this.selectedType[type]];
+        },
+        start(type) {
+            this.inProgress[type] = true;
+            switch(type) {
+                case 'smith':
+                    this.startSmith();
+                    break;
+                case 'shop':
+                    this.startShop();
+                    break;
+                case 'train':
+                    this.startTrain('train');
+                    break;
+                case 'train2':
+                    this.startTrain('train2');
+                    break;
+                case 'train3':
+                    this.startTrain('train3');
+                    break;
+            }
+        },
+        stop(type) {
+            this.progress[type].current = 0;
+            clearInterval(this.timerList[type]);
+            this.inProgress[type] = false;
+        },
+        startTrain(type) {
+            this.timerList[type] = setInterval(() => {
+                this.progress[type].current += this.totalEfficiency[type];
+                if(this.progress[type].current >= this.progress[type].max) {
+                    this.progress[type].current = 0;
+                    this.gainExp(type);
+                    this.$refs.countdown.increaseProgress(this.selectedType[type], 200);
+                }
+            }, 1000);
+        },
+        startShop() {
+            var guild = this.findComponentUpward(this, 'guild');
+            this.timerList['shop'] = setInterval(() => {
+                this.progress['shop'].current += this.totalEfficiency['shop'];
+                if(this.progress['shop'].current >= this.progress['shop'].max) {
+                    this.progress['shop'].current = 0;
+                    this.gainExp('shop');
+                    switch(this.selectedType['shop']) {
+                        case 'shop1':
+                            guild.getGold('', 666, false);
+                            break;
+                        case 'shop2':
+                            guild.getGold('', 6666, false);
+                            break;
+                        case 'shop3':
+                            guild.getGold('', 66666, false);
+                            break;
+                        case 'shop4':
+                            guild.getGold('', 666666, false);
+                            break;
+                    } 
+                }
+            }, 1000);
+        },
+        startSmith() {
+            this.timerList['smith'] = setInterval(() => {
+                this.progress['smith'].current += this.totalEfficiency['smith'];
+                if(this.progress['smith'].current >= this.progress['smith'].max) {
+                    this.progress['smith'].current = 0;
+                    clearInterval(this.timerList['smith']);
+                    this.inProgress['smith'] = false;
+                    switch(this.selectedType['smith']) {
+                        case 'smith':
+                            this.smith();
+                            break;
+                        case 'refine':
+                            this.refine();
+                            break;
+                        case 'melt':
+                            this.melt();
+                            break;
+                    } 
+                }
+            }, 1000);
+        },
+        smith() {
+            var equipInfo = this.findBrothersComponents(guild, 'equipInfo', false)[0];
+            var backpack = this.findBrothersComponents(guild, 'backpack', false)[0];
+            let equip = equipInfo.createEquip(-1, lv, 'random', 1);  
+            equip = JSON.parse(equip);
+            this.$store.commit("set_sys_info", {
+                type: 'reward',
+                msg: '打造完成，获得',
+                equip: equip
+            });
+            backpack.giveEquip(equip);
+        },
+        refine() {
+            var guild = this.findComponentUpward(this, 'guild');
+            var equipInfo = this.findBrothersComponents(guild, 'equipInfo', false)[0];
+            var backpack = this.findBrothersComponents(guild, 'backpack', false)[0];
+            this.$store.commit("set_sys_info", {
+                type: 'reward',
+                msg: '消耗装备',
+                equip: this.smith_sub
+            });
+            equipInfo.refine(this.smith_main, this.smith_sub);
+            backpack.giveEquip(this.smith_main, false);
+            this.$store.commit("set_sys_info", {
+                type: 'reward',
+                msg: '装备精炼完成',
+                equip: this.smith_main
+            });
+            this.smith_main = {};
+            this.smith_sub = {};
+        },
+        melt() {
+            var guild = this.findComponentUpward(this, 'guild');
+            var equipInfo = this.findBrothersComponents(guild, 'equipInfo', false)[0];
+            var backpack = this.findBrothersComponents(guild, 'backpack', false)[0];
+            this.$store.commit("set_sys_info", {
+                type: 'reward',
+                msg: '消耗装备',
+                equip: this.smith_sub
+            });
+            equipInfo.melt(this.smith_main, this.smith_sub);
+            backpack.giveEquip(this.smith_main, false);
+            this.$store.commit("set_sys_info", {
+                type: 'reward',
+                msg: '装备熔炼完成',
+                equip: this.smith_main
+            });
+            this.smith_main = {};
+            this.smith_sub = {};
+        },
+        showInfo($event, type, item, compare) {
+            var guild = this.findComponentUpward(this, 'guild');
+            var index = this.findComponentUpward(guild, 'index');
+            index.showInfo($event, type, item, compare);
+        },
+        closeInfo() {
+            var guild = this.findComponentUpward(this, 'guild');
+            var index = this.findComponentUpward(guild, 'index');
+            index.closeInfo('equip');
+        },
     }
 }
 </script>
@@ -182,7 +451,7 @@ export default {
 .container {
     display: flex;
     flex-wrap: wrap;
-    width: 55rem;
+    width: 52rem;
     max-height: 50rem;
     margin: 0.5rem 0.5rem;
     padding: 0.5rem 0.5rem;
@@ -192,25 +461,20 @@ export default {
 .building {
     padding: 0.5rem;
     margin: 0.25rem;
-    border: 1px solid rgba(255, 255, 255, 0.404);
-    border-radius: 1rem;
-    max-height: 35rem;
-    width: 50rem;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-}
-.manager {
-    padding: 0.5rem;
-    // margin: 0.5rem;
     // border: 1px solid rgba(255, 255, 255, 0.404);
     border-radius: 1rem;
     max-height: 35rem;
     width: 50rem;
-    overflow-y: auto;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    .buildInfo {
+        width: 100%;
+        margin: 0.2rem 0.2rem;
+    }
+    .progress {
+        margin: 0.2rem 0.2rem;
+    }
 }
 .member {
     padding: 0.5rem;

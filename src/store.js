@@ -231,12 +231,12 @@ export default new Vuex.Store({
         guildAttribute: {
             gold: 0,
             crystal: 0,
-            guild: 0,
-            train: 0,
-            train2: 0,
-            train3: 0,
-            shop: 0,
-            smith: 0,
+            guild: {lv: 0, exp: 10},
+            train: {lv: 0, exp: 10},
+            train2: {lv: 0, exp: 0},
+            train3: {lv: 0, exp: 0},
+            shop: {lv: 0, exp: 10},
+            smith: {lv: 0, exp: 10},
             member: []
         },
         playerAttribute: {

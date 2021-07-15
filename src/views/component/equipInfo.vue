@@ -339,7 +339,20 @@ export default {
                 this.createExtraEntryValue(entry, entry.quality/100, equip.lv);
             });
             this.$store.commit('set_player_attribute');
-        }
+        },
+        refine(equip, equip2) {
+            for(var i=0; i<equip.baseEntry.length; i++) {
+                let percent = (equip.baseEntry[i].base/(this.entryInfo[equip.baseEntry[i].type].base*(1+(equip.lv)**2*0.07))-1)*5;
+                let percent2 = (equip2.baseEntry[i].base/(this.entryInfo[equip2.baseEntry[i].type].base*(1+(equip2.lv)**2*0.07))-1)*5;
+                percent = percent>percent2 ? percent : percent2;
+                this.createBaseEntryValue(equip.quality.qualityCoefficient, equip.baseEntry[i], percent, equip.lv, equip.enhanceLv);
+            }
+        },
+        melt(equip, equip2) {
+            this.$set(equip.potential, 0, equip2.potential[0]);
+            this.$set(equip.potential, 1, equip2.potential[1]);
+            this.$set(equip.potential, 2, equip2.potential[2]);
+        },
     },
 
 };

@@ -1,32 +1,35 @@
 
 <template>
  <div class="container">
-    <select v-model="viewType" @change="setViewType" class="btn btn-xsm btn-secondary" aria-label="view type">
-        <option value="list">列表</option>
-        <option value="detail">详细</option>
-    </select>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <nav>
+        <button class="btn btn-secondary" :class="{active:viewType=='list'}" style="margin-right: 1rem;" @click="setViewType('list')"><i class="fa fa-list-ul" aria-hidden="true"></i></button>
+        <button class="btn btn-secondary" :class="{active:viewType=='detail'}" @click="setViewType('detail')"><i class="fa fa-th-large" aria-hidden="true"></i></button>
+    </nav>
+    <div class="btn btn-danger" style="margin-left: 2rem;" @click="autoAssign()">一键分配</div>
+    <div class="btn btn-danger" style="margin-left: 1rem;" @click="allCancel()">一键取消</div>
+    <input class="switch" v-model="kickEnabled" type="checkbox" />
+    <label for="login" style="margin-top: 0.25rem;">踢人</label>
     <div class="member scrollbar-morpheus-den" v-if="viewType=='list'">
         公会成员&nbsp;<span :style="{color: guild.member.length>=maxMember?'#F00':''}">{{guild.member.length+'/'+maxMember}}</span>
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col"></th>
                     <th scope="col">名字</th>
                     <th scope="col" style="cursor:pointer" @click="sortBy('lv')">等级</th>
-                    <th scope="col" style="cursor:pointer" @click="sortBy('intellect')">职业</th>
+                    <th scope="col" style="cursor:pointer" @click="sortBy('career')">职业</th>
                     <th scope="col" style="cursor:pointer" @click="sortBy('focus')">专注</th>
                     <th scope="col" style="cursor:pointer" @click="sortBy('intellect')">悟性</th>
                     <th scope="col" style="cursor:pointer" @click="sortBy('luck')">运势</th>
                     <th scope="col" style="cursor:pointer" @click="sortBy('potential')">潜力</th>
                     <th scope="col" style="cursor:pointer" @click="sortBy('efficiency')">效率</th>
-                    <th scope="col" @click="sortBy('intellect')">职位</th>
+                    <th scope="col" style="cursor:pointer" @click="sortBy('job')">职位</th>
                     <th scope="col">技能</th>
                     <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="(v, k) in guild.member" :key="k">
-                    <td scope="row"><img :src="v.iconSrc"></td>
                     <td>{{v.name}}</td>
                     <td>{{v.lv}}</td>
                     <td>{{guildSkill[v.career].name}}</td>
@@ -37,7 +40,7 @@
                     <td>{{v.stat.efficiency}}</td>
                     <td>
                         <span v-if="v.job=='None'">空闲</span>
-                        <span v-else>{{typeName[v.job]+levelName[v.position]}}</span>
+                        <span v-else>{{typeName[v.job]}}</span>
                     </td>
                     <td style="width: 8em;">
                         <div @click="show($event)" > 显示/隐藏
@@ -52,9 +55,9 @@
                         </div>
                     </td>
                     <td style="width: 6em;">
-                        <span class="button kick" v-if="positionType!='None'" @click="assignPosition(k)">任命</span>
+                        <span class="button accept" v-if="positionType!='None'" @click="assignPosition(k)">任命</span>
                         <br>
-                        <span class="button kick" @click="kick(k)">踢出</span>
+                        <span class="button kick" v-if="kickEnabled" @click="kick(k)">踢出</span>
                     </td>
                 </tr>
             </tbody>
@@ -62,7 +65,21 @@
     </div>
     <div class="member scrollbar-morpheus-den" v-if="viewType=='detail'">
         公会成员&nbsp;<span :style="{color: guild.member.length>=maxMember?'#F00':''}">{{guild.member.length+'/'+maxMember}}</span>
-        <div class="list">
+        <div class="list">        
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col" style="cursor:pointer" @click="sortBy('lv')">等级</th>
+                        <th scope="col" style="cursor:pointer" @click="sortBy('career')">职业</th>
+                        <th scope="col" style="cursor:pointer" @click="sortBy('focus')">专注</th>
+                        <th scope="col" style="cursor:pointer" @click="sortBy('intellect')">悟性</th>
+                        <th scope="col" style="cursor:pointer" @click="sortBy('luck')">运势</th>
+                        <th scope="col" style="cursor:pointer" @click="sortBy('potential')">潜力</th>
+                        <th scope="col" style="cursor:pointer" @click="sortBy('efficiency')">效率</th>
+                        <th scope="col" style="cursor:pointer" @click="sortBy('job')">职位</th>
+                    </tr>
+                </thead>
+            </table>
             <div class="grid" v-for="(v, k) in guild.member" :key="k">
                 <div class="info">
                     <div class="icon"><img :src="v.iconSrc"></div>
@@ -104,15 +121,75 @@
                 </div>
                 <div class="action">
                     <span v-if="v.job=='None'">空闲</span>
-                    <span v-else>{{typeName[v.job]+levelName[v.position]}}</span>
-                    <div class="button kick" v-if="positionType!='None'" @click="assignPosition(k)">任命</div>
-                    <div class="button kick" @click="kick(k)">踢出公会</div>
+                    <span v-else>{{typeName[v.job]}}</span>
+                    <div class="button accept" v-if="positionType!='None'" @click="assignPosition(k)">任命</div>
+                    <div class="button kick"  v-if="kickEnabled" @click="kick(k)">踢出公会</div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="applicant scrollbar-morpheus-den">
+    <div class="member scrollbar-morpheus-den" v-if="viewType=='list'">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">名字</th>
+                    <th scope="col" style="cursor:pointer" @click="sortAppBy('lv')">等级</th>
+                    <th scope="col" style="cursor:pointer" @click="sortAppBy('career')">职业</th>
+                    <th scope="col" style="cursor:pointer" @click="sortAppBy('focus')">专注</th>
+                    <th scope="col" style="cursor:pointer" @click="sortAppBy('intellect')">悟性</th>
+                    <th scope="col" style="cursor:pointer" @click="sortAppBy('luck')">运势</th>
+                    <th scope="col" style="cursor:pointer" @click="sortAppBy('potential')">潜力</th>
+                    <th scope="col" style="cursor:pointer" @click="sortAppBy('efficiency')">效率</th>
+                    <th scope="col">技能</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(v, k) in applicantList" :key="k">
+                    <td>{{v.name}}</td>
+                    <td>{{v.lv}}</td>
+                    <td>{{guildSkill[v.career].name}}</td>
+                    <td>{{v.stat.focus}}</td>
+                    <td>{{v.stat.intellect}}</td>
+                    <td>{{v.stat.luck}}</td>
+                    <td>{{v.stat.potential}}</td>
+                    <td>{{v.stat.efficiency}}</td>
+                    <td style="width: 8em;">
+                        <div @click="show($event)" > 显示/隐藏
+                            <div class="skillList hidden">
+                                <div class="skill" v-for="(level, index) in v.skill" :key="index">
+                                    <span class="skillName">{{level+'级'+guildSkill[index].name}}</span>
+                                </div>
+                                <div class="skill" v-for="(special, index) in v.special" :key="index">
+                                    <span class="skillName">{{guildSpecialSkill[special].name}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="width: 6em;">
+                        <span class="button accept" @click="recruit(k)">招募</span>
+                        <br>
+                        <span class="button reject" @click="reject(k)">婉拒</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="applicant scrollbar-morpheus-den" v-if="viewType=='detail'">
         申请列表
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col" style="cursor:pointer" @click="sortAppBy('lv')">等级</th>
+                    <th scope="col" style="cursor:pointer" @click="sortAppBy('career')">职业</th>
+                    <th scope="col" style="cursor:pointer" @click="sortAppBy('focus')">专注</th>
+                    <th scope="col" style="cursor:pointer" @click="sortAppBy('intellect')">悟性</th>
+                    <th scope="col" style="cursor:pointer" @click="sortAppBy('luck')">运势</th>
+                    <th scope="col" style="cursor:pointer" @click="sortAppBy('potential')">潜力</th>
+                    <th scope="col" style="cursor:pointer" @click="sortAppBy('efficiency')">效率</th>
+                </tr>
+            </thead>
+        </table>
         <div class="list">
             <div class="grid" v-for="(v, k) in applicantList" :key="k">
                 <div class="info">
@@ -164,10 +241,11 @@
 </template>
 <script>
 import { assist } from '../../assets/js/assist';
+import { nameGenerator } from '../../assets/js/nameGenerator';
 import {guildMemberConfig} from '@/assets/config/guildMemberConfig'
 export default {
     name:"guildMember",
-    mixins: [assist, guildMemberConfig],
+    mixins: [assist, nameGenerator, guildMemberConfig],
     components: {},
     props: {
     },
@@ -184,38 +262,39 @@ export default {
             applicantList: [],
             positionList: [['None','空闲'], ['trainManager','练功房管理'], ['train2Manager','中级练功房管理'], ['train3Manager','高级练功房管理']],
             typeName: {shop:'商店', smith:'铁匠铺', train:'练功房', train2:'中级练功房', train3:'高级练功房'},
-            levelName: {manager:'管理', member:'成员'},
             positionType: 'None',
-            positionPosition: 'member',
             positionIndex: 0,
             viewType: 'list',
             sortKey: 'name',
             reverseSort: 1,
+            kickEnabled: false
         }
     },
     mounted () {
-        this.generateApplicant(29)
-        this.generateApplicant(81)
-        this.generateApplicant(110)
-        //游戏时间每满1小时升级
-        //this.levelupAll()
     },
     watch: {
     },
     computed: {
         guild() { return this.$store.state.guildAttribute; },
         player() { return this.$store.state.playerAttribute; },
-        maxMember() { return Math.floor(this.guild.guild/5);}
+        maxMember() { 
+            var max = 2;
+            for(let build in this.guild) {
+                if(build != 'guild' && this.guild[build].lv != null && this.guild[build].lv > 0)
+                    max += Math.floor(this.guild[build].lv/10+2);
+            }
+            return max;
+        }
     },
     methods: {
         // 每10级随机升级一级技能
         // 每10级技能随机获得一个对应管理技能
         // 专注(技能升级的随机性）、悟性（技能升级概率）、机缘（管理技能获得概率）、潜力（升级概率）、效率（工作效率）
-        generateApplicant(lv, race) {
+        generateApplicant(lv, race, name) {
             var applicant = {};
             applicant.lv = lv || 1;
-            applicant.name = '阿萨德';
             applicant.race = race || this.createRace();
+            applicant.name = name || this.generateName(applicant.race);
             applicant.stat = this.createStat(applicant.race);
             applicant.points = this.createPoints(applicant.stat);
             applicant.career = this.createCareer();
@@ -263,7 +342,11 @@ export default {
             return points;
         },
         createCareer() {
-            var careers = ['train', 'train2', 'train3', 'smith', 'shop'];
+            var careers = ['train', 'smith', 'shop'];
+            if(guild.train1 >= 15)
+                careers.push('train2')
+            if(guild.train2 >= 15)
+                careers.push('train3')
             return careers[Math.floor(Math.random()*careers.length)];
         },
         createSkill(applicant) {
@@ -296,9 +379,9 @@ export default {
             return skill;
         },
         generateSpecialSkill(applicant) {
-            return 'trainManagement';
+            return '';
         },
-        levelUp(member, computeLv=true) {
+        levelUp(member) {
             if(member.lv >= this.player.lv)
                 return;
             member.lv += 1;
@@ -311,73 +394,126 @@ export default {
                 else
                     member.skill[temp]++;
             }
-            if(computeLv)
-                this.computeLevel();
         },
         levelupAll() {
             for(var index in this.guild.member) {
-                this.levelUp(this.guild.member[index], false);
+                this.levelUp(this.guild.member[index]);
             }
-            this.computeLevel();
         },
         recruit(k) {
             if(this.guild.member.length >= this.maxMember)
                 return;
             this.applicantList[k].job = 'None';
-            this.applicantList[k].position = 'member';
             this.guild.member.push(this.applicantList[k]);
             this.applicantList.splice(k, 1);
-            // this.draw() 
-            this.computeLevel();
         },
         reject(k) {
             this.applicantList.splice(k, 1);
         },
-        setPosition(e, k) {
-            var value = e.target.value;
-            this.guild.member[k].position = value;
+        allCancel() {
+            var guild = this.findBrothersComponents(this, 'guild', false)[0];
+            var guildPosition = this.findComponentDownward(guild, 'guildPosition');
+            var members = this.guild.member;
+            for(let index in members) {
+                let member = members[index];
+                if(member.job == 'None')
+                    continue;
+                guildPosition.cancelPosition(member.job, guildPosition.findTarget(member));
+            }
+        },
+        autoAssign() {
+            var guild = this.findBrothersComponents(this, 'guild', false)[0];
+            var guildPosition = this.findComponentDownward(guild, 'guildPosition');
+            var members = this.guild.member;
+            members.sort((a, b) => {
+                return (b.stat['efficiency']-a.stat['efficiency']);
+            })
+            var need = {};
+            for(let type in guildPosition.building) {
+                need[type] = guildPosition.maxMember[type]-guildPosition.building[type].length;
+            }
+            for(let index in members) {
+                let member = members[index];
+                if(member.job != 'None')
+                    continue;
+                if(need[member.career] > 0) {
+                    guildPosition.assignPosition(member.career, -1, member);
+                    need[member.career]--;
+                }
+            }
+            for(let index in members) {
+                let member = members[index];
+                if(member.job != 'None')
+                    continue;
+                for(let type in guildPosition.building) {
+                    if(need[type] > 0) {
+                        guildPosition.assignPosition(type, -1, member);
+                        need[type]--;
+                        break;
+                    }
+                }
+            }
         },
         assignPosition(k) {
-            var guild = this.findComponentUpward(this, 'guild');
-            var guildPosition = this.findBrothersComponents(this, 'guildPosition', false)[0];
-            guildPosition.assignPosition(this.positionType, this.positionPosition, this.positionIndex, this.guild.member[k])
+            var index = this.findComponentUpward(this, 'index');
+            var guild = this.findBrothersComponents(this, 'guild', false)[0];
+            var guildPosition = this.findComponentDownward(guild, 'guildPosition');
+            guildPosition.assignPosition(this.positionType, this.positionIndex, this.guild.member[k])
             this.positionType = 'None';
-            guild.displayPage = 'position';
+            index.displayPage = 'guild';
             guildPosition.$forceUpdate();
         },
         kick(k) {
+            var guild = this.findBrothersComponents(this, 'guild', false)[0];
+            var guildPosition = this.findComponentDownward(guild, 'guildPosition');
+            guildPosition.cancelPosition(this.guild.member[k].job, guildPosition.findTarget(this.guild.member[k]));
             this.guild.member.splice(k, 1);
         },
-        computeLevel() {
-            var memList = this.guild.member;
-            var skillList = {};
-            for(let mem in memList) {
-                for(let skill in memList[mem].skill) {
-                    if(skillList[skill] == undefined) 
-                        skillList[skill] = memList[mem].skill[skill];
-                    else
-                        skillList[skill] += memList[mem].skill[skill];
-                }
-            }
-            //重新计算公会建筑等级
-            // for(let skill in skillList) {
-            //     this.guild[skill] = skillList[skill];
-            // }
-        },
         sortBy(type) {
-            this.reverseSort = type==this.sortKey ? -1*this.reverseSort : 1;
+            this.reverseSort = type==this.sortKey ? -1*this.reverseSort : -1;
             this.sortKey = type;
-            this.guild.member.sort((a, b) => {
-                return this.reverseSort*(a.stat[type]-b.stat[type]);
-            })
+            if(type == 'lv') {
+                this.guild.member.sort((a, b) => {
+                    return this.reverseSort*(a[type]-b[type]);
+                })
+            }
+            else if(type == 'job' || type=='career') {
+                this.guild.member.sort((a, b) => {
+                    return this.reverseSort*(a[type].localeCompare(b[type]));
+                })
+            }
+            else {
+                this.guild.member.sort((a, b) => {
+                    return this.reverseSort*(a.stat[type]-b.stat[type]);
+                })
+            }
+        },
+        sortAppBy(type) {
+            this.reverseSort = type==this.sortKey ? -1*this.reverseSort : -1;
+            this.sortKey = type;
+            if(type == 'lv') {
+                this.applicantList.sort((a, b) => {
+                    return this.reverseSort*(a[type]-b[type]);
+                })
+            }
+            else if(type == 'job' || type=='career') {
+                this.applicantList.sort((a, b) => {
+                    return this.reverseSort*(a[type].localeCompare(b[type]));
+                })
+            }
+            else {
+                this.applicantList.sort((a, b) => {
+                    return this.reverseSort*(a.stat[type]-b.stat[type]);
+                })
+            }
         },
         show(e) {
             if(e.target.children.length != 0 && e.target.children[0].classList.contains('skillList'))
                 e.target.children[0].classList.toggle('hidden');
         },
-        setViewType(e) {
-            var value = e.target.value;
-            this.viewType = value;
+        setViewType(type) {
+            // var value = e.target.value;
+            this.viewType = type;
         },
     }
 }
@@ -568,10 +704,10 @@ export default {
     overflow: hidden;
 }
 
-.button:hover {
-    text-shadow: 0 0 20px rgba(255,255,255,0.5);
-    transform: scale(1.05);
-}
+// .button:hover {
+//     text-shadow: 0 0 20px rgba(255,255,255,0.5);
+//     transform: scale(1.05);
+// }
 
 .button:active {
     background: linear-gradient(#1f8258, #114435);
@@ -594,10 +730,10 @@ export default {
 //     transition: none;
 //     overflow:hidden;
 // }
-.button:hover:after {
-    left: 400px;
-    transition: .6s ease-in-out;
-}
+// .button:hover:after {
+//     left: 400px;
+//     transition: .6s ease-in-out;
+// }
 .kick {
     font-size: 20px;
     line-height: 30px;
@@ -675,6 +811,7 @@ export default {
 .btn {
     margin-left: -1rem;
     padding: .375rem 0rem;
+    min-width: 2rem;
 }
 .hidden {
     display: none;
@@ -682,4 +819,45 @@ export default {
 .table {
     color: #fff;
 }
+.table td, .table th {
+    padding: 0.2rem 0.375rem;
+}
+tr:nth-of-type(odd) td{
+    background-color: lighten(#000000, 25%);
+}
+tr:nth-of-type(even) td{
+    background-color: lighten(#000000, 10%);
+}
+
+.switch {
+    appearance: none;
+    height: 2em;
+    width: 4em;
+    background-color: var(--secondary);
+    cursor: pointer;
+    border-radius: 1em;
+    position: relative;
+    transition: background-color 0.3s ease;
+}
+
+.switch::before {
+    content: "";
+    height: 100%;
+    width: 50%;
+    background-color: white;
+    position: absolute;
+    border-radius: 50%;
+    border: var(--secondary) solid 0.2em;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.switch:checked {
+    background-color: var(--primary);
+}
+
+.switch:checked::before {
+    border-color: var(--primary);
+    transform: translateX(100%);
+}
+
 </style>

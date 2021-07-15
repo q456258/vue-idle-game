@@ -90,7 +90,7 @@ export const guildMemberConfig = {
                 },
                 luck: {
                     name: '运势',
-                    desc: '影响获得管理技能的概率'
+                    desc: '影响获得特殊技能的概率'
                 },
                 potential: {
                     name: '潜力',
@@ -144,46 +144,14 @@ export const guildMemberConfig = {
                 },
             },
             guildSpecialSkill: {
-                trainManagement: {
-                    name: '练功房管理学',
-                    type: 'train',
-                    desc: '提升练功房管理人数',
-                    effect: {
-                        position: 1
-                    }
-                },
-                train2Management: {
-                    name: '中级练功房管理学',
-                    type: 'train2',
-                    desc: '提升中级练功房管理人数',
-                    effect: {
-                        position: 1
-                    }
-                },
-                train3Management: {
-                    name: '高级练功房管理学',
-                    type: 'train3',
-                    desc: '提升高级练功房管理人数',
-                    effect: {
-                        position: 1
-                    }
-                },
-                shopManagement: {
-                    name: '商店管理学',
-                    type: 'shop',
-                    desc: '提升商店管理人数',
-                    effect: {
-                        position: 1
-                    }
-                },
-                smithManagement: {
-                    name: '铁匠铺管理学',
-                    type: 'smith',
-                    desc: '提升铁匠铺管理人数',
-                    effect: {
-                        position: 1
-                    }
-                },
+                // trainManagement: {
+                //     name: '练功房管理学',
+                //     type: 'train1',
+                //     desc: '提升练功房管理人数',
+                //     effect: {
+                //         position: 1
+                //     }
+                // },
             }
         }
     }

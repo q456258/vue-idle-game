@@ -1,7 +1,7 @@
 //灰、白、蓝、紫、橙、红
 //破旧，普通，精良，完美，史诗，传说
 //a1a1a1,D9D9D9,00BBFF,BB00FF,FFBB00,FF0000
-//https://wowpedia.fandom.com/wiki/File:Inv_shoulder_09.png
+//https://wowpedia.fandom.com/wiki/Death_knight?file=Inv_shoulder_09.png
 export const equipConfig = {
   data() {
     return{

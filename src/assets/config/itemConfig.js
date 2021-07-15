@@ -117,13 +117,25 @@ export const itemConfig = {
                     use: true,
                     stack: true,
                     maxStack: 5
+                }, 
+                inv_misc_note_06: {
+                    quality: 1,
+                    description: {
+                        name: '招募启事',
+                        category: '消耗品',
+                        desc: '发布招募声明，吸引路人来申请公会',
+                        iconSrc: "./icons/item/inv_misc_note_06.png",
+                    },
+                    use: true,
+                    stack: true,
+                    maxStack: 20
                 },
                 inv_box_01: {
                     quality: 1,
                     description: {
                         name: '遗落的箱子',
                         category: '消耗品',
-                        desc: '行人遗落的箱子，背后有着不为人知的故事，打开后随机获得金币、水晶、装备、技能书',
+                        desc: '行人遗落的箱子，背后有着不为人知的故事，打开后随机获得金币、水晶、装备、技能书、招募启事',
                         iconSrc: "./icons/item/Inv_crate_01.png",
                     },
                     use: true,

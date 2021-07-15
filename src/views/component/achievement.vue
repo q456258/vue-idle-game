@@ -25,8 +25,7 @@ export default {
                 // var hourGap = this.timeGap('hour', time, time+data.gameTime);
                 var hourGap = this.timeGap('min', time, time+data.gameTime);
                 if(hourGap == 1) {
-                    var guild = this.findBrothersComponents(this, 'guild', false)[0];
-                    var guildMember = this.findComponentDownward(guild, 'guildMember');
+                    var guildMember = this.findBrothersComponents(this, 'guildMember', false)[0];
                     guildMember.levelupAll();
                 }
 

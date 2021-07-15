@@ -16,7 +16,7 @@
             </li>
         </ul>
         <div class="equip" v-show="displayPage=='equip'">
-            <div class="grid" v-on:drop="drop($event, k)" v-on:dragover="allowDrop($event)" v-for="(v, k) in grid" :key="k">
+            <div class="grid" :style="{cursor:leftClickEnabled?'pointer':''}" @click="selectForSmith($event, k)" v-on:drop="drop($event, k)" v-on:dragover="allowDrop($event)" v-for="(v, k) in grid" :key="k">
                 <div v-if="v.lv" draggable="true" v-on:dblclick="equip($event, k)" v-on:dragstart="dragStart($event,k)" v-on:dragend="dragEnd" @contextmenu.prevent="openMenu(k,$event)" @touchstart.stop.prevent="openMenu(k,$event)"  @mouseover="showInfo($event,v.itemType,v,true)" @mouseleave="closeInfo">
                     <div class="icon" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v.quality.color }">
                         <img :src="v.description.iconSrc" alt="" />
@@ -41,12 +41,12 @@
         </div>
         <ul v-show="visible && displayPage=='equip'" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
             <li @click="equip()">装备</li>
-            <li @click="equipEnhance()" v-if="guild.smith>0">强化</li>
-            <li @click="equipForge()" v-if="guild.smith>=10">重铸</li>
-            <li @click="equipPotential()" v-if="guild.smith>=20">洗炼</li>
+            <li @click="equipEnhance()" v-if="guild.smith.lv>0">强化</li>
+            <li @click="equipForge()" v-if="guild.smith.lv>=10">重铸</li>
+            <li @click="equipPotential()" v-if="guild.smith.lv>=20">洗炼</li>
             <li @click="lockEquipment(true)" v-if="!currentItem.locked">锁定</li>
             <li @click="lockEquipment(false)" v-if="currentItem.locked">解锁</li>
-            <li @click="disintegrate()" v-if="guild.smith>=30 && !currentItem.locked">分解</li>
+            <li @click="disintegrate()" v-if="guild.smith.lv>=30 && !currentItem.locked">分解</li>
             <li @click="sellEquipment()" v-if="!currentItem.locked">出售</li>
         </ul>
         <ul v-show="visible && displayPage=='item'" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
@@ -63,7 +63,7 @@
                     <span @click="setSortLocked()"><input type="checkbox" name="" v-model="sortLocked"></span>
                     ————————
                 </div>
-                <div v-if="guild.smith>=30">
+                <div v-if="guild.smith.lv>=30">
                     自动出售优先级
                     <br>
                     <span @click="setAutoPrio('sell')"><input type="checkbox" name="" v-model="sellPrio">出售</span>
@@ -91,7 +91,7 @@
                 <!-- <i class="icon icon-setting"></i> -->
                 </span>
             </a>
-            <a class="function" v-show="guild.smith>=30 && displayPage=='equip'" @click="disintegrateAll()">一键分解</a>
+            <a class="function" v-show="guild.smith.lv>=30 && displayPage=='equip'" @click="disintegrateAll()">一键分解</a>
             <a class="function" v-show="displayPage=='equip'" @click="sellAll()">一键出售</a>
             <a class="function" @click="sort()">整理背包</a>
         </div>
@@ -125,7 +125,8 @@ export default {
             disPrio: false,
             top: '',
             left: '',
-            displayPage: 'equip'
+            displayPage: 'equip',
+            leftClickEnabled: false
         }
     },  
     watch: {
@@ -461,6 +462,17 @@ export default {
                 this.displayPage = type;
             }
         },
+        selectForSmith(e, k) {
+            if(this.leftClickEnabled) {
+                var guild = this.findBrothersComponents(this, 'guild', false)[0];
+                var guildPosition = this.findComponentDownward(guild, 'guildPosition');  
+                guildPosition.selectedEquip(this.grid[k]);
+                this.$set(this.grid, k, {});
+                this.leftClickEnabled = false;
+                this.closeInfo();
+                this.closeBackpack();
+            }
+        }
     }
 }
 </script>

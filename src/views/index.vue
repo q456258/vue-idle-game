@@ -8,7 +8,10 @@
         <a class="nav-link" :class="{active: displayPage=='guild' }" id="guild" @click="switchTab('guild')" v-show="playerLv >= 10">公会</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" :class="{active: displayPage=='shop' }" id="shop" @click="switchTab('shop')" v-show="guild.shop > 0">商店</a>
+        <a class="nav-link" :class="{active: displayPage=='guildMember' }" id="guildMember" @click="switchTab('guildMember')" v-show="playerLv >= 10">公会成员</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" :class="{active: displayPage=='shop' }" id="shop" @click="switchTab('shop')" v-show="guild.shop.lv > 0">商店</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" id="faq" @click="switchTab('faq')">FA♂Q</a>
@@ -135,6 +138,7 @@
 
     <charInfo id="charInfo" v-show="displayPage=='charInfo'"></charInfo>
     <guild id="guild" v-show="displayPage=='guild'"></guild>
+    <guildMember id="guildMember" v-show="displayPage=='guildMember'"></guildMember>
     <shop id="shop" v-show="displayPage=='shop'"></shop>
     <faq id="faq" v-show="displayPage=='faq'"></faq>
     <statistic id="statistic" v-show="displayPage=='statistic'"></statistic>
@@ -154,6 +158,7 @@ import mapEvent from './component/mapEvent';
 import backpack from './component/backpack';
 import charInfo from './component/charInfo';
 import guild from './component/guild';
+import guildMember from './component/guildMember';
 import shop from './component/shop';
 import faq from './component/faq';
 import achievement from './component/achievement';
@@ -164,7 +169,6 @@ import enermyInfo from './component/enermyInfo';
 import { assist } from '../assets/js/assist';
 import { dungeon } from '../assets/js/dungeon';
 import { buffSystem } from '../assets/js/buffSystem';
-import Achievement from './component/achievement.vue';
 export default {
   name: 'index',
   mixins: [assist, dungeon, buffSystem],
@@ -197,7 +201,7 @@ export default {
     }
   },
   components: {cTooltip, equipInfo, itemInfo, mapEvent, assist, backpack, equipEnhance, equipForge, equipPotential, 
-              charInfo, guild, shop, faq, achievement, statistic, saveload, setting, enermyInfo},
+              charInfo, guild, guildMember, shop, faq, achievement, statistic, saveload, setting, enermyInfo},
   mounted() {    
     //读取本地存档
     var saveload = this.findComponentDownward(this, 'saveload');  
@@ -209,7 +213,7 @@ export default {
     var achievement = this.findComponentDownward(this, 'achievement');  
     achievement.set_statistic({gameStartDate: Date.now()});
     var guild = this.findComponentDownward(this, 'guild');  
-    var guildPosition = this.findComponentDownward(guild, 'guildPosition');  
+    var guildPosition = this.findComponentDownward(guild, 'guildPosition');   
     guildPosition.init();
     
     // this.$store.commit("set_statistic", {gameStartDate: Date.now()});

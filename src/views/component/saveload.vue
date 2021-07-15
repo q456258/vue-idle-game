@@ -63,6 +63,8 @@ export default {
         async saveGame(needInfo) {
             var data = {}
             var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            var guild = this.findBrothersComponents(this, 'guild', false)[0];
+            var guildPosition = this.findComponentDownward(guild, 'guildPosition');
             this.$store.state.exitTime = Date.now();
             data = {
                 state: this.$store.state,
@@ -73,6 +75,11 @@ export default {
                     sellPrio: backpack.sellPrio,
                     disPrio: backpack.disPrio,
                     autoSell: backpack.autoSell 
+                },
+                guildSetting: { 
+                    selectedType: guildPosition.selectedType,
+                    smith_main: guildPosition.smith_main,
+                    smith_sub: guildPosition.smith_sub,
                 }
             }
             var saveData = Base64.encode(Base64.encode(JSON.stringify(data)));
@@ -95,11 +102,29 @@ export default {
                 if(data.state.guildAttribute.member == undefined) {
                     data.state.guildAttribute.member = []
                 }
+                if(data.state.guildAttribute.guild.lv == undefined) {
+                    data.state.guildAttribute.member = []
+                    data.state.guildAttribute.guild = {lv: 0, exp: 3900000}
+                    data.state.guildAttribute.train = {lv: 0, exp: 1300000}
+                    data.state.guildAttribute.train2 = {lv: 0, exp: 1300000}
+                    data.state.guildAttribute.train3 = {lv: 0, exp: 1300000}
+                    data.state.guildAttribute.shop = {lv: 0, exp: 1300000}
+                    data.state.guildAttribute.smith = {lv: 0, exp: 1300000}
+                    // data.state.guildAttribute.guild = {lv: 0, exp: 10}
+                    // data.state.guildAttribute.train = {lv: 0, exp: 10}
+                    // data.state.guildAttribute.train2 = {lv: 0, exp: 0}
+                    // data.state.guildAttribute.train3 = {lv: 0, exp: 0}
+                    // data.state.guildAttribute.shop = {lv: 0, exp: 10}
+                    // data.state.guildAttribute.smith = {lv: 0, exp: 10}
+                }
                 this.$store.replaceState(data.state);
                 var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
                 var mapEvent = this.findBrothersComponents(this, 'mapEvent', false)[0];
                 var setting = this.findBrothersComponents(this, 'setting', false)[0];
+                var guild = this.findBrothersComponents(this, 'guild', false)[0];
+                var guildPosition = this.findComponentDownward(guild, 'guildPosition');
 
+                guildPosition.init();
                 backpack.grid = data.backpackEquipment;
                 backpack.itemGrid = data.backpackItem;
                 
@@ -108,6 +133,12 @@ export default {
                     backpack.sortLocked = data.backpackSetting.sortLocked;
                     backpack.sellPrio = data.backpackSetting.sellPrio;
                     backpack.disPrio = data.backpackSetting.disPrio;
+                }
+                if(data.guildSetting != undefined) {
+                    for(let type in data.guildSetting.selectedType)
+                        guildPosition.selectedType[type] = data.guildSetting.selectedType[type];
+                    guildPosition.smith_main = data.guildSetting.smith_main;
+                    guildPosition.smith_sub = data.guildSetting.smith_sub;
                 }
 
                 setting.readSetting();

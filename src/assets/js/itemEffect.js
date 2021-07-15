@@ -52,6 +52,9 @@ export const itemEffect = {
                 type = 'spellBook';
             }
             switch(type) {
+                case 'inv_misc_note_06':
+                    used = this.inv_misc_note_06();
+                    break;
                 case 'inv_box_01':
                     used = this.inv_box_01();
                     break;
@@ -183,15 +186,23 @@ export const itemEffect = {
             }
             return spellList;
         },
+        //招募声明
+        inv_misc_note_06() {
+            var guildMember = this.findBrothersComponents(this, 'guildMember', false)[0];
+            guildMember.generateApplicant();
+            return true;
+        },
         //宝箱
         inv_box_01() {
             var equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
             var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
             var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
             var guild = this.findBrothersComponents(this, 'guild', false)[0];
-            var reward = ['gold', 'crystal', 'equip', 'spell'];
+            var reward = ['gold', 'crystal', 'equip', 'spell', 'recruit'];
             var type = reward[Math.floor(Math.random()*reward.length)];
             var lv = this.$store.state.playerAttribute.lv;
+            var quantity = 1;
+            var item;
             switch(type) {
                 case 'gold':
                     let gold = Math.round((100+lv**2)*(1+1*Math.random()))
@@ -214,8 +225,20 @@ export const itemEffect = {
                 case 'spell':
                     let spell = this.getSpellList(lv, 1);
                     let spellType = spell[Math.floor(Math.random()*spell.length)];
-                    let quantity = 1;
-                    let item = itemInfo.createItem(spellType, quantity);  
+                    quantity = 1;
+                    item = itemInfo.createItem(spellType, quantity);  
+                    item = JSON.parse(item);
+                    this.$store.commit("set_sys_info", {
+                        type: 'reward',
+                        msg: '打开宝箱获得',
+                        item: item,
+                        quantity: quantity
+                    });
+                    itemInfo.addItem(item);
+                    return true;
+                case 'recruit':
+                    quantity = 1;
+                    item = itemInfo.createItem('inv_misc_note_06', quantity);  
                     item = JSON.parse(item);
                     this.$store.commit("set_sys_info", {
                         type: 'reward',
