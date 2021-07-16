@@ -1,7 +1,7 @@
 
 <template>
  <div class="container">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <nav>
         <button class="btn btn-secondary" :class="{active:viewType=='list'}" style="margin-right: 1rem;" @click="setViewType('list')"><i class="fa fa-list-ul" aria-hidden="true"></i></button>
         <button class="btn btn-secondary" :class="{active:viewType=='detail'}" @click="setViewType('detail')"><i class="fa fa-th-large" aria-hidden="true"></i></button>
@@ -12,7 +12,10 @@
     <label for="login" style="margin-top: 0.25rem;">踢人</label>
     <div class="member scrollbar-morpheus-den" v-if="viewType=='list'">
         公会成员&nbsp;<span :style="{color: guild.member.length>=maxMember?'#F00':''}">{{guild.member.length+'/'+maxMember}}</span>
-        <table class="table">
+        <button class="btn btn-secondary" v-if="size=='maximize'" style="margin-left: 1rem;" @click="changeSize('minimize')"><i class="fa fa-window-minimize" aria-hidden="true"></i></button>
+        <button class="btn btn-secondary" v-if="size=='minimize'" style="margin-left: 1rem;" @click="changeSize('maximize')"><i class="fa fa-window-maximize" aria-hidden="true"></i></button>
+
+        <table class="table" v-if="size=='maximize'">
             <thead>
                 <tr>
                     <th scope="col">名字</th>
@@ -65,7 +68,10 @@
     </div>
     <div class="member scrollbar-morpheus-den" v-if="viewType=='detail'">
         公会成员&nbsp;<span :style="{color: guild.member.length>=maxMember?'#F00':''}">{{guild.member.length+'/'+maxMember}}</span>
-        <div class="list">        
+        <button class="btn btn-secondary" v-if="size=='maximize'" style="margin-left: 1rem;" @click="changeSize('minimize')"><i class="fa fa-window-minimize" aria-hidden="true"></i></button>
+        <button class="btn btn-secondary" v-if="size=='minimize'" style="margin-left: 1rem;" @click="changeSize('maximize')"><i class="fa fa-window-maximize" aria-hidden="true"></i></button>
+
+        <div class="list" v-if="size=='maximize'">        
             <table class="table">
                 <thead>
                     <tr>
@@ -265,6 +271,7 @@ export default {
             positionType: 'None',
             positionIndex: 0,
             viewType: 'list',
+            size: 'maximize',
             sortKey: 'name',
             reverseSort: 1,
             kickEnabled: false
@@ -515,6 +522,9 @@ export default {
             // var value = e.target.value;
             this.viewType = type;
         },
+        changeSize(size) {
+            this.size = size;
+        }
     }
 }
 </script>

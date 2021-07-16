@@ -385,6 +385,7 @@ export default {
             }, 1000);
         },
         smith() {
+            var guild = this.findComponentUpward(this, 'guild');
             var equipInfo = this.findBrothersComponents(guild, 'equipInfo', false)[0];
             var backpack = this.findBrothersComponents(guild, 'backpack', false)[0];
             let equip = equipInfo.createEquip(-1, lv, 'random', 1);  
