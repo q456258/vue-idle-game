@@ -94,8 +94,13 @@ export default {
         generateEnermy(type, level, templateId) {
             var enermyAttribute = {};
             if(!templateId)
-                templateId = level == 1 ? 0 : Math.ceil(level/5);
-            enermyAttribute.attribute = this.$deepCopy(this.monster[templateId].template);
+                templateId = level == 1 ? 0 : Math.ceil(level/10);
+            if(type != 'trial' && level > 20 && (this.streak > 0 && this.streak%100 == 0))
+                type = 'elite';
+            if(type=='elite' || type=='BOSS')
+                enermyAttribute.attribute = this.$deepCopy(this.monster[templateId].template);
+            else
+                enermyAttribute.attribute = this.$deepCopy(this.monster[level == 1 ? 0 : 1].template);
             var attribute = enermyAttribute.attribute,
             val = 0.0,
             flexStats = ['MAXHP', 'ATK', 'DEF'],
@@ -136,14 +141,12 @@ export default {
                 }
                 attribute = this.trialStat(attribute);
             }
-            else if(level > 10) {
-                if(this.streak > 0 && this.streak%100 == 0) {
-                    enermyAttribute.special = 'elite';
-                    enermyAttribute.name += '精英';
-                    attribute = this.eliteStat(attribute);
-                }
+            else if(type=='elite') {
+                enermyAttribute.special = 'elite';
+                enermyAttribute.name += '精英';
+                attribute = this.eliteStat(attribute);
             }
-            if(type=='BOSS') {
+            else if(type=='BOSS') {
                 enermyAttribute.special = 'boss';
                 enermyAttribute.name = this.bossName[Math.floor((templateId-1)/2)];
                 attribute = this.bossStat(attribute);
@@ -407,7 +410,7 @@ export default {
                 });
                 itemInfo.addItem(item);
             }
-            else if(this.$store.state.guildAttribute.smith >= 20 && Math.random() < 0.01){
+            else if(this.$store.state.guildAttribute.smith.lv >= 20 && Math.random() < 0.01){
                 var item = itemInfo.createItem('inv_misc_enchantedpearla', 1);  
                 item = JSON.parse(item);
                 quantity = item.quantity;
@@ -495,8 +498,8 @@ export default {
                 showValue: attribute['MR'].value,
             }
             attribute['MAXHP'] = {
-                value: attribute['MAXHP'].value*4,
-                showValue: attribute['MAXHP'].value*4
+                value: attribute['MAXHP'].value*3,
+                showValue: attribute['MAXHP'].value*3
             }
             attribute['CURHP'] = {
                 value: attribute['MAXHP'].value,

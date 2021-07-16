@@ -159,7 +159,7 @@ export default {
     methods: {    
         init() {
             for(var mem in this.maxMember) {
-                this.maxMember[mem] = Math.floor(this.guild[mem].lv/10+2);
+                this.maxMember[mem] = Math.floor(this.guild[mem].lv/10+1);
             }
             for(var mem in this.guild.member) {
                 if(this.guild.member[mem].job != 'None')

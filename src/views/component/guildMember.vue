@@ -288,7 +288,7 @@ export default {
             var max = 2;
             for(let build in this.guild) {
                 if(build != 'guild' && this.guild[build].lv != null && this.guild[build].lv > 0)
-                    max += Math.floor(this.guild[build].lv/10+2);
+                    max += Math.floor(this.guild[build].lv/10+1);
             }
             return max;
         }

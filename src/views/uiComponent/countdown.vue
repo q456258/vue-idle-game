@@ -285,14 +285,15 @@ export default {
             // this.cost = Math.round(2);   
         },
         increaseProgress(type, value) {
-            this.$store.state.trainProgress[type].progress += value;
+            var train = this.$store.state.trainProgress[type];
+            train.progress += value;
             
-			var req = 200;
-            if(this.$store.state.trainProgress[type].progress >= req) {
-                let lv = Math.floor(this.$store.state.trainProgress[type].progress/req);
-                this.$store.state.trainProgress[type].level += lv;
+			var req = 200+train.level*2;
+            if(train.progress >= req) {
+                let lv = Math.floor(train.progress/req);
+                train.level += lv;
                 this.$store.state.trainAttribute[type] += lv*this.entryInfo[type].base;
-                this.$store.state.trainProgress[type].progress -= lv*req;
+                train.progress -= lv*req;
                 this.$store.commit('set_player_attribute');
             }
         },

@@ -290,7 +290,7 @@ export default new Vuex.Store({
             shoe: initial_shoe,
         },
         trialAttribute: {
-            name: "海的那边",
+            name: "小鸡",
             lv: 1,
             attribute: {
                 CURHP: { value: 0, showValue: 0, },
@@ -305,7 +305,7 @@ export default new Vuex.Store({
             },
         },
         enermyAttribute: {
-            name: "海的那边",
+            name: "小鸡",
             lv: 0,
             attribute: {
                 CURHP: { value: 0, showValue: 0, },

@@ -5,13 +5,13 @@
         <a class="nav-link active" id="charInfo" @click="switchTab('charInfo')">角色信息</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" :class="{active: displayPage=='guild' }" id="guild" @click="switchTab('guild')" v-show="playerLv >= 10">公会</a>
+        <a class="nav-link" :class="{active: displayPage=='guild' }" id="guild" @click="switchTab('guild')" v-show="playerLv >= 15">公会</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" :class="{active: displayPage=='guildMember' }" id="guildMember" @click="switchTab('guildMember')" v-show="playerLv >= 10">公会成员</a>
+        <a class="nav-link" :class="{active: displayPage=='guildMember' }" id="guildMember" @click="switchTab('guildMember')" v-show="playerLv >= 15">公会成员</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" :class="{active: displayPage=='shop' }" id="shop" @click="switchTab('shop')" v-show="guild.shop.lv > 0">商店</a>
+        <a class="nav-link" :class="{active: displayPage=='shop' }" id="shop" @click="switchTab('shop')" v-show="guild.shop.lv > 10">商店</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" id="faq" @click="switchTab('faq')">FA♂Q</a>
@@ -234,7 +234,7 @@ export default {
     //初始生成地图
     this.createMaps(this.playerLv);
     //测试·随机装备
-    // let equipLv = 60;
+    // let equipLv = 40;
     // let equipQuality = 3;
     // var equipInfo = this.findComponentDownward(this, 'equipInfo');   
     // // var newEquip = JSON.parse(equipInfo.createEquip(0,2,'helmet'));

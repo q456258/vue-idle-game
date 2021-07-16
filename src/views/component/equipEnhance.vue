@@ -43,7 +43,7 @@
             <span class="cost" :class="{'warning':warning}" v-show="equip.enhanceLv < equip.maxEnhanceLv">消耗金币：{{cost}}</span>
             <span class="successRate" v-show="equip.enhanceLv < equip.maxEnhanceLv">
                 成功率：{{successRate+'%'}}
-                <span class="smith">{{"&nbsp;+"+(Math.round(successRate*smith)/100)+"%"}}</span>
+                <span class="smith">{{"&nbsp;+"+(Math.round(successRate*smith.lv)/100)+"%"}}</span>
             </span>
             <span class="auto" v-show="!autoing && equip.enhanceLv < equip.maxEnhanceLv">
                 <input type="checkbox" v-model="auto">自动
@@ -115,7 +115,7 @@ export default {
         },
         actualRate() {
             var rate = this.successRate;
-            rate *= (1+this.smith/100);
+            rate *= (1+this.smith.lv/100);
             return Math.round(rate*100)/100;
         },
         maxLv() { return this.equip.maxEnhanceLv; },
