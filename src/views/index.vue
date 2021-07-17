@@ -128,6 +128,7 @@
     <div class="displayEquip" :style='itemDialogStyle'>
       <equipInfo :equip="equip" v-show="showEquipInfo"></equipInfo>
       <equipInfo :equip="compareEquip" v-show="showEquipInfo&&compare"></equipInfo>
+      <compareEquip :equip="equip" :equip2="compareEquip" v-show="showEquipInfo&&compare"></compareEquip>
       <itemInfo :item="item" v-show="showItemInfo"></itemInfo>
     </div>
     <equipEnhance :equip="enhanceEquip" v-show="equipEnhancePanel"></equipEnhance>
@@ -150,6 +151,7 @@
 <script>
 import cTooltip from './uiComponent/tooltip';
 import equipInfo from './component/equipInfo';
+import compareEquip from './component/compareEquip';
 import itemInfo from './component/itemInfo';
 import equipEnhance from './component/equipEnhance';
 import equipForge from './component/equipForge';
@@ -200,7 +202,7 @@ export default {
       resetTime: 0
     }
   },
-  components: {cTooltip, equipInfo, itemInfo, mapEvent, assist, backpack, equipEnhance, equipForge, equipPotential, 
+  components: {cTooltip, equipInfo, compareEquip, itemInfo, mapEvent, assist, backpack, equipEnhance, equipForge, equipPotential, 
               charInfo, guild, guildMember, shop, faq, achievement, statistic, saveload, setting, enermyInfo},
   mounted() {    
     //读取本地存档

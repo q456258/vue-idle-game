@@ -272,6 +272,8 @@ export default new Vuex.Store({
                 APP: { baseVal: 0, value: 0, showbaseVal: 0},
                 MRP: { baseVal: 0, value: 0, showbaseVal: 0},
             },
+            simulatedAttribute: {
+            },
             spells: {
                 weight: 100,
                 spell: {
@@ -465,6 +467,31 @@ export default new Vuex.Store({
                 shoulder = playerAttribute.shoulder,
                 entries = [],
                 potentials = [];
+            
+            if(data != undefined && data.simulate == true) {
+                switch (data.equip.itemType) {
+                    case 'helmet':
+                        helmet = data.equip;
+                        break;
+                    case 'accessory':
+                        accessory = data.equip;
+                        break;
+                    case 'weapon':
+                        weapon = data.equip;
+                        break;
+                    case 'armor':
+                        armor = data.equip;
+                        break;
+                    case 'shoulder':
+                        shoulder = data.equip;
+                        break;
+                    case 'shoe':
+                        shoe = data.equip;
+                        break;
+                    default:
+                        break;
+                }
+            }
             var hpPercent = playerAttribute.attribute.CURHP.value/playerAttribute.attribute.MAXHP.value,
                     mpPercent = playerAttribute.attribute.CURMP.value/playerAttribute.attribute.MAXMP.value;
             var attribute = {};
@@ -558,8 +585,11 @@ export default new Vuex.Store({
             // attribute['DEFRED'].value = Math.round(0.01 * attribute['DEF'].value / (1 + (0.0105 * attribute['DEF'].value))*1000000)/10000;
             // attribute['DEFRED'].value = Math.round(0.01 * attribute['DEF'].value / (1 + (0.01 * attribute['DEF'].value))*10000)/100;
             attribute['DEFRED'].showValue = attribute['DEFRED'].value+'%';
-            playerAttribute.attribute = attribute;
-        },
+            if(data != undefined && data.simulate == true)
+                playerAttribute.simulatedAttribute = attribute;
+            else
+                playerAttribute.attribute = attribute;
+        },  
         // set_player_hp(state, data) {
         //     var CURHP = this.state.playerAttribute.attribute.CURHP,
         //             MAXHP = this.state.playerAttribute.attribute.MAXHP
