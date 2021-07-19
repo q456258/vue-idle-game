@@ -8,7 +8,7 @@ export const equipConfig = {
       quality: [{
         name: '破旧',
         qualityLv: 1,
-        qualityCoefficient: 1,
+        qualityCoefficient: 0.9,
         color: '#a1a1a1',
         extraEntryNum: 1,
       }, {
@@ -20,25 +20,25 @@ export const equipConfig = {
       }, {
         name: '精良',
         qualityLv: 3,
-        qualityCoefficient: 1,
+        qualityCoefficient: 1.05,
         color: '#00BBFF', 
         extraEntryNum: 3,
       }, {
         name: '完美',
         qualityLv: 4,
-        qualityCoefficient: 1,
+        qualityCoefficient: 1.15,
         color: '#BB00FF', 
         extraEntryNum: 4,
       }, {
         name: '史诗',
         qualityLv: 5,
-        qualityCoefficient: 1,
+        qualityCoefficient: 1.3,
         color: '#FFBB00', 
         extraEntryNum: 5,
       }, {
         name: '传说',
         qualityLv: 6,
-        qualityCoefficient: 1,
+        qualityCoefficient: 1.5,
         color: '#FF0000', 
         extraEntryNum: 6,
       }],

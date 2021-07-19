@@ -219,10 +219,10 @@ export default new Vuex.Store({
             inBattle: false,
             current: 'advanture',
             advanture: {
-                level: 1,
-                current: 0,
-                option: 1,
-                max:3
+                level: -1,
+                reward: 'None',
+                type: 'normal',
+                templateId: 0
             },
             trial: {
                 level: 2,

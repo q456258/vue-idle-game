@@ -138,63 +138,51 @@
             width: 89%;
             padding: 1rem;
             .zoneAction {
-                float: left;
-                width: 10rem;
+                text-align: left;
+                width: 100%;
                 button {
                     margin: 0.1rem;
-                    width: 10rem;
+                    width: 7rem;
                 }
             }
             .zone {
-                width: 18rem;
+                position: relative;
+                background-image: url("/icons/Azeroth.jpg");
+                background-repeat: no-repeat;
+                background-size: 100% 100%;
+                width: 100%;
                 height: 100%;
+                max-height: 20rem;
                 // height: 20.3rem;
                 margin: auto;
-                overflow-y: auto;
-                .target {
-                    width: 4rem;    
-                    border: 1px solid #ccc;
+                overflow: hidden;
+                .dungeon {
+                    position: absolute;
+                    cursor: pointer;
+                    width: 3.5rem;
+                    height: 4.5rem;
+                    border: 1px solid #111;
+                    background: rgba(0, 0, 0, 0.5);
                     border-radius: 4px;
-                    padding: 0.2rem;
-                    font-size: 1rem;
-                    background-color: #e0e8ea;
-                }
-                .zoneRow {
-                    height: 4rem;
-                    background: #fff;
+                    box-shadow: 0 0 4px 4px rgba(100, 255, 36, 0.5);
                     display: flex;
-                    flex-direction: row;
-                    // box-shadow: inset 0 0 20px 5px #f00;
-                    border-bottom: 2px dotted #ccc;
-                    box-shadow: inset 0 0 10px 5px #fff;
-                    .zoneCol {
-                        width: 3rem;
-                        height: 3rem;
-                        // border: 2px solid #ccc;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    .logo {
+                        width: 2.8rem;
+                        height: 2.8rem;
                         display: flex;
                         align-items: center;
                         justify-content: center;
                         margin: auto;
-                        border-radius: 3rem;
+                        border-radius: 2.8rem;
                         box-shadow: inset 0 0 10px 5px #ccc;
                         img {
                             width: 20px;
                             height: 20px;
                         }
                     }
-                    .chose {
-                        box-shadow: inset 0 0 10px 5px #0f0;
-                    }
-                    .restrict {
-                        box-shadow: inset 0 0 10px 5px #fcc;
-                    }
-                    span.option {
-                        cursor: pointer;
-                        box-shadow: inset 0 0 10px 5px rgb(168, 158, 255);
-                    }
-                    // .option {
-                    //     cursor: pointer;
-                    // }
                 }
             }
         }

@@ -22,19 +22,24 @@ export const dungeon = {
                 probability.push(total);
             }
             for(var i=0; i<count; i++) {
-                let temp = []
-                for(var j=0; j<3; j++) {
-                    let choice = {};
-                    let random = Math.random()*total;
-                    for(var k=0; k<probability.length; k++) {
-                        if(random <= probability[k]) {
-                            choice = {type: option[k], img: './icons/'+option[k]+'.png'};
-                            break;
-                        }
+                let choice = {};
+                let random = Math.random()*total;
+                for(var k=0; k<probability.length; k++) {
+                    if(random <= probability[k]) {
+                        choice = {
+                            type: 'normal', 
+                            reward: option[k], 
+                            img: './icons/'+option[k]+'.png',
+                            lv: 1,
+                            templateId: 0,
+                            count: -1,
+                            left: Math.random()*90,
+                            top: Math.random()*90,
+                        };
+                        break;
                     }
-                    temp.push(choice);
                 }
-                map.push(temp);
+                map.push(choice);
             }
             return map;
         }

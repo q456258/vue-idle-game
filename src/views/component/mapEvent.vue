@@ -1,6 +1,20 @@
 <template>
-  <div class='mapEvent'>
-  </div>
+    <div class='mapEvent'>
+        <div class="dungeonInfo" v-if="curDungeon">
+            <a href="#" class="close" @click="close()"></a>
+            <!-- <div class="centerImg"><img :src="curDungeon.img"></div> -->
+            <div>类型：{{curDungeon.type}}</div>
+            <div>奖励：{{curDungeon.reward}}</div>
+            <div>等级：{{curDungeon.lv}}</div>
+            <div>剩余挑战次数：{{curDungeon.count}}</div>
+            <button class="btn btn-success btn-sm" @click="toggleBattle(curDungeon.type)">
+                开始战斗
+            </button>        
+            <button class="btn btn-success btn-sm" @click="toggleBattle(curDungeon.type, true)">
+                连续战斗
+            </button>        
+        </div>
+    </div>
 </template>
 <script>
 
@@ -12,18 +26,53 @@ import { buffConfig } from '@/assets/config/buffConfig'
 export default {
     name: 'mapEvent',
     mixins: [assist, buffSystem, monsterConfig, spellConfig, buffConfig],
+    props: {
+    },
     data() {
         return {
             battleTimer: "",
-            streak: 0
+            curDungeon: false
         }
     },
+    watch: {
+    },
+    computed: {
+        inBattle() { return this.$store.state.dungeonInfo.inBattle;},
+        dungeonInfo() { return this.$store.state.dungeonInfo;},
+        playerAttr() { return this.$store.state.playerAttribute;},
+    },
     methods: {
+        toggleBattle(type, auto=false) {
+            if(auto)
+                this.autoBattle(true);
+            if(this.dungeonInfo.inBattle) 
+                this.setBattleStatus(false, false);
+            else {
+                let attr = this.playerAttr.attribute;
+                if(this.dungeonInfo.current =='trial' && attr.CURHP.value < attr.MAXHP.value/2) {
+                    this.$store.commit("set_sys_info", {
+                        type: 'dmged',
+                        msg: '试炼太危险了，至少恢复到半血再去挑战吧！'
+                    });
+                    return;
+                }
+                this.startBattle(type);
+            }
+        },
+        startBattle(type) {
+            if(!type)
+                type = this.dungeonInfo[this.dungeonInfo.current].type;
+            this.curDungeon = false;
+            // if(['gold', 'wood', 'crystal', 'equip', 'trial'].indexOf(type) != -1)
+            if(['normal', 'trial', 'elite', 'boss'].indexOf(type) != -1)
+                this.battle(type);
+            if(type == 'chest')
+                this.chest();
+        },
         battle(type) {
-            var playerAttribute = this.$store.state.playerAttribute,
+            var playerAttribute = this.playerAttr,
                 enermyAttribute = type == 'trial' ? this.$store.state.trialAttribute : this.$store.state.enermyAttribute,
-                dungeonInfo = this.$store.state.dungeonInfo;
-
+                dungeonInfo = this.dungeonInfo;
             if(enermyAttribute.attribute.CURHP.value == 0) {
                 this.generateEnermy(type, dungeonInfo[dungeonInfo.current].level);
                 enermyAttribute = type == 'trial' ? this.$store.state.trialAttribute : this.$store.state.enermyAttribute;
@@ -32,20 +81,19 @@ export default {
                 return;
             this.setBattleStatus(true);
             this.battleTimer = setInterval(() => {
+            console.log('inbattle')
                 this.set_enermy_hp(-1*this.dmgCalculate(playerAttribute, enermyAttribute, 'player'));
                 if(enermyAttribute.attribute.CURHP.value == 0) {
                     this.enermySlain(this.monsterId[enermyAttribute.name], 1);
                     this.reward(type, enermyAttribute.lv, enermyAttribute.special);
-                    this.setBattleStatus(false);
-                    clearInterval(this.battleTimer);
-                    let index = this.findComponentUpward(this, 'index'); 
-                    if(dungeonInfo.current == 'advanture')
-                        index.enableOption(dungeonInfo.current);
+                    this.setBattleStatus(false, dungeonInfo.auto);
+                    if(dungeonInfo.current == 'normal')
+                        this.generateEnermy(type, dungeonInfo[dungeonInfo.current].level);
                     else if(dungeonInfo.current == 'trial') {
                         this.generateEnermy(type, dungeonInfo[dungeonInfo.current].level+1);
                     }
                     if(dungeonInfo.auto) {
-                        index.startBattle();
+                        this.startBattle();
                     }
                     if(enermyAttribute.lv > playerAttribute.lv) {
                         this.levelUp();
@@ -62,9 +110,7 @@ export default {
                     var achievement = this.findBrothersComponents(this, 'achievement', false)[0];
                     achievement.set_statistic({death: 1});
                     // this.$store.commit("set_statistic", {death: 1});
-                    this.endStreak();
-                    clearInterval(this.battleTimer);
-                    this.setBattleStatus(false);
+                    this.setBattleStatus(false, dungeonInfo.auto);
                     this.$store.commit("set_battle_info", {
                         type: 'lose',
                         msg: '战斗结束，你扑街了'
@@ -72,31 +118,26 @@ export default {
                 } 
             }, 1000)
         },
-        setBattleStatus(inBattle) {
-            this.$store.state.dungeonInfo.inBattle = inBattle;
+        autoBattle(auto) {
+            if(auto == undefined)
+                this.dungeonInfo.auto = !this.dungeonInfo.auto;
+            else
+                this.dungeonInfo.auto = auto;
+        },
+        setBattleStatus(inBattle, auto=true) {
+            this.dungeonInfo.inBattle = inBattle;
+            if(!inBattle) {
+                clearInterval(this.battleTimer);
+                this.autoBattle(auto);
+            }
         },
         chest() {
-            // 刷新一下option class style
-            this.$store.commit("set_battle_info", {});            
-            if(this.$store.state.dungeonInfo.inBattle)
-                return;
-            this.setBattleStatus(true);
-            this.battleTimer = setTimeout(() => {
-                this.setBattleStatus(false);
-                this.reward('chest');
-                let index = this.findComponentUpward(this, 'index'); 
-                index.enableOption(this.$store.state.dungeonInfo.current);
-                if(this.$store.state.dungeonInfo.auto) {
-                    index.startBattle();
-                }
-            }, 1000)
+            this.reward('chest');
         },
         generateEnermy(type, level, templateId) {
             var enermyAttribute = {};
             if(!templateId)
                 templateId = level == 1 ? 0 : Math.ceil(level/10);
-            if(type != 'trial' && level > 20 && (this.streak > 0 && this.streak%100 == 0))
-                type = 'elite';
             if(type=='elite' || type=='BOSS')
                 enermyAttribute.attribute = this.$deepCopy(this.monster[templateId].template);
             else
@@ -232,8 +273,8 @@ export default {
             return dmg;
         },
         checkCost(spell) {
-            var attr = this.$store.state.playerAttribute.attribute;
-            var spellLv = this.$store.state.playerAttribute.spells.spell[spell].lv-1;
+            var attr = this.playerAttr.attribute;
+            var spellLv = this.playerAttr.spells.spell[spell].lv-1;
             for(let cost in this.spell[spell].cost) {
                 if(cost == 'MP') {
                     if(attr['CURMP'].value < this.spell[spell].level[spellLv].cost['MP'])
@@ -243,19 +284,19 @@ export default {
             return true;
         },
         useCost(spell) {
-            var attr = this.$store.state.playerAttribute.attribute;
-            var spellLv = this.$store.state.playerAttribute.spells.spell[spell].lv-1;
+            var attr = this.playerAttr.attribute;
+            var spellLv = this.playerAttr.spells.spell[spell].lv-1;
             var costs = this.spell[spell].level[spellLv];
             for(let cost in costs.cost) {
                 switch(cost) {
                     case 'HP':
-                        this.set_player_hp(-1*costs.cost[cost], this.$store.state.playerAttribute);
+                        this.set_player_hp(-1*costs.cost[cost], this.playerAttr);
                         break;
                     case 'CURHP':
-                        this.set_player_hp(-1*costs.cost[cost]*attr['CURHP'].value, this.$store.state.playerAttribute);
+                        this.set_player_hp(-1*costs.cost[cost]*attr['CURHP'].value, this.playerAttr);
                         break;
                     case 'MAXHP':
-                        this.set_player_hp(-1*costs.cost[cost]*attr['MAXHP'].value, this.$store.state.playerAttribute);
+                        this.set_player_hp(-1*costs.cost[cost]*attr['MAXHP'].value, this.playerAttr);
                         break;
                     case 'MP':
                         this.$store.commit('set_player_mp', -1*costs.cost[cost]);
@@ -368,12 +409,10 @@ export default {
             var item = null; 
             switch(type) {
                 case 'gold':
-                    this.addStreak();
                     let gold = Math.round((100+lv**2)*(1+Math.random()))
                     guild.getGold('', gold);
                     break;
                 case 'crystal':
-                    this.addStreak();
                     let crystal = Math.round((1+lv)*(1+Math.random()))
                     guild.getCrystal('', crystal);
                     break;
@@ -381,7 +420,6 @@ export default {
                     item = itemInfo.createItem('inv_box_01', 1);
                     break;
                 case 'equip':
-                    this.addStreak();
                     equip = equipInfo.createEquip(-1, lv, 'random', bonus);  
                     break;
                 case 'trial':
@@ -448,20 +486,18 @@ export default {
                     itemInfo.addItem(item);
                     break;
             }
-            index.nextLevel();
         },
         levelUp() {
             let index = this.findComponentUpward(this, 'index'); 
-            this.$store.state.playerAttribute.lv += 1;
+            this.playerAttr.lv += 1;
             this.$store.state.dungeonInfo.trial.level += 1;
-            index.enermyLvChange = this.$store.state.playerAttribute.lv;
+            index.enermyLvChange = this.playerAttr.lv;
             this.$store.state.dungeonInfo.advanture.level = index.enermyLvChange;
-            this.endStreak();
-            if(this.$store.state.playerAttribute.lv == 10) {
+            if(this.playerAttr.lv == 10) {
                 var element = document.getElementById('guild');
                 element.classList.add('glow');
             }
-            if(this.$store.state.playerAttribute.lv == 20) {
+            if(this.playerAttr.lv == 20) {
                 var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
                 var item = itemInfo.createItem('spell_nature_thunderclap', 1);  
                 itemInfo.addItem(JSON.parse(item));
@@ -473,12 +509,6 @@ export default {
             var achievement = this.findBrothersComponents(this, 'achievement', false)[0];
             achievement.set_statistic(slain);
             // this.$store.commit("set_statistic", slain);
-        },
-        addStreak() {
-            this.streak += 1;
-        },
-        endStreak() {
-            this.streak = 0;
         },
         trialStat(attribute) {
             attribute['ATK'] = {
@@ -560,9 +590,55 @@ export default {
                 showValue: attribute['MAXHP'].value
             }
             return attribute;
+        },
+        close() {
+            this.curDungeon = false;
         }
     }
 }
 
 
 </script>
+
+<style lang="scss" scope>
+.dungeonInfo {
+    position: absolute;
+    top: 5rem;
+    left: 0;
+    right: 0;
+    margin: auto;
+    padding-top: 1rem;
+    width: 10rem;
+    height: 10rem;
+    border: 1px solid rgba(255, 255, 255, 0.404);
+    background: black;
+    z-index: 1;
+    box-shadow: 0 0 4px 4px rgba(100, 255, 36, 0.5);
+}
+.close {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    width: 15px;
+    height: 15px;
+    opacity: 0.7;
+    z-index: 6;
+}
+.close:hover {
+    opacity: 1;
+}
+.close:before, .close:after {
+    position: absolute;
+    left: 7px;
+    content: ' ';
+    height: 15px;
+    width: 2px;
+    background-color: rgb(255, 255, 255);
+}
+.close:before {
+    transform: rotate(45deg);
+}
+.close:after {
+    transform: rotate(-45deg);
+}
+</style>

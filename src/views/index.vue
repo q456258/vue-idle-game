@@ -46,7 +46,6 @@
     </div>
     
     <div class="map">
-      <mapEvent></mapEvent>
       <enermyInfo :enermy="enermyInfo"></enermyInfo>
       <div class="zoneSelect">    
         <div class="zoneAction">
@@ -56,26 +55,30 @@
           <button id="advanture" class="btn btn-light btn-sm lvZone" @click="switchZone('advanture')">
             冒险区
           </button>    
-          <button class="btn btn-success btn-sm" id="auto" @click="autoBattle()">
+          <!-- <button class="btn btn-success btn-sm" id="auto" @click="autoBattle()">
             自动战斗
           </button>        
-          <br>
-          <button class="btn btn-success btn-sm" id="stopBattle" @click="stopBattle()">
-            开始/继续战斗
-          </button>
+          <br> -->
           <button class="btn btn-outline-light btn-sm" id="resetMap" v-show="dungeonInfo.current=='advanture'" @click="resetMap()">
             重置地图<span v-if="resetTime>0">({{resetTime}})</span>
           </button>   
+          <button v-if="!inBattle&&dungeonInfo.current=='trial'" class="btn btn-success btn-sm" @click="toggleBattle('trial')">
+            开始/继续战斗
+          </button>
+          <button v-if="inBattle" class="btn btn-danger btn-sm" @click="toggleBattle()">
+            停止战斗
+          </button>
         </div>    
         <div class="zone scrollbar-morpheus-den scrollbar-square">
+          <mapEvent></mapEvent>
           <div v-if="dungeonInfo.current=='advanture'">
             <!-- <input class="target" type="number" :value="targetLv" @input="updateTargetLv" :max="maxLv" :min="minLv" />   -->
-            怪物等级：<input class="target" type="number" :value="enermyLvChange" @input="updateEnermyLv" :max="playerLv" :min="(playerLv-5)>1?(playerLv-5):1" />  
-            &nbsp;{{killStreak}}连斩
-            <div class="zoneRow" v-for="(dungeon, key) in mapArr" :key="key">
-              <span class="zoneCol" :class="{chose:v.status=='chose',restrict:v.status=='restrict',option:v.status=='option'}" @click="choseOption($event, k)" v-for="(v,k) in dungeon" :key="k">
-                <img :src="v.img" alt="" v-if="v.img" :class="{option:v.status=='option'}">
+            <div class="dungeon" v-for="(dungeon, key) in mapArr" :key="key" @click="choseDungeon($event, key)" :style="{top:dungeon.top+'%', left:dungeon.left+'%'}">
+              <!-- <img :src="dungeon.img" alt="" v-if="dungeon.img"> -->
+              <span class="logo">
+                <img :src="dungeon.img">
               </span>
+              <span>lv{{dungeon.lv}}</span>
             </div>
           </div>
         </div>
@@ -189,8 +192,8 @@ export default {
       compareEquip: {},
       enhanceEquip: {},
       dungeonInfo: {},
+      dungeon: null,
       enermyInfo: 'advanture',
-      enermyLvChange: 0,
       equipEnhancePanel: false,
       equipForgePanel: false,
       equipPotentialPanel: false,
@@ -234,7 +237,7 @@ export default {
     }, 5 * 60 * 1000)
 
     //初始生成地图
-    this.createMaps(this.playerLv);
+    this.createMaps();
     //测试·随机装备
     // let equipLv = 40;
     // let equipQuality = 3;
@@ -270,7 +273,6 @@ export default {
     // itemInfo.addItem(JSON.parse(item));
 
     this.$store.commit('set_player_attribute');
-    this.enermyLvChange = this.playerLv;
     var shop = this.findComponentDownward(this, 'shop');  
     shop.setEquipShopItem();
   },
@@ -288,11 +290,6 @@ export default {
     playerLv() { return this.$store.state.playerAttribute.lv },
     inBattle() { return this.$store.state.dungeonInfo.inBattle;},
     guild() { return this.$store.state.guildAttribute;},
-    killStreak() {
-        var mapEvent = this.findComponentDownward(this, 'mapEvent'); 
-        return mapEvent.streak;
-
-    }
     // operatorSchemaIsMobile() { return this.$store.state.operatorSchemaIsMobile }
     // healthRecoverySpeed() { return this.$store.state.playerAttribute.healthRecoverySpeed },
 
@@ -312,18 +309,6 @@ export default {
         element.scrollTop = element.scrollHeight + 20;
       })
     },
-    inBattle() {
-      var element = document.getElementById('stopBattle')
-      if(this.inBattle) {
-        element.innerHTML = '战斗中···（停止）';
-        element.classList.replace('btn-success', 'btn-danger');
-      }
-      else {
-        element.innerHTML = '开始/继续战斗';
-        element.classList.replace('btn-danger', 'btn-success');
-      }
-    }
-    
   },
   methods: {
     switchTab(type){
@@ -338,40 +323,40 @@ export default {
     },
     switchZone(type){
       if(this.dungeonInfo.current != type) {
-          if(this.$store.state.dungeonInfo.inBattle) {
-              this.stopBattle();
-          }
-          this.autoBattle(false);
-          var element = document.getElementById(this.dungeonInfo.current);
-          element.classList.replace('btn-light', 'btn-outline-light');
-          var element = document.getElementById(type);
-          element.classList.replace('btn-outline-light', 'btn-light');
-          // this.$store.commit('set_enermy_hp', 0);
-          this.dungeonInfo.current = type;
-          if(type == 'trial') {
-            this.startBattle();
-            this.stopBattle();
-            this.enermyInfo = 'trial';
-          }
-          else
-            this.enermyInfo = 'advanture';
+        var mapEvent = this.findComponentDownward(this, 'mapEvent'); 
+        if(this.$store.state.dungeonInfo.inBattle) {
+            mapEvent.toggleBattle();
+        }
+        mapEvent.autoBattle(false);
+        var element = document.getElementById(this.dungeonInfo.current);
+        element.classList.replace('btn-light', 'btn-outline-light');
+        var element = document.getElementById(type);
+        element.classList.replace('btn-outline-light', 'btn-light');
+        // this.$store.commit('set_enermy_hp', 0);
+        this.dungeonInfo.current = type;
+        if(type == 'trial') {
+          mapEvent.startBattle('trial');
+          mapEvent.toggleBattle();
+          this.enermyInfo = 'trial';
+        }
+        else
+          this.enermyInfo = 'advanture';
       }
     },
-    createMaps(level) {    
-      var count = 5;  
+    toggleBattle(type='') {
+      var mapEvent = this.findComponentDownward(this, 'mapEvent'); 
+      mapEvent.toggleBattle(type);
+    },
+    createMaps() {    
+      var count = 5;
       var type = 'advanture';
-      this.mapArr = this.generateDungeon(type, count, level);
-      this.mapArr[0].forEach(e => {
-          e.status = 'option';
-      });
+      this.mapArr = this.generateDungeon(type, count, this.playerLv);
 
-      this.dungeonInfo[type].max = count;
-      this.dungeonInfo[type].current = 0;
+      this.dungeonInfo[type].level = -1;
+      this.dungeonInfo[type].reward = 'None';
+      this.dungeonInfo[type].type = 'normal';
+      this.dungeonInfo[type].templateId = 0;
       this.dungeonInfo.current = type;
-      if(level == undefined)
-        this.dungeonInfo[type].level = this.$store.state.playerAttribute.lv;
-      else
-        this.dungeonInfo[type].level = level;
     },
     showInfo(e, type, item, compare) {
       this.compare = compare;
@@ -451,33 +436,28 @@ export default {
           this.compare = false;
       }
     },
-    autoBattle(auto) {
-      if(auto == undefined)
-        this.dungeonInfo.auto = !this.dungeonInfo.auto;
-      else
-        this.dungeonInfo.auto = auto;
-      var element = document.getElementById('auto')
-      if(this.dungeonInfo.auto) {
-        element.classList.replace('btn-success', 'btn-danger');
-        element.innerHTML = '停止自动战斗';
-        if(!this.$store.state.dungeonInfo.inBattle)
-          // this.startBattle();
-          this.stopBattle();
-      }
-      else {
-        element.classList.replace('btn-danger', 'btn-success');
-        element.innerHTML = '自动战斗';
+    choseDungeon(e, k) {
+      if(!this.dungeonInfo.inBattle) {
+        var mapEvent = this.findComponentDownward(this, 'mapEvent'); 
+        mapEvent.curDungeon = this.$deepCopy(this.mapArr[k]);
+        this.dungeon = this.mapArr[k];
+        var dungeon = this.dungeonInfo[this.dungeonInfo.current];
+        dungeon.level = this.dungeon.lv;
+        dungeon.reward = this.dungeon.reward;
+        dungeon.type = this.dungeon.type;
+        dungeon.templateId = this.dungeon.templateId;
       }
     },
     resetMap() {
       var element = document.getElementById('resetMap');
+      var mapEvent = this.findComponentDownward(this, 'mapEvent'); 
       if(this.resetTime > 0) {
         return;
       }
       if(this.$store.state.dungeonInfo.inBattle)
-        this.stopBattle();
+        mapEvent.toggleBattle();
       this.set_enermy_hp('dead');
-      this.createMaps(this.enermyLvChange);
+      this.createMaps();
       this.resetTime = 10;
       element.disabled = true;
       this.resetTimer = setInterval(() => {
@@ -488,108 +468,18 @@ export default {
         }
       }, 1000);
     },
-    stopBattle() {
-      // var element = document.getElementById('stopBattle')
-      if(this.$store.state.dungeonInfo.inBattle) {
-        // element.innerHTML = '继续战斗';
-        var mapEvent = this.findComponentDownward(this, 'mapEvent'); 
-        clearInterval(mapEvent.battleTimer);
-        this.$store.state.dungeonInfo.inBattle = false;
-        this.autoBattle(false);
-      }
-      else {
-        let attr = this.$store.state.playerAttribute.attribute;
-        if(this.dungeonInfo.current =='trial' && attr.CURHP.value < attr.MAXHP.value/2) {
-            this.$store.commit("set_sys_info", {
-                type: 'dmged',
-                msg: '试炼太危险了，至少恢复到半血再去挑战吧！'
-            });
-            return;
-        }
-        this.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
-        // element.innerHTML = '停止战斗';
-        this.$store.state.dungeonInfo.inBattle = true;
-      }
-    },
-    startBattle(key) {
-      var dungeon = this.dungeonInfo[this.dungeonInfo.current];
-      if(this.enermyLvChange < this.playerLv-5)
-        this.enermyLvChange = this.playerLv;
-      if(dungeon.current >= dungeon.max) {
-        this.createMaps(this.enermyLvChange);
-        dungeon.current = 0;
-        this.startBattle();
-        return;
-      }
-      var mapEvent = this.findComponentDownward(this, 'mapEvent'); 
-      var type = "";
-      switch(this.dungeonInfo.current) {
-        case 'trial':
-          type = 'trial';
-          break;
-        case 'advanture':
-          var ran = Math.floor(Math.random() * this.mapArr[dungeon.current].length);
-          if(key != undefined)
-            ran = key;
-          type = this.mapArr[dungeon.current][ran].type;
-          this.mapArr[dungeon.current].forEach(e => {
-              e.status = 'restrict';
-          });
-          dungeon.option = ran;
-          this.mapArr[dungeon.current][dungeon.option].status = 'option';
-          break;
-      }
-      if(['gold', 'wood', 'crystal', 'equip', 'trial'].indexOf(type) != -1)
-        mapEvent.battle(type);
-      if(type == 'chest')
-        mapEvent.chest();
-    },
-    nextLevel() {
-      var dungeon = this.dungeonInfo[this.dungeonInfo.current];
-      dungeon.current += 1;
-      if(dungeon.current >= dungeon.max) {
-        if(this.dungeonInfo.current == 'trial') {
-          this.$store.state.playerAttribute.lv += 1;
-        }
-        this.createMaps(this.enermyLvChange);
-        dungeon.current = 0;
-      }
-    },
-    choseOption(e, k) {
-      if (e.target.classList.contains('option'))
-        this.startBattle(k);
-    },
-    enableOption(type) {
-      var dungeon = this.dungeonInfo[type];
-      if(dungeon.current < dungeon.max) {
-        if(dungeon.current > 0) {
-          this.mapArr[dungeon.current-1][dungeon.option].status = 'chose';
-        }
-        this.mapArr[dungeon.current].forEach(e => {
-            e.status = 'option';
-        });
-      }
-      else
-        this.createMaps(this.enermyLvChange);
-    },
-    updateEnermyLv(e) {
-      var value = e.target.value;
-      if(value > 0 && value >= this.playerLv-5 && value <= this.playerLv) {
-        this.enermyLvChange = value;
-        this.dungeonInfo.advanture.level = this.enermyLvChange;
-      }
-    },
     slowTick() {
       clearInterval(this.autoHealthRecovery);
       clearInterval(this.autoManRecovery);
       clearInterval(this.trialAutoHealthRecovery);
       this.autoHealthRecovery = setInterval(() => {
         var achievement = this.findComponentDownward(this, 'achievement');  
+        var mapEvent = this.findComponentDownward(this, 'mapEvent');  
         achievement.set_statistic({gameTime: 1000});
         // this.$store.commit("set_statistic", {gameTime: 1000});
         this.set_player_hp(Math.ceil(this.attribute.MAXHP.value*0.01+this.attribute.STR.value), this.$store.state.playerAttribute);
         if(this.attribute.CURHP.value == this.attribute.MAXHP.value && this.dungeonInfo.auto && !this.dungeonInfo.inBattle) {
-          this.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
+          mapEvent.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
         }
       }, 1000);
       this.autoManRecovery = setInterval(() => {
@@ -605,11 +495,12 @@ export default {
       clearInterval(this.trialAutoHealthRecovery);
       this.autoHealthRecovery = setInterval(() => {
         var achievement = this.findComponentDownward(this, 'achievement');  
+        var mapEvent = this.findComponentDownward(this, 'mapEvent');  
         achievement.set_statistic({gameTime: 50});
         // this.$store.commit("set_statistic", {gameTime: 50});
         this.set_player_hp(Math.ceil(this.attribute.MAXHP.value*0.0005+this.attribute.STR.value/20), this.$store.state.playerAttribute);
         if(this.attribute.CURHP.value == this.attribute.MAXHP.value && this.dungeonInfo.auto && !this.dungeonInfo.inBattle) {
-          this.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
+          mapEvent.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
         }
       }, 50);
       this.autoManRecovery = setInterval(() => {
