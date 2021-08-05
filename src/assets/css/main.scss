@@ -147,7 +147,7 @@
             }
             .zone {
                 position: relative;
-                background-image: url("/icons/Azeroth.jpg");
+                background-image: url("/icons/fairbreezeValley.jpg");
                 background-repeat: no-repeat;
                 background-size: 100% 100%;
                 width: 100%;
@@ -159,29 +159,20 @@
                 .dungeon {
                     position: absolute;
                     cursor: pointer;
-                    width: 3.5rem;
-                    height: 4.5rem;
+                    width: 3rem;
+                    height: 3rem;
                     border: 1px solid #111;
                     background: rgba(0, 0, 0, 0.5);
+                    background-size: 80%;
+                    background-repeat: no-repeat;
+                    background-position: center;
                     border-radius: 4px;
-                    box-shadow: 0 0 4px 4px rgba(100, 255, 36, 0.5);
                     display: flex;
                     flex-direction: column;
                     align-items: center;
                     justify-content: center;
-                    .logo {
-                        width: 2.8rem;
-                        height: 2.8rem;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        margin: auto;
-                        border-radius: 2.8rem;
-                        box-shadow: inset 0 0 10px 5px #ccc;
-                        img {
-                            width: 20px;
-                            height: 20px;
-                        }
+                    .lv {
+                        text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
                     }
                 }
             }

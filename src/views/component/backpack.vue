@@ -11,7 +11,7 @@
             <li class="nav-item">
                 <a class="nav-link active" id="equip" @click="switchTab('equip')">装备</a>
             </li>
-            <li class="nav-item" v-show="playerLv >= 20">
+            <li class="nav-item">
                 <a class="nav-link" id="item" @click="switchTab('item')">物品</a>
             </li>
         </ul>
@@ -29,7 +29,7 @@
         </div>
         <div class="item" v-show="displayPage=='item'">
             <div class="grid" v-on:drop="drop($event, k)" v-on:dragover="allowDrop($event)" v-for="(v, k) in itemGrid" :key="k">
-                <div v-if="v.description" draggable="true" v-on:dblclick="useItem($event, k)" v-on:dragstart="dragStart($event,k)" v-on:dragend="dragEnd" @contextmenu.prevent="openMenu(k,$event)" @touchstart.stop.prevent="openMenu(k,$event)"  @mouseover="showInfo($event,v.itemType,v,true)" @mouseleave="closeInfo">
+                <div v-if="v.description" draggable="true" v-on:dblclick="useItemByIndex($event, k)" v-on:dragstart="dragStart($event,k)" v-on:dragend="dragEnd" @contextmenu.prevent="openMenu(k,$event)" @touchstart.stop.prevent="openMenu(k,$event)"  @mouseover="showInfo($event,v.itemType,v,true)" @mouseleave="closeInfo">
                     <div class="icon" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v.quality.color }">
                         <img :src="v.description.iconSrc" alt="" />
                     </div>
@@ -50,8 +50,8 @@
             <li @click="sellEquipment()" v-if="!currentItem.locked">出售</li>
         </ul>
         <ul v-show="visible && displayPage=='item'" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
-            <li @click="useItem()" v-if="usable">使用</li>
-            <li @click="useAllItem()" v-if="usable && itemGrid[currentItemIndex].quantity > 1">全部使用</li>
+            <li @click="useItemByIndex()" v-if="usable">使用</li>
+            <li @click="useAllItemByIndex()" v-if="usable && itemGrid[currentItemIndex].quantity > 1">全部使用</li>
             <li @click="mergeItem()" v-if="mergeable">合成</li>
             <li @click="mergeAll()" v-if="mergeable && itemGrid[currentItemIndex].quantity > 1">全部合成</li>
             <li @click="throwItem()">丢弃</li>
@@ -151,6 +151,9 @@ export default {
             if(k != undefined) {
                 this.currentItemIndex = k; 
                 this.currentItem = this.grid[k];
+            }
+            if(this.playerLv < this.currentItem.lv) {
+                return;
             }
             switch (this.currentItem.itemType) {
                 case 'helmet':
@@ -256,8 +259,9 @@ export default {
             });
             return true;
         },
-        useItem(e, k) {
-            this.closeInfo();
+        useItemByIndex(e, k) {
+            if(this.displayPage=='item')
+                this.closeInfo();
             if(k != undefined)
                 this.currentItemIndex = k; 
             if(this.itemGrid[this.currentItemIndex].lvReq > this.playerLv) {
@@ -274,12 +278,25 @@ export default {
             this.$forceUpdate();
             return success;
         },
-        useAllItem(e, k){
+        useAllItemByIndex(e, k){
             var autoUse = setInterval(() => {
-                let used = this.useItem(e, k);
+                let used = this.useItemByIndex(e, k);
                 if(!used || this.itemGrid[k] == {})
                     clearInterval(autoUse);
             }, 50);
+        },
+        useItem(item) {
+            if(this.displayPage=='item')
+                this.closeInfo();
+            if(item.lvReq > this.playerLv) {
+                this.$store.commit("set_sys_info", {
+                    type: 'warning',
+                    msg: '等级不足，无法使用！',
+                });
+                return false;
+            }
+            var success = this.callItemEffect(item.type, item.lv);
+            return success;
         },
         mergeItem(e, k, count=1) {
             this.closeInfo();

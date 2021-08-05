@@ -40,27 +40,14 @@
                     </div>
                 </div>
             </div>
-            <span class="cost" :class="{'warning':warning}" v-show="equip.enhanceLv < equip.maxEnhanceLv">消耗金币：{{cost}}</span>
-            <span class="successRate" v-show="equip.enhanceLv < equip.maxEnhanceLv">
-                成功率：{{successRate+'%'}}
-                <span class="smith">{{"&nbsp;+"+(Math.round(successRate*smith.lv)/100)+"%"}}</span>
+            <!-- <span class="cost" :class="{'warning':warning}" v-show="equip.enhanceLv < equip.maxEnhanceLv">消耗金币：{{cost}}</span> -->
+            <span class="cost" :class="{'warning':warning}">
+                消耗<img :src="'/icons/item/'+imgSrc+'.png'">&nbsp;{{cost}}/{{itemQty}}
             </span>
-            <span class="auto" v-show="!autoing && equip.enhanceLv < equip.maxEnhanceLv">
-                <input type="checkbox" v-model="auto">自动
-                <br>
-                <input class="target" type="number" :value="targetLv" @input="updateTargetLv" :max="maxLv" :min="minLv" />
-            </span>
-            <div class="confirm" @click="enhance()" v-show="!autoing && !auto && equip.enhanceLv < equip.maxEnhanceLv">
+            <div class="confirm" @click="enhance()" v-show="equip.enhanceLv < equip.maxEnhanceLv">
                 强化
             </div>
-            <div class="confirm" @click="autoEnhance()" v-show="!autoing && auto && equip.enhanceLv < equip.maxEnhanceLv">
-                自动强化
-            </div>
-            <div class="confirm" @click="stopAutoEnhance()" v-show="autoing">
-                中断···
-            </div>
-            <span class="msg" ref="info"></span>
-            <div class="cancel" @click="closeInfo()" v-show="!autoing">
+            <div class="cancel" @click="closeInfo()">
                 取消
             </div>
         </div>
@@ -76,10 +63,8 @@ export default {
     components: {draggable},
     data() {
         return {
-            auto: false,
-            autoing: false,
-            targetLv: 10,
-            autoTimer: 0
+            material: '',
+            imgSrc: ''
         };
     },
     props: {
@@ -90,51 +75,46 @@ export default {
     watch: {
         equip() {
             this.targetLv = this.equip.enhanceLv+1;
+            this.setMaterial();
         }
     },
     computed: {
         cost() {
-            var cost = 5;
-            cost *= (1+this.equip.lv)*this.equip.enhanceLv+10;
+            var cost = this.equip.enhanceLv%5+1;
             return cost;
         },
         smith() {
             return this.$store.state.guildAttribute.smith;
         },
-        warning() {
-            return this.$store.state.guildAttribute.gold < this.cost;
-        },
-        successRate() {
-            var rate = 100;
-            var target = this.equip.enhanceLv + 1;
-            if(target<=10)
-                rate -= (target-1)*10;
-            else
-                rate = 10*0.85**(target-10);
-            return Math.round(rate*100)/100;
-        },
-        actualRate() {
-            var rate = this.successRate;
-            rate *= (1+this.smith.lv/100);
-            return Math.round(rate*100)/100;
-        },
         maxLv() { return this.equip.maxEnhanceLv; },
-        minLv() { return this.equip.enhanceLv+1; }
+        minLv() { return this.equip.enhanceLv+1; },
+        warning() {
+            return this.itemQty < this.cost;
+        },
+        item() {
+            var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            var item = itemInfo.findItem(this.material);
+            if(item == -1)
+                return {quantity: 0};
+            else
+                return backpack.itemGrid[item];
+        },
+        itemQty() {
+            var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            var qty = itemInfo.getItemQty(this.material);
+            return qty;
+        }
     },
     methods: {
         enhance() {
-            if(this.$store.state.guildAttribute.gold < this.cost) {
-                this.autoing = false;
-                clearInterval(this.autoTimer);
+            if(this.warning) {
                 return;
             }
-            this.$store.state.guildAttribute.gold -= this.cost;
-            if(Math.random()*100 >= this.actualRate){
-                this.enhanceInfo("强化失败", "fail");
-                return;
-            }
-            this.enhanceInfo("强化成功", "success");
             var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            itemInfo.removeItemByItem(this.item, this.cost);
+
             // backpack.lockEquipment(true);
             this.equip.locked = true;
             backpack.$forceUpdate();
@@ -142,44 +122,16 @@ export default {
             var equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
             equipInfo.enhanceBaseEntryValue(this.equip);
             equipInfo.activePotential(this.equip);
+            this.setMaterial();
             this.$store.commit('set_player_attribute');
         },
-        autoEnhance() {
-            this.autoing = true;
-            this.autoTimer = setInterval(() => {
-                if(this.equip.enhanceLv >= this.targetLv) {
-                    this.autoing = false;
-                    clearInterval(this.autoTimer);
-                }
-                else
-                    this.enhance();
-            }, 100);
-        },
-        stopAutoEnhance() {
-            this.autoing = false;
-            clearInterval(this.autoTimer);
-        },
-        enhanceInfo(info, type) {
-            var element = this.$refs['info'];
-            var node = document.createElement("DIV");
-            var textnode = document.createTextNode(info);
-            node.appendChild(textnode);
-            element.appendChild(node); 
-            node.style.position = 'absolute';
-            node.style.width = '10rem';
-            node.style.color = type=='success'?'#0f0' : '#f00';
-            node.style.top = '-0.5rem';
-            node.style.left = '-1rem';
-            node.animate([{transform: 'translate(0px)', opacity: 1},
-                {transform: 'translate(' + (0) + 'px, '+ (-50) + 'px)', opacity: 0.5}], { duration: 1000, ease:'ease-in', iterations: 1});
-            setTimeout(()=>{
-                element.removeChild(node);
-            },900);
-        },
-        updateTargetLv(e) {
-            var value = e.target.value;
-            if(value > this.equip.enhanceLv && value <= this.equip.maxEnhanceLv)
-                this.targetLv = e.target.value;
+        setMaterial() {
+            var index = Math.floor(this.equip.enhanceLv/5);
+            console.log(index)
+            var names = ['低级强化石', '中级强化石', '高级强化石', '顶级强化石', '终极强化石']
+            var img = ['inv_misc_gem_diamond_05', 'inv_misc_gem_diamond_04', 'inv_misc_gem_diamond_03', 'inv_misc_gem_diamond_02', 'inv_misc_gem_diamond_01']
+            this.material = names[index];
+            this.imgSrc = img[index];
         },
         closeInfo() {
             var index = this.findComponentUpward(this, 'index');
@@ -255,48 +207,19 @@ export default {
     }
     .cost {
         position: absolute;
-        top: 10rem;
+        top: 19rem;
         left: 35rem;
         bottom: 1.2rem;
+        height: 2rem;
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 1rem;
-    }
-    .successRate {
-        position: absolute;
-        top: 11.5rem;
-        left: 35rem;
-        bottom: 0rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1rem;
-        .smith {
-            color:#0f0;
-            font-size: 0.8rem;
+        img {
+            height: 2rem;
+            width: 2rem;
         }
-    }
-    .auto {
-        position: absolute;
-        top: 21rem;
-        left: 31rem;
-        bottom: 0rem;
-        .target {
-            width: 3rem;    
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            padding: 0.2rem;
-            font-size: 1rem;
-            background-color: #e0e8ea;
-        }
-    }
-    .msg {
-        position: absolute;
-        top: 21rem;
-        left: 35rem;
-        font-size: 1.3rem;
-    }
+    }    
     .confirm {
         position: absolute;
         top: 21rem;

@@ -1,7 +1,7 @@
 <template>
     <div class="charInfo">
-        <!-- <div id="rename" v-if="player.name=='无名'"> -->
-        <div id="rename">
+        <div id="rename" v-if="player.name=='无名'">
+        <!-- <div id="rename"> -->
             <div class="container" >
                 <!-- <div class="title">创建角色</div> -->
                 <div class="title">关服整改</div>
@@ -18,7 +18,7 @@
                 <template v-slot:content>
                     <div class="lv">
                         <div class="value">
-                            <span>{{player.name}}&nbsp; lv {{playerLv}}</span>
+                            <span>{{player.name}}&nbsp; {{playerLv+'级'}}</span>
                             <!-- <span>转生次数：{{playerLv}}</span> -->
                         </div>
                     </div>
@@ -28,6 +28,16 @@
                     <p class="info">* 每通过一次试炼提升等级</p>
                 </template>
             </cTooltip>
+            <div class="exp">
+                <div class="progress" style="width:80%;">
+                    <div class="progress-bar" :style="{width:player.exp.cur/player.exp.req*100+'%'}">
+                    </div>
+                </div>
+                <div class="value">
+                    <span id="expInfo"></span>
+                    <span>{{player.exp.cur+'/'+player.exp.req}}</span>
+                </div>
+            </div>
             <cTooltip placement="bottom">
                 <template v-slot:content>
                     <div class="hpmp">
@@ -453,7 +463,7 @@
         <ul v-show="visible" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
             <li @click="unEquip()">卸下</li>
             <li @click="equipEnhance()" v-if="guild.smith.lv>0">强化</li>
-            <li @click="equipForge()" v-if="guild.smith.lv>=10">重铸</li>
+            <li @click="equipForge()" v-if="guild.smith.lv>=0">重铸</li>
             <li @click="equipLevelUp()" v-if="guild.smith.lv>=30 && currentEquip.lv < playerLv && currentEquip.quality.qualityLv>1">升级</li>
         </ul>
     </div>
@@ -789,7 +799,7 @@ export default {
     .lv {
         cursor: pointer;
         // border: 2px solid #ccc;
-        height: 3rem;
+        height: 2rem;
         width: 100%;
         margin: 0.7rem 0rem 0.1rem 0rem;
         padding-left: 0.2rem;
@@ -802,6 +812,21 @@ export default {
           text-align: center;
           align-items: center;
           flex: 1;
+        }
+    }
+    .exp {
+        .progress {
+            width: 80%;
+            margin: auto;
+            height: 1px;
+            .progress-bar {
+                background-color: orange;  
+            }
+        }
+        .value {
+            text-align: right;
+            font-size: 0.75rem;
+            margin-right: 2.3rem;
         }
     }
     .hpmp {

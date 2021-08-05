@@ -20,7 +20,9 @@
                     <img :src="equip.description.iconSrc" alt="icon">
                 </div>
                 <div class="lv">
-                    装备等级：{{equip.lv}}
+                    物品等级：{{equip.lv}}
+                    <br>
+                    <div :style="{color: player.lv<equip.lvReq? '#f00':''}">等级要求：{{equip.lvReq}}</div>
                 </div>
             </div>
             <div class="description">
@@ -85,10 +87,14 @@ export default {
             type:Object
         }
     },
+    computed: {
+        player() { return this.$store.state.playerAttribute },
+    },
     methods: {
         createEquip(qualityIndex, lv, type, bonus) {
             var newEquip = {};
             newEquip.itemType = type != 'random' ? type : this.createType();
+            newEquip.lvReq = lv || 1;
             newEquip.lv = lv || 1;
             newEquip.quality = qualityIndex > -1 ? this.quality[qualityIndex] : this.createQuality(bonus);
             newEquip.maxEnhanceLv = (newEquip.quality.extraEntryNum-1)*5;
@@ -148,7 +154,7 @@ export default {
                 //     entry.showVal = '+' + entry.value + '%';
                 // }
                 // else {
-                //     entry.base = Math.floor(newEquip.quality.qualityCoefficient * this.entryInfo[entry.type].base * (1+newEquip.lv**2*0.07) * (1+random/5));
+                //     entry.base = Math.floor(newEquip.quality.qualityCoefficient * this.entryInfo[entry.type].base * (1+newEquip.lv**2*0.05) * (1+random/5));
                 //     entry.value = Math.floor(entry.base * (1+newEquip.enhanceLv*0.1));
                 //     entry.showVal = '+' + entry.value;
                 // }
@@ -168,7 +174,7 @@ export default {
                 entry.showVal = '+' + entry.value + '%';
             }
             else {
-                entry.base = Math.floor(qualityCoefficient * this.entryInfo[entry.type].base * (1+lv**2*0.07) * (1+random/5));
+                entry.base = Math.floor(qualityCoefficient * this.entryInfo[entry.type].base * (1+lv**2*0.05) * (1+random/5));
                 entry.value = Math.floor(entry.base * (1+enhanceLv*0.1));
                 entry.showVal = '+' + entry.value;
             }
@@ -199,7 +205,7 @@ export default {
                 entry.showVal = '+' + entry.value + '%';
             }
             else {
-                entry.value = Math.round((0.5+0.5*random) * this.entryInfo[entry.type].base * (1+lv**2*0.07));
+                entry.value = Math.round((0.5+0.5*random) * this.entryInfo[entry.type].base * (1+lv**2*0.05));
                 entry.showVal = '+' + entry.value;
             }
             entry.quality = Math.round(random*100);
@@ -228,7 +234,7 @@ export default {
                     value = ran>0.5 ? value*1 : value*1.5;
                 }
                 if(percent.indexOf(extraEntry[index]) == -1)
-                    value = value * (1+newEquip.lv**2*0.07);
+                    value = value * (1+newEquip.lv**2*0.05);
                 value = Math.round(value);
 
                 potentials.push({
@@ -287,7 +293,7 @@ export default {
                     entry.showVal = '+' + entry.value + '%';
                 }
                 else {
-                    entry.value = Math.round((0.5+0.5*random) * this.entryInfo[entry.type].base * (1+equip.lv**2*0.07));
+                    entry.value = Math.round((0.5+0.5*random) * this.entryInfo[entry.type].base * (1+equip.lv**2*0.05));
                     entry.showVal = '+' + entry.value;
                 }
                 entry.quality = Math.round(random*100);
@@ -332,7 +338,7 @@ export default {
             itemInfo.removeItemByIndex(item, quantity);
             equip.lv = parseInt(equip.lv)+1;
             equip.baseEntry.forEach(entry => {
-                let percent = (entry.base/(this.entryInfo[entry.type].base*(1+(equip.lv-1)**2*0.07))-1)*5;
+                let percent = (entry.base/(this.entryInfo[entry.type].base*(1+(equip.lv-1)**2*0.05))-1)*5;
                 this.createBaseEntryValue(equip.quality.qualityCoefficient, entry, percent, equip.lv, equip.enhanceLv);
             });
             equip.extraEntry.forEach(entry => {
@@ -342,8 +348,8 @@ export default {
         },
         refine(equip, equip2) {
             for(var i=0; i<equip.baseEntry.length; i++) {
-                let percent = (equip.baseEntry[i].base/(this.entryInfo[equip.baseEntry[i].type].base*(1+(equip.lv)**2*0.07))-1)*5;
-                let percent2 = (equip2.baseEntry[i].base/(this.entryInfo[equip2.baseEntry[i].type].base*(1+(equip2.lv)**2*0.07))-1)*5;
+                let percent = (equip.baseEntry[i].base/(this.entryInfo[equip.baseEntry[i].type].base*(1+(equip.lv)**2*0.05))-1)*5;
+                let percent2 = (equip2.baseEntry[i].base/(this.entryInfo[equip2.baseEntry[i].type].base*(1+(equip2.lv)**2*0.05))-1)*5;
                 percent = percent>percent2 ? percent : percent2;
                 this.createBaseEntryValue(equip.quality.qualityCoefficient, equip.baseEntry[i], percent, equip.lv, equip.enhanceLv);
             }
@@ -396,6 +402,7 @@ export default {
     .lv {
         margin-left: 0.5rem;
         display: flex;
+        flex-direction: column;
         align-self: flex-end;
         font-size: 0.75rem;
     }

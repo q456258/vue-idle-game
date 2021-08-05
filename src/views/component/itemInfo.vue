@@ -49,10 +49,10 @@ export default {
         player() { return this.$store.state.playerAttribute },
     },
     methods: {
-        createItem(type, quantity) {
+        createItem(type, quantity, lv) {
             var newItem = {};
             newItem.description = this.itemType[type].description;
-            // newEquip.lv = lv || 1;
+            newItem.lv = lv || 1;
             newItem.quality = this.itemQuality[this.itemType[type].quality-1];
             newItem.quantity = quantity;
             newItem.type = type;
@@ -103,6 +103,11 @@ export default {
             var name = item.description.name;
             // var stack = item.stack ? this.findItem(name) : -1;
             var stack = this.findItem(name, true);
+            if(this.itemType[item.type].autoUse) {
+                let used = backpack.useItem(item);
+                if(used)
+                    return;
+            }
             if(stack == -1) {
                 for (let i = 0; i < backpack.itemGrid.length; i++) {
                     if (Object.keys(backpack.itemGrid[i]).length < 3) {

@@ -1,18 +1,48 @@
 <template>
-    <div class='mapEvent'>
-        <div class="dungeonInfo" v-if="curDungeon">
+    <div class='mapEvent scrollbar-morpheus-den scrollbar-square'>
+        <div class="dungeonInfo" v-if="dungeon.type">
             <a href="#" class="close" @click="close()"></a>
-            <!-- <div class="centerImg"><img :src="curDungeon.img"></div> -->
-            <div>类型：{{curDungeon.type}}</div>
-            <div>奖励：{{curDungeon.reward}}</div>
-            <div>等级：{{curDungeon.lv}}</div>
-            <div>剩余挑战次数：{{curDungeon.count}}</div>
-            <button class="btn btn-success btn-sm" @click="toggleBattle(curDungeon.type)">
-                开始战斗
-            </button>        
-            <button class="btn btn-success btn-sm" @click="toggleBattle(curDungeon.type, true)">
-                连续战斗
-            </button>        
+            <div class="title">
+                信息
+            </div>
+            <div class="detail">
+                <!-- <div class="centerImg"><img :src="selectedDungeon.img"></div> -->
+                <div>等级：{{selectedDungeon.lv}}</div>
+                <div>类型：{{type[selectedDungeon.type]}}</div>
+                <div>剩余次数：
+                    <span v-if="selectedDungeon.count>=0">{{selectedDungeon.count}}</span>
+                    <span v-else>无限</span>
+                </div>
+            </div>
+            <div class="title">
+                奖励
+            </div>
+            <div class="detail">
+                <div class="reward">
+                    <div v-for="(v, k) in selectedDungeon.reward" :key="k">
+                        <div class="grid" v-if="v[0]" @mouseover="showInfo($event,v[0].itemType,v[0],true)" @mouseleave="closeInfo">
+                            <div class="icon" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v[0].quality.color }">
+                                <img :src="v[0].description.iconSrc" alt="" />
+                            </div>
+                            <div class="quantity">{{v[1]+'%'}}</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div>奖励：{{selectedDungeon.reward}}</div> -->
+            </div>
+            <div class="action" v-if="!inBattle&&selectedDungeon.count!=0">
+                <button class="btn btn-success btn-sm" @click="toggleBattle(selectedDungeon.type)">
+                    开始战斗
+                </button>        
+                <button class="btn btn-success btn-sm" @click="toggleBattle(selectedDungeon.type, true)">
+                    <span v-if="auto">自动中···</span><span v-else>连续战斗</span>
+                </button>    
+            </div>    
+            <div class="action" v-if="inBattle">
+                <button v-if="inBattle" class="btn btn-danger btn-sm" @click="toggleBattle()">
+                    放弃战斗
+                </button>
+            </div>    
         </div>
     </div>
 </template>
@@ -31,12 +61,27 @@ export default {
     data() {
         return {
             battleTimer: "",
-            curDungeon: false
+            selectedDungeon: {},
+            reqExp: [],
+            type: {normal: '普通', elite: '精英', boss: 'BOSS', trial: '试炼', gold: '金矿', chest: '宝藏'}
         }
     },
     watch: {
+        dungeon() {
+            this.selectedDungeon = this.dungeon;
+            this.$store.state.dungeonInfo.auto = false;
+        }
+    },
+    props: {
+        dungeon: {
+            type: Object
+        }
+    },
+    mounted() {
+        this.expReq();
     },
     computed: {
+        auto() { return this.$store.state.dungeonInfo.auto;},
         inBattle() { return this.$store.state.dungeonInfo.inBattle;},
         dungeonInfo() { return this.$store.state.dungeonInfo;},
         playerAttr() { return this.$store.state.playerAttribute;},
@@ -48,23 +93,14 @@ export default {
             if(this.dungeonInfo.inBattle) 
                 this.setBattleStatus(false, false);
             else {
-                let attr = this.playerAttr.attribute;
-                if(this.dungeonInfo.current =='trial' && attr.CURHP.value < attr.MAXHP.value/2) {
-                    this.$store.commit("set_sys_info", {
-                        type: 'dmged',
-                        msg: '试炼太危险了，至少恢复到半血再去挑战吧！'
-                    });
-                    return;
-                }
                 this.startBattle(type);
             }
         },
         startBattle(type) {
             if(!type)
-                type = this.dungeonInfo[this.dungeonInfo.current].type;
-            this.curDungeon = false;
+                type = this.dungeonInfo['advanture'].type;
             // if(['gold', 'wood', 'crystal', 'equip', 'trial'].indexOf(type) != -1)
-            if(['normal', 'trial', 'elite', 'boss'].indexOf(type) != -1)
+            if(['normal', 'trial', 'elite', 'boss', 'gold'].indexOf(type) != -1)
                 this.battle(type);
             if(type == 'chest')
                 this.chest();
@@ -74,30 +110,32 @@ export default {
                 enermyAttribute = type == 'trial' ? this.$store.state.trialAttribute : this.$store.state.enermyAttribute,
                 dungeonInfo = this.dungeonInfo;
             if(enermyAttribute.attribute.CURHP.value == 0) {
-                this.generateEnermy(type, dungeonInfo[dungeonInfo.current].level);
+                if(type == 'trial')
+                    this.generateEnermy('trial', dungeonInfo.trial.level);
+                else
+                    this.generateEnermy();
                 enermyAttribute = type == 'trial' ? this.$store.state.trialAttribute : this.$store.state.enermyAttribute;
             }
             if(this.$store.state.dungeonInfo.inBattle)
                 return;
             this.setBattleStatus(true);
             this.battleTimer = setInterval(() => {
-            console.log('inbattle')
                 this.set_enermy_hp(-1*this.dmgCalculate(playerAttribute, enermyAttribute, 'player'));
                 if(enermyAttribute.attribute.CURHP.value == 0) {
                     this.enermySlain(this.monsterId[enermyAttribute.name], 1);
-                    this.reward(type, enermyAttribute.lv, enermyAttribute.special);
+                    this.reward();
                     this.setBattleStatus(false, dungeonInfo.auto);
                     if(dungeonInfo.current == 'normal')
-                        this.generateEnermy(type, dungeonInfo[dungeonInfo.current].level);
+                        this.generateEnermy();
                     else if(dungeonInfo.current == 'trial') {
-                        this.generateEnermy(type, dungeonInfo[dungeonInfo.current].level+1);
+                        dungeonInfo.trial.level += 20;
+                        this.generateEnermy('trial', dungeonInfo.trial.level);
                     }
-                    if(dungeonInfo.auto) {
-                        this.startBattle();
-                    }
-                    if(enermyAttribute.lv > playerAttribute.lv) {
-                        this.levelUp();
-                    }
+                    if(this.selectedDungeon.count == 0)
+                        dungeonInfo.auto = false;
+                    // if(dungeonInfo.auto) 
+                    //     this.startBattle();
+                    this.gainExp(enermyAttribute.lv);
                     this.$store.commit("set_battle_info", {
                         type: 'win',
                         msg: '战斗结束，你胜利了'
@@ -105,11 +143,10 @@ export default {
                     return;
                 } 
                 this.set_player_hp(-1*this.dmgCalculate(enermyAttribute, playerAttribute, 'enermy'), enermyAttribute);
-                // this.$store.commit('set_player_hp', -1*this.dmgCalculate(enermyAttribute, playerAttribute, 'enermy'));
                 if(playerAttribute.attribute.CURHP.value == 0) {
                     var achievement = this.findBrothersComponents(this, 'achievement', false)[0];
                     achievement.set_statistic({death: 1});
-                    // this.$store.commit("set_statistic", {death: 1});
+                    this.set_enermy_hp('dead');
                     this.setBattleStatus(false, dungeonInfo.auto);
                     this.$store.commit("set_battle_info", {
                         type: 'lose',
@@ -117,6 +154,81 @@ export default {
                     });
                 } 
             }, 1000)
+        },
+        reduceCount() {
+            if(this.selectedDungeon.count > 0) {
+                this.selectedDungeon.count -= 1;
+                return true;
+            }
+            else if(this.selectedDungeon.count == 0)
+                return false;
+            return true;
+        },
+        gainExp(lv) {
+            var exp = 35+lv*5;
+            var playerLv = this.playerAttr.lv;
+            if(lv>playerLv) {
+                exp = Math.round(exp*(lv-playerLv)*1.05);
+                exp = Math.min(exp, exp*1.25);
+            }
+            else {
+                exp = Math.round(exp*(1-(playerLv-lv)*0.1));
+                exp = Math.max(exp, 0);
+            }
+            var curExp = this.playerAttr.exp.cur + exp;
+            var reqExp = this.reqExp[playerLv];
+            if(reqExp == undefined) {
+                this.expReq();
+                reqExp = this.reqExp[playerLv];
+            }
+            if(curExp > this.playerAttr.exp.req)
+                this.playerAttr.exp.req = this.reqExp[playerLv];
+            if(curExp >= reqExp) {
+                this.levelUp();
+                curExp -= reqExp;
+            }
+            this.playerAttr.exp.cur = curExp;
+            if(exp > 0) {
+                var element = document.getElementById('expInfo');
+                var node = document.createElement('DIV');
+                var textnode = document.createTextNode("+"+exp+'exp');
+                node.appendChild(textnode);
+                element.appendChild(node); 
+                node.style.position = 'absolute';
+                node.style.width = '10rem';
+                node.style.color = '#aaf';
+                node.style.top = '2.5rem';
+                node.style.right = '3rem';
+                node.style.transition = '1s';
+                node.style.transitionTimingFunction = 'ease-out';
+                setTimeout(()=>{
+                    node.style.top = '1rem';
+                },1);
+                setTimeout(()=>{
+                    element.removeChild(node);
+                },800);
+            }
+        },
+        expReq() {
+            this.reqExp[0] = 0;
+            for(let i=1; i<200; i++) {
+                this.reqExp[i] = this.reqExp[i-1]+(300+i*100)
+            }
+        },
+        levelUp() {
+            var playerLv = this.playerAttr.lv;
+            this.playerAttr.lv += 1;
+            this.playerAttr.talentPoint += 1;
+            this.playerAttr.exp.req = this.reqExp[playerLv+1];
+            if(this.playerAttr.lv == 15) {
+                var element = document.getElementById('guild');
+                element.classList.add('glow');
+            }
+            if(this.playerAttr.lv == 20) {
+                var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+                var item = itemInfo.createItem('spell_nature_thunderclap', 1);  
+                itemInfo.addItem(JSON.parse(item));
+            }
         },
         autoBattle(auto) {
             if(auto == undefined)
@@ -129,32 +241,39 @@ export default {
             if(!inBattle) {
                 clearInterval(this.battleTimer);
                 this.autoBattle(auto);
+                this.set_enermy_hp('dead');
             }
         },
         chest() {
-            this.reward('chest');
+            if(!this.reduceCount())
+                return;
+            this.reward();
         },
         generateEnermy(type, level, templateId) {
+            if(!this.reduceCount())
+                return;
             var enermyAttribute = {};
+            if(!type)
+                type = this.dungeonInfo[this.dungeonInfo.current].type;
+            if(!level)
+                level = this.dungeonInfo[this.dungeonInfo.current].level;
             if(!templateId)
-                templateId = level == 1 ? 0 : Math.ceil(level/10);
-            if(type=='elite' || type=='BOSS')
-                enermyAttribute.attribute = this.$deepCopy(this.monster[templateId].template);
-            else
-                enermyAttribute.attribute = this.$deepCopy(this.monster[level == 1 ? 0 : 1].template);
+                templateId = type=='trial' ? this.templateId[this.bossName[Math.floor((level-1)/20)]] : this.dungeonInfo[this.dungeonInfo.current].templateId;
+            enermyAttribute.attribute = this.$deepCopy(this.monster[templateId].template);
             var attribute = enermyAttribute.attribute,
             val = 0.0,
             flexStats = ['MAXHP', 'ATK', 'DEF'],
             lvStats = ['AP', 'MR'],
-            fixStats = ['CRIT', 'CRITDMG'];
+            fixStats = ['CRIT', 'CRITDMG']; 
             enermyAttribute.lv = level;
             enermyAttribute.name = this.monster[templateId].name;
-            enermyAttribute.type = type=='trial' ? 'trial' : 'enermy';
+            enermyAttribute.type = type;
             flexStats.forEach(stat => {
                 let attribute = enermyAttribute.attribute[stat];
                 // attribute.value = Math.round(attribute.value*(1+enermyAttribute.lv*0.15)*(1+Math.random()/10));
                 // attribute.value = Math.round(attribute.value*(1+enermyAttribute.lv*0.15));
-                attribute.value = Math.round(attribute.value*(1.5+enermyAttribute.lv*(enermyAttribute.lv-1)*(enermyAttribute.lv/50)));
+                // attribute.value = Math.round(attribute.value*(1.5+enermyAttribute.lv*(enermyAttribute.lv-1)*(enermyAttribute.lv/50)));
+                attribute.value = Math.round(attribute.value*(2+enermyAttribute.lv*(enermyAttribute.lv/6)));
                 attribute.showValue = attribute.value;
                 enermyAttribute.attribute[stat] = attribute;
             });
@@ -174,23 +293,16 @@ export default {
                 value: attribute['MAXHP'].value,
                 showValue: attribute['MAXHP'].value
             }
-            
-            if(this.$store.state.dungeonInfo.current == 'trial') {
-                attribute['RECOVERY'] = {
-                    value: Math.round(attribute['MAXHP'].value*0.01),
-                    showValue: Math.round(attribute['MAXHP'].value*0.01),
-                }
-                attribute = this.trialStat(attribute);
-            }
-            else if(type=='elite') {
-                enermyAttribute.special = 'elite';
+            if(type=='elite') {
                 enermyAttribute.name += '精英';
                 attribute = this.eliteStat(attribute);
             }
             else if(type=='BOSS') {
-                enermyAttribute.special = 'boss';
-                enermyAttribute.name = this.bossName[Math.floor((templateId-1)/2)];
+                enermyAttribute.name = this.bossName[Math.floor((level-1)/20)];
                 attribute = this.bossStat(attribute);
+            } if(type=='trial') {
+                enermyAttribute.name = this.bossName[Math.floor((level-1)/20)];
+                attribute = this.trialStat(attribute);
             }
             val = this.getDefRed(attribute['DEF'].value);
             attribute['DEFRED'] = {
@@ -398,110 +510,25 @@ export default {
             this.$store.commit('set_player_mp', -1*Math.round(cost));
             return Math.round(value);
         },
-        reward(type, lv, special='') {
-            var equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
+        reward() {
             var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-            var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
-            var guild = this.findBrothersComponents(this, 'guild', false)[0];
-            var index = this.findComponentUpward(this, 'index');
-            var bonus = 0;
-            var equip = null; 
-            var item = null; 
-            switch(type) {
-                case 'gold':
-                    let gold = Math.round((100+lv**2)*(1+Math.random()))
-                    guild.getGold('', gold);
-                    break;
-                case 'crystal':
-                    let crystal = Math.round((1+lv)*(1+Math.random()))
-                    guild.getCrystal('', crystal);
-                    break;
-                case 'chest':
-                    item = itemInfo.createItem('inv_box_01', 1);
-                    break;
-                case 'equip':
-                    equip = equipInfo.createEquip(-1, lv, 'random', bonus);  
-                    break;
-                case 'trial':
-                    bonus = 1;
-                    equip = equipInfo.createEquip(-1, lv, 'random', bonus);  
-                    break;
-            }
-            if(equip != null) {
-                equip = JSON.parse(equip);
-                this.$store.commit("set_sys_info", {
-                    type: 'reward',
-                    msg: '获得战利品',
-                    equip: equip
-                });
-                backpack.giveEquip(equip);
-            }
-            var quantity = 0;
-            if(item != null) {
+            var type = this.dungeonInfo.current;
+            if(type == 'trial') {
+                var item = itemInfo.createItem('random_equip_4', 1);  
                 item = JSON.parse(item);
-                quantity = item.quantity;
-                this.$store.commit("set_sys_info", {
-                    type: 'reward',
-                    msg: '获得战利品',
-                    item: item,
-                    quantity: quantity
-                });
                 itemInfo.addItem(item);
             }
-            else if(this.$store.state.guildAttribute.smith.lv >= 20 && Math.random() < 0.01){
-                var item = itemInfo.createItem('inv_misc_enchantedpearla', 1);  
-                item = JSON.parse(item);
-                quantity = item.quantity;
-                this.$store.commit("set_sys_info", {
-                    type: 'reward',
-                    msg: '意外捡到一个',
-                    item: item,
-                    quantity: quantity
-                });
-                itemInfo.addItem(item);
+            else {
+                var rewardList = this.dungeonInfo.advanture.reward;
+                for(var k=0; k<rewardList.length; k++) {
+                    let random = Math.random()*100;
+                    if(random <= rewardList[k][1]) {
+                        itemInfo.addItem(rewardList[k][0]);
+                    }
+                }
             }
-            switch(special) {
-                case 'elite':
-                    item = itemInfo.createItem('inv_box_02', 1);
-                    item = JSON.parse(item);
-                    quantity = item.quantity;
-                    this.$store.commit("set_sys_info", {
-                        type: 'reward',
-                        msg: '击败精英获得额外奖励',
-                        item: item,
-                        quantity: quantity
-                    });
-                    itemInfo.addItem(item);
-                    break;
-                case 'boss':
-                    item = itemInfo.createItem('inv_box_03', 1);
-                    item = JSON.parse(item);
-                    quantity = item.quantity;
-                    this.$store.commit("set_sys_info", {
-                        type: 'reward',
-                        msg: '击败BOSS获得额外奖励',
-                        item: item,
-                        quantity: quantity
-                    });
-                    itemInfo.addItem(item);
-                    break;
-            }
-        },
-        levelUp() {
-            let index = this.findComponentUpward(this, 'index'); 
-            this.playerAttr.lv += 1;
-            this.$store.state.dungeonInfo.trial.level += 1;
-            index.enermyLvChange = this.playerAttr.lv;
-            this.$store.state.dungeonInfo.advanture.level = index.enermyLvChange;
-            if(this.playerAttr.lv == 10) {
-                var element = document.getElementById('guild');
-                element.classList.add('glow');
-            }
-            if(this.playerAttr.lv == 20) {
-                var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-                var item = itemInfo.createItem('spell_nature_thunderclap', 1);  
-                itemInfo.addItem(JSON.parse(item));
-            }
+            // var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            // itemInfo.addItem(item);
         },
         enermySlain(id, qty){
             var slain = {slain: {}};
@@ -512,24 +539,24 @@ export default {
         },
         trialStat(attribute) {
             attribute['ATK'] = {
-                value: Math.round(attribute['ATK'].value*1.2),
-                showValue: Math.round(attribute['ATK'].value*1.2),
+                value: Math.round(attribute['ATK'].value*1.25),
+                showValue: Math.round(attribute['ATK'].value*1.25),
             }
             attribute['DEF'] = {
-                value: attribute['DEF'].value,
-                showValue: attribute['DEF'].value,
+                value: attribute['DEF'].value*2,
+                showValue: attribute['DEF'].value*2,
             }
             attribute['AP'] = {
-                value: Math.round(attribute['AP'].value*1.2),
-                showValue: Math.round(attribute['AP'].value*1.2),
+                value: Math.round(attribute['AP'].value*1.25),
+                showValue: Math.round(attribute['AP'].value*1.25),
             }
             attribute['MR'] = {
-                value: attribute['MR'].value,
-                showValue: attribute['MR'].value,
+                value: attribute['MR'].value*2,
+                showValue: attribute['MR'].value*2,
             }
             attribute['MAXHP'] = {
-                value: attribute['MAXHP'].value*3,
-                showValue: attribute['MAXHP'].value*3
+                value: attribute['MAXHP'].value*20,
+                showValue: attribute['MAXHP'].value*20
             }
             attribute['CURHP'] = {
                 value: attribute['MAXHP'].value,
@@ -555,8 +582,8 @@ export default {
                 showValue: attribute['MR'].value,
             }
             attribute['MAXHP'] = {
-                value: attribute['MAXHP'].value*20,
-                showValue: attribute['MAXHP'].value*20
+                value: attribute['MAXHP'].value*15,
+                showValue: attribute['MAXHP'].value*15
             }
             attribute['CURHP'] = {
                 value: attribute['MAXHP'].value,
@@ -592,8 +619,20 @@ export default {
             return attribute;
         },
         close() {
-            this.curDungeon = false;
-        }
+            var index = this.findComponentUpward(this, 'index');
+            if(index.dungeon) {
+                index.dungeon.selected = false;
+                index.dungeon = {};
+            }
+        },
+        showInfo($event, type, item, compare) {
+            var index = this.findComponentUpward(this, 'index');
+            index.showInfo($event, type, item, compare);
+        },
+        closeInfo() {
+            var index = this.findComponentUpward(this, 'index');
+            index.closeInfo('item');
+        },
     }
 }
 
@@ -601,19 +640,72 @@ export default {
 </script>
 
 <style lang="scss" scope>
+.mapEvent {
+    overflow-y: auto;
+    max-height: 28rem;
+}
 .dungeonInfo {
-    position: absolute;
-    top: 5rem;
-    left: 0;
-    right: 0;
-    margin: auto;
-    padding-top: 1rem;
-    width: 10rem;
-    height: 10rem;
-    border: 1px solid rgba(255, 255, 255, 0.404);
-    background: black;
-    z-index: 1;
-    box-shadow: 0 0 4px 4px rgba(100, 255, 36, 0.5);
+    position: relative;
+    margin: 0.5rem 0rem;
+    max-height: 28rem;
+    text-align: left;
+    background: rgb(19, 19, 19);
+    .title {
+        height: 2rem;
+        margin: 0.3rem 0rem;
+        padding-left: 1rem;
+        font-size: 1.1rem;
+        background: rgb(32, 32, 32);
+        box-shadow: 0 0 2px 2px rgba(7, 7, 7, 0.8);
+        border-top: 2px solid rgb(43, 43, 43);
+    }
+    .detail {
+        color: rgb(201, 201, 201);
+        padding-left: 1rem;
+        box-shadow: 0 0 1px 1px rgba(7, 7, 7, 0.5);
+    }
+    .action {
+        text-align: center;
+        button {
+            margin: 0.5rem 1rem;
+        }
+    }
+}
+.reward {
+    display: flex;
+    flex-wrap: wrap;
+    .grid {
+        border: 1px solid rgb(72, 70, 63);
+        border-radius: 0.3rem;
+        margin: 2px;
+        height: 3rem;
+        width: 3rem;
+        .icon {
+            width: 2.9rem;
+            height: 2.9rem;
+            background-color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: auto;
+            border-radius: 0.3rem;
+            img {
+                width:2.9rem;
+                height:2.9rem;
+                border-radius: 1rem;
+            }
+        }
+        .quantity {
+            position: relative;
+            top: -0.6rem;
+            right: -0.8rem;
+            width: 2rem;
+            height: 0.5rem;
+            font-size: 0.8rem;
+            line-height: 0;
+            text-align: right;
+        }
+    }
 }
 .close {
     position: absolute;
@@ -641,4 +733,5 @@ export default {
 .close:after {
     transform: rotate(-45deg);
 }
+
 </style>

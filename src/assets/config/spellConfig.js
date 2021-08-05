@@ -583,6 +583,10 @@ data() {
                         des: '造成元素*7点伤害',
                         dmg: { AP: 7},
                         cost: { MP: 30000, },
+                    }, {
+                        des: '造成元素*7点伤害',
+                        dmg: { AP: 7},
+                        cost: { MP: 30000, },
                     },
                 ],
                 proficient: {

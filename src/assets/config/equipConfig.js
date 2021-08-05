@@ -2,6 +2,7 @@
 //破旧，普通，精良，完美，史诗，传说
 //a1a1a1,D9D9D9,00BBFF,BB00FF,FFBB00,FF0000
 //https://wowpedia.fandom.com/wiki/Death_knight?file=Inv_shoulder_09.png
+//https://wowpedia.fandom.com/wiki/Wowpedia:Warcraft_III_icons
 export const equipConfig = {
   data() {
     return{

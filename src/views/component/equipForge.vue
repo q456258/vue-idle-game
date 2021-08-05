@@ -33,7 +33,10 @@
             </div>
 
         </div>
-        <span class="cost" :class="{'warning':warning}">消耗金币：{{cost}}</span>
+        <!-- <span class="cost" :class="{'warning':warning}">消耗金币：{{cost}}</span> -->
+        <span class="cost" :class="{'warning':warning}">
+            消耗<img src="/icons/item/Inv_enchant_voidsphere.png">&nbsp;{{cost}}/{{itemQty}}
+        </span>
         <div class="confirm" @click="forgeAll()">
             重铸
             <span ref="info"></span>
@@ -54,7 +57,8 @@ export default {
     components: {draggable},
     data() {
         return {
-            cost: 0,
+            cost: 1,
+            has: 0
         };
     },
     props: {
@@ -69,18 +73,33 @@ export default {
             this.computeCost();
         }
     },
-    computed: {
+    computed: {     
         warning() {
-            return this.$store.state.guildAttribute.gold < this.cost;
+            return this.itemQty < this.cost;
         },
+        item() {
+            var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            var item = itemInfo.findItem('虚空宝珠');
+            if(item == -1)
+                return {quantity: 0};
+            else
+                return backpack.itemGrid[item];
+        },
+        itemQty() {
+            var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            var qty = itemInfo.getItemQty('虚空宝珠');
+            return qty;
+        }
     },
     methods: {
         forgeAll() {
             if(this.warning) {
                 return;
             }
-            this.$store.state.guildAttribute.gold -= this.cost;
+            var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
             var equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
+            itemInfo.removeItemByItem(this.item, this.cost);
             // equipInfo.forgeAll(this.equip);
             var allLocked = true;
             for(let entry in this.equip.extraEntry) {
@@ -112,12 +131,13 @@ export default {
             this.computeCost();
         },
         computeCost() {
-            var base = 100+this.equip.lv**2/2;
+            var cost = 0;
             for(let entry in this.equip.extraEntry) {
+                cost += 1;
                 if(this.equip.extraEntry[entry].locked)
-                    base *= 1.5;
+                    cost += 1;
             }
-            this.cost = Math.round(base);
+            this.cost = cost;
         },
         forgeInfo(info, type) {
             var element = this.$refs['info'];
@@ -254,8 +274,11 @@ export default {
         align-items: center;
         justify-content: center;
         font-size: 1rem;
-    }
-    
+        img {
+            height: 2rem;
+            width: 2rem;
+        }
+    }    
 }
 $blue: #ccc;
 .Etext {

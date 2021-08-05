@@ -38,32 +38,54 @@ export const itemEffect = {
         }
     },
     methods: {
-        callItemEffect(type) {
+        callItemEffect(type, lv) {
             var used = false;
-            var spellName = '';
-            var spellLv = 1;
-            if(this.allSpell.indexOf(type) != -1) {
-                spellName = type;
-                let tempLv = parseInt(type.charAt(type.length-1));
-                if(!isNaN(tempLv)) {
-                    spellLv = tempLv;
-                    spellName = spellName.substring(0, type.length-1);
-                }
-                type = 'spellBook';
-            }
             switch(type) {
+                case 'inv_misc_book_09':
+                    used = this.randomSpell(lv, 1);
+                    break;
+                case 'inv_misc_book_08':
+                    used = this.randomSpell(lv, 2);
+                    break;
+                case 'inv_misc_book_07':
+                    used = this.randomSpell(lv, 3);
+                    break;
+                case 'bTNMGExchange':
+                    used = this.randomGold(666, lv);
+                    break;
+                case 'inv_misc_coin_01':
+                    used = this.randomGold(6666, lv);
+                    break;
+                case 'inv_misc_coin_01':
+                    used = this.randomGold(66666, lv);
+                    break;
                 case 'inv_misc_note_06':
                     used = this.inv_misc_note_06();
                     break;
-                case 'inv_box_01':
-                    used = this.inv_box_01();
+                case 'random_equip_0':
+                    used = this.randomEquip(0, lv);
                     break;
-                case 'inv_box_02':
-                    used = this.inv_box_02();
+                case 'random_equip_1':
+                    used = this.randomEquip(1, lv);
                     break;
-                case 'inv_box_03':
-                    used = this.inv_box_03();
+                case 'random_equip_2':
+                    used = this.randomEquip(2, lv);
                     break;
+                case 'random_equip_3':
+                    used = this.randomEquip(3, lv);
+                    break;
+                case 'random_equip_4':
+                    used = this.randomEquip(4, lv);
+                    break;
+                // case 'inv_box_01':
+                //     used = this.inv_box_01();
+                //     break;
+                // case 'inv_box_02':
+                //     used = this.inv_box_02();
+                //     break;
+                // case 'inv_box_03':
+                //     used = this.inv_box_03();
+                //     break;
                 case 'bossTicket1':
                     used = this.bossTicket(4);
                     break;
@@ -97,18 +119,61 @@ export const itemEffect = {
                 case 'inv_potion_27':
                     used = this.inv_potion_27();
                     break;
-                case 'spellBook':
-                    used = this.learnSpell(spellName, spellLv);
-                    if(used) {
-                        // 刷新一下过滤技能列表
-                        var charInfo = this.findBrothersComponents(this, 'charInfo', false)[0];
-                        let temp = charInfo.dmgFilterSelected;
-                        charInfo.dmgFilterSelected = '';
-                        charInfo.dmgFilterSelected = temp;
-                    }
-                    break;
             }
             return used;
+        },
+        //招募声明
+        inv_misc_note_06() {
+            var guildMember = this.findBrothersComponents(this, 'guildMember', false)[0];
+            guildMember.generateApplicant();
+            return true;
+        },
+        randomSpell(lv, rank) {
+            var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            var spell = this.getSpellList(lv, rank);
+            var spellType = spell[Math.floor(Math.random()*spell.length)];
+            var quantity = 1;
+            item = itemInfo.createItem(spellType, quantity);  
+            item = JSON.parse(item);
+            this.$store.commit("set_sys_info", {
+                type: 'reward',
+                msg: '打开宝箱获得',
+                item: item,
+                quantity: quantity
+            });
+            itemInfo.addItem(item);
+            return true;
+        },
+        randomGold(max, lv) {
+            var guild = this.findBrothersComponents(this, 'guild', false)[0];
+            var gold = Math.round(max*Math.random()*(1+lv*0.1))
+            guild.getGold('', gold);
+            return true;
+        },
+        randomEquip(bonus, lv) {
+            var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            var equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
+            var itemLv = lv || this.$store.state.playerAttribute.lv;
+            var equip = equipInfo.createEquip(-1, itemLv, 'random', bonus);  
+            equip = JSON.parse(equip);
+            this.$store.commit("set_sys_info", {
+                type: 'reward',
+                msg: '获得战利品',
+                equip: equip
+            });
+            backpack.giveEquip(equip);
+            return true;
+        },
+        bossTicket(template) {
+            var mapEvent = this.findBrothersComponents(this, 'mapEvent', false)[0];
+            mapEvent.generateEnermy('BOSS', this.$store.state.playerAttribute.lv, template);
+            return true;
+        },
+        inv_potion_27() {
+            var player = this.$store.state.playerAttribute;
+            var index = this.findComponentUpward(this, 'index');
+            index.buffApply(player, player, 'minionSlayer', 600);
+            return true;
         },
         getSpellList(lv, rank) {
             var spellList = [];
@@ -186,202 +251,5 @@ export const itemEffect = {
             }
             return spellList;
         },
-        //招募声明
-        inv_misc_note_06() {
-            var guildMember = this.findBrothersComponents(this, 'guildMember', false)[0];
-            guildMember.generateApplicant();
-            return true;
-        },
-        //宝箱
-        inv_box_01() {
-            var equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
-            var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-            var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
-            var guild = this.findBrothersComponents(this, 'guild', false)[0];
-            var reward = ['gold', 'crystal', 'equip', 'spell', 'recruit'];
-            var type = reward[Math.floor(Math.random()*reward.length)];
-            var lv = this.$store.state.playerAttribute.lv;
-            var quantity = 1;
-            var item;
-            switch(type) {
-                case 'gold':
-                    let gold = Math.round((100+lv**2)*(1+1*Math.random()))
-                    guild.getGold('打开宝箱', gold);
-                    return true;
-                case 'crystal':
-                    let crystal = Math.round((1+lv)*(1+Math.random()))
-                    guild.getCrystal('打开宝箱', crystal);
-                    return true;
-                case 'equip':
-                    let equip = equipInfo.createEquip(-1, lv, 'random', 0);  
-                    equip = JSON.parse(equip);
-                    this.$store.commit("set_sys_info", {
-                        type: 'reward',
-                        msg: '打开宝箱获得',
-                        equip: equip
-                    });
-                    backpack.giveEquip(equip);
-                    return true;
-                case 'spell':
-                    let spell = this.getSpellList(lv, 1);
-                    let spellType = spell[Math.floor(Math.random()*spell.length)];
-                    quantity = 1;
-                    item = itemInfo.createItem(spellType, quantity);  
-                    item = JSON.parse(item);
-                    this.$store.commit("set_sys_info", {
-                        type: 'reward',
-                        msg: '打开宝箱获得',
-                        item: item,
-                        quantity: quantity
-                    });
-                    itemInfo.addItem(item);
-                    return true;
-                case 'recruit':
-                    quantity = 1;
-                    item = itemInfo.createItem('inv_misc_note_06', quantity);  
-                    item = JSON.parse(item);
-                    this.$store.commit("set_sys_info", {
-                        type: 'reward',
-                        msg: '打开宝箱获得',
-                        item: item,
-                        quantity: quantity
-                    });
-                    itemInfo.addItem(item);
-                    return true;
-            }
-            return false;
-        },
-        inv_box_02() {
-            var equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
-            var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-            var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
-            var guild = this.findBrothersComponents(this, 'guild', false)[0];
-            var reward = ['gold', 'crystal', 'equip', 'spell', 'ticket'];
-            var type = reward[Math.floor(Math.random()*reward.length)];
-            var lv = this.$store.state.playerAttribute.lv;
-            var item = {};
-            var quantity = 0;
-            switch(type) {
-                case 'gold':
-                    let gold = Math.round((100+lv**2)*(10+4*Math.random()))
-                    guild.getGold('打开宝箱', gold);
-                    return true;
-                case 'crystal':
-                    let crystal = Math.round((1+lv*3)*(5+Math.random()))
-                    guild.getCrystal('打开宝箱', crystal);
-                    return true;
-                case 'equip':
-                    let equip = equipInfo.createEquip(-1, lv, 'random', 1);  
-                    equip = JSON.parse(equip);
-                    this.$store.commit("set_sys_info", {
-                        type: 'reward',
-                        msg: '打开宝箱获得',
-                        equip: equip
-                    });
-                    backpack.giveEquip(equip);
-                    return true;
-                case 'spell':
-                    let spell = this.getSpellList(lv, 2);
-                    let spellType = spell[Math.floor(Math.random()*spell.length)];
-                    quantity = 1;
-                    item = itemInfo.createItem(spellType, quantity);  
-                    item = JSON.parse(item);
-                    this.$store.commit("set_sys_info", {
-                        type: 'reward',
-                        msg: '打开宝箱获得',
-                        item: item,
-                        quantity: quantity
-                    });
-                    itemInfo.addItem(item);
-                    return true;
-                case 'ticket':
-                    let tickets = ['bossTicket1', 'bossTicket2', 'bossTicket3', 'bossTicket4', 'bossTicket5', 'bossTicket6', 'bossTicket7', 'bossTicket8', 'bossTicket9', 
-                            'bossTicket10'];
-                    quantity = 1;
-                    item = itemInfo.createItem(tickets[Math.floor((lv-1)/10)-1], quantity);  
-                    item = JSON.parse(item);
-                    this.$store.commit("set_sys_info", {
-                        type: 'reward',
-                        msg: '打开宝箱获得',
-                        item: item,
-                        quantity: quantity
-                    });
-                    itemInfo.addItem(item);
-                    return true;
-            }
-            return false;
-        },
-        inv_box_03() {
-            var equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
-            var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-            var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
-            var guild = this.findBrothersComponents(this, 'guild', false)[0];
-            var reward = ['gold', 'crystal', 'equip', 'spell'];
-            var type = reward[Math.floor(Math.random()*reward.length)];
-            var lv = this.$store.state.playerAttribute.lv;
-            switch(type) {
-                case 'gold':
-                    let gold = Math.round((100+lv**2)*(100+4*Math.random()))
-                    guild.getGold('打开宝箱', gold);
-                    return true;
-                case 'crystal':
-                    let crystal = Math.round((1+lv)*(50+Math.random()))
-                    guild.getCrystal('打开宝箱', crystal);
-                    return true;
-                case 'equip':
-                    let equip = equipInfo.createEquip(-1, lv, 'random', 2);  
-                    equip = JSON.parse(equip);
-                    this.$store.commit("set_sys_info", {
-                        type: 'reward',
-                        msg: '打开宝箱获得',
-                        equip: equip
-                    });
-                    backpack.giveEquip(equip);
-                    return true;
-                case 'spell':
-                    let spell = this.getSpellList(lv, 3);
-                    let spellType = spell[Math.floor(Math.random()*spell.length)];
-                    let quantity = 1;
-                    let item = itemInfo.createItem(spellType, quantity);  
-                    item = JSON.parse(item);
-                    this.$store.commit("set_sys_info", {
-                        type: 'reward',
-                        msg: '打开宝箱获得',
-                        item: item,
-                        quantity: quantity
-                    });
-                    itemInfo.addItem(item);
-                    return true;
-            }
-            return false;
-        },
-        bossTicket(template) {
-            var mapEvent = this.findBrothersComponents(this, 'mapEvent', false)[0];
-            mapEvent.generateEnermy('BOSS', this.$store.state.playerAttribute.lv, template);
-            return true;
-        },
-        inv_potion_27() {
-            var player = this.$store.state.playerAttribute;
-            var index = this.findComponentUpward(this, 'index');
-            index.buffApply(player, player, 'minionSlayer', 600);
-            return true;
-        },
-        learnSpell(spellName, lv) {
-            var spellList = this.$store.state.playerAttribute.spells;
-            if(spellList.spell[spellName] != undefined) {
-                if(spellList.spell[spellName].lv < lv)
-                    this.$store.state.playerAttribute.spells.spell[spellName].lv += 1;
-                else
-                    this.$store.state.playerAttribute.spells.spell[spellName].proficient += lv;
-                return true;
-            }
-            else {
-                var charInfo = this.findBrothersComponents(this, 'charInfo', false)[0];
-                this.$store.state.playerAttribute.spells.spell[spellName] = {active: true, lv: 1, proficient: 0};
-                charInfo.activeSpell(spellName, 1);
-                return true;
-            }
-
-        }
     }
 }

@@ -1,0 +1,342 @@
+<template>
+<div class="container">
+    <div>剩余天赋点：{{player.talentPoint}}
+    </div>
+    <div class="talentTree scrollbar-morpheus-den" >
+        <div class="power" v-for="(grid, i) in talents" :key="i">
+            <div class="grid" v-for="(v, k) in talents[i]" :key="k">
+                <div class="down" v-if="v.down"></div>
+                <div v-if="v.name" @click="clickTalent($event, k, i)" @contextmenu="rightClick($event, k, i)">
+                    <div :class="[{grayIcon:playerTalent[v.type]==undefined||playerTalent[v.type]==0}, 'icon']" :style="{background: 'url('+v.iconSrc+') no-repeat', backgroundSize: '60px'}">
+                        <!-- <img :src="v.iconSrc" alt="" /> -->
+                    </div>
+                    <div :class="v.status+'-frame'">
+                    </div>
+                    <div class="skill-point" :style="{color: v.status=='done'?'#fc0':v.status=='enable'?'#0f0':'#ccc'}">
+                        <span v-if="playerTalent[v.type]">{{playerTalent[v.type]}}</span><span v-else>0</span>/{{v.maxLv}}
+                    </div>
+                    <div class="talent-tip">
+                        <h5>{{v.name}}</h5>
+                        <div class="desc" v-if="playerTalent[v.type]>0">当前：{{v.desc[playerTalent[v.type]]}}</div>
+                        <div class="desc" v-if="playerTalent[v.type]<v.maxLv">下一级：{{v.desc[playerTalent[v.type]+1]}}</div>
+                        <div class="preReq" v-if="preReqList[v.type]">前置天赋：
+                            <br>
+                            <div class="detail" v-for="(preReq, index) in preReqList[v.type]" :key="index">
+                                <div :style="{color:playerTalent[preReq[0]]>=preReq[1]?'#0f0':'#ccc'}">
+                                    {{powerBranch[preReq[0]].name}}
+                                    <span v-if="playerTalent[preReq[0]]">{{playerTalent[preReq[0]]}}</span><span v-else>0</span>
+                                    /<span>{{preReq[1]+'级'}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footnote">
+                            按住shift点击一次5点
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</template>
+<script>
+import { assist } from '../../assets/js/assist';
+import { talentConfig } from '../../assets/config/talentConfig';
+export default {    
+    name: 'talentTree',
+    props: {
+    },
+    mixins: [assist, talentConfig,],
+    components: {},
+    data() {
+        return {
+            talents: {
+                powerBranch: [],
+                defBranch: []
+            }
+        };
+    },
+    created() {
+        for(var branch in this.talents) {
+            this.talents[branch] = new Array(44).fill({});
+        }
+    },
+    mounted() {
+        this.setGrid('powerBranch');
+        this.setGrid('defBranch');
+    },
+    watch: {
+    },
+    computed: {
+        playerTalent() { return this.$store.state.playerAttribute.talent },
+        player() { return this.$store.state.playerAttribute },
+    },
+    methods: {
+        init() {
+            this.setStatus('powerBranch');
+            this.setStatus('defBranch');
+        },
+        setGrid(branch) {
+            for(let talent in this[branch]) {
+                let temp = this[branch][talent];
+                this.$set(this.talents[branch], temp.position[1]*4+temp.position[0], temp);
+            }
+        },
+        setStatus(branch) {
+            for(let talent in this[branch]) {
+                let temp = this[branch][talent];
+                temp.status = 'enable';
+                if(this.playerTalent[talent] >= this[branch][talent].maxLv) {
+                    temp.status = 'done';
+                    continue;
+                }
+                if(this.preReqList[temp.type]) {
+                    for(let talent in this.preReqList[temp.type]) {
+                        let req = this.preReqList[temp.type][talent];
+                        if(!this.playerTalent[req[0]] || this.playerTalent[req[0]] < req[1])
+                            temp.status = 'disable';
+                    }
+                }
+                if(!this.playerTalent[talent])
+                    this.playerTalent[talent] = 0;
+            }
+            this.$forceUpdate();
+        },
+        clickTalent(e, k, branch, val=1) {
+            var target = this.talents[branch][k];
+            if(target.status == 'disable')
+                return;
+            if(e.shiftKey)
+                val *= 5;
+            val = Math.min(val, this.player.talentPoint);
+            val = Math.min(val, target.maxLv-this.playerTalent[target.type]);
+            if(val > 0) {
+                this.playerTalent[branch] += val;
+                this.playerTalent[target.type] += val;
+                this.player.talentPoint -= val;
+                this.setStatus(branch);
+                this.talentChange(target);
+            }
+        },
+        rightClick(e, k, branch, val=-1) {
+            var target = this.talents[branch][k];
+            if(!this.playerTalent[target.type])
+                return;
+            if(e.shiftKey)
+                val *= 5;
+            val = Math.max(val, -1*this.playerTalent[target.type]);
+            var targetLv = this.playerTalent[target.type]+val;
+            var branchLv = this.playerTalent[branch]+val;
+            var check = this.checkPreReq(target.type, targetLv, target.type) && this.checkPreReq(branch, branchLv, target.type);
+            if(!check)
+                return;
+            if(val < 0) {
+                this.playerTalent[branch] += val;
+                this.playerTalent[target.type] += val;
+                this.player.talentPoint -= val;
+                this.setStatus(branch);
+                this.talentChange(target);
+            }
+        },
+        checkPreReq(talentName, lv, ignore) {
+            var branch = talentName.indexOf('Branch') != -1;
+            for(let name in this.preReqList) {
+                if(name == ignore)
+                    continue;
+                if(this.playerTalent[name] > 0) {
+                    for(let preReq in this.preReqList[name]) {
+                        let check = this.preReqList[name][preReq];
+                        if(talentName == check[0] && (!branch && lv < check[1]) || (branch && lv-this.playerTalent[name] < check[1])) {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+        },
+        talentChange(talent) {
+            switch(talent.type) {
+                case 'ATK':
+                case 'AP':
+                case 'DEF':
+                case 'MR':
+                case 'STR':
+                case 'AGI':
+                case 'INT':
+                    this.$store.commit('set_player_attribute');
+                    break;
+                case 'spell_nature_thunderclap':
+                case 'spell_holy_crusaderstrike':
+                case 'spell_warlock_soulburn':
+                case 'ability_warrior_shatteringthrow':
+                case 'spell_arcane_starfire':
+                case 'spell_nature_starfall':
+                case 'ability_druid_starfall':
+                case 'spell_shadow_deathscream':
+                case 'ability_revendreth_paladin':
+                    this.learnSpell(talent.type);
+                    break;
+            }
+        },
+        learnSpell(spellName) {
+            var spellList = this.$store.state.playerAttribute.spells;
+            var charInfo = this.findBrothersComponents(this, 'charInfo', false)[0];
+            if(spellList.spell[spellName] != undefined) {
+                spellList.spell[spellName].lv = this.playerTalent[spellName];
+                if(this.playerTalent[spellName] == 0)
+                    this.$delete(spellList.spell, spellName);
+            }
+            else {
+                spellList.spell[spellName] = {active: true, lv: this.playerTalent[spellName], proficient: 0};
+                charInfo.activeSpell(spellName, 1);
+            }
+            // 刷新一下过滤技能列表
+            let temp = charInfo.dmgFilterSelected;
+            charInfo.dmgFilterSelected = '';
+            charInfo.dmgFilterSelected = temp;
+        }
+    }
+}
+</script>
+<style lang="scss" scoped>
+.container {
+    // display: flex;
+    // flex-wrap: wrap;
+    // flex-direction: column;
+    width: 50rem;
+    height: 100%;
+    margin: 0.5rem 0.5rem;
+    padding: 0;
+    // overflow-x: visible;
+    // overflow-y: scroll;
+}
+.talentTree {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    width: 50rem;
+    height: 90%;
+    overflow-x: visible;
+    overflow-y: scroll;
+
+}
+.power {
+    padding: 0.5rem;
+    margin: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.404);
+    border-radius: 1em;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1rem 1.5rem 1.5rem 1.7rem;
+    width: 26rem;
+    .grid {
+        position: relative;
+        width: 75px;
+        height: 75px;
+        .icon {
+            box-shadow: 0 6px 11px #000000;
+            overflow: hidden;
+            width: 65px;
+            height: 65px;
+            border-radius: 1rem;
+        }
+        .grayIcon {
+            filter: grayscale(100%);
+        }
+        .disable-frame {   
+            position: absolute; 
+            background-size: 200%;
+            border: 1px solid black;
+            border-image-source: url(/icons/talentBorder1.png);
+            border-image-slice: 50%;
+            border-image-width: 100%;
+            border-image-repeat: stretch;
+            height: 65px;
+            width: 65px;
+            top: -1px;
+            left: -2px;
+        }
+        .enable-frame {    
+            position: absolute; 
+            background-size: 200%;
+            border: 1px solid black;
+            border-image-source: url(/icons/talentBorder2.png);
+            border-image-slice: 50%;
+            border-image-width: 100%;
+            border-image-repeat: stretch;
+            height: 65px;
+            width: 65px;
+            top: -1px;
+            left: -2px;
+        }
+        .done-frame {   
+            position: absolute;  
+            background-size: 200%;
+            border: 1px solid black;
+            border-image-source: url(/icons/talentBorder3.png);
+            border-image-slice: 50%;
+            border-image-width: 100%;
+            border-image-repeat: stretch;
+            height: 65px;
+            width: 65px;
+            top: -1px;
+            left: -2px;
+        }
+        .skill-point {
+            position: absolute;
+            z-index: 1;
+            bottom: 14px;
+            right: 13px;
+            color: white;
+            font-size: 11px;
+            line-height: 1em;
+            width: 19px;
+            text-align: center;
+            text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
+        }
+        .talent-tip {    
+            visibility: hidden;
+            border-radius: 8px;
+            background: #111;
+            position: absolute;
+            z-index: 3;
+            top: 5px;
+            left: 80px;
+            width: 300px;
+            padding: 10px;
+            box-shadow: 0 6px 11px #000000;
+            border: 1px solid #333;
+            .desc {
+                text-align: left;
+            }
+            .preReq {
+                text-align: left;
+                margin-top: 1rem;
+                .detail {
+                    margin-left: 2rem;
+                }
+            }
+            .footnote {
+                margin-top: 1rem;
+                color: #ccc;
+                font-size: 0.8rem;
+            }
+        }
+        .down {
+            position: absolute;
+            bottom: -5px;
+            right: 10px;
+            left: 0;
+            margin: auto;
+            width: 25px;
+            height: 25px;
+            z-index: 1;
+            background: url(/icons/down.png);
+            background-size: 100%;
+        }
+    }
+    .grid:hover .talent-tip {
+        visibility: visible;
+    }
+}
+</style>

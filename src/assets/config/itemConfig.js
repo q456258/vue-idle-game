@@ -39,6 +39,72 @@ export const itemConfig = {
                     stack: true,
                     maxStack: 100
                 },
+                inv_enchant_voidsphere: {
+                    quality: 2,
+                    description: {
+                        name: '虚空宝珠',
+                        category: '材料',
+                        desc: '具有神秘力量的宝珠，能够重置装备的附加属性',
+                        iconSrc: "./icons/item/Inv_enchant_voidsphere.png",
+                    },
+                    stack: true,
+                    maxStack: 9999
+                },
+                inv_misc_gem_diamond_05: {
+                    quality: 1,
+                    description: {
+                        name: '低级强化石',
+                        category: '材料',
+                        desc: '强化装备的材料，能够提升装备基础属性，可用于强化装备1-5星',
+                        iconSrc: "./icons/item/Inv_misc_gem_diamond_05.png",
+                    },
+                    stack: true,
+                    maxStack: 9999
+                },
+                inv_misc_gem_diamond_04: {
+                    quality: 2,
+                    description: {
+                        name: '中级强化石',
+                        category: '材料',
+                        desc: '强化装备的材料，能够提升装备基础属性，可用于强化装备6-10星',
+                        iconSrc: "./icons/item/Inv_misc_gem_diamond_04.png",
+                    },
+                    stack: true,
+                    maxStack: 9999
+                },
+                inv_misc_gem_diamond_03: {
+                    quality: 3,
+                    description: {
+                        name: '高级强化石',
+                        category: '材料',
+                        desc: '强化装备的材料，能够提升装备基础属性，可用于强化装备11-15星',
+                        iconSrc: "./icons/item/Inv_misc_gem_diamond_03.png",
+                    },
+                    stack: true,
+                    maxStack: 9999
+                },
+                inv_misc_gem_diamond_02: {
+                    quality: 4,
+                    description: {
+                        name: '顶级强化石',
+                        category: '材料',
+                        desc: '强化装备的材料，能够提升装备基础属性，可用于强化装备16-20星',
+                        iconSrc: "./icons/item/Inv_misc_gem_diamond_02.png",
+                    },
+                    stack: true,
+                    maxStack: 9999
+                },
+                inv_misc_gem_diamond_01: {
+                    quality: 5,
+                    description: {
+                        name: '终极强化石',
+                        category: '材料',
+                        desc: '强化装备的材料，能够提升装备基础属性，可用于强化装备21-25星',
+                        iconSrc: "./icons/item/Inv_misc_gem_diamond_01.png",
+                    },
+                    stack: true,
+                    maxStack: 9999
+                },
                 dust2: {
                     quality: 2,
                     description: {
@@ -130,49 +196,168 @@ export const itemConfig = {
                     stack: true,
                     maxStack: 20
                 },
-                inv_box_01: {
+                inv_misc_book_09: {
                     quality: 1,
                     description: {
-                        name: '遗落的箱子',
+                        name: '随机技能书',
                         category: '消耗品',
-                        desc: '行人遗落的箱子，背后有着不为人知的故事，打开后随机获得金币、水晶、装备、技能书、招募启事',
+                        desc: '随机获得一本低品质技能书',
+                        iconSrc: "./icons/item/Inv_misc_book_09.png",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    maxStack: 20
+                },
+                inv_misc_book_08: {
+                    quality: 1,
+                    description: {
+                        name: '随机技能书',
+                        category: '消耗品',
+                        desc: '随机获得一本中品质技能书',
+                        iconSrc: "./icons/item/Inv_misc_book_08.png",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    maxStack: 20
+                },
+                inv_misc_book_07: {
+                    quality: 1,
+                    description: {
+                        name: '随机技能书',
+                        category: '消耗品',
+                        desc: '随机获得一本高品质技能书',
+                        iconSrc: "./icons/item/Inv_misc_book_07.png",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    maxStack: 20
+                },
+                bTNMGExchange: {
+                    quality: 1,
+                    description: {
+                        name: '少量金币',
+                        category: '消耗品',
+                        desc: '获得少量金币',
+                        iconSrc: "./icons/item/BTNMGExchange.png",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    maxStack: 20
+                },
+                inv_misc_coin_01: {
+                    quality: 2,
+                    description: {
+                        name: '中量金币',
+                        category: '消耗品',
+                        desc: '获得中量金币',
+                        iconSrc: "./icons/item/Inv_misc_coin_01.png",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    maxStack: 20
+                },
+                inv_misc_coin_02: {
+                    quality: 3,
+                    description: {
+                        name: '大量金币',
+                        category: '消耗品',
+                        desc: '获得大量金币',
+                        iconSrc: "./icons/item/Inv_misc_coin_02.png",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    maxStack: 20
+                },
+                random_equip_0: {
+                    quality: 1,
+                    description: {
+                        name: '随机装备',
+                        category: '消耗品',
+                        desc: '随机获得一件装备',
+                        iconSrc: "./icons/item/BTNSelectHeroOn.png",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    maxStack: 20
+                },
+                random_equip_1: {
+                    quality: 2,
+                    description: {
+                        name: '随机装备',
+                        category: '消耗品',
+                        desc: '随机获得一件还行的装备',
+                        iconSrc: "./icons/item/BTNSelectHeroOn.png",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    maxStack: 20
+                },
+                random_equip_2: {
+                    quality: 3,
+                    description: {
+                        name: '随机装备',
+                        category: '消耗品',
+                        desc: '随机获得一件比较好装备',
+                        iconSrc: "./icons/item/BTNSelectHeroOn.png",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    maxStack: 20
+                },
+                random_equip_3: {
+                    quality: 4,
+                    description: {
+                        name: '随机装备',
+                        category: '消耗品',
+                        desc: '随机获得一件优质装备',
+                        iconSrc: "./icons/item/BTNSelectHeroOn.png",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    maxStack: 20
+                },
+                random_equip_4: {
+                    quality: 5,
+                    description: {
+                        name: '随机装备',
+                        category: '消耗品',
+                        desc: '随机获得一件极品装备',
+                        iconSrc: "./icons/item/BTNSelectHeroOn.png",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    maxStack: 20
+                },
+                //'导师', '阿迦玛', '金牙', '霍格', '铁背龟', '熔岩元素', '咕噜咕拉', '塞瑞娜·血羽', '科多兽', '维斯迦尔', '安戈雷尔'
+                bossTicket0: {
+                    quality: 3,
+                    description: {
+                        name: 'BOSS挑战券【导师】',
+                        category: '消耗品',
+                        desc: '挑战【导师】',
                         iconSrc: "./icons/item/Inv_crate_01.png",
                     },
                     use: true,
                     stack: true,
-                    maxStack: 20
+                    maxStack: 10
                 },
-                inv_box_02: {
-                    quality: 2,
-                    description: {
-                        name: '精英宝箱',
-                        category: '消耗品',
-                        desc: '精英怪用私房钱买的家当，来之不易，打开后随机获得金币、水晶、装备、技能书、BOSS挑战券',
-                        iconSrc: "./icons/item/Inv_box_01.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 20
-                },
-                inv_box_03: {
-                    quality: 3,
-                    description: {
-                        name: 'BOSS宝箱',
-                        category: '消耗品',
-                        desc: '不是只有巨龙才喜欢财宝，BOSS级怪物多年的藏货，打开后随机获得金币、水晶、装备、技能书',
-                        iconSrc: "./icons/item/Inv_box_02.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 20
-                },
-                //'利姆鲁·特恩佩斯特', '巨人哥布林', '野猪王', '杰尼龟', '精灵女皇', '强盗首领', '俺已自了宫', '科多兽', '鬼神熊', '蛟龙'
                 bossTicket1: {
                     quality: 3,
                     description: {
-                        name: 'BOSS挑战券【利姆鲁·特恩佩斯】',
+                        name: 'BOSS挑战券【阿迦玛】',
                         category: '消耗品',
-                        desc: '挑战来自异世界的强大史莱姆',
+                        desc: '挑战野猪王【阿迦玛】',
                         iconSrc: "./icons/item/Inv_crate_01.png",
                     },
                     use: true,
@@ -182,9 +367,9 @@ export const itemConfig = {
                 bossTicket2: {
                     quality: 3,
                     description: {
-                        name: 'BOSS挑战券【巨人哥布林】',
+                        name: 'BOSS挑战券【金牙】',
                         category: '消耗品',
-                        desc: '挑战哥布林中的王者',
+                        desc: '挑战狗头人头目【金牙】',
                         iconSrc: "./icons/item/Inv_crate_01.png",
                     },
                     use: true,
@@ -194,9 +379,9 @@ export const itemConfig = {
                 bossTicket3: {
                     quality: 3,
                     description: {
-                        name: 'BOSS挑战券【野猪王】',
+                        name: 'BOSS挑战券【霍格】',
                         category: '消耗品',
-                        desc: '挑战哥布林中的王者',
+                        desc: '挑战豺狼人首领【霍格】',
                         iconSrc: "./icons/item/Inv_crate_01.png",
                     },
                     use: true,
@@ -206,9 +391,9 @@ export const itemConfig = {
                 bossTicket4: {
                     quality: 3,
                     description: {
-                        name: 'BOSS挑战券【杰尼龟】',
+                        name: 'BOSS挑战券【铁背龟】',
                         category: '消耗品',
-                        desc: '',
+                        desc: '挑战乌龟BOSS【铁背龟】',
                         iconSrc: "./icons/item/Inv_crate_01.png",
                     },
                     use: true,
@@ -218,9 +403,9 @@ export const itemConfig = {
                 bossTicket5: {
                     quality: 3,
                     description: {
-                        name: 'BOSS挑战券【精灵女皇】',
+                        name: 'BOSS挑战券【熔岩元素】',
                         category: '消耗品',
-                        desc: '',
+                        desc: '挑战元素BOSS【熔岩元素',
                         iconSrc: "./icons/item/Inv_crate_01.png",
                     },
                     use: true,
@@ -230,9 +415,9 @@ export const itemConfig = {
                 bossTicket6: {
                     quality: 3,
                     description: {
-                        name: 'BOSS挑战券【强盗首领】',
+                        name: 'BOSS挑战券【咕噜咕拉】',
                         category: '消耗品',
-                        desc: '',
+                        desc: '挑战鱼人首领【咕噜咕拉】',
                         iconSrc: "./icons/item/Inv_crate_01.png",
                     },
                     use: true,
@@ -242,9 +427,9 @@ export const itemConfig = {
                 bossTicket7: {
                     quality: 3,
                     description: {
-                        name: 'BOSS挑战券【俺已自了宫】',
+                        name: 'BOSS挑战券【塞瑞娜·血羽】',
                         category: '消耗品',
-                        desc: '',
+                        desc: '挑战鸟人头目【塞瑞娜·血羽】',
                         iconSrc: "./icons/item/Inv_crate_01.png",
                     },
                     use: true,
@@ -256,7 +441,7 @@ export const itemConfig = {
                     description: {
                         name: 'BOSS挑战券【科多兽】',
                         category: '消耗品',
-                        desc: '',
+                        desc: '挑战蜥蜴头目【科多兽】',
                         iconSrc: "./icons/item/Inv_crate_01.png",
                     },
                     use: true,
@@ -266,9 +451,9 @@ export const itemConfig = {
                 bossTicket9: {
                     quality: 3,
                     description: {
-                        name: 'BOSS挑战券【鬼神熊】',
+                        name: 'BOSS挑战券【维斯迦尔】',
                         category: '消耗品',
-                        desc: '',
+                        desc: '挑战熊怪首领【维斯迦尔】',
                         iconSrc: "./icons/item/Inv_crate_01.png",
                     },
                     use: true,
@@ -278,937 +463,14 @@ export const itemConfig = {
                 bossTicket10: {
                     quality: 3,
                     description: {
-                        name: 'BOSS挑战券【蛟龙】',
+                        name: 'BOSS挑战券【安戈雷尔】',
                         category: '消耗品',
-                        desc: '',
+                        desc: '挑战美味的龙虾【安戈雷尔】',
                         iconSrc: "./icons/item/Inv_crate_01.png",
                     },
                     use: true,
                     stack: true,
                     maxStack: 10
-                },
-                spell_nature_thunderclap: {
-                    quality: 1,
-                    description: {
-                        name: '雷霆一击技能书',
-                        category: '消耗品',
-                        desc: '学习技能【雷霆一击】',
-                        iconSrc: "./icons/spell/Spell_nature_thunderclap.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 20,
-                    lvReq: 20
-                },
-                spell_nature_thunderclap2: {
-                    quality: 1,
-                    description: {
-                        name: '【二级】雷霆一击技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【雷霆一击】，上限为二级',
-                        iconSrc: "./icons/spell/Spell_nature_thunderclap.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 20,
-                    lvReq: 45
-                },
-                spell_nature_thunderclap3: {
-                    quality: 1,
-                    description: {
-                        name: '【三级】雷霆一击技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【雷霆一击】，上限为三级',
-                        iconSrc: "./icons/spell/Spell_nature_thunderclap.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 20,
-                    lvReq: 70
-                },
-                spell_nature_thunderclap4: {
-                    quality: 1,
-                    description: {
-                        name: '【四级】雷霆一击技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【雷霆一击】，上限为四级',
-                        iconSrc: "./icons/spell/Spell_nature_thunderclap.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 20,
-                    lvReq: 95
-                },
-                spell_fire_flamebolt: {
-                    quality: 1,
-                    description: {
-                        name: '火球术技能书',
-                        category: '消耗品',
-                        desc: '学习技能【火球术】',
-                        iconSrc: "./icons/spell/spell_fire_flamebolt.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 20,
-                    lvReq: 30
-                },
-                spell_fire_flamebolt2: {
-                    quality: 1,
-                    description: {
-                        name: '【二级】火球术技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【火球术】，上限为二级',
-                        iconSrc: "./icons/spell/spell_fire_flamebolt.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 20,
-                    lvReq: 55
-                },
-                spell_fire_flamebolt3: {
-                    quality: 1,
-                    description: {
-                        name: '【三级】火球术技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【火球术】，上限为三级',
-                        iconSrc: "./icons/spell/spell_fire_flamebolt.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 20,
-                    lvReq: 80
-                },
-                spell_fire_flamebolt4: {
-                    quality: 1,
-                    description: {
-                        name: '【四级】火球术技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【火球术】，上限为四级',
-                        iconSrc: "./icons/spell/spell_fire_flamebolt.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 20,
-                    lvReq: 105
-                },
-                ability_warrior_shieldbash: {
-                    quality: 1,
-                    description: {
-                        name: '盾击技能书',
-                        category: '消耗品',
-                        desc: '学习技能【盾击】',
-                        iconSrc: "./icons/spell/ability_warrior_shieldbash.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 10,
-                    lvReq: 40
-                },
-                ability_warrior_shieldbash2: {
-                    quality: 1,
-                    description: {
-                        name: '【二级】盾击技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【盾击】，上限为二级',
-                        iconSrc: "./icons/spell/ability_warrior_shieldbash.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 10,
-                    lvReq: 65
-                },
-                ability_warrior_shieldbash3: {
-                    quality: 1,
-                    description: {
-                        name: '【三级】盾击技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【盾击】，上限为三级',
-                        iconSrc: "./icons/spell/ability_warrior_shieldbash.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 10,
-                    lvReq: 90
-                },
-                ability_warrior_shieldbash4: {
-                    quality: 1,
-                    description: {
-                        name: '【四级】盾击技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【盾击】，上限为四级',
-                        iconSrc: "./icons/spell/ability_warrior_shieldbash.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 10,
-                    lvReq: 115
-                },
-                ability_druid_maul: {
-                    quality: 1,
-                    description: {
-                        name: '槌击技能书',
-                        category: '消耗品',
-                        desc: '学习技能【槌击】',
-                        iconSrc: "./icons/spell/ability_druid_maul.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 20,
-                    lvReq: 50
-                },
-                ability_druid_maul2: {
-                    quality: 1,
-                    description: {
-                        name: '【二级】槌击技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【槌击】，上限为二级',
-                        iconSrc: "./icons/spell/ability_druid_maul.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 20,
-                    lvReq: 75
-                },
-                ability_druid_maul3: {
-                    quality: 1,
-                    description: {
-                        name: '【三级】槌击技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【槌击】，上限为三级',
-                        iconSrc: "./icons/spell/ability_druid_maul.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 20,
-                    lvReq: 100
-                },
-                ability_druid_maul4: {
-                    quality: 1,
-                    description: {
-                        name: '【四级】槌击技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【槌击】，上限为四级',
-                        iconSrc: "./icons/spell/ability_druid_maul.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 20,
-                    lvReq: 125
-                },
-                spell_shadow_ritualofsacrifice: {
-                    quality: 1,
-                    description: {
-                        name: '影袭技能书',
-                        category: '消耗品',
-                        desc: '学习技能【影袭】',
-                        iconSrc: "./icons/spell/spell_shadow_ritualofsacrifice.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 20,
-                    lvReq: 60
-                },
-                spell_shadow_ritualofsacrifice2: {
-                    quality: 1,
-                    description: {
-                        name: '【二级】影袭技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【影袭】，上限为二级',
-                        iconSrc: "./icons/spell/spell_shadow_ritualofsacrifice.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 20,
-                    lvReq: 85
-                },
-                spell_shadow_ritualofsacrifice3: {
-                    quality: 1,
-                    description: {
-                        name: '【三级】影袭技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【影袭】，上限为三级',
-                        iconSrc: "./icons/spell/spell_shadow_ritualofsacrifice.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 20,
-                    lvReq: 110
-                },
-                spell_holy_renew: {
-                    quality: 1,
-                    description: {
-                        name: '恢复技能书',
-                        category: '消耗品',
-                        desc: '学习技能【恢复】',
-                        iconSrc: "./icons/spell/spell_holy_renew.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 20,
-                    lvReq: 70
-                },
-                spell_holy_renew2: {
-                    quality: 1,
-                    description: {
-                        name: '【二级】恢复技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【恢复】，上限为二级',
-                        iconSrc: "./icons/spell/spell_holy_renew.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 20,
-                    lvReq: 95
-                },
-                spell_holy_renew3: {
-                    quality: 1,
-                    description: {
-                        name: '【三级】恢复技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【恢复】，上限为三级',
-                        iconSrc: "./icons/spell/spell_holy_renew.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 20,
-                    lvReq: 120
-                },
-                spell_warlock_soulburn: {
-                    quality: 1,
-                    description: {
-                        name: '夺魂技能书',
-                        category: '消耗品',
-                        desc: '学习技能【夺魂】',
-                        iconSrc: "./icons/spell/spell_warlock_soulburn.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 20,
-                    lvReq: 80
-                },
-                spell_warlock_soulburn2: {
-                    quality: 1,
-                    description: {
-                        name: '【二级】夺魂技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【夺魂】，上限为二级',
-                        iconSrc: "./icons/spell/spell_warlock_soulburn.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 20,
-                    lvReq: 105
-                },
-                ability_warrior_shatteringthrow: {
-                    quality: 1,
-                    description: {
-                        name: '碎裂投掷技能书',
-                        category: '消耗品',
-                        desc: '学习技能【碎裂投掷】',
-                        iconSrc: "./icons/spell/ability_warrior_shatteringthrow.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 20,
-                    lvReq: 90
-                },
-                ability_warrior_shatteringthrow2: {
-                    quality: 1,
-                    description: {
-                        name: '【二级】碎裂投掷技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【碎裂投掷】，上限为二级',
-                        iconSrc: "./icons/spell/ability_warrior_shatteringthrow.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 20,
-                    lvReq: 115
-                },
-                spell_holy_holybolt: {
-                    quality: 2,
-                    description: {
-                        name: '圣光术技能书',
-                        category: '消耗品',
-                        desc: '学习技能【圣光术】',
-                        iconSrc: "./icons/spell/spell_holy_holybolt.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 10,
-                    lvReq: 20
-                },
-                spell_holy_holybolt2: {
-                    quality: 2,
-                    description: {
-                        name: '【二级】圣光术技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【圣光术】，上限为二级',
-                        iconSrc: "./icons/spell/spell_holy_holybolt.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 10,
-                    lvReq: 45
-                },
-                spell_holy_holybolt3: {
-                    quality: 2,
-                    description: {
-                        name: '【三级】圣光术技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【圣光术】，上限为三级',
-                        iconSrc: "./icons/spell/spell_holy_holybolt.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 10,
-                    lvReq: 70
-                },
-                spell_holy_holybolt4: {
-                    quality: 2,
-                    description: {
-                        name: '【四级】圣光术技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【圣光术】，上限为四级',
-                        iconSrc: "./icons/spell/spell_holy_holybolt.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 10,
-                    lvReq: 115
-                },
-                spell_nature_lightning: {
-                    quality: 2,
-                    description: {
-                        name: '闪电箭技能书',
-                        category: '消耗品',
-                        desc: '学习技能【闪电箭】',
-                        iconSrc: "./icons/spell/Spell_nature_lightning.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 10,
-                    lvReq: 40
-                },
-                spell_nature_lightning2: {
-                    quality: 2,
-                    description: {
-                        name: '【二级】闪电箭技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【闪电箭】，上限为二级',
-                        iconSrc: "./icons/spell/Spell_nature_lightning.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 10,
-                    lvReq: 65
-                },
-                spell_nature_lightning3: {
-                    quality: 2,
-                    description: {
-                        name: '【三级】闪电箭技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【闪电箭】，上限为三级',
-                        iconSrc: "./icons/spell/Spell_nature_lightning.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 10,
-                    lvReq: 90
-                },
-                spell_nature_starfall: {
-                    quality: 2,
-                    description: {
-                        name: '月火术技能书',
-                        category: '消耗品',
-                        desc: '学习技能【月火术】',
-                        iconSrc: "./icons/spell/spell_nature_starfall.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 10,
-                    lvReq: 60
-                },
-                spell_nature_starfall2: {
-                    quality: 2,
-                    description: {
-                        name: '【二级】月火术技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【月火术】，上限为二级',
-                        iconSrc: "./icons/spell/spell_nature_starfall.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 10,
-                    lvReq: 85
-                },
-                spell_nature_starfall3: {
-                    quality: 2,
-                    description: {
-                        name: '【三级】月火术技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【月火术】，上限为三级',
-                        iconSrc: "./icons/spell/spell_nature_starfall.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 10,
-                    lvReq: 110
-                },
-                spell_holy_powerwordshield: {
-                    quality: 2,
-                    description: {
-                        name: '圣佑术技能书',
-                        category: '消耗品',
-                        desc: '学习技能【圣佑术】',
-                        iconSrc: "./icons/spell/spell_holy_powerwordshield.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 10,
-                    lvReq: 80
-                },
-                spell_holy_powerwordshield2: {
-                    quality: 2,
-                    description: {
-                        name: '【二级】圣佑术技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【圣佑术】，上限为二级',
-                        iconSrc: "./icons/spell/spell_holy_powerwordshield.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 10,
-                    lvReq: 105
-                },
-                spell_animabastion_buff: {
-                    quality: 2,
-                    description: {
-                        name: '灵感技能书',
-                        category: '消耗品',
-                        desc: '学习技能【灵感】',
-                        iconSrc: "./icons/spell/spell_animabastion_buff.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 10,
-                    lvReq: 100
-                },
-                spell_animaardenweald_orb: {
-                    quality: 2,
-                    description: {
-                        name: '法夜祝福技能书',
-                        category: '消耗品',
-                        desc: '学习技能【法夜祝福】',
-                        iconSrc: "./icons/spell/spell_animaardenweald_orb.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 10,
-                    lvReq: 120
-                },
-                spell_shadow_curseofmannoroth: {
-                    quality: 3,
-                    description: {
-                        name: '残废术技能书',
-                        category: '消耗品',
-                        desc: '学习技能【残废术】',
-                        iconSrc: "./icons/spell/spell_shadow_curseofmannoroth.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 10,
-                    lvReq: 20
-                },
-                spell_shadow_curseofmannoroth2: {
-                    quality: 3,
-                    description: {
-                        name: '【二级】残废术技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【残废术】，上限为二级',
-                        iconSrc: "./icons/spell/spell_shadow_curseofmannoroth.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 10,
-                    lvReq: 45
-                },
-                spell_shadow_curseofmannoroth3: {
-                    quality: 3,
-                    description: {
-                        name: '【三级】残废术技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【残废术】，上限为三级',
-                        iconSrc: "./icons/spell/spell_shadow_curseofmannoroth.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 10,
-                    lvReq: 70
-                },
-                spell_shadow_curseofmannoroth4: {
-                    quality: 3,
-                    description: {
-                        name: '【四级】残废术技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【残废术】，上限为四级',
-                        iconSrc: "./icons/spell/spell_shadow_curseofmannoroth.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 10,
-                    lvReq: 95
-                },
-                spell_shadow_curseofmannoroth5: {
-                    quality: 3,
-                    description: {
-                        name: '【五级】残废术技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【残废术】，上限为五级',
-                        iconSrc: "./icons/spell/spell_shadow_curseofmannoroth.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 10,
-                    lvReq: 120
-                },
-                spell_animaardenweald_groundstate: {
-                    quality: 3,
-                    description: {
-                        name: '冥想技能书',
-                        category: '消耗品',
-                        desc: '学习技能【冥想】',
-                        iconSrc: "./icons/spell/spell_animaardenweald_groundstate.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 10,
-                    lvReq: 50
-                },
-                spell_animaardenweald_groundstate2: {
-                    quality: 3,
-                    description: {
-                        name: '【二级】冥想技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【冥想】，上限为二级',
-                        iconSrc: "./icons/spell/spell_animaardenweald_groundstate.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 10,
-                    lvReq: 75
-                },
-                spell_animaardenweald_groundstate3: {
-                    quality: 3,
-                    description: {
-                        name: '【三级】冥想技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【冥想】，上限为三级',
-                        iconSrc: "./icons/spell/spell_animaardenweald_groundstate.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 10,
-                    lvReq: 100
-                },
-                spell_arcane_starfire: {
-                    quality: 3,
-                    description: {
-                        name: '星火术技能书',
-                        category: '消耗品',
-                        desc: '学习技能【星火术】',
-                        iconSrc: "./icons/spell/spell_arcane_starfire.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 10,
-                    lvReq: 80
-                },
-                spell_arcane_starfire2: {
-                    quality: 3,
-                    description: {
-                        name: '【二级】星火术技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【星火术】，上限为二级',
-                        iconSrc: "./icons/spell/spell_arcane_starfire.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 10,
-                    lvReq: 105
-                },
-                spell_holy_crusaderstrike: {
-                    quality: 3,
-                    description: {
-                        name: '十字军打击技能书',
-                        category: '消耗品',
-                        desc: '学习技能【十字军打击】',
-                        iconSrc: "./icons/spell/Spell_holy_crusaderstrike.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 5,
-                    lvReq: 80
-                },
-                spell_holy_crusaderstrike2: {
-                    quality: 3,
-                    description: {
-                        name: '【二级】十字军打击技能书',
-                        category: '消耗品',
-                        desc:  '提升一级技能【十字军打击】，上限为二级',
-                        iconSrc: "./icons/spell/Spell_holy_crusaderstrike.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 5,
-                    lvReq: 105
-                },
-                spell_nature_wispsplode: {
-                    quality: 3,
-                    description: {
-                        name: '元素爆破技能书',
-                        category: '消耗品',
-                        desc: '学习技能【元素爆破】',
-                        iconSrc: "./icons/spell/spell_nature_wispsplode.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 10,
-                    lvReq: 110
-                },
-                ability_rogue_shadowstrike: {
-                    quality: 4,
-                    description: {
-                        name: '裂缝打击技能书',
-                        category: '消耗品',
-                        desc: '学习技能【裂缝打击】',
-                        iconSrc: "./icons/spell/ability_rogue_shadowstrike.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 5,
-                    lvReq: 20
-                },
-                ability_rogue_shadowstrike2: {
-                    quality: 4,
-                    description: {
-                        name: '【二级】裂缝打击技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【裂缝打击】，上限为二级',
-                        iconSrc: "./icons/spell/ability_rogue_shadowstrike.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 5,
-                    lvReq: 45
-                },
-                ability_rogue_shadowstrike3: {
-                    quality: 4,
-                    description: {
-                        name: '【三级】裂缝打击技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【裂缝打击】，上限为三级',
-                        iconSrc: "./icons/spell/ability_rogue_shadowstrike.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 5,
-                    lvReq: 70
-                },
-                ability_rogue_shadowstrike4: {
-                    quality: 4,
-                    description: {
-                        name: '【四级】裂缝打击技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【裂缝打击】，上限为四级',
-                        iconSrc: "./icons/spell/ability_rogue_shadowstrike.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 5,
-                    lvReq: 95
-                },
-                spell_holy_innerfire: {
-                    quality: 4,
-                    description: {
-                        name: '心灵之火技能书',
-                        category: '消耗品',
-                        desc: '学习技能【心灵之火】',
-                        iconSrc: "./icons/spell/spell_holy_innerfire.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 5,
-                    lvReq: 60
-                },
-                spell_holy_innerfire2: {
-                    quality: 4,
-                    description: {
-                        name: '【二级】心灵之火技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【心灵之火】，上限为二级',
-                        iconSrc: "./icons/spell/spell_holy_innerfire.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 5,
-                    lvReq: 85
-                },
-                spell_holy_innerfire3: {
-                    quality: 4,
-                    description: {
-                        name: '【三级】心灵之火技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【心灵之火】，上限为三级',
-                        iconSrc: "./icons/spell/spell_holy_innerfire.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 5,
-                    lvReq: 120
-                },
-                spell_holy_layonhands: {
-                    quality: 4,
-                    description: {
-                        name: '圣疗技能书',
-                        category: '消耗品',
-                        desc: '学习技能【圣疗】',
-                        iconSrc: "./icons/spell/Spell_holy_layonhands.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 10,
-                    lvReq: 100
-                },
-                spell_holy_layonhands2: {
-                    quality: 4,
-                    description: {
-                        name: '【二级】圣疗技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【圣疗】，上限为二级',
-                        iconSrc: "./icons/spell/Spell_holy_layonhands.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 10,
-                    lvReq: 125
-                },
-                ability_druid_starfall: {
-                    quality: 5,
-                    description: {
-                        name: '无尽之星技能书',
-                        category: '消耗品',
-                        desc: '学习技能【无尽之星】',
-                        iconSrc: "./icons/spell/ability_druid_starfall.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 5,
-                    lvReq: 20
-                },
-                ability_druid_starfall2: {
-                    quality: 5,
-                    description: {
-                        name: '【二级】无尽之星技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【无尽之星】，上限为二级',
-                        iconSrc: "./icons/spell/ability_druid_starfall.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 5,
-                    lvReq: 70
-                },
-                ability_druid_starfall3: {
-                    quality: 5,
-                    description: {
-                        name: '【三级】无尽之星技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【无尽之星】，上限为三级',
-                        iconSrc: "./icons/spell/ability_druid_starfall.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 5,
-                    lvReq: 120
-                },
-                warrior_talent_icon_innerrage: {
-                    quality: 5,
-                    description: {
-                        name: '鲁莽技能书',
-                        category: '消耗品',
-                        desc: '学习技能【鲁莽】',
-                        iconSrc: "./icons/spell/warrior_talent_icon_innerrage.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 5,
-                    lvReq: 70
-                },
-                warrior_talent_icon_innerrage2: {
-                    quality: 5,
-                    description: {
-                        name: '【二级】鲁莽技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【鲁莽】，上限为二级',
-                        iconSrc: "./icons/spell/warrior_talent_icon_innerrage.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 5,
-                    lvReq: 120
-                },
-                ability_revendreth_paladin: {
-                    quality: 6,
-                    description: {
-                        name: '血祭技能书',
-                        category: '消耗品',
-                        desc: '学习技能【血祭】',
-                        iconSrc: "./icons/spell/ability_revendreth_paladin.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 5,
-                    lvReq: 10
-                },
-                ability_revendreth_paladin2: {
-                    quality: 6,
-                    description: {
-                        name: '【二级】血祭技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【血祭】，上限为二级',
-                        iconSrc: "./icons/spell/ability_revendreth_paladin.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 5,
-                    lvReq: 60
-                },
-                ability_revendreth_paladin3: {
-                    quality: 6,
-                    description: {
-                        name: '【三级】血祭技能书',
-                        category: '消耗品',
-                        desc: '提升一级技能【血祭】，上限为三级',
-                        iconSrc: "./icons/spell/ability_revendreth_paladin.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 5,
-                    lvReq: 110
-                },
-                ability_ardenweald_paladin_summer: {
-                    quality: 6,
-                    description: {
-                        name: '仲夏祝福技能书',
-                        category: '消耗品',
-                        desc: '学习技能【仲夏祝福】',
-                        iconSrc: "./icons/spell/ability_ardenweald_paladin_summer.png",
-                    },
-                    use: true,
-                    stack: true,
-                    maxStack: 5,
-                    lvReq: 100
                 },
             }
         }

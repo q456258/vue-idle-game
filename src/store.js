@@ -19,13 +19,13 @@ var initial_helmet = {
         },
         description: {
             name: "村里最好的头盔",
-            desc: "新手菜鸡使用的短剑",
+            desc: "",
             type: "头盔",
             iconSrc: "./icons/helmet/Inv_helm_cloth_sunhat_b_01.png",
         },
         baseEntry: [{
-            value: 50,
-            showVal: "+50",
+            value: 150,
+            showVal: "+150",
             type: "HP",
             name: "生命值"
         }],
@@ -46,13 +46,13 @@ var initial_helmet = {
         },
         description: {
             name: "村里最好的鞋子",
-            desc: "新手菜鸡使用的短剑",
+            desc: "",
             type: "鞋子",
             iconSrc: "./icons/shoe/INV_Boots_Leather_01.png",
         },
         baseEntry: [{
-            value: 5,
-            showVal: "+5",
+            value: 10,
+            showVal: "+10",
             type: "CRIT",
             name: "暴击率"
         }],
@@ -73,13 +73,13 @@ var initial_helmet = {
         },
         description: {
             name: "村里最好的武器",
-            desc: "新手菜鸡使用的短剑",
+            desc: "",
             type: "武器",
             iconSrc: "./icons/weapon/INV_Axe_75.png",
         },
         baseEntry: [{
-            value: 10,
-            showVal: "+10",
+            value: 30,
+            showVal: "+30",
             type: "ATK",
             name: "攻击"
         }],
@@ -100,13 +100,13 @@ var initial_helmet = {
         },
         description: {
             name: "村里最好的铠甲",
-            desc: "新手菜鸡使用的短剑",
+            desc: "",
             type: "铠甲",
             iconSrc: "./icons/armor/INV_Chest_Cloth_71.png",
         },
         baseEntry: [{
-            value: 5,
-            showVal: "+5",
+            value: 25,
+            showVal: "+25",
             type: "DEF",
             name: "护甲"
         }],
@@ -127,15 +127,15 @@ var initial_helmet = {
         },
         description: {
             name: "村里最好的项链",
-            desc: "新手菜鸡使用的短剑",
+            desc: "",
             type: "饰品",
-            iconSrc: "./icons/A_A1.png",
+            iconSrc: "./icons/accessory/Inv_jewelry_ring_03.png",
         },
         baseEntry: [{
-            value: 5,
-            showVal: "+5",
-            type: "ATK",
-            name: "攻击"
+            value: 3,
+            showVal: "+3",
+            type: "ALL",
+            name: "全属性"
         }],
         extraEntry: [],
         potential: []
@@ -154,15 +154,15 @@ var initial_helmet = {
         },
         description: {
             name: "村里最好的护肩",
-            desc: "新手菜鸡使用的短剑",
+            desc: "",
             type: "肩膀",
             iconSrc: "./icons/shoulder/Inv_shoulder_09.png",
         },
         baseEntry: [{
-            value: 5,
-            showVal: "+5",
-            type: "STR",
-            name: "力量"
+            value: 10,
+            showVal: "+10",
+            type: "MR",
+            name: "能量盾"
         }],
         extraEntry: [],
         potential: []
@@ -225,7 +225,7 @@ export default new Vuex.Store({
                 templateId: 0
             },
             trial: {
-                level: 2,
+                level: 1
             }
         },
         guildAttribute: {
@@ -242,6 +242,8 @@ export default new Vuex.Store({
         playerAttribute: {
             name: '无名',
             lv: 1,
+            exp: {cur: 0, req: 400},
+            remainPoint: 0,
             healthRecoverySpeed: 1,
             attribute: {
                 CURHP: { baseVal: 0, value: 300, showbaseVal: 0},
@@ -284,6 +286,10 @@ export default new Vuex.Store({
                     // spell_shadow_ritualofsacrifice: true
                 },
             },
+            talent: {
+                powerBranch: 0
+            },
+            talentPoint: 1,
             helmet: initial_helmet,
             weapon: initial_weapon,
             armor: initial_armor,
@@ -544,6 +550,10 @@ export default new Vuex.Store({
             attribute['STRP'].baseVal += attribute['ALLP'].baseVal;
             attribute['AGIP'].baseVal += attribute['ALLP'].baseVal;
             attribute['INTP'].baseVal += attribute['ALLP'].baseVal;
+            hasPercent.forEach(attr => {
+                if(playerAttribute.talent[attr])
+                    attribute[attr+'P'].baseVal += playerAttribute.talent[attr]*2;
+            });
 
             advancedAttributes.forEach(attr => {
                 if(hasPercent.indexOf(attr) > -1)
