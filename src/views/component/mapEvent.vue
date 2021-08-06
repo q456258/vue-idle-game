@@ -147,7 +147,7 @@ export default {
                     var achievement = this.findBrothersComponents(this, 'achievement', false)[0];
                     achievement.set_statistic({death: 1});
                     this.set_enermy_hp('dead');
-                    this.setBattleStatus(false, dungeonInfo.auto);
+                    this.setBattleStatus(false, false);
                     this.$store.commit("set_battle_info", {
                         type: 'lose',
                         msg: '战斗结束，你扑街了'
@@ -273,7 +273,7 @@ export default {
                 // attribute.value = Math.round(attribute.value*(1+enermyAttribute.lv*0.15)*(1+Math.random()/10));
                 // attribute.value = Math.round(attribute.value*(1+enermyAttribute.lv*0.15));
                 // attribute.value = Math.round(attribute.value*(1.5+enermyAttribute.lv*(enermyAttribute.lv-1)*(enermyAttribute.lv/50)));
-                attribute.value = Math.round(attribute.value*(2+enermyAttribute.lv*(enermyAttribute.lv/6)));
+                attribute.value = Math.round(attribute.value*(2+enermyAttribute.lv*(enermyAttribute.lv/7)));
                 attribute.showValue = attribute.value;
                 enermyAttribute.attribute[stat] = attribute;
             });
@@ -642,7 +642,7 @@ export default {
 <style lang="scss" scope>
 .mapEvent {
     overflow-y: auto;
-    max-height: 28rem;
+    max-height: 20rem;
 }
 .dungeonInfo {
     position: relative;

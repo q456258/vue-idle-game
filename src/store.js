@@ -7,6 +7,7 @@ Vue.use(Vuex)
 //a1a1a1,D9D9D9,00BBFF,BB00FF,FFBB00,FF0000
 var initial_helmet = {
         lv: 1,
+        lvReq: 1,
         itemType: 'helmet',
         maxEnhanceLv: 0,
         enhanceLv: 0,
@@ -34,6 +35,7 @@ var initial_helmet = {
     },
     initial_shoe = {
         lv: 1,
+        lvReq: 1,
         itemType: 'shoe',
         maxEnhanceLv: 0,
         enhanceLv: 0,
@@ -61,6 +63,7 @@ var initial_helmet = {
     },
     initial_weapon = {
         lv: 1,
+        lvReq: 1,
         itemType: 'weapon',
         maxEnhanceLv: 0,
         enhanceLv: 0,
@@ -88,6 +91,7 @@ var initial_helmet = {
     },
     initial_armor = {
         lv: 1,
+        lvReq: 1,
         itemType: 'armor',
         maxEnhanceLv: 0,
         enhanceLv: 0,
@@ -115,6 +119,7 @@ var initial_helmet = {
     },
     initial_accessory = {
         lv: 1,
+        lvReq: 1,
         itemType: 'accessory',
         maxEnhanceLv: 0,
         enhanceLv: 0,
@@ -142,6 +147,7 @@ var initial_helmet = {
     },
     initial_shoulder = {
         lv: 1,
+        lvReq: 1,
         itemType: 'shoulder',
         maxEnhanceLv: 0,
         enhanceLv: 0,
@@ -424,7 +430,6 @@ export default new Vuex.Store({
             },
         },
         setting: {
-            slowTick: false,
         },
         statistic: {
             slain: {},

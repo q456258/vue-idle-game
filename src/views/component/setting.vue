@@ -13,12 +13,12 @@
                 </div>
                 <div class="settings">
                     <div class="item">
-                        <div class="label">
+                        <!-- <div class="label">
                             后台模式
                         </div>
                         <label class="switch"><input v-model="slowTick" type="checkbox">
                         <div class="slider"></div>
-                        </label>
+                        </label> -->
                     </div>
                 </div>
             </div>
@@ -39,29 +39,16 @@ export default {
     data() {
         return {
             dragging: false,
-            slowTick: false,
         };
     },
     mounted() {
     },
     watch: {
-        slowTick() {
-            this.changeTick();
-        }
     },
     computed: {
     },
     methods: {
         readSetting() {
-            this.slowTick = this.$store.state.setting.slowTick== undefined ? false : this.$store.state.setting.slowTick;
-        },
-        changeTick() {
-            var index = this.findComponentUpward(this, 'index');
-            if(this.slowTick)
-                index.slowTick();
-            else
-                index.fastTick();
-            this.$store.state.setting.slowTick = this.slowTick;
         },
         closeSetting() {
             var index = this.findComponentUpward(this, 'index');

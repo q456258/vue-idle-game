@@ -1,10 +1,8 @@
 <template>
     <div class="charInfo">
         <div id="rename" v-if="player.name=='无名'">
-        <!-- <div id="rename"> -->
             <div class="container" >
-                <!-- <div class="title">创建角色</div> -->
-                <div class="title">关服整改</div>
+                <div class="title">创建角色</div>
                 <div class="content">
                     <input id="name" placeholder="请输入您的角色名" type="text" @input="updateName"/>  
                     <div id="nameAlert"></div>

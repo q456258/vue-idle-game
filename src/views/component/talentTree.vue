@@ -4,15 +4,22 @@
     </div>
     <div class="talentTree scrollbar-morpheus-den" >
         <div class="power" v-for="(grid, i) in talents" :key="i">
+            <div class="progress">
+                <div v-for="index in 11" :key="index">
+                    <div class="marker" :style="{top: (index-1)*100/10+'%', color:playerTalent[i]>=(index-1)*10?'#0f0':''}">{{(index-1)*10}}</div>
+                </div>
+                <div class="progress-bar" :style="{height:playerTalent[i]+'%', width: '1px'}">
+                </div>
+            </div>
             <div class="grid" v-for="(v, k) in talents[i]" :key="k">
-                <div class="down" v-if="v.down"></div>
+                <div :class="'down '+v.status" v-if="v.down"></div>
                 <div v-if="v.name" @click="clickTalent($event, k, i)" @contextmenu="rightClick($event, k, i)">
-                    <div :class="[{grayIcon:playerTalent[v.type]==undefined||playerTalent[v.type]==0}, 'icon']" :style="{background: 'url('+v.iconSrc+') no-repeat', backgroundSize: '60px'}">
+                    <div :class="[{grayIcon:playerTalent[v.type]==undefined||playerTalent[v.type]==0}, 'icon']" :style="{background: 'url('+v.iconSrc+') no-repeat', backgroundSize: '45px'}">
                         <!-- <img :src="v.iconSrc" alt="" /> -->
                     </div>
                     <div :class="v.status+'-frame'">
                     </div>
-                    <div class="skill-point" :style="{color: v.status=='done'?'#fc0':v.status=='enable'?'#0f0':'#ccc'}">
+                    <div class="skill-point" :style="{color: v.status=='disable'?'#ccc':v.status=='done'?'#fc0':'#0f0'}">
                         <span v-if="playerTalent[v.type]">{{playerTalent[v.type]}}</span><span v-else>0</span>/{{v.maxLv}}
                     </div>
                     <div class="talent-tip">
@@ -97,6 +104,8 @@ export default {
                             temp.status = 'disable';
                     }
                 }
+                if(temp.status == 'enable' &&  (!this.playerTalent[talent] || this.playerTalent[talent] == 0))
+                    temp.status = 'semi-disable';
                 if(!this.playerTalent[talent])
                     this.playerTalent[talent] = 0;
             }
@@ -220,30 +229,32 @@ export default {
     overflow-y: scroll;
 
 }
+$border-size: 50px;
 .power {
+    position: relative;
     padding: 0.5rem;
     margin: 0.5rem;
     border: 1px solid rgba(255, 255, 255, 0.404);
     border-radius: 1em;
     display: flex;
     flex-wrap: wrap;
-    padding: 1rem 1.5rem 1.5rem 1.7rem;
-    width: 26rem;
+    padding: 1rem 1.5rem 1.5rem 2.7rem;
+    width: 22rem;
     .grid {
         position: relative;
-        width: 75px;
-        height: 75px;
+        width: 60px;
+        height: 60px;
         .icon {
             box-shadow: 0 6px 11px #000000;
             overflow: hidden;
-            width: 65px;
-            height: 65px;
+            width: $border-size;
+            height: $border-size;
             border-radius: 1rem;
         }
         .grayIcon {
             filter: grayscale(100%);
         }
-        .disable-frame {   
+        .semi-disable-frame, .disable-frame {   
             position: absolute; 
             background-size: 200%;
             border: 1px solid black;
@@ -251,8 +262,8 @@ export default {
             border-image-slice: 50%;
             border-image-width: 100%;
             border-image-repeat: stretch;
-            height: 65px;
-            width: 65px;
+            height: $border-size;
+            width: $border-size;
             top: -1px;
             left: -2px;
         }
@@ -264,8 +275,8 @@ export default {
             border-image-slice: 50%;
             border-image-width: 100%;
             border-image-repeat: stretch;
-            height: 65px;
-            width: 65px;
+            height: $border-size;
+            width: $border-size;
             top: -1px;
             left: -2px;
         }
@@ -277,18 +288,18 @@ export default {
             border-image-slice: 50%;
             border-image-width: 100%;
             border-image-repeat: stretch;
-            height: 65px;
-            width: 65px;
+            height: $border-size;
+            width: $border-size;
             top: -1px;
             left: -2px;
         }
         .skill-point {
             position: absolute;
             z-index: 1;
-            bottom: 14px;
-            right: 13px;
+            bottom: 13px;
+            right: 11px;
             color: white;
-            font-size: 11px;
+            font-size: 10px;
             line-height: 1em;
             width: 19px;
             text-align: center;
@@ -301,7 +312,7 @@ export default {
             position: absolute;
             z-index: 3;
             top: 5px;
-            left: 80px;
+            left: 70px;
             width: 300px;
             padding: 10px;
             box-shadow: 0 6px 11px #000000;
@@ -324,7 +335,7 @@ export default {
         }
         .down {
             position: absolute;
-            bottom: -5px;
+            top: -18px;
             right: 10px;
             left: 0;
             margin: auto;
@@ -334,9 +345,31 @@ export default {
             background: url(/icons/down.png);
             background-size: 100%;
         }
+        .disable {
+            filter: grayscale(100%);
+        }
     }
     .grid:hover .talent-tip {
         visibility: visible;
+    }
+    .progress {
+        position: absolute;
+        left: -0.1rem;    
+        margin-top: 2rem;
+        height: calc(100% - 7.5rem);
+        width: 1px;
+        background: transparent;
+        border-radius: 0rem;
+        overflow: visible;
+        .progress-bar {
+            background-color: orange;
+        }
+        .marker {
+            position: absolute;
+            width: 1rem;
+            height: 1rem;
+            left: -0.42rem;
+        }
     }
 }
 </style>

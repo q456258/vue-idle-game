@@ -200,8 +200,7 @@ export const talentConfig = {
                     type: 'spell_nature_thunderclap',
                     iconSrc: "./icons/spell/Spell_nature_thunderclap.png",
                     maxLv: 4,
-                    position: [2, 2],
-                    down: true
+                    position: [2, 2]
                 },
                 spell_holy_crusaderstrike: {
                     name: '【技能】十字军打击',
@@ -209,7 +208,8 @@ export const talentConfig = {
                     type: 'spell_holy_crusaderstrike',
                     iconSrc: "./icons/spell/spell_holy_crusaderstrike.png",
                     maxLv: 2,
-                    position: [2, 3]
+                    position: [2, 3],
+                    down: true
                 },
                 spell_warlock_soulburn: {
                     name: '【技能】夺魂',
@@ -233,8 +233,7 @@ export const talentConfig = {
                     type: 'spell_nature_starfall',
                     iconSrc: "./icons/spell/Spell_nature_starfall.png",
                     maxLv: 3,
-                    position: [2, 6],
-                    down: true
+                    position: [2, 6]
                 },
                 spell_arcane_starfire: {
                     name: '【技能】星火术',
@@ -251,7 +250,8 @@ export const talentConfig = {
                     type: 'ability_druid_starfall',
                     iconSrc: "./icons/spell/ability_druid_starfall.png",
                     maxLv: 1,
-                    position: [2, 8]
+                    position: [2, 8],
+                    down: true
                 },
                 spell_shadow_deathscream: {
                     name: '【技能】死亡嚎叫',

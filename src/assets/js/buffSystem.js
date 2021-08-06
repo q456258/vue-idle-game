@@ -256,7 +256,7 @@ export const buffSystem = {
             
         },
         minionSlayer(source, target, dmg) {
-            if(source.buff['minionSlayer'] != undefined && target.type == 'enermy' && target.special == undefined) {
+            if(source.buff['minionSlayer'] != undefined && target.type == 'normal') {
                 this.$store.commit("set_battle_info", {
                     type: 'dmg',
                     msg: '【野怪杀手】额外造成'+Math.round(-0.5*dmg)+'伤害'

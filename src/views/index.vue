@@ -104,7 +104,7 @@
           <p class="info">* 保存/加载游戏</p>
         </template>
       </cTooltip>
-      <cTooltip :placement="'top'">
+      <!-- <cTooltip :placement="'top'">
         <template v-slot:content>
           <div class="menu" @click="openMenuPanel('setting')">
             <img src="../assets/icons/menu/setting1.png" alt="">
@@ -113,7 +113,7 @@
         <template v-slot:tip>
           <p class="info">* 设置</p>
         </template>
-      </cTooltip>
+      </cTooltip> -->
     </div>
     <div class="displayEquip" :style='itemDialogStyle'>
       <equipInfo :equip="equip" v-show="showEquipInfo"></equipInfo>
@@ -221,7 +221,7 @@ export default {
     this.battleInfo = this.$store.state.battleInfo;
     this.dungeonInfo = this.$store.state.dungeonInfo;
     // 自动恢复
-    this.fastTick(); 
+    this.slowTick(); 
 
 
     // 自动保存
@@ -506,32 +506,17 @@ export default {
         var achievement = this.findComponentDownward(this, 'achievement');  
         var mapEvent = this.findComponentDownward(this, 'mapEvent');  
         achievement.set_statistic({gameTime: 1000});
-        // this.$store.commit("set_statistic", {gameTime: 1000});
         this.set_player_hp(Math.ceil(this.attribute.MAXHP.value*0.01+this.attribute.STR.value), this.$store.state.playerAttribute);
-        if(this.attribute.CURHP.value == this.attribute.MAXHP.value && this.dungeonInfo.auto && !this.dungeonInfo.inBattle) {
-          mapEvent.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
+        if(this.attribute.CURHP.value == this.attribute.MAXHP.value && this.dungeonInfo.auto) {
+          setTimeout(() => {
+            if(this.dungeonInfo.inBattle)
+              mapEvent.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
+          }, 200);
         }
       }, 1000);
       this.autoManRecovery = setInterval(() => {
         this.$store.commit('set_player_mp', Math.ceil(this.attribute.MAXMP.value*0.01+this.attribute.INT.value/4));
       }, 1000);
-    },
-    fastTick() {
-      clearInterval(this.autoHealthRecovery);
-      clearInterval(this.autoManRecovery);
-      this.autoHealthRecovery = setInterval(() => {
-        var achievement = this.findComponentDownward(this, 'achievement');  
-        var mapEvent = this.findComponentDownward(this, 'mapEvent');  
-        achievement.set_statistic({gameTime: 50});
-        // this.$store.commit("set_statistic", {gameTime: 50});
-        this.set_player_hp(Math.ceil(this.attribute.MAXHP.value*0.0005+this.attribute.STR.value/20), this.$store.state.playerAttribute);
-        if(this.attribute.CURHP.value == this.attribute.MAXHP.value && this.dungeonInfo.auto && !this.dungeonInfo.inBattle) {
-          mapEvent.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
-        }
-      }, 50);
-      this.autoManRecovery = setInterval(() => {
-        this.$store.commit('set_player_mp', Math.ceil(this.attribute.MAXMP.value*0.0005+this.attribute.INT.value/80));
-      }, 50);
     },
     openMenuPanel(type) {
       switch(type) {
