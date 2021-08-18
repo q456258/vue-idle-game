@@ -86,35 +86,38 @@ export const itemEffect = {
                 // case 'inv_box_03':
                 //     used = this.inv_box_03();
                 //     break;
+                case 'bossTicket0':
+                    used = this.bossTicket(5);
+                    break;
                 case 'bossTicket1':
-                    used = this.bossTicket(4);
+                    used = this.bossTicket(15);
                     break;
                 case 'bossTicket2':
-                    used = this.bossTicket(6);
+                    used = this.bossTicket(25);
                     break;
                 case 'bossTicket3':
-                    used = this.bossTicket(8);
+                    used = this.bossTicket(35);
                     break;
                 case 'bossTicket4':
-                    used = this.bossTicket(10);
+                    used = this.bossTicket(45);
                     break;
                 case 'bossTicket5':
-                    used = this.bossTicket(12);
+                    used = this.bossTicket(55);
                     break;
                 case 'bossTicket6':
-                    used = this.bossTicket(14);
+                    used = this.bossTicket(65);
                     break;
                 case 'bossTicket7':
-                    used = this.bossTicket(16);
+                    used = this.bossTicket(75);
                     break;
                 case 'bossTicket8':
-                    used = this.bossTicket(18);
+                    used = this.bossTicket(85);
                     break;
                 case 'bossTicket9':
-                    used = this.bossTicket(20);
+                    used = this.bossTicket(95);
                     break;
                 case 'bossTicket10':
-                    used = this.bossTicket(22);
+                    used = this.bossTicket(105);
                     break;
                 case 'inv_potion_27':
                     used = this.inv_potion_27();
@@ -164,9 +167,9 @@ export const itemEffect = {
             backpack.giveEquip(equip);
             return true;
         },
-        bossTicket(template) {
-            var mapEvent = this.findBrothersComponents(this, 'mapEvent', false)[0];
-            mapEvent.generateEnermy('BOSS', this.$store.state.playerAttribute.lv, template);
+        bossTicket(monsterID) {
+            var index = this.findComponentUpward(this, 'index');
+            index.addToMap('boss', (monsterID+5)*2, 1, monsterID);
             return true;
         },
         inv_potion_27() {

@@ -9,26 +9,29 @@ export const dungeon = {
                 elite: '#dc3', 
                 boss: '#d63', trial: '#d63', 
                 chest: '#c0f'
-            }
+            },
+            monsterName: {}
         }
     },
     methods: {
-        generateDungeon(type, count, minlv, maxLv) {
+        generateDungeon(type, count, minlv, maxLv, monster=0) {
             var map = [];
             var playerLv = this.$store.state.playerAttribute.lv;
-
             for(var i=0; i<count; i++) {
                 let choice = {};
-                let lv = Math.round(Math.random()*(maxLv-minlv)+minlv);
+                let range = (maxLv-minlv)/count;
+                let lv = Math.round(Math.random()*(range)+minlv+range*i);
                 let eventType = type == 'advanture' ? this.getType(lv) : type;
-                let templateId = this.templateId[this.getName(eventType, lv)];
+                let monsterID = monster || this.monsterId[this.getName(eventType, lv)];
+                let monsterName = this.getNameById(monsterID);
                 choice = {
                     type: eventType, 
                     color: this.typeColor[eventType],
                     rewardType: this.getReward(eventType, lv), 
                     img: './icons/'+eventType+'.png',
                     lv: lv,
-                    templateId: templateId,
+                    monsterID: monsterID,
+                    monsterName: monsterName,
                     count: this.getCount(eventType),
                     left: Math.random()*90,
                     top: Math.random()*90,
@@ -37,14 +40,14 @@ export const dungeon = {
             }
             if(minlv <= playerLv && maxLv >= playerLv && type == 'advanture') {
                 let eventType = 'normal';
-                let templateId = this.templateId[this.getName(eventType, playerLv)];
+                let monsterID = this.monsterId[this.getName(eventType, playerLv)];
                 let choice = {
                     type: eventType, 
                     color: this.typeColor[eventType],
                     rewardType: this.getReward(eventType, playerLv), 
                     img: './icons/'+eventType+'.png',
                     lv: playerLv,
-                    templateId: templateId,
+                    monsterID: monsterID,
                     count: this.getCount(eventType),
                     left: Math.random()*90,
                     top: Math.random()*90,
@@ -89,10 +92,10 @@ export const dungeon = {
         },
         getName(type, level) {
             var name = '';
-            var nameList = ['小鸡', '训练假人', '高级训练假人', '杂斑野猪', '血牙野猪', '狗头人矿工', '狗头人地卜师', 
-                '河爪豺狼人', '黑爪豺狼人', '盐壳龟', '钳嘴龟', '空气之灵', '水流之灵', '愤怒的鱼人', '沙鳞鱼人', '巫翼鹰身人', 
+            var nameList = ['小鸡', '训练假人', '高级训练假人', '杂斑野猪', '癞皮山猪', '狗头人矿工', '狗头人地卜师', 
+                '河爪豺狼人', '黑爪豺狼人', '盐壳龟', '钳嘴龟', '灼热元素', '熔岩元素', '愤怒的鱼人', '沙鳞鱼人', '巫翼鹰身人', 
                 '巫翼游荡者', '火蜥蜴', '雷霆蜥蜴', '黑熊', '冰爪熊', '滑壳龙虾人', '巨壳甲壳蟹'];
-            var bossName = ['导师', '阿迦玛', '金牙', '霍格', '铁背龟', '熔岩元素', '咕噜咕拉', '塞瑞娜·血羽', '科多兽', '维斯迦尔', '安戈雷尔'];
+            var bossName = ['导师', '阿迦玛', '金牙', '霍格', '铁背龟', '地狱元素', '咕噜咕拉', '塞瑞娜·血羽', '科多兽', '维斯迦尔', '安戈雷尔'];
             switch(type) {
                 case 'normal':
                     name = level == 0 ?nameList[0] : nameList[Math.floor((level-1)/10)+1];
@@ -114,6 +117,14 @@ export const dungeon = {
                     break;
             }
             return name;
+        },
+        getNameById(monsterID) {
+            if(Object.keys(this.monsterName).length == 0) {
+                for(var id in this.monsterId) {
+                    this.monsterName[this.monsterId[id]] = id;
+                }
+            }
+            return this.monsterName[monsterID];
         },
         getCount(type) {
             switch(type) {

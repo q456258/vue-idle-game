@@ -4,12 +4,11 @@
         <div class="buildInfo">
             {{guild.guild.lv+"级 ("+guild.guild.exp+"/"+lvExp[guild.guild.lv]+')'}}
         </div>
-        <trainStat></trainStat>
         <div class="training">
             <div class="trainingProgressbars">
                 <countdown ref="countdown" :tier="0" :timer="$store.state.train.train1.timer" :level="guild.train.lv" v-if="guild.train.lv>0"></countdown>
-                <!-- <countdown :tier="0" :timer="$store.state.timer.trainTimer1" :level="guild.train"></countdown> -->
-                <countdown :tier="1" :timer="$store.state.train.train2.timer" :level="guild.train2.lv" v-if="guild.train2.lv>0"></countdown>
+                <countdown :tier="1" :timer="$store.state.train.train2.timer" :level="guild.train2.lv" v-if="guild.train.lv>0"></countdown>
+                <!-- <countdown :tier="1" :timer="$store.state.train.train2.timer" :level="guild.train2.lv" v-if="guild.train2.lv>0"></countdown> -->
                 <countdown :tier="2" :timer="$store.state.train.train3.timer" :level="guild.train3.lv" v-if="guild.train3.lv>0"></countdown>
             </div>
         </div>
@@ -44,35 +43,6 @@
                 &nbsp;<div class="btn btn-danger" @click="stop(type)">停止</div>
             </div>
         </div>
-        <div class="member">
-            成员{{building[type].length}}/{{maxMember[type]}}
-            <div class="btn btn-outline-success" v-if="building[type].length<maxMember[type]" @click="setPosition(type, -1)">添加</div>
-            <div class="list">
-                <div class="grid" v-for="(v, k) in building[type]" :key="k">
-                    <div class="info">
-                        <div class="name">
-                            {{v.name}}
-                            <br>
-                            {{race[v.race].name+' '+v.lv}}级
-                            <br>
-                            {{guildSkill[v.career].name}}
-                        </div>
-                    </div>
-                    <div class="skillList">
-                        <span class="statName">{{guildStat['efficiency'].name+': '+v.stat['efficiency']}}</span>
-                        <span class="statName" v-if="v.skill[type]">{{v.skill[type]+"级"+guildSkill[type].name}}</span>
-                        <div class="skill" v-for="(special, index) in v.special" :key="index">
-                            <span class="skillName">{{guildSpecialSkill[special].name}}</span>
-                            <span class="skillDesc">({{guildSpecialSkill[special].desc}})</span>
-                        </div>
-                    </div>
-                    <div class="action">
-                        <div class="button kick btn btn-outline-warning" @click="setPosition(type, k)">更换</div>
-                        <div class="button kick btn btn-outline-danger" @click="cancelPosition(type, k)">取消</div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
     
@@ -101,13 +71,6 @@ export default {
                 train2: [],
                 train3: [],
             },
-            maxMember: {
-                shop: 2,
-                smith: 2,
-                train: 2,
-                train2: 2,
-                train3: 2,
-            },
             totalLevel: {
                 shop: 1, smith: 1, train: 1, train2: 1, train3: 1
             },
@@ -126,6 +89,7 @@ export default {
             },
             smith_main: {},
             smith_sub: {},
+            train1_member: {},
             selectFor: 'None',
             selectOption: {
                 shop: [{name: '1级贸易', value: 'shop1', lv: 0}, {name: '2级贸易', value: 'shop2', lv: 15}, {name: '3级贸易', value: 'shop3', lv: 30}, 
@@ -161,10 +125,6 @@ export default {
             for(var mem in this.maxMember) {
                 this.maxMember[mem] = Math.floor(this.guild[mem].lv/10+1);
             }
-            for(var mem in this.guild.member) {
-                if(this.guild.member[mem].job != 'None')
-                    this.assignPosition(this.guild.member[mem].job, -1, this.guild.member[mem], true);
-            }
             for(let timer in this.timerList) 
                 clearInterval(this.timerList[timer]);
             this.start('shop');
@@ -185,65 +145,6 @@ export default {
             var target = this.guild[type];
             while(target.exp >= this.lvExp[target.lv])
                 target.lv++;
-        },
-        findTarget(target) {
-            if(target.job == 'None')
-                return -1;
-            var list = this.building[target.job];
-            for(var i in list) {
-                if(list[i].id == target.id)
-                    return i;
-            }
-            return -1;
-        },
-        assignPosition(type, index, target, force=false) {
-            if(!force && type == target.job)
-                return;
-            if(target.job != 'None') {
-                let targetIndex = this.findTarget(target);
-                if(targetIndex != -1)
-                    this.cancelPosition(target.job, targetIndex);
-            }
-            if(index == -1)
-                this.building[type].push(target);
-            else {
-                this.cancelPosition(type, index, true);
-                this.building[type][index] = target;
-            }
-            if(target.career == type)
-                this.totalEfficiency[type] += Math.floor(target.stat.efficiency*1.5);
-            else
-                this.totalEfficiency[type] += target.stat.efficiency;
-            this.expRate(type);
-            target.job = type;
-        },
-        setPosition(type, k) {
-            var guild = this.findComponentUpward(this, 'guild');
-            var index = this.findComponentUpward(this, 'index');
-            var guildMember = this.findBrothersComponents(guild, 'guildMember', false)[0];
-            index.displayPage = 'guildMember';
-            guildMember.positionType = type;
-            guildMember.positionIndex = k;
-        },
-        cancelPosition(type, index, replace=false) {
-            var target = this.building[type][index];
-            if(target.career == type)
-                this.totalEfficiency[type] -= Math.floor(target.stat.efficiency*1.5);
-            else
-                this.totalEfficiency[type] -= target.stat.efficiency;
-            this.building[type][index].job = 'None';
-            if(!replace)
-                this.building[type].splice(index, 1);
-            this.expRate(type);
-        },
-        expRate(type) {
-            var members = this.building[type];
-            var expRate = 1;
-            for(let member in members) {
-                if(members[member].skill[type])
-                    expRate += members[member].skill[type];
-            }
-            this.totalLevel[type] = expRate;
         },
         gainExp(type) {
             var exp = this.progress[type].max/1000*this.totalLevel[type];

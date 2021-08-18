@@ -249,7 +249,7 @@ export default {
                 return;
             this.reward();
         },
-        generateEnermy(type, level, templateId) {
+        generateEnermy(type, level, monsterID) {
             if(!this.reduceCount())
                 return;
             var enermyAttribute = {};
@@ -257,8 +257,10 @@ export default {
                 type = this.dungeonInfo[this.dungeonInfo.current].type;
             if(!level)
                 level = this.dungeonInfo[this.dungeonInfo.current].level;
-            if(!templateId)
-                templateId = type=='trial' ? this.templateId[this.bossName[Math.floor((level-1)/20)]] : this.dungeonInfo[this.dungeonInfo.current].templateId;
+            if(!monsterID)
+                monsterID = this.dungeonInfo[this.dungeonInfo.current].monsterID;
+            var templateId = this.templateId[monsterID];
+            
             enermyAttribute.attribute = this.$deepCopy(this.monster[templateId].template);
             var attribute = enermyAttribute.attribute,
             val = 0.0,
@@ -266,14 +268,14 @@ export default {
             lvStats = ['AP', 'MR'],
             fixStats = ['CRIT', 'CRITDMG']; 
             enermyAttribute.lv = level;
-            enermyAttribute.name = this.monster[templateId].name;
             enermyAttribute.type = type;
+            enermyAttribute.name = this.dungeonInfo[this.dungeonInfo.current].monsterName;
             flexStats.forEach(stat => {
                 let attribute = enermyAttribute.attribute[stat];
                 // attribute.value = Math.round(attribute.value*(1+enermyAttribute.lv*0.15)*(1+Math.random()/10));
                 // attribute.value = Math.round(attribute.value*(1+enermyAttribute.lv*0.15));
                 // attribute.value = Math.round(attribute.value*(1.5+enermyAttribute.lv*(enermyAttribute.lv-1)*(enermyAttribute.lv/50)));
-                attribute.value = Math.round(attribute.value*(2+enermyAttribute.lv*(enermyAttribute.lv/7)));
+                attribute.value = Math.round(attribute.value*(2+enermyAttribute.lv*(enermyAttribute.lv/15)));
                 attribute.showValue = attribute.value;
                 enermyAttribute.attribute[stat] = attribute;
             });
@@ -294,14 +296,11 @@ export default {
                 showValue: attribute['MAXHP'].value
             }
             if(type=='elite') {
-                enermyAttribute.name += '精英';
                 attribute = this.eliteStat(attribute);
             }
-            else if(type=='BOSS') {
-                enermyAttribute.name = this.bossName[Math.floor((level-1)/20)];
+            else if(type=='boss') {
                 attribute = this.bossStat(attribute);
             } if(type=='trial') {
-                enermyAttribute.name = this.bossName[Math.floor((level-1)/20)];
                 attribute = this.trialStat(attribute);
             }
             val = this.getDefRed(attribute['DEF'].value);
@@ -704,6 +703,7 @@ export default {
             font-size: 0.8rem;
             line-height: 0;
             text-align: right;
+            text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
         }
     }
 }

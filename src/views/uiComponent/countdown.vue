@@ -1,5 +1,7 @@
 
 <template>
+<div>
+    <trainStat :member="member"></trainStat>
     <div class="progressbar">
         <svg class="progressbar_svg">
             <!-- <circle cx="80" cy="80" r="70" :stroke-dashoffset="timeRemain/totalTime*440" :class="'progressbar_svg-circle circle shadow-'+type"> </circle> -->
@@ -31,13 +33,16 @@
                 <option value="AP" v-if="tier>=1">元素伤害</option> 
                 <option value="MR" v-if="tier>=1">能量盾</option>
             </select> -->
+            <select v-model="memberID" @change="setTrainMember" class="btn btn-xsm btn-secondary" aria-label="training time">
+                <option :value="v.id" v-for="(v, k) in guild.member" :key="k">{{v.name}}</option>
+            </select>
             <select v-model="trainTier" @change="setTrainTier" class="btn btn-xsm btn-secondary" aria-label="training time">
-                <option value="1">125x</option>
-                <option value="2">720x</option>
-                <option value="3">1320x</option>
-                <option value="4">2520x</option>
-                <option value="5">9600x</option>
-                <option value="6">27000x</option>
+                <option value="1">5分钟</option>
+                <option value="2">30分钟</option>
+                <option value="3">1小时</option>
+                <option value="4">2小时</option>
+                <option value="5">8小时</option>
+                <option value="6">24小时</option>
             </select>
             <span v-if="trainLevel >= 20"><input type="checkbox" v-model="speedUp" @change="computeTime">加速模式</span>
             <!-- <div :style="{'font-size':gain>10000?'0.8rem':'1rem'}">+{{gain}}{{entryInfo[this.type].name}}</div> -->
@@ -54,14 +59,16 @@
             <div ref="text"></div>
         </span>
     </div>
+</div>
 </template>
 <script>
 import { assist } from '../../assets/js/assist';
 import {equipConfig} from '@/assets/config/equipConfig'
+import trainStat from '../component/trainStat';
 export default {
     name:"countdown",
     mixins: [assist, equipConfig],
-    components: {},
+    components: {trainStat},
     props: {
         tier: {
             type: Number
@@ -88,18 +95,37 @@ export default {
             collecting: false,
             values: [],   
             speedUp: false,
+            member: {},
+            memberID: 0
         }
     },
     mounted () {
         // 不要break
         switch(this.tier) {
             case 2:
-                this.values = this.values.concat(['STR', 'AGI', 'INT']);
+                // this.values = this.values.concat(['STR', 'AGI', 'INT']);
             case 1:
-                this.values = this.values.concat(['AP', 'MR']);
+                // this.values = this.values.concat(['AP', 'MR']);
             case 0:
                 this.values = this.values.concat(['HP', 'MP', 'ATK', 'DEF']);
         }
+        var memberID = 0;
+        switch(this.tier) {
+            case 2:
+                memberID = this.$store.state.train.train1.memberID;
+                break;
+            case 1:
+                memberID = this.$store.state.train.train2.memberID;
+                break;
+            case 0:
+                memberID = this.$store.state.train.train3.memberID;
+                break;
+        }
+        this.memberID = memberID;
+        var guild = this.findComponentUpward(this, 'guild');
+        var guildMember = this.findBrothersComponents(guild, 'guildMember', false)[0];
+        this.member = guildMember.findTargetByID(memberID);
+        
         this.countdownTimer = this.timer;
         this.trainLevel = this.level;
         if(this.train.finishTime != 0 && this.train.finishTime != undefined) {
@@ -136,7 +162,8 @@ export default {
                 case 2:
                     return this.$store.state.train.train3;
             }
-        }
+        },
+        guild() { return this.$store.state.guildAttribute; },
     },
     methods: {
         startTrain() {
@@ -221,10 +248,10 @@ export default {
             for(let i=0; i<count; i++) {
                 setTimeout(()=>{
                     var type = this.values[Math.floor(Math.random()*this.values.length)];
-                    var value = 10+this.trainLevel*multi;
+                    var value = Math.round((10+this.trainLevel)/10*this.entryInfo[type].base*Math.random()*multi);
+                    value = this.increaseProgress(type, value);
                     var node = document.createElement("DIV");
                     var textnode = document.createTextNode(this.entryInfo[type].name+"+"+value);
-                    this.increaseProgress(type, value);
                     node.appendChild(textnode);
                     element.appendChild(node); 
                     node.style.position = 'absolute';
@@ -250,6 +277,24 @@ export default {
             this.trainTier = value;
             this.train.tier = value;
             this.computeTime();
+        },
+        setTrainMember(e) {
+            var value = e.target.value;
+            var guild = this.findComponentUpward(this, 'guild');
+            var guildMember = this.findBrothersComponents(guild, 'guildMember', false)[0];
+            this.memberID = value;
+            this.member = guildMember.findTargetByID(value);
+            switch(this.tier) {
+                case 2:
+                    this.$store.state.train.train1.memberID = value;
+                    break;
+                case 1:
+                    this.$store.state.train.train2.memberID = value;
+                    break;
+                case 0:
+                    this.$store.state.train.train3.memberID = value;
+                    break;
+            }
         },
         computeTime() {
             let time = 2.5;
@@ -281,21 +326,16 @@ export default {
                 this.cost *= 4;
             }
             this.trainTime = time;
+
             // this.trainTime = Math.round(2);
-            // this.cost = Math.round(2);   
+            // this.cost = Math.round(0);   
         },
         increaseProgress(type, value) {
-            var train = this.$store.state.trainProgress[type];
-            train.progress += value;
-            
-			var req = 200+train.level*2;
-            if(train.progress >= req) {
-                let lv = Math.floor(train.progress/req);
-                train.level += lv;
-                this.$store.state.trainAttribute[type] += lv*this.entryInfo[type].base;
-                train.progress -= lv*req;
-                this.$store.commit('set_player_attribute');
-            }
+            var max = this.member.talent[type]*this.entryInfo[type].base*this.member.lv;
+            if(this.member.stat[type]+value > max) 
+                value = max - this.member.stat[type];
+            this.member.stat[type] += value;
+            return value;
         },
 
     }

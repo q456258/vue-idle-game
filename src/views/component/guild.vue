@@ -30,7 +30,7 @@
                 <a id="guildBtn" class='glowBtn btnActive' @click="switchTab($event, 'guild')">公会 {{guild.guild.lv}}</a>
             </template>
             <template v-slot:tip>
-                <p class="info">* 暂时没用</p>
+                <p class="info">* 每10级增加一个公会成员上限</p>
             </template>
         </cTooltip>   
         <cTooltip :placement="'bottom'" v-if="guild.guild.lv>0">

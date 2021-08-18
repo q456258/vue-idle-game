@@ -111,7 +111,7 @@ export default {
             if(stack == -1) {
                 for (let i = 0; i < backpack.itemGrid.length; i++) {
                     if (Object.keys(backpack.itemGrid[i]).length < 3) {
-                        this.$set(backpack.itemGrid, i, item);
+                        this.$set(backpack.itemGrid, i, this.$deepCopy(item));
                         return;
                     }
                 }

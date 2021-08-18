@@ -199,25 +199,29 @@ export default new Vuex.Store({
                 timer: 0,
                 tier: 0,
                 finishTime: 0,
-                speedUp: false
+                speedUp: false,
+                memberID: 0
             },
             train2: {
                 timer: 0,
                 tier: 0,
                 finishTime: 0,
-                speedUp: false
+                speedUp: false,
+                memberID: 0
             },
             train3: {
                 timer: 0,
                 tier: 0,
                 finishTime: 0,
-                speedUp: false
+                speedUp: false,
+                memberID: 0
             },
             train4: {
                 timer: 0,
                 tier: 0,
                 finishTime: 0,
-                speedUp: false
+                speedUp: false,
+                memberID: 0
             }
         },
         dungeonInfo: {
@@ -228,10 +232,12 @@ export default new Vuex.Store({
                 level: -1,
                 reward: 'None',
                 type: 'normal',
-                templateId: 0
+                monsterID: 0,
+                monsterName: ''
             },
             trial: {
-                level: 1
+                level: 1,
+                monsterID: 0,
             }
         },
         guildAttribute: {
@@ -362,7 +368,7 @@ export default new Vuex.Store({
             APP: 0,
             MRP: 0,
         },    
-        trainAttribute: {
+        memberAttribute: {
             CURHP: 0,
             MAXHP: 0,
             CURMP: 0,
@@ -390,44 +396,6 @@ export default new Vuex.Store({
             DEFP: 0,
             APP: 0,
             MRP: 0,
-        },
-        trainProgress: {
-            HP: {
-                level: 0,
-                progress: 0
-            },
-            MP: {
-                level: 0,
-                progress: 0
-            },
-            STR: {
-                level: 0,
-                progress: 0
-            },
-            AGI: {
-                level: 0,
-                progress: 0
-            },
-            INT: {
-                level: 0,
-                progress: 0
-            },
-            ATK: {
-                level: 0,
-                progress: 0
-            },
-            DEF: {
-                level: 0,
-                progress: 0
-            },
-            AP: {
-                level: 0,
-                progress: 0
-            },
-            MR: {
-                level: 0,
-                progress: 0
-            },
         },
         setting: {
         },
@@ -528,9 +496,9 @@ export default new Vuex.Store({
             };
             attributes.forEach(attr => {
                 attribute[attr] = { 
-                    baseVal: this.state.baseAttribute[attr] + this.state.trainAttribute[attr], 
-                    value: this.state.baseAttribute[attr] + this.state.trainAttribute[attr], 
-                    showValue: this.state.baseAttribute[attr] + this.state.trainAttribute[attr]}
+                    baseVal: this.state.baseAttribute[attr] + this.state.memberAttribute[attr], 
+                    value: this.state.baseAttribute[attr] + this.state.memberAttribute[attr], 
+                    showValue: this.state.baseAttribute[attr] + this.state.memberAttribute[attr]}
             });
 
             entries = helmet.baseEntry ? entries.concat(helmet.baseEntry, helmet.extraEntry) : entries;

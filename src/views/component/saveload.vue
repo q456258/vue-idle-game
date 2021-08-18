@@ -151,9 +151,9 @@ export default {
                 index.battleInfo = this.$store.state.battleInfo;
                 index.dungeonInfo = this.$store.state.dungeonInfo;
                 index.createMaps();
-                index.switchZone('trial');
+                // index.switchZone('trial');
                 // mapEvent.generateEnermy('trial', this.$store.state.dungeonInfo.trial.level);
-                index.switchZone('advanture');
+                // index.switchZone('advanture');
 
                 // var guild = this.findComponentDownward(index, 'guild');
                 // guild.getAllCost();

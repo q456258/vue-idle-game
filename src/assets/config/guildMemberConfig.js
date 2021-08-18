@@ -4,12 +4,12 @@ export const guildMemberConfig = {
             race: {
                 Human: {
                     name: '人类',
-                    stat: {
-                        focus: 0,
-                        intellect: 50,
-                        luck: 50,
+                    talent: {
+                        ATK: 10,
+                        DEF: 10,
+                        HP: 30,
+                        MP: 50,
                         potential: 50,
-                        efficiency: 10,
                     }
                 }, 
                 Dwarf: {
@@ -80,25 +80,25 @@ export const guildMemberConfig = {
                 }, 
             },
             guildStat: {
-                focus: {
-                    name: '专注',
-                    desc: '影响获得的技能类型'
+                ATK: {
+                    name: '攻击',
+                    desc: '攻击成长上限'
                 },
-                intellect: {
-                    name: '悟性',
-                    desc: '影响获得技能的概率'
+                DEF: {
+                    name: '防御',
+                    desc: '防御成长上限'
                 },
-                luck: {
-                    name: '运势',
-                    desc: '影响获得特殊技能的概率'
+                HP: {
+                    name: '生命',
+                    desc: '生命值成长上限'
+                },
+                MP: {
+                    name: '魔法',
+                    desc: '魔法值成长上限'
                 },
                 potential: {
                     name: '潜力',
-                    desc: '影响升级的概率'
-                },
-                efficiency: {
-                    name: '效率',
-                    desc: '影响工作效率'
+                    desc: '影响技能品质'
                 },
             }, 
             guildSkill: {
@@ -106,53 +106,28 @@ export const guildMemberConfig = {
                     name: '初阶导师',
                     type: 'train',
                     desc: '提升练功房等级',
-                    effect: {
-                        level: 1
-                    }
                 },
                 train2: {
                     name: '中阶导师',
                     type: 'train2',
                     desc: '提升中级练功房等级',
-                    effect: {
-                        level: 1
-                    }
                 },
                 train3: {
                     name: '高阶导师',
                     type: 'train3',
                     desc: '提升高级练功房等级',
-                    effect: {
-                        level: 1
-                    }
                 },
                 shop: {
                     name: '商人',
                     type: 'shop',
                     desc: '提升商店等级',
-                    effect: {
-                        level: 1
-                    }
                 },
                 smith: {
                     name: '铁匠',
                     type: 'smith',
                     desc: '提升铁匠铺等级',
-                    effect: {
-                        level: 1
-                    }
                 },
             },
-            guildSpecialSkill: {
-                // trainManagement: {
-                //     name: '练功房管理学',
-                //     type: 'train1',
-                //     desc: '提升练功房管理人数',
-                //     effect: {
-                //         position: 1
-                //     }
-                // },
-            }
         }
     }
 }

@@ -127,7 +127,6 @@ export default {
         },
         setMaterial() {
             var index = Math.floor(this.equip.enhanceLv/5);
-            console.log(index)
             var names = ['低级强化石', '中级强化石', '高级强化石', '顶级强化石', '终极强化石']
             var img = ['inv_misc_gem_diamond_05', 'inv_misc_gem_diamond_04', 'inv_misc_gem_diamond_03', 'inv_misc_gem_diamond_02', 'inv_misc_gem_diamond_01']
             this.material = names[index];

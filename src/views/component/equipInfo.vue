@@ -97,7 +97,7 @@ export default {
             newEquip.lvReq = lv || 1;
             newEquip.lv = lv || 1;
             newEquip.quality = qualityIndex > -1 ? this.quality[qualityIndex] : this.createQuality(bonus);
-            newEquip.maxEnhanceLv = (newEquip.quality.extraEntryNum-1)*5;
+            newEquip.maxEnhanceLv = (newEquip.quality.qualityLv-1)*5;
             newEquip.enhanceLv = Math.min(0, newEquip.maxEnhanceLv);
             newEquip.baseEntry = this.createBaseEntry(newEquip);
             newEquip.extraEntry = this.createExtraEntry(newEquip);
@@ -147,17 +147,6 @@ export default {
             baseEntry.forEach(entry => {
                 let random = Math.random();
                 this.createBaseEntryValue(newEquip.quality.qualityCoefficient, entry, random, newEquip.lv, newEquip.enhanceLv);
-                // entry.name = this.entryInfo[entry.type].name;
-                // if(percent.indexOf(entry.type) > -1) {
-                //     entry.base = Math.floor(newEquip.quality.qualityCoefficient * this.entryInfo[entry.type].base);
-                //     entry.value = Math.floor(entry.base * (1+newEquip.enhanceLv*0.1));
-                //     entry.showVal = '+' + entry.value + '%';
-                // }
-                // else {
-                //     entry.base = Math.floor(newEquip.quality.qualityCoefficient * this.entryInfo[entry.type].base * (1+newEquip.lv**2*0.05) * (1+random/5));
-                //     entry.value = Math.floor(entry.base * (1+newEquip.enhanceLv*0.1));
-                //     entry.showVal = '+' + entry.value;
-                // }
             });
             return baseEntry;
         },
@@ -174,7 +163,7 @@ export default {
                 entry.showVal = '+' + entry.value + '%';
             }
             else {
-                entry.base = Math.floor(qualityCoefficient * this.entryInfo[entry.type].base * (1+lv**2*0.05) * (1+random/5));
+                entry.base = Math.floor(qualityCoefficient * this.entryInfo[entry.type].base * (0.6+lv*0.4) * (1+random/5));
                 entry.value = Math.floor(entry.base * (1+enhanceLv*0.1));
                 entry.showVal = '+' + entry.value;
             }
@@ -205,7 +194,7 @@ export default {
                 entry.showVal = '+' + entry.value + '%';
             }
             else {
-                entry.value = Math.round((0.5+0.5*random) * this.entryInfo[entry.type].base * (1+lv**2*0.05));
+                entry.value = Math.round((0.5+0.5*random) * this.entryInfo[entry.type].base * (0.6+lv*0.4));
                 entry.showVal = '+' + entry.value;
             }
             entry.quality = Math.round(random*100);
@@ -234,7 +223,7 @@ export default {
                     value = ran>0.5 ? value*1 : value*1.5;
                 }
                 if(percent.indexOf(extraEntry[index]) == -1)
-                    value = value * (1+newEquip.lv**2*0.05);
+                    value = value * (0.6+newEquip.lv*0.4);
                 value = Math.round(value);
 
                 potentials.push({
@@ -293,7 +282,7 @@ export default {
                     entry.showVal = '+' + entry.value + '%';
                 }
                 else {
-                    entry.value = Math.round((0.5+0.5*random) * this.entryInfo[entry.type].base * (1+equip.lv**2*0.05));
+                    entry.value = Math.round((0.5+0.5*random) * this.entryInfo[entry.type].base * (0.6+equip.lv*0.4));
                     entry.showVal = '+' + entry.value;
                 }
                 entry.quality = Math.round(random*100);
