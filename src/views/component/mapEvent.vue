@@ -530,6 +530,9 @@ export default {
             // itemInfo.addItem(item);
         },
         enermySlain(id, qty){
+            var talentTree = this.findBrothersComponents(this, 'talentTree', false)[0];
+            talentTree.talentTrigger('spell_deathknight_bloodpresence');
+            talentTree.talentTrigger('spell_deathknight_frostpresence');
             var slain = {slain: {}};
             slain['slain'][id] = qty;
             var achievement = this.findBrothersComponents(this, 'achievement', false)[0];

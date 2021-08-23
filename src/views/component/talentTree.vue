@@ -30,7 +30,7 @@
                             <br>
                             <div class="detail" v-for="(preReq, index) in preReqList[v.type]" :key="index">
                                 <div :style="{color:playerTalent[preReq[0]]>=preReq[1]?'#0f0':'#ccc'}">
-                                    {{powerBranch[preReq[0]].name}}
+                                    {{branchInfo[i][preReq[0]].name}}
                                     <span v-if="playerTalent[preReq[0]]">{{playerTalent[preReq[0]]}}</span><span v-else>0</span>
                                     /<span>{{preReq[1]+'级'}}</span>
                                 </div>
@@ -49,11 +49,12 @@
 <script>
 import { assist } from '../../assets/js/assist';
 import { talentConfig } from '../../assets/config/talentConfig';
+import { buffSystem } from '../../assets/js/buffSystem';
 export default {    
     name: 'talentTree',
     props: {
     },
-    mixins: [assist, talentConfig,],
+    mixins: [assist, talentConfig, buffSystem],
     components: {},
     data() {
         return {
@@ -77,6 +78,12 @@ export default {
     computed: {
         playerTalent() { return this.$store.state.playerAttribute.talent },
         player() { return this.$store.state.playerAttribute },
+        branchInfo() {
+            var types = {};
+            types['powerBranch'] = this.powerBranch;
+            types['defBranch'] = this.defBranch;
+            return types;
+         },
     },
     methods: {
         init() {
@@ -203,8 +210,20 @@ export default {
             let temp = charInfo.dmgFilterSelected;
             charInfo.dmgFilterSelected = '';
             charInfo.dmgFilterSelected = temp;
+        },
+        talentTrigger(type) {
+            var lv = this.playerTalent[type];
+            var attr = this.player.attribute;
+            switch(type) {
+                case 'spell_deathknight_bloodpresence':
+                    this.set_player_hp(Math.ceil((attr.MAXHP.value-attr.CURHP.value)*lv*0.05), this.$store.state.playerAttribute);
+                    break;
+                case 'spell_deathknight_frostpresence':
+                    this.$store.commit('set_player_mp', Math.ceil((attr.MAXMP.value-attr.CURMP.value)*lv*0.05));
+                    break;
+            }
         }
-    }
+    },
 }
 </script>
 <style lang="scss" scoped>
