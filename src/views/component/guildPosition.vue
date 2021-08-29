@@ -375,6 +375,7 @@ export default {
         margin: 0.2rem 0.2rem;
     }
     .progress {
+	    position: relative;
         margin: 0.2rem 0.2rem;
     }
 }

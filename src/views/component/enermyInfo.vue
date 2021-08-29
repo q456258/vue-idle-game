@@ -156,9 +156,4 @@ export default {
         }
     }
 }
-
-.w-90 {
-    width: 90%;
-    font-size: 0.8rem;
-}
 </style>

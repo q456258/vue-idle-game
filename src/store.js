@@ -253,7 +253,7 @@ export default new Vuex.Store({
         },
         playerAttribute: {
             name: '无名',
-            lv: 21,
+            lv: 1,
             exp: {cur: 0, req: 400},
             healthRecoverySpeed: 1,
             attribute: {
@@ -288,19 +288,12 @@ export default new Vuex.Store({
             simulatedAttribute: {
             },
             spells: {
-                weight: 100,
-                spell: {
-                    attack: {active: true, lv: 1, proficient: 0}
-                    // Spell_nature_thunderclap: true, 
-                    // Spell_nature_lightning: false, 
-                    // Spell_holy_crusaderstrike: true, 
-                    // spell_shadow_ritualofsacrifice: true
-                },
+                attack: {lv: 1, proficient: 0, progress: 0}
             },
             talent: {
                 powerBranch: 0
             },
-            talentPoint: 21,
+            talentPoint: 1,
             helmet: initial_helmet,
             weapon: initial_weapon,
             armor: initial_armor,

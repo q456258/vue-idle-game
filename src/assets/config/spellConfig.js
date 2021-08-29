@@ -30,7 +30,7 @@ data() {
             attack: {
                 name: '普通攻击',
                 // type: '物理',
-                weight: 200,
+                max: 0,
                 iconSrc: "./icons/spell/atk.png",
                 quality: 1,
                 level: [{
@@ -45,8 +45,7 @@ data() {
             },
             spell_nature_thunderclap: {
                 name: '雷霆一击',
-                weight: 75,
-                // weight: 7500,
+                max: 5,
                 iconSrc: "./icons/spell/Spell_nature_thunderclap.png",
                 quality: 1,
                 level: [{
@@ -97,7 +96,7 @@ data() {
             },
             spell_fire_flamebolt: {
                 name: '火球术',
-                weight: 100,
+                max: 10,
                 iconSrc: "./icons/spell/Spell_fire_flamebolt.png",
                 quality: 1,
                 level: [{
@@ -122,7 +121,7 @@ data() {
             },
             ability_warrior_shieldbash: {
                 name: '盾击',
-                weight: 20,
+                max: 15,
                 iconSrc: "./icons/spell/Ability_warrior_shieldbash.png",
                 quality: 1,
                 level: [{
@@ -161,7 +160,7 @@ data() {
             },
             ability_druid_maul: {
                 name: '槌击',
-                weight: 30,
+                max: 10,
                 iconSrc: "./icons/spell/Ability_druid_maul.png",
                 quality: 1,
                 level: [{
@@ -196,7 +195,7 @@ data() {
             },
             spell_shadow_ritualofsacrifice: {
                 name: '影袭',
-                weight: 10,
+                max: 30,
                 iconSrc: "./icons/spell/Spell_shadow_ritualofsacrifice.png",
                 quality: 1,
                 level: [{
@@ -227,7 +226,7 @@ data() {
             },
             spell_holy_renew: {
                 name: '恢复',
-                weight: 50,
+                max: 8,
                 iconSrc: "./icons/spell/Spell_holy_renew.png",
                 quality: 1,
                 level: [{
@@ -264,7 +263,7 @@ data() {
             },
             spell_warlock_soulburn: {
                 name: '夺魂',
-                weight: 5,
+                max: 50,
                 iconSrc: "./icons/spell/Spell_warlock_soulburn.png",
                 quality: 1,
                 level: [{
@@ -291,7 +290,7 @@ data() {
             },
             ability_warrior_shatteringthrow: {
                 name: '碎裂投掷',
-                weight: 5,
+                max: 30,
                 iconSrc: "./icons/spell/Ability_warrior_shatteringthrow.png",
                 quality: 1,
                 level: [{
@@ -320,7 +319,7 @@ data() {
             },
             spell_holy_holybolt: {
                 name: '圣光术',
-                weight: 10,
+                max: 30,
                 iconSrc: "./icons/spell/Spell_holy_holybolt.png",
                 quality: 2,
                 level: [{
@@ -363,7 +362,7 @@ data() {
             },
             spell_nature_lightning: {
                 name: '闪电箭',
-                weight: 10,
+                max: 25,
                 iconSrc: "./icons/spell/Spell_nature_lightning.png",
                 quality: 2,
                 level: [{
@@ -394,7 +393,7 @@ data() {
             },
             spell_nature_starfall: {
                 name: '月火术',
-                weight: 25,
+                max: 15,
                 iconSrc: "./icons/spell/Spell_nature_starfall.png",
                 quality: 2,
                 level: [{
@@ -428,7 +427,7 @@ data() {
             },
             spell_holy_powerwordshield: {
                 name: '圣佑术',
-                weight: 10,
+                max: 40,
                 iconSrc: "./icons/spell/Spell_holy_powerwordshield.png",
                 quality: 2,
                 level: [{
@@ -451,7 +450,7 @@ data() {
             },
             spell_animabastion_buff: {
                 name: '灵感',
-                weight: 10,
+                max: 30,
                 iconSrc: "./icons/spell/Spell_animabastion_buff.png",
                 quality: 2,
                 level: [{
@@ -482,7 +481,7 @@ data() {
             },
             spell_animaardenweald_orb: {
                 name: '法夜祝福',
-                weight: 30,
+                max: 20,
                 iconSrc: "./icons/spell/Spell_animaardenweald_orb.png",
                 quality: 2,
                 level: [{
@@ -505,7 +504,7 @@ data() {
             },
             spell_shadow_curseofmannoroth: {
                 name: '残废术',
-                weight: 15,
+                max: 25,
                 iconSrc: "./icons/spell/Spell_shadow_curseofmannoroth.png",
                 quality: 3,
                 level: [{
@@ -540,7 +539,7 @@ data() {
             },
             spell_animaardenweald_groundstate: {
                 name: '冥想',
-                weight: 20,
+                max: 20,
                 iconSrc: "./icons/spell/Spell_animaardenweald_groundstate.png",
                 quality: 2,
                 level: [{
@@ -572,7 +571,7 @@ data() {
             },
             spell_arcane_starfire: {
                 name: '星火术',
-                weight: 10,
+                max: 25,
                 iconSrc: "./icons/spell/Spell_arcane_starfire.png",
                 quality: 3,
                 level: [{
@@ -603,7 +602,7 @@ data() {
             },
             spell_holy_crusaderstrike: {
                 name: '十字军打击',
-                weight: 5,
+                max: 40,
                 iconSrc: "./icons/spell/Spell_holy_crusaderstrike.png",
                 quality: 3,
                 level: [{
@@ -630,7 +629,7 @@ data() {
             },
             spell_nature_wispsplode: {
                 name: '元素爆破',
-                weight: 10,
+                max: 30,
                 iconSrc: "./icons/spell/Spell_nature_wispsplode.png",
                 quality: 3,
                 level: [{
@@ -654,7 +653,7 @@ data() {
             },
             spell_shadow_deathcoil: {
                 name: '凋零缠绕',
-                weight: 5,
+                max: 60,
                 iconSrc: "./icons/spell/Spell_shadow_deathcoil.png",
                 quality: 3,
                 level: [{
@@ -677,7 +676,7 @@ data() {
             },
             ability_rogue_shadowstrike: {
                 name: '裂缝打击',
-                weight: 3,
+                max: 75,
                 iconSrc: "./icons/spell/Ability_rogue_shadowstrike.png",
                 quality: 4,
                 level: [{
@@ -716,7 +715,7 @@ data() {
             },
             spell_holy_innerfire: {
                 name: '心灵之火',
-                weight: 10,
+                max: 35,
                 iconSrc: "./icons/spell/Spell_holy_innerfire.png",
                 quality: 4,
                 level: [{
@@ -748,7 +747,7 @@ data() {
             },
             spell_holy_layonhands: {
                 name: '圣疗术',
-                weight: 2,
+                max: 85,
                 iconSrc: "./icons/spell/Spell_holy_layonhands.png",
                 quality: 4,
                 level: [{
@@ -779,7 +778,7 @@ data() {
             },
             spell_shadow_deathscream: {
                 name: '死亡嚎叫',
-                weight: 10,
+                max: 35,
                 iconSrc: "./icons/spell/Spell_shadow_deathscream.png",
                 quality: 4,
                 level: [{
@@ -804,7 +803,7 @@ data() {
             },
             ability_druid_starfall: {
                 name: '无尽之星',
-                weight: 30,
+                max: 20,
                 iconSrc: "./icons/spell/Ability_druid_starfall.png",
                 quality: 5,
                 level: [{
@@ -838,7 +837,7 @@ data() {
             },
             warrior_talent_icon_innerrage: {
                 name: '鲁莽',
-                weight: 2,
+                max: 90,
                 iconSrc: "./icons/spell/warrior_talent_icon_innerrage.png",
                 quality: 5,
                 level: [{
@@ -867,7 +866,7 @@ data() {
             },
             ability_revendreth_paladin: {
                 name: '血祭',
-                weight: 1,
+                max: 100,
                 iconSrc: "./icons/spell/Ability_revendreth_paladin.png",
                 quality: 6,
                 level: [{
@@ -901,7 +900,7 @@ data() {
             },
             ability_ardenweald_paladin_summer: {
                 name: '仲夏祝福',
-                weight: 1,
+                max: 100,
                 iconSrc: "./icons/spell/Ability_ardenweald_paladin_summer.png",
                 quality: 6,
                 level: [{

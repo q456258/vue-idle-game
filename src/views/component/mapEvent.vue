@@ -120,6 +120,7 @@ export default {
                 return;
             this.setBattleStatus(true);
             this.battleTimer = setInterval(() => {
+                this.onHit('player');
                 this.set_enermy_hp(-1*this.dmgCalculate(playerAttribute, enermyAttribute, 'player'));
                 if(enermyAttribute.attribute.CURHP.value == 0) {
                     this.enermySlain(this.monsterId[enermyAttribute.name], 1);
@@ -352,15 +353,13 @@ export default {
         getSpell(source, target) {
             if(source.spells == undefined)
                 return 'attack'
-            var random = Math.floor(Math.random()*source.spells.weight);
-            var curWeight = 0;
             var selectSpell = 'attack';
-            for(var spell in source.spells.spell) {
-                if(!source.spells.spell[spell].active)
-                    continue;
-                curWeight += this.spell[spell].weight;
-                if(curWeight > random) {
+            let keys = Object.keys(source.spells).reverse();
+            for(let i in keys) {
+                let spell = keys[i];
+                if(source.spells[spell].progress >= this.spell[spell].max) {
                     selectSpell = spell;
+                    source.spells[spell].progress = 0;
                     break;
                 }
             }   
@@ -385,8 +384,8 @@ export default {
         },
         checkCost(spell) {
             var attr = this.playerAttr.attribute;
-            var spellLv = this.playerAttr.spells.spell[spell].lv-1;
-            for(let cost in this.spell[spell].cost) {
+            var spellLv = this.playerAttr.spells[spell].lv-1;
+            for(let cost in this.spell[spell].level[spellLv].cost) {
                 if(cost == 'MP') {
                     if(attr['CURMP'].value < this.spell[spell].level[spellLv].cost['MP'])
                         return false;
@@ -396,7 +395,7 @@ export default {
         },
         useCost(spell) {
             var attr = this.playerAttr.attribute;
-            var spellLv = this.playerAttr.spells.spell[spell].lv-1;
+            var spellLv = this.playerAttr.spells[spell].lv-1;
             var costs = this.spell[spell].level[spellLv];
             for(let cost in costs.cost) {
                 switch(cost) {
@@ -424,7 +423,7 @@ export default {
         applyEffect(source, target, spellName) {
             var sourceType = source.type==undefined? 'player':source.type;
             var targetType = target.type==undefined? 'player':target.type;
-            var spellLv = source.spells == undefined ? 0 : source.spells.spell[spellName].lv-1;
+            var spellLv = source.spells == undefined ? 0 : source.spells[spellName].lv-1;
             var effect = this.spell[spellName].level[spellLv].effect;
             var effectList = {};
             for(var eff in effect) {
@@ -446,7 +445,7 @@ export default {
             if(proficientList == undefined) {
                 return {};
             }
-            var proficientLv = source.spells.spell[spellName].proficient;
+            var proficientLv = source.spells[spellName].proficient;
             for(var proficient in proficientList) {
                 if(proficientLv >= proficient) {
                     let effect = proficientList[proficient].effect;
@@ -458,7 +457,7 @@ export default {
             return effectList;
         },
         getSpellDmg(spell, source) {
-            var spellLv = source.spells == undefined ? 0 : source.spells.spell[spell].lv-1;
+            var spellLv = source.spells == undefined ? 0 : source.spells[spell].lv-1;
             var dmgs = this.spell[spell].level[spellLv];
             var dmg = dmgs.dmg['FIX'] == undefined ? 0 : dmgs.dmg['FIX'];
             for(var attr in dmgs.dmg) {
@@ -468,7 +467,7 @@ export default {
             return dmg;
         },
         getApDmg(spell, source, target) {
-            var spellLv = source.spells == undefined ? 0 : source.spells.spell[spell].lv-1;
+            var spellLv = source.spells == undefined ? 0 : source.spells[spell].lv-1;
             var apDmgs = this.spell[spell].level[spellLv];
             if(!apDmgs.ap)
                 return source.attribute['AP'].value;
@@ -482,7 +481,7 @@ export default {
             return ap;
         },
         getHeal(spell, source) {
-            var spellLv = source.spells == undefined ? 0 : source.spells.spell[spell].lv-1;
+            var spellLv = source.spells == undefined ? 0 : source.spells[spell].lv-1;
             var heals = this.spell[spell].level[spellLv];
             if(!heals.heal)
                 return 0;
@@ -508,6 +507,16 @@ export default {
             var cost = value/4;
             this.$store.commit('set_player_mp', -1*Math.round(cost));
             return Math.round(value);
+        },
+        onHit(target) {
+            if(target == 'player') {
+                let spellList = this.playerAttr.spells;
+                for(let spell in spellList) {
+                    if(spellList[spell].progress < this.spell[spell].max) {
+                        spellList[spell].progress += 1;
+                    }
+                }
+            }
         },
         reward() {
             var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];

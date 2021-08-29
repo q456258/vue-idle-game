@@ -197,14 +197,13 @@ export default {
         learnSpell(spellName) {
             var spellList = this.$store.state.playerAttribute.spells;
             var charInfo = this.findBrothersComponents(this, 'charInfo', false)[0];
-            if(spellList.spell[spellName] != undefined) {
-                spellList.spell[spellName].lv = this.playerTalent[spellName];
+            if(spellList[spellName] != undefined) {
+                spellList[spellName].lv = this.playerTalent[spellName];
                 if(this.playerTalent[spellName] == 0)
-                    this.$delete(spellList.spell, spellName);
+                    this.$delete(spellList, spellName);
             }
             else {
-                spellList.spell[spellName] = {active: true, lv: this.playerTalent[spellName], proficient: 0};
-                charInfo.activeSpell(spellName, 1);
+                spellList[spellName] = {lv: this.playerTalent[spellName], proficient: 0, progress: 0};
             }
             // 刷新一下过滤技能列表
             let temp = charInfo.dmgFilterSelected;

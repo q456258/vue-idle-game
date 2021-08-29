@@ -2,7 +2,7 @@
     <div class="progress" style="width:100%;">
         <div class="progress" style="width:100%;">
             <div class="progress-bar progress-bar-striped insta" :class="{'bg-danger':type=='hp'}" :style="{width:vpNow/vpMax*100+'%'}">
-                <small class="justify-content-center d-flex position-absolute w-90" style="color:black">{{vpNow}} / {{vpMax}} </small>
+                <small class="justify-content-center d-flex position-absolute w-100" style="color:black">{{vpNow}} / {{vpMax}} </small>
             </div>
             <div ref="delay" class="progress-bar progress-bar-striped" :class="{'delay':type=='hp', 'delayMp':type=='mp'}" :style="{width:(delay-vpNow)/vpMax*100+'%'}">
             </div>
@@ -68,7 +68,13 @@ export default {
 
 </script>
 <style lang="scss" scoped>
-
+.progress {
+    position: relative;
+}
+.w-100 {
+    width: 100%;
+    font-size: 0.8rem;
+}
 .insta {
     transition: width 0s linear;
 }

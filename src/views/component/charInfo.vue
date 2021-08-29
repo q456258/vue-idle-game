@@ -41,16 +41,6 @@
                     <div class="hpmp">
                         <hpmpBar :vpMin="0" :vpNow="attribute.CURHP.value" :vpMax="attribute.MAXHP.value" :target="'player'" :type="'hp'"></hpmpBar>
                         <hpmpBar :vpMin="0" :vpNow="attribute.CURMP.value" :vpMax="attribute.MAXMP.value" :target="'player'" :type="'mp'"></hpmpBar>
-                        <!-- <div class="progress" style="width:100%;">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" :style="{width:attribute.CURHP.value/attribute.MAXHP.value*100+'%'}">
-                                <small class="justify-content-center d-flex position-absolute w-80" style="color:black">{{attribute.CURHP.showValue}} / {{attribute.MAXHP.showValue}} </small>
-                            </div>
-                        </div>
-                        <div class="progress" style="width:100%;">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated" :style="{width:attribute.CURMP.value/attribute.MAXMP.value*100+'%'}">
-                                <small class="justify-content-center d-flex position-absolute w-80" style="color:black">{{attribute.CURMP.showValue}} / {{attribute.MAXMP.showValue}} </small>
-                            </div>
-                        </div> -->
                     </div>
                 </template>
                 <template v-slot:tip>
@@ -411,13 +401,20 @@
                 {{item}}
                 </option>
             </select>
-            <span class="spellInfo">&nbsp;&nbsp;&nbsp;总比重：{{spells.weight}}</span>
             <div class="container scrollbar-morpheus-den">
-                <div class="spell" v-for="(v, k) in filteredSpell" :key="k" @click="activeSpell(v)" :set="curLv=spell[v].level[spells.spell[v].lv-1]">
+                <div class="spell" v-for="(v, k) in filteredSpell" :key="k" :set="curLv=spell[v].level[spells[v].lv-1]">
                     <span class="spellIcon"><img class="icon" :src="spell[v].iconSrc"></span>
-                    <span class="spellName" :style="spellQuality[spell[v].quality-1]">{{(spells.spell[v].lv)+'级'+spell[v].name}}</span>
+                    <span class="spellName" :style="spellQuality[spell[v].quality-1]">{{(spells[v].lv)+'级'+spell[v].name}}</span>
                     <span class="spellDesc">{{curLv.des}}</span>
-                    <span class="spellWeight">{{"比重："+spell[v].weight}}</span>
+                    <span class="spellProgress" v-if="v!='attack'">
+                        <div class="progress" style="width:100%;">
+                            <div class="progress-value" :style="{width:spells[v].progress/spell[v].max*100+'%'}">
+                                <small class="justify-content-center d-flex position-absolute w-100">
+                                    {{spells[v].progress}} / {{spell[v].max}}
+                                </small>
+                            </div>
+                        </div>
+                    </span>
                     <span class="spellCost" v-if="curLv.cost['HP']">
                         {{"消耗："+curLv.cost['HP']+entryInfo['HP'].name}}
                     </span>
@@ -435,25 +432,6 @@
                     </span>
                     <span class="spellCost" v-if="curLv.cost['CURHP']">
                         {{"消耗："+curLv.cost['CURHP']*100+'%当前生命值'}}
-                    </span>
-                    <span v-if="v!='attack'">
-                        <span class="spellSwitch">
-                            <input type="checkbox" name="" v-model="spells.spell[v].active">
-                            <span class="check"></span>
-                        </span>
-                        <span class="proficient">
-                            <div class="proficient-heading faq-arrow"></div>
-                        </span>
-                        <label :for="v">
-                            <div class="proficient-text">
-                                <span class="pro-title">精通等级：{{spells.spell[v].proficient}}</span>
-                                <div class="pro-content" v-for="(pro, req) in spell[v].proficient" :key="req">
-                                    <span :style="{color: spells.spell[v].proficient>=req ? '#0f0':'#aaa'}">
-                                        {{req}}: {{pro.desc}}
-                                    </span>
-                                </div>
-                            </div>
-                        </label>
                     </span>
                 </div>
             </div>
@@ -518,16 +496,16 @@ export default {
         spells() { return this.$store.state.playerAttribute.spells},
         filteredSpell() { 
             let spells = this.$store.state.playerAttribute.spells;
-            let filtered = Object.keys(spells.spell);
+            let filtered = Object.keys(spells);
             if(this.dmgFilterSelected != '所有') {
-                filtered = Object.keys(spells.spell).filter(s => {
+                filtered = Object.keys(spells).filter(s => {
                     return this.spell[s].tag != undefined && this.spell[s].tag.indexOf(this.dmgFilterSelected) != -1;
                 });
             }
             if(this.activeFilterSelected != '所有') {
                 let active = this.activeFilterSelected == '已激活' ? true : false;
-                filtered = Object.keys(spells.spell).filter(s => {
-                    return spells.spell[s].active == active;
+                filtered = Object.keys(spells).filter(s => {
+                    return spells[s].active == active;
                 });
             }
             return filtered;
@@ -618,19 +596,6 @@ export default {
                     equipInfo.levelUpEquip(this.currentEquip);
                 }
             });
-        },
-        activeSpell(activeSpell, active=0) {
-            if(activeSpell != 'attack' && active == 0)
-                this.spells.spell[activeSpell].active = !this.spells.spell[activeSpell].active;
-            this.spells.weight = 0;
-            for(let spell in this.spells.spell) {
-                if(this.spells.spell[spell].active)
-                    this.spells.weight += this.spell[spell].weight;
-            }
-            // if(!this.spells.spell[activeSpell]) 
-            //     this.spells.weight += this.spell[activeSpell].weight;
-            // else
-            //     this.spells.weight -= this.spell[activeSpell].weight;
         },
         switchFilter(filter) {
             this.dmgFilterSelected = filter;
@@ -1000,58 +965,41 @@ export default {
                 left: 5rem;
                 top: 2rem;
             }
-            .spellSwitch {
+            .spellProgress {
                 position: absolute;
                 right: 1rem;
-                top: -0.5rem;
-                input[type='checkbox']{
-                    position: absolute;
-                    opacity:0;
-                    cursor: pointer; 
-                }
-                .check{
-                    position: relative;
-                    display: block;
-                    width: 20px;
-                    height: 20px;
-                    background: linear-gradient(#333,#666);
-                    border-radius: 50%;
-                    margin: 10px auto;
-                    display: flex;
-                    justify-content: center;
+                top: 0.5rem;
+                width: 10rem;
+                .progress {
+                    background: rgba(255,255,255,0.1);
+                    justify-content: flex-start;
+                    border-radius: 100px;
                     align-items: center;
-                } 
-                .check:before{
-                    content: '';
-                    position: absolute;
-                    top: 5px;
-                    left: 5px;
-                    width: 10px;
-                    height: 10px;
-                    border-radius: 50%;
-                    background-color: rgb(255, 0, 0);
-                    box-shadow: 0px 0px 10px rgb(255, 0, 0);
-                    transition: 0.5s;
+                    position: relative;
+                    padding: 0 5px;
+                    display: flex;
+                    height: 17px;
+                    width: 500px;
+                    .progress-value {
+                        transition: width 0.5s;
+                        box-shadow: 0 10px 40px -10px #fff;
+                        border-radius: 100px;
+                        background: rgb(67, 64, 255);
+                        height: 10px;
+                        width: 0;
+                    }
                 }
-                input[type='checkbox']:checked ~ .check:before{
-                    background: rgb(0, 255, 0);
-                    box-shadow: 0px 0px 10px rgba(0, 255, 176, 1),
-                                0px 0px 15px rgba(0, 255, 176, 1),
-                                0px 0px 20px rgba(0, 255, 176, 1),
-                                0px 0px 25px rgba(0, 255, 176, 1),
-                                0px 0px 0px 2px rgba(0, 255, 176, 0.1);
-
+                .w-100 {
+                    width: 100%;
+                    font-size: 0.75rem;
+                    top: 8px;
+                    color: #fff;
                 }
-            }
-            .spellWeight {
-                position: absolute;
-                right: 1rem;
-                top: 1.5rem;
             }
             .spellCost {
                 position: absolute;
                 right: 1rem;
-                top: 2.75rem;
+                top: 1.75rem;
             }
             .proficient-text {
                 font-family: Open Sans;   
