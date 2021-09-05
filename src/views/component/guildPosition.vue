@@ -97,14 +97,14 @@ export default {
                 smith: [{name: '打造', value: 'smith', lv: 0},{name: '精炼', value: 'refine', lv: 15}, {name: '熔炼', value: 'melt', lv: 30}],
                 train: [{name: '生命训练', value: 'HP', lv: 0}, {name: '魔法训练', value: 'MP', lv: 0}, {name: '攻击训练', value: 'ATK', lv: 0},
                         {name: '防御训练', value: 'DEF', lv: 0}],
-                train2: [{name: '元素训练', value: 'AP', lv: 0}, {name: '能量盾训练', value: 'MR', lv: 0}],
+                train2: [{name: '元素训练', value: 'SUNDER', lv: 0}, {name: '能量盾训练', value: 'MR', lv: 0}],
                 train3: [{name: '力量训练', value: 'STR', lv: 0}, {name: '敏捷训练', value: 'AGI', lv: 0}, {name: '智力训练', value: 'INT', lv: 0}],
             },
             selectedType: {
                 shop: 'shop1',
                 smith: 'smith',
                 train: 'HP',
-                train2: 'AP',
+                train2: 'SUNDER',
                 train3: 'STR',
             },
             inProgress: {

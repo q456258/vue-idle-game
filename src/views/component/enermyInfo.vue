@@ -23,9 +23,9 @@
             </div>
         </div>
         <div class="item">
-            <img src="../../assets/icons/stat/ap.png" alt="">
+            <img src="../../assets/icons/stat/sunder.png" alt="">
             <div class="value">
-                <span>{{attr.attribute.AP.showValue}}</span>
+                <span>{{attr.attribute.SUNDERP.showValue}}</span>
             </div>
         </div>
         <div class="item">

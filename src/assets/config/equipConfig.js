@@ -58,7 +58,7 @@ export const equipConfig = {
         ALL: { base: 1, name: '全属性'},
         ATK: { base: 16, name: '攻击' }, 
         DEF: { base: 4, name: '护甲' }, 
-        AP: { base: 12, name: '元素伤害' }, 
+        SUNDER: { base: 12, name: '破甲' }, 
         MR: { base: 4, name: '能量盾' }, 
         HP: { base: 40, name: '生命值' }, 
         MP: { base: 15, name: '魔法值' }, 
@@ -70,20 +70,20 @@ export const equipConfig = {
         ALLP: { base: 4, name: '全属性'},
         ATKP: { base: 6, name: '攻击力' }, 
         DEFP: { base: 6, name: '防御力' }, 
-        APP: { base: 6, name: '元素伤害' }, 
+        SUNDERP: { base: 6, name: '破甲' }, 
         MRP: { base: 6, name: '能量盾' }, 
         HPP: { base: 6, name: '生命值' }, 
         MPP: { base: 6, name: '魔法值' }, 
       },
       entries: [
-        'STR','AGI','INT', 'ALL', 'CRIT','CRITDMG','ATK', 'DEF', 'AP', 'MR', 'HP', 'MP', 
+        'STR','AGI','INT', 'ALL', 'CRIT','CRITDMG','ATK', 'DEF', 'SUNDER', 'MR', 'HP', 'MP', 
       ],
       helmet: {
         baseEntry: [ 
           'HP'
         ],
         extraEntry: [
-          'STR','AGI','INT','ALL','CRIT','CRITDMG','ATK','DEF','AP','MR','HP','MP',
+          'STR','AGI','INT','ALL','CRIT','CRITDMG','ATK','DEF','SUNDER','MR','HP','MP',
         ],
         type: [{
             description: {
@@ -159,12 +159,12 @@ export const equipConfig = {
             ],
           },{
             description: {
-              name: '虚空之心头冠',
+              name: '碎骨头盔',
               desc: '',
-              iconSrc: "./icons/helmet/Inv_helmet_89.png",
+              iconSrc: "./icons/helmet/Inv_mail_mawraid_d_01_helm.png",
             },
             entry: [
-              'AP'
+              'SUNDER'
             ],
           },{
             description: {
@@ -209,10 +209,10 @@ export const equipConfig = {
       },
       accessory: {
         baseEntry: [ 
-          'MP'
+          'MR'
         ],
         extraEntry: [
-          'STR','AGI','INT','ALL','CRIT','CRITDMG','ATK','DEF','AP','MR','HP','MP',
+          'STR','AGI','INT','ALL','CRIT','CRITDMG','ATK','DEF','SUNDER','MR','HP','MP',
         ],
         type: [{
             description: {
@@ -293,7 +293,7 @@ export const equipConfig = {
               iconSrc: "./icons/accessory/Inv_jewelry_ring_15.png",
             },
             entry: [
-              'AP'
+              'SUNDER'
             ],
           },{
             description: {
@@ -341,7 +341,7 @@ export const equipConfig = {
           'ATK'
         ],
         extraEntry: [
-          'STR','AGI','INT','ALL','CRIT','CRITDMG','ATK','DEF','AP','MR','HP','MP',
+          'STR','AGI','INT','ALL','CRIT','CRITDMG','ATK','DEF','SUNDER','MR','HP','MP',
         ],
         type: [{
             description: {
@@ -417,12 +417,12 @@ export const equipConfig = {
             ],
           },{
             description: {
-              name: '奥尔多灵魂魔杖',
+              name: '碎石者',
               desc: '',
-              iconSrc: "./icons/weapon/Inv_wand_05.png",
+              iconSrc: "./icons/weapon/Inv_mace_90.png",
             },
             entry: [
-              'AP'
+              'SUNDER'
             ],
           },{
             description: {
@@ -471,7 +471,7 @@ export const equipConfig = {
           'DEF'
         ],
         extraEntry: [
-          'STR','AGI','INT','ALL','CRIT','CRITDMG','ATK','DEF','AP','MR','HP','MP',
+          'STR','AGI','INT','ALL','CRIT','CRITDMG','ATK','DEF','SUNDER','MR','HP','MP',
         ],
         type: [{
           description: {
@@ -547,12 +547,12 @@ export const equipConfig = {
             ],
           },{
             description: {
-              name: '虚空之心长袍',
+              name: '刃誓先驱的护胸',
               desc: '',
-              iconSrc: "./icons/armor/Inv_chest_cloth_62.png",
+              iconSrc: "./icons/armor/inv_chest_plate_maldraxxus_d_01.png",
             },
             entry: [
-              'AP'
+              'SUNDER'
             ],
           },{
             description: {
@@ -597,10 +597,10 @@ export const equipConfig = {
       },
       shoe: {
         baseEntry: [ 
-          'AP'
+          'SUNDER'
         ],
         extraEntry: [
-          'STR','AGI','INT','ALL','CRIT','CRITDMG','ATK','DEF','AP','MR','HP','MP',
+          'STR','AGI','INT','ALL','CRIT','CRITDMG','ATK','DEF','SUNDER','MR','HP','MP',
         ],
         type: [{
             description: {
@@ -681,7 +681,7 @@ export const equipConfig = {
                 iconSrc: "./icons/shoe/Inv_boot_plate_raiddeathknight_q_01.png",
               },
               entry: [
-                'AP'
+                'SUNDER'
               ],
             },{
               description: {
@@ -726,10 +726,10 @@ export const equipConfig = {
       },
       shoulder: {
         baseEntry: [ 
-          'MR'
+          'MP'
         ],
         extraEntry: [
-          'STR','AGI','INT','ALL','CRIT','CRITDMG','ATK','DEF','AP','MR','HP','MP',
+          'STR','AGI','INT','ALL','CRIT','CRITDMG','ATK','DEF','SUNDER','MR','HP','MP',
         ],
         type: [{
               description: {
@@ -805,12 +805,12 @@ export const equipConfig = {
               ],
             },{
               description: {
-                name: '虚空之心衬肩',
+                name: '罪孽角斗士的护肩',
                 desc: '',
-                iconSrc: "./icons/shoulder/Inv_shoulder_52.png",
+                iconSrc: "./icons/shoulder/Inv_shoulder_leather_revendrethraid_d_01.png",
               },
               entry: [
-                'AP'
+                'SUNDER'
               ],
             },{
               description: {

@@ -377,7 +377,6 @@ export default {
         }
       }
       this.mapArr = this.mapArr.concat(newMaps);
-      console.log(this.mapArr)
 
     },
     showInfo(e, type, item, compare) {

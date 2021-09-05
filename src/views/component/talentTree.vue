@@ -173,7 +173,7 @@ export default {
         talentChange(talent) {
             switch(talent.type) {
                 case 'ATK':
-                case 'AP':
+                case 'SUNDER':
                 case 'DEF':
                 case 'MR':
                 case 'STR':

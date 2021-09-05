@@ -266,8 +266,8 @@ export default {
             var attribute = enermyAttribute.attribute,
             val = 0.0,
             flexStats = ['MAXHP', 'ATK', 'DEF'],
-            lvStats = ['AP', 'MR'],
-            fixStats = ['CRIT', 'CRITDMG']; 
+            lvStats = ['MR'],
+            fixStats = ['SUNDERP', 'CRIT', 'CRITDMG']; 
             enermyAttribute.lv = level;
             enermyAttribute.type = type;
             enermyAttribute.name = this.dungeonInfo[this.dungeonInfo.current].monsterName;
@@ -312,7 +312,9 @@ export default {
             this.$store.commit('set_enermy_attribute', enermyAttribute);
         },
         getDefRed(armor) {
-            return Math.round((armor/(100+armor) + armor/(armor+3500))/2*1000000)/10000;
+            let sign = armor>=0 ? 1 : -1;
+            armor = Math.abs(armor);
+            return sign*Math.round((armor/(100+armor) + armor/(armor+3500))/2*1000000)/10000;
         },
         dmgCalculate(source, target, type) {
             if(this.stun(source))
@@ -324,7 +326,7 @@ export default {
             var crit = Math.round(Math.random()*100);
             if(crit<source.attribute.CRIT.value) 
                 dmg *= source.attribute.CRITDMG.value/100;
-            dmg += this.getApDmg(spell, source, target);
+            // dmg += this.getApDmg(spell, source, target);
             dmg -= this.getMrValue(type, target);
             dmg = Math.round(dmg);
             if(dmg < 0)
@@ -375,6 +377,9 @@ export default {
             baseDmg = this.block(target, baseDmg);
             var penDmg = this.penetrate(source, baseDmg);
             var armor = this.sunder(source, target.attribute.DEF.value);
+            armor = Math.round(armor*(1-source.attribute.SUNDERP.value/100));
+            if(source.attribute.SUNDER)
+                armor -= source.attribute.SUNDER.value;
             var defRed = this.getDefRed(armor);
             baseDmg -= penDmg;
             var dmg = baseDmg*(1-defRed/100)+penDmg;
@@ -466,20 +471,20 @@ export default {
             }
             return dmg;
         },
-        getApDmg(spell, source, target) {
-            var spellLv = source.spells == undefined ? 0 : source.spells[spell].lv-1;
-            var apDmgs = this.spell[spell].level[spellLv];
-            if(!apDmgs.ap)
-                return source.attribute['AP'].value;
-            var ap = apDmgs.ap['FIX'] == undefined ? 0 : apDmgs.ap['FIX'];
-            for(var attr in apDmgs.ap) {
-                if(source.attribute[attr] != undefined)
-                    ap += source.attribute[attr].value*apDmgs.ap[attr];
-            }
-            ap = this.elementAffinity(source, ap);
-            ap = this.forceOfNature(target, ap);
-            return ap;
-        },
+        // getApDmg(spell, source, target) {
+        //     var spellLv = source.spells == undefined ? 0 : source.spells[spell].lv-1;
+        //     var apDmgs = this.spell[spell].level[spellLv];
+        //     if(!apDmgs.ap)
+        //         return source.attribute['AP'].value;
+        //     var ap = apDmgs.ap['FIX'] == undefined ? 0 : apDmgs.ap['FIX'];
+        //     for(var attr in apDmgs.ap) {
+        //         if(source.attribute[attr] != undefined)
+        //             ap += source.attribute[attr].value*apDmgs.ap[attr];
+        //     }
+        //     ap = this.elementAffinity(source, ap);
+        //     ap = this.forceOfNature(target, ap);
+        //     return ap;
+        // },
         getHeal(spell, source) {
             var spellLv = source.spells == undefined ? 0 : source.spells[spell].lv-1;
             var heals = this.spell[spell].level[spellLv];
@@ -557,9 +562,9 @@ export default {
                 value: attribute['DEF'].value*2,
                 showValue: attribute['DEF'].value*2,
             }
-            attribute['AP'] = {
-                value: Math.round(attribute['AP'].value*1.25),
-                showValue: Math.round(attribute['AP'].value*1.25),
+            attribute['SUNDER'] = {
+                value: Math.round(attribute['SUNDER'].value*1.25),
+                showValue: Math.round(attribute['SUNDER'].value*1.25),
             }
             attribute['MR'] = {
                 value: attribute['MR'].value*2,
@@ -584,9 +589,9 @@ export default {
                 value: attribute['DEF'].value,
                 showValue: attribute['DEF'].value,
             }
-            attribute['AP'] = {
-                value: attribute['AP'].value,
-                showValue: attribute['AP'].value,
+            attribute['SUNDER'] = {
+                value: attribute['SUNDER'].value,
+                showValue: attribute['SUNDER'].value,
             }
             attribute['MR'] = {
                 value: attribute['MR'].value,
@@ -611,9 +616,9 @@ export default {
                 value: attribute['DEF'].value*2,
                 showValue: attribute['DEF'].value*2,
             }
-            attribute['AP'] = {
-                value: attribute['AP'].value*2,
-                showValue: attribute['AP'].value*2,
+            attribute['SUNDER'] = {
+                value: attribute['SUNDER'].value*2,
+                showValue: attribute['SUNDER'].value*2,
             }
             attribute['MR'] = {
                 value: attribute['MR'].value*2,

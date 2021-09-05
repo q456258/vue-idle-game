@@ -150,7 +150,7 @@
                         </p>
                         <p class="info">* 每点提升属性
                             <br>
-                            +3元素伤害
+                            +3能量护盾
                             <br>
                             +3魔法值
                             <br>
@@ -187,19 +187,20 @@
                 <cTooltip placement="bottom">
                     <template v-slot:content>
                         <div class="item">
-                            <img src="../../assets/icons/stat/ap.png" alt="">
+                            <img src="../../assets/icons/stat/sunder.png" alt="">
                             <div class="value">
-                                <span>{{attribute.AP.showValue}}</span>
+                                <span>{{attribute.SUNDER.showValue}}</span>
                             </div>
                         </div>
                     </template>
                     <template v-slot:tip>
-                        <p class="info">* 元素伤害
+                        <p class="info">* 破甲
                             <br>
-                            基础：{{attribute.AP.baseVal }}
-                            <span v-if="attribute.APP.value != 0">{{' +' + attribute.APP.showValue}}</span>
+                            固定：{{attribute.SUNDER.baseVal }}
+                            <br>
+                            百分比：{{attribute.SUNDERP.showValue}}
                         </p>
-                        <p class="info">额外造成无视护甲的伤害</p>
+                        <p class="info">无视部分护甲</p>
                     </template>
                 </cTooltip>
                 <cTooltip placement="bottom">

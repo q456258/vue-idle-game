@@ -270,7 +270,7 @@ export default new Vuex.Store({
                 ATK: { baseVal: 0, value: 5, showbaseVal: 0},
                 DEF: { baseVal: 0, value: 0, showbaseVal: 0},
                 DEFRED: { baseVal: 0, value: 0, showbaseVal: 0},
-                AP: { baseVal: 0, value: 0, showbaseVal: 0},
+                SUNDER: { baseVal: 0, value: 0, showbaseVal: 0},
                 MR: { baseVal: 0, value: 0, showbaseVal: 0},
                 CRIT: { baseVal: 0, value: 0, showbaseVal: 0},
                 CRITDMG: { baseVal: 0, value: 150, showbaseVal: 0},
@@ -282,7 +282,7 @@ export default new Vuex.Store({
                 MPP: { baseVal: 0, value: 0, showbaseVal: 0},
                 ATKP: { baseVal: 0, value: 0, showbaseVal: 0},
                 DEFP: { baseVal: 0, value: 0, showbaseVal: 0},
-                APP: { baseVal: 0, value: 0, showbaseVal: 0},
+                SUNDERP: { baseVal: 0, value: 0, showbaseVal: 0},
                 MRP: { baseVal: 0, value: 0, showbaseVal: 0},
             },
             simulatedAttribute: {
@@ -310,7 +310,7 @@ export default new Vuex.Store({
                 ATK: { value: 0, showValue: 0, },
                 DEF: { value: 0, showValue: 0, },
                 DEFRED: { value: 0, showValue: 0, },
-                AP: { value: 0, showValue: 0, },
+                SUNDERP: { value: 0, showValue: 0, },
                 MR: { value: 0, showValue: 0, },
                 CRIT: { value: 0, showValue: 0, },
                 CRITDMG: { value: 200, showValue: 200, },
@@ -325,7 +325,7 @@ export default new Vuex.Store({
                 ATK: { value: 0, showValue: 0, },
                 DEF: { value: 0, showValue: 0, },
                 DEFRED: { value: 0, showValue: 0, },
-                AP: { value: 0, showValue: 0, },
+                SUNDERP: { value: 0, showValue: 0, },
                 MR: { value: 0, showValue: 0, },
                 CRIT: { value: 0, showValue: 0, },
                 CRITDMG: { value: 0, showValue: 0, },
@@ -345,7 +345,7 @@ export default new Vuex.Store({
             ATK: 10,
             DEF: 0,
             DEFRED: 0,
-            AP: 0,
+            SUNDER: 0,
             MR: 0,
             CRIT: 0,
             CRITDMG: 150,
@@ -357,7 +357,7 @@ export default new Vuex.Store({
             MPP: 0,
             ATKP: 0,
             DEFP: 0,
-            APP: 0,
+            SUNDERP: 0,
             MRP: 0,
         },    
         memberAttribute: {
@@ -374,7 +374,7 @@ export default new Vuex.Store({
             ATK: 0,
             DEF: 0,
             DEFRED: 0,
-            AP: 0,
+            SUNDER: 0,
             MR: 0,
             CRIT: 0,
             CRITDMG: 0,
@@ -386,7 +386,7 @@ export default new Vuex.Store({
             MPP: 0,
             ATKP: 0,
             DEFP: 0,
-            APP: 0,
+            SUNDERP: 0,
             MRP: 0,
         },
         setting: {
@@ -438,7 +438,6 @@ export default new Vuex.Store({
                 shoulder = playerAttribute.shoulder,
                 entries = [],
                 potentials = [];
-            
             if(data != undefined && data.simulate == true) {
                 switch (data.equip.itemType) {
                     case 'helmet':
@@ -467,24 +466,24 @@ export default new Vuex.Store({
                     mpPercent = playerAttribute.attribute.CURMP.value/playerAttribute.attribute.MAXMP.value;
             var attribute = {};
             var attributes = [
-                'MAXHP','CURHP','MAXMP','CURMP','STR','AGI','INT','ALL','CRIT','CRITDMG','ATK','DEF','DEFRED','AP','MR','HP','MP',
-                'STRP','AGIP','INTP','ALLP','ATKP','APP', 'MRP','DEFP','HPP','MPP',
+                'MAXHP','CURHP','MAXMP','CURMP','STR','AGI','INT','ALL','CRIT','CRITDMG','ATK','DEF','DEFRED','SUNDER','MR','HP','MP',
+                'STRP','AGIP','INTP','ALLP','ATKP','SUNDERP', 'MRP','DEFP','HPP','MPP',
             ];
             var advancedAttributes = ['STR','AGI','INT','ALL','STRP','AGIP','INTP','ALLP',];
             var normalAttributes = [
-                'CRIT','CRITDMG','ATK','DEF','DEFRED','AP','MR','HP','MP',
-                'ATKP','APP', 'MRP','DEFP','HPP','MPP',
+                'CRIT','CRITDMG','ATK','DEF','DEFRED','SUNDER','MR','HP','MP',
+                'ATKP','SUNDERP', 'MRP','DEFP','HPP','MPP',
             ];
             var percent = [
-                'STRP','AGIP','INTP','ALLP','CRIT','CRITDMG','ATKP','DEFP','APP','MRP','HPP','MPP'
+                'STRP','AGIP','INTP','ALLP','CRIT','CRITDMG','ATKP','DEFP','SUNDERP','MRP','HPP','MPP'
             ];
             var hasPercent = [
-                'STR','AGI','INT','ALL','ATK','DEF','AP','MR','HP','MP'
+                'STR','AGI','INT','ALL','ATK','DEF','SUNDER','MR','HP','MP'
             ];
             var advancedAttr = {
                 STR: { HP: 10}, 
                 AGI: { ATK: 4, DEF: 1}, 
-                INT: { MP: 3, AP: 3 }, 
+                INT: { MP: 3, MR: 3 }, 
             };
             attributes.forEach(attr => {
                 attribute[attr] = { 
@@ -535,7 +534,7 @@ export default new Vuex.Store({
                 }
             }
             normalAttributes.forEach(attr => {
-                if(hasPercent.indexOf(attr) > -1)
+                if(hasPercent.indexOf(attr) > -1 && attr != 'SUNDER')
                     attribute[attr].value = Math.round(attribute[attr].baseVal*(1+attribute[attr+'P'].baseVal/100));
                 else
                     attribute[attr].value = attribute[attr].baseVal;
