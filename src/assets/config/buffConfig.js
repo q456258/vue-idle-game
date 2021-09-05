@@ -76,18 +76,18 @@ data() {
                     iconSrc: "./icons/spell/absorb.png",
                     desc: "格挡：免疫下一次受到的攻击伤害"
                 },
-                elementAffinity: {
-                    cleanse: true,
-                    stacked: true,
-                    iconSrc: "./icons/spell/absorb.png",
-                    desc: "元素亲和：免疫下一次受到的元素伤害"
-                },
-                forceOfNature: {
-                    cleanse: true,
-                    stacked: true,
-                    iconSrc: "./icons/spell/absorb.png",
-                    desc: "自然之力：下一次造成的元素伤害翻倍"
-                },
+                // elementAffinity: {
+                //     cleanse: true,
+                //     stacked: true,
+                //     iconSrc: "./icons/spell/absorb.png",
+                //     desc: "元素亲和：免疫下一次受到的元素伤害"
+                // },
+                // forceOfNature: {
+                //     cleanse: true,
+                //     stacked: true,
+                //     iconSrc: "./icons/spell/absorb.png",
+                //     desc: "自然之力：下一次造成的元素伤害翻倍"
+                // },
                 minionSlayer: {
                     timed: true,
                     iconSrc: "./icons/item/inv_potion_27.png",

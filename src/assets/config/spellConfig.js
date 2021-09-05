@@ -100,24 +100,24 @@ data() {
                 iconSrc: "./icons/spell/Spell_fire_flamebolt.png",
                 quality: 1,
                 level: [{
-                        des: '造成5000+元素*2+智力*5点伤害',
-                        dmg: { FIX: 5000, AP:2, INT: 5, },
+                        des: '造成5000+智力*5点伤害',
+                        dmg: { FIX: 5000, INT: 5, },
                         cost: { MP: 600, },
                     }, {
-                        des: '造成30000+元素*2+智力*5点伤害',
-                        dmg: { FIX: 30000, AP:2, INT: 5, },
+                        des: '造成30000+智力*5点伤害',
+                        dmg: { FIX: 30000, INT: 5, },
                         cost: { MP: 3000, },
                     }, {
-                        des: '造成100000+元素*2+智力*5点伤害',
-                        dmg: { FIX: 100000, AP:2, INT: 5, },
+                        des: '造成100000+智力*5点伤害',
+                        dmg: { FIX: 100000, INT: 5, },
                         cost: { MP: 10000, },
                     }, {
-                        des: '造成300000+元素*2+智力*5点伤害',
-                        dmg: { FIX: 300000, AP:2, INT: 5, },
+                        des: '造成300000+智力*5点伤害',
+                        dmg: { FIX: 300000, INT: 5, },
                         cost: { MP: 30000, },
                     }
                 ],
-                tag: ['智力', '元素']
+                tag: ['智力']
             },
             ability_warrior_shieldbash: {
                 name: '盾击',
@@ -391,40 +391,40 @@ data() {
                 },
                 tag: ['智力']
             },
-            spell_nature_starfall: {
-                name: '月火术',
-                max: 15,
-                iconSrc: "./icons/spell/Spell_nature_starfall.png",
-                quality: 2,
-                level: [{
-                        des: '造成元素伤害*2点元素伤害',
-                        dmg: {},
-                        ap: { AP: 2 },
-                        cost: { MP: 4000, },
-                    }, {
-                        des: '造成元素伤害*2.5点元素伤害',
-                        dmg: {},
-                        ap: { AP: 2.5 },
-                        cost: { MP: 10000, },
-                    }, {
-                        des: '造成元素伤害*3点元素伤害',
-                        dmg: {},
-                        ap: { AP: 3 },
-                        cost: { MP: 30000, },
-                    }
-                ],
-                proficient: {
-                    10: {
-                        effect: { forceOfNature: {stack: 1, chance: 10, target: 'self'} },
-                        desc: '10%获得一层自然之力效果'
-                    },
-                    100: {
-                        effect: { forceOfNature: {stack: 1, chance: 20, target: 'self'} },
-                        desc: '20%获得一层自然之力效果'
-                    }
-                },
-                tag: ['元素']
-            },
+            // spell_nature_starfall: {
+            //     name: '月火术',
+            //     max: 15,
+            //     iconSrc: "./icons/spell/Spell_nature_starfall.png",
+            //     quality: 2,
+            //     level: [{
+            //             des: '造成元素伤害*2点元素伤害',
+            //             dmg: {},
+            //             ap: { AP: 2 },
+            //             cost: { MP: 4000, },
+            //         }, {
+            //             des: '造成元素伤害*2.5点元素伤害',
+            //             dmg: {},
+            //             ap: { AP: 2.5 },
+            //             cost: { MP: 10000, },
+            //         }, {
+            //             des: '造成元素伤害*3点元素伤害',
+            //             dmg: {},
+            //             ap: { AP: 3 },
+            //             cost: { MP: 30000, },
+            //         }
+            //     ],
+            //     proficient: {
+            //         10: {
+            //             effect: { forceOfNature: {stack: 1, chance: 10, target: 'self'} },
+            //             desc: '10%获得一层自然之力效果'
+            //         },
+            //         100: {
+            //             effect: { forceOfNature: {stack: 1, chance: 20, target: 'self'} },
+            //             desc: '20%获得一层自然之力效果'
+            //         }
+            //     },
+            //     tag: ['元素']
+            // },
             spell_holy_powerwordshield: {
                 name: '圣佑术',
                 max: 40,
@@ -569,37 +569,37 @@ data() {
                 },
                 tag: ['BUFF']
             },
-            spell_arcane_starfire: {
-                name: '星火术',
-                max: 25,
-                iconSrc: "./icons/spell/Spell_arcane_starfire.png",
-                quality: 3,
-                level: [{
-                        des: '造成元素*5点伤害',
-                        dmg: { AP: 5},
-                        cost: { MP: 10000, },
-                    }, {
-                        des: '造成元素*7点伤害',
-                        dmg: { AP: 7},
-                        cost: { MP: 30000, },
-                    }, {
-                        des: '造成元素*7点伤害',
-                        dmg: { AP: 7},
-                        cost: { MP: 30000, },
-                    },
-                ],
-                proficient: {
-                    10: {
-                        effect: { forceOfNature: {stack: 1, chance: 20, target: 'self'} },
-                        desc: '20%获得一层自然之力效果'
-                    },
-                    100: {
-                        effect: { forceOfNature: {stack: 1, chance: 40, target: 'self'} },
-                        desc: '40%获得一层自然之力效果'
-                    }
-                },
-                tag: ['元素']
-            },
+            // spell_arcane_starfire: {
+            //     name: '星火术',
+            //     max: 25,
+            //     iconSrc: "./icons/spell/Spell_arcane_starfire.png",
+            //     quality: 3,
+            //     level: [{
+            //             des: '造成元素*5点伤害',
+            //             dmg: { AP: 5},
+            //             cost: { MP: 10000, },
+            //         }, {
+            //             des: '造成元素*7点伤害',
+            //             dmg: { AP: 7},
+            //             cost: { MP: 30000, },
+            //         }, {
+            //             des: '造成元素*7点伤害',
+            //             dmg: { AP: 7},
+            //             cost: { MP: 30000, },
+            //         },
+            //     ],
+            //     proficient: {
+            //         10: {
+            //             effect: { forceOfNature: {stack: 1, chance: 20, target: 'self'} },
+            //             desc: '20%获得一层自然之力效果'
+            //         },
+            //         100: {
+            //             effect: { forceOfNature: {stack: 1, chance: 40, target: 'self'} },
+            //             desc: '40%获得一层自然之力效果'
+            //         }
+            //     },
+            //     tag: ['元素']
+            // },
             spell_holy_crusaderstrike: {
                 name: '十字军打击',
                 max: 40,
@@ -627,45 +627,43 @@ data() {
                 },
                 tag: ['攻击']
             },
-            spell_nature_wispsplode: {
-                name: '元素爆破',
-                max: 30,
-                iconSrc: "./icons/spell/Spell_nature_wispsplode.png",
-                quality: 3,
-                level: [{
-                        des: '造成10*元素伤害点元素伤害',
-                        dmg: {},
-                        ap: {AP: 10},
-                        cost: { MAXHP: 1, },
-                    }
-                ],
-                proficient: {
-                    10: {
-                        effect: { elementAffinity: {stack: 1, chance: 100, target: 'self'} },
-                        desc: '获得一层元素亲和效果'
-                    },
-                    100: {
-                        effect: { elementAffinity: {stack: 2, chance: 100, target: 'self'} },
-                        desc: '获得两层元素亲和效果'
-                    }
-                },
-                tag: ['元素']
-            },
+            // spell_nature_wispsplode: {
+            //     name: '元素爆破',
+            //     max: 30,
+            //     iconSrc: "./icons/spell/Spell_nature_wispsplode.png",
+            //     quality: 3,
+            //     level: [{
+            //             des: '造成10*元素伤害点元素伤害',
+            //             dmg: {},
+            //             ap: {AP: 10},
+            //             cost: { MAXHP: 1, },
+            //         }
+            //     ],
+            //     proficient: {
+            //         10: {
+            //             effect: { elementAffinity: {stack: 1, chance: 100, target: 'self'} },
+            //             desc: '获得一层元素亲和效果'
+            //         },
+            //         100: {
+            //             effect: { elementAffinity: {stack: 2, chance: 100, target: 'self'} },
+            //             desc: '获得两层元素亲和效果'
+            //         }
+            //     },
+            //     tag: ['元素']
+            // },
             spell_shadow_deathcoil: {
                 name: '凋零缠绕',
                 max: 60,
                 iconSrc: "./icons/spell/Spell_shadow_deathcoil.png",
                 quality: 3,
                 level: [{
-                        des: '造成当前生命值*10点伤害，0点元素伤害，50%获得一层吸收效果',
+                        des: '造成当前生命值*10点伤害，50%获得一层吸收效果',
                         dmg: {CURHP: 10},
-                        ap: {},
                         effect: { absorb: {stack: 1, chance: 50, target: 'self'}},
                         cost: { MP: 10000, },
                     }, {
-                        des: '造成当前生命值*10点伤害，0点元素伤害，50%获得一层吸收效果',
+                        des: '造成当前生命值*10点伤害，50%获得一层吸收效果',
                         dmg: {CURHP: 10},
-                        ap: {},
                         effect: { absorb: {stack: 1, chance: 50, target: 'self'}},
                         cost: { MP: 100000, },
                     }
@@ -782,16 +780,14 @@ data() {
                 iconSrc: "./icons/spell/Spell_shadow_deathscream.png",
                 quality: 4,
                 level: [{
-                        des: '造成攻击力*1点伤害，0点元素伤害，50%对敌人附加一层眩晕效果，并获得一层吸血效果',
+                        des: '造成攻击力*1点伤害，50%对敌人附加一层眩晕效果，并获得一层吸血效果',
                         dmg: {ATK: 1},
-                        ap: {},
                         effect: { stun: {stack: 1, chance: 50, target: 'enermy'},
                                 lifesteal: {stack: 1, chance: 100, target: 'self'} },
                         cost: { MP: 2000, },
                     }, {
-                        des: '造成攻击力*1.5点伤害，0点元素伤害，50%对敌人附加一层眩晕效果，并获得一层吸血效果',
+                        des: '造成攻击力*1.5点伤害，50%对敌人附加一层眩晕效果，并获得一层吸血效果',
                         dmg: {ATK: 1.5},
-                        ap: {},
                         effect: { stun: {stack: 1, chance: 50, target: 'enermy'},
                                 lifesteal: {stack: 1, chance: 100, target: 'self'} },
                         cost: { MP: 5000, },
@@ -807,19 +803,16 @@ data() {
                 iconSrc: "./icons/spell/Ability_druid_starfall.png",
                 quality: 5,
                 level: [{
-                        des: '造成当前魔法值*6点元素伤害',
-                        dmg: {},
-                        ap: { CURMP: 6 },
+                        des: '造成当前魔法值*6点伤害',
+                        dmg: { CURMP: 6 },
                         cost: { MAXMP: 1, },
                     }, {
-                        des: '造成当前魔法值*8点元素伤害',
-                        dmg: {},
-                        ap: { CURMP: 8 },
+                        des: '造成当前魔法值*8点伤害',
+                        dmg: { CURMP: 8 },
                         cost: { MAXMP: 1, },
                     }, {
-                        des: '造成当前魔法值*10点元素伤害',
-                        dmg: {},
-                        ap: { CURMP: 10 },
+                        des: '造成当前魔法值*10点伤害',
+                        dmg: { CURMP: 10 },
                         cost: { MAXMP: 1, },
                     }
                 ],
@@ -833,7 +826,7 @@ data() {
                         desc: '获得两层自然之力效果'
                     }
                 },
-                tag: ['魔法', '元素']
+                tag: ['魔法']
             },
             warrior_talent_icon_innerrage: {
                 name: '鲁莽',
@@ -904,7 +897,7 @@ data() {
                 iconSrc: "./icons/spell/Ability_ardenweald_paladin_summer.png",
                 quality: 6,
                 level: [{
-                        des: '获得一层吸血、吸蓝、蓄力、死亡免疫、虚无、吸收、元素亲和、自然之力',
+                        des: '获得一层吸血、吸蓝、蓄力、死亡免疫、虚无、吸收',
                         dmg: {},
                         ap: {},
                         effect: {lifesteal: {stack: 1, chance: 100, target: 'self'},
@@ -912,12 +905,10 @@ data() {
                                 charge: {stack: 1, chance: 100, target: 'self'} ,
                                 deathImmune: {stack: 1, chance: 100, target: 'self'},
                                 void: {stack: 1, chance: 100, target: 'self'} ,
-                                absorb: {stack: 1, chance: 100, target: 'self'},
-                                elementAffinity: {stack: 1, chance: 100, target: 'self'},
-                                forceOfNature: {stack: 1, chance: 100, target: 'self'},  },
+                                absorb: {stack: 1, chance: 100, target: 'self'},  },
                         cost: { },
                     }, {
-                        des: '获得一层吸血、吸蓝、蓄力、死亡免疫、虚无、吸收、元素亲和、自然之力',
+                        des: '获得一层吸血、吸蓝、蓄力、死亡免疫、虚无、吸收',
                         dmg: {},
                         ap: {},
                         effect: {lifesteal: {stack: 1, chance: 100, target: 'self'},
@@ -925,9 +916,7 @@ data() {
                                 charge: {stack: 1, chance: 100, target: 'self'} ,
                                 deathImmune: {stack: 1, chance: 100, target: 'self'},
                                 void: {stack: 1, chance: 100, target: 'self'} ,
-                                absorb: {stack: 1, chance: 100, target: 'self'},
-                                elementAffinity: {stack: 1, chance: 100, target: 'self'},
-                                forceOfNature: {stack: 1, chance: 100, target: 'self'},   },
+                                absorb: {stack: 1, chance: 100, target: 'self'}, },
                         cost: { },
                     }
                 ],

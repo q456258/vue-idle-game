@@ -33,10 +33,17 @@
             <div class="action" v-if="!inBattle&&selectedDungeon.count!=0">
                 <button class="btn btn-success btn-sm" @click="toggleBattle(selectedDungeon.type)">
                     开始战斗
-                </button>        
-                <button class="btn btn-success btn-sm" @click="toggleBattle(selectedDungeon.type, true)">
-                    <span v-if="auto">自动中···</span><span v-else>连续战斗</span>
-                </button>    
+                </button>   
+                <span v-if="auto">
+                    <button class="btn btn-danger btn-sm" @click="autoBattle(false)">
+                        自动中···
+                    </button>    
+                </span>
+                <span v-else>
+                    <button class="btn btn-success btn-sm" @click="toggleBattle(selectedDungeon.type, true)">
+                        连续战斗
+                    </button>    
+                </span>  
             </div>    
             <div class="action" v-if="inBattle">
                 <button v-if="inBattle" class="btn btn-danger btn-sm" @click="toggleBattle()">
@@ -213,7 +220,7 @@ export default {
         expReq() {
             this.reqExp[0] = 0;
             for(let i=1; i<200; i++) {
-                this.reqExp[i] = this.reqExp[i-1]+(300+i*100)
+                this.reqExp[i] = this.reqExp[i-1]+(150+i*50)
             }
         },
         levelUp() {
@@ -261,7 +268,6 @@ export default {
             if(!monsterID)
                 monsterID = this.dungeonInfo[this.dungeonInfo.current].monsterID;
             var templateId = this.templateId[monsterID];
-            
             enermyAttribute.attribute = this.$deepCopy(this.monster[templateId].template);
             var attribute = enermyAttribute.attribute,
             val = 0.0,

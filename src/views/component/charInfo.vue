@@ -466,7 +466,7 @@ export default {
             left: 0,
             activeFilter: ['所有', '已激活', '未激活'],
             activeFilterSelected: '所有',
-            dmgFilter: ['所有', '力量', '敏捷', '智力', '生命', '魔法', '攻击', '护甲', '元素', '恢复', 'BUFF', 'DEBUFF'],
+            dmgFilter: ['所有', '力量', '敏捷', '智力', '生命', '魔法', '攻击', '护甲', '恢复', 'BUFF', 'DEBUFF'],
             dmgFilterSelected: '所有'
         };
     },

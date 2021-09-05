@@ -48,7 +48,7 @@ export default {
             let delay = this.$refs.delay;
             delay.style.transition= 'width 0s linear';
             setTimeout(() => {
-                if(temp>this.vpNow) {
+                if(temp>this.vpNow && (this.vpNow-temp)/this.vpMax > 0.01) {
                     this.delay = temp;
                 }
                 else {

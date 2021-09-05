@@ -41,6 +41,7 @@ export const dungeon = {
             if(minlv <= playerLv && maxLv >= playerLv && type == 'advanture') {
                 let eventType = 'normal';
                 let monsterID = this.monsterId[this.getName(eventType, playerLv)];
+                let monsterName = this.getNameById(monsterID);
                 let choice = {
                     type: eventType, 
                     color: this.typeColor[eventType],
@@ -48,6 +49,7 @@ export const dungeon = {
                     img: './icons/'+eventType+'.png',
                     lv: playerLv,
                     monsterID: monsterID,
+                    monsterName: monsterName,
                     count: this.getCount(eventType),
                     left: Math.random()*90,
                     top: Math.random()*90,
