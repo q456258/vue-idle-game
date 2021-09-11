@@ -22,7 +22,7 @@ export default {
     data() {
         return {
             diff: {},
-            comparedAttributes: ['HP','MP','ATK','DEF','SUNDER','SUNDERP','MR','CRIT','CRITDMG',],
+            comparedAttributes: ['HP','MP','ATK','DEF','SUNDER','MR','CRIT','CRITDMG',],
             percent: ['CRIT','CRITDMG']
         };
     },

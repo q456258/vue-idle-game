@@ -273,7 +273,7 @@ export default {
             val = 0.0,
             flexStats = ['MAXHP', 'ATK', 'DEF'],
             lvStats = ['MR'],
-            fixStats = ['SUNDERP', 'CRIT', 'CRITDMG']; 
+            fixStats = ['SUNDER', 'CRIT', 'CRITDMG']; 
             enermyAttribute.lv = level;
             enermyAttribute.type = type;
             enermyAttribute.name = this.dungeonInfo[this.dungeonInfo.current].monsterName;
@@ -315,12 +315,22 @@ export default {
                 value: val,
                 showValue: val+'%'
             }
+            val = this.getSunderRed(attribute['SUNDER'].value);
+            attribute['SUNDERRED'] = {
+                value: val,
+                showValue: val+'%'
+            }
             this.$store.commit('set_enermy_attribute', enermyAttribute);
         },
         getDefRed(armor) {
             let sign = armor>=0 ? 1 : -1;
             armor = Math.abs(armor);
             return sign*Math.round((armor/(100+armor) + armor/(armor+3500))/2*1000000)/10000;
+        },
+        getSunderRed(sunder) {
+            let sign = sunder>=0 ? 1 : -1;
+            sunder = Math.abs(sunder);
+            return sign*Math.round((sunder/(100+sunder))*100);
         },
         dmgCalculate(source, target, type) {
             if(this.stun(source))
@@ -383,9 +393,7 @@ export default {
             baseDmg = this.block(target, baseDmg);
             var penDmg = this.penetrate(source, baseDmg);
             var armor = this.sunder(source, target.attribute.DEF.value);
-            armor = Math.round(armor*(1-source.attribute.SUNDERP.value/100));
-            if(source.attribute.SUNDER)
-                armor -= source.attribute.SUNDER.value;
+            armor = Math.round(armor*(1-source.attribute.SUNDERRED.value/100));
             var defRed = this.getDefRed(armor);
             baseDmg -= penDmg;
             var dmg = baseDmg*(1-defRed/100)+penDmg;

@@ -83,7 +83,7 @@ export default {
             qualityProbability: [0.25, 0.65, 0.9, 0.99, 0.999, 1],
             typeName: ['helmet', 'accessory', 'weapon', 'armor', 'shoe', 'shoulder'],
             percent: [
-                'STRP','AGIP','INTP','ALLP','CRIT','CRITDMG','ATKP','DEFP','SUNDERP','MRP','HPP','MPP'
+                'STRP','AGIP','INTP','ALLP','CRIT','CRITDMG','ATKP','DEFP','MRP','HPP','MPP'
             ],
         };
     },
@@ -135,7 +135,7 @@ export default {
             var type = newEquip.itemType;
             var index = Math.floor(Math.random()*this[type].type.length);
             var percent = [
-                'CRIT','CRITDMG','ATKP','DEFP','SUNDERP','MRP','HPP','MPP'
+                'CRIT','CRITDMG','ATKP','DEFP','MRP','HPP','MPP'
             ];
             newEquip.description = this[type].type[index].description;
             newEquip.description.type = this.type[newEquip.itemType];
@@ -209,10 +209,10 @@ export default {
         createPotential(newEquip) {
             var extraEntry = [
                 'STR','AGI','INT', 'ALL', 'CRIT','CRITDMG','ATK', 'DEF', 'SUNDER', 'MR', 'HP', 'MP', 
-                'STRP','AGIP','INTP','ALLP','ATKP','SUNDERP', 'MRP','DEFP','HPP','MPP',
+                'STRP','AGIP','INTP','ALLP','ATKP', 'MRP','DEFP','HPP','MPP',
             ];
             var percent = [
-                'STRP','AGIP','INTP','ALLP','CRIT','CRITDMG','ATKP','DEFP','SUNDERP','MRP','HPP','MPP'
+                'STRP','AGIP','INTP','ALLP','CRIT','CRITDMG','ATKP','DEFP','MRP','HPP','MPP'
             ];
             var potentials = [];
             for(var i=0; i<3; i++) {
@@ -246,7 +246,7 @@ export default {
         enhanceBaseEntryValue(equip) {
             var baseEntry = equip.baseEntry;
             var percent = [
-                'STRP','AGIP','INTP','ALLP','CRIT','CRITDMG','ATKP','DEFP','SUNDERP','MRP','HPP','MPP'
+                'STRP','AGIP','INTP','ALLP','CRIT','CRITDMG','ATKP','DEFP','MRP','HPP','MPP'
             ];
 
             baseEntry.forEach(entry => {
@@ -271,7 +271,7 @@ export default {
             var extraEntryTypes = [];
             var type = equip.itemType;
             var percent = [
-                'STRP','AGIP','INTP','ALLP','CRIT','CRITDMG','ATKP','DEFP','SUNDERP','MRP','HPP','MPP'
+                'STRP','AGIP','INTP','ALLP','CRIT','CRITDMG','ATKP','DEFP','MRP','HPP','MPP'
             ];
             extraEntryTypes = this[type].extraEntry;
             var index = Math.floor(Math.random()*extraEntryTypes.length);

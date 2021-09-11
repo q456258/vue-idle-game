@@ -70,7 +70,6 @@ export const equipConfig = {
         ALLP: { base: 4, name: '全属性'},
         ATKP: { base: 6, name: '攻击力' }, 
         DEFP: { base: 6, name: '防御力' }, 
-        SUNDERP: { base: 4, name: '破甲' }, 
         MRP: { base: 6, name: '能量盾' }, 
         HPP: { base: 6, name: '生命值' }, 
         MPP: { base: 6, name: '魔法值' }, 

@@ -25,7 +25,7 @@
         <div class="item">
             <img src="../../assets/icons/stat/sunder.png" alt="">
             <div class="value">
-                <span>{{attr.attribute.SUNDERP.showValue}}</span>
+                <span>{{attr.attribute.SUNDERRED.showValue}}</span>
             </div>
         </div>
         <div class="item">

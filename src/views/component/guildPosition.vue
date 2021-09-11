@@ -4,6 +4,11 @@
         <div class="buildInfo">
             {{guild.guild.lv+"级 ("+guild.guild.exp+"/"+lvExp[guild.guild.lv]+')'}}
         </div>
+    </div>
+    <div class="building" v-show="displayPage=='train'" :set="type='train'">
+        <div class="buildInfo">
+            {{guild[type].lv+"级 ("+guild[type].exp+"/"+lvExp[guild[type].lv]+')'}}
+        </div>
         <div class="training">
             <div class="trainingProgressbars">
                 <countdown ref="countdown" :tier="0" :timer="$store.state.train.train1.timer" :level="guild.train.lv" v-if="guild.train.lv>0"></countdown>
@@ -13,7 +18,7 @@
             </div>
         </div>
     </div>
-    <div class="building" v-show="displayPage==type" v-for="(type, typeIndex) in types" :key="typeIndex">
+    <div class="building" v-show="displayPage=='shop'" :set="type='shop'">
         <div class="buildInfo">
             {{guild[type].lv+"级 ("+guild[type].exp+"/"+lvExp[guild[type].lv]+')'}}
             <br>
@@ -31,16 +36,41 @@
                         {{option.name}}<span v-if="guild[type].lv<option.lv"> {{option.lv}}级</span>
                     </option>
                 </select>
-                <span v-if="type=='smith' && selectedType[type] != 'smith'">
+                &nbsp;<div class="btn btn-success" @click="start('shop')">开始</div>
+            </div>
+            <div v-else>
+                &nbsp;<div class="btn btn-danger" @click="stop('shop')">停止</div>
+            </div>
+        </div>
+    </div>
+    <div class="building" v-show="displayPage=='smith'" :set="type='smith'">
+        <div class="buildInfo">
+            {{guild[type].lv+"级 ("+guild[type].exp+"/"+lvExp[guild[type].lv]+')'}}
+            <br>
+            {{' (经验获取率：'+totalLevel[type]+'x, 效率：'+totalEfficiency[type]+'/秒)'}}
+        </div>
+        <div class="progress" style="width:100%;">
+            <div class="progress-bar progress-bar-striped" :style="{width:progress[type].current/progress[type].max*100+'%'}">
+                <small class="justify-content-center d-flex position-absolute w-90" style="color:black">{{progress[type].current+'/'+progress[type].max}} </small>
+            </div>
+        </div>
+        <div class="action">
+            <div v-if="!inProgress[type]">
+                <select v-model="selectedType[type]" @change="setSelectedType($event, type)" class="btn btn-light">
+                    <option :value="option.value" v-for="(option, index) in selectOption[type]" :key="index" :disabled="guild[type].lv<option.lv">
+                        {{option.name}}<span v-if="guild[type].lv<option.lv"> {{option.lv}}级</span>
+                    </option>
+                </select>
+                <span v-if="selectedType[type] != 'smith'">
                     主材料：<a v-if="smith_main.lv" :style="{color:smith_main.quality.color}" @mouseover="showInfo($event,smith_main.itemType,smith_main)" @mouseleave="closeInfo('equip')">{{smith_main.description.name}}</a>
                     <div class="btn btn-outline-light" @click="selectEquip('smith_main')">+</div>
                     副材料：<a v-if="smith_sub.lv" :style="{color:smith_sub.quality.color}" @mouseover="showInfo($event,smith_sub.itemType,smith_sub)" @mouseleave="closeInfo('equip')">{{smith_sub.description.name}}</a>
                     <div class="btn btn-outline-light" @click="selectEquip('smith_sub')">+</div>
                 </span>
-                &nbsp;<div class="btn btn-success" @click="start(type)">开始</div>
+                &nbsp;<div class="btn btn-success" @click="start('smith')">开始</div>
             </div>
             <div v-else>
-                &nbsp;<div class="btn btn-danger" @click="stop(type)">停止</div>
+                &nbsp;<div class="btn btn-danger" @click="stop('smith')">停止</div>
             </div>
         </div>
     </div>
@@ -75,7 +105,7 @@ export default {
                 shop: 1, smith: 1, train: 1, train2: 1, train3: 1
             },
             totalEfficiency: {
-                shop: 0, smith: 0, train: 0, train2: 0, train3: 0,
+                shop: 1, smith: 1, train: 1, train2: 1, train3: 1,
             },
             timerList: {
                 shop: 0, smith: 0, train: 0, train2: 0, train3: 0,
@@ -134,12 +164,15 @@ export default {
             this.start('train3');
             // this.smith_main = this.player.shoulder;
             // this.smith_sub = this.player.weapon;
-            this.lvExp[0] = 10;
-            for(let i=1; i<100; i++)
-                this.lvExp[i] = Math.round(this.lvExp[i-1]*1.5);
+            this.setExpReq();
             var types = ['guild','shop','smith','train','train2','train3'];
             for(let type in types) 
                 this.computeLv(types[type]);
+        },
+        setExpReq() {
+            this.lvExp[0] = 10;
+            for(let i=1; i<100; i++)
+                this.lvExp[i] = Math.round(this.lvExp[i-1]*1.5);
         },
         computeLv(type) {
             var target = this.guild[type];
@@ -461,7 +494,7 @@ export default {
     transition: 1s linear;
 }
 .w-90 {
-    width: 40%;
+    width: 100%;
     font-size: 0.8rem;
 }
 </style>

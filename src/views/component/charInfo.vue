@@ -189,16 +189,21 @@
                         <div class="item">
                             <img src="../../assets/icons/stat/sunder.png" alt="">
                             <div class="value">
-                                <span>{{attribute.SUNDER.showValue}}</span>
+                                <span>
+                                    {{attribute.SUNDER.showValue}}
+                                    <div class="reducePercent">
+                                        ({{attribute.SUNDERRED.showValue}})
+                                    </div>
+                                </span>
                             </div>
                         </div>
                     </template>
                     <template v-slot:tip>
                         <p class="info">* 破甲
                             <br>
-                            固定：{{attribute.SUNDER.baseVal }}
+                            基础：{{attribute.SUNDER.showValue }}
                             <br>
-                            百分比：{{attribute.SUNDERP.showValue}}
+                            破甲：{{attribute.SUNDERRED.showValue}}
                         </p>
                         <p class="info">无视部分护甲</p>
                     </template>
