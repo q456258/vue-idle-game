@@ -176,12 +176,14 @@ export default {
             var exp = 35+lv*5;
             var playerLv = this.playerAttr.lv;
             if(lv>playerLv) {
+                // 经验上限125%
                 exp = Math.round(exp*(lv-playerLv)*1.05);
                 exp = Math.min(exp, exp*1.25);
             }
             else {
-                exp = Math.round(exp*(1-(playerLv-lv)*0.1));
-                exp = Math.max(exp, 0);
+                // 经验下限10%
+                exp = Math.round(exp*(1-playerLv-lv*0.1));
+                exp = Math.max(exp, exp*0.1);
             }
             var curExp = this.playerAttr.exp.cur + exp;
             var reqExp = this.reqExp[playerLv];

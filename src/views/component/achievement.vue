@@ -20,16 +20,15 @@ export default {
     },
     methods: {
         set_statistic(data) {
-            if(data.gameTime != undefined) {
-                var time = this.$store.state.statistic.gameTime;
-                // var hourGap = this.timeGap('hour', time, time+data.gameTime);
-                var hourGap = this.timeGap('min', time, time+data.gameTime);
-                if(hourGap == 1) {
-                    var guildMember = this.findBrothersComponents(this, 'guildMember', false)[0];
-                    guildMember.levelupAll();
-                }
+            // if(data.gameTime != undefined) {
+            //     var time = this.$store.state.statistic.gameTime;
+            //     var hourGap = this.timeGap('hour', time, time+data.gameTime);
+            //     if(hourGap == 1) {
+            //         var guildMember = this.findBrothersComponents(this, 'guildMember', false)[0];
+            //         guildMember.levelupAll();
+            //     }
 
-            }
+            // }
             this.$store.commit("set_statistic", data);
         },
         timeGap(type, time, time2) {

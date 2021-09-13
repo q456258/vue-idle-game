@@ -332,8 +332,12 @@ export default {
         },
         increaseProgress(type, value) {
             var max = this.member.talent[type]*this.entryInfo[type].base*this.member.lv;
-            if(this.member.stat[type]+value > max) 
+            if(this.member.stat[type]+value > max) {
                 value = max - this.member.stat[type];
+                let guild = this.findComponentUpward(this, 'guild');
+                let guildMember = this.findBrothersComponents(guild, 'guildMember', false)[0];
+                guildMember.levelUp(this.member);
+            }
             this.member.stat[type] += value;
             return value;
         },

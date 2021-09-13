@@ -22,6 +22,7 @@
                     <th scope="col" style="cursor:pointer" @click="sortBy('DEF', 'stat')">防御</th>
                     <th scope="col" style="cursor:pointer" @click="sortBy('HP', 'stat')">生命</th>
                     <th scope="col" style="cursor:pointer" @click="sortBy('MP', 'stat')">魔法</th>
+                    <th scope="col" style="cursor:pointer" @click="sortBy('potential', 'talent')">潜力</th>
                     <th scope="col">技能</th>
                     <th scope="col"></th>
                 </tr>
@@ -34,6 +35,7 @@
                     <td>{{v.stat.DEF}}</td>
                     <td>{{v.stat.HP}}</td>
                     <td>{{v.stat.MP}}</td>
+                    <td>{{v.talent.potential}}</td>
                     <td style="width: 8em;">
                         <div class="skill" v-for="(level, index) in v.skill" :key="index">
                             <span class="skillName">{{level+'级'+guildSkill[index].name}}</span>
@@ -108,11 +110,12 @@
             <thead>
                 <tr>
                     <th scope="col">名字</th>
-                    <th scope="col" style="cursor:pointer" @click="sortAppBy('lv', 'stat')">等级</th>
-                    <th scope="col" style="cursor:pointer" @click="sortAppBy('ATK', 'stat')">攻击</th>
-                    <th scope="col" style="cursor:pointer" @click="sortAppBy('DEF', 'stat')">防御</th>
-                    <th scope="col" style="cursor:pointer" @click="sortAppBy('HP', 'stat')">生命</th>
-                    <th scope="col" style="cursor:pointer" @click="sortAppBy('MP', 'stat')">魔法</th>
+                    <th scope="col" style="cursor:pointer" @click="sortAppBy('lv', 'talent')">等级</th>
+                    <th scope="col" style="cursor:pointer" @click="sortAppBy('ATK', 'talent')">攻击</th>
+                    <th scope="col" style="cursor:pointer" @click="sortAppBy('DEF', 'talent')">防御</th>
+                    <th scope="col" style="cursor:pointer" @click="sortAppBy('HP', 'talent')">生命</th>
+                    <th scope="col" style="cursor:pointer" @click="sortAppBy('MP', 'talent')">魔法</th>
+                    <th scope="col" style="cursor:pointer" @click="sortAppBy('potential', 'talent')">潜力</th>
                     <th scope="col">技能</th>
                     <th scope="col"></th>
                 </tr>
@@ -121,10 +124,11 @@
                 <tr v-for="(v, k) in applicantList" :key="k">
                     <td>{{v.name}}</td>
                     <td>{{v.lv}}</td>
-                    <td>{{v.stat.ATK}}</td>
-                    <td>{{v.stat.DEF}}</td>
-                    <td>{{v.stat.HP}}</td>
-                    <td>{{v.stat.MP}}</td>
+                    <td>{{v.talent.ATK}}</td>
+                    <td>{{v.talent.DEF}}</td>
+                    <td>{{v.talent.HP}}</td>
+                    <td>{{v.talent.MP}}</td>
+                    <td>{{v.talent.potential}}</td>
                     <td style="width: 8em;">
                         <div class="skill" v-for="(level, index) in v.skill" :key="index">
                             <span class="skillName">{{level+'级'+guildSkill[index].name}}</span>
@@ -340,7 +344,8 @@ export default {
                 else
                     member.skill[temp]++;
             }
-            this.gainStat(member);
+            // 升级暂时先不加属性了
+            // this.gainStat(member);
         },
         levelupAll() {
             for(var index in this.guild.member) {
@@ -357,6 +362,9 @@ export default {
             }
         },
         resetPlayerStat() {
+            for(let type in this.$store.state.memberAttribute) {
+                this.$store.state.memberAttribute[type] = 0;
+            }
             for(var index in this.guild.member) {
                 let member = this.guild.member[index];
                 for(let type in member.stat) {
@@ -368,15 +376,23 @@ export default {
         recruit(k) {
             if(this.guild.member.length >= this.maxMember)
                 return;
+            let member = this.applicantList[k];
+            for(let type in member.stat) 
+                this.$store.state.memberAttribute[type] += Math.round(member.stat[type]*0.1);
             this.applicantList[k].isMember = true;
             this.guild.member.push(this.applicantList[k]);
             this.applicantList.splice(k, 1);
+            this.$store.commit('set_player_attribute');
         },
         reject(k) {
             this.applicantList.splice(k, 1);
         },
         kick(k) {
+            let member = this.guild.member[k];
+            for(let type in member.stat)
+                this.$store.state.memberAttribute[type] -= Math.round(member.stat[type]*0.1);
             this.guild.member.splice(k, 1);
+            this.$store.commit('set_player_attribute');
         },
         sortBy(type, type2='talent') {
             this.reverseSort = type==this.sortKey ? -1*this.reverseSort : -1;
@@ -725,17 +741,25 @@ export default {
     display: none;
 }
 .table {
-    color: #fff;
+    color: rgb(238, 238, 238);
 }
 .table td, .table th {
     padding: 0.2rem 0.375rem;
+    border-top: none;
+    vertical-align: middle;
+}
+.table th {
+    border-bottom: 1px solid #dee2e6;
+}
+tr {
+    height: 2.5rem;
 }
 tr:nth-of-type(odd) td{
-    background-color: lighten(#000000, 25%);
+    background-color: lighten(#000000, 15%);
 }
-tr:nth-of-type(even) td{
-    background-color: lighten(#000000, 10%);
-}
+// tr:nth-of-type(even) td{
+    // background-color: lighten(#000000, 15%);
+// }
 
 .switch {
     appearance: none;
