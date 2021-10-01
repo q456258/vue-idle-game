@@ -1,23 +1,23 @@
 <template>
 	<div class="container">
 		<div class="progress">
-			<div class="progress-bar progress-bar-striped" :style="{backgroundColor:'#dc3545', width: (stat.HP/(talent.HP*entryInfo.HP.base*lv)*100)+'%'}">
-                <small id="HPtrain" class="justify-content-center d-flex position-absolute center">生命{{stat.HP}} / {{talent.HP*entryInfo.HP.base*lv}}</small>
+			<div class="progress-bar progress-bar-striped" :style="{backgroundColor:'#dc3545', width: (stat.HP/((talent.HP+50)*entryInfo.HP.base*lv)*100)+'%'}">
+                <small id="HPtrain" class="justify-content-center d-flex position-absolute center">生命{{stat.HP}} / {{(talent.HP+50)*entryInfo.HP.base*lv}}</small>
 			</div>
 		</div>
 		<div class="progress">
-			<div class="progress-bar progress-bar-striped" :style="{backgroundColor:'#0275d8', width: (stat.MP/(talent.MP*entryInfo.MP.base*lv)*100)+'%'}">
-                <small id="MPtrain" class="justify-content-center d-flex position-absolute center">魔法{{stat.MP}} / {{talent.MP*entryInfo.MP.base*lv}}</small>
+			<div class="progress-bar progress-bar-striped" :style="{backgroundColor:'#0275d8', width: (stat.MP/((talent.MP+50)*entryInfo.MP.base*lv)*100)+'%'}">
+                <small id="MPtrain" class="justify-content-center d-flex position-absolute center">魔法{{stat.MP}} / {{(talent.MP+50)*entryInfo.MP.base*lv}}</small>
 			</div>
 		</div>
 		<div class="progress">
-			<div class="progress-bar progress-bar-striped" :style="{backgroundColor:'#8D8E8E', width: (stat.ATK/(talent.ATK*entryInfo.ATK.base*lv)*100)+'%'}">
-                <small id="ATKtrain" class="justify-content-center d-flex position-absolute center">攻击{{stat.ATK}} / {{talent.ATK*entryInfo.ATK.base*lv}} </small>
+			<div class="progress-bar progress-bar-striped" :style="{backgroundColor:'#8D8E8E', width: (stat.ATK/((talent.ATK+50)*entryInfo.ATK.base*lv)*100)+'%'}">
+                <small id="ATKtrain" class="justify-content-center d-flex position-absolute center">攻击{{stat.ATK}} / {{(talent.ATK+50)*entryInfo.ATK.base*lv}} </small>
 			</div>
 		</div>
 		<div class="progress">
-			<div class="progress-bar progress-bar-striped" :style="{backgroundColor:'#f0ad4e', width: (stat.DEF/(talent.DEF*entryInfo.DEF.base*lv)*100)+'%'}">
-                <small id="DEFtrain" class="justify-content-center d-flex position-absolute center">护甲{{stat.DEF}} / {{talent.DEF*entryInfo.DEF.base*lv}}</small>
+			<div class="progress-bar progress-bar-striped" :style="{backgroundColor:'#f0ad4e', width: (stat.DEF/((talent.DEF+50)*entryInfo.DEF.base*lv)*100)+'%'}">
+                <small id="DEFtrain" class="justify-content-center d-flex position-absolute center">护甲{{stat.DEF}} / {{(talent.DEF+50)*entryInfo.DEF.base*lv}}</small>
 			</div>
 		</div>
 	</div>

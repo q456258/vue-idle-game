@@ -353,13 +353,13 @@ export default {
             }
             this.$store.commit('set_player_attribute');
         },
-        gainStat(member) {
-            for(let type in member.stat) {
-                let value = Math.round(this.entryInfo[type].base*member.talent[type]*Math.random());
-                member.stat[type] += value;
-                if(member.isMember)
-                    this.$store.state.memberAttribute[type] += Math.round(value*0.1);
-            }
+        gainStat(member, type, value) {
+            member.stat[type] += value;
+            this.playerGainStat(type, value);
+        },
+        playerGainStat(type, value) {
+            this.$store.state.memberAttribute[type] += Math.round(value*0.1);
+            this.$store.commit('set_player_attribute');
         },
         resetPlayerStat() {
             for(let type in this.$store.state.memberAttribute) {
@@ -378,7 +378,7 @@ export default {
                 return;
             let member = this.applicantList[k];
             for(let type in member.stat) 
-                this.$store.state.memberAttribute[type] += Math.round(member.stat[type]*0.1);
+                this.playerGainStat(type, Math.round(member.stat[type]*0.1));
             this.applicantList[k].isMember = true;
             this.guild.member.push(this.applicantList[k]);
             this.applicantList.splice(k, 1);
@@ -390,7 +390,7 @@ export default {
         kick(k) {
             let member = this.guild.member[k];
             for(let type in member.stat)
-                this.$store.state.memberAttribute[type] -= Math.round(member.stat[type]*0.1);
+                this.playerGainStat(type, -1*Math.round(member.stat[type]*0.1));
             this.guild.member.splice(k, 1);
             this.$store.commit('set_player_attribute');
         },

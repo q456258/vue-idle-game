@@ -218,11 +218,13 @@ export default {
             clearInterval(this.countdownTimer);
         },
         collect() {
+            let guild = this.findComponentUpward(this, 'guild');
+            let guildMember = this.findBrothersComponents(guild, 'guildMember', false)[0];
             this.train.finishTime = 0;
-            var element = this.$refs['text'];
-            var count = 120;
-            var gap = 50;
-            var multi = 1;
+            let element = this.$refs['text'];
+            let count = 120;
+            let gap = 50;
+            let multi = 1;
             this.collecting = true;
             switch(this.trainTier) {
                 case '1':
@@ -250,6 +252,7 @@ export default {
                     var type = this.values[Math.floor(Math.random()*this.values.length)];
                     var value = Math.round((10+this.trainLevel)/10*this.entryInfo[type].base*Math.random()*multi);
                     value = this.increaseProgress(type, value);
+                    guildMember.gainStat(this.member, type, value);
                     var node = document.createElement("DIV");
                     var textnode = document.createTextNode(this.entryInfo[type].name+"+"+value);
                     node.appendChild(textnode);
@@ -331,14 +334,13 @@ export default {
             // this.cost = Math.round(0);   
         },
         increaseProgress(type, value) {
-            var max = this.member.talent[type]*this.entryInfo[type].base*this.member.lv;
+            var max = (this.member.talent[type]+50)*this.entryInfo[type].base*this.member.lv;
             if(this.member.stat[type]+value > max) {
                 value = max - this.member.stat[type];
                 let guild = this.findComponentUpward(this, 'guild');
                 let guildMember = this.findBrothersComponents(guild, 'guildMember', false)[0];
                 guildMember.levelUp(this.member);
             }
-            this.member.stat[type] += value;
             return value;
         },
 
