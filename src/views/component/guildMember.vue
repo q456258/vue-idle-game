@@ -31,14 +31,26 @@
                 <tr v-for="(v, k) in guild.member" :key="k">
                     <td>{{v.name}}</td>
                     <td>{{v.lv}}</td>
-                    <td>{{v.stat.ATK}}</td>
-                    <td>{{v.stat.DEF}}</td>
-                    <td>{{v.stat.HP}}</td>
-                    <td>{{v.stat.MP}}</td>
+                    <td>{{v.stat.ATK}}
+                        <br>
+                        <span class="mini-talent">({{v.talent.ATK}})</span>
+                    </td>
+                    <td>{{v.stat.DEF}}
+                        <br>
+                        <span class="mini-talent">({{v.talent.DEF}})</span>
+                    </td>
+                    <td>{{v.stat.HP}}
+                        <br>
+                        <span class="mini-talent">({{v.talent.HP}})</span>
+                    </td>
+                    <td>{{v.stat.MP}}
+                        <br>
+                        <span class="mini-talent">({{v.talent.MP}})</span>
+                    </td>
                     <td>{{v.talent.potential}}</td>
                     <td style="width: 8em;">
-                        <div class="skill" v-for="(level, index) in v.skill" :key="index">
-                            <span class="skillName">{{level+'级'+guildSkill[index].name}}</span>
+                        <div class="skill" v-for="(id, index) in v.skill" :key="index">
+                            <span class="skillName">{{guildSkill[id].name}}</span>
                         </div>
                     </td>
                     <td style="width: 6em;">
@@ -94,9 +106,9 @@
                     </svg>
                 </div>
                 <div class="skillList">
-                    <div class="skill" v-for="(level, index) in v.skill" :key="index">
-                        <span class="skillName">{{level+'级'+guildSkill[index].name}}</span>
-                        <span class="skillDesc">({{guildSkill[index].desc}})</span>
+                    <div class="skill" v-for="(id, index) in v.skill" :key="index">
+                        <span class="skillName">{{guildSkill[id].name}}</span>
+                        <span class="skillDesc">({{guildSkill[id].desc}})</span>
                     </div>
                 </div>
                 <div class="action">
@@ -130,8 +142,8 @@
                     <td>{{v.talent.MP}}</td>
                     <td>{{v.talent.potential}}</td>
                     <td style="width: 8em;">
-                        <div class="skill" v-for="(level, index) in v.skill" :key="index">
-                            <span class="skillName">{{level+'级'+guildSkill[index].name}}</span>
+                        <div class="skill" v-for="(content, index) in v.skill" :key="index">
+                            <span class="skillName">{{guildSkill[content].name}}</span>
                         </div>
                     </td>
                     <td style="width: 6em;">
@@ -186,9 +198,9 @@
                     </svg>
                 </div>
                 <div class="skillList">
-                    <div class="skill" v-for="(level, index) in v.skill" :key="index">
-                        <span class="skillName">{{level+'级'+guildSkill[index].name}}</span>
-                        <span class="skillDesc">({{guildSkill[index].desc}})</span>
+                    <div class="skill" v-for="(id, index) in v.skill" :key="index">
+                        <span class="skillName">{{guildSkill[id].name}}</span>
+                        <span class="skillDesc">({{guildSkill[id].desc}})</span>
                     </div>
                 </div>
                 <div class="action">
@@ -220,7 +232,14 @@ export default {
             //Void Elf、Lightforged Draenei、Dark Iron Dwarf、Kul Tiran、Mechagnome、Nightborne、Highmountain Tauren、Maghar Orc、Zandalari Troll、Vulpera
             normalRace: ["Human", "Dwarf", "Night_Elf", "Gnome", "Draenei", "Worgen", "Orc", "Undead", "Tauren", "Troll", "Blood_Elf", "Goblin", "Pandaren"],
             advancedRace: ["Void_Elf", "Lightforged_Draenei", "Dark_Iron_Dwarf", "Kul_Tiran", "Mechagnome", "Nightborne", "Highmountain_Tauren", "Maghar_Orc", "Zandalari_Troll", "Vulpera"],
-            basicSkill: ['train', 'train2', 'train3', 'shop', 'smith'],
+            skillPool: [
+                ['train', 'shop', 'smith'],
+                ['train2', 'shop2', 'smith2'],
+                ['train3', 'shop3', 'smith3'],
+                ['train4', 'shop4', 'smith4'],
+                ['train5', 'shop5', 'smith5'],
+                ['train6', 'shop6', 'smith6'],
+            ],
             applicantList: [],
             positionList: [['None','空闲'], ['trainManager','练功房管理'], ['train2Manager','中级练功房管理'], ['train3Manager','高级练功房管理']],
             typeName: {shop:'商店', smith:'铁匠铺', train:'练功房', train2:'中级练功房', train3:'高级练功房'},
@@ -310,26 +329,36 @@ export default {
             return points;
         },
         createSkill(applicant) {
-            var skillList = {};
+            var skillList = [];
             for(var i=0; i<2+Math.floor(applicant.lv/10); i++) {
                 let temp = this.generateSkill(applicant);
                 if(temp == undefined)
                     continue;   
-                if(skillList[temp] == undefined)
-                    skillList[temp] = 1;
+                if(skillList.length < 7)
+                    skillList.push(temp);
                 else
-                    skillList[temp]++;
+                    skillList[5] = temp;
             }
             return skillList;
         },
         generateSkill(applicant) {
-            // var intellect = applicant.stat.intellect;
-            // var focus = applicant.stat.focus;
-            // var skill = '';
-            // if(Math.random()*100 > intellect)
-            //     return;
-            // skill = this.basicSkill[Math.floor(Math.random()*this.basicSkill.length)];
-            // return skill;
+            let potential = applicant.stat.potential;
+            let skill = '';
+            let ran = Math.random()*potential;
+            let pool = this.skillPool[0];
+            if(ran > 99) {
+                pool = this.skillPool[5]
+            } else if(ran > 95) {
+                pool = this.skillPool[4]
+            } else if(ran > 85) {
+                pool = this.skillPool[3]
+            } else if(ran > 65) {
+                pool = this.skillPool[2]
+            } else if(ran > 35) {
+                pool = this.skillPool[1]
+            }
+            skill = pool[Math.floor(Math.random()*pool.length)];
+            return skill;
         },
         levelUp(member) {
             if(member.lv >= this.player.lv)
@@ -381,6 +410,13 @@ export default {
                 this.playerGainStat(type, Math.round(member.stat[type]*0.1));
             this.applicantList[k].isMember = true;
             this.guild.member.push(this.applicantList[k]);
+            for(let index in this.applicantList[k].skill) {
+                let skill = this.applicantList[k].skill[index];
+                let type = this.guildSkill[skill].type;
+                let value = this.guildSkill[skill].value;
+                this.guild[type].lv = this.guild[type].lv + value;
+                this.guild['guild'].lv = this.guild['guild'].lv + value;
+            }
             this.applicantList.splice(k, 1);
             this.$store.commit('set_player_attribute');
         },
@@ -391,6 +427,13 @@ export default {
             let member = this.guild.member[k];
             for(let type in member.stat)
                 this.playerGainStat(type, -1*Math.round(member.stat[type]*0.1));
+            for(let index in member.skill) {
+                let skill = member.skill[index];
+                let type = this.guildSkill[skill].type;
+                let value = this.guildSkill[skill].value;
+                this.guild[type].lv = this.guild[type].lv - value;
+                this.guild['guild'].lv = this.guild['guild'].lv - value;
+            }
             this.guild.member.splice(k, 1);
             this.$store.commit('set_player_attribute');
         },
@@ -459,6 +502,9 @@ export default {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    .mini-talent {
+        font-size: 12px;
+    }
     .list {
         position: relative;
         display: flex;

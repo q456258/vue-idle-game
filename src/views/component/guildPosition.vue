@@ -2,12 +2,12 @@
 <div class="container scrollbar-morpheus-den">
     <div class="building" v-show="displayPage=='guild'">
         <div class="buildInfo">
-            {{guild.guild.lv+"级 ("+guild.guild.exp+"/"+lvExp[guild.guild.lv]+')'}}
+            {{guild.guild.lv+"级"}}
         </div>
     </div>
     <div class="building" v-show="displayPage=='train'" :set="type='train'">
         <div class="buildInfo">
-            {{guild[type].lv+"级 ("+guild[type].exp+"/"+lvExp[guild[type].lv]+')'}}
+            {{guild[type].lv+"级"}}
         </div>
         <div class="training">
             <div class="trainingProgressbars">
@@ -20,9 +20,7 @@
     </div>
     <div class="building" v-show="displayPage=='shop'" :set="type='shop'">
         <div class="buildInfo">
-            {{guild[type].lv+"级 ("+guild[type].exp+"/"+lvExp[guild[type].lv]+')'}}
-            <br>
-            {{' (经验获取率：'+totalLevel[type]+'x, 效率：'+totalEfficiency[type]+'/秒)'}}
+            {{guild[type].lv+'级 (效率：'+totalEfficiency[type]+'/秒)'}}
         </div>
         <div class="progress" style="width:100%;">
             <div class="progress-bar progress-bar-striped" :style="{width:progress[type].current/progress[type].max*100+'%'}">
@@ -45,9 +43,7 @@
     </div>
     <div class="building" v-show="displayPage=='smith'" :set="type='smith'">
         <div class="buildInfo">
-            {{guild[type].lv+"级 ("+guild[type].exp+"/"+lvExp[guild[type].lv]+')'}}
-            <br>
-            {{' (经验获取率：'+totalLevel[type]+'x, 效率：'+totalEfficiency[type]+'/秒)'}}
+            {{guild[type].lv+'级 (效率：'+totalEfficiency[type]+'/秒)'}}
         </div>
         <div class="progress" style="width:100%;">
             <div class="progress-bar progress-bar-striped" :style="{width:progress[type].current/progress[type].max*100+'%'}">
@@ -101,9 +97,6 @@ export default {
                 train2: [],
                 train3: [],
             },
-            totalLevel: {
-                shop: 1, smith: 1, train: 1, train2: 1, train3: 1
-            },
             totalEfficiency: {
                 shop: 1, smith: 1, train: 1, train2: 1, train3: 1,
             },
@@ -141,7 +134,6 @@ export default {
                 shop: false, smith: false, train:  false, train2: false, train3: false,
             },
             displayPage: 'guild',
-            lvExp: []
         };
     },
     props: {
@@ -164,28 +156,15 @@ export default {
             this.start('train3');
             // this.smith_main = this.player.shoulder;
             // this.smith_sub = this.player.weapon;
-            this.setExpReq();
             var types = ['guild','shop','smith','train','train2','train3'];
-            for(let type in types) 
-                this.computeLv(types[type]);
+            // for(let type in types) 
+            //     this.computeLv(types[type]);
         },
-        setExpReq() {
-            this.lvExp[0] = 10;
-            for(let i=1; i<100; i++)
-                this.lvExp[i] = Math.round(this.lvExp[i-1]*1.5);
-        },
-        computeLv(type) {
-            var target = this.guild[type];
-            while(target.exp >= this.lvExp[target.lv])
-                target.lv++;
-        },
-        gainExp(type) {
-            var exp = this.progress[type].max/1000*this.totalLevel[type];
-            this.guild[type].exp += exp;
-            this.guild.guild.exp += exp;
-            this.computeLv(type);
-            this.computeLv('guild');
-        },
+        // computeLv(type) {
+        //     var target = this.guild[type];
+        //     while(target.exp >= this.lvExp[target.lv])
+        //         target.lv++;
+        // },
         selectEquip(type) {
             var guild = this.findComponentUpward(this, 'guild');
             var backpack = this.findBrothersComponents(guild, 'backpack', false)[0];
@@ -268,7 +247,6 @@ export default {
                 this.progress[type].current += this.totalEfficiency[type];
                 if(this.progress[type].current >= this.progress[type].max) {
                     this.progress[type].current = 0;
-                    this.gainExp(type);
                     this.$refs.countdown.increaseProgress(this.selectedType[type], 200);
                 }
             }, 1000);
@@ -279,7 +257,6 @@ export default {
                 this.progress['shop'].current += this.totalEfficiency['shop'];
                 if(this.progress['shop'].current >= this.progress['shop'].max) {
                     this.progress['shop'].current = 0;
-                    this.gainExp('shop');
                     switch(this.selectedType['shop']) {
                         case 'shop1':
                             guild.getGold('', 666, false);
