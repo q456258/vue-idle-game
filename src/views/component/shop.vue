@@ -98,20 +98,20 @@ export default {
     },
     methods: {
         buyCrystal() {
-            var guild = this.findBrothersComponents(this, 'guild', false)[0];
+            let guild = this.findBrothersComponents(this, 'guild', false)[0];
             this.$store.state.guildAttribute.gold -= this.buyCrystalGold;
             // this.$store.state.guildAttribute.crystal += parseInt(this.buyCrystalAmt);
             guild.getCrystal('外出游荡时累积', this.buyCrystalAmt);
         },
         sellCrystal() {
-            var guild = this.findBrothersComponents(this, 'guild', false)[0];
+            let guild = this.findBrothersComponents(this, 'guild', false)[0];
             guild.getGold('', this.sellCrystalGold, false, false);
             // this.$store.state.guildAttribute.gold += this.sellCrystalGold;
             this.$store.state.guildAttribute.crystal -= this.sellCrystalAmt;
         },
         checkBuyRange(e) {
-            var value = e.target.value;
-            var limit = Math.floor(this.playerGold/2000);
+            let value = e.target.value;
+            let limit = Math.floor(this.playerGold/2000);
             if(value > limit) {
                 this.buyCrystalAmt = limit;
             }
@@ -120,8 +120,8 @@ export default {
             }
         },
         checkSellRange(e) {
-            var value = e.target.value;
-            var limit = this.playerCrystal;
+            let value = e.target.value;
+            let limit = this.playerCrystal;
             if(value > limit) {
                 this.sellCrystalAmt = limit;
             }
@@ -130,10 +130,10 @@ export default {
             }
         },
         setEquipShopItem() {
-            var equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
-            for(var i=0; i<5; i++) {
+            let equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
+            for(let i=0; i<5; i++) {
                 let equip = JSON.parse(equipInfo.createEquip(-1, this.playerLv, 'random', 0));
-                var cost = 400+100*Math.random();
+                let cost = 400+100*Math.random();
                 cost *= (1+equip.lv/2)*(1+equip.quality.extraEntryNum**3);
                 this.equipShop[i] = equip;
                 this.equipCost[i] = Math.round(cost);
@@ -143,8 +143,8 @@ export default {
         freeRefresh() {
             if(this.freeRefreshCount <= 0)
                 return
-            var msg = false;
-            for(var index in this.equipShop) {
+            let msg = false;
+            for(let index in this.equipShop) {
                 if(Object.keys(this.equipShop[index]).length == 0)
                     continue;
                 if(this.equipShop[index].quality.qualityLv == 6) {
@@ -171,8 +171,8 @@ export default {
         forceRefresh(cost) {
             if(this.playerGold < cost)
                 return
-            var msg = false;
-            for(var index in this.equipShop) {
+            let msg = false;
+            for(let index in this.equipShop) {
                 if(Object.keys(this.equipShop[index]).length == 0)
                     continue;
                 if(this.equipShop[index].quality.qualityLv == 6) {
@@ -200,16 +200,16 @@ export default {
             if(this.playerGold < this.equipCost[index])
                 return
             this.$store.state.guildAttribute.gold -= this.equipCost[index];
-            var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
             backpack.giveEquip(this.equipShop[index], false);
             this.$set(this.equipShop, index, {});
         },
         showInfo($event, type, item, compare) {
-            var index = this.findComponentUpward(this, 'index');
+            let index = this.findComponentUpward(this, 'index');
             index.showInfo($event, type, item, compare);
         },
         closeInfo() {
-            var index = this.findComponentUpward(this, 'index');
+            let index = this.findComponentUpward(this, 'index');
             index.closeInfo('equip');
         },
     }

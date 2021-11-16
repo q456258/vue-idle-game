@@ -13,6 +13,9 @@
             </div>
             <div class="grid" v-for="(v, k) in talents[i]" :key="k">
                 <div :class="'down '+v.status" v-if="v.down"></div>
+                <div :class="'down2 '+v.status" v-if="v.down2"></div>
+                <div :class="'down4 '+v.status" v-if="v.down4"></div>
+                <div :class="'right '+v.status" v-if="v.right"></div>
                 <div v-if="v.name" @click="clickTalent($event, k, i)" @contextmenu="rightClick($event, k, i)">
                     <div :class="[{grayIcon:playerTalent[v.type]==undefined||playerTalent[v.type]==0}, 'icon']" :style="{background: 'url('+v.iconSrc+') no-repeat', backgroundSize: '45px'}">
                         <!-- <img :src="v.iconSrc" alt="" /> -->
@@ -31,8 +34,7 @@
                             <div class="detail" v-for="(preReq, index) in preReqList[v.type]" :key="index">
                                 <div :style="{color:playerTalent[preReq[0]]>=preReq[1]?'#0f0':'#ccc'}">
                                     {{branchInfo[i][preReq[0]].name}}
-                                    <span v-if="playerTalent[preReq[0]]">{{playerTalent[preReq[0]]}}</span><span v-else>0</span>
-                                    /<span>{{preReq[1]+'级'}}</span>
+                                    <span v-if="playerTalent[preReq[0]]">{{playerTalent[preReq[0]]}}</span><span v-else>0</span>/<span>{{preReq[1]+' 级'}}</span>
                                 </div>
                             </div>
                         </div>
@@ -65,7 +67,7 @@ export default {
         };
     },
     created() {
-        for(var branch in this.talents) {
+        for(let branch in this.talents) {
             this.talents[branch] = new Array(44).fill({});
         }
     },
@@ -79,7 +81,7 @@ export default {
         playerTalent() { return this.$store.state.playerAttribute.talent },
         player() { return this.$store.state.playerAttribute },
         branchInfo() {
-            var types = {};
+            let types = {};
             types['powerBranch'] = this.powerBranch;
             types['defBranch'] = this.defBranch;
             return types;
@@ -119,7 +121,7 @@ export default {
             this.$forceUpdate();
         },
         clickTalent(e, k, branch, val=1) {
-            var target = this.talents[branch][k];
+            let target = this.talents[branch][k];
             if(target.status == 'disable')
                 return;
             if(e.shiftKey)
@@ -135,15 +137,15 @@ export default {
             }
         },
         rightClick(e, k, branch, val=-1) {
-            var target = this.talents[branch][k];
+            let target = this.talents[branch][k];
             if(!this.playerTalent[target.type])
                 return;
             if(e.shiftKey)
                 val *= 5;
             val = Math.max(val, -1*this.playerTalent[target.type]);
-            var targetLv = this.playerTalent[target.type]+val;
-            var branchLv = this.playerTalent[branch]+val;
-            var check = this.checkPreReq(target.type, targetLv, target.type) && this.checkPreReq(branch, branchLv, target.type);
+            let targetLv = this.playerTalent[target.type]+val;
+            let branchLv = this.playerTalent[branch]+val;
+            let check = this.checkPreReq(target.type, targetLv, target.type) && this.checkPreReq(branch, branchLv, target.type);
             if(!check)
                 return;
             if(val < 0) {
@@ -155,14 +157,14 @@ export default {
             }
         },
         checkPreReq(talentName, lv, ignore) {
-            var branch = talentName.indexOf('Branch') != -1;
+            let branch = talentName.indexOf('Branch') != -1;
             for(let name in this.preReqList) {
                 if(name == ignore)
                     continue;
                 if(this.playerTalent[name] > 0) {
                     for(let preReq in this.preReqList[name]) {
                         let check = this.preReqList[name][preReq];
-                        if(talentName == check[0] && (!branch && lv < check[1]) || (branch && lv-this.playerTalent[name] < check[1])) {
+                        if(talentName == check[0] && (!branch && lv < check[1]) || (branch && talentName == check[0] && lv-this.playerTalent[name] < check[1])) {
                             return false;
                         }
                     }
@@ -195,8 +197,8 @@ export default {
             }
         },
         learnSpell(spellName) {
-            var spellList = this.$store.state.playerAttribute.spells;
-            var charInfo = this.findBrothersComponents(this, 'charInfo', false)[0];
+            let spellList = this.$store.state.playerAttribute.spells;
+            let charInfo = this.findBrothersComponents(this, 'charInfo', false)[0];
             if(spellList[spellName] != undefined) {
                 spellList[spellName].lv = this.playerTalent[spellName];
                 if(this.playerTalent[spellName] == 0)
@@ -211,8 +213,8 @@ export default {
             charInfo.dmgFilterSelected = temp;
         },
         talentTrigger(type) {
-            var lv = this.playerTalent[type];
-            var attr = this.player.attribute;
+            let lv = this.playerTalent[type];
+            let attr = this.player.attribute;
             switch(type) {
                 case 'spell_deathknight_bloodpresence':
                     this.set_player_hp(Math.ceil((attr.MAXHP.value-attr.CURHP.value)*lv*0.05), this.$store.state.playerAttribute);
@@ -363,11 +365,47 @@ $border-size: 50px;
             background: url(/icons/down.png);
             background-size: 100%;
         }
+        .down2 {
+            position: absolute;
+            top: -75px;
+            right: 10px;
+            left: 0;
+            margin: auto;
+            width: 35px;
+            height: 75px;
+            z-index: 1;
+            background: url(/icons/down2.png);
+            background-size: 100%;
+        }
+        .down4 {
+            position: absolute;
+            top: -190px;
+            right: 10px;
+            left: 0;
+            margin: auto;
+            width: 35px;
+            height: 200px;
+            z-index: 1;
+            background: url(/icons/down4.png);
+            background-size: 100%;
+        }
+        .right {
+            position: absolute;
+            top: -10px;
+            bottom: 0;
+            left: -18px;
+            margin: auto;
+            width: 25px;
+            height: 25px;
+            z-index: 1;
+            background: url(/icons/right.png);
+            background-size: 100%;
+        }
         .disable {
             filter: grayscale(100%);
         }
     }
-    .grid:hover .talent-tip {
+    .grid > div:hover .talent-tip {
         visibility: visible;
     }
     .progress {

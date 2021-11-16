@@ -110,8 +110,8 @@ export default {
     },
     methods: {      
         switchTab(e, type){
-            var guildPosition = this.findComponentDownward(this, 'guildPosition');
-            var active = document.getElementById(guildPosition.displayPage+'Btn');
+            let guildPosition = this.findComponentDownward(this, 'guildPosition');
+            let active = document.getElementById(guildPosition.displayPage+'Btn');
             active.classList.remove('btnActive');
             guildPosition.displayPage = type;
             e.target.classList.add('btnActive');
@@ -127,7 +127,7 @@ export default {
                     msg: text+'获得'+gold+'金币'
                 });
             }
-            var achievement = this.findBrothersComponents(this, 'achievement', false)[0];
+            let achievement = this.findBrothersComponents(this, 'achievement', false)[0];
             achievement.set_statistic({cumulatedGold: gold});
             // this.$store.commit("set_statistic", {cumulatedGold: gold});
         },
@@ -140,7 +140,7 @@ export default {
                     msg: text+'获得'+crystal+'水晶'
                 });
             }
-            var achievement = this.findBrothersComponents(this, 'achievement', false)[0];
+            let achievement = this.findBrothersComponents(this, 'achievement', false)[0];
             achievement.set_statistic({cumulatedCrystal: crystal});
             // this.$store.commit("set_statistic", {cumulatedCrystal: crystal});
         },

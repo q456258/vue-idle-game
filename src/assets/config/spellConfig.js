@@ -45,7 +45,7 @@ data() {
             },
             spell_nature_thunderclap: {
                 name: '雷霆一击',
-                max: 5,
+                max: 10,
                 iconSrc: "./icons/spell/Spell_nature_thunderclap.png",
                 quality: 1,
                 level: [{
@@ -262,7 +262,7 @@ data() {
                 tag: ['恢复']
             },
             spell_warlock_soulburn: {
-                name: '夺魂',
+                name: '勾魂',
                 max: 50,
                 iconSrc: "./icons/spell/Spell_warlock_soulburn.png",
                 quality: 1,

@@ -35,9 +35,9 @@ export const buffSystem = {
         // 启用中心计时器，按时间减少buff时间
         buffTimer(time){
             this.centralTimer = setInterval(() => {
-                var now = Date.now();
-                var playerBuff = this.player.buff;
-                for(var buff in this.player.timedBuff) {
+                let now = Date.now();
+                let playerBuff = this.player.buff;
+                for(let buff in this.player.timedBuff) {
                     let curStack = (this.player.timedBuff[buff] - now)/60000;
                     if(curStack < 0)
                         this.buffRemoved(this.player, this.player, buff);
@@ -49,8 +49,8 @@ export const buffSystem = {
         },
         // 添加buff
         buffApply(source, target, type, stack=1){
-            var buffer = ['sunder', 'penetrate', 'lifesteal', 'manasteal','charge','deathImmune','void','absorb'];
-            var timed = ['minionSlayer'];
+            let buffer = ['sunder', 'penetrate', 'lifesteal', 'manasteal','charge','deathImmune','void','absorb','hell'];
+            let timed = ['minionSlayer'];
             if(target.buff == undefined)
                 target.buff = {};
             if(target.timedBuff == undefined)
@@ -72,7 +72,6 @@ export const buffSystem = {
                 else {
                     this.$set(target.buff, type, target.buff[type]+stack)
                 }
-                
             }
             else {
                 setTimeout(() => {
@@ -87,6 +86,16 @@ export const buffSystem = {
         },
         // 移除buff
         buffRemoved(source, target, type){
+            if(type == 'hell') {
+                let attr = this.player.attribute;
+                if(attr.CURHP.value < attr.MAXHP.value*0.5) {
+                    this.set_player_hp('dead', source);
+                    this.$store.commit("set_battle_info", {
+                        type: 'dmged',
+                        msg: '【炼狱】您已死亡'
+                    })
+                }
+            }
             this.$delete(target.buff, type)
             this.$delete(target.timedBuff, type)
         },
@@ -115,27 +124,41 @@ export const buffSystem = {
             dmg = this.minionSlayer(source, target, dmg);
             return dmg;
         },
-        // 受攻击触发buff
-        buffOnHit(source, target, type){
-
+        // 攻击起手触发buff, source为攻击发起者
+        buffOnAttack(source, target) {
+            this.buffReduce(source, source, 'hell');
+        },
+        // 受攻击伤害触发buff, source为攻击发起者
+        buffOnHit(source, target) {
         },
         // 临死前触发buff
         buffBeforeKilled(target, dmg) {
             dmg = this.deathImmune(target, dmg);
+            if(dmg < 0 && target.type == 'player') {
+                let talent = 'inv_misc_shadowegg';
+                if(this.player.talent[talent] != 0 && (this.player.globalCD[talent] || 0) < Date.now()) {
+                    // 10分钟cd
+                    this.player.globalCD[talent] = Date.now()+1000*60*10;
+                    dmg = 0;
+                    this.buffApply(target, target, 'hell', 3);
+                    this.buffApply(target, target, 'deathImmune', 2);
+                }
+            }
+            
             return dmg;
         },
         // 死亡后触发buff
         buffAfterKilled(source, target) {
-            if(target.type == undefined && this.$store.state.statistic.death%50 == 0) {
-                var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-                var item = itemInfo.createItem('inv_potion_27', 1);  
+            if(target.type == 'player' && this.$store.state.statistic.death%50 == 0) {
+                let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+                let item = itemInfo.createItem('inv_potion_27', 1);  
                 itemInfo.addItem(JSON.parse(item));
             }
         },
         // 返回新护甲值
         sunder(source, armor) {
             if(this.buffReduce(source, source, 'sunder')) {
-                var sunderRatio = 0.25;
+                let sunderRatio = 0.25;
                 return armor * (1-sunderRatio);
             }
             else
@@ -144,7 +167,7 @@ export const buffSystem = {
         // 返回穿透伤害
         penetrate(source, dmg) {
             if(this.buffReduce(source, source, 'penetrate')) {
-                var penRatio = 0.1;
+                let penRatio = 0.1;
                 return Math.round(dmg * penRatio);
             }
             else
@@ -152,10 +175,10 @@ export const buffSystem = {
         },
         // 生命窃取
         lifesteal(source, dmg) {
-            var sourceType = source.type==undefined? 'player':source.type;
+            let sourceType = source.type==undefined? 'player':source.type;
             if(this.buffReduce(source, source, 'lifesteal')) {
-                var lsRatio = 0.5;
-                var value = Math.round(lsRatio*dmg);
+                let lsRatio = 0.5;
+                let value = Math.round(lsRatio*dmg);
                 if(sourceType == 'player')
                     this.set_player_hp(value, source);
                 else
@@ -166,10 +189,10 @@ export const buffSystem = {
         manasteal(source, dmg) {
             if(dmg == 0)
                 return dmg;
-            var sourceType = source.type==undefined? 'player':source.type;
+            let sourceType = source.type==undefined? 'player':source.type;
             if(this.buffReduce(source, source, 'manasteal')) {
-                var msRatio = 0.1;
-                var value = Math.round(msRatio*dmg);
+                let msRatio = 0.1;
+                let value = Math.round(msRatio*dmg);
                 if(sourceType == 'player')
                     this.$store.commit('set_player_mp', value);
             }
@@ -179,7 +202,7 @@ export const buffSystem = {
             if(dmg == 0)
                 return dmg;
             if(this.buffReduce(source, source, 'charge')) {
-                var chargeRatio = 1.5;
+                let chargeRatio = 1.5;
                 return Math.round(dmg * chargeRatio);
             }
             else
@@ -268,7 +291,7 @@ export const buffSystem = {
         },
         // stun
         stun(source) {
-            var sourceType = source.type==undefined? 'player':source.type;
+            let sourceType = source.type==undefined? 'player':source.type;
             if(this.buffReduce(source, source, 'stun')) {
                 if(sourceType == 'player') {
                     this.$store.commit("set_battle_info", {
@@ -296,8 +319,8 @@ export const buffSystem = {
                 return dmg;
         },    
         set_player_hp(data, source) {
-            var target = this.$store.state.playerAttribute;
-            var CURHP = target.attribute.CURHP,
+            let target = this.player;
+            let CURHP = target.attribute.CURHP,
                 MAXHP = target.attribute.MAXHP;
             if(data < 0)
                 data = this.buffOnHurt(source, target, data);
@@ -313,12 +336,12 @@ export const buffSystem = {
             CURHP.showValue = CURHP.value;
         },
         set_enermy_hp(data) {
-            var source = this.$store.state.playerAttribute;
-            var target = this.$store.state.enermyAttribute;
+            let source = this.player;
+            let target = this.$store.state.enermyAttribute;
             if(this.$store.state.dungeonInfo.current == 'trial') {
                 target = this.$store.state.trialAttribute;
             }
-            var CURHP = target.attribute.CURHP,
+            let CURHP = target.attribute.CURHP,
                 MAXHP = target.attribute.MAXHP;
             if(data < 0)
                 data = this.buffOnHurt(source, target, data);
@@ -328,8 +351,8 @@ export const buffSystem = {
             CURHP.showValue = CURHP.value;
         },    
         set_trial_hp(data) {
-            var target = this.$store.state.trialAttribute;
-            var CURHP = target.attribute.CURHP,
+            let target = this.$store.state.trialAttribute;
+            let CURHP = target.attribute.CURHP,
                 MAXHP = target.attribute.MAXHP;
             if(-1*data >= CURHP.value)
                 data = this.buffBeforeKilled(target, data);

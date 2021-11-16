@@ -78,17 +78,17 @@ export default {
             return this.itemQty < this.cost;
         },
         item() {
-            var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-            var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
-            var item = itemInfo.findItem('虚空宝珠');
+            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            let item = itemInfo.findItem('虚空宝珠');
             if(item == -1)
                 return {quantity: 0};
             else
                 return backpack.itemGrid[item];
         },
         itemQty() {
-            var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-            var qty = itemInfo.getItemQty('虚空宝珠');
+            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            let qty = itemInfo.getItemQty('虚空宝珠');
             return qty;
         }
     },
@@ -97,11 +97,11 @@ export default {
             if(this.warning) {
                 return;
             }
-            var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-            var equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
+            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            let equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
             itemInfo.removeItemByItem(this.item, this.cost);
             // equipInfo.forgeAll(this.equip);
-            var allLocked = true;
+            let allLocked = true;
             for(let entry in this.equip.extraEntry) {
                 if(!this.equip.extraEntry[entry].locked)
                     allLocked = false;
@@ -119,7 +119,7 @@ export default {
             if(entry.locked) {
                 return;
             }
-            var equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
+            let equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
             equipInfo.forgeEntry(this.equip, key);
             this.$store.commit('set_player_attribute');
         },
@@ -131,7 +131,7 @@ export default {
             this.computeCost();
         },
         computeCost() {
-            var cost = 0;
+            let cost = 0;
             for(let entry in this.equip.extraEntry) {
                 cost += 1;
                 if(this.equip.extraEntry[entry].locked)
@@ -140,9 +140,9 @@ export default {
             this.cost = cost;
         },
         forgeInfo(info, type) {
-            var element = this.$refs['info'];
-            var node = document.createElement("DIV");
-            var textnode = document.createTextNode(info);
+            let element = this.$refs['info'];
+            let node = document.createElement("DIV");
+            let textnode = document.createTextNode(info);
             node.appendChild(textnode);
             element.appendChild(node); 
             node.style.position = 'absolute';
@@ -157,7 +157,7 @@ export default {
             },900);
         },
         closeInfo() {
-            var index = this.findComponentUpward(this, 'index');
+            let index = this.findComponentUpward(this, 'index');
             index.closeInfo('forge');
         },
     }

@@ -259,7 +259,7 @@ export default {
         guild() { return this.$store.state.guildAttribute; },
         player() { return this.$store.state.playerAttribute; },
         maxMember() { 
-            var max = 2;
+            let max = 2;
             for(let build in this.guild) {
                 if(build != 'guild' && this.guild[build].lv != null && this.guild[build].lv > 0)
                     max += Math.floor(this.guild[build].lv/10+1);
@@ -269,7 +269,7 @@ export default {
     },
     methods: {
         generateApplicant(lv, race, name) {
-            var applicant = {};
+            let applicant = {};
             applicant.lv = lv || 1;
             applicant.race = race || this.createRace();
             applicant.name = name || this.generateName(applicant.race);
@@ -286,7 +286,7 @@ export default {
             return 'Human';
         },
         createStat() {
-            var stat = {
+            let stat = {
                 ATK: 0,
                 DEF: 0,
                 HP: 0,
@@ -295,9 +295,9 @@ export default {
             return stat;
         },
         createTalent(race) {
-            var talent = {};
-            var initTalent = this.race[race].talent;
-            for(var type in this.guildStat) {
+            let talent = {};
+            let initTalent = this.race[race].talent;
+            for(let type in this.guildStat) {
                 let ran = Math.random();
                 if(ran>0.75)
                     talent[type] = Math.random()*90;
@@ -306,21 +306,21 @@ export default {
                 else
                     talent[type] = Math.random()*80;
             }
-            for(var type in initTalent) {
+            for(let type in initTalent) {
                 talent[type] = Math.round((100-initTalent[type])*talent[type]/100);
                 talent[type] += initTalent[type];
             }
             return talent;
         },
         createPoints(talent) {
-            var points = "";
-            var radius = 60;
-            var count = 0;
+            let points = "";
+            let radius = 60;
+            let count = 0;
             // 提前算好cos、sin函数
-            var xy = [0, 1, 0.951056516, 0.309016994, 0.587785252, -0.809016994, -0.587785252, -0.809016994, -0.951056516, 0.309016994];
-            var offsetx = 50;        
-            var offsety = 50;  
-            for(var num in talent) {
+            let xy = [0, 1, 0.951056516, 0.309016994, 0.587785252, -0.809016994, -0.587785252, -0.809016994, -0.951056516, 0.309016994];
+            let offsetx = 50;        
+            let offsety = 50;  
+            for(let num in talent) {
                 radius = talent[num];
                 points += Math.round(radius * xy[count++]*50)/100-offsetx + " ";
                 points += Math.round(radius * xy[count++]*50)/100-offsety + " ";
@@ -329,8 +329,8 @@ export default {
             return points;
         },
         createSkill(applicant) {
-            var skillList = [];
-            for(var i=0; i<2+Math.floor(applicant.lv/10); i++) {
+            let skillList = [];
+            for(let i=0; i<2+Math.floor(applicant.lv/10); i++) {
                 let temp = this.generateSkill(applicant);
                 if(temp == undefined)
                     continue;   
@@ -377,7 +377,7 @@ export default {
             // this.gainStat(member);
         },
         levelupAll() {
-            for(var index in this.guild.member) {
+            for(let index in this.guild.member) {
                 this.levelUp(this.guild.member[index]);
             }
             this.$store.commit('set_player_attribute');
@@ -394,7 +394,7 @@ export default {
             for(let type in this.$store.state.memberAttribute) {
                 this.$store.state.memberAttribute[type] = 0;
             }
-            for(var index in this.guild.member) {
+            for(let index in this.guild.member) {
                 let member = this.guild.member[index];
                 for(let type in member.stat) {
                     this.$store.state.memberAttribute[type] += Math.round(member.stat[type]*0.1);
@@ -464,15 +464,15 @@ export default {
             }
         },
         findTargetByID(id) {
-            var list = this.guild.member;
-            for(var i in list) {
+            let list = this.guild.member;
+            for(let i in list) {
                 if(list[i].id == id)
                     return list[i];
             }
             return {};
         },
         setViewType(type) {
-            // var value = e.target.value;
+            // let value = e.target.value;
             this.viewType = type;
         },
         changeSize(size) {

@@ -185,54 +185,54 @@ export default {
             }
         },    
         equipEnhance() {
-            var index = this.findComponentUpward(this, 'index');
+            let index = this.findComponentUpward(this, 'index');
             index.closeInfo();
             index.enhanceEquip = this.grid[this.currentItemIndex];
             index.equipEnhancePanel = true;
         },
         equipForge() {
-            var index = this.findComponentUpward(this, 'index');
+            let index = this.findComponentUpward(this, 'index');
             index.closeInfo();
             index.enhanceEquip = this.grid[this.currentItemIndex];
             index.equipForgePanel = true;
         },
         equipPotential() {
-            var index = this.findComponentUpward(this, 'index');
+            let index = this.findComponentUpward(this, 'index');
             index.closeInfo();
             index.enhanceEquip = this.grid[this.currentItemIndex];
             index.equipPotentialPanel = true;
         },
         lockEquipment(lock) {
-            var equip = this.grid[this.currentItemIndex];
+            let equip = this.grid[this.currentItemIndex];
             equip.locked = lock;
         },
         sellEquipment(index) {
             if(index == undefined)
                 index = this.currentItemIndex;
-            var equip = this.grid[index];
-            var cost = 8+4*Math.random();
+            let equip = this.grid[index];
+            let cost = 8+4*Math.random();
             cost *= (1+equip.lv/2)*(1+equip.enhanceLv*equip.quality.qualityCoefficient+equip.quality.extraEntryNum*2);
             cost = Math.round(cost);
             this.grid[index] = {};
-            var guild = this.findBrothersComponents(this, 'guild', false)[0];
+            let guild = this.findBrothersComponents(this, 'guild', false)[0];
             guild.getGold('出售装备', cost);
         },
         sellEquipmentByEquip(equip) {
-            var cost = 8+4*Math.random();
+            let cost = 8+4*Math.random();
             cost *= (1+equip.lv/2)*(1+equip.enhanceLv*equip.quality.qualityCoefficient+equip.quality.extraEntryNum*2);
             cost = Math.round(cost);
-            var guild = this.findBrothersComponents(this, 'guild', false)[0];
+            let guild = this.findBrothersComponents(this, 'guild', false)[0];
             guild.getGold('出售装备', cost);
         },
         disintegrate(index) {
             if(index == undefined)
                 index = this.currentItemIndex;
-            var equip = this.grid[index];
-            var dust = ['dust2', 'dust3', 'dust4', 'dust5', 'dust6'];
+            let equip = this.grid[index];
+            let dust = ['dust2', 'dust3', 'dust4', 'dust5', 'dust6'];
 
-            var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-            var quantity = Math.ceil(equip.lv/10);
-            var item = itemInfo.createItem(dust[equip.quality.qualityLv-2], quantity);  
+            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            let quantity = Math.ceil(equip.lv/10);
+            let item = itemInfo.createItem(dust[equip.quality.qualityLv-2], quantity);  
             itemInfo.addItem(JSON.parse(item));  
             this.grid[index] = {};
             this.$store.commit("set_sys_info", {
@@ -245,11 +245,11 @@ export default {
         disintegrateByEquip(equip) {
             if(equip.quality.qualityLv < 2)
                 return false;
-            var dust = ['dust2', 'dust3', 'dust4', 'dust5', 'dust6'];
+            let dust = ['dust2', 'dust3', 'dust4', 'dust5', 'dust6'];
 
-            var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-            var quantity = Math.ceil(equip.lv/10);
-            var item = itemInfo.createItem(dust[equip.quality.qualityLv-2], quantity);  
+            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            let quantity = Math.ceil(equip.lv/10);
+            let item = itemInfo.createItem(dust[equip.quality.qualityLv-2], quantity);  
             itemInfo.addItem(JSON.parse(item));  
             this.$store.commit("set_sys_info", {
                 type: 'reward',
@@ -271,15 +271,15 @@ export default {
                 });
                 return false;
             }
-            var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-            var success = this.callItemEffect(this.itemGrid[this.currentItemIndex].type);
+            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            let success = this.callItemEffect(this.itemGrid[this.currentItemIndex].type);
             if(success)
                 itemInfo.removeItemByIndex(this.currentItemIndex, 1);
             this.$forceUpdate();
             return success;
         },
         useAllItemByIndex(e, k){
-            var autoUse = setInterval(() => {
+            let autoUse = setInterval(() => {
                 let used = this.useItemByIndex(e, k);
                 if(!used || this.itemGrid[k] == {})
                     clearInterval(autoUse);
@@ -295,23 +295,23 @@ export default {
                 });
                 return false;
             }
-            var success = this.callItemEffect(item.type, item.lv);
+            let success = this.callItemEffect(item.type, item.lv);
             return success;
         },
         mergeItem(e, k, count=1) {
             this.closeInfo();
             if(k != undefined)
                 this.currentItemIndex = k; 
-            var type = this.itemType[this.itemGrid[this.currentItemIndex].type];
-            var mergeCount = type.mergeCount;
-            var result = type.mergeTarget;
+            let type = this.itemType[this.itemGrid[this.currentItemIndex].type];
+            let mergeCount = type.mergeCount;
+            let result = type.mergeTarget;
             if(!type.merge)
                 return;
             if(this.itemGrid[this.currentItemIndex].quantity < mergeCount*count)
                 return;
-            var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
             itemInfo.removeItemByIndex(this.currentItemIndex, mergeCount*count);
-            var item = itemInfo.createItem(result, count);
+            let item = itemInfo.createItem(result, count);
             itemInfo.addItem(JSON.parse(item));
             this.$forceUpdate();
         },
@@ -319,9 +319,9 @@ export default {
             this.closeInfo();
             if(k != undefined)
                 this.currentItemIndex = k; 
-            var type = this.itemType[this.itemGrid[this.currentItemIndex].type];
-            var mergeCount = type.mergeCount;
-            var count = Math.floor(this.itemGrid[this.currentItemIndex].quantity/mergeCount);
+            let type = this.itemType[this.itemGrid[this.currentItemIndex].type];
+            let mergeCount = type.mergeCount;
+            let count = Math.floor(this.itemGrid[this.currentItemIndex].quantity/mergeCount);
             this.mergeItem(e, this.currentItemIndex, count);
         },
         throwItem() {
@@ -346,7 +346,7 @@ export default {
             }
         },
         disintegrateAll() {
-            for(var i=0; i<this.grid.length; i++) {
+            for(let i=0; i<this.grid.length; i++) {
                 if(Object.keys(this.grid[i]).length > 1 && !this.grid[i].locked) {
                     if(this.grid[i].quality.qualityLv >= 2)
                         this.disintegrate(i);
@@ -369,7 +369,7 @@ export default {
             this.$set(this.autoSell, index, !this.autoSell[index])
         },
         sellAll() {
-            for(var i=0; i<this.grid.length; i++) {
+            for(let i=0; i<this.grid.length; i++) {
                 if(Object.keys(this.grid[i]).length > 1 && !this.grid[i].locked) {
                     this.sellEquipment(i);
                 }
@@ -380,7 +380,7 @@ export default {
             this.sortLocked = !this.sortLocked;
         },
         sort() {
-            var type = ['头盔', '肩膀', '武器', '盔甲', '鞋子', '饰品'];
+            let type = ['头盔', '肩膀', '武器', '盔甲', '鞋子', '饰品'];
             this.grid.sort((a, b) => {
                 if(a == b)
                     return 0;
@@ -404,22 +404,22 @@ export default {
         showInfo($event, type, item, compare) {
             if(this.dragging)
                 return;
-            var index = this.findComponentUpward(this, 'index');
+            let index = this.findComponentUpward(this, 'index');
             index.showInfo($event, type, item, compare);
         },
         closeInfo() {
-            var index = this.findComponentUpward(this, 'index');
+            let index = this.findComponentUpward(this, 'index');
             index.closeInfo(this.displayPage);
         },
         closeBackpack() {
-            var index = this.findComponentUpward(this, 'index');
+            let index = this.findComponentUpward(this, 'index');
             index.openMenuPanel('backpack');
         },
         openMenu(k, e) {
             this.currentItemIndex = k;
             this.currentItem = this.grid[k];
             if(this.displayPage == 'item') {
-                var type = this.itemType[this.itemGrid[this.currentItemIndex].type];
+                let type = this.itemType[this.itemGrid[this.currentItemIndex].type];
                 this.usable = type.use;
                 this.mergeable = type.merge;
             }
@@ -428,7 +428,7 @@ export default {
             const offsetLeft = this.$el.getBoundingClientRect().left; // container margin left
             const offsetWidth = this.$el.offsetWidth; // container width
             const maxLeft = offsetWidth - menuMinWidth; // left boundary
-            var left = e.clientX - offsetLeft + 10; // 15: margin right
+            let left = e.clientX - offsetLeft + 10; // 15: margin right
 
             if (left > maxLeft) {
                 this.left = maxLeft;
@@ -454,16 +454,17 @@ export default {
         },
         drop(event, k) {
             event.preventDefault();
-            var gridId = event.dataTransfer.getData("gridId");
+            let gridId = event.dataTransfer.getData("gridId");
+            let temp;
             if(gridId) {
                 switch(this.displayPage) {
                     case 'equip':
-                        var temp = this.grid[gridId];
+                        temp = this.grid[gridId];
                         this.$set(this.grid, gridId, this.grid[k]);
                         this.$set(this.grid, k, temp);
                         break;
                     case 'item':
-                        var temp = this.itemGrid[gridId];
+                        temp = this.itemGrid[gridId];
                         this.$set(this.itemGrid, gridId, this.itemGrid[k]);
                         this.$set(this.itemGrid, k, temp);
                         break;
@@ -472,17 +473,17 @@ export default {
         },
         switchTab(type){
             if(this.displayPage != type) {
-                var element = document.getElementById(this.displayPage);
+                let element = document.getElementById(this.displayPage);
                 element.classList.remove('active');
-                var element = document.getElementById(type);
+                element = document.getElementById(type);
                 element.classList.add('active');
                 this.displayPage = type;
             }
         },
         selectForSmith(e, k) {
             if(this.leftClickEnabled) {
-                var guild = this.findBrothersComponents(this, 'guild', false)[0];
-                var guildPosition = this.findComponentDownward(guild, 'guildPosition');  
+                let guild = this.findBrothersComponents(this, 'guild', false)[0];
+                let guildPosition = this.findComponentDownward(guild, 'guildPosition');  
                 guildPosition.selectedEquip(this.grid[k]);
                 this.$set(this.grid, k, {});
                 this.leftClickEnabled = false;

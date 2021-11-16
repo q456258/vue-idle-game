@@ -5,7 +5,7 @@ Vue.use(Vuex)
 //灰、白、蓝、紫、橙、红
 //破旧，普通，精良，完美，史诗，传说
 //a1a1a1,D9D9D9,00BBFF,BB00FF,FFBB00,FF0000
-var initial_helmet = {
+let initial_helmet = {
         lv: 1,
         lvReq: 1,
         itemType: 'helmet',
@@ -243,17 +243,19 @@ export default new Vuex.Store({
         guildAttribute: {
             gold: 0,
             crystal: 0,
-            guild: {lv: 0, exp: 10},
-            train: {lv: 0, exp: 10},
-            train2: {lv: 0, exp: 0},
-            train3: {lv: 0, exp: 0},
-            shop: {lv: 0, exp: 10},
-            smith: {lv: 0, exp: 10},
+            guild: {lv: 1},
+            train: {lv: 1},
+            train2: {lv: 0},
+            train3: {lv: 0},
+            shop: {lv: 1},
+            smith: {lv: 1},
             member: []
         },
         playerAttribute: {
             name: '无名',
+            // lv: 50,
             lv: 1,
+            type: 'player',
             exp: {cur: 0, req: 400},
             healthRecoverySpeed: 1,
             attribute: {
@@ -290,10 +292,13 @@ export default new Vuex.Store({
             spells: {
                 attack: {lv: 1, proficient: 0, progress: 0}
             },
+            buff: {},
             talent: {
                 powerBranch: 0
             },
+            globalCD: {},
             talentPoint: 1,
+            // talentPoint: 50,
             helmet: initial_helmet,
             weapon: initial_weapon,
             armor: initial_armor,
@@ -429,7 +434,7 @@ export default new Vuex.Store({
             vueInstance.$store.commit('set_player_attribute');
         },
         set_player_attribute(state, data) {
-            var playerAttribute = this.state.playerAttribute,
+            let playerAttribute = this.state.playerAttribute,
                 helmet = playerAttribute.helmet,
                 accessory = playerAttribute.accessory,
                 weapon = playerAttribute.weapon,
@@ -462,25 +467,25 @@ export default new Vuex.Store({
                         break;
                 }
             }
-            var hpPercent = playerAttribute.attribute.CURHP.value/playerAttribute.attribute.MAXHP.value,
+            let hpPercent = playerAttribute.attribute.CURHP.value/playerAttribute.attribute.MAXHP.value,
                     mpPercent = playerAttribute.attribute.CURMP.value/playerAttribute.attribute.MAXMP.value;
-            var attribute = {};
-            var attributes = [
+            let attribute = {};
+            let attributes = [
                 'MAXHP','CURHP','MAXMP','CURMP','STR','AGI','INT','ALL','CRIT','CRITDMG','ATK','DEF','DEFRED','SUNDER','SUNDERRED','MR','HP','MP',
                 'STRP','AGIP','INTP','ALLP','ATKP', 'MRP','DEFP','HPP','MPP',
             ];
-            var advancedAttributes = ['STR','AGI','INT','ALL','STRP','AGIP','INTP','ALLP',];
-            var normalAttributes = [
+            let advancedAttributes = ['STR','AGI','INT','ALL','STRP','AGIP','INTP','ALLP',];
+            let normalAttributes = [
                 'CRIT','CRITDMG','ATK','DEF','DEFRED','SUNDER','MR','HP','MP',
                 'ATKP', 'MRP','DEFP','HPP','MPP',
             ];
-            var percent = [
+            let percent = [
                 'STRP','AGIP','INTP','ALLP','CRIT','CRITDMG','ATKP','DEFP','MRP','HPP','MPP'
             ];
-            var hasPercent = [
+            let hasPercent = [
                 'STR','AGI','INT','ALL','ATK','DEF','MR','HP','MP'
             ];
-            var advancedAttr = {
+            let advancedAttr = {
                 STR: { HP: 10}, 
                 AGI: { ATK: 4, DEF: 1}, 
                 INT: { MP: 3, MR: 3 }, 
@@ -528,8 +533,8 @@ export default new Vuex.Store({
             attribute['STR'].value += attribute['ALL'].value;
             attribute['AGI'].value += attribute['ALL'].value;
             attribute['INT'].value += attribute['ALL'].value;
-            for(var adv in advancedAttr) {
-                for(var attr in advancedAttr[adv]) {
+            for(let adv in advancedAttr) {
+                for(let attr in advancedAttr[adv]) {
                     attribute[attr].baseVal += advancedAttr[adv][attr]*attribute[adv].value;
                 }
             }
@@ -540,7 +545,7 @@ export default new Vuex.Store({
                     attribute[attr].value = attribute[attr].baseVal;
             });
 
-            for(var key in attribute) {
+            for(let key in attribute) {
                 if(percent.indexOf(key) > -1) {
                     attribute[key].showValue = attribute[key].value + '%';
                 }
@@ -569,13 +574,13 @@ export default new Vuex.Store({
                 playerAttribute.attribute = attribute;
         },  
         // set_player_hp(state, data) {
-        //     var CURHP = this.state.playerAttribute.attribute.CURHP,
+        //     let CURHP = this.state.playerAttribute.attribute.CURHP,
         //             MAXHP = this.state.playerAttribute.attribute.MAXHP
         //     vueInstance.$store.commit('set_hp', {data, CURHP, MAXHP});
         //     CURHP.showValue = CURHP.value;
         // },
         set_player_mp(state, data) {
-            var CURMP = this.state.playerAttribute.attribute.CURMP,
+            let CURMP = this.state.playerAttribute.attribute.CURMP,
                 MAXMP = this.state.playerAttribute.attribute.MAXMP
             if(data == 'full'){
                 CURMP.value = MAXMP.value
@@ -598,9 +603,9 @@ export default new Vuex.Store({
                 this.state.enermyAttribute = data;
         },
         set_hp(state, data) {
-            var CURHP = data.CURHP,
-                MAXHP = data.MAXHP,
-                data = data.data;
+            let CURHP = data.CURHP,
+                MAXHP = data.MAXHP;
+            data = data.data;
             if(data == 'full'){
                 CURHP.value = MAXHP.value
             }
@@ -624,8 +629,8 @@ export default new Vuex.Store({
         },
         set_sys_info(state, data) {
             this.state.sysInfo.push(data);
-            // var time = +new Date()
-            // var date = new Date(time + 8 * 3600 * 1000); // 增加8小时
+            // let time = +new Date()
+            // let date = new Date(time + 8 * 3600 * 1000); // 增加8小时
             // this.state.sysInfo[this.state.sysInfo.length - 1].time = date.toJSON().substr(11, 8).replace('T', ' ')
             if (this.state.sysInfo.length > 50) {
                 this.state.sysInfo.shift()
@@ -636,8 +641,8 @@ export default new Vuex.Store({
         },        
         set_battle_info(state, data) {
             this.state.battleInfo.push(data);
-            // var time = +new Date()
-            // var date = new Date(time + 8 * 3600 * 1000); // 增加8小时
+            // let time = +new Date()
+            // let date = new Date(time + 8 * 3600 * 1000); // 增加8小时
             // this.state.sysInfo[this.state.sysInfo.length - 1].time = date.toJSON().substr(11, 8).replace('T', ' ')
             if (this.state.battleInfo.length > 50) {
                 this.state.battleInfo.shift()
@@ -647,10 +652,10 @@ export default new Vuex.Store({
             this.state.battleInfo.splice(0, this.state.battleInfo.length);
         },        
         set_statistic(state, data) {
-            for(var k in data) {
+            for(let k in data) {
                 switch(k) {
                     case 'slain':
-                        for(var id in data[k]) {
+                        for(let id in data[k]) {
                             if(state.statistic[k][id] == undefined)
                                 state.statistic[k][id] = data[k][id];
                             else
@@ -660,7 +665,7 @@ export default new Vuex.Store({
                     case 'slainBy':
                         if(state.statistic[k] == undefined)
                             state.statistic[k] = {};
-                        for(var id in data[k]) {
+                        for(let id in data[k]) {
                             if(state.statistic[k][id] == undefined)
                                 state.statistic[k][id] = data[k][id];
                             else

@@ -109,7 +109,7 @@ export default {
             case 0:
                 this.values = this.values.concat(['HP', 'MP', 'ATK', 'DEF']);
         }
-        var memberID = 0;
+        let memberID = 0;
         switch(this.tier) {
             case 2:
                 memberID = this.$store.state.train.train1.memberID;
@@ -122,8 +122,8 @@ export default {
                 break;
         }
         this.memberID = memberID;
-        var guild = this.findComponentUpward(this, 'guild');
-        var guildMember = this.findBrothersComponents(guild, 'guildMember', false)[0];
+        let guild = this.findComponentUpward(this, 'guild');
+        let guildMember = this.findBrothersComponents(guild, 'guildMember', false)[0];
         this.member = guildMember.findTargetByID(memberID);
         
         this.countdownTimer = this.timer;
@@ -139,7 +139,7 @@ export default {
             }
             else {
                 this.timeRemain = 0;
-                var element = document.getElementById('guild');
+                let element = document.getElementById('guild');
                 element.classList.add('glow');
             }
         }
@@ -185,9 +185,9 @@ export default {
                 if(this.timeRemain == 0) {
                     this.training = false;
                     clearInterval(this.countdownTimer);
-                    var index = this.findComponentUpward(this, 'index');
+                    let index = this.findComponentUpward(this, 'index');
                     if(index.displayPage != 'guild') {
-                        var element = document.getElementById('guild');
+                        let element = document.getElementById('guild');
                         element.classList.add('glow');
                     }
                 }
@@ -202,9 +202,9 @@ export default {
                 if(this.timeRemain == 0) {
                     this.training = false;
                     clearInterval(this.countdownTimer);
-                    var index = this.findComponentUpward(this, 'index');
+                    let index = this.findComponentUpward(this, 'index');
                     if(index.displayPage != 'guild') {
-                        var element = document.getElementById('guild');
+                        let element = document.getElementById('guild');
                         element.classList.add('glow');
                     }
                 }
@@ -249,12 +249,12 @@ export default {
             }
             for(let i=0; i<count; i++) {
                 setTimeout(()=>{
-                    var type = this.values[Math.floor(Math.random()*this.values.length)];
-                    var value = Math.round((10+this.trainLevel)/10*this.entryInfo[type].base*Math.random()*multi);
+                    let type = this.values[Math.floor(Math.random()*this.values.length)];
+                    let value = Math.round((10+this.trainLevel)/10*this.entryInfo[type].base*Math.random()*multi);
                     value = this.increaseProgress(type, value);
                     guildMember.gainStat(this.member, type, value);
-                    var node = document.createElement("DIV");
-                    var textnode = document.createTextNode(this.entryInfo[type].name+"+"+value);
+                    let node = document.createElement("DIV");
+                    let textnode = document.createTextNode(this.entryInfo[type].name+"+"+value);
                     node.appendChild(textnode);
                     element.appendChild(node); 
                     node.style.position = 'absolute';
@@ -276,15 +276,15 @@ export default {
             }
         },
         setTrainTier(e) {
-            var value = e.target.value;
+            let value = e.target.value;
             this.trainTier = value;
             this.train.tier = value;
             this.computeTime();
         },
         setTrainMember(e) {
-            var value = e.target.value;
-            var guild = this.findComponentUpward(this, 'guild');
-            var guildMember = this.findBrothersComponents(guild, 'guildMember', false)[0];
+            let value = e.target.value;
+            let guild = this.findComponentUpward(this, 'guild');
+            let guildMember = this.findBrothersComponents(guild, 'guildMember', false)[0];
             this.memberID = value;
             this.member = guildMember.findTargetByID(value);
             switch(this.tier) {
@@ -334,7 +334,7 @@ export default {
             // this.cost = Math.round(0);   
         },
         increaseProgress(type, value) {
-            var max = (this.member.talent[type]+50)*this.entryInfo[type].base*this.member.lv;
+            let max = (this.member.talent[type]+50)*this.entryInfo[type].base*this.member.lv;
             if(this.member.stat[type]+value > max) {
                 value = max - this.member.stat[type];
                 let guild = this.findComponentUpward(this, 'guild');

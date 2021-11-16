@@ -21,10 +21,10 @@ export default {
     methods: {
         set_statistic(data) {
             // if(data.gameTime != undefined) {
-            //     var time = this.$store.state.statistic.gameTime;
-            //     var hourGap = this.timeGap('hour', time, time+data.gameTime);
+            //     let time = this.$store.state.statistic.gameTime;
+            //     let hourGap = this.timeGap('hour', time, time+data.gameTime);
             //     if(hourGap == 1) {
-            //         var guildMember = this.findBrothersComponents(this, 'guildMember', false)[0];
+            //         let guildMember = this.findBrothersComponents(this, 'guildMember', false)[0];
             //         guildMember.levelupAll();
             //     }
 
@@ -32,7 +32,7 @@ export default {
             this.$store.commit("set_statistic", data);
         },
         timeGap(type, time, time2) {
-            var diff = 0;
+            let diff = 0;
             time /= 1000;
             time2 /= 1000;
             switch(type) {

@@ -15,9 +15,9 @@ export const dungeon = {
     },
     methods: {
         generateDungeon(type, count, minlv, maxLv, monster=0) {
-            var map = [];
-            var playerLv = this.$store.state.playerAttribute.lv;
-            for(var i=0; i<count; i++) {
+            let map = [];
+            let playerLv = this.$store.state.playerAttribute.lv;
+            for(let i=0; i<count; i++) {
                 let choice = {};
                 let range = (maxLv-minlv)/count;
                 let lv = Math.round(Math.random()*(range)+minlv+range*i);
@@ -61,43 +61,43 @@ export const dungeon = {
         getType(level) {
             // normal, elite, boss, trial, chest
             // gold, wood, chest, equip
-            var types = {
+            let types = {
                 normal: 10000, 
                 elite: 1000, 
                 boss: 50, 
                 chest: 10, 
                 gold: 2000
             }
-            var option = ['normal', 'gold', 'chest'];
-            var probability = [];
+            let option = ['normal', 'gold', 'chest'];
+            let probability = [];
             if(level >= 1) {
                 option.push('elite');
                 option.push('boss');
             }
-            var total = 0;
-            for(var type in option) {
+            let total = 0;
+            for(let type in option) {
                 total += types[option[type]];
                 probability.push(total);
             }
-            var random = Math.random()*total;
-            for(var k=0; k<probability.length; k++) {
+            let random = Math.random()*total;
+            for(let k=0; k<probability.length; k++) {
                 if(random <= probability[k]) {
                     return option[k]
                 }
             }
         },
         getReward(type, level) {
-            var monsterId = this.monsterId[this.getName(type, level)];
-            var reward = [];
+            let monsterId = this.monsterId[this.getName(type, level)];
+            let reward = [];
             reward = this.monsterReward[monsterId];
             return reward;
         },
         getName(type, level) {
-            var name = '';
-            var nameList = ['小鸡', '训练假人', '高级训练假人', '杂斑野猪', '癞皮山猪', '狗头人矿工', '狗头人地卜师', 
+            let name = '';
+            let nameList = ['小鸡', '训练假人', '高级训练假人', '杂斑野猪', '癞皮山猪', '狗头人矿工', '狗头人地卜师', 
                 '河爪豺狼人', '黑爪豺狼人', '盐壳龟', '钳嘴龟', '灼热元素', '熔岩元素', '愤怒的鱼人', '沙鳞鱼人', '巫翼鹰身人', 
                 '巫翼游荡者', '火蜥蜴', '雷霆蜥蜴', '黑熊', '冰爪熊', '滑壳龙虾人', '巨壳甲壳蟹'];
-            var bossName = ['导师', '阿迦玛', '金牙', '霍格', '铁背龟', '地狱元素', '咕噜咕拉', '塞瑞娜·血羽', '科多兽', '维斯迦尔', '安戈雷尔'];
+            let bossName = ['导师', '阿迦玛', '金牙', '霍格', '铁背龟', '地狱元素', '咕噜咕拉', '塞瑞娜·血羽', '科多兽', '维斯迦尔', '安戈雷尔'];
             switch(type) {
                 case 'normal':
                     name = level == 0 ?nameList[0] : nameList[Math.floor((level-1)/10)+1];
@@ -122,7 +122,7 @@ export const dungeon = {
         },
         getNameById(monsterID) {
             if(Object.keys(this.monsterName).length == 0) {
-                for(var id in this.monsterId) {
+                for(let id in this.monsterId) {
                     this.monsterName[this.monsterId[id]] = id;
                 }
             }

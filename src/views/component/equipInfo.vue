@@ -97,7 +97,7 @@ export default {
     },
     methods: {
         createEquip(qualityIndex, lv, type, bonus) {
-            var newEquip = {};
+            let newEquip = {};
             newEquip.itemType = type != 'random' ? type : this.createType();
             newEquip.lvReq = lv || 1;
             newEquip.lv = lv || 1;
@@ -113,13 +113,13 @@ export default {
         //     return parseInt(Math.random() * (Max || 39)) + 1;
         // },
         createType() {
-            var random = Math.floor(Math.random()*6)
+            let random = Math.floor(Math.random()*6)
             return this.typeName[random];
         },
         createQuality(bonus) {
-            var random = Math.round(Math.random()*1000)/1000;
-            var quality = 0;
-            for(var i=0; i<this.qualityProbability.length; i++) {
+            let random = Math.round(Math.random()*1000)/1000;
+            let quality = 0;
+            for(let i=0; i<this.qualityProbability.length; i++) {
                 if(random <= this.qualityProbability[i]) {
                     quality = i;
                     break;
@@ -131,10 +131,10 @@ export default {
             return this.quality[quality];
         },
         createBaseEntry(newEquip) {
-            var baseEntry = [];
-            var type = newEquip.itemType;
-            var index = Math.floor(Math.random()*this[type].type.length);
-            var percent = [
+            let baseEntry = [];
+            let type = newEquip.itemType;
+            let index = Math.floor(Math.random()*this[type].type.length);
+            let percent = [
                 'CRIT','CRITDMG','ATKP','DEFP','MRP','HPP','MPP'
             ];
             newEquip.description = this[type].type[index].description;
@@ -175,12 +175,12 @@ export default {
 
         },
         createExtraEntry(newEquip) {
-            var extraEntry = [];
-            var extraEntryTypes = [];
-            var type = newEquip.itemType;
+            let extraEntry = [];
+            let extraEntryTypes = [];
+            let type = newEquip.itemType;
             extraEntryTypes = this[type].extraEntry;
-            for(var i=0; i<newEquip.quality.extraEntryNum; i++) {
-                var index = Math.floor(Math.random()*extraEntryTypes.length);
+            for(let i=0; i<newEquip.quality.extraEntryNum; i++) {
+                let index = Math.floor(Math.random()*extraEntryTypes.length);
                 extraEntry.push({type: extraEntryTypes[index]});
             }
             extraEntry.forEach(entry => {
@@ -207,18 +207,18 @@ export default {
             entry.name = this.entryInfo[entry.type].name;
         },
         createPotential(newEquip) {
-            var extraEntry = [
+            let extraEntry = [
                 'STR','AGI','INT', 'ALL', 'CRIT','CRITDMG','ATK', 'DEF', 'SUNDER', 'MR', 'HP', 'MP', 
                 'STRP','AGIP','INTP','ALLP','ATKP', 'MRP','DEFP','HPP','MPP',
             ];
-            var percent = [
+            let percent = [
                 'STRP','AGIP','INTP','ALLP','CRIT','CRITDMG','ATKP','DEFP','MRP','HPP','MPP'
             ];
-            var potentials = [];
-            for(var i=0; i<3; i++) {
+            let potentials = [];
+            for(let i=0; i<3; i++) {
                 if(newEquip.maxEnhanceLv < (i+1)*3)
                     break;
-                var index = Math.floor(Math.random()*extraEntry.length);
+                let index = Math.floor(Math.random()*extraEntry.length);
                 let entry = this.entryInfo[extraEntry[index]];
                 let ran = Math.random();
                 let value = ran>0.5 ? entry.base*1 : entry.base*1.5;
@@ -244,8 +244,8 @@ export default {
             return potentials;
         },
         enhanceBaseEntryValue(equip) {
-            var baseEntry = equip.baseEntry;
-            var percent = [
+            let baseEntry = equip.baseEntry;
+            let percent = [
                 'STRP','AGIP','INTP','ALLP','CRIT','CRITDMG','ATKP','DEFP','MRP','HPP','MPP'
             ];
 
@@ -261,20 +261,20 @@ export default {
             });
         },
         activePotential(equip) {
-            var potentials = equip.potential;
+            let potentials = equip.potential;
             potentials.forEach(potential => {
                 potential.active = equip.enhanceLv>=potential.requirement ? true : false
             });
         },
         forgeEntry(equip, key) {
-            var extraEntry = [];
-            var extraEntryTypes = [];
-            var type = equip.itemType;
-            var percent = [
+            let extraEntry = [];
+            let extraEntryTypes = [];
+            let type = equip.itemType;
+            let percent = [
                 'STRP','AGIP','INTP','ALLP','CRIT','CRITDMG','ATKP','DEFP','MRP','HPP','MPP'
             ];
             extraEntryTypes = this[type].extraEntry;
-            var index = Math.floor(Math.random()*extraEntryTypes.length);
+            let index = Math.floor(Math.random()*extraEntryTypes.length);
             extraEntry.push({type: extraEntryTypes[index]});
             extraEntry.forEach(entry => {
                 let random = Math.random();
@@ -315,12 +315,12 @@ export default {
                 entry.qualityLv = 'S'
         },
         levelUpEquip(equip) {
-            var dust = ['dust2', 'dust3', 'dust4', 'dust5', 'dust6'];
-            var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-            var quantity = Math.ceil(equip.lv/10);
-            var itemName = this.itemType[dust[equip.quality.qualityLv-2]].description.name;
-            var item = itemInfo.findItem(itemName);  
-            var has = itemInfo.getItemQty(itemName);
+            let dust = ['dust2', 'dust3', 'dust4', 'dust5', 'dust6'];
+            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            let quantity = Math.ceil(equip.lv/10);
+            let itemName = this.itemType[dust[equip.quality.qualityLv-2]].description.name;
+            let item = itemInfo.findItem(itemName);  
+            let has = itemInfo.getItemQty(itemName);
             if(has < quantity) {
                 this.$store.commit("set_sys_info", {
                     type: 'dmged',
@@ -341,7 +341,7 @@ export default {
             this.$store.commit('set_player_attribute');
         },
         refine(equip, equip2) {
-            for(var i=0; i<equip.baseEntry.length; i++) {
+            for(let i=0; i<equip.baseEntry.length; i++) {
                 let percent = (equip.baseEntry[i].base/(this.entryInfo[equip.baseEntry[i].type].base*(1+(equip.lv)**2*0.05))-1)*5;
                 let percent2 = (equip2.baseEntry[i].base/(this.entryInfo[equip2.baseEntry[i].type].base*(1+(equip2.lv)**2*0.05))-1)*5;
                 percent = percent>percent2 ? percent : percent2;

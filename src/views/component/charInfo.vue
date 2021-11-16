@@ -62,15 +62,24 @@
                     </p>
                 </template>
             </cTooltip>
-            <div class="buffList">
-                <span class="buff" v-for="(v, k) in player.buff" :key="k">
-                    <span v-if="v>0 && buffType.statusBuff[k]!=undefined">
-                        <img :title="buffType.statusBuff[k].desc" :src="buffType.statusBuff[k].iconSrc" alt="">
-                        <span class="buffText">{{v}}</span>
+            <span class="buffList">
+                <div class="buff">
+                    <span class="buffHolder" v-for="(v, k) in player.buff" :key="k">
+                        <span v-if="v>0 && buffType.statusBuff[k]!=undefined">
+                            <img :title="buffType.statusBuff[k].desc" :src="buffType.statusBuff[k].iconSrc" alt="">
+                            <span class="buffText">{{v}}</span>
+                        </span>
                     </span>
-                </span>
-            </div>
-
+                </div>
+                <div class="debuff">
+                    <span class="buffHolder" v-for="(v, k) in player.buff" :key="k">
+                        <span v-if="v>0 && buffType.statusDebuff[k]!=undefined">
+                            <img :title="buffType.statusDebuff[k].desc" :src="buffType.statusDebuff[k].iconSrc" alt="">
+                            <span class="buffText">{{v}}</span>
+                        </span>
+                    </span>
+                </div>
+            </span>
             <div class="other">
                 <cTooltip placement="bottom">
                     <template v-slot:content>
@@ -459,10 +468,11 @@ import {itemConfig} from '@/assets/config/itemConfig';
 import {spellConfig} from '@/assets/config/spellConfig';
 import {equipConfig} from '@/assets/config/equipConfig';
 import {buffConfig} from '@/assets/config/buffConfig';
+import Saveload from './saveload.vue';
 export default {
     name: "charInfo",
     mixins: [assist, buffSystem, itemConfig, spellConfig, equipConfig, buffConfig],
-    components: {cTooltip, hpmpBar, },
+    components: {cTooltip, hpmpBar, Saveload, },
     data() {
         return {
             visible: false,
@@ -520,17 +530,17 @@ export default {
     },
     methods: {       
         updateName(e) {
-            var name = e.target.value;
+            let name = e.target.value;
             this.checkValidity(name);
         },
         confirmName() {
-            var alert = document.getElementById("nameAlert");
-            var name = document.getElementById("name").value;
+            let alert = document.getElementById("nameAlert");
+            let name = document.getElementById("name").value;
             if(this.checkValidity(name))
                 this.player.name = name;
         },
         checkValidity(name) {
-            var alert = document.getElementById("nameAlert");
+            let alert = document.getElementById("nameAlert");
             if(name.length < 1 || name.length > 8) {
                 alert.innerHTML = "名字限定在1-8个字符之间，别一天到晚整点阴间活";
                 return false;
@@ -539,7 +549,7 @@ export default {
             return true;
         },
         unEquip() {
-            var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
             for (let i = 0; i < backpack.grid.length; i++) {
                 if (Object.keys(backpack.grid[i]).length < 3) {
                     this.$set(backpack.grid, i, this.currentEquip);
@@ -576,24 +586,24 @@ export default {
             }
         },
         equipEnhance() {
-            var index = this.findComponentUpward(this, 'index');
+            let index = this.findComponentUpward(this, 'index');
             index.closeInfo();
             index.enhanceEquip = this.currentEquip;
             index.equipEnhancePanel = true;
         },
         equipForge() {
-            var index = this.findComponentUpward(this, 'index');
+            let index = this.findComponentUpward(this, 'index');
             index.closeInfo();
             index.enhanceEquip = this.currentEquip;
             index.equipForgePanel = true;
         },
         equipLevelUp() {
-            var dust = ['dust2', 'dust3', 'dust4', 'dust5', 'dust6'];
-            var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-            var equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
-            var quantity = Math.ceil(this.currentEquip.lv/10);
-            var itemName = this.itemType[dust[this.currentEquip.quality.qualityLv-2]].description.name;
-            var has = itemInfo.getItemQty(itemName);
+            let dust = ['dust2', 'dust3', 'dust4', 'dust5', 'dust6'];
+            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            let equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
+            let quantity = Math.ceil(this.currentEquip.lv/10);
+            let itemName = this.itemType[dust[this.currentEquip.quality.qualityLv-2]].description.name;
+            let has = itemInfo.getItemQty(itemName);
             this.$message({
                 message: '消耗材料'+itemName+"*"+quantity+",目前拥有数量："+has,
                 title: '升级装备',
@@ -607,11 +617,11 @@ export default {
             this.dmgFilterSelected = filter;
         },
         showInfo($event, type, item, compare) {
-            var index = this.findComponentUpward(this, 'index');
+            let index = this.findComponentUpward(this, 'index');
             index.showInfo($event, type, item, compare);
         },
         closeInfo() {
-            var index = this.findComponentUpward(this, 'index');
+            let index = this.findComponentUpward(this, 'index');
             index.closeInfo('equip');
         },
         openMenu(equip, e) {
@@ -621,7 +631,7 @@ export default {
             const offsetLeft = this.$el.getBoundingClientRect().left; // container margin left
             const offsetWidth = this.$el.offsetWidth; // container width
             const maxLeft = offsetWidth - menuMinWidth; // left boundary
-            var left = e.clientX - offsetLeft + 10; // 15: margin right
+            let left = e.clientX - offsetLeft + 10; // 15: margin right
 
             if (left > maxLeft) {
                 this.left = maxLeft;
@@ -816,8 +826,20 @@ export default {
         width: 19.7rem;
         height: 2rem;
         display: flex;
-        flex-direction: row-reverse;
-        .buff{
+        flex-direction: row;
+        .buff {
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            width: 10rem;
+        }
+        .debuff {
+            position: relative;
+            display: flex;
+            flex-direction: row-reverse;
+            width: 9.7rem;
+        }
+        .buffHolder {
             position: relative;
             img {
                 height: 1.7rem;

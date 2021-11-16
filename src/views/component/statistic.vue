@@ -99,8 +99,8 @@ export default {
             return timeStr;
         },
         monsterName() {
-            var monsterName = {};
-            for(var id in this.monsterId) {
+            let monsterName = {};
+            for(let id in this.monsterId) {
                 monsterName[this.monsterId[id]] = id;
             }
             return monsterName;

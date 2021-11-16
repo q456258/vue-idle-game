@@ -2,22 +2,28 @@ export const talentConfig = {
     data() {
         return {
             preReqList: {
-                AGI: [['powerBranch', 10]],
-                INT: [['powerBranch', 10]],
-                CRIT: [['powerBranch', 20]],
-                CRITDMG: [['powerBranch', 20]],
-                spell_nature_thunderclap: [['powerBranch', 20]],
-                spell_holy_crusaderstrike: [['powerBranch', 30], ['spell_nature_thunderclap', 3]],
+                spell_nature_thunderclap: [['powerBranch', 10]],
+                spell_holy_crusaderstrike: [['powerBranch', 10], ['spell_nature_thunderclap', 3]],
+                AGI: [['powerBranch', 20]],
+                warrior_talent_icon_stormbolt: [['powerBranch', 30], ['spell_nature_thunderclap', 1]],
+                CRIT: [['powerBranch', 40]],
                 spell_warlock_soulburn: [['powerBranch', 40]],
+                CRITDMG: [['powerBranch', 50]],
+                ability_warlock_jinx: [['powerBranch', 50], ['spell_warlock_soulburn', 1]],
                 ability_warrior_shatteringthrow: [['powerBranch', 50]],
                 spell_nature_starfall: [['powerBranch', 60]],
+                ability_warrior_colossussmash: [['powerBranch', 60], ['ability_warrior_shatteringthrow', 1]],
                 spell_arcane_starfire: [['powerBranch', 70], ['spell_arcane_starfire', 3]],
                 ability_druid_starfall: [['powerBranch', 80], ['spell_nature_starfall', 3]],
                 spell_shadow_deathscream: [['powerBranch', 90]],
+                warrior_talent_icon_thunderstruck: [['powerBranch', 90], ['spell_nature_thunderclap', 1], ['warrior_talent_icon_stormbolt', 1]],
                 ability_revendreth_paladin: [['powerBranch', 100]],
                 STR: [['defBranch', 10]],
+                INT: [['defBranch', 10]],
                 spell_deathknight_bloodpresence: [['defBranch', 20]],
                 spell_deathknight_frostpresence: [['defBranch', 20]],
+                spell_shadow_summonimp: [['defBranch', 40]],
+                inv_misc_shadowegg: [['defBranch', 10]],
             },
             powerBranch: {
                 powerBranch: {
@@ -64,41 +70,28 @@ export const talentConfig = {
                     maxLv: 9,
                     position: [1, 0],
                 },
-                CRIT: {
-                    name: '暴击率',
-                    desc: ['',
-                        '提升2%暴击率',
-                        '提升4%暴击率',
-                        '提升6%暴击率',
-                        '提升8%暴击率',
-                        '提升10%暴击率',
-                        '提升12%暴击率',
-                        '提升14%暴击率',
-                        '提升16%暴击率',
-                        '提升18%暴击率',
+                spell_nature_thunderclap: {
+                    name: '【技能】雷霆一击',
+                    desc: [
+                        '',
+                        '造成攻击力*1.1点伤害',
+                        '造成攻击力*1.2点伤害',
+                        '造成攻击力*1.3点伤害',
+                        '造成攻击力*1.4点伤害'
                     ],
-                    type: 'CRIT',
-                    iconSrc: "./icons/spell/crit_large.png",
-                    maxLv: 9,
-                    position: [1, 2],
+                    type: 'spell_nature_thunderclap',
+                    iconSrc: "./icons/spell/Spell_nature_thunderclap.png",
+                    maxLv: 4,
+                    position: [2, 1]
                 },
-                CRITDMG: {
-                    name: '暴击伤害',
-                    desc: ['',
-                        '提升2%暴击伤害',
-                        '提升4%暴击伤害',
-                        '提升6%暴击伤害',
-                        '提升8%暴击伤害',
-                        '提升10%暴击伤害',
-                        '提升12%暴击伤害',
-                        '提升14%暴击伤害',
-                        '提升16%暴击伤害',
-                        '提升18%暴击伤害',
-                    ],
-                    type: 'CRITDMG',
-                    iconSrc: "./icons/spell/critdmg_large.png",
-                    maxLv: 9,
-                    position: [0, 2],
+                spell_holy_crusaderstrike: {
+                    name: '【技能】十字军打击',
+                    desc: [''],
+                    type: 'spell_holy_crusaderstrike',
+                    iconSrc: "./icons/spell/spell_holy_crusaderstrike.png",
+                    maxLv: 2,
+                    position: [3, 1],
+                    right: true
                 },
                 AGI: {
                     name: '敏捷',
@@ -116,64 +109,88 @@ export const talentConfig = {
                     type: 'AGI',
                     iconSrc: "./icons/spell/agi.png",
                     maxLv: 9,
-                    position: [1, 1]
+                    position: [0, 2]
                 },
-                INT: {
-                    name: '智力',
+                warrior_talent_icon_stormbolt: {
+                    name: '风暴之锤',
                     desc: ['',
-                        '提升2%智力',
-                        '提升4%智力',
-                        '提升6%智力',
-                        '提升8%智力',
-                        '提升10%智力',
-                        '提升12%智力',
-                        '提升14%智力',
-                        '提升16%智力',
-                        '提升18%智力',
+                        '雷霆一击有20%眩晕目标',
+                        '雷霆一击有40%眩晕目标'
                     ],
-                    type: 'INT',
-                    iconSrc: "./icons/spell/int_large.png",
-                    maxLv: 9,
-                    position: [2, 1]
-                },
-                spell_nature_thunderclap: {
-                    name: '【技能】雷霆一击',
-                    desc: [
-                        '',
-                        '造成攻击力*1.1点伤害',
-                        '造成攻击力*1.2点伤害',
-                        '造成攻击力*1.3点伤害',
-                        '造成攻击力*1.4点伤害'
-                    ],
-                    type: 'spell_nature_thunderclap',
-                    iconSrc: "./icons/spell/Spell_nature_thunderclap.png",
-                    maxLv: 4,
-                    position: [2, 2]
-                },
-                spell_holy_crusaderstrike: {
-                    name: '【技能】十字军打击',
-                    desc: [''],
-                    type: 'spell_holy_crusaderstrike',
-                    iconSrc: "./icons/spell/spell_holy_crusaderstrike.png",
+                    type: 'warrior_talent_icon_stormbolt',
+                    iconSrc: "./icons/spell/warrior_talent_icon_stormbolt.png",
                     maxLv: 2,
                     position: [2, 3],
-                    down: true
+                    down2: true
+                },
+                CRIT: {
+                    name: '暴击率',
+                    desc: ['',
+                        '提升2%暴击率',
+                        '提升4%暴击率',
+                        '提升6%暴击率',
+                        '提升8%暴击率',
+                        '提升10%暴击率',
+                        '提升12%暴击率',
+                        '提升14%暴击率',
+                        '提升16%暴击率',
+                        '提升18%暴击率',
+                    ],
+                    type: 'CRIT',
+                    iconSrc: "./icons/spell/crit_large.png",
+                    maxLv: 9,
+                    position: [0, 4],
                 },
                 spell_warlock_soulburn: {
-                    name: '【技能】夺魂',
-                    desc: [''],
+                    name: '【技能】勾魂',
+                    desc: ['',
+                        '造成最大生命值*0.8点伤害',
+                        '造成最大生命值*0.9点伤害'
+                    ],
                     type: 'spell_warlock_soulburn',
                     iconSrc: "./icons/spell/spell_warlock_soulburn.png",
                     maxLv: 2,
-                    position: [2, 4]
+                    position: [1, 4]
+                },
+                CRITDMG: {
+                    name: '暴击伤害',
+                    desc: ['',
+                        '提升1%暴击伤害',
+                        '提升2%暴击伤害',
+                        '提升3%暴击伤害',
+                        '提升4%暴击伤害',
+                        '提升5%暴击伤害',
+                        '提升6%暴击伤害',
+                        '提升7%暴击伤害',
+                        '提升8%暴击伤害',
+                        '提升9%暴击伤害',
+                    ],
+                    type: 'CRITDMG',
+                    iconSrc: "./icons/spell/critdmg_large.png",
+                    maxLv: 9,
+                    position: [0, 5],
+                },
+                ability_warlock_jinx: {
+                    name: '夺魄',
+                    desc: ['',
+                        '使用勾魂后10%获得一层死亡免疫'
+                    ],
+                    type: 'ability_warlock_jinx',
+                    iconSrc: "./icons/spell/ability_warlock_jinx.png",
+                    maxLv: 1,
+                    position: [1, 5],
+                    down: true
                 },
                 ability_warrior_shatteringthrow: {
                     name: '【技能】碎裂投掷',
-                    desc: [''],
+                    desc: ['',
+                        '造成攻击力*1点伤害, 30%获得一层穿透效果',
+                        '造成攻击力*1.2点伤害, 30%获得一层穿透效果',
+                    ],
                     type: 'ability_warrior_shatteringthrow',
                     iconSrc: "./icons/spell/ability_warrior_shatteringthrow.png",
                     maxLv: 2,
-                    position: [2, 5]
+                    position: [3, 5],
                 },
                 spell_nature_starfall: {
                     name: '【技能】月火术',
@@ -181,7 +198,19 @@ export const talentConfig = {
                     type: 'spell_nature_starfall',
                     iconSrc: "./icons/spell/Spell_nature_starfall.png",
                     maxLv: 3,
-                    position: [2, 6]
+                    position: [0, 6]
+                },
+                ability_warrior_colossussmash: {
+                    name: '粉碎投掷',
+                    desc: ['',
+                        '使用碎裂投掷有40%获得一层穿甲',
+                        '使用碎裂投掷有50%获得一层穿甲'
+                    ],
+                    type: 'ability_warrior_colossussmash',
+                    iconSrc: "./icons/spell/ability_warrior_colossussmash.png",
+                    maxLv: 2,
+                    position: [3, 6],
+                    down: true
                 },
                 spell_arcane_starfire: {
                     name: '【技能】星火术',
@@ -189,7 +218,7 @@ export const talentConfig = {
                     type: 'spell_arcane_starfire',
                     iconSrc: "./icons/spell/spell_arcane_starfire.png",
                     maxLv: 3,
-                    position: [2, 7],
+                    position: [0, 7],
                     down: true
                 },
                 ability_druid_starfall: {
@@ -198,23 +227,40 @@ export const talentConfig = {
                     type: 'ability_druid_starfall',
                     iconSrc: "./icons/spell/ability_druid_starfall.png",
                     maxLv: 1,
-                    position: [2, 8],
+                    position: [0, 8],
                     down: true
                 },
                 spell_shadow_deathscream: {
                     name: '【技能】死亡嚎叫',
-                    desc: [''],
+                    desc: ['',
+                        '造成攻击力*1点伤害，50%对敌人附加一层眩晕效果，并获得一层吸血效果',
+                    ],
                     type: 'spell_shadow_deathscream',
                     iconSrc: "./icons/spell/spell_shadow_deathscream.png",
                     maxLv: 1,
                     position: [2, 9]
                 },
+                warrior_talent_icon_thunderstruck: {
+                    name: '无坚不摧之力',
+                    desc: ['',
+                        '雷霆一击伤害提升30%，使用完后立刻获得3点充能'
+                    ],
+                    type: 'warrior_talent_icon_thunderstruck',
+                    iconSrc: "./icons/spell/warrior_talent_icon_thunderstruck.png",
+                    maxLv: 1,
+                    position: [2, 7],
+                    down4: true
+                },
                 ability_revendreth_paladin: {
                     name: '【技能】血祭',
-                    desc: [''],
+                    desc: ['',
+                        '造成当前生命值*3点伤害, 100%获得一层吸收效果',
+                        '造成当前生命值*4点伤害, 100%获得一层吸收效果',
+                        '造成当前生命值*5点伤害, 100%获得一层吸收效果',
+                    ],
                     type: 'ability_revendreth_paladin',
                     iconSrc: "./icons/spell/ability_revendreth_paladin.png",
-                    maxLv: 1,
+                    maxLv: 3,
                     position: [2, 10]
                 }
             },
@@ -243,7 +289,7 @@ export const talentConfig = {
                     type: 'DEF',
                     iconSrc: "./icons/spell/arm_large.png",
                     maxLv: 9,
-                    position: [2, 0],
+                    position: [0, 0],
                 },
                 MR: {
                     name: '能量盾',
@@ -261,7 +307,7 @@ export const talentConfig = {
                     type: 'MR',
                     iconSrc: "./icons/spell/mr_large.png",
                     maxLv: 9,
-                    position: [3, 0],
+                    position: [1, 0],
                 },
                 STR: {
                     name: '力量',
@@ -280,6 +326,24 @@ export const talentConfig = {
                     iconSrc: "./icons/spell/str_large.png",
                     maxLv: 9,
                     position: [0, 1]
+                },
+                INT: {
+                    name: '智力',
+                    desc: ['',
+                        '提升2%智力',
+                        '提升4%智力',
+                        '提升6%智力',
+                        '提升8%智力',
+                        '提升10%智力',
+                        '提升12%智力',
+                        '提升14%智力',
+                        '提升16%智力',
+                        '提升18%智力',
+                    ],
+                    type: 'INT',
+                    iconSrc: "./icons/spell/int_large.png",
+                    maxLv: 9,
+                    position: [1, 1]
                 },
                 spell_deathknight_bloodpresence: {
                     name: '生命摄取',
@@ -310,6 +374,31 @@ export const talentConfig = {
                     iconSrc: "./icons/spell/Spell_deathknight_frostpresence.png",
                     maxLv: 5,
                     position: [3, 2]
+                },
+                spell_shadow_summonimp: {
+                    name: '血之狂热',
+                    desc: [
+                        '',
+                        '暴击后恢复0.25%最大生命值',
+                        '暴击后恢复0.5%最大生命值',
+                        '暴击后恢复0.75%最大生命值',
+                        '暴击后恢复1%最大生命值',
+                    ],
+                    type: 'spell_shadow_summonimp',
+                    iconSrc: "./icons/spell/spell_shadow_summonimp.png",
+                    maxLv: 4,
+                    position: [2, 4]
+                },
+                inv_misc_shadowegg: {
+                    name: '炼狱',
+                    desc: [
+                        '',
+                        '免疫一次死亡，获得两层死亡免疫，攻击三次后生命值低于50%直接死亡，冷却10分钟',
+                    ],
+                    type: 'inv_misc_shadowegg',
+                    iconSrc: "./icons/spell/inv_misc_shadowegg.png",
+                    maxLv: 1,
+                    position: [2, 7]
                 },
                 // spell_holy_crusaderstrike: {
                 //     name: '【技能】十字军打击',

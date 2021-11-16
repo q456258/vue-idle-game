@@ -50,7 +50,7 @@ export default {
     },
     methods: {
         createItem(type, quantity, lv) {
-            var newItem = {};
+            let newItem = {};
             newItem.description = this.itemType[type].description;
             newItem.lv = lv || 1;
             newItem.quality = this.itemQuality[this.itemType[type].quality-1];
@@ -61,9 +61,9 @@ export default {
             return JSON.stringify(newItem);
         },
         createQuality(bonus) {
-            var random = Math.round(Math.random()*1000)/1000;
-            var quality = 0;
-            for(var i=0; i<this.qualityProbability.length; i++) {
+            let random = Math.round(Math.random()*1000)/1000;
+            let quality = 0;
+            for(let i=0; i<this.qualityProbability.length; i++) {
                 if(random <= this.qualityProbability[i]) {
                     quality = i;
                     break;
@@ -75,7 +75,7 @@ export default {
             return this.quality[quality];
         },
         findItem(name, checkStack=false) {            
-            var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
             for (let i = 0; i < backpack.itemGrid.length; i++) {
                 let item = backpack.itemGrid[i];
                 if(Object.keys(item).length > 2 && item.description.name == name) {
@@ -88,8 +88,8 @@ export default {
             return -1;
         },
         getItemQty(name) {            
-            var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
-            var total = 0;
+            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            let total = 0;
             for (let i = 0; i < backpack.itemGrid.length; i++) {
                 let item = backpack.itemGrid[i];
                 if(Object.keys(item).length > 2 && item.description.name == name) {
@@ -99,10 +99,10 @@ export default {
             return total;
         },
         addItem(item) {
-            var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
-            var name = item.description.name;
-            // var stack = item.stack ? this.findItem(name) : -1;
-            var stack = this.findItem(name, true);
+            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            let name = item.description.name;
+            // let stack = item.stack ? this.findItem(name) : -1;
+            let stack = this.findItem(name, true);
             if(this.itemType[item.type].autoUse) {
                 let used = backpack.useItem(item);
                 if(used)
@@ -117,14 +117,14 @@ export default {
                 }
             }
             else {
-                var remain = this.stackItem(backpack.itemGrid[stack], item);
+                let remain = this.stackItem(backpack.itemGrid[stack], item);
                 if(remain > 0)
                     this.addItem(item);
             }
         },
         stackItem(item, item2) {
-            var max = this.itemType[item.type].maxStack;
-            var sum = item.quantity + item2.quantity;
+            let max = this.itemType[item.type].maxStack;
+            let sum = item.quantity + item2.quantity;
             if(sum > max) {
                 item.quantity = max;
                 item2.quantity = sum-max;
@@ -136,8 +136,8 @@ export default {
             }
         },
         removeItemByIndex(index, quantity) {
-            var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
-            var temp = backpack.itemGrid[index];
+            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            let temp = backpack.itemGrid[index];
             if(backpack.itemGrid[index].quantity <= quantity) {
                 this.$set(backpack.itemGrid, index, {});
                 this.removeItemByItem(temp, quantity-temp.quantity);
@@ -146,9 +146,9 @@ export default {
                 backpack.itemGrid[index].quantity -= quantity;
         },
         removeItemByItem(item, quantity) {
-            var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
-            var name = item.description.name;
-            var stack = this.findItem(name);
+            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            let name = item.description.name;
+            let stack = this.findItem(name);
             if(stack != -1) {
                 if(backpack.itemGrid[stack].quantity <= quantity) {
                     // backpack.itemGrid[index] = {};

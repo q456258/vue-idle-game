@@ -387,7 +387,7 @@ export default {
     },
     methods: {      
         scrollTo(refName) {
-            var element = this.$refs[refName];
+            let element = this.$refs[refName];
             element.scrollIntoView({
                 behavior: 'smooth'
             })

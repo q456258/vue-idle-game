@@ -65,27 +65,27 @@ export default {
             return this.has < 1;
         },
         item() {
-            var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-            var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
-            var item = itemInfo.findItem('神秘宝珠');
+            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            let item = itemInfo.findItem('神秘宝珠');
             if(item == -1)
                 return {quantity: 0};
             else
                 return backpack.itemGrid[item];
         },
         itemQty() {
-            var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-            var qty = itemInfo.getItemQty('神秘宝珠');
+            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            let qty = itemInfo.getItemQty('神秘宝珠');
             return qty;
         }
     },
     methods: {
         washPotential() {
-            var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
             itemInfo.removeItemByItem(this.item, 1);
 
-            var tags = document.getElementsByClassName('tag');
-            var equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
+            let tags = document.getElementsByClassName('tag');
+            let equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
             this.equip.potential = equipInfo.createPotential(this.equip);
             for(let i=0; i<tags.length; i++) {
                 setTimeout(()=>{
@@ -108,7 +108,7 @@ export default {
             }
         },
         closeInfo() {
-            var index = this.findComponentUpward(this, 'index');
+            let index = this.findComponentUpward(this, 'index');
             index.closeInfo('potential');
         }
     }

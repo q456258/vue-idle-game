@@ -80,7 +80,7 @@ export default {
     },
     computed: {
         cost() {
-            var cost = this.equip.enhanceLv%5+1;
+            let cost = this.equip.enhanceLv%5+1;
             return cost;
         },
         smith() {
@@ -92,17 +92,17 @@ export default {
             return this.itemQty < this.cost;
         },
         item() {
-            var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-            var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
-            var item = itemInfo.findItem(this.material);
+            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            let item = itemInfo.findItem(this.material);
             if(item == -1)
                 return {quantity: 0};
             else
                 return backpack.itemGrid[item];
         },
         itemQty() {
-            var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-            var qty = itemInfo.getItemQty(this.material);
+            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            let qty = itemInfo.getItemQty(this.material);
             return qty;
         }
     },
@@ -111,29 +111,29 @@ export default {
             if(this.warning) {
                 return;
             }
-            var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
-            var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
             itemInfo.removeItemByItem(this.item, this.cost);
 
             // backpack.lockEquipment(true);
             this.equip.locked = true;
             backpack.$forceUpdate();
             this.equip.enhanceLv = this.equip.enhanceLv + 1;
-            var equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
+            let equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
             equipInfo.enhanceBaseEntryValue(this.equip);
             equipInfo.activePotential(this.equip);
             this.setMaterial();
             this.$store.commit('set_player_attribute');
         },
         setMaterial() {
-            var index = Math.floor(this.equip.enhanceLv/5);
-            var names = ['低级强化石', '中级强化石', '高级强化石', '顶级强化石', '终极强化石']
-            var img = ['inv_misc_gem_diamond_05', 'inv_misc_gem_diamond_04', 'inv_misc_gem_diamond_03', 'inv_misc_gem_diamond_02', 'inv_misc_gem_diamond_01']
+            let index = Math.floor(this.equip.enhanceLv/5);
+            let names = ['低级强化石', '中级强化石', '高级强化石', '顶级强化石', '终极强化石']
+            let img = ['inv_misc_gem_diamond_05', 'inv_misc_gem_diamond_04', 'inv_misc_gem_diamond_03', 'inv_misc_gem_diamond_02', 'inv_misc_gem_diamond_01']
             this.material = names[index];
             this.imgSrc = img[index];
         },
         closeInfo() {
-            var index = this.findComponentUpward(this, 'index');
+            let index = this.findComponentUpward(this, 'index');
             index.closeInfo('enhance');
         }
     }

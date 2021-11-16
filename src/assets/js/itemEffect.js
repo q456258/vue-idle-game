@@ -39,7 +39,7 @@ export const itemEffect = {
     },
     methods: {
         callItemEffect(type, lv) {
-            var used = false;
+            let used = false;
             switch(type) {
                 case 'inv_misc_book_09':
                     used = this.randomSpell(lv, 1);
@@ -127,15 +127,15 @@ export const itemEffect = {
         },
         //招募声明
         inv_misc_note_06() {
-            var guildMember = this.findBrothersComponents(this, 'guildMember', false)[0];
+            let guildMember = this.findBrothersComponents(this, 'guildMember', false)[0];
             guildMember.generateApplicant();
             return true;
         },
         randomSpell(lv, rank) {
-            var itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-            var spell = this.getSpellList(lv, rank);
-            var spellType = spell[Math.floor(Math.random()*spell.length)];
-            var quantity = 1;
+            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            let spell = this.getSpellList(lv, rank);
+            let spellType = spell[Math.floor(Math.random()*spell.length)];
+            let quantity = 1;
             item = itemInfo.createItem(spellType, quantity);  
             item = JSON.parse(item);
             this.$store.commit("set_sys_info", {
@@ -148,16 +148,16 @@ export const itemEffect = {
             return true;
         },
         randomGold(max, lv) {
-            var guild = this.findBrothersComponents(this, 'guild', false)[0];
-            var gold = Math.round(max*Math.random()*(1+lv*0.1))
+            let guild = this.findBrothersComponents(this, 'guild', false)[0];
+            let gold = Math.round(max*Math.random()*(1+lv*0.1))
             guild.getGold('', gold);
             return true;
         },
         randomEquip(bonus, lv) {
-            var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
-            var equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
-            var itemLv = lv || this.$store.state.playerAttribute.lv;
-            var equip = equipInfo.createEquip(-1, itemLv, 'random', bonus);  
+            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            let equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
+            let itemLv = lv || this.$store.state.playerAttribute.lv;
+            let equip = equipInfo.createEquip(-1, itemLv, 'random', bonus);  
             equip = JSON.parse(equip);
             this.$store.commit("set_sys_info", {
                 type: 'reward',
@@ -168,19 +168,19 @@ export const itemEffect = {
             return true;
         },
         bossTicket(monsterID) {
-            var index = this.findComponentUpward(this, 'index');
+            let index = this.findComponentUpward(this, 'index');
             index.addToMap('boss', (monsterID+5)*2, 1, monsterID);
             return true;
         },
         inv_potion_27() {
-            var player = this.$store.state.playerAttribute;
-            var index = this.findComponentUpward(this, 'index');
+            let player = this.$store.state.playerAttribute;
+            let index = this.findComponentUpward(this, 'index');
             index.buffApply(player, player, 'minionSlayer', 600);
             return true;
         },
         getSpellList(lv, rank) {
-            var spellList = [];
-            var temp = [];
+            let spellList = [];
+            let temp = [];
             switch(rank) {
                 case 1:
                     if(lv > 10) {

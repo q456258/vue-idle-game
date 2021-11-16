@@ -5,16 +5,16 @@
         <a class="nav-link active" id="charInfo" @click="switchTab('charInfo')">角色信息</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" :class="{active: displayPage=='guild' }" id="guild" @click="switchTab('guild')" v-show="playerLv >= 15">公会</a>
+        <a class="nav-link" :class="{active: displayPage=='guild' }" id="guild" @click="switchTab('guild')" v-show="playerLv >= 20">公会</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" :class="{active: displayPage=='guildMember' }" id="guildMember" @click="switchTab('guildMember')" v-show="playerLv >= 15">公会成员</a>
+        <a class="nav-link" :class="{active: displayPage=='guildMember' }" id="guildMember" @click="switchTab('guildMember')" v-show="playerLv >= 20">公会成员</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" :class="{active: displayPage=='shop' }" id="shop" @click="switchTab('shop')" v-show="guild.shop.lv > 10">商店</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" :class="{active: displayPage=='talentTree' }" id="talentTree" @click="switchTab('talentTree')" >天赋</a>
+        <a class="nav-link" :class="{active: displayPage=='talentTree' }" id="talentTree" @click="switchTab('talentTree')" v-show="playerLv >= 10">天赋</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" id="faq" @click="switchTab('faq')">FA♂Q</a>
@@ -199,20 +199,20 @@ export default {
               charInfo, guild, guildMember, shop, talentTree, faq, achievement, statistic, saveload, setting, enermyInfo},
   mounted() {    
     //读取本地存档
-    var saveload = this.findComponentDownward(this, 'saveload');  
-    var sd = localStorage.getItem('_sd');
+    let saveload = this.findComponentDownward(this, 'saveload');  
+    let sd = localStorage.getItem('_sd');
     saveload.loadGame(sd);
     // 启用buff中心计时器
     this.buffTimer();
     
-    var achievement = this.findComponentDownward(this, 'achievement');  
+    let achievement = this.findComponentDownward(this, 'achievement');  
     achievement.set_statistic({gameStartDate: Date.now()});
 
-    var guild = this.findComponentDownward(this, 'guild');  
-    var guildPosition = this.findComponentDownward(guild, 'guildPosition');   
+    let guild = this.findComponentDownward(this, 'guild');  
+    let guildPosition = this.findComponentDownward(guild, 'guildPosition');   
     guildPosition.init();
 
-    var talentTree = this.findComponentDownward(this, 'talentTree');  
+    let talentTree = this.findComponentDownward(this, 'talentTree');  
     talentTree.init();
     
     // this.$store.commit("set_statistic", {gameStartDate: Date.now()});
@@ -226,41 +226,41 @@ export default {
 
     // 自动保存
     setInterval(() => {
-      var saveload = this.findComponentDownward(this, 'saveload');  
+      let saveload = this.findComponentDownward(this, 'saveload');  
       saveload.saveGame(true);
     }, 5 * 60 * 1000)
 
     //初始生成地图
     this.createMaps();
     //测试·随机装备
-    let equipLv = 20;
+    let equipLv = 10;
     let equipQuality = 3;
-    // var equipInfo = this.findComponentDownward(this, 'equipInfo');   
-    // // var newEquip = JSON.parse(equipInfo.createEquip(0,2,'helmet'));
-    // var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'helmet'));
+    // let equipInfo = this.findComponentDownward(this, 'equipInfo');   
+    // // let newEquip = JSON.parse(equipInfo.createEquip(0,2,'helmet'));
+    // let newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'helmet'));
     // this.$store.commit('set_player_helmet', this.$deepCopy(newEquip));
-    // // var newEquip = JSON.parse(equipInfo.createEquip(1,2,'accessory'));
-    // var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'accessory'));
+    // // let newEquip = JSON.parse(equipInfo.createEquip(1,2,'accessory'));
+    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'accessory'));
     // this.$store.commit('set_player_accessory', this.$deepCopy(newEquip));
-    // // var newEquip = JSON.parse(equipInfo.createEquip(2,2,'weapon'));
-    // var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'weapon'));
+    // // let newEquip = JSON.parse(equipInfo.createEquip(2,2,'weapon'));
+    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'weapon'));
     // this.$store.commit('set_player_weapon', this.$deepCopy(newEquip));
-    // // var newEquip = JSON.parse(equipInfo.createEquip(3,2,'armor'));
-    // var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'armor'));
+    // // let newEquip = JSON.parse(equipInfo.createEquip(3,2,'armor'));
+    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'armor'));
     // this.$store.commit('set_player_armor', this.$deepCopy(newEquip));
-    // // var newEquip = JSON.parse(equipInfo.createEquip(4,10,'shoe'));
-    // var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'shoe'));
+    // // let newEquip = JSON.parse(equipInfo.createEquip(4,10,'shoe'));
+    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'shoe'));
     // this.$store.commit('set_player_shoe', this.$deepCopy(newEquip));
-    // // var newEquip = JSON.parse(equipInfo.createEquip(5,20,'leg'));
-    // var newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'shoulder'));
+    // // let newEquip = JSON.parse(equipInfo.createEquip(5,20,'leg'));
+    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'shoulder'));
     // this.$store.commit('set_player_shoulder', this.$deepCopy(newEquip));
 
-    // var itemInfo = this.findComponentDownward(this, 'itemInfo');
-    // var item = itemInfo.createItem('inv_misc_note_06', 20);  
+    // let itemInfo = this.findComponentDownward(this, 'itemInfo');
+    // let item = itemInfo.createItem('inv_misc_note_06', 20);  
     // itemInfo.addItem(JSON.parse(item));
 
     this.$store.commit('set_player_attribute');
-    var shop = this.findComponentDownward(this, 'shop');  
+    let shop = this.findComponentDownward(this, 'shop');  
     shop.setEquipShopItem();
   },
   computed: {
@@ -287,14 +287,14 @@ export default {
   },  
   watch: {
     sysInfo() {
-      var element = document.getElementById('sysInfo')
+      let element = document.getElementById('sysInfo')
       //渲染完成后滚至最下端
       this.$nextTick(() => {
         element.scrollTop = element.scrollHeight + 20;
       })
     },
     battleInfo() {
-      var element = document.getElementById('battleInfo')
+      let element = document.getElementById('battleInfo')
       //渲染完成后滚至最下端
       this.$nextTick(() => {
         element.scrollTop = element.scrollHeight + 20;
@@ -304,9 +304,10 @@ export default {
   methods: {
     switchTab(type){
       if(this.displayPage != type) {
-        var element = document.getElementById(this.displayPage);
+        let element = document.getElementById(this.displayPage);
         element.classList.remove('active');
-        var element = document.getElementById(type);
+
+        element = document.getElementById(type);
         element.classList.add('active');
         element.classList.remove('glow');
         this.displayPage = type;
@@ -318,14 +319,14 @@ export default {
           this.dungeon.selected = false;
           this.dungeon = {};
         }
-        var mapEvent = this.findComponentDownward(this, 'mapEvent'); 
+        let mapEvent = this.findComponentDownward(this, 'mapEvent'); 
         if(this.$store.state.dungeonInfo.inBattle) {
             mapEvent.toggleBattle();
         }
         mapEvent.autoBattle(false);
-        var element = document.getElementById(this.dungeonInfo.current);
+        let element = document.getElementById(this.dungeonInfo.current);
         element.classList.replace('btn-light', 'btn-outline-light');
-        var element = document.getElementById(type);
+        element = document.getElementById(type);
         element.classList.replace('btn-outline-light', 'btn-light');
         // this.$store.commit('set_enermy_hp', 0);
         this.dungeonInfo.current = type;
@@ -339,15 +340,15 @@ export default {
       }
     },
     toggleBattle(type) {
-      var mapEvent = this.findComponentDownward(this, 'mapEvent'); 
+      let mapEvent = this.findComponentDownward(this, 'mapEvent'); 
       mapEvent.toggleBattle(type);
     },
     createMaps() {        
-      var itemInfo = this.findComponentDownward(this, 'itemInfo');
-      var count = 5;
-      var type = 'advanture';
-      var minLv = this.monsterZone[this.selectedZone].minLv;
-      var maxLv = this.monsterZone[this.selectedZone].maxLv;
+      let itemInfo = this.findComponentDownward(this, 'itemInfo');
+      let count = 5;
+      let type = 'advanture';
+      let minLv = this.monsterZone[this.selectedZone].minLv;
+      let maxLv = this.monsterZone[this.selectedZone].maxLv;
       this.mapArr = this.generateDungeon(type, count, minLv, maxLv);
       for(let map in this.mapArr) {
         this.mapArr[map].reward = [];
@@ -363,13 +364,11 @@ export default {
       this.dungeonInfo[type].monsterName = '';
       this.dungeonInfo.current = type;
     },
-    addToMap(type, lv, count, monsterID) {
-      var itemInfo = this.findComponentDownward(this, 'itemInfo');
-      var count = count || 1;
-      var type = type || 'advanture';
-      var minLv = lv || this.monsterZone[this.selectedZone].minLv;
-      var maxLv = lv || this.monsterZone[this.selectedZone].maxLv;
-      var newMaps = this.generateDungeon(type, count, minLv, maxLv, monsterID);
+    addToMap(type='advanture', lv, count=1, monsterID) {
+      let itemInfo = this.findComponentDownward(this, 'itemInfo');
+      let minLv = lv || this.monsterZone[this.selectedZone].minLv;
+      let maxLv = lv || this.monsterZone[this.selectedZone].maxLv;
+      let newMaps = this.generateDungeon(type, count, minLv, maxLv, monsterID);
       for(let map in newMaps) {
         newMaps[map].reward = [];
         for(let type in newMaps[map].rewardType) {
@@ -381,7 +380,7 @@ export default {
     },
     showInfo(e, type, item, compare) {
       this.compare = compare;
-      var equip = ['helmet', 'accessory', 'weapon', 'armor', 'shoe', 'shoulder'];
+      let equip = ['helmet', 'accessory', 'weapon', 'armor', 'shoe', 'shoulder'];
       if(equip.indexOf(type) != -1) {
         this.showEquipInfo = true;
         this.equip = item;    
@@ -475,13 +474,13 @@ export default {
       }
     },
     confirmDungeon(k) {
-      var mapEvent = this.findComponentDownward(this, 'mapEvent'); 
+      let mapEvent = this.findComponentDownward(this, 'mapEvent'); 
       mapEvent.displayDungeon = true;
       if(this.dungeon)
         this.dungeon.selected = false;
       this.dungeon = this.mapArr[k];
       this.dungeon.selected = true;
-      var dungeon = this.dungeonInfo[this.dungeonInfo.current];
+      let dungeon = this.dungeonInfo[this.dungeonInfo.current];
       dungeon.level = this.dungeon.lv;
       dungeon.reward = this.dungeon.reward;
       dungeon.type = this.dungeon.type;
@@ -489,8 +488,8 @@ export default {
       dungeon.monsterName = this.dungeon.monsterName;
     },
     resetMap(forceReset=false) {
-      var element = document.getElementById('resetMap');
-      var mapEvent = this.findComponentDownward(this, 'mapEvent'); 
+      let element = document.getElementById('resetMap');
+      let mapEvent = this.findComponentDownward(this, 'mapEvent'); 
       if(!forceReset && this.resetTime > 0) {
         return;
       }
@@ -512,8 +511,8 @@ export default {
     },
     setSelectedZone(e) {
       this.switchZone('advanture');
-      var zone = document.getElementsByClassName('zone')[0];
-      var value = e.target.value;
+      let zone = document.getElementsByClassName('zone')[0];
+      let value = e.target.value;
       this.selectedZone = value;
       zone.style.backgroundImage = 'url('+this.monsterZone[value].imgSrc+')';
       this.resetMap(true);
@@ -522,8 +521,8 @@ export default {
       clearInterval(this.autoHealthRecovery);
       clearInterval(this.autoManRecovery);
       this.autoHealthRecovery = setInterval(() => {
-        var achievement = this.findComponentDownward(this, 'achievement');  
-        var mapEvent = this.findComponentDownward(this, 'mapEvent');  
+        let achievement = this.findComponentDownward(this, 'achievement');  
+        let mapEvent = this.findComponentDownward(this, 'mapEvent');  
         achievement.set_statistic({gameTime: 1000});
         this.set_player_hp(Math.ceil(this.attribute.MAXHP.value*0.01+this.attribute.STR.value), this.$store.state.playerAttribute);
         if(this.attribute.CURHP.value == this.attribute.MAXHP.value && this.dungeonInfo.auto) {
@@ -538,13 +537,13 @@ export default {
       }, 1000);
     },
     openMenuPanel(type) {
+      let saveload = this.findComponentDownward(this, 'saveload');  
       switch(type) {
         case 'backpack':
           this.showBackpack = !this.showBackpack;
           break;
         case 'save':
           this.savePanel = !this.savePanel;
-          var saveload = this.findComponentDownward(this, 'saveload');  
           saveload.saveGame();
           break;
         case 'setting':
@@ -553,13 +552,13 @@ export default {
       }
     },
     closeMenuPanel(type) {
+      let saveload = this.findComponentDownward(this, 'saveload');  
       switch(type) {
         case 'backpack':
           this.showBackpack = false;
           break;
         case 'save':
           this.savePanel = false;
-          var saveload = this.findComponentDownward(this, 'saveload');  
           saveload.saveGame();
           break;
         case 'setting':

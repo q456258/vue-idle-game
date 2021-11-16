@@ -41,10 +41,10 @@ export default {
     },
     methods: {
         compareAttribute() {
-            var diff = {};
+            let diff = {};
             this.$store.commit('set_player_attribute', {simulate: true, equip: this.equip});
-            var simulate = this.$store.state.playerAttribute.simulatedAttribute;
-            var actual = this.$store.state.playerAttribute.attribute;
+            let simulate = this.$store.state.playerAttribute.simulatedAttribute;
+            let actual = this.$store.state.playerAttribute.attribute;
             for(let index in this.comparedAttributes) {
                 let type = this.comparedAttributes[index];
                 diff[type] = {

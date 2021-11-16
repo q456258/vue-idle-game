@@ -51,7 +51,7 @@ export default {
         readSetting() {
         },
         closeSetting() {
-            var index = this.findComponentUpward(this, 'index');
+            let index = this.findComponentUpward(this, 'index');
             index.closeMenuPanel('setting');
         }
     }

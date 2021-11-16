@@ -56,15 +56,15 @@ export default {
     },
     methods: {
         copySavaData() {
-            var imSavadataTextArea = document.getElementById("imSavedata");
+            let imSavadataTextArea = document.getElementById("imSavedata");
             imSavadataTextArea.select(); // 选中文本
             document.execCommand("copy"); // 执行浏览器复制命令
         }, 
-        async saveGame(needInfo) {
-            var data = {}
-            var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
-            var guild = this.findBrothersComponents(this, 'guild', false)[0];
-            var guildPosition = this.findComponentDownward(guild, 'guildPosition');
+        async saveGame(needInfo=false) {
+            let data = {}
+            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            let guild = this.findBrothersComponents(this, 'guild', false)[0];
+            let guildPosition = this.findComponentDownward(guild, 'guildPosition');
             this.$store.state.exitTime = Date.now();
             data = {
                 state: this.$store.state,
@@ -82,7 +82,7 @@ export default {
                     smith_sub: guildPosition.smith_sub,
                 }
             }
-            var saveData = Base64.encode(Base64.encode(JSON.stringify(data)));
+            let saveData = Base64.encode(Base64.encode(JSON.stringify(data)));
             localStorage.setItem('_sd', saveData);
 
             needInfo && this.$store.commit("set_sys_info", {
@@ -97,32 +97,26 @@ export default {
             if(!loadData)
                 return;
             try {
-                var data = JSON.parse(Base64.decode(Base64.decode(loadData)));
+                let data = JSON.parse(Base64.decode(Base64.decode(loadData)));
 
                 if(data.state.guildAttribute.member == undefined) {
                     data.state.guildAttribute.member = []
                 }
                 if(data.state.guildAttribute.guild.lv == undefined) {
                     data.state.guildAttribute.member = []
-                    data.state.guildAttribute.guild = {lv: 0, exp: 3900000}
-                    data.state.guildAttribute.train = {lv: 0, exp: 1300000}
-                    data.state.guildAttribute.train2 = {lv: 0, exp: 1300000}
-                    data.state.guildAttribute.train3 = {lv: 0, exp: 1300000}
-                    data.state.guildAttribute.shop = {lv: 0, exp: 1300000}
-                    data.state.guildAttribute.smith = {lv: 0, exp: 1300000}
-                    // data.state.guildAttribute.guild = {lv: 0, exp: 10}
-                    // data.state.guildAttribute.train = {lv: 0, exp: 10}
-                    // data.state.guildAttribute.train2 = {lv: 0, exp: 0}
-                    // data.state.guildAttribute.train3 = {lv: 0, exp: 0}
-                    // data.state.guildAttribute.shop = {lv: 0, exp: 10}
-                    // data.state.guildAttribute.smith = {lv: 0, exp: 10}
+                    data.state.guildAttribute.guild = {lv: 0}
+                    data.state.guildAttribute.train = {lv: 0}
+                    data.state.guildAttribute.train2 = {lv: 0,}
+                    data.state.guildAttribute.train3 = {lv: 0}
+                    data.state.guildAttribute.shop = {lv: 0}
+                    data.state.guildAttribute.smith = {lv: 0}
                 }
                 this.$store.replaceState(data.state);
-                var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
-                var mapEvent = this.findBrothersComponents(this, 'mapEvent', false)[0];
-                var setting = this.findBrothersComponents(this, 'setting', false)[0];
-                var guild = this.findBrothersComponents(this, 'guild', false)[0];
-                var guildPosition = this.findComponentDownward(guild, 'guildPosition');
+                let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+                let mapEvent = this.findBrothersComponents(this, 'mapEvent', false)[0];
+                let setting = this.findBrothersComponents(this, 'setting', false)[0];
+                let guild = this.findBrothersComponents(this, 'guild', false)[0];
+                let guildPosition = this.findComponentDownward(guild, 'guildPosition');
 
                 guildPosition.init();
                 backpack.grid = data.backpackEquipment;
@@ -143,7 +137,7 @@ export default {
 
                 setting.readSetting();
                 
-                var index = this.findComponentUpward(this, 'index');
+                let index = this.findComponentUpward(this, 'index');
                 this.$store.state.dungeonInfo.auto = false;
                 this.$store.state.dungeonInfo.inBattle = false;
                 this.$store.state.enermyAttribute.attribute.CURHP.value = 0;
@@ -155,11 +149,11 @@ export default {
                 // mapEvent.generateEnermy('trial', this.$store.state.dungeonInfo.trial.level);
                 // index.switchZone('advanture');
 
-                // var guild = this.findComponentDownward(index, 'guild');
+                // let guild = this.findComponentDownward(index, 'guild');
                 // guild.getAllCost();
                 if(data.state.exitTime != 0) {
-                    var awayTime = Date.now()-data.state.exitTime;
-                    var achievement = this.findBrothersComponents(this, 'achievement', false)[0];
+                    let awayTime = Date.now()-data.state.exitTime;
+                    let achievement = this.findBrothersComponents(this, 'achievement', false)[0];
                     achievement.set_statistic({awayTime: awayTime});
                     // this.$store.commit("set_statistic", {awayTime: awayTime});
                     this.awayReward(awayTime);
@@ -176,18 +170,18 @@ export default {
             }
         },
         awayReward(time) {
-            var minute = Math.floor(time/60/1000);
+            let minute = Math.floor(time/60/1000);
             if(minute < 5)
                 return;
             if(minute > 288)
                 minute = 288;
-            var guild = this.findBrothersComponents(this, 'guild', false)[0];
-            var equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
-            var backpack = this.findBrothersComponents(this, 'backpack', false)[0];
-            var crystal = 0;
-            var gold = 0;
-            var lv = this.$store.state.playerAttribute.lv;
-            for(var i=0; i<Math.floor(minute/5); i++) {
+            let guild = this.findBrothersComponents(this, 'guild', false)[0];
+            let equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
+            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            let crystal = 0;
+            let gold = 0;
+            let lv = this.$store.state.playerAttribute.lv;
+            for(let i=0; i<Math.floor(minute/5); i++) {
                 gold += Math.round((100+lv**2)*(2+2*Math.random()))
                 if(i%5 == 0)
                     crystal += Math.round((1+lv*2)*(1+Math.random()));
@@ -206,7 +200,7 @@ export default {
             guild.getCrystal('外出游荡时累积', crystal);
         },
         closeSaveload() {
-            var index = this.findComponentUpward(this, 'index');
+            let index = this.findComponentUpward(this, 'index');
             index.closeMenuPanel('save');
         }
     }

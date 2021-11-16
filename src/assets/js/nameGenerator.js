@@ -24,7 +24,7 @@ export const nameGenerator = {
     },
     methods: {
         generateName(type) {
-            var name = '';
+            let name = '';
             switch(type) {
                 case 'Human':
                     name = this.human[Math.floor(Math.random() * this.human.length)];

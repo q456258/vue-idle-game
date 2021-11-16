@@ -101,6 +101,12 @@ data() {
                     iconSrc: "./icons/spell/stun.png",
                     desc: "眩晕：跳过一次攻击回合"
                 },
+                hell: {
+                    cleanse: true,
+                    stacked: true,
+                    iconSrc: "./icons/spell/inv_misc_shadowegg.png",
+                    desc: "炼狱：每次行动减少一层，结束时生命值低于50%直接死亡"
+                },
                 bleed: {
                     cleanse: true,
                     stacked: true,

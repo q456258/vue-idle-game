@@ -12,9 +12,9 @@
         <div class="training">
             <div class="trainingProgressbars">
                 <countdown ref="countdown" :tier="0" :timer="$store.state.train.train1.timer" :level="guild.train.lv" v-if="guild.train.lv>0"></countdown>
-                <countdown :tier="1" :timer="$store.state.train.train2.timer" :level="guild.train2.lv" v-if="guild.train.lv>0"></countdown>
+                <!-- <countdown :tier="1" :timer="$store.state.train.train2.timer" :level="guild.train2.lv" v-if="guild.train.lv>0"></countdown> -->
                 <!-- <countdown :tier="1" :timer="$store.state.train.train2.timer" :level="guild.train2.lv" v-if="guild.train2.lv>0"></countdown> -->
-                <countdown :tier="2" :timer="$store.state.train.train3.timer" :level="guild.train3.lv" v-if="guild.train3.lv>0"></countdown>
+                <!-- <countdown :tier="2" :timer="$store.state.train.train3.timer" :level="guild.train3.lv" v-if="guild.train3.lv>0"></countdown> -->
             </div>
         </div>
     </div>
@@ -144,39 +144,36 @@ export default {
     },
     methods: {    
         init() {
-            for(var mem in this.maxMember) {
+            for(let mem in this.maxMember) {
                 this.maxMember[mem] = Math.floor(this.guild[mem].lv/10+1);
             }
             for(let timer in this.timerList) 
                 clearInterval(this.timerList[timer]);
             this.start('shop');
             this.start('smith');
-            this.start('train');
-            this.start('train2');
-            this.start('train3');
             // this.smith_main = this.player.shoulder;
             // this.smith_sub = this.player.weapon;
-            var types = ['guild','shop','smith','train','train2','train3'];
+            let types = ['guild','shop','smith','train','train2','train3'];
             // for(let type in types) 
             //     this.computeLv(types[type]);
         },
         // computeLv(type) {
-        //     var target = this.guild[type];
+        //     let target = this.guild[type];
         //     while(target.exp >= this.lvExp[target.lv])
         //         target.lv++;
         // },
         selectEquip(type) {
-            var guild = this.findComponentUpward(this, 'guild');
-            var backpack = this.findBrothersComponents(guild, 'backpack', false)[0];
-            var index = this.findComponentUpward(guild, 'index');
+            let guild = this.findComponentUpward(this, 'guild');
+            let backpack = this.findBrothersComponents(guild, 'backpack', false)[0];
+            let index = this.findComponentUpward(guild, 'index');
             this.selectFor = type;
             backpack.leftClickEnabled = true;
             index.closeMenuPanel('backpack');
             index.openMenuPanel('backpack');
         },
         selectedEquip(equip) {
-            var guild = this.findComponentUpward(this, 'guild');
-            var backpack = this.findBrothersComponents(guild, 'backpack', false)[0];
+            let guild = this.findComponentUpward(this, 'guild');
+            let backpack = this.findBrothersComponents(guild, 'backpack', false)[0];
             switch(this.selectFor){
                 case "smith_main":
                     if(this.smith_main.lv)
@@ -192,12 +189,12 @@ export default {
             this.selectFor = 'None';
         },
         setSelectedType(e, type) {
-            var value = e.target.value;
+            let value = e.target.value;
             this.selectedType[type] = value;
             this.computeMax(type);
         },
         computeMax(type) {
-            var req = {
+            let req = {
                 HP: 25000,
                 MP: 25000,
                 ATK: 25000,
@@ -226,15 +223,6 @@ export default {
                 case 'shop':
                     this.startShop();
                     break;
-                case 'train':
-                    this.startTrain('train');
-                    break;
-                case 'train2':
-                    this.startTrain('train2');
-                    break;
-                case 'train3':
-                    this.startTrain('train3');
-                    break;
             }
         },
         stop(type) {
@@ -242,17 +230,8 @@ export default {
             clearInterval(this.timerList[type]);
             this.inProgress[type] = false;
         },
-        startTrain(type) {
-            this.timerList[type] = setInterval(() => {
-                this.progress[type].current += this.totalEfficiency[type];
-                if(this.progress[type].current >= this.progress[type].max) {
-                    this.progress[type].current = 0;
-                    this.$refs.countdown.increaseProgress(this.selectedType[type], 200);
-                }
-            }, 1000);
-        },
         startShop() {
-            var guild = this.findComponentUpward(this, 'guild');
+            let guild = this.findComponentUpward(this, 'guild');
             this.timerList['shop'] = setInterval(() => {
                 this.progress['shop'].current += this.totalEfficiency['shop'];
                 if(this.progress['shop'].current >= this.progress['shop'].max) {
@@ -296,10 +275,10 @@ export default {
             }, 1000);
         },
         smith() {
-            var guild = this.findComponentUpward(this, 'guild');
-            var equipInfo = this.findBrothersComponents(guild, 'equipInfo', false)[0];
-            var backpack = this.findBrothersComponents(guild, 'backpack', false)[0];
-            let equip = equipInfo.createEquip(-1, lv, 'random', 1);  
+            let guild = this.findComponentUpward(this, 'guild');
+            let equipInfo = this.findBrothersComponents(guild, 'equipInfo', false)[0];
+            let backpack = this.findBrothersComponents(guild, 'backpack', false)[0];
+            let equip = equipInfo.createEquip(-1, this.player.lv, 'random', 1);  
             equip = JSON.parse(equip);
             this.$store.commit("set_sys_info", {
                 type: 'reward',
@@ -309,9 +288,9 @@ export default {
             backpack.giveEquip(equip);
         },
         refine() {
-            var guild = this.findComponentUpward(this, 'guild');
-            var equipInfo = this.findBrothersComponents(guild, 'equipInfo', false)[0];
-            var backpack = this.findBrothersComponents(guild, 'backpack', false)[0];
+            let guild = this.findComponentUpward(this, 'guild');
+            let equipInfo = this.findBrothersComponents(guild, 'equipInfo', false)[0];
+            let backpack = this.findBrothersComponents(guild, 'backpack', false)[0];
             this.$store.commit("set_sys_info", {
                 type: 'reward',
                 msg: '消耗装备',
@@ -328,9 +307,9 @@ export default {
             this.smith_sub = {};
         },
         melt() {
-            var guild = this.findComponentUpward(this, 'guild');
-            var equipInfo = this.findBrothersComponents(guild, 'equipInfo', false)[0];
-            var backpack = this.findBrothersComponents(guild, 'backpack', false)[0];
+            let guild = this.findComponentUpward(this, 'guild');
+            let equipInfo = this.findBrothersComponents(guild, 'equipInfo', false)[0];
+            let backpack = this.findBrothersComponents(guild, 'backpack', false)[0];
             this.$store.commit("set_sys_info", {
                 type: 'reward',
                 msg: '消耗装备',
@@ -347,13 +326,13 @@ export default {
             this.smith_sub = {};
         },
         showInfo($event, type, item, compare) {
-            var guild = this.findComponentUpward(this, 'guild');
-            var index = this.findComponentUpward(guild, 'index');
+            let guild = this.findComponentUpward(this, 'guild');
+            let index = this.findComponentUpward(guild, 'index');
             index.showInfo($event, type, item, compare);
         },
         closeInfo() {
-            var guild = this.findComponentUpward(this, 'guild');
-            var index = this.findComponentUpward(guild, 'index');
+            let guild = this.findComponentUpward(this, 'guild');
+            let index = this.findComponentUpward(guild, 'index');
             index.closeInfo('equip');
         },
     }
