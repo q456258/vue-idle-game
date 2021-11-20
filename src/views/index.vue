@@ -521,6 +521,8 @@ export default {
       clearInterval(this.autoHealthRecovery);
       clearInterval(this.autoManRecovery);
       this.autoHealthRecovery = setInterval(() => {
+        if(this.dungeonInfo.inBattle)
+          return;
         let achievement = this.findComponentDownward(this, 'achievement');  
         let mapEvent = this.findComponentDownward(this, 'mapEvent');  
         achievement.set_statistic({gameTime: 1000});
@@ -533,6 +535,8 @@ export default {
         }
       }, 1000);
       this.autoManRecovery = setInterval(() => {
+        if(this.dungeonInfo.inBattle)
+          return;
         this.$store.commit('set_player_mp', Math.ceil(this.attribute.MAXMP.value*0.01+this.attribute.INT.value/4));
       }, 1000);
     },

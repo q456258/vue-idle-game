@@ -149,7 +149,7 @@ export const buffSystem = {
         },
         // 死亡后触发buff
         buffAfterKilled(source, target) {
-            if(target.type == 'player' && this.$store.state.statistic.death%50 == 0) {
+            if(target.type == 'player' && this.$store.state.statistic.death%50 == 0 && this.$store.state.statistic.death > 0) {
                 let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
                 let item = itemInfo.createItem('inv_potion_27', 1);  
                 itemInfo.addItem(JSON.parse(item));
