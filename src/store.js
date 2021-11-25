@@ -253,8 +253,8 @@ export default new Vuex.Store({
         },
         playerAttribute: {
             name: '无名',
-            // lv: 50,
-            lv: 1,
+            lv: 50,
+            // lv: 1,
             type: 'player',
             exp: {cur: 0, req: 400},
             healthRecoverySpeed: 1,
@@ -294,11 +294,11 @@ export default new Vuex.Store({
             },
             buff: {},
             talent: {
-                powerBranch: 0
+                generalBranch: 0
             },
             globalCD: {},
-            talentPoint: 1,
-            // talentPoint: 50,
+            // talentPoint: 1,
+            talentPoint: 100,
             helmet: initial_helmet,
             weapon: initial_weapon,
             armor: initial_armor,

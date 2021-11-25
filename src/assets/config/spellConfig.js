@@ -51,19 +51,19 @@ data() {
                 level: [{
                         des: '造成攻击力*1.1点伤害',
                         dmg: { ATK: 1.1, },
-                        cost: { MP: 500, },
+                        cost: { MP: 100, },
                     }, {
                         des: '造成攻击力*1.2点伤害',
                         dmg: { ATK: 1.2, },
-                        cost: { MP: 1500, },
+                        cost: { MP: 500, },
                     }, {
                         des: '造成攻击力*1.3点伤害',
                         dmg: { ATK: 1.3, },
-                        cost: { MP: 4500, },
+                        cost: { MP: 1000, },
                     }, {
                         des: '造成攻击力*1.4点伤害',
                         dmg: { ATK: 1.4, },
-                        cost: { MP: 13500, },
+                        cost: { MP: 1500, },
                     }
                 ],
                 proficient: {
@@ -93,6 +93,45 @@ data() {
                     }
                 },
                 tag: ['攻击']
+            },
+            inv_sword_48: {
+                name: '屠杀',
+                max: 10,
+                iconSrc: "./icons/spell/inv_sword_48.png",
+                quality: 1,
+                level: [{
+                        des: '造成攻击力*0.5点伤害，对低于80%的目标造成额外攻击力*0.75点伤害',
+                        dmg: { ATK: 0.5},
+                        cost: { MP: 600, },
+                    },
+                ],
+                tag: []
+            },
+            ability_whirlwind: {
+                name: '剑刃风暴',
+                max: 10,
+                iconSrc: "./icons/spell/ability_whirlwind.png",
+                quality: 1,
+                level: [{
+                        des: '造成8次5000+攻击力*0.5点伤害，移除所有负面状态效果',
+                        dmg: { FIX: 5000, ATK: 0.5},
+                        cost: { MP: 600, },
+                    },
+                ],
+                tag: []
+            },
+            ability_racial_avatar: {
+                name: '天神下凡',
+                max: 10,
+                iconSrc: "./icons/spell/ability_racial_avatar.png",
+                quality: 1,
+                level: [{
+                        des: '伤害提升20%，移除并免疫所有负面效果，持续一分钟',
+                        dmg: { FIX: 0},
+                        cost: { MP: 600, },
+                    },
+                ],
+                tag: []
             },
             spell_fire_flamebolt: {
                 name: '火球术',

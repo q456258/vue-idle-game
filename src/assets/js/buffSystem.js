@@ -127,6 +127,12 @@ export const buffSystem = {
         // 攻击起手触发buff, source为攻击发起者
         buffOnAttack(source, target) {
             this.buffReduce(source, source, 'hell');
+            let talent = 'ability_rogue_preparation';
+            if(this.playerAttr.talent[talent] != 0) {
+                let recover = this.playerAttr.talent[talent]*10;
+                this.set_player_hp(recover, source);
+                this.$store.commit('set_player_mp', recover);
+            }
         },
         // 受攻击伤害触发buff, source为攻击发起者
         buffOnHit(source, target) {
@@ -159,6 +165,10 @@ export const buffSystem = {
         sunder(source, armor) {
             if(this.buffReduce(source, source, 'sunder')) {
                 let sunderRatio = 0.25;
+                let talent = 'sunder_buff';
+                if(this.player.talent[talent] != 0) {
+                    sunderRatio += this.player.talent[talent]*0.02;
+                }
                 return armor * (1-sunderRatio);
             }
             else
@@ -168,6 +178,10 @@ export const buffSystem = {
         penetrate(source, dmg) {
             if(this.buffReduce(source, source, 'penetrate')) {
                 let penRatio = 0.1;
+                let talent = 'penetrate_buff';
+                if(this.player.talent[talent] != 0) {
+                    penRatio += this.player.talent[talent]*0.01;
+                }
                 return Math.round(dmg * penRatio);
             }
             else
@@ -278,6 +292,7 @@ export const buffSystem = {
                 return ap;
             
         },
+        // 野怪杀手
         minionSlayer(source, target, dmg) {
             if(source.buff['minionSlayer'] != undefined && target.type == 'normal') {
                 this.$store.commit("set_battle_info", {

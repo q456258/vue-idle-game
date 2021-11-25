@@ -92,6 +92,11 @@ data() {
                     timed: true,
                     iconSrc: "./icons/item/inv_potion_27.png",
                     desc: "野怪杀手【分钟】：对冒险区非精英、BOSS类怪物额外造成50%伤害"
+                },
+                avatar: {
+                    timed: true,
+                    iconSrc: "./icons/spell/ability_racial_avatar.png",
+                    desc: "天神下凡【分钟】：对冒险区非精英、BOSS类怪物额外造成50%伤害"
                 }
             },
             statusDebuff: {
@@ -123,8 +128,15 @@ data() {
                     cleanse: true,
                     stacked: true,
                     iconSrc: "./icons/spell/weak.png",
-                    desc: "虚弱：造成的伤害降低50%"
-                }
+                    desc: "虚弱：每一层使造成的伤害降低3%，上限30%"
+                },
+                // 需要图标
+                // vulnerable: {
+                //     cleanse: true,
+                //     stacked: true,
+                //     iconSrc: "./icons/spell/weak.png",
+                //     desc: "易伤：受到的伤害提升20%"
+                // }
             },
         },
     }

@@ -275,6 +275,7 @@ export default {
     playerShoe() { return this.$store.state.playerAttribute.shoe },
     playerShoulder() { return this.$store.state.playerAttribute.shoulder },
     playerLv() { return this.$store.state.playerAttribute.lv },
+    playerTalent() { return this.$store.state.playerAttribute.talent },
     inBattle() { return this.$store.state.dungeonInfo.inBattle;},
     guild() { return this.$store.state.guildAttribute;},
     filteredMonsterZone() {
@@ -526,7 +527,12 @@ export default {
         let achievement = this.findComponentDownward(this, 'achievement');  
         let mapEvent = this.findComponentDownward(this, 'mapEvent');  
         achievement.set_statistic({gameTime: 1000});
-        this.set_player_hp(Math.ceil(this.attribute.MAXHP.value*0.01+this.attribute.STR.value), this.$store.state.playerAttribute);
+        let recover = 0.01;
+        let talent = 'ability_hunter_harass';
+        if(this.playerTalent[talent] != 0) {
+            recover += this.playerTalent[talent]*0.002;
+        }
+        this.set_player_hp(Math.ceil(this.attribute.MAXHP.value*recover+this.attribute.STR.value), this.$store.state.playerAttribute);
         if(this.attribute.CURHP.value == this.attribute.MAXHP.value && this.dungeonInfo.auto) {
           setTimeout(() => {
             if(!this.dungeonInfo.inBattle)

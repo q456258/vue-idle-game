@@ -124,7 +124,7 @@ export default {
                     this.generateEnermy();
                 enermyAttribute = type == 'trial' ? this.$store.state.trialAttribute : this.$store.state.enermyAttribute;
             }
-            if(this.$store.state.dungeonInfo.inBattle)
+            if(dungeonInfo.inBattle)
                 return;
             this.setBattleStatus(true);
             this.battleTimer = setInterval(() => {
@@ -133,6 +133,7 @@ export default {
             }, 1000)
         },
         playerAction(source, target) {
+            let dungeonInfo = this.dungeonInfo;
             this.onAttack(source, target);
             if(source.attribute.CURHP.value == 0)
                 return false;

@@ -1,14 +1,17 @@
 <template>
-<div class="container">
+    <div class="container">
+<draggable :left_limit="-300" :right_limit="1" :top_bot="false">
+    <template slot="header">
+<!-- <div class="container"> -->
     <div>剩余天赋点：{{player.talentPoint}}
     </div>
     <div class="talentTree scrollbar-morpheus-den" >
         <div class="power" v-for="(grid, i) in talents" :key="i">
             <div class="progress">
                 <div v-for="index in 11" :key="index">
-                    <div class="marker" :style="{top: (index-1)*100/10+'%', color:playerTalent[i]>=(index-1)*10?'#0f0':''}">{{(index-1)*10}}</div>
+                    <div class="marker" :style="{top: (index-1)*100/10+'%', color:playerTalent[i]>=(index-1)*5?'#0f0':''}">{{(index-1)*5}}</div>
                 </div>
-                <div class="progress-bar" :style="{height:playerTalent[i]+'%', width: '1px'}">
+                <div class="progress-bar" :style="{height:playerTalent[i]*2+'%', width: '1px'}">
                 </div>
             </div>
             <div class="grid" v-for="(v, k) in talents[i]" :key="k">
@@ -17,7 +20,7 @@
                 <div :class="'down4 '+v.status" v-if="v.down4"></div>
                 <div :class="'right '+v.status" v-if="v.right"></div>
                 <div v-if="v.name" @click="clickTalent($event, k, i)" @contextmenu="rightClick($event, k, i)">
-                    <div :class="[{grayIcon:playerTalent[v.type]==undefined||playerTalent[v.type]==0}, 'icon']" :style="{background: 'url('+v.iconSrc+') no-repeat', backgroundSize: '45px'}">
+                    <div :class="[{grayIcon:v.status=='disable'}, 'icon']" :style="{background: 'url('+v.iconSrc+') no-repeat', backgroundSize: '45px'}">
                         <!-- <img :src="v.iconSrc" alt="" /> -->
                     </div>
                     <div :class="v.status+'-frame'">
@@ -33,7 +36,7 @@
                             <br>
                             <div class="detail" v-for="(preReq, index) in preReqList[v.type]" :key="index">
                                 <div :style="{color:playerTalent[preReq[0]]>=preReq[1]?'#0f0':'#ccc'}">
-                                    {{branchInfo[i][preReq[0]].name}}
+                                    {{branchInfo[preReq[0]].name}}
                                     <span v-if="playerTalent[preReq[0]]">{{playerTalent[preReq[0]]}}</span><span v-else>0</span>/<span>{{preReq[1]+' 级'}}</span>
                                 </div>
                             </div>
@@ -46,34 +49,39 @@
             </div>
         </div>
     </div>
+    </template>
+    <template slot="main" >
+    </template>
+</draggable>
 </div>
 </template>
 <script>
 import { assist } from '../../assets/js/assist';
 import { talentConfig } from '../../assets/config/talentConfig';
 import { buffSystem } from '../../assets/js/buffSystem';
+import draggable from '../uiComponent/draggable';
 export default {    
     name: 'talentTree',
     props: {
     },
     mixins: [assist, talentConfig, buffSystem],
-    components: {},
+    components: {draggable},
     data() {
         return {
             talents: {
-                powerBranch: [],
-                defBranch: []
+                generalBranch: [],
+                warriorBranch: []
             }
         };
     },
     created() {
         for(let branch in this.talents) {
-            this.talents[branch] = new Array(44).fill({});
+            this.talents[branch] = new Array(55).fill({});
         }
     },
     mounted() {
-        this.setGrid('powerBranch');
-        this.setGrid('defBranch');
+        this.setGrid('generalBranch');
+        this.setGrid('warriorBranch');
     },
     watch: {
     },
@@ -81,21 +89,19 @@ export default {
         playerTalent() { return this.$store.state.playerAttribute.talent },
         player() { return this.$store.state.playerAttribute },
         branchInfo() {
-            let types = {};
-            types['powerBranch'] = this.powerBranch;
-            types['defBranch'] = this.defBranch;
+            let types = Object.assign(this.generalBranch, this.warriorBranch);
             return types;
          },
     },
     methods: {
         init() {
-            this.setStatus('powerBranch');
-            this.setStatus('defBranch');
+            this.setStatus('generalBranch');
+            this.setStatus('warriorBranch');
         },
         setGrid(branch) {
             for(let talent in this[branch]) {
                 let temp = this[branch][talent];
-                this.$set(this.talents[branch], temp.position[1]*4+temp.position[0], temp);
+                this.$set(this.talents[branch], temp.position[1]*5+temp.position[0], temp);
             }
         },
         setStatus(branch) {
@@ -164,7 +170,7 @@ export default {
                 if(this.playerTalent[name] > 0) {
                     for(let preReq in this.preReqList[name]) {
                         let check = this.preReqList[name][preReq];
-                        if(talentName == check[0] && (!branch && lv < check[1]) || (branch && talentName == check[0] && lv-this.playerTalent[name] < check[1])) {
+                        if(talentName == check[0] && ((!branch && lv < check[1]) || (branch && talentName == check[0] && lv-this.playerTalent[name] < check[1]))) {
                             return false;
                         }
                     }
@@ -184,6 +190,8 @@ export default {
                     this.$store.commit('set_player_attribute');
                     break;
                 case 'spell_nature_thunderclap':
+                case 'inv_sword_48':
+                case 'ability_whirlwind':
                 case 'spell_holy_crusaderstrike':
                 case 'spell_warlock_soulburn':
                 case 'ability_warrior_shatteringthrow':
@@ -229,6 +237,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .container {
+    position: relative;
     // display: flex;
     // flex-wrap: wrap;
     // flex-direction: column;
@@ -238,6 +247,7 @@ export default {
     padding: 0;
     // overflow-x: visible;
     // overflow-y: scroll;
+    overflow: hidden;
 }
 .talentTree {
     display: flex;
@@ -245,9 +255,13 @@ export default {
     flex-direction: column;
     width: 50rem;
     height: 90%;
-    overflow-x: visible;
-    overflow-y: scroll;
-
+}
+#draggable-container {
+    width: 100%;
+}
+#draggable-header {
+    width: 50rem;
+    height: 50rem;
 }
 $border-size: 50px;
 .power {
@@ -259,7 +273,7 @@ $border-size: 50px;
     display: flex;
     flex-wrap: wrap;
     padding: 1rem 1.5rem 1.5rem 2.7rem;
-    width: 22rem;
+    width: 26rem;
     .grid {
         position: relative;
         width: 60px;

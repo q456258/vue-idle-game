@@ -50,7 +50,7 @@
                         基础：{{attribute.HP.baseVal}}
                         <span v-if="attribute.HPP.value != 0">{{' +' + attribute.HPP.showValue}}</span>
                         <br>
-                        基础恢复：1%/秒
+                        基础恢复：{{1+player.talent['ability_hunter_harass']*0.2}}%/秒
                     </p>
                     <p class="info">
                         * 魔法值
@@ -257,7 +257,7 @@
                 <cTooltip placement="bottom">
                     <template v-slot:content>
                         <div class="item">
-                            <img src="../../assets/icons/stat/mr2.png" alt="">
+                            <img src="../../assets/icons/stat/mr.png" alt="">
                             <div class="value">
                                 <span>
                                     {{attribute.MR.showValue}}
@@ -992,6 +992,8 @@ export default {
                 position: absolute;
                 left: 5rem;
                 top: 2rem;
+                width: 30rem;
+                text-align: left;
             }
             .spellProgress {
                 position: absolute;
