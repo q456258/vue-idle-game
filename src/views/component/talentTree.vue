@@ -58,13 +58,13 @@
 <script>
 import { assist } from '../../assets/js/assist';
 import { talentConfig } from '../../assets/config/talentConfig';
-import { buffSystem } from '../../assets/js/buffSystem';
+import { buffAndTrigger } from '../../assets/js/buffAndTrigger';
 import draggable from '../uiComponent/draggable';
 export default {    
     name: 'talentTree',
     props: {
     },
-    mixins: [assist, talentConfig, buffSystem],
+    mixins: [assist, talentConfig, buffAndTrigger],
     components: {draggable},
     data() {
         return {
@@ -187,6 +187,8 @@ export default {
                 case 'STR':
                 case 'AGI':
                 case 'INT':
+                case 'CRIT':
+                case 'CRITDMG':
                     this.$store.commit('set_player_attribute');
                     break;
                 case 'spell_nature_thunderclap':

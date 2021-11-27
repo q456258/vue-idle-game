@@ -902,17 +902,17 @@ data() {
                 iconSrc: "./icons/spell/Ability_revendreth_paladin.png",
                 quality: 6,
                 level: [{
-                        des: '造成当前生命值*3点伤害, 100%获得一层吸收效果',
+                        des: '造成当前生命值*3点伤害, 获得一层吸收效果',
                         dmg: { CURHP: 3 },
                         effect: { absorb: {stack: 1, chance: 100, target: 'self'} },
                         cost: { CURHP: 0.5, },
                     }, {
-                        des: '造成当前生命值*4点伤害, 100%获得一层吸收效果',
+                        des: '造成当前生命值*4点伤害, 获得一层吸收效果',
                         dmg: { CURHP: 4 },
                         effect: { absorb: {stack: 1, chance: 100, target: 'self'} },
                         cost: { CURHP: 0.5, },
                     }, {
-                        des: '造成当前生命值*5点伤害, 100%获得一层吸收效果',
+                        des: '造成当前生命值*5点伤害, 获得一层吸收效果',
                         dmg: { CURHP: 5 },
                         effect: { absorb: {stack: 1, chance: 100, target: 'self'} },
                         cost: { CURHP: 0.5, },

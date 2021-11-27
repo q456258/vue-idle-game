@@ -162,10 +162,10 @@ import setting from './component/setting';
 import enermyInfo from './component/enermyInfo';
 import { assist } from '../assets/js/assist';
 import { dungeon } from '../assets/js/dungeon';
-import { buffSystem } from '../assets/js/buffSystem';
+import { buffAndTrigger } from '../assets/js/buffAndTrigger';
 export default {
   name: 'index',
-  mixins: [assist, dungeon, buffSystem],
+  mixins: [assist, dungeon, buffAndTrigger],
   data() {
     return {
       showEquipInfo: false,
@@ -529,7 +529,7 @@ export default {
         achievement.set_statistic({gameTime: 1000});
         let recover = 0.01;
         let talent = 'ability_hunter_harass';
-        if(this.playerTalent[talent] != 0) {
+        if(this.playerTalent[talent] > 0) {
             recover += this.playerTalent[talent]*0.002;
         }
         this.set_player_hp(Math.ceil(this.attribute.MAXHP.value*recover+this.attribute.STR.value), this.$store.state.playerAttribute);

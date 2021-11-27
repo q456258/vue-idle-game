@@ -523,6 +523,10 @@ export default new Vuex.Store({
                 if(playerAttribute.talent[attr])
                     attribute[attr+'P'].baseVal += playerAttribute.talent[attr]*2;
             });
+            ['CRIT', 'CRITDMG'].forEach(attr => {
+                if(playerAttribute.talent[attr])
+                    attribute[attr].baseVal += playerAttribute.talent[attr]*1;
+            });
 
             advancedAttributes.forEach(attr => {
                 if(hasPercent.indexOf(attr) > -1)

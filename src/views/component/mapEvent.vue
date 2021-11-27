@@ -57,13 +57,13 @@
 
 import { assist } from '../../assets/js/assist';
 import { spellEffect } from '../../assets/js/spellEffect';
-import { buffSystem } from '../../assets/js/buffSystem';
+import { buffAndTrigger } from '../../assets/js/buffAndTrigger';
 import { monsterConfig } from '@/assets/config/monsterConfig'
 import { spellConfig } from '@/assets/config/spellConfig'
 import { buffConfig } from '@/assets/config/buffConfig'
 export default {
     name: 'mapEvent',
-    mixins: [assist, spellEffect, buffSystem, monsterConfig, spellConfig, buffConfig],
+    mixins: [assist, spellEffect, buffAndTrigger, monsterConfig, spellConfig, buffConfig],
     props: {
     },
     data() {
@@ -290,6 +290,8 @@ export default {
             enermyAttribute.lv = level;
             enermyAttribute.type = type;
             enermyAttribute.name = this.dungeonInfo[this.dungeonInfo.current].monsterName;
+            enermyAttribute.talent = {};
+            // enermyAttribute.spell = {};
             flexStats.forEach(stat => {
                 let attribute = enermyAttribute.attribute[stat];
                 // attribute.value = Math.round(attribute.value*(1+enermyAttribute.lv*0.15)*(1+Math.random()/10));
@@ -336,7 +338,7 @@ export default {
             this.$store.commit('set_enermy_attribute', enermyAttribute);
         },
         onAttack(source, target) {
-            this.buffOnAttack(source, target);
+            this.TriggerOnAttack(source, target);
             if(source.type == 'player') {
                 let spellList = this.playerAttr.spells;
                 for(let spell in spellList) {

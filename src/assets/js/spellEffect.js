@@ -17,7 +17,7 @@ export const spellEffect = {
                     break;
                 }
             }   
-            if(this.checkCost(selectSpell)) {
+            if(source.type == 'player' && this.checkCost(selectSpell)) {
                 return selectSpell;
             }
             return 'attack';
@@ -39,7 +39,8 @@ export const spellEffect = {
                 return 0;
             let spell = this.getSpell(source, target);
             this.callSpell(source, target, spell);
-            this.useCost(spell);
+            if(source.type == 'player')
+                this.useCost(spell);
         },
         callSpell(source, target, spell) {
             switch(spell) {
@@ -82,7 +83,7 @@ export const spellEffect = {
             let attr = this.playerAttr.attribute;
             let spellLv = this.playerAttr.spells[spell].lv-1;
             let talent = 'ability_warrior_intensifyrage';
-            if(this.playerAttr.talent[talent] != 0) {
+            if(this.playerAttr.talent[talent] > 0) {
                 return true;
             }
             for(let cost in this.spell[spell].level[spellLv].cost) {
@@ -94,6 +95,7 @@ export const spellEffect = {
             return true;
         },
         useCost(spell) {
+            // 怪用技能无消耗
             let attr = this.playerAttr.attribute;
             let spellLv = this.playerAttr.spells[spell].lv-1;
             let costs = this.spell[spell].level[spellLv];
@@ -110,19 +112,19 @@ export const spellEffect = {
                         this.set_player_hp(-1*costs.cost[cost]*attr['MAXHP'].value, this.playerAttr);
                         break;
                     case 'MP':
-                        if(this.playerAttr.talent[talent] != 0)
+                        if(this.playerAttr.talent[talent] > 0)
                             this.set_player_hp(-1*costs.cost[cost], this.playerAttr);
                         else
                             this.$store.commit('set_player_mp', -1*costs.cost[cost]);
                         break;
                     case 'CURMP':
-                        if(this.playerAttr.talent[talent] != 0)
+                        if(this.playerAttr.talent[talent] > 0)
                             this.set_player_hp(-1*costs.cost[cost]*attr['CURMP'].value, this.playerAttr);
                         else
                             this.$store.commit('set_player_mp', -1*costs.cost[cost]*attr['CURMP'].value);
                         break;
                     case 'MAXMP':
-                        if(this.playerAttr.talent[talent] != 0)
+                        if(this.playerAttr.talent[talent] > 0)
                             this.set_player_hp(-1*costs.cost[cost]*attr['MAXMP'].value, this.playerAttr);
                         else
                             this.$store.commit('set_player_mp', -1*costs.cost[cost]*attr['MAXMP'].value);
@@ -160,22 +162,22 @@ export const spellEffect = {
             dmg = this.applyMR(target, dmg, spell);
             dmg = this.applyBonusFinalDmg(source, target, spell, dmg);
             let talent = 'ability_warrior_punishingblow';
-            if(source.type == 'player' && source.lv > target.lv && this.playerAttr.talent[talent] != 0) {
-                dmg += this.playerAttr.talent[talent]*50;
+            if(source.lv > target.lv && source.talent[talent] > 0) {
+                dmg += source.talent[talent]*50;
             }
             talent = 'ability_defend';
-            if(target.type == 'player' && this.playerAttr.talent[talent] != 0) {
-                dmg -= this.playerAttr.talent[talent]*5;
+            if(target.talent[talent] > 0) {
+                dmg -= source.talent[talent]*5;
             }
             dmg = Math.round(dmg);
             if(dmg < 0) {
                 dmg = 0;
             }
-            this.buffOnHit(source, target);
+            this.triggerOnHit(source, target);
             if(source.type == 'player') {
                 talent = 'ability_revendreth_druid';
-                if(this.playerAttr.talent[talent] != 0) {
-                    let heal = this.playerAttr.talent[talent]*0.004*dmg;
+                if(source.talent[talent] > 0) {
+                    let heal = source.talent[talent]*0.004*dmg;
                     heal = Math.round(heal);
                     this.set_player_hp(heal, source);
                 }
@@ -199,21 +201,21 @@ export const spellEffect = {
                 bonus += 0.2;
             } 
             let talent = 'ability_warrior_bloodfrenzy';
-            if(source.type == 'player' && this.playerAttr.talent[talent] != 0) {
-                let lost_hp_percent = 100-this.playerAttr.attribute.CURHP.value/this.playerAttr.attribute.MAXHP.value*100;
-                bonus += Math.floor(lost_hp_percent/(30-this.playerAttr.talent[talent]*5))*0.005;
+            if(source.talent[talent] > 0) {
+                let lost_hp_percent = 100-source.attribute.CURHP.value/source.attribute.MAXHP.value*100;
+                bonus += Math.floor(lost_hp_percent/(30-source.talent[talent]*5))*0.005;
             }
             talent = 'warrior_talent_icon_furyintheblood';
-            if(this.playerAttr.talent[talent] != 0) {
-                if(source.type == 'player')
-                    bonus += this.playerAttr.talent[talent]*0.01;
-                else
-                    bonus += this.playerAttr.talent[talent]*0.005;
+            if(source.talent[talent] > 0) {
+                bonus += source.talent[talent]*0.01;
+            }
+            if(target.talent[talent] > 0) {
+                bonus += source.talent[talent]*0.005;
             }
             talent = 'ability_warrior_revenge';
-            if(this.playerAttr.talent[talent] != 0) {
+            if(source.talent[talent] > 0) {
                 if(this.$store.state.statistic.slainBy[target.name] != undefined)
-                    bonus += this.playerAttr.talent[talent]*0.02;
+                    bonus += source.talent[talent]*0.02;
             }
             
             
@@ -242,8 +244,8 @@ export const spellEffect = {
                 dmg *= source.attribute.CRITDMG.value/100;
                 if(source.type == 'player') {
                     let talent = 'spell_shadow_summonimp';
-                    if(this.playerAttr.talent[talent] != 0) {
-                        let heal = this.playerAttr.talent[talent]*0.025*this.playerAttr.attribute.MAXHP.value;
+                    if(source.talent[talent] > 0) {
+                        let heal = source.talent[talent]*0.025*source.attribute.MAXHP.value;
                         heal = Math.round(heal);
                         this.set_player_hp(heal, source);
                     }
@@ -298,13 +300,22 @@ export const spellEffect = {
         // 普通攻击
         attack(source, target, spell) {
             let dmg = this.getSpellDmg(spell, source);
+            let effectList = this.getSpellEffect(source, spell);
             // 强化攻击
             let talent = 'classicon_warrior';
-            if(this.playerAttr.talent[talent] != 0) {
-                let talentLv = this.playerAttr.talent[talent];
+            if(source.talent[talent] > 0) {
+                let talentLv = source.talent[talent];
                 dmg = source.attribute['ATK'].value*(1+talentLv*0.05);
             }
+            // 重击
+            talent = 'ability_warrior_decisivestrike';
+            if(source.talent[talent] > 0) {
+                let chance = source.talent[talent]*1;
+                effectList['stun'] = {stack: 1, chance: chance, target: 'enermy'};
+            }
+            
             this.applyDmg(source, target, spell, dmg);
+            this.applyEffect(source, target, effectList);
         },
         // 雷霆一击
         spell_nature_thunderclap(source, target, spell) {
@@ -312,20 +323,20 @@ export const spellEffect = {
             let effectList = this.getSpellEffect(source, spell);
             // 风暴之锤
             let talent = 'warrior_talent_icon_stormbolt';
-            if(this.playerAttr.talent[talent] != 0) {
-                let chance = this.playerAttr.talent[talent]*10;
+            if(source.talent[talent] > 0) {
+                let chance = source.talent[talent]*10;
                 effectList['stun'] = {stack: 1, chance: chance, target: 'enermy'};
             }
             // 无坚不摧之力
             talent = 'warrior_talent_icon_thunderstruck';
-            if(this.playerAttr.talent[talent] != 0) {
+            if(source.talent[talent] > 0) {
                 dmg = dmg*1.3;
                 source.spells[spell].progress += 3;
             }
             // 十字军之力
             talent = 'ability_paladin_swiftretribution';
-            if(this.playerAttr.talent[talent] != 0) {
-                let stack = this.playerAttr.talent[talent]*1;
+            if(source.talent[talent] > 0) {
+                let stack = source.talent[talent]*1;
                 source.spells['spell_holy_crusaderstrike'].progress += stack;
             }
             
@@ -338,13 +349,13 @@ export const spellEffect = {
             let hp_percent = target.attribute.CURHP.value/target.attribute.MAXHP.value*100;
             // 处刑
             let talent = 'ability_deathknight_deathchain';
-            if(target.type != 'BOSS' && this.playerAttr.talent[talent] != 0 && hp_percent < this.playerAttr.talent[talent]*5) {
+            if(target.type != 'BOSS' && source.talent[talent] > 0 && hp_percent < source.talent[talent]*5) {
                 this.set_enermy_hp('dead');
             } else {
                 // 斩杀
                 talent = 'ability_blackhand_marked4death';
-                if(this.playerAttr.talent[talent] != 0 && hp_percent < 50) {
-                    let bonus = 0.9+this.playerAttr.talent[talent]/10;
+                if(source.talent[talent] > 0 && hp_percent < 50) {
+                    let bonus = 0.9+source.talent[talent]/10;
                     dmg += source.attribute['ATK'].value*bonus;
                 } else if(hp_percent < 80)
                     dmg += source.attribute['ATK'].value*(0.75);
@@ -358,15 +369,15 @@ export const spellEffect = {
             let effectList = this.getSpellEffect(source, spell);
             // 盾牌猛击
             talent = 'inv_shield_05';
-            if(this.playerAttr.talent[talent] != 0) {
-                let chance = this.playerAttr.talent[talent]*10;
+            if(source.talent[talent] > 0) {
+                let chance = source.talent[talent]*10;
                 effectList['stun'] = {stack: 1, chance: chance, target: 'enermy'};
             }
             // 惩罚
             talent = 'ability_deathknight_sanguinfortitude';
-            if(this.playerAttr.talent[talent] != 0) {
+            if(source.talent[talent] > 0) {
                 dmg = dmg*1.2;
-                let stack = this.playerAttr.talent[talent]*1;
+                let stack = source.talent[talent]*1;
                 effectList['weak'] = {stack: stack, chance: 100, target: 'enermy'};
             }
             
@@ -405,8 +416,8 @@ export const spellEffect = {
             let effectList = this.getSpellEffect(source, spell);
             // 夺魄
             let talent = 'ability_warlock_jinx';
-            if(this.playerAttr.talent[talent] != 0) {
-                let chance = this.playerAttr.talent[talent]*10;
+            if(source.talent[talent] > 0) {
+                let chance = source.talent[talent]*10;
                 effectList['deathImmune'] = {stack: 1, chance: chance, target: 'self'};
             }
             
@@ -419,8 +430,8 @@ export const spellEffect = {
             let effectList = this.getSpellEffect(source, spell);
             // 粉碎投掷
             let talent = 'ability_warrior_colossussmash';
-            if(this.playerAttr.talent[talent] != 0) {
-                let chance = this.playerAttr.talent[talent]*10;
+            if(source.talent[talent] > 0) {
+                let chance = source.talent[talent]*10;
                 effectList['penetrate']['chance'] += chance;
             }
             
