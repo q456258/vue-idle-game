@@ -69,7 +69,8 @@ export default {
             data = {
                 state: this.$store.state,
                 backpackEquipment: backpack.grid,
-                backpackItem: backpack.itemGrid,
+                backpackUseGrid: backpack.useGrid,
+                backpackEtcGrid: backpack.etcGrid,
                 backpackSetting: { 
                     sortLocked: backpack.sortLocked,
                     sellPrio: backpack.sellPrio,
@@ -120,7 +121,8 @@ export default {
 
                 guildPosition.init();
                 backpack.grid = data.backpackEquipment;
-                backpack.itemGrid = data.backpackItem;
+                backpack.useGrid = data.backpackUseGrid;
+                backpack.etcGrid = data.backpackEtcGrid;
                 
                 if(data.backpackSetting != undefined) {
                     backpack.autoSell = data.backpackSetting.autoSell;

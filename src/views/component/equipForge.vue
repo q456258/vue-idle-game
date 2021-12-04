@@ -80,15 +80,17 @@ export default {
         item() {
             let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
             let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
-            let item = itemInfo.findItem('虚空宝珠');
+            // 虚空宝珠
+            let item = itemInfo.findItem('inv_enchant_voidsphere');
             if(item == -1)
                 return {quantity: 0};
             else
-                return backpack.itemGrid[item];
+                return item.use ? backpack.useGrid[item] : backpack.etcGrid[item];
         },
         itemQty() {
             let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-            let qty = itemInfo.getItemQty('虚空宝珠');
+            // 虚空宝珠
+            let qty = itemInfo.getItemQty('inv_enchant_voidsphere');
             return qty;
         }
     },

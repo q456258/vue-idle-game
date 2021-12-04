@@ -255,9 +255,12 @@ export default {
     // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'shoulder'));
     // this.$store.commit('set_player_shoulder', this.$deepCopy(newEquip));
 
-    // let itemInfo = this.findComponentDownward(this, 'itemInfo');
-    // let item = itemInfo.createItem('inv_misc_note_06', 20);  
-    // itemInfo.addItem(JSON.parse(item));
+    let itemInfo = this.findComponentDownward(this, 'itemInfo');
+    let item = itemInfo.createItem('inv_misc_note_06', 20);  
+    itemInfo.addItem(JSON.parse(item));
+
+    item = itemInfo.createItem('inv_misc_gem_diamond_05', 20);  
+    itemInfo.addItem(JSON.parse(item));
 
     this.$store.commit('set_player_attribute');
     let shop = this.findComponentDownward(this, 'shop');  

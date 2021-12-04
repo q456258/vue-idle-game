@@ -67,15 +67,17 @@ export default {
         item() {
             let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
             let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
-            let item = itemInfo.findItem('神秘宝珠');
+            // 神秘宝珠
+            let item = itemInfo.findItem('inv_misc_enchantedpearla');
             if(item == -1)
                 return {quantity: 0};
             else
-                return backpack.itemGrid[item];
+                return item.use ? backpack.useGrid[item] : backpack.etcGrid[item];
         },
         itemQty() {
             let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-            let qty = itemInfo.getItemQty('神秘宝珠');
+            // 神秘宝珠
+            let qty = itemInfo.getItemQty('inv_misc_enchantedpearla');
             return qty;
         }
     },

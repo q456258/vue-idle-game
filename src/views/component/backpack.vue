@@ -12,7 +12,10 @@
                 <a class="nav-link active" id="equip" @click="switchTab('equip')">装备</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="item" @click="switchTab('item')">物品</a>
+                <a class="nav-link" id="use" @click="switchTab('use')">消耗</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="etc" @click="switchTab('etc')">其他</a>
             </li>
         </ul>
         <div class="equip" v-show="displayPage=='equip'">
@@ -27,9 +30,21 @@
                 </div>
             </div>
         </div>
-        <div class="item" v-show="displayPage=='item'">
-            <div class="grid" v-on:drop="drop($event, k)" v-on:dragover="allowDrop($event)" v-for="(v, k) in itemGrid" :key="k">
+        <div class="item" v-show="displayPage=='use'">
+            <div class="grid" v-on:drop="drop($event, k)" v-on:dragover="allowDrop($event)" v-for="(v, k) in useGrid" :key="k">
                 <div v-if="v.description" draggable="true" v-on:dblclick="useItemByIndex($event, k)" v-on:dragstart="dragStart($event,k)" v-on:dragend="dragEnd" @contextmenu.prevent="openMenu(k,$event)" @touchstart.stop.prevent="openMenu(k,$event)"  @mouseover="showInfo($event,v.itemType,v,true)" @mouseleave="closeInfo">
+                    <div class="icon" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v.quality.color }">
+                        <img :src="v.description.iconSrc" alt="" />
+                    </div>
+                    <div class="quantity" v-if="v.stack">
+                        {{v.quantity}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="item" v-show="displayPage=='etc'">
+            <div class="grid" v-on:drop="drop($event, k)" v-on:dragover="allowDrop($event)" v-for="(v, k) in etcGrid" :key="k">
+                <div v-if="v.description" draggable="true" v-on:dragstart="dragStart($event,k)" v-on:dragend="dragEnd" @contextmenu.prevent="openMenu(k,$event)" @touchstart.stop.prevent="openMenu(k,$event)"  @mouseover="showInfo($event,v.itemType,v,true)" @mouseleave="closeInfo">
                     <div class="icon" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v.quality.color }">
                         <img :src="v.description.iconSrc" alt="" />
                     </div>
@@ -49,12 +64,18 @@
             <li @click="disintegrate()" v-if="guild.smith.lv>=30 && !currentItem.locked">分解</li>
             <li @click="sellEquipment()" v-if="!currentItem.locked">出售</li>
         </ul>
-        <ul v-show="visible && displayPage=='item'" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
+        <ul v-show="visible && displayPage=='use'" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
             <li @click="useItemByIndex()" v-if="usable">使用</li>
-            <li @click="useAllItemByIndex()" v-if="usable && itemGrid[currentItemIndex].quantity > 1">全部使用</li>
-            <li @click="mergeItem()" v-if="mergeable">合成</li>
-            <li @click="mergeAll()" v-if="mergeable && itemGrid[currentItemIndex].quantity > 1">全部合成</li>
-            <li @click="throwItem()">丢弃</li>
+            <li @click="useAllItemByIndex('use')" v-if="usable && useGrid[currentItemIndex].quantity > 1">全部使用</li>
+            <li @click="mergeItem('use')" v-if="mergeable">合成</li>
+            <li @click="mergeAll('use')" v-if="mergeable && useGrid[currentItemIndex].quantity > 1">全部合成</li>
+            <li @click="throwItem('use')">丢弃</li>
+        </ul>
+        <ul v-show="visible && displayPage=='etc'" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
+            <li @click="useAllItemByIndex('etc')" v-if="usable && etcGrid[currentItemIndex].quantity > 1">全部使用</li>
+            <li @click="mergeItem('etc')" v-if="mergeable">合成</li>
+            <li @click="mergeAll('etc')" v-if="mergeable && etcGrid[currentItemIndex].quantity > 1">全部合成</li>
+            <li @click="throwItem('etc')">丢弃</li>
         </ul>
         <div class="footer">
             <div class="autoSellSetting" v-if="autoSellPanel">
@@ -113,7 +134,8 @@ export default {
             currentItem: {},
             type: 'equip',
             grid: [],
-            itemGrid: [],
+            useGrid: [],
+            etcGrid: [],
             visible: false,
             usable: false,
             mergeable: false,
@@ -140,7 +162,8 @@ export default {
     },
     created() {
         this.grid = new Array(54).fill({});
-        this.itemGrid = new Array(54).fill({});
+        this.useGrid = new Array(54).fill({});
+        this.etcGrid = new Array(54).fill({});
     },
     computed: {
         guild() { return this.$store.state.guildAttribute; },
@@ -260,11 +283,11 @@ export default {
             return true;
         },
         useItemByIndex(e, k) {
-            if(this.displayPage=='item')
+            if(this.displayPage=='use')
                 this.closeInfo();
             if(k != undefined)
                 this.currentItemIndex = k; 
-            if(this.itemGrid[this.currentItemIndex].lvReq > this.playerLv) {
+            if(this.useGrid[this.currentItemIndex].lvReq > this.playerLv) {
                 this.$store.commit("set_sys_info", {
                     type: 'warning',
                     msg: '等级不足，无法使用！',
@@ -272,21 +295,22 @@ export default {
                 return false;
             }
             let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-            let success = this.callItemEffect(this.itemGrid[this.currentItemIndex].type);
+            let success = this.callItemEffect(this.useGrid[this.currentItemIndex].type);
             if(success)
-                itemInfo.removeItemByIndex(this.currentItemIndex, 1);
+                itemInfo.removeItemByIndex(this.currentItemIndex, 1, 'use');
             this.$forceUpdate();
             return success;
         },
         useAllItemByIndex(e, k){
+            console.log(k)
             let autoUse = setInterval(() => {
                 let used = this.useItemByIndex(e, k);
-                if(!used || this.itemGrid[k] == {})
+                if(!used || this.useGrid[k] == {})
                     clearInterval(autoUse);
             }, 50);
         },
         useItem(item) {
-            if(this.displayPage=='item')
+            if(this.displayPage=='use')
                 this.closeInfo();
             if(item.lvReq > this.playerLv) {
                 this.$store.commit("set_sys_info", {
@@ -298,35 +322,38 @@ export default {
             let success = this.callItemEffect(item.type, item.lv);
             return success;
         },
-        mergeItem(e, k, count=1) {
+        mergeItem(e, grid='use', k, count=1) {
             this.closeInfo();
             if(k != undefined)
                 this.currentItemIndex = k; 
-            let type = this.itemType[this.itemGrid[this.currentItemIndex].type];
-            let mergeCount = type.mergeCount;
-            let result = type.mergeTarget;
-            if(!type.merge)
+            let type = grid=='use' ? this.useGrid[this.currentItemIndex].type : this.etcGrid[this.currentItemIndex].type;
+            let quantity = grid=='use' ? this.useGrid[this.currentItemIndex].quantity : this.etcGrid[this.currentItemIndex].quantity;
+            let item = this.itemType[type];
+            let mergeCount = item.mergeCount;
+            let result = item.mergeTarget;
+            if(!item.merge)
                 return;
-            if(this.itemGrid[this.currentItemIndex].quantity < mergeCount*count)
+            if(quantity < mergeCount*count)
                 return;
             let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-            itemInfo.removeItemByIndex(this.currentItemIndex, mergeCount*count);
-            let item = itemInfo.createItem(result, count);
-            itemInfo.addItem(JSON.parse(item));
+            itemInfo.removeItemByIndex(this.currentItemIndex, mergeCount*count, grid);
+            let newItem = itemInfo.createItem(result, count);
+            itemInfo.addItem(JSON.parse(newItem));
             this.$forceUpdate();
         },
-        mergeAll(e, k) {
+        mergeAll(e, grid='use', k) {
             this.closeInfo();
             if(k != undefined)
                 this.currentItemIndex = k; 
-            let type = this.itemType[this.itemGrid[this.currentItemIndex].type];
-            let mergeCount = type.mergeCount;
-            let count = Math.floor(this.itemGrid[this.currentItemIndex].quantity/mergeCount);
-            this.mergeItem(e, this.currentItemIndex, count);
+            let type = grid=='use' ? this.useGrid[this.currentItemIndex].type : this.etcGrid[this.currentItemIndex].type;
+            let quantity = grid=='use' ? this.useGrid[this.currentItemIndex].quantity : this.etcGrid[this.currentItemIndex].quantity;
+            let item = this.itemType[type];
+            let mergeCount = item.mergeCount;
+            let count = Math.floor(quantity/mergeCount);
+            this.mergeItem(e, grid, this.currentItemIndex, count);
         },
-        throwItem() {
-            // this.itemGrid[this.currentItemIndex] = {};
-            this.$set(this.itemGrid, this.currentItemIndex, {});
+        throwItem(grid) {
+            grid=='use' ? this.$set(this.useGrid, this.currentItemIndex, {}) : this.$set(this.etcGrid, this.currentItemIndex, {});
         },
         giveEquip(equip, auto=true) {
             if(auto && this.autoSell[equip.quality.qualityLv-1]) {
@@ -418,9 +445,14 @@ export default {
         openMenu(k, e) {
             this.currentItemIndex = k;
             this.currentItem = this.grid[k];
-            if(this.displayPage == 'item') {
-                let type = this.itemType[this.itemGrid[this.currentItemIndex].type];
+            if(this.displayPage == 'use') {
+                let type = this.itemType[this.useGrid[this.currentItemIndex].type];
                 this.usable = type.use;
+                this.mergeable = type.merge;
+            }
+            else if(this.displayPage == 'etc') {
+                let type = this.itemType[this.etcGrid[this.currentItemIndex].type];
+                this.usable = false;
                 this.mergeable = type.merge;
             }
             // this.$store.commit('set_need_strengthen_equipment', this.currentItem)
@@ -463,10 +495,15 @@ export default {
                         this.$set(this.grid, gridId, this.grid[k]);
                         this.$set(this.grid, k, temp);
                         break;
-                    case 'item':
-                        temp = this.itemGrid[gridId];
-                        this.$set(this.itemGrid, gridId, this.itemGrid[k]);
-                        this.$set(this.itemGrid, k, temp);
+                    case 'use':
+                        temp = this.useGrid[gridId];
+                        this.$set(this.useGrid, gridId, this.useGrid[k]);
+                        this.$set(this.useGrid, k, temp);
+                        break;
+                    case 'etc':
+                        temp = this.etcGrid[gridId];
+                        this.$set(this.etcGrid, gridId, this.etcGrid[k]);
+                        this.$set(this.etcGrid, k, temp);
                         break;
                 }
             }

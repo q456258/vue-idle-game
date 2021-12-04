@@ -98,7 +98,7 @@ export default {
             if(item == -1)
                 return {quantity: 0};
             else
-                return backpack.itemGrid[item];
+                return item.use ? backpack.useGrid[item] : backpack.etcGrid[item];
         },
         itemQty() {
             let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
@@ -127,10 +127,10 @@ export default {
         },
         setMaterial() {
             let index = Math.floor(this.equip.enhanceLv/5);
-            let names = ['低级强化石', '中级强化石', '高级强化石', '顶级强化石', '终极强化石']
-            let img = ['inv_misc_gem_diamond_05', 'inv_misc_gem_diamond_04', 'inv_misc_gem_diamond_03', 'inv_misc_gem_diamond_02', 'inv_misc_gem_diamond_01']
+            // ['低级强化石', '中级强化石', '高级强化石', '顶级强化石', '终极强化石']
+            let names = ['inv_misc_gem_diamond_05', 'inv_misc_gem_diamond_04', 'inv_misc_gem_diamond_03', 'inv_misc_gem_diamond_02', 'inv_misc_gem_diamond_01']
             this.material = names[index];
-            this.imgSrc = img[index];
+            this.imgSrc = names[index];
         },
         closeInfo() {
             let index = this.findComponentUpward(this, 'index');

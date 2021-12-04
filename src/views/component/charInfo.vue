@@ -602,8 +602,9 @@ export default {
             let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
             let equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
             let quantity = Math.ceil(this.currentEquip.lv/10);
-            let itemName = this.itemType[dust[this.currentEquip.quality.qualityLv-2]].description.name;
-            let has = itemInfo.getItemQty(itemName);
+            let itemCode = dust[this.currentEquip.quality.qualityLv-2];
+            let itemName = this.itemType[itemCode].description.name;
+            let has = itemInfo.getItemQty(itemCode);
             this.$message({
                 message: '消耗材料'+itemName+"*"+quantity+",目前拥有数量："+has,
                 title: '升级装备',

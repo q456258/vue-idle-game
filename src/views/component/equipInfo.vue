@@ -318,9 +318,9 @@ export default {
             let dust = ['dust2', 'dust3', 'dust4', 'dust5', 'dust6'];
             let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
             let quantity = Math.ceil(equip.lv/10);
-            let itemName = this.itemType[dust[equip.quality.qualityLv-2]].description.name;
-            let item = itemInfo.findItem(itemName);  
-            let has = itemInfo.getItemQty(itemName);
+            let itemCode = dust[equip.quality.qualityLv-2];
+            let item = itemInfo.findItem(itemCode);  
+            let has = itemInfo.getItemQty(itemCode);
             if(has < quantity) {
                 this.$store.commit("set_sys_info", {
                     type: 'dmged',
@@ -328,8 +328,7 @@ export default {
                 });
                 return;
             }
-            // backpack.itemGrid[item].quantity -= quantity;
-            itemInfo.removeItemByIndex(item, quantity);
+            itemInfo.removeItemByItem(item, quantity);
             equip.lv = parseInt(equip.lv)+1;
             equip.baseEntry.forEach(entry => {
                 let percent = (entry.base/(this.entryInfo[entry.type].base*(1+(equip.lv-1)**2*0.05))-1)*5;

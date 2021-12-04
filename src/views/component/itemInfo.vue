@@ -56,6 +56,7 @@ export default {
             newItem.quality = this.itemQuality[this.itemType[type].quality-1];
             newItem.quantity = quantity;
             newItem.type = type;
+            newItem.use = this.itemType[type].use;
             newItem.stack = this.itemType[type].stack;
             newItem.lvReq = this.itemType[type].lvReq==undefined ? 0 : this.itemType[type].lvReq;
             return JSON.stringify(newItem);
@@ -74,11 +75,12 @@ export default {
                 return this.quality[5];
             return this.quality[quality];
         },
-        findItem(name, checkStack=false) {            
+        findItem(name, checkStack=false) {        
             let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
-            for (let i = 0; i < backpack.itemGrid.length; i++) {
-                let item = backpack.itemGrid[i];
-                if(Object.keys(item).length > 2 && item.description.name == name) {
+            let grid = this.itemType[name].use ? backpack.useGrid: backpack.etcGrid;
+            for (let i = 0; i < grid.length; i++) {
+                let item = grid[i];
+                if(Object.keys(item).length > 2 && item.type == name) {
                     if(!checkStack)
                         return i;
                     else if(item.quantity < this.itemType[item.type].maxStack)
@@ -87,21 +89,23 @@ export default {
             }
             return -1;
         },
-        getItemQty(name) {            
+        getItemQty(code) {            
             let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            let grid = this.itemType[code].use ? backpack.useGrid: backpack.etcGrid;
             let total = 0;
-            for (let i = 0; i < backpack.itemGrid.length; i++) {
-                let item = backpack.itemGrid[i];
-                if(Object.keys(item).length > 2 && item.description.name == name) {
+            for (let i = 0; i < grid.length; i++) {
+                let item = grid[i];
+                if(Object.keys(item).length > 2 && item.type == code) {
                     total += item.quantity;
                 }
             }
             return total;
         },
         addItem(item) {
+            console.log(item)
             let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
-            let name = item.description.name;
-            // let stack = item.stack ? this.findItem(name) : -1;
+            let grid = item.use ? backpack.useGrid : backpack.etcGrid;
+            let name = item.type;
             let stack = this.findItem(name, true);
             if(this.itemType[item.type].autoUse) {
                 let used = backpack.useItem(item);
@@ -109,15 +113,15 @@ export default {
                     return;
             }
             if(stack == -1) {
-                for (let i = 0; i < backpack.itemGrid.length; i++) {
-                    if (Object.keys(backpack.itemGrid[i]).length < 3) {
-                        this.$set(backpack.itemGrid, i, this.$deepCopy(item));
+                for (let i = 0; i < grid.length; i++) {
+                    if (Object.keys(grid[i]).length < 3) {
+                        this.$set(grid, i, this.$deepCopy(item));
                         return;
                     }
                 }
             }
             else {
-                let remain = this.stackItem(backpack.itemGrid[stack], item);
+                let remain = this.stackItem(grid[stack], item);
                 if(remain > 0)
                     this.addItem(item);
             }
@@ -135,28 +139,29 @@ export default {
                 return 0;
             }
         },
-        removeItemByIndex(index, quantity) {
+        removeItemByIndex(index, quantity, type='use') {
             let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
-            let temp = backpack.itemGrid[index];
-            if(backpack.itemGrid[index].quantity <= quantity) {
-                this.$set(backpack.itemGrid, index, {});
+            let grid = type=='use' ? backpack.useGrid : backpack.etcGrid;
+            let temp = grid[index];
+            if(grid[index].quantity <= quantity) {
+                this.$set(grid, index, {});
                 this.removeItemByItem(temp, quantity-temp.quantity);
             }
             else
-                backpack.itemGrid[index].quantity -= quantity;
+                grid[index].quantity -= quantity;
         },
         removeItemByItem(item, quantity) {
             let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
-            let name = item.description.name;
+            let grid = item.use ? backpack.useGrid : backpack.etcGrid;
+            let name = item.name;
             let stack = this.findItem(name);
             if(stack != -1) {
-                if(backpack.itemGrid[stack].quantity <= quantity) {
-                    // backpack.itemGrid[index] = {};
-                    this.$set(backpack.itemGrid, stack, {});
+                if(grid[stack].quantity <= quantity) {
+                    this.$set(grid, stack, {});
                     this.removeItemByItem(item, quantity-item.quantity);
                 }
                 else
-                    backpack.itemGrid[stack].quantity -= quantity;
+                    grid[stack].quantity -= quantity;
             }
         }
     },
