@@ -80,7 +80,19 @@ export default {
     data() {
         return {
             newEquip: {},
-            qualityProbability: [0.25, 0.65, 0.9, 0.99, 0.999, 1],
+            qualityProbability: [
+                // [0.50, 0.75, 0.9, 0.99, 0.999, 1],
+                [0.75, 1, 1, 1, 1, 1], //普通(1-50)
+                [0.55, 0.85, 1, 1, 1, 1], //普通(51-80)
+                [0.45, 0.78, 0.98, 1, 1, 1], //普通(80+)
+                [0.25, 0.65, 0.95, 1, 1, 1], //精英(1-60)
+                [0.19, 0.49, 0.84, 0.99, 1, 1], //精英(6+)
+                [0.25, 0.6, 0.94, 0.99, 0.9995, 1], //宝箱
+                [0.1, 0.25, 0.57, 0.92, 0.995, 1], //BOSS
+                [0.1, 0.25, 0.55, 0.85, 0.99, 1], //
+                [0.05, 0.15, 0.35, 0.75, 0.95, 1], //
+                [0, 0, 0.15, 0.55, 0.9, 1], //
+            ],
             typeName: ['helmet', 'accessory', 'weapon', 'armor', 'shoe', 'shoulder'],
             percent: [
                 'STRP','AGIP','INTP','ALLP','CRIT','CRITDMG','ATKP','DEFP','MRP','HPP','MPP'
@@ -96,12 +108,12 @@ export default {
         player() { return this.$store.state.playerAttribute },
     },
     methods: {
-        createEquip(qualityIndex, lv, type, bonus) {
+        createEquip(qualityIndex, lv, type, qualitySet) {
             let newEquip = {};
             newEquip.itemType = type != 'random' ? type : this.createType();
             newEquip.lvReq = lv || 1;
             newEquip.lv = lv || 1;
-            newEquip.quality = qualityIndex > -1 ? this.quality[qualityIndex] : this.createQuality(bonus);
+            newEquip.quality = qualityIndex > -1 ? this.quality[qualityIndex] : this.createQuality(qualitySet);
             newEquip.maxEnhanceLv = (newEquip.quality.qualityLv-1)*5;
             newEquip.enhanceLv = Math.min(0, newEquip.maxEnhanceLv);
             newEquip.baseEntry = this.createBaseEntry(newEquip);
@@ -116,18 +128,15 @@ export default {
             let random = Math.floor(Math.random()*6)
             return this.typeName[random];
         },
-        createQuality(bonus) {
+        createQuality(qualitySet) {
             let random = Math.round(Math.random()*1000)/1000;
             let quality = 0;
-            for(let i=0; i<this.qualityProbability.length; i++) {
-                if(random <= this.qualityProbability[i]) {
+            for(let i=0; i<this.qualityProbability[qualitySet].length; i++) {
+                if(random <= this.qualityProbability[qualitySet][i]) {
                     quality = i;
                     break;
                 }
             }
-            quality += bonus;
-            if(quality > 5)
-                return this.quality[5];
             return this.quality[quality];
         },
         createBaseEntry(newEquip) {

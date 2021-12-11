@@ -278,6 +278,7 @@ export default {
             let guild = this.findComponentUpward(this, 'guild');
             let equipInfo = this.findBrothersComponents(guild, 'equipInfo', false)[0];
             let backpack = this.findBrothersComponents(guild, 'backpack', false)[0];
+            // 此处需改动qualitySet参数
             let equip = equipInfo.createEquip(-1, this.player.lv, 'random', 1);  
             equip = JSON.parse(equip);
             this.$store.commit("set_sys_info", {

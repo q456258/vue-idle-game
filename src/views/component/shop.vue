@@ -132,6 +132,7 @@ export default {
         setEquipShopItem() {
             let equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
             for(let i=0; i<5; i++) {
+            // 此处需改动qualitySet参数
                 let equip = JSON.parse(equipInfo.createEquip(-1, this.playerLv, 'random', 0));
                 let cost = 400+100*Math.random();
                 cost *= (1+equip.lv/2)*(1+equip.quality.extraEntryNum**3);

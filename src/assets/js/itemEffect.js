@@ -77,6 +77,21 @@ export const itemEffect = {
                 case 'random_equip_4':
                     used = this.randomEquip(4, lv);
                     break;
+                case 'random_equip_5':
+                    used = this.randomEquip(5, lv);
+                    break;
+                case 'random_equip_6':
+                    used = this.randomEquip(6, lv);
+                    break;
+                case 'random_equip_7':
+                    used = this.randomEquip(7, lv);
+                    break;
+                case 'random_equip_8':
+                    used = this.randomEquip(8, lv);
+                    break;
+                case 'random_equip_9':
+                    used = this.randomEquip(9, lv);
+                    break;
                 // case 'inv_box_01':
                 //     used = this.inv_box_01();
                 //     break;
@@ -153,11 +168,11 @@ export const itemEffect = {
             guild.getGold('', gold);
             return true;
         },
-        randomEquip(bonus, lv) {
+        randomEquip(qualitySet, lv) {
             let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
             let equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
             let itemLv = lv || this.$store.state.playerAttribute.lv;
-            let equip = equipInfo.createEquip(-1, itemLv, 'random', bonus);  
+            let equip = equipInfo.createEquip(-1, itemLv, 'random', qualitySet);  
             equip = JSON.parse(equip);
             this.$store.commit("set_sys_info", {
                 type: 'reward',

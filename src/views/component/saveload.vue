@@ -188,6 +188,7 @@ export default {
                 if(i%5 == 0)
                     crystal += Math.round((1+lv*2)*(1+Math.random()));
                 if(Math.random() < 1/24) {
+            // 此处需改动qualitySet参数
                     let equip = equipInfo.createEquip(-1, lv, 'random', 1);  
                     equip = JSON.parse(equip);
                     this.$store.commit("set_sys_info", {

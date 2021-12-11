@@ -279,7 +279,7 @@ export const itemConfig = {
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '随机获得一件装备',
+                        desc: '大概率获得一件垃圾装备',
                         iconSrc: "./icons/item/BTNSelectHeroOn.png",
                     },
                     autoUse: true,
@@ -288,11 +288,11 @@ export const itemConfig = {
                     maxStack: 20
                 },
                 random_equip_1: {
-                    quality: 2,
+                    quality: 1,
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '随机获得一件还行的装备',
+                        desc: '大概率获得一件垃圾装备',
                         iconSrc: "./icons/item/BTNSelectHeroOn.png",
                     },
                     autoUse: true,
@@ -301,11 +301,11 @@ export const itemConfig = {
                     maxStack: 20
                 },
                 random_equip_2: {
-                    quality: 3,
+                    quality: 2,
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '随机获得一件比较好装备',
+                        desc: '大概率获得一件普通装备',
                         iconSrc: "./icons/item/BTNSelectHeroOn.png",
                     },
                     autoUse: true,
@@ -314,11 +314,11 @@ export const itemConfig = {
                     maxStack: 20
                 },
                 random_equip_3: {
-                    quality: 4,
+                    quality: 2,
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '随机获得一件优质装备',
+                        desc: '大概率获得一件普通装备',
                         iconSrc: "./icons/item/BTNSelectHeroOn.png",
                     },
                     autoUse: true,
@@ -327,11 +327,76 @@ export const itemConfig = {
                     maxStack: 20
                 },
                 random_equip_4: {
+                    quality: 3,
+                    description: {
+                        name: '随机装备',
+                        category: '消耗品',
+                        desc: '大概率获得一件良品装备',
+                        iconSrc: "./icons/item/BTNSelectHeroOn.png",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    maxStack: 20
+                },
+                random_equip_5: {
+                    quality: 3,
+                    description: {
+                        name: '随机装备',
+                        category: '消耗品',
+                        desc: '大概率获得一件良品装备',
+                        iconSrc: "./icons/item/BTNSelectHeroOn.png",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    maxStack: 20
+                },
+                random_equip_6: {
+                    quality: 4,
+                    description: {
+                        name: '随机装备',
+                        category: '消耗品',
+                        desc: '大概率获得一件优质装备',
+                        iconSrc: "./icons/item/BTNSelectHeroOn.png",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    maxStack: 20
+                },
+                random_equip_7: {
+                    quality: 4,
+                    description: {
+                        name: '随机装备',
+                        category: '消耗品',
+                        desc: '大概率获得一件优质装备',
+                        iconSrc: "./icons/item/BTNSelectHeroOn.png",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    maxStack: 20
+                },
+                random_equip_8: {
                     quality: 5,
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '随机获得一件极品装备',
+                        desc: '大概率获得一件极品装备',
+                        iconSrc: "./icons/item/BTNSelectHeroOn.png",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    maxStack: 20
+                },
+                random_equip_9: {
+                    quality: 5,
+                    description: {
+                        name: '随机装备',
+                        category: '消耗品',
+                        desc: '大概率获得一件极品装备',
                         iconSrc: "./icons/item/BTNSelectHeroOn.png",
                     },
                     autoUse: true,
