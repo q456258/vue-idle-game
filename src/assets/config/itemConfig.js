@@ -2,32 +2,241 @@ export const itemConfig = {
     data() {
         return {
             itemQuality: [{
-              name: '破旧',
+              name: '贫乏',
               qualityLv: 1,
-              color: '#a1a1a1',
+              color: '#9D9D9D',
             }, {
               name: '普通',
               qualityLv: 2,
               color: '#D9D9D9', 
             }, {
-              name: '精良',
+              name: '罕见',
               qualityLv: 3,
-              color: '#00BBFF', 
+              color: '#1EFF00', 
             }, {
-              name: '完美',
+              name: '稀有',
               qualityLv: 4,
-              color: '#BB00FF', 
+              color: '#0070DD', 
             }, {
               name: '史诗',
               qualityLv: 5,
-              color: '#FFBB00', 
+              color: '#9345FF', 
             }, {
-              name: '传说',
+              name: '传奇',
               qualityLv: 6,
-              color: '#FF0000', 
+              color: '#FF8000', 
             }],
             itemType:
             {
+                inv_ore_copper_01: {
+                    quality: 1,
+                    description: {
+                        name: '铜矿石',
+                        category: '材料',
+                        desc: '',
+                        iconSrc: "./icons/material/inv_ore_copper_01.png",
+                    },
+                    stack: true,
+                    maxStack: 100
+                },
+                inv_ingot_02: {
+                    quality: 2,
+                    description: {
+                        name: '铜锭',
+                        category: '材料',
+                        desc: '',
+                        iconSrc: "./icons/material/inv_ingot_02.png",
+                    },
+                    stack: true,
+                    maxStack: 100
+                },
+                inv_ore_tin_01: {
+                    quality: 1,
+                    description: {
+                        name: '锡矿石',
+                        category: '材料',
+                        desc: '',
+                        iconSrc: "./icons/material/inv_ore_tin_01.png",
+                    },
+                    stack: true,
+                    maxStack: 100
+                },
+                inv_ingot_05: {
+                    quality: 2,
+                    description: {
+                        name: '锡锭',
+                        category: '材料',
+                        desc: '',
+                        iconSrc: "./icons/material/inv_ingot_05.png",
+                    },
+                    stack: true,
+                    maxStack: 100
+                },
+                inv_stone_16: {
+                    quality: 1,
+                    description: {
+                        name: '银矿石',
+                        category: '材料',
+                        desc: '',
+                        iconSrc: "./icons/material/inv_stone_16.png",
+                    },
+                    stack: true,
+                    maxStack: 100
+                },
+                inv_ingot_01: {
+                    quality: 2,
+                    description: {
+                        name: '银锭',
+                        category: '材料',
+                        desc: '',
+                        iconSrc: "./icons/material/inv_ingot_01.png",
+                    },
+                    stack: true,
+                    maxStack: 100
+                },
+                inv_ore_iron_01: {
+                    quality: 1,
+                    description: {
+                        name: '铁矿石',
+                        category: '材料',
+                        desc: '',
+                        iconSrc: "./icons/material/inv_ore_iron_01.png",
+                    },
+                    stack: true,
+                    maxStack: 100
+                },
+                inv_ingot_iron: {
+                    quality: 2,
+                    description: {
+                        name: '铁锭',
+                        category: '材料',
+                        desc: '',
+                        iconSrc: "./icons/material/inv_ingot_iron.png",
+                    },
+                    stack: true,
+                    maxStack: 100
+                },
+                inv_ingot_steel: {
+                    quality: 2,
+                    description: {
+                        name: '钢锭',
+                        category: '材料',
+                        desc: '由铁矿石合成',
+                        iconSrc: "./icons/material/inv_ingot_steel.png",
+                    },
+                    stack: true,
+                    maxStack: 100
+                },
+                inv_ore_gold_01: {
+                    quality: 1,
+                    description: {
+                        name: '金矿石',
+                        category: '材料',
+                        desc: '',
+                        iconSrc: "./icons/material/inv_ore_gold_01.png",
+                    },
+                    stack: true,
+                    maxStack: 100
+                },
+                inv_ingot_03: {
+                    quality: 2,
+                    description: {
+                        name: '金锭',
+                        category: '材料',
+                        desc: '',
+                        iconSrc: "./icons/material/inv_ingot_03.png",
+                    },
+                    stack: true,
+                    maxStack: 100
+                },
+                inv_ore_mithril_02: {
+                    quality: 1,
+                    description: {
+                        name: '秘银矿石',
+                        category: '材料',
+                        desc: '',
+                        iconSrc: "./icons/material/inv_ore_mithril_02.png",
+                    },
+                    stack: true,
+                    maxStack: 100
+                },
+                inv_ingot_06: {
+                    quality: 2,
+                    description: {
+                        name: '秘银锭',
+                        category: '材料',
+                        desc: '',
+                        iconSrc: "./icons/material/inv_ingot_06.png",
+                    },
+                    stack: true,
+                    maxStack: 100
+                },
+                inv_ore_truesilver_01: {
+                    quality: 1,
+                    description: {
+                        name: '真银矿石',
+                        category: '材料',
+                        desc: '',
+                        iconSrc: "./icons/material/inv_ore_truesilver_01.png",
+                    },
+                    stack: true,
+                    maxStack: 100
+                },
+                inv_ingot_08: {
+                    quality: 2,
+                    description: {
+                        name: '真银锭',
+                        category: '材料',
+                        desc: '',
+                        iconSrc: "./icons/material/inv_ingot_08.png",
+                    },
+                    stack: true,
+                    maxStack: 100
+                },
+                inv_ore_thorium_02: {
+                    quality: 1,
+                    description: {
+                        name: '瑟银矿石',
+                        category: '材料',
+                        desc: '',
+                        iconSrc: "./icons/material/inv_ore_thorium_02.png",
+                    },
+                    stack: true,
+                    maxStack: 100
+                },
+                inv_ingot_07: {
+                    quality: 2,
+                    description: {
+                        name: '瑟银锭',
+                        category: '材料',
+                        desc: '',
+                        iconSrc: "./icons/material/inv_ingot_07.png",
+                    },
+                    stack: true,
+                    maxStack: 100
+                },
+                inv_ore_mithril_01: {
+                    quality: 1,
+                    description: {
+                        name: '黑铁矿石',
+                        category: '材料',
+                        desc: '',
+                        iconSrc: "./icons/material/inv_ore_mithril_01.png",
+                    },
+                    stack: true,
+                    maxStack: 100
+                },
+                inv_ingot_mithril: {
+                    quality: 2,
+                    description: {
+                        name: '黑铁锭',
+                        category: '材料',
+                        desc: '',
+                        iconSrc: "./icons/material/inv_ingot_mithril.png",
+                    },
+                    stack: true,
+                    maxStack: 100
+                },
                 inv_misc_enchantedpearla: {
                     quality: 2,
                     description: {

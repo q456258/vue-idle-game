@@ -51,7 +51,7 @@
             </div>
         </div>
         <div class="action">
-            <div v-if="!inProgress[type]">
+            <div style="display:flex" v-if="!inProgress[type]">
                 <select v-model="selectedType[type]" @change="setSelectedType($event, type)" class="btn btn-light">
                     <option :value="option.value" v-for="(option, index) in selectOption[type]" :key="index" :disabled="guild[type].lv<option.lv">
                         {{option.name}}<span v-if="guild[type].lv<option.lv"> {{option.lv}}级</span>
@@ -65,9 +65,10 @@
                 </span>
                 &nbsp;<div class="btn btn-success" @click="start('smith')">开始</div>
             </div>
-            <div v-else>
+            <div style="display:flex" v-else>
                 &nbsp;<div class="btn btn-danger" @click="stop('smith')">停止</div>
             </div>
+            <craftEquip></craftEquip>
         </div>
     </div>
 </div>
@@ -80,10 +81,11 @@ import {guildMemberConfig} from '@/assets/config/guildMemberConfig'
 import cTooltip from '../uiComponent/tooltip';
 import countdown from '../uiComponent/countdown';
 import trainStat from '../component/trainStat';
+import craftEquip from '../component/craftEquip';
 export default {
     name: "guildPosition",
     mixins: [assist, guildConfig, guildMemberConfig],
-    components: {cTooltip, countdown, trainStat},
+    components: {cTooltip, countdown, trainStat, craftEquip},
     mounted() {
     },
     data() {
@@ -105,7 +107,7 @@ export default {
             },
             progress: {
                 shop: { current: 0, max: 1000 },
-                smith: { current: 0, max: 1000 },
+                smith: { current: 0, max: 30 },
                 train: { current: 0, max: 1000 },
                 train2: { current: 0, max: 1000 },
                 train3: { current: 0, max: 1000 },
@@ -150,7 +152,7 @@ export default {
             for(let timer in this.timerList) 
                 clearInterval(this.timerList[timer]);
             this.start('shop');
-            this.start('smith');
+            // this.start('smith');
             // this.smith_main = this.player.shoulder;
             // this.smith_sub = this.player.weapon;
             let types = ['guild','shop','smith','train','train2','train3'];
@@ -216,9 +218,11 @@ export default {
         },
         start(type) {
             this.inProgress[type] = true;
+            let craftEquip = this.findComponentDownward(this, 'craftEquip');
             switch(type) {
                 case 'smith':
-                    this.startSmith();
+                    craftEquip.statusChange('wait');
+                    // this.startSmith();
                     break;
                 case 'shop':
                     this.startShop();
@@ -226,9 +230,15 @@ export default {
             }
         },
         stop(type) {
+            let craftEquip = this.findComponentDownward(this, 'craftEquip');
             this.progress[type].current = 0;
             clearInterval(this.timerList[type]);
             this.inProgress[type] = false;
+            switch(this.selectedType[type]) {
+                case 'smith':
+                    craftEquip.forfeit();
+                    break;
+            }
         },
         startShop() {
             let guild = this.findComponentUpward(this, 'guild');
@@ -254,15 +264,19 @@ export default {
             }, 1000);
         },
         startSmith() {
+            let craftEquip = this.findComponentDownward(this, 'craftEquip');
             this.timerList['smith'] = setInterval(() => {
-                this.progress['smith'].current += this.totalEfficiency['smith'];
+                let amount = this.totalEfficiency['smith'];
+                this.progress['smith'].current += amount;
+                craftEquip.increaseProgress(amount);
                 if(this.progress['smith'].current >= this.progress['smith'].max) {
                     this.progress['smith'].current = 0;
                     clearInterval(this.timerList['smith']);
                     this.inProgress['smith'] = false;
                     switch(this.selectedType['smith']) {
                         case 'smith':
-                            this.smith();
+                            craftEquip.statusChange('done');
+                            // craftEquip.craftEquip();
                             break;
                         case 'refine':
                             this.refine();
@@ -355,7 +369,7 @@ export default {
     margin: 0.25rem;
     // border: 1px solid rgba(255, 255, 255, 0.404);
     border-radius: 1rem;
-    max-height: 35rem;
+    // max-height: 35rem;
     width: 50rem;
     display: flex;
     flex-direction: row;

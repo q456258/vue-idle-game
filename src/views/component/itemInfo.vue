@@ -102,7 +102,6 @@ export default {
             return total;
         },
         addItem(item) {
-            console.log(item)
             let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
             let grid = item.use ? backpack.useGrid : backpack.etcGrid;
             let name = item.type;
@@ -153,7 +152,7 @@ export default {
         removeItemByItem(item, quantity) {
             let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
             let grid = item.use ? backpack.useGrid : backpack.etcGrid;
-            let name = item.name;
+            let name = item.type;
             let stack = this.findItem(name);
             if(stack != -1) {
                 if(grid[stack].quantity <= quantity) {

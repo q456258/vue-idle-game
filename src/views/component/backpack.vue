@@ -302,7 +302,6 @@ export default {
             return success;
         },
         useAllItemByIndex(e, k){
-            console.log(k)
             let autoUse = setInterval(() => {
                 let used = this.useItemByIndex(e, k);
                 if(!used || this.useGrid[k] == {})
@@ -640,6 +639,7 @@ export default {
                 font-size: 0.8rem;
                 line-height: 0;
                 text-align: right;
+                text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
             }
         }
     }

@@ -195,7 +195,7 @@ export default {
             extraEntry.forEach(entry => {
                 let random = Math.random();
                 this.createExtraEntryValue(entry, random, newEquip.lv);
-            })
+            });
             return extraEntry;
         },
         createExtraEntryValue(entry, random, lv) {

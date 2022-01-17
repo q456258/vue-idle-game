@@ -256,11 +256,13 @@ export default {
     // this.$store.commit('set_player_shoulder', this.$deepCopy(newEquip));
 
     let itemInfo = this.findComponentDownward(this, 'itemInfo');
-    let item = itemInfo.createItem('inv_misc_note_06', 20);  
-    itemInfo.addItem(JSON.parse(item));
-
-    item = itemInfo.createItem('inv_misc_gem_diamond_05', 20);  
-    itemInfo.addItem(JSON.parse(item));
+    let item ;
+    let items = ['inv_ingot_02', 'inv_ingot_05', 'inv_ingot_01', 'inv_ingot_iron', 'inv_ingot_steel', 'inv_ingot_03',
+     'inv_ingot_06', 'inv_ingot_08', 'inv_ingot_07', 'inv_ingot_mithril'];
+    for(let i in items) {
+      item = itemInfo.createItem(items[i], 20);  
+      itemInfo.addItem(JSON.parse(item));
+    }
 
     this.$store.commit('set_player_attribute');
     let shop = this.findComponentDownward(this, 'shop');  

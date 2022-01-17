@@ -719,14 +719,16 @@ export default {
     box-shadow: 0 0 75px rgba(137, 43, 43, 0.5);
 }
 .accept {
-    font-size: 20px;
+    font-size: 15px;
+    padding: 5px;
     line-height: 30px;
     margin: auto;
     width: 70px;
     height: 40px;
 }
 .reject {
-    font-size: 20px;
+    font-size: 15px;
+    padding: 5px;
     line-height: 30px;
     margin: auto;
     width: 70px;
