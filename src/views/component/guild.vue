@@ -21,8 +21,8 @@
 -->
 <div class="guild">
     <div id="resource">
-        金币：{{guild.gold}} <br>
-        水晶：{{guild.crystal}} <br>
+        金币:<currency :amount="guild.gold"></currency> <br>
+        水晶:{{guild.crystal}} <br>
     </div>
     <div id="building">     
         <cTooltip :placement="'bottom'">
@@ -87,6 +87,7 @@
 <script>
 import {guildConfig} from '@/assets/config/guildConfig'
 import { assist } from '../../assets/js/assist';
+import currency from '../uiComponent/currency';
 import cTooltip from '../uiComponent/tooltip';
 import guildMember from '../component/guildMember';
 import guildPosition from '../component/guildPosition';
@@ -95,7 +96,7 @@ import trainStat from '../component/trainStat';
 export default {
     name: "guild",
     mixins: [assist, guildConfig],
-    components: {cTooltip, guildMember, guildPosition, countdown, trainStat},
+    components: {cTooltip, guildMember, guildPosition, countdown, trainStat, currency},
     mounted() {
     },
     data() {

@@ -7,7 +7,7 @@
             </div>
             <div class="content">
                 <div>
-                    累积获得金币：{{statistic.cumulatedGold}}
+                    累积获得金币：<currency :amount=statistic.cumulatedGold></currency>
                 </div>
                 <div>
                     累积获得水晶：{{statistic.cumulatedCrystal}}
@@ -58,10 +58,11 @@
 <script>
 import { assist } from '../../assets/js/assist';
 import { monsterConfig } from '@/assets/config/monsterConfig'
+import currency from '../uiComponent/currency';
 export default {
     name:"statistic",
     mixins: [assist, monsterConfig],
-    components: {},
+    components: {currency},
     props: {
     },
     data () {
@@ -155,9 +156,9 @@ export default {
     width: 50rem;
     text-align: left;
 }
-.title {
+// .title {
     // margin-left: rem;
-}
+// }
 .content {
     margin-left: 2rem;
 }

@@ -2,8 +2,8 @@
 <template>
 	<div class="container">
         <div class="resource">
-            金币：{{playerGold}} <br>
-            水晶：{{playerCrystal}} <br>
+            金币: <currency :amount="playerGold"></currency> <br>
+            水晶: {{playerCrystal}} <br>
         </div>
         <div class="crystalShop">
                 水晶商城
@@ -59,10 +59,11 @@
 </template>
 <script>
 import { assist } from '../../assets/js/assist';
+import currency from '../uiComponent/currency';
 export default {
     name:"shop",
     mixins: [assist],
-    components: {},
+    components: {currency},
     props: {
     },
     data () {

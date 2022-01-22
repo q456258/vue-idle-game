@@ -297,11 +297,11 @@
             <div class="uii">
                 <cTooltip placement="bottom">
                     <template v-slot:content>
-                            <div class="gold" :style="{fontSize:userGold>=1000000?'1em':'1em'}">金币: <span :style="{fontSize:userGold>=1000000?'1em':'1em'}">{{(userGold || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')}}</span></div>
+                        <currency :amount="userGold"></currency>
                     </template>
                     <template v-slot:tip>
-                            <p class="info">* 你拥有的金币数量</p>
-                            <p class="info">* 钱不是万能的，但是没钱是万万不能的</p>
+                        <p class="info">* 你拥有的金币数量</p>
+                        <p class="info">* 钱不是万能的，但是没钱是万万不能的</p>
                     </template>
                 </cTooltip>
             </div>
@@ -462,6 +462,7 @@
 <script>
 import cTooltip from '../uiComponent/tooltip';
 import hpmpBar from '../uiComponent/hpmpBar';
+import currency from '../uiComponent/currency';
 import { assist } from '../../assets/js/assist';
 import { buffAndTrigger } from '../../assets/js/buffAndTrigger';
 import {itemConfig} from '@/assets/config/itemConfig';
@@ -469,10 +470,11 @@ import {spellConfig} from '@/assets/config/spellConfig';
 import {equipConfig} from '@/assets/config/equipConfig';
 import {buffConfig} from '@/assets/config/buffConfig';
 import Saveload from './saveload.vue';
+
 export default {
     name: "charInfo",
     mixins: [assist, buffAndTrigger, itemConfig, spellConfig, equipConfig, buffConfig],
-    components: {cTooltip, hpmpBar, Saveload, },
+    components: {cTooltip, hpmpBar, Saveload, currency},
     data() {
         return {
             visible: false,
