@@ -103,31 +103,24 @@ export const spellEffect = {
             for(let cost in costs.cost) {
                 switch(cost) {
                     case 'HP':
-                        this.set_player_hp(-1*costs.cost[cost], this.playerAttr);
+                        this.hpChange(this.playerAttr, this.playerAttr, -1*costs.cost[cost]);
                         break;
                     case 'CURHP':
-                        this.set_player_hp(-1*costs.cost[cost]*attr['CURHP'].value, this.playerAttr);
-                        break;
                     case 'MAXHP':
-                        this.set_player_hp(-1*costs.cost[cost]*attr['MAXHP'].value, this.playerAttr);
+                        this.hpChange(this.playerAttr, this.playerAttr, -1*costs.cost[cost]*attr[cost].value);
                         break;
                     case 'MP':
                         if(this.playerAttr.talent[talent] > 0)
-                            this.set_player_hp(-1*costs.cost[cost], this.playerAttr);
+                            this.hpChange(this.playerAttr, this.playerAttr, -1*costs.cost[cost]);
                         else
-                            this.$store.commit('set_player_mp', -1*costs.cost[cost]);
+                            this.mpChange(this.playerAttr, this.playerAttr, -1*costs.cost[cost]);
                         break;
                     case 'CURMP':
-                        if(this.playerAttr.talent[talent] > 0)
-                            this.set_player_hp(-1*costs.cost[cost]*attr['CURMP'].value, this.playerAttr);
-                        else
-                            this.$store.commit('set_player_mp', -1*costs.cost[cost]*attr['CURMP'].value);
-                        break;
                     case 'MAXMP':
                         if(this.playerAttr.talent[talent] > 0)
-                            this.set_player_hp(-1*costs.cost[cost]*attr['MAXMP'].value, this.playerAttr);
+                            this.hpChange(this.playerAttr, this.playerAttr, -1*costs.cost[cost]*attr[cost].value);
                         else
-                            this.$store.commit('set_player_mp', -1*costs.cost[cost]*attr['MAXMP'].value);
+                            this.mpChange(this.playerAttr, this.playerAttr, -1*costs.cost[cost]*attr[cost].value);
                         break;
                 }
             }
@@ -159,7 +152,7 @@ export const spellEffect = {
             let spellInfo = this.spell[spell];
             dmg = this.applyReducedDmg(source, target, dmg);
             dmg = this.applyCrit(source, dmg, spell);
-            dmg = this.applyMR(target, dmg, spell);
+            dmg = this.applyMR(source, target, dmg, spell);
             dmg = this.applyBonusFinalDmg(source, target, spell, dmg);
             let talent = 'ability_warrior_punishingblow';
             if(source.lv > target.lv && source.talent[talent] > 0) {
@@ -174,25 +167,13 @@ export const spellEffect = {
                 dmg = 0;
             }
             this.triggerOnHit(source, target);
-            if(source.type == 'player') {
-                talent = 'ability_revendreth_druid';
-                if(source.talent[talent] > 0) {
-                    let heal = source.talent[talent]*0.004*dmg;
-                    heal = Math.round(heal);
-                    this.set_player_hp(heal, source);
-                }
-                this.set_enermy_hp(-1*dmg);
-                this.$store.commit("set_battle_info", {
-                    type: 'dmg',
-                    msg: '使用【'+spellInfo.name+'】造成了'+dmg+'点伤害'
-                })
-            } else {
-                this.set_player_hp(-1*dmg, source);
-                this.$store.commit("set_battle_info", {
-                    type: 'dmged',
-                    msg: '目标使用【'+spellInfo.name+'】对你造成了'+dmg+'点伤害'
-                })
+            talent = 'ability_revendreth_druid';
+            if(source.talent[talent] > 0) {
+                let heal = source.talent[talent]*0.004*dmg;
+                heal = Math.round(heal);
+                this.hpChange(source, source, heal);
             }
+            this.hpChange(source, target, -1*dmg, spellInfo.name);
         },
         applyBonusFinalDmg(source, target, spell, dmg) {
             let bonus = 1;
@@ -210,7 +191,7 @@ export const spellEffect = {
                 bonus += source.talent[talent]*0.01;
             }
             if(target.talent[talent] > 0) {
-                bonus += source.talent[talent]*0.005;
+                bonus += target.talent[talent]*0.005;
             }
             talent = 'ability_warrior_revenge';
             if(source.talent[talent] > 0) {
@@ -247,13 +228,13 @@ export const spellEffect = {
                     if(source.talent[talent] > 0) {
                         let heal = source.talent[talent]*0.025*source.attribute.MAXHP.value;
                         heal = Math.round(heal);
-                        this.set_player_hp(heal, source);
+                        this.hpChange(source, source, heal);
                     }
                 }
             }
             return dmg;
         },
-        applyMR(target, dmg, spell) {
+        applyMR(source, target, dmg, spell) {
             let attr = target.attribute;
             let value = attr['MR'].value;
             // 玩家进攻时无视目标魔法消耗
@@ -263,19 +244,13 @@ export const spellEffect = {
             if(allowedMp < value/4)
                 value = allowedMp * 4;
             let cost = value/4;
-            this.$store.commit('set_player_mp', -1*Math.round(cost));
+            this.mpChange(source, target, -1*Math.round(cost));
             return dmg-Math.round(value);
         },
         applyHeal(source, spell, heal) {
             let spellInfo = this.spell[spell];
-            if(source.type == 'player' && heal > 0) {
-                this.set_player_hp(heal, source);
-                this.$store.commit("set_battle_info", {
-                    type: 'win',
-                    msg: '使用【'+spellInfo.name+'】恢复了' + heal+ '点生命值'
-                })
-            } else {
-                // 敌人恢复生命值
+            if(heal > 0) {
+                this.hpChange(source, source, heal, spellInfo.name);
             }
         },
         getSpellEffect(source, spellName) {

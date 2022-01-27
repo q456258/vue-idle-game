@@ -405,45 +405,6 @@ export const itemConfig = {
                     stack: true,
                     maxStack: 20
                 },
-                inv_misc_book_09: {
-                    quality: 1,
-                    description: {
-                        name: '随机技能书',
-                        category: '消耗品',
-                        desc: '随机获得一本低品质技能书',
-                        iconSrc: "./icons/item/Inv_misc_book_09.png",
-                    },
-                    autoUse: true,
-                    use: true,
-                    stack: true,
-                    maxStack: 20
-                },
-                inv_misc_book_08: {
-                    quality: 1,
-                    description: {
-                        name: '随机技能书',
-                        category: '消耗品',
-                        desc: '随机获得一本中品质技能书',
-                        iconSrc: "./icons/item/Inv_misc_book_08.png",
-                    },
-                    autoUse: true,
-                    use: true,
-                    stack: true,
-                    maxStack: 20
-                },
-                inv_misc_book_07: {
-                    quality: 1,
-                    description: {
-                        name: '随机技能书',
-                        category: '消耗品',
-                        desc: '随机获得一本高品质技能书',
-                        iconSrc: "./icons/item/Inv_misc_book_07.png",
-                    },
-                    autoUse: true,
-                    use: true,
-                    stack: true,
-                    maxStack: 20
-                },
                 bTNMGExchange: {
                     quality: 1,
                     description: {
@@ -745,6 +706,421 @@ export const itemConfig = {
                     use: true,
                     stack: true,
                     maxStack: 10
+                },
+                //potion
+                Inv_alchemy_80_potion01red: {
+                    quality: 1,
+                    description: {
+                        name: '特效生命药水',
+                        category: '消耗品',
+                        desc: '恢复100%生命值，战斗期间无法使用',
+                        iconSrc: "./icons/potion/Inv_alchemy_80_potion01red.png",
+                    },
+                    use: true,
+                    stack: true,
+                    maxStack: 100
+                },
+                Inv_alchemy_80_potion01blue: {
+                    quality: 1,
+                    description: {
+                        name: '特效法力药水',
+                        category: '消耗品',
+                        desc: '恢复100%法力值，战斗期间无法使用',
+                        iconSrc: "./icons/potion/Inv_alchemy_80_potion01blue.png",
+                    },
+                    use: true,
+                    stack: true,
+                    maxStack: 100
+                },
+                Inv_potion_49: {
+                    quality: 2,
+                    description: {
+                        name: '初级治疗药水',
+                        category: '消耗品',
+                        desc: '每秒恢复15点生命值，持续10秒',
+                        iconSrc: "./icons/potion/Inv_potion_49.png",
+                    },
+                    use: true,
+                    stack: true,
+                    maxStack: 100,
+                    cdgroup: 'hpPotion',
+                    cd: 15
+                },
+                Inv_potion_50: {
+                    quality: 2,
+                    description: {
+                        name: '初级生命药水',
+                        category: '消耗品',
+                        desc: '恢复100生命值',
+                        iconSrc: "./icons/potion/Inv_potion_50.png",
+                    },
+                    use: true,
+                    stack: true,
+                    maxStack: 100,
+                    cdgroup: 'hpPotion',
+                    cd: 15
+                },
+                Inv_potion_51: {
+                    quality: 3,
+                    description: {
+                        name: '次级治疗药水',
+                        category: '消耗品',
+                        desc: '每秒恢复150点生命值，持续10秒',
+                        iconSrc: "./icons/potion/Inv_potion_51.png",
+                    },
+                    use: true,
+                    stack: true,
+                    maxStack: 100
+                },
+                Inv_potion_52: {
+                    quality: 3,
+                    description: {
+                        name: '次级生命药水',
+                        category: '消耗品',
+                        desc: '恢复1000生命值',
+                        iconSrc: "./icons/potion/Inv_potion_52.png",
+                    },
+                    use: true,
+                    stack: true,
+                    maxStack: 100
+                },
+                Inv_potion_53: {
+                    quality: 4,
+                    description: {
+                        name: '治疗药水',
+                        category: '消耗品',
+                        desc: '每秒恢复1500点生命值，持续10秒',
+                        iconSrc: "./icons/potion/Inv_potion_53.png",
+                    },
+                    use: true,
+                    stack: true,
+                    maxStack: 100
+                },
+                Inv_potion_54: {
+                    quality: 4,
+                    description: {
+                        name: '生命药水',
+                        category: '消耗品',
+                        desc: '恢复10000生命值',
+                        iconSrc: "./icons/potion/Inv_potion_54.png",
+                    },
+                    use: true,
+                    stack: true,
+                    maxStack: 100
+                },
+                Inv_potion_160: {
+                    quality: 3,
+                    description: {
+                        name: '强效治疗药水',
+                        category: '消耗品',
+                        desc: '每秒恢复1%最大生命值，持续100秒',
+                        iconSrc: "./icons/potion/Inv_potion_160.png",
+                    },
+                    use: true,
+                    stack: true,
+                    maxStack: 100
+                },
+                Inv_potion_55: {
+                    quality: 4,
+                    description: {
+                        name: '超级治疗药水',
+                        category: '消耗品',
+                        desc: '每秒恢复5%最大生命值，持续100秒',
+                        iconSrc: "./icons/potion/Inv_potion_55.png",
+                    },
+                    use: true,
+                    stack: true,
+                    maxStack: 100
+                },
+                Inv_potion_131: {
+                    quality: 3,
+                    description: {
+                        name: '强效生命药水',
+                        category: '消耗品',
+                        desc: '恢复25%最大生命值',
+                        iconSrc: "./icons/potion/Inv_potion_131.png",
+                    },
+                    use: true,
+                    stack: true,
+                    maxStack: 100
+                },
+                Inv_potion_142: {
+                    quality: 4,
+                    description: {
+                        name: '超级生命药水',
+                        category: '消耗品',
+                        desc: '恢复50%最大生命值',
+                        iconSrc: "./icons/potion/Inv_potion_142.png",
+                    },
+                    use: true,
+                    stack: true,
+                    maxStack: 100
+                },
+                Inv_potion_167: {
+                    quality: 5,
+                    description: {
+                        name: '终极生命药水',
+                        category: '消耗品',
+                        desc: '恢复100%最大生命值',
+                        iconSrc: "./icons/potion/Inv_potion_167.png",
+                    },
+                    use: true,
+                    stack: true,
+                    maxStack: 100
+                },
+                Inv_potion_70: {
+                    quality: 2,
+                    description: {
+                        name: '初级魔能药水',
+                        category: '消耗品',
+                        desc: '每秒恢复15点魔法值，持续10秒',
+                        iconSrc: "./icons/potion/Inv_potion_70.png",
+                    },
+                    use: true,
+                    stack: true,
+                    maxStack: 100,
+                    cdgroup: 'mpPotion',
+                    cd: 15
+                },
+                Inv_potion_71: {
+                    quality: 2,
+                    description: {
+                        name: '初级法力药水',
+                        category: '消耗品',
+                        desc: '恢复100法力值',
+                        iconSrc: "./icons/potion/Inv_potion_71.png",
+                    },
+                    use: true,
+                    stack: true,
+                    maxStack: 100
+                },
+                Inv_potion_72: {
+                    quality: 3,
+                    description: {
+                        name: '次级魔能药水',
+                        category: '消耗品',
+                        desc: '每秒恢复150点法力值，持续10秒',
+                        iconSrc: "./icons/potion/Inv_potion_72.png",
+                    },
+                    use: true,
+                    stack: true,
+                    maxStack: 100
+                },
+                Inv_potion_73: {
+                    quality: 3,
+                    description: {
+                        name: '次级法力药水',
+                        category: '消耗品',
+                        desc: '恢复1000法力值',
+                        iconSrc: "./icons/potion/Inv_potion_73.png",
+                    },
+                    use: true,
+                    stack: true,
+                    maxStack: 100
+                },
+                Inv_potion_74: {
+                    quality: 4,
+                    description: {
+                        name: '魔能药水',
+                        category: '消耗品',
+                        desc: '每秒恢复1500点法力值，持续10秒',
+                        iconSrc: "./icons/potion/Inv_potion_74.png",
+                    },
+                    use: true,
+                    stack: true,
+                    maxStack: 100
+                },
+                Inv_potion_75: {
+                    quality: 4,
+                    description: {
+                        name: '法力药水',
+                        category: '消耗品',
+                        desc: '恢复10000法力值',
+                        iconSrc: "./icons/potion/Inv_potion_75.png",
+                    },
+                    use: true,
+                    stack: true,
+                    maxStack: 100
+                },
+                Inv_potion_163: {
+                    quality: 3,
+                    description: {
+                        name: '强效魔能药水',
+                        category: '消耗品',
+                        desc: '每秒恢复1%最大法力值，持续100秒',
+                        iconSrc: "./icons/potion/Inv_potion_163.png",
+                    },
+                    use: true,
+                    stack: true,
+                    maxStack: 100
+                },
+                Inv_potion_76: {
+                    quality: 4,
+                    description: {
+                        name: '超级魔能药水',
+                        category: '消耗品',
+                        desc: '每秒恢复5%最大法力值，持续100秒',
+                        iconSrc: "./icons/potion/Inv_potion_76.png",
+                    },
+                    use: true,
+                    stack: true,
+                    maxStack: 100
+                },
+                Inv_potion_137: {
+                    quality: 3,
+                    description: {
+                        name: '强效法力药水',
+                        category: '消耗品',
+                        desc: '恢复25%最大法力值',
+                        iconSrc: "./icons/potion/Inv_potion_137.png",
+                    },
+                    use: true,
+                    stack: true,
+                    maxStack: 100
+                },
+                Inv_potion_148: {
+                    quality: 4,
+                    description: {
+                        name: '超级法力药水',
+                        category: '消耗品',
+                        desc: '恢复50%最大法力值',
+                        iconSrc: "./icons/potion/Inv_potion_148.png",
+                    },
+                    use: true,
+                    stack: true,
+                    maxStack: 100
+                },
+                Inv_potion_168: {
+                    quality: 5,
+                    description: {
+                        name: '终极法力药水',
+                        category: '消耗品',
+                        desc: '恢复100%最大法力值',
+                        iconSrc: "./icons/potion/Inv_potion_168.png",
+                    },
+                    use: true,
+                    stack: true,
+                    maxStack: 100
+                },
+                Inv_potion_42: {
+                    quality: 2,
+                    description: {
+                        name: '初级恢复药水',
+                        category: '消耗品',
+                        desc: '每秒恢复15点生命值以及15点魔法值，持续10秒',
+                        iconSrc: "./icons/potion/Inv_potion_42.png",
+                    },
+                    use: true,
+                    stack: true,
+                    maxStack: 100
+                },
+                Inv_potion_43: {
+                    quality: 2,
+                    description: {
+                        name: '初级活力药水',
+                        category: '消耗品',
+                        desc: '恢复100生命值以及100点魔法值',
+                        iconSrc: "./icons/potion/Inv_potion_43.png",
+                    },
+                    use: true,
+                    stack: true,
+                    maxStack: 100
+                },
+                Inv_potion_44: {
+                    quality: 3,
+                    description: {
+                        name: '次级恢复药水',
+                        category: '消耗品',
+                        desc: '每秒恢复150点生命值以及150点魔法值，持续10秒',
+                        iconSrc: "./icons/potion/Inv_potion_44.png",
+                    },
+                    use: true,
+                    stack: true,
+                    maxStack: 100
+                },
+                Inv_potion_45: {
+                    quality: 3,
+                    description: {
+                        name: '次级活力药水',
+                        category: '消耗品',
+                        desc: '恢复1000生命值以及1000点魔法值',
+                        iconSrc: "./icons/potion/Inv_potion_45.png",
+                    },
+                    use: true,
+                    stack: true,
+                    maxStack: 100
+                },
+                Inv_potion_46: {
+                    quality: 4,
+                    description: {
+                        name: '恢复药水',
+                        category: '消耗品',
+                        desc: '每秒恢复1500点生命值以及1500点魔法值，持续10秒',
+                        iconSrc: "./icons/potion/Inv_potion_46.png",
+                    },
+                    use: true,
+                    stack: true,
+                    maxStack: 100
+                },
+                Inv_potion_47: {
+                    quality: 4,
+                    description: {
+                        name: '活力药水',
+                        category: '消耗品',
+                        desc: '恢复10000生命值以及10000点魔法值',
+                        iconSrc: "./icons/potion/Inv_potion_47.png",
+                    },
+                    use: true,
+                    stack: true,
+                    maxStack: 100
+                },
+                Inv_potion_164: {
+                    quality: 3,
+                    description: {
+                        name: '强效恢复药水',
+                        category: '消耗品',
+                        desc: '每秒恢复1%最大生命值，持续100秒',
+                        iconSrc: "./icons/potion/Inv_potion_164.png",
+                    },
+                    use: true,
+                    stack: true,
+                    maxStack: 100
+                },
+                Inv_potion_48: {
+                    quality: 4,
+                    description: {
+                        name: '超级恢复药水',
+                        category: '消耗品',
+                        desc: '每秒恢复5%最大生命值，持续100秒',
+                        iconSrc: "./icons/potion/Inv_potion_48.png",
+                    },
+                    use: true,
+                    stack: true,
+                    maxStack: 100
+                },
+                Inv_potion_134: {
+                    quality: 4,
+                    description: {
+                        name: '强效活力药水',
+                        category: '消耗品',
+                        desc: '恢复33%最大生命值以及魔法值',
+                        iconSrc: "./icons/potion/Inv_potion_134.png",
+                    },
+                    use: true,
+                    stack: true,
+                    maxStack: 100
+                },
+                Inv_potion_145: {
+                    quality: 5,
+                    description: {
+                        name: '超级活力药水',
+                        category: '消耗品',
+                        desc: '恢复75%最大生命值以及魔法值',
+                        iconSrc: "./icons/potion/Inv_potion_145.png",
+                    },
+                    use: true,
+                    stack: true,
+                    maxStack: 100
                 },
             }
         }

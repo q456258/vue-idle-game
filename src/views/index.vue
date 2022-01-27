@@ -29,7 +29,11 @@
         <div class="clear" @click="clearBattleInfo">清除信息</div>
         <div id="battleInfo" class="scrollbar-morpheus-den">
           <div class="info" :class="{dmged:v.type=='dmged',dmg:v.type=='dmg',win:v.type=='win',lose:v.type=='lose'}" v-for="(v,k) in battleInfo" :key="k">
-            <span>{{v.msg}}</span>
+            <span v-if="v.source=='player'">【你】</span>
+            <span v-else-if="v.source==undefined"></span>
+            <span v-else style="color:#ff0000">【敌】</span>
+            <span v-if="v.msg">{{v.msg}}</span>
+            <span v-if="v.html" v-html="v.html"></span>
           </div>
         </div>
       </div>
@@ -255,14 +259,45 @@ export default {
     // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'shoulder'));
     // this.$store.commit('set_player_shoulder', this.$deepCopy(newEquip));
 
-    let itemInfo = this.findComponentDownward(this, 'itemInfo');
-    let item ;
-    let items = ['inv_ingot_02', 'inv_ingot_05', 'inv_ingot_01', 'inv_ingot_iron', 'inv_ingot_steel', 'inv_ingot_03',
-     'inv_ingot_06', 'inv_ingot_08', 'inv_ingot_07', 'inv_ingot_mithril'];
-    for(let i in items) {
-      item = itemInfo.createItem(items[i], 20);  
-      itemInfo.addItem(JSON.parse(item));
-    }
+//     let itemInfo = this.findComponentDownward(this, 'itemInfo');
+//     let item ;
+//     let items = [
+//      'Inv_potion_49',
+// 'Inv_potion_50',
+// 'Inv_potion_51',
+// 'Inv_potion_52',
+// 'Inv_potion_53',
+// 'Inv_potion_54',
+// 'Inv_potion_160',
+// 'Inv_potion_55',
+// 'Inv_potion_131',
+// 'Inv_potion_142',
+// 'Inv_potion_167',
+// 'Inv_potion_70',
+// 'Inv_potion_71',
+// 'Inv_potion_72',
+// 'Inv_potion_73',
+// 'Inv_potion_74',
+// 'Inv_potion_75',
+// 'Inv_potion_163',
+// 'Inv_potion_76',
+// 'Inv_potion_137',
+// 'Inv_potion_148',
+// 'Inv_potion_168',
+// 'Inv_potion_42',
+// 'Inv_potion_43',
+// 'Inv_potion_44',
+// 'Inv_potion_45',
+// 'Inv_potion_46',
+// 'Inv_potion_47',
+// 'Inv_potion_164',
+// 'Inv_potion_48',
+// 'Inv_potion_134',
+// 'Inv_potion_145',];
+//     for(let i in items) {
+//       item = itemInfo.createItem(items[i], 20);  
+//       itemInfo.addItem(JSON.parse(item));
+//     }
 
     this.$store.commit('set_player_attribute');
     let shop = this.findComponentDownward(this, 'shop');  
@@ -531,13 +566,15 @@ export default {
           return;
         let achievement = this.findComponentDownward(this, 'achievement');  
         let mapEvent = this.findComponentDownward(this, 'mapEvent');  
+        let player = this.$store.state.playerAttribute;
         achievement.set_statistic({gameTime: 1000});
         let recover = 0.01;
         let talent = 'ability_hunter_harass';
         if(this.playerTalent[talent] > 0) {
             recover += this.playerTalent[talent]*0.002;
         }
-        this.set_player_hp(Math.ceil(this.attribute.MAXHP.value*recover+this.attribute.STR.value), this.$store.state.playerAttribute);
+
+        this.hpChange(player, player, Math.ceil(this.attribute.MAXHP.value*recover+this.attribute.STR.value));
         if(this.attribute.CURHP.value == this.attribute.MAXHP.value && this.dungeonInfo.auto) {
           setTimeout(() => {
             if(!this.dungeonInfo.inBattle)
@@ -548,7 +585,8 @@ export default {
       this.autoManRecovery = setInterval(() => {
         if(this.dungeonInfo.inBattle)
           return;
-        this.$store.commit('set_player_mp', Math.ceil(this.attribute.MAXMP.value*0.01+this.attribute.INT.value/4));
+        let player = this.$store.state.playerAttribute;
+        this.mpChange(player, player, Math.ceil(this.attribute.MAXMP.value*0.01+this.attribute.INT.value/4));
       }, 1000);
     },
     openMenuPanel(type) {

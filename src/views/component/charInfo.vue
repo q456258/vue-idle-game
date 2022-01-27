@@ -326,6 +326,7 @@
                 <div class="equip shoulder" @mouseover="showInfo($event,'shoulder',playerShoulder,false)" @contextmenu.prevent="openMenu(playerShoulder,$event)" @touchstart.stop.prevent="openMenu(playerShoulder,$event)" @mouseleave="closeInfo('equip')">
                     <div class="title" v-if="playerShoulder.quality">
                         <div class='icon' :class="{'red-flash':playerShoulder.enhanceLv>=20}" :style="{'box-shadow':'inset 0 0 7px 2px'+playerShoulder.quality.color}">
+                            <!-- <img class="iconBorder"/> -->
                             <img :src="playerShoulder.description.iconSrc" alt="">
                         </div>
                         <div class='name' :style="{color:playerShoulder.quality.color}">
@@ -342,6 +343,7 @@
                 <div class="equip weapon" @mouseover="showInfo($event,'weapon',playerWeapon,false)" @contextmenu.prevent="openMenu(playerWeapon,$event)" @touchstart.stop.prevent="openMenu(playerWeapon,$event)" @mouseleave="closeInfo('equip')">
                     <div class="title" v-if="playerWeapon.quality">
                         <div class='icon' :class="{'red-flash':playerWeapon.enhanceLv>=20}" :style="{'box-shadow':'inset 0 0 7px 2px '+playerWeapon.quality.color}">
+                            <!-- <img class="iconBorder"/> -->
                             <img :src="playerWeapon.description.iconSrc" alt="">
                         </div>
                         <div class='name' :style="{color:playerWeapon.quality.color}">
@@ -358,6 +360,18 @@
                 <div class="equip armor" @mouseover="showInfo($event,'armor',playerArmor,false)" @contextmenu.prevent="openMenu(playerArmor,$event)" @touchstart.stop.prevent="openMenu(playerArmor,$event)" @mouseleave="closeInfo('equip')">
                     <div class="title" v-if="playerArmor.quality">
                         <div class='icon' :class="{'red-flash':playerArmor.enhanceLv>=20}" :style="{'box-shadow':'inset 0 0 7px 2px'+playerArmor.quality.color}">
+                            <!-- <del class="iconBorder"></del>
+                            <svg>
+                                <filter id="green">
+                                    <feColorMatrix 
+                                    type="matrix" 
+                                    values="0 0 0 0 0
+                                            0 1 0 0 0
+                                            0 0 0 0 0
+                                            0 0 0 1 0">
+                                    </feColorMatrix>
+                                </filter>
+                            </svg> -->
                             <img :src="playerArmor.description.iconSrc" alt="">
                         </div>
                         <div class='name' :style="{color:playerArmor.quality.color}">
@@ -930,8 +944,9 @@ export default {
                 width: 100%;
                 height: 5rem;
                 .icon {
-                    width: 4rem;
-                    height: 4rem;
+                    position: relative;
+                    width: 64px;
+                    height: 64px;
                     background-color: #000;
                     display: flex;
                     align-items: center;
@@ -939,8 +954,8 @@ export default {
                     margin: auto;
                     border-radius: 0.3rem;
                     img {
-                        width:4rem;
-                        height:4rem;
+                        width: 100%;
+                        height: 100%;
                         border-radius: 1rem;
                     }
                 }
@@ -1192,4 +1207,14 @@ export default {
     // border-bottom-right-radius: 0.25rem;
     border-bottom: 1px solid #e6e5de;
 }
+// .iconBorder {    
+//     // left: 63px;
+//     // top: 144px;
+//     position: absolute;
+//     height: 64px;
+//     width: 64px;
+//     background-image: url(/icons/other/largeBorder.png);
+//     filter: url(#green)
+// 图片改成90%大小
+// }
 </style>

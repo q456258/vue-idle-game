@@ -227,10 +227,10 @@ export default {
             let attr = this.player.attribute;
             switch(type) {
                 case 'spell_deathknight_bloodpresence':
-                    this.set_player_hp(Math.ceil((attr.MAXHP.value-attr.CURHP.value)*lv*0.05), this.$store.state.playerAttribute);
+                    this.hpChange(this.player, this.player, Math.ceil((attr.MAXHP.value-attr.CURHP.value)*lv*0.05));
                     break;
                 case 'spell_deathknight_frostpresence':
-                    this.$store.commit('set_player_mp', Math.ceil((attr.MAXMP.value-attr.CURMP.value)*lv*0.05));
+                    this.mpChange(this.player, this.player, Math.ceil((attr.MAXMP.value-attr.CURMP.value)*lv*0.05));
                     break;
             }
         }

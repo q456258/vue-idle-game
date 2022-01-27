@@ -144,14 +144,10 @@ export const buffAndTrigger = {
         },
         // 生命窃取
         lifesteal(source, dmg) {
-            let sourceType = source.type==undefined? 'player':source.type;
             if(this.buffReduce(source, source, 'lifesteal')) {
                 let lsRatio = 0.5;
                 let value = Math.round(lsRatio*dmg);
-                if(sourceType == 'player')
-                    this.set_player_hp(value, source);
-                else
-                    this.set_enermy_hp(value);
+                this.hpChange(source, source, value);
             }
         },
         // 魔法窃取
@@ -163,7 +159,7 @@ export const buffAndTrigger = {
                 let msRatio = 0.1;
                 let value = Math.round(msRatio*dmg);
                 if(sourceType == 'player')
-                    this.$store.commit('set_player_mp', value);
+                    this.mpChange(source, source, value);
             }
         },
         // 返回蓄力伤害
@@ -209,7 +205,7 @@ export const buffAndTrigger = {
             if(this.buffReduce(target, target, 'absorb')) {
                 this.$store.commit("set_battle_info", {
                     type: 'win',
-                    msg: '【吸收】恢复了' + -2*dmg+ '点生命值'
+                    msg: '【吸收】恢复了' + -1*dmg+ '点生命值'
                 })
                 return -1*dmg;
             }
@@ -294,20 +290,18 @@ export const buffAndTrigger = {
             let talent = 'ability_rogue_preparation';
             if(source.talent[talent] > 0) {
                 let recover = source.talent[talent]*10;
-                this.set_player_hp(recover, source);
-                this.$store.commit('set_player_mp', recover);
+                this.hpChange(source, source, recover);
+                this.mpChange(source, source, recover);
             }
         },
         // 受攻击伤害触发, source为攻击发起者
         triggerOnHit(source, target) {
         },
         // 受伤触发
-        triggerOnHurt(source, target, dmg) {
-            dmg = this.weak(source, dmg);
-            dmg = this.void(target, dmg);
-            dmg = this.absorb(target, dmg);
-            dmg = this.minionSlayer(source, target, dmg);
-            return dmg;
+        triggerOnHurt(source, target) {
+        },
+        // 回血触发
+        triggerOnHeal(source, target) {
         },
         // 临死前触发, target为被杀者
         triggerBeforeKilled(source, target, dmg) {
@@ -328,7 +322,6 @@ export const buffAndTrigger = {
                     msg: '发动【希望人没事】恢复所有生命值'
                 })
             }
-            
             return dmg;
         },
         // 死亡后触发，source为击杀者
@@ -341,13 +334,80 @@ export const buffAndTrigger = {
             let talent = 'spell_shadow_bloodboil';
             if(source.talent[talent] > 0) {
                 let recover = Math.min(target.attribute.MAXHP.value*0.01, source.attribute.MAXHP.value*source.talent[talent]*0.01);
-                this.set_player_hp(recover, source);
+                this.hpChange(source, source, recover);
             }
-            talent = 'spell_shadow_bloodboil';
+            talent = 'inv_elemental_mote_mana';
             if(source.talent[talent] > 0) {
                 let recover = Math.min(target.attribute.MAXHP.value*0.0025, source.attribute.MAXMP.value*source.talent[talent]*0.01);
-                this.$store.commit('set_player_mp', recover);
+                this.mpChange(source, source, recover);
             }
+        },
+        hpChange(source, target, value, sourceName) {
+            value = this.absorb(target, value);
+            if(value < 0) {
+                this.damage(source, target, value, sourceName);
+            }
+            else if(value > 0) {
+                this.heal(source, target, value, sourceName);
+            }
+        },
+        damage(source, target, dmg, sourceName) {
+            dmg = this.weak(source, dmg);
+            dmg = this.void(target, dmg);
+            dmg = this.minionSlayer(source, target, dmg);
+            if(target.type == 'player')
+                this.set_player_hp(dmg, source);
+            else
+                this.set_enermy_hp(dmg, source);
+            if(sourceName != undefined) {
+                if(target.type == source.type) {
+                    this.$store.commit("set_battle_info", {
+                        source: source.type,
+                        html: '使用<span style="color:#888888">【'+sourceName+'】</span>对自己造成了<span style="color:#ff0000">' + -1*dmg+ '</span>点伤害'
+                    })
+                }
+                else {
+                    this.$store.commit("set_battle_info", {
+                        source: source.type,
+                        html: '使用<span style="color:#888888">【'+sourceName+'】</span>对目标造成了<span style="color:#ff0000">' + -1*dmg+ '</span>点伤害'
+                    })
+                }
+            }
+        },
+        heal(source, target, heal, sourceName) {
+            // this.triggerOnHeal(source, target)
+            if(target.type == 'player')
+                this.set_player_hp(heal, source);
+            else
+                this.set_enermy_hp(heal);
+            if(sourceName != undefined) {
+                if(target.type == source.type) {
+                    this.$store.commit("set_battle_info", {
+                        source: source.type,
+                        html: '使用<span style="color:#888888">【'+sourceName+'】</span>恢复了<span style="color:#00ff00">' + heal+ '</span>点生命值'
+                    })
+                }
+                else {
+                    this.$store.commit("set_battle_info", {
+                        source: source.type,
+                        html: '使用<span style="color:#888888">【'+sourceName+'】</span>为目标恢复了<span style="color:#00ff00">' + heal+ '</span>点生命值'
+                    })
+                }
+            }
+        },
+        mpChange(source, target, value, sourceName) {
+            if(value > 0) {
+                this.mpRecover(source, target, value, sourceName);
+            }
+            else if(value < 0) {
+                this.mpLoss(source, target, value, sourceName);
+            }
+        },
+        mpRecover(source, target, value, sourceName) {
+            this.$store.commit('set_player_mp', value);
+        },
+        mpLoss(source, target, value, sourceName) {
+            this.$store.commit('set_player_mp', value);
         },
         set_player_hp(data, source) {
             let target = this.player;
@@ -365,7 +425,7 @@ export const buffAndTrigger = {
                 return;
             }
             if(data < 0)
-                data = this.triggerOnHurt(source, target, data);
+                this.triggerOnHurt(source, target, data);
             if(-1*data >= CURHP.value)
                 data = this.triggerBeforeKilled(source, target, data);
             if(-1*data >= CURHP.value) {
@@ -386,7 +446,7 @@ export const buffAndTrigger = {
             let CURHP = target.attribute.CURHP,
                 MAXHP = target.attribute.MAXHP;
             if(data < 0)
-                data = this.triggerOnHurt(source, target, data);
+                this.triggerOnHurt(source, target, data);
             if(-1*data >= CURHP.value)
                 data = this.triggerBeforeKilled(source, target, data);
             if(-1*data >= CURHP.value)

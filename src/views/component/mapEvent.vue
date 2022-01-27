@@ -155,7 +155,7 @@ export default {
                     type: 'win',
                     msg: '战斗结束，你胜利了'
                 });
-                return;
+                return false;
             } 
         },
         enermyAction(source, target) {

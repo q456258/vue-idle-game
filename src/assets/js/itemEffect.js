@@ -1,62 +1,29 @@
+import { assist } from '@/assets/js/assist';
+import { itemConfig } from '@/assets/config/itemConfig';
+import { buffAndTrigger } from '@/assets/js/buffAndTrigger';
 export const itemEffect = {
+    mixins: [assist, itemConfig, buffAndTrigger],
     data() {
         return {
-            allSpell: ['spell_nature_thunderclap', 'spell_nature_thunderclap2', 'spell_nature_thunderclap3', 'spell_nature_thunderclap4', 
-                'spell_fire_flamebolt', 'spell_fire_flamebolt2', 'spell_fire_flamebolt3', 'spell_fire_flamebolt4', 
-                'ability_warrior_shieldbash', 'ability_warrior_shieldbash2', 'ability_warrior_shieldbash3', 'ability_warrior_shieldbash4', 
-                'ability_druid_maul', 'ability_druid_maul2', 'ability_druid_maul3', 'ability_druid_maul4', 
-                'spell_shadow_ritualofsacrifice', 'spell_shadow_ritualofsacrifice2', 'spell_shadow_ritualofsacrifice3', 
-                'spell_holy_renew', 'spell_holy_renew2',
-                'spell_warlock_soulburn', 'spell_warlock_soulburn2',
-                'ability_warrior_shatteringthrow',
-
-                'spell_holy_holybolt', 'spell_holy_holybolt2', 'spell_holy_holybolt3', 'spell_holy_holybolt4', 
-                'spell_nature_lightning', 'spell_nature_lightning2', 'spell_nature_lightning3', 
-                'spell_nature_starfall', 'spell_nature_starfall2', 'spell_nature_starfall3', 
-                'spell_holy_powerwordshield', 'spell_holy_powerwordshield2', 
-                'spell_animabastion_buff',
-                'spell_animaardenweald_orb',
-
-                'spell_shadow_curseofmannoroth', 'spell_shadow_curseofmannoroth2', 'spell_shadow_curseofmannoroth3',  'spell_shadow_curseofmannoroth4', 
-                'spell_animaardenweald_groundstate', 'spell_animaardenweald_groundstate2', 'spell_animaardenweald_groundstate3',
-                'spell_holy_powerwordshield', 'spell_holy_powerwordshield2', 'spell_holy_powerwordshield3',
-                'spell_arcane_starfire', 'spell_arcane_starfire2', 
-                'spell_holy_crusaderstrike', 'spell_holy_crusaderstrike2', 
-                'spell_nature_wispsplode',
-
-                'ability_rogue_shadowstrike', 'ability_rogue_shadowstrike2', 'ability_rogue_shadowstrike3', 'ability_rogue_shadowstrike4',
-                'spell_holy_innerfire', 'spell_holy_innerfire2',
-                'spell_holy_layonhands', 'spell_holy_layonhands2',
-                'spell_shadow_deathscream', 'spell_shadow_deathscream2', 'spell_shadow_deathscream2',
-
-                'ability_druid_starfall', 'ability_druid_starfall2', 'ability_druid_starfall3', 'ability_druid_starfall4', 'ability_druid_starfall5',
-                'warrior_talent_icon_innerrage', 'warrior_talent_icon_innerrage2', 'warrior_talent_icon_innerrage3',
-
-                'ability_revendreth_paladin', 'ability_revendreth_paladin2', 'ability_revendreth_paladin3', 'ability_revendreth_paladin4', 'ability_revendreth_paladin5',
-                'ability_ardenweald_paladin_summer',
-            ]
         }
     },
     methods: {
         callItemEffect(type, lv) {
+            let itemInfo = this.itemType[type];
             let used = false;
+            let info = {};
+            let cd = this.$store.state.playerAttribute.globalCD[itemInfo.cdgroup];
+            if(cd != undefined && cd > Date.now()) {
+                return used;
+            }
             switch(type) {
-                case 'inv_misc_book_09':
-                    used = this.randomSpell(lv, 1);
-                    break;
-                case 'inv_misc_book_08':
-                    used = this.randomSpell(lv, 2);
-                    break;
-                case 'inv_misc_book_07':
-                    used = this.randomSpell(lv, 3);
-                    break;
                 case 'bTNMGExchange':
                     used = this.randomGold(666, lv);
                     break;
                 case 'inv_misc_coin_01':
                     used = this.randomGold(6666, lv);
                     break;
-                case 'inv_misc_coin_01':
+                case 'inv_misc_coin_02':
                     used = this.randomGold(66666, lv);
                     break;
                 case 'inv_misc_note_06':
@@ -134,9 +101,45 @@ export const itemEffect = {
                 case 'bossTicket10':
                     used = this.bossTicket(105);
                     break;
+                // 药剂
                 case 'inv_potion_27':
-                    used = this.inv_potion_27();
+                case 'Inv_potion_49':
+                case 'Inv_potion_50':
+                case 'Inv_potion_51':
+                case 'Inv_potion_52':
+                case 'Inv_potion_53':
+                case 'Inv_potion_54':
+                case 'Inv_potion_160':
+                case 'Inv_potion_55':
+                case 'Inv_potion_131':
+                case 'Inv_potion_142':
+                case 'Inv_potion_167':
+                case 'Inv_potion_70':
+                case 'Inv_potion_71':
+                case 'Inv_potion_72':
+                case 'Inv_potion_73':
+                case 'Inv_potion_74':
+                case 'Inv_potion_75':
+                case 'Inv_potion_163':
+                case 'Inv_potion_76':
+                case 'Inv_potion_137':
+                case 'Inv_potion_148':
+                case 'Inv_potion_168':
+                case 'Inv_potion_42':
+                case 'Inv_potion_43':
+                case 'Inv_potion_44':
+                case 'Inv_potion_45':
+                case 'Inv_potion_46':
+                case 'Inv_potion_47':
+                case 'Inv_potion_164':
+                case 'Inv_potion_48':
+                case 'Inv_potion_134':
+                case 'Inv_potion_145':
+                    used = this.potion(type);
                     break;
+            }
+            if(used) {
+                this.$store.state.playerAttribute.globalCD[itemInfo.cdgroup] = Date.now()+(itemInfo.cd*1000);
             }
             return used;
         },
@@ -144,22 +147,6 @@ export const itemEffect = {
         inv_misc_note_06() {
             let guildMember = this.findBrothersComponents(this, 'guildMember', false)[0];
             guildMember.generateApplicant();
-            return true;
-        },
-        randomSpell(lv, rank) {
-            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-            let spell = this.getSpellList(lv, rank);
-            let spellType = spell[Math.floor(Math.random()*spell.length)];
-            let quantity = 1;
-            item = itemInfo.createItem(spellType, quantity);  
-            item = JSON.parse(item);
-            this.$store.commit("set_sys_info", {
-                type: 'reward',
-                msg: '打开宝箱获得',
-                item: item,
-                quantity: quantity
-            });
-            itemInfo.addItem(item);
             return true;
         },
         randomGold(max, lv) {
@@ -187,87 +174,181 @@ export const itemEffect = {
             index.addToMap('boss', (monsterID+5)*2, 1, monsterID);
             return true;
         },
+        potion(type) {
+            let used = false;
+            let itemInfo = this.itemType[type];
+            switch(type) {
+                case 'inv_potion_27':
+                    used = this.inv_potion_27();
+                    break;
+                case 'Inv_potion_49':
+                    used = this.hpPotion(15, 1, 10, 'fix');
+                    break;
+                case 'Inv_potion_50':
+                    used = this.hpPotion(100, 0, 0, 'fix', itemInfo.description.name);
+                    break;
+                case 'Inv_potion_51':
+                    used = this.hpPotion(150, 1, 10, 'fix');
+                    break;
+                case 'Inv_potion_52':
+                    used = this.hpPotion(1000, 0, 0, 'fix', itemInfo.description.name);
+                    break;
+                case 'Inv_potion_53':
+                    used = this.hpPotion(1500, 1, 10, 'fix');
+                    break;
+                case 'Inv_potion_54':
+                    used = this.hpPotion(10000, 0, 0, 'fix', itemInfo.description.name);
+                    break;
+                case 'Inv_potion_160':
+                    used = this.hpPotion(1, 1, 100, 'maxPercent');
+                    break;
+                case 'Inv_potion_55':
+                    used = this.hpPotion(5, 1, 100, 'maxPercent');
+                    break;
+                case 'Inv_potion_131':
+                    used = this.hpPotion(25, 0, 0, 'maxPercent', itemInfo.description.name);
+                    break;
+                case 'Inv_potion_142':
+                    used = this.hpPotion(50, 0, 0, 'maxPercent', itemInfo.description.name);
+                    break;
+                case 'Inv_potion_167':
+                    used = this.hpPotion(100, 0, 0, 'maxPercent', itemInfo.description.name);
+                    break;
+                case 'Inv_potion_70':
+                    used = this.mpPotion(15, 1, 10, 'fix');
+                    break;
+                case 'Inv_potion_71':
+                    used = this.mpPotion(100, 0, 0, 'fix', itemInfo.description.name);
+                    break;
+                case 'Inv_potion_72':
+                    used = this.mpPotion(150, 1, 10, 'fix');
+                    break;
+                case 'Inv_potion_73':
+                    used = this.mpPotion(1000, 0, 0, 'fix', itemInfo.description.name);
+                    break;
+                case 'Inv_potion_74':
+                    used = this.mpPotion(1500, 1, 10, 'fix');
+                    break;
+                case 'Inv_potion_75':
+                    used = this.mpPotion(10000, 0, 0, 'fix', itemInfo.description.name);
+                    break;
+                case 'Inv_potion_163':
+                    used = this.mpPotion(1, 1, 100, 'maxPercent');
+                    break;
+                case 'Inv_potion_76':
+                    used = this.mpPotion(5, 1, 100, 'maxPercent');
+                    break;
+                case 'Inv_potion_137':
+                    used = this.mpPotion(25, 0, 0, 'maxPercent', itemInfo.description.name);
+                    break;
+                case 'Inv_potion_148':
+                    used = this.mpPotion(50, 0, 0, 'maxPercent', itemInfo.description.name);
+                    break;
+                case 'Inv_potion_168':
+                    used = this.mpPotion(100, 0, 0, 'maxPercent', itemInfo.description.name);
+                    break;
+                case 'Inv_potion_42':
+                    used = this.hpPotion(15, 1, 10, 'fix') && this.mpPotion(15, 1, 10, 'fix');
+                    break;
+                case 'Inv_potion_43':
+                    used = this.hpPotion(100, 0, 0, 'fix', itemInfo.description.name) && this.mpPotion(100, 0, 0, 'fix', itemInfo.description.name);
+                    break;
+                case 'Inv_potion_44':
+                    used = this.hpPotion(150, 1, 10, 'fix') && this.mpPotion(150, 1, 10, 'fix');
+                    break;
+                case 'Inv_potion_45':
+                    used = this.hpPotion(1000, 0, 0, 'fix', itemInfo.description.name) && this.mpPotion(1000, 0, 0, 'fix', itemInfo.description.name);
+                    break;
+                case 'Inv_potion_46':
+                    used = this.hpPotion(1500, 1, 10, 'fix') && this.mpPotion(1500, 1, 10, 'fix');
+                    break;
+                case 'Inv_potion_47':
+                    used = this.hpPotion(10000, 0, 0, 'fix', itemInfo.description.name) && this.mpPotion(10000, 0, 0, 'fix', itemInfo.description.name);
+                    break;
+                case 'Inv_potion_164':
+                    used = this.hpPotion(1, 1, 100, 'maxPercent') && this.mpPotion(1, 1, 100, 'maxPercent');
+                    break;
+                case 'Inv_potion_48':
+                    used = this.hpPotion(5, 1, 100, 'maxPercent') && this.mpPotion(5, 1, 100, 'maxPercent');
+                    break;
+                case 'Inv_potion_134':
+                    used = this.hpPotion(33, 0, 0, 'maxPercent', itemInfo.description.name) && this.mpPotion(33, 0, 0, 'maxPercent', itemInfo.description.name);
+                    break;
+                case 'Inv_potion_145':
+                    used = this.hpPotion(75, 0, 0, 'maxPercent', itemInfo.description.name) && this.mpPotion(75, 0, 0, 'maxPercent', itemInfo.description.name);
+                    break;
+            }
+            return used;
+        },
         inv_potion_27() {
             let player = this.$store.state.playerAttribute;
             let index = this.findComponentUpward(this, 'index');
             index.buffApply(player, player, 'minionSlayer', 600);
             return true;
         },
-        getSpellList(lv, rank) {
-            let spellList = [];
-            let temp = [];
-            switch(rank) {
-                case 1:
-                    if(lv > 10) {
-                        temp = ['spell_nature_thunderclap', 'spell_nature_thunderclap2', 'spell_fire_flamebolt', 'ability_warrior_shieldbash', 'spell_holy_holybolt', 
-                            'spell_nature_lightning'];
-                        spellList = spellList.concat(temp);
-                    }
-                    if(lv > 50) {
-                        temp = ['spell_nature_thunderclap3', 'spell_fire_flamebolt2', 'ability_warrior_shieldbash2', 
-                            'ability_druid_maul', 'spell_shadow_ritualofsacrifice', 'spell_holy_renew', 'spell_holy_holybolt2', 'spell_holy_holybolt3',
-                            'spell_nature_lightning2', 'spell_nature_starfall'];
-                        spellList = spellList.concat(temp);
-                    }
-                    if(lv > 75) {
-                        temp = ['spell_nature_thunderclap4', 'spell_fire_flamebolt3', 'ability_warrior_shieldbash3', 'ability_druid_maul2', 
-                            'spell_shadow_ritualofsacrifice2', 'spell_holy_renew2', 'spell_warlock_soulburn', 'ability_warrior_shatteringthrow',
-                            'spell_holy_holybolt4', 'spell_nature_lightning3', 'spell_nature_starfall2', 'spell_holy_powerwordshield'];
-                        spellList = spellList.concat(temp);
-                    }
-                    if(lv > 100) {
-                        temp = ['spell_fire_flamebolt4', 'ability_warrior_shieldbash4', 'ability_druid_maul3', 'spell_shadow_ritualofsacrifice3', 
-                            'spell_holy_renew3', 'spell_warlock_soulburn2', 'ability_warrior_shatteringthrow2', 'spell_nature_starfall3',
-                            'spell_holy_powerwordshield2', 'spell_animabastion_buff', 'spell_animaardenweald_orb'];
-                        spellList = spellList.concat(temp);
-                    }
-                    if(lv > 125) {
-                        temp = ['ability_druid_maul4'];
-                        spellList = spellList.concat(temp);
-                    }
-                    break;
-                case 2:
-                    if(lv > 10) {
-                        temp = ['spell_shadow_curseofmannoroth', 'ability_rogue_shadowstrike', ];
-                        spellList = spellList.concat(temp);
-                    } 
-                    if(lv > 50) {
-                        temp = ['spell_shadow_curseofmannoroth2', 'spell_shadow_curseofmannoroth3', 'spell_animaardenweald_groundstate', 'spell_holy_innerfire',
-                            'ability_rogue_shadowstrike2', 'ability_rogue_shadowstrike3'];
-                        spellList = spellList.concat(temp);
-                    } 
-                    if(lv > 75) {
-                        temp = ['spell_shadow_curseofmannoroth4', 'spell_animaardenweald_groundstate2', 'spell_arcane_starfire', 'spell_holy_crusaderstrike',
-                            'spell_holy_innerfire2'];
-                        spellList = spellList.concat(temp);
-                    } 
-                    if(lv > 100) {
-                        temp = ['spell_animaardenweald_groundstate3', 'spell_arcane_starfire2', 'spell_holy_crusaderstrike2', 'spell_nature_wispsplode',
-                            'ability_rogue_shadowstrike4', 'spell_holy_innerfire3', 'spell_holy_layonhands'];
-                        spellList = spellList.concat(temp);
-                    }
-                    if(lv > 125) {
-                        temp = ['spell_holy_layonhands2'];
-                        spellList = spellList.concat(temp);
-                    }
-                    break;
-                case 3:
-                    if(lv > 10) {
-                        temp = ['ability_druid_starfall', 'ability_revendreth_paladin'];
-                        spellList = spellList.concat(temp);
-                    } else if(lv > 50) {
-                        temp = ['ability_druid_starfall2', 'warrior_talent_icon_innerrage', 'ability_revendreth_paladin2'];
-                        spellList = spellList.concat(temp);
-                    } else if(lv > 75) {
-                        temp = [];
-                        spellList = spellList.concat(temp);
-                    } else if(lv > 100) {
-                        temp = ['ability_druid_starfall3', 'warrior_talent_icon_innerrage2', 'ability_revendreth_paladin3', 'ability_ardenweald_paladin_summer'];
-                        spellList = spellList.concat(temp);
-                    }
-                    break;
+        hpPotion(value, gap, duration, type, sourceName) {
+            let player = this.$store.state.playerAttribute;
+            // 药剂增幅
+            // 药剂禁止
+            if(duration == 0) {
+                if(type=='maxPercent')
+                    value = Math.ceil(player.attribute.MAXHP.value*value/100);
+                this.instaHpPotion(value, sourceName);
             }
-            return spellList;
+            else  {
+                this.durationHpPotion(value, gap, duration, type);
+            }
+            return true;
+        },
+        mpPotion(value, gap, duration, type, sourceName) {
+            let player = this.$store.state.playerAttribute;
+            // 药剂增幅
+            // 药剂禁止
+            if(duration == 0) {
+                if(type=='maxPercent')
+                    value = Math.ceil(player.attribute.MAXHP.value*value/100);
+                this.instaMpPotion(value, sourceName);
+            }
+            else  {
+                this.durationMpPotion(value, gap, duration, type);
+            }
+            return true;
+        },
+        instaHpPotion(value, sourceName) {
+            let player = this.$store.state.playerAttribute;
+            this.hpChange(player, player, value, sourceName);
+        },
+        instaMpPotion(value, sourceName) {
+            let player = this.$store.state.playerAttribute;
+            this.mpChange(player, player, value, sourceName);
+        },
+        durationHpPotion(value, gap, duration, type) {
+            let player = this.$store.state.playerAttribute;
+            let timer;
+            timer = setInterval(() => {
+                let newValue = value;
+                if(type == 'maxPercent')
+                    newValue = Math.ceil(player.attribute.MAXHP.value*value/100);
+                this.hpChange(player, player, newValue);
+                duration -= gap;
+                if(duration < 0) {
+                    clearInterval(timer);
+                }
+            }, gap*1000);
+        },
+        durationMpPotion(value, gap, duration, type) {
+            let player = this.$store.state.playerAttribute;
+            let timer;
+            timer = setInterval(() => {
+                let newValue = value;
+                if(type == 'maxPercent')
+                    newValue = Math.ceil(player.attribute.MAXMP.value*value/100);
+                this.mpChange(player, player, newValue);
+                duration -= gap;
+                if(duration < 0) {
+                    clearInterval(timer);
+                }
+            }, gap*1000);
         },
     }
 }
