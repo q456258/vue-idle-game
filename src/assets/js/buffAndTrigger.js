@@ -35,6 +35,8 @@ export const buffAndTrigger = {
         // 启用中心计时器，按时间减少buff时间
         buffTimer(time){
             this.centralTimer = setInterval(() => {
+                let achievement = this.findComponentDownward(this, 'achievement');  
+                achievement.set_statistic({gameTime: 1000});
                 let now = Date.now();
                 let playerBuff = this.player.buff;
                 for(let buff in this.player.timedBuff) {
@@ -143,84 +145,77 @@ export const buffAndTrigger = {
                 return 0;
         },
         // 生命窃取
-        lifesteal(source, dmg) {
+        lifesteal(source, dmgs) {
+            if(this.get_dmg(dmgs, 'ad'))
+                return;
             if(this.buffReduce(source, source, 'lifesteal')) {
                 let lsRatio = 0.5;
-                let value = Math.round(lsRatio*dmg);
+                let value = Math.round(lsRatio*this.get_dmg(dmgs, 'ad'));
                 this.hpChange(source, source, value);
             }
         },
         // 魔法窃取
-        manasteal(source, dmg) {
-            if(dmg == 0)
-                return dmg;
-            let sourceType = source.type==undefined? 'player':source.type;
+        manasteal(source, dmgs) {
+            if(this.get_dmg(dmgs, 'ap') == 0)
+                return;
             if(this.buffReduce(source, source, 'manasteal')) {
                 let msRatio = 0.1;
-                let value = Math.round(msRatio*dmg);
-                if(sourceType == 'player')
+                let value = Math.round(msRatio*this.get_dmg(dmgs, 'ap'));
+                if(source.type == 'player')
                     this.mpChange(source, source, value);
             }
         },
         // 返回蓄力伤害
         charge(source, dmg) {
             if(dmg == 0)
-                return dmg;
+                return 0;
             if(this.buffReduce(source, source, 'charge')) {
                 let chargeRatio = 1.5;
-                return Math.round(dmg * chargeRatio);
+                return dmg*chargeRatio;
             }
-            else
-                return dmg;
+            return dmg;
         },
         //死亡免疫
         deathImmune(source, dmg) {
             if(dmg == 0)
-                return dmg;
+                return 0;
             if(this.buffReduce(source, source, 'deathImmune')) {
                 return 0;
             }
-            else
-                return dmg;
-
+            return dmg;
         },
         // 虚无
-        void(target, dmg) {
-            if(dmg == 0)
-                return dmg;
+        void(target, dmgs) {
+            if(this.get_dmg(dmgs, 'ad') == 0 && this.get_dmg(dmgs, 'ap') == 0)
+                return;
             if(this.buffReduce(target, target, 'void')) {
                 this.$store.commit("set_battle_info", {
-                    type: '',
-                    msg: '【虚无】无视了' + -1*dmg+ '点伤害'
+                    html: '【虚无】无视了' + -1*(this.get_dmg(dmgs, 'ad')+this.get_dmg(dmgs, 'ap'))+ '点伤害'
                 })
-                return 0;
+                this.set_ad_dmg(dmgs, 0);
+                this.set_ap_dmg(dmgs, 0);
             }
-            else
-                return dmg;
         },
         // 吸收
-        absorb(target, dmg) {
-            if(dmg == 0)
-                return dmg;
+        absorb(target, dmgs) {
+            if(this.get_dmg(dmgs, 'ad') == 0)
+                return;
             if(this.buffReduce(target, target, 'absorb')) {
+                let dmg = Math.ceil(this.get_dmg(dmgs, 'ad'));
                 this.$store.commit("set_battle_info", {
-                    type: 'win',
-                    msg: '【吸收】恢复了' + -1*dmg+ '点生命值'
+                    html: '<span style="color:#00ff00">【吸收】恢复了' + -1*dmg+ '点生命值</span>'
                 })
-                return -1*dmg;
+                this.set_player_hp(dmg, player);
+                this.set_ad_dmg(dmgs, 0);
             }
-            else
-                return dmg;
         },
         // 格挡
         block(target, dmg) {
             if(dmg == 0)
-                return dmg;
-            if(this.buffReduce(target, target, 'block')) {
                 return 0;
-            }
-            else
-                return dmg;
+            if(this.buffReduce(target, target, 'block'))     
+                return 0;  
+            return dmg;
         },
         // 元素亲和
         elementAffinity(source, ap) {
@@ -244,22 +239,22 @@ export const buffAndTrigger = {
             
         },
         // 野怪杀手
-        minionSlayer(source, target, dmg) {
+        minionSlayer(source, target, dmgs) {
+            if(this.get_dmg(dmgs, 'ad') == 0 && this.get_dmg(dmgs, 'ap') == 0)
+                return;
             if(source.buff['minionSlayer'] != undefined && target.type == 'normal') {
                 this.$store.commit("set_battle_info", {
                     type: 'dmg',
-                    msg: '【野怪杀手】额外造成'+Math.round(-0.5*dmg)+'伤害'
+                    msg: '【野怪杀手】额外造成'+Math.round(-0.5*(this.get_dmg(dmgs, 'ad')+this.get_dmg(dmgs, 'ap')))+'伤害'
                 })
-                return 1.5*dmg;
+                this.set_ad_dmg(dmgs, this.get_dmg(dmgs, 'ad')*1.5);
+                this.set_ap_dmg(dmgs, this.get_dmg(dmgs, 'ap')*1.5);
             }
-            else
-                return dmg;
         },
         // stun
         stun(source) {
-            let sourceType = source.type==undefined? 'player':source.type;
             if(this.buffReduce(source, source, 'stun')) {
-                if(sourceType == 'player') {
+                if(source.type == 'player') {
                     this.$store.commit("set_battle_info", {
                         type: 'dmg',
                         msg: '处于眩晕状态中，无法行动'
@@ -277,12 +272,12 @@ export const buffAndTrigger = {
                 return false;
         },    
         // weak
-        weak(source, dmg) {
+        weak(source, dmgs) {
+            if(this.get_dmg(dmgs, 'ad') == 0 && this.get_dmg(dmgs, 'ap') == 0)
+                return;
             if(this.buffReduce(source, source, 'weak')) {
-                return dmg/2;
+                this.set_ad_dmg(dmgs, this.get_dmg(dmgs, 'ad')*0.5);
             }
-            else
-                return dmg;
         },    
         // 攻击起手触发, source为攻击发起者
         TriggerOnAttack(source, target) {
@@ -342,34 +337,47 @@ export const buffAndTrigger = {
                 this.mpChange(source, source, recover);
             }
         },
-        hpChange(source, target, value, sourceName) {
-            value = this.absorb(target, value);
-            if(value < 0) {
-                this.damage(source, target, value, sourceName);
-            }
-            else if(value > 0) {
-                this.heal(source, target, value, sourceName);
-            }
+        hpChange(source, target, dmgs, sourceName) {
+            this.absorb(target, dmgs);
+            this.damage(source, target, dmgs, sourceName);
+            if(!isNaN(dmgs.heal))
+                this.heal(source, target, this.get_dmg(dmgs, 'heal'), sourceName);
         },
-        damage(source, target, dmg, sourceName) {
-            dmg = this.weak(source, dmg);
-            dmg = this.void(target, dmg);
-            dmg = this.minionSlayer(source, target, dmg);
+        damage(source, target, dmgs, sourceName) {
+            this.weak(source, dmgs);
+            this.void(target, dmgs);
+            this.minionSlayer(source, target, dmgs);
+            let totalDmg = this.get_dmg(dmgs, 'ad')+this.get_dmg(dmgs, 'ap');
+            let dmgType = '伤害';
+            let dmgText = ' 0 ';
+            if(this.get_dmg(dmgs, 'ad') > 0) {
+                if(this.get_dmg(dmgs, 'ap') > 0) {
+                    dmgText = '<span style="color:#ffffff"> '+(this.get_dmg(dmgs, 'ad')+this.get_dmg(dmgs, 'ap'))
+                        +'</span>(<span style="color:#ff0000">'+this.get_dmg(dmgs, 'ad')+'</span>+<span style="color:#2ab0ff">'+this.get_dmg(dmgs, 'ap')+'</span>) ';
+                } else {
+                    dmgType = '物理伤害';
+                    dmgText = '<span style="color:#ff0000">'+this.get_dmg(dmgs, 'ad')+'</span> ';
+                }
+            } else if (this.get_dmg(dmgs, 'ap') > 0) {
+                dmgType = '魔法伤害';
+                dmgText = '<span style="color:#2ab0ff">'+this.get_dmg(dmgs, 'ap')+'</span> ';
+            }
+            // let totalDmg = this.get_dmg(dmgs, 'ad')+this.get_dmg(dmgs, 'ap');
             if(target.type == 'player')
-                this.set_player_hp(dmg, source);
+                this.set_player_hp(-1*totalDmg, source);
             else
-                this.set_enermy_hp(dmg, source);
+                this.set_enermy_hp(-1*totalDmg, source);
             if(sourceName != undefined) {
                 if(target.type == source.type) {
                     this.$store.commit("set_battle_info", {
                         source: source.type,
-                        html: '使用<span style="color:#888888">【'+sourceName+'】</span>对自己造成了<span style="color:#ff0000">' + -1*dmg+ '</span>点伤害'
+                        html: source.name+'使用<span style="color:#888888">【'+sourceName+'】</span>对 自己 造成了<span style="color:#ff0000">' + dmgText+ '</span>点'+dmgType
                     })
                 }
                 else {
                     this.$store.commit("set_battle_info", {
                         source: source.type,
-                        html: '使用<span style="color:#888888">【'+sourceName+'】</span>对目标造成了<span style="color:#ff0000">' + -1*dmg+ '</span>点伤害'
+                        html: source.name+' 使用<span style="color:#888888">【'+sourceName+'】</span>对 '+target.name+' 造成了'+dmgText+'点'+dmgType
                     })
                 }
             }
@@ -384,13 +392,13 @@ export const buffAndTrigger = {
                 if(target.type == source.type) {
                     this.$store.commit("set_battle_info", {
                         source: source.type,
-                        html: '使用<span style="color:#888888">【'+sourceName+'】</span>恢复了<span style="color:#00ff00">' + heal+ '</span>点生命值'
+                        html: source.name+' 使用<span style="color:#888888">【'+sourceName+'】</span>恢复了<span style="color:#00ff00">' + heal+ '</span>点生命值'
                     })
                 }
                 else {
                     this.$store.commit("set_battle_info", {
                         source: source.type,
-                        html: '使用<span style="color:#888888">【'+sourceName+'】</span>为目标恢复了<span style="color:#00ff00">' + heal+ '</span>点生命值'
+                        html: source.name+' 使用<span style="color:#888888">【'+sourceName+'】</span>为 '+target.name+' 恢复了<span style="color:#00ff00">' + heal+ '</span>点生命值'
                     })
                 }
             }
@@ -408,6 +416,55 @@ export const buffAndTrigger = {
         },
         mpLoss(source, target, value, sourceName) {
             this.$store.commit('set_player_mp', value);
+        },
+        get_dmg(dmgs, type) {
+            let dmg = 0;
+            switch(type) {
+                case 'ad':
+                    dmg = dmgs.adDmg;
+                    break;
+                case 'ap':
+                    dmg = dmgs.apDmg;
+                    break;
+                case 'heal':
+                    dmg = dmgs.heal;
+                    break;
+                default:
+                    console.log("获取伤害类型错误");
+                    break;
+            }
+            return isNaN(dmg) ? 0 : dmg;
+        },
+        set_ad_dmg(dmgs, target) {
+            if(dmgs.adDmg == undefined)
+                return;
+            if(isNaN(target)) {
+                console.log("物理伤害传入非数字字符: " +target);
+                return;
+            }
+            if(target < 0)
+                target = 0;
+            dmgs.adDmg = target;
+        },
+        set_ap_dmg(dmgs, target) {
+            if(dmgs.apDmg == undefined)
+                return;
+            if(isNaN(target)) {
+                console.log("魔法伤害传入非数字字符: " +target);
+                return;
+            }
+            if(target < 0)
+                target = 0;
+            dmgs.apDmg = target;
+        },
+        set_heal(dmgs, target) {
+            if(dmgs.heal == undefined)
+                return;
+            if(isNaN(target)) {
+                console.log("治疗数据传入非数字字符: " +target);
+                return;
+            }
+            dmgs.heal = target;
         },
         set_player_hp(data, source) {
             let target = this.player;

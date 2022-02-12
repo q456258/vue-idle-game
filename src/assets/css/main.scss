@@ -53,7 +53,7 @@
         // height: 34.5rem;
         // width: 95%;
         padding: 0.5rem;
-        border-image: url("/icons/border2.png") 81 40/60px 50px/0.5rem round;
+        border-image: url("/icons/ui/border2.png") 81 40/60px 50px/0.5rem round;
         .battleInfo {
             position: absolute;
             // top: 1rem;
@@ -125,7 +125,7 @@
         bottom: 0.5rem;
         width: 35rem;
         border: 2px solid #ccc;
-        border-image: url("/icons/border2.png") 81 40/60px 50px/0.5rem round;
+        border-image: url("/icons/ui/border2.png") 81 40/60px 50px/0.5rem round;
 
         .zoneSelect {
             margin: 1rem 1.5rem;
@@ -147,7 +147,7 @@
             }
             .zone {
                 position: relative;
-                background-image: url("/icons/fairbreezeValley.jpg");
+                background-image: url("/icons/maps/fairbreezeValley.jpg");
                 background-repeat: no-repeat;
                 background-size: 100% 100%;
                 width: 100%;
@@ -257,5 +257,90 @@
     0% { background-color: #B20000; box-shadow: 0 0 3px #B20000; }
     50% { background-color: #FF0000; box-shadow: 0 0 40px #FF0000; }
     100% { background-color: #B20000; box-shadow: 0 0 3px #B20000; }
+    }
+
+    .iconBorder{     
+        position: absolute;
+    }
+    .iconBorder.grey {    
+        position: absolute;
+        filter: url(#greyBorder)
+    }
+    .iconBorder.green {    
+        position: absolute;
+        filter: url(#greenBorder)
+    }
+    .iconBorder.blue {    
+        position: absolute;
+        filter: url(#blueBorder)
+    }
+    .iconBorder.purple {    
+        position: absolute;
+        filter: url(#purpleBorder)
+    }
+    .iconBorder.orange {    
+        position: absolute;
+        filter: url(#orangeBorder)
+    }
+    .largeIcon {
+        width: 68px;
+        height: 68px;
+        background-image: url(/icons/other/largeBorder.png);
+    }
+    .mediumIcon {
+        width: 44px;
+        height: 44px;
+        background-image: url(/icons/other/mediumBorder.png);
+    }
+    .smallIcon {
+        width: 26px;
+        height: 26px;
+        background-image: url(/icons/other/smallBorder.png);
+    }
+    .largeIconContainer {
+        position: relative;
+        width: 68px;
+        height: 68px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: auto;
+        border-radius: 0.3rem;
+        img {
+            width: 56px;
+            height: 56px;
+        }
+    }
+    .mediumIconContainer {
+        position: relative;
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: auto;
+        border-radius: 0.3rem;
+        left: -2px;
+        top: -2px;
+        img {
+            width: 38px;
+            height: 38px;
+        }
+    }
+    .smallIconContainer {
+        position: relative;
+        width: 25px;
+        height: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: auto;
+        border-radius: 0.3rem;
+        left: -2px;
+        top: -2px;
+        img {
+            width: 21px;
+            height: 21px;
+        }
     }
 }

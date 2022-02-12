@@ -25,7 +25,7 @@
                 消耗<img src="/icons/item/Inv_misc_enchantedpearla.png">*1
             </span>
             <span class="has">
-                目前持有数：{{itemQty}}
+                目前持有数: {{itemQty}}
             </span>
             <div class="confirm" @click="washPotential()" v-show="item.quantity>0">
             <!-- <div class="confirm" @click="washPotential()"> -->
@@ -126,7 +126,7 @@ export default {
     margin: auto;
     height: 28rem;
     width: 48rem;
-    background-image: url("/icons/enhancePanel2.png");
+    background-image: url("/icons/ui/enhancePanel2.png");
     background-repeat: no-repeat;
     background-size: 49rem 28rem;
     z-index: 10;
@@ -195,7 +195,7 @@ export default {
         left: 35rem;
         height: 2.5rem;
         width: 8rem;
-        background-image: url("/icons/button.png");
+        background-image: url("/icons/ui/button.png");
         background-repeat: no-repeat;
         background-size: 8rem 2.5rem;
         display: flex;
@@ -213,7 +213,7 @@ export default {
         left: 35rem;
         height: 2.5rem;
         width: 8rem;
-        background-image: url("/icons/button.png");
+        background-image: url("/icons/ui/button.png");
         background-repeat: no-repeat;
         background-size: 8rem 2.5rem;
         display: flex;

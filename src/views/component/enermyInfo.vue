@@ -25,7 +25,7 @@
         <div class="item">
             <img src="../../assets/icons/stat/sunder.png" alt="">
             <div class="value">
-                <span>{{attr.attribute.SUNDERRED.showValue}}</span>
+                <span>{{attr.attribute.BLOCK.showValue}}</span>
             </div>
         </div>
         <div class="item">
@@ -46,7 +46,7 @@
             </div>
         </div>
         <div class="item">
-            <img src="../../assets/icons/stat/mr2.png" alt="">
+            <img src="../../assets/icons/stat/mr.png" alt="">
             <div class="value">
                 <span>
                     {{attr.attribute.MR.showValue}}
@@ -54,7 +54,7 @@
             </div>
         </div>
         <div class="item">
-            <img src="../../assets/icons/stat/critDmg2.png" alt="">
+            <img src="../../assets/icons/stat/critDmg.png" alt="">
             <div class="value">
                 <span>{{attr.attribute.CRITDMG.showValue}}</span>
             </div>
@@ -99,7 +99,7 @@ export default {
     }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .enermy {
     margin: 1rem 2rem;
 }

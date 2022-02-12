@@ -7,9 +7,9 @@
             </div>
             <div class="detail">
                 <!-- <div class="centerImg"><img :src="selectedDungeon.img"></div> -->
-                <div>等级：{{selectedDungeon.lv}}</div>
-                <div>类型：{{type[selectedDungeon.type]}}</div>
-                <div>剩余次数：
+                <div>等级: {{selectedDungeon.lv}}</div>
+                <div>类型: {{type[selectedDungeon.type]}}</div>
+                <div>剩余次数: 
                     <span v-if="selectedDungeon.count>=0">{{selectedDungeon.count}}</span>
                     <span v-else>无限</span>
                 </div>
@@ -21,14 +21,18 @@
                 <div class="reward">
                     <div v-for="(v, k) in selectedDungeon.reward" :key="k">
                         <div class="grid" v-if="v[0]" @mouseover="showInfo($event,v[0].itemType,v[0],true)" @mouseleave="closeInfo">
-                            <div class="icon" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v[0].quality.color }">
+                            <!-- <div class="icon" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v[0].quality.color }">
+                                <img :src="v[0].description.iconSrc" alt="" /> 
+                            </div>-->
+                            <div class="mediumIconContainer">
+                                <del :class="[{grey:v[0].quality.qualityLv==1, green:v[0].quality.qualityLv==3, blue:v[0].quality.qualityLv==4, purple:v[0].quality.qualityLv==5, orange:v[0].quality.qualityLv==6}, 'mediumIcon iconBorder']"></del>
                                 <img :src="v[0].description.iconSrc" alt="" />
                             </div>
                             <div class="quantity">{{v[1]+'%'}}</div>
                         </div>
                     </div>
                 </div>
-                <!-- <div>奖励：{{selectedDungeon.reward}}</div> -->
+                <!-- <div>奖励: {{selectedDungeon.reward}}</div> -->
             </div>
             <div class="action" v-if="!inBattle&&selectedDungeon.count!=0">
                 <button class="btn btn-success btn-sm" @click="toggleBattle(selectedDungeon.type)">
@@ -157,6 +161,7 @@ export default {
                 });
                 return false;
             } 
+            return true;
         },
         enermyAction(source, target) {
             this.callAction(source, target);
@@ -285,33 +290,33 @@ export default {
             let attribute = enermyAttribute.attribute,
             val = 0.0,
             flexStats = ['MAXHP', 'ATK', 'DEF'],
-            lvStats = ['MR'],
-            fixStats = ['SUNDER', 'CRIT', 'CRITDMG']; 
+            lvStats = ['BLOCK'],
+            fixStats = ['CRIT', 'CRITDMG']; 
             enermyAttribute.lv = level;
             enermyAttribute.type = type;
             enermyAttribute.name = this.dungeonInfo[this.dungeonInfo.current].monsterName;
             enermyAttribute.talent = {};
             // enermyAttribute.spell = {};
             flexStats.forEach(stat => {
-                let attribute = enermyAttribute.attribute[stat];
+                let attr = enermyAttribute.attribute[stat];
                 // attribute.value = Math.round(attribute.value*(1+enermyAttribute.lv*0.15)*(1+Math.random()/10));
                 // attribute.value = Math.round(attribute.value*(1+enermyAttribute.lv*0.15));
                 // attribute.value = Math.round(attribute.value*(1.5+enermyAttribute.lv*(enermyAttribute.lv-1)*(enermyAttribute.lv/50)));
-                attribute.value = Math.round(attribute.value*(2+enermyAttribute.lv*(enermyAttribute.lv/15)));
-                attribute.showValue = attribute.value;
-                enermyAttribute.attribute[stat] = attribute;
+                attr.value = Math.round(attr.value*(2+enermyAttribute.lv*(enermyAttribute.lv/15)));
+                attr.showValue = attr.value;
+                enermyAttribute.attribute[stat] = attr;
             });
             lvStats.forEach(stat => {
-                let attribute = enermyAttribute.attribute[stat];
-                attribute.value = Math.round(attribute.value*(enermyAttribute.lv));
-                attribute.showValue = attribute.value;
-                enermyAttribute.attribute[stat] = attribute;
+                let attr = enermyAttribute.attribute[stat];
+                attr.value = Math.round(attr.value*(enermyAttribute.lv));
+                attr.showValue = attr.value;
+                enermyAttribute.attribute[stat] = attr;
             });
             fixStats.forEach(stat => {
-                let attribute = enermyAttribute.attribute[stat];
+                let attr = enermyAttribute.attribute[stat];
                 // attribute.value = Math.round(attribute.value*(enermyAttribute.lv));
-                attribute.showValue = attribute.value + '%';
-                enermyAttribute.attribute[stat] = attribute;
+                attr.showValue = attr.value + '%';
+                enermyAttribute.attribute[stat] = attr;
             });
             attribute['CURHP'] = {
                 value: attribute['MAXHP'].value,
@@ -327,11 +332,6 @@ export default {
             }
             val = this.getDefRed(attribute['DEF'].value);
             attribute['DEFRED'] = {
-                value: val,
-                showValue: val+'%'
-            }
-            val = this.getSunderRed(attribute['SUNDER'].value);
-            attribute['SUNDERRED'] = {
                 value: val,
                 showValue: val+'%'
             }
@@ -391,9 +391,9 @@ export default {
                 value: Math.round(attribute['SUNDER'].value*1.25),
                 showValue: Math.round(attribute['SUNDER'].value*1.25),
             }
-            attribute['MR'] = {
-                value: attribute['MR'].value*2,
-                showValue: attribute['MR'].value*2,
+            attribute['BLOCK'] = {
+                value: attribute['BLOCK'].value*2,
+                showValue: attribute['BLOCK'].value*2,
             }
             attribute['MAXHP'] = {
                 value: attribute['MAXHP'].value*20,
@@ -418,9 +418,9 @@ export default {
                 value: attribute['SUNDER'].value,
                 showValue: attribute['SUNDER'].value,
             }
-            attribute['MR'] = {
-                value: attribute['MR'].value,
-                showValue: attribute['MR'].value,
+            attribute['BLOCK'] = {
+                value: attribute['BLOCK'].value,
+                showValue: attribute['BLOCK'].value,
             }
             attribute['MAXHP'] = {
                 value: attribute['MAXHP'].value*15,
@@ -445,9 +445,9 @@ export default {
                 value: attribute['SUNDER'].value*2,
                 showValue: attribute['SUNDER'].value*2,
             }
-            attribute['MR'] = {
-                value: attribute['MR'].value*2,
-                showValue: attribute['MR'].value*2,
+            attribute['BLOCK'] = {
+                value: attribute['BLOCK'].value*2,
+                showValue: attribute['BLOCK'].value*2,
             }
             attribute['MAXHP'] = {
                 value: attribute['MAXHP'].value*100,

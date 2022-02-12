@@ -1,7 +1,7 @@
 <template>
     <span class="currency">
         <span v-if="gold>0">
-            {{gold}}<img src="../../../public/icons/other/gold.png">
+            {{gold}}<img src="../../../public/icons/other/gold2.png">
         </span>
         <span v-if="silver>0">
             {{silver}}<img src="../../../public/icons/other/silver.png">

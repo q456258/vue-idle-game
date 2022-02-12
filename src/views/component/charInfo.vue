@@ -17,7 +17,7 @@
                     <div class="lv">
                         <div class="value">
                             <span>{{player.name}}&nbsp; {{playerLv+'级'}}</span>
-                            <!-- <span>转生次数：{{playerLv}}</span> -->
+                            <!-- <span>转生次数: {{playerLv}}</span> -->
                         </div>
                     </div>
                 </template>
@@ -47,18 +47,22 @@
                     <p class="info">
                         * 生命值
                         <br>
-                        基础：{{attribute.HP.baseVal}}
+                        基础: {{attribute.HP.baseVal}}
                         <span v-if="attribute.HPP.value != 0">{{' +' + attribute.HPP.showValue}}</span>
                         <br>
-                        基础恢复：{{1+player.talent['ability_hunter_harass']*0.2}}%/秒
+                        非战时: {{5+player.talent['ability_hunter_harass']*1+'%+'+attribute.STA.value*5}} /5秒
+                        <br>
+                        战时: {{attribute.STA.value}} /5秒
                     </p>
                     <p class="info">
                         * 魔法值
                         <br>
-                        基础：{{attribute.MP.baseVal}}
+                        基础: {{attribute.MP.baseVal}}
                         <span v-if="attribute.MPP.value != 0">{{' +' + attribute.MPP.showValue}}</span>
                         <br>
-                        基础恢复：1%/秒
+                        非战时: {{5+'%+'+attribute.SPI.value*5}} /5秒
+                        <br>
+                        战时: {{Math.floor(attribute.STA.value/5)}} /5秒
                     </p>
                 </template>
             </cTooltip>
@@ -84,20 +88,79 @@
                 <cTooltip placement="bottom">
                     <template v-slot:content>
                         <div class="item">
-                            <img src="../../assets/icons/stat/str.png" alt="">
-                            <div class="value">
-                                <span>{{attribute.STR.showValue}}</span>
-                            </div>
+                            <span class="smallIconContainer">
+                                <del class="grey smallIcon iconBorder"></del>
+                                <img src="/icons/stat/str.jpg" alt="" />
+                            </span>
+                            <span>{{attribute.STR.showValue}}</span>
                         </div>
                     </template>
                     <template v-slot:tip>
                         <p class="info">* 力量
                             <br>
-                            基础：{{attribute.STR.baseVal }}
+                            基础: {{attribute.STR.baseVal }}
                             <span v-if="attribute.STRP.value != 0">{{' +' + attribute.STRP.showValue}}</span>
                             <span class="info" v-if="attribute.ALL.value>0">
                                 <br>
-                                全属性：{{attribute.ALL.baseVal}}
+                                全属性: {{attribute.ALL.baseVal}}
+                                <span v-if="attribute.ALLP.value>0">{{' +'+attribute.ALLP.showValue}}</span>
+                            </span>
+                        </p>
+                        <p class="info">* 每点提升属性
+                            <br>
+                            +3护甲
+                            <br>
+                            +1格挡
+                        </p>
+                        </template>
+                </cTooltip>
+                <cTooltip placement="bottom">
+                    <template v-slot:content>
+                        <div class="item">
+                            <span class="smallIconContainer">
+                                <del class="grey smallIcon iconBorder"></del>
+                                <img src="/icons/stat/agi.jpg" alt="" />
+                            </span>
+                            <span>{{attribute.AGI.showValue}}</span>
+                        </div>
+                    </template>
+                    <template v-slot:tip>
+                        <p class="info">* 敏捷
+                            <br>
+                            基础: {{attribute.AGI.baseVal }}
+                            <span v-if="attribute.AGIP.value != 0">{{' +' + attribute.AGIP.showValue}}</span>
+                            <span class="info" v-if="attribute.ALL.value>0">
+                                <br>
+                                全属性: {{attribute.ALL.baseVal}}
+                                <span v-if="attribute.ALLP.value>0">{{' +'+attribute.ALLP.showValue}}</span>
+                            </span>
+                        </p>
+                        <p class="info">* 每点提升属性
+                            <br>
+                            +3攻击
+                            <br>
+                            +0.05%暴击率
+                        </p>
+                    </template>
+                </cTooltip>
+                <cTooltip placement="bottom">
+                    <template v-slot:content>
+                        <div class="item">
+                            <span class="smallIconContainer">
+                                <del class="grey smallIcon iconBorder"></del>
+                                <img src="/icons/stat/sta.jpg" alt="" />
+                            </span>
+                            <span>{{attribute.STA.showValue}}</span>
+                        </div>
+                    </template>
+                    <template v-slot:tip>
+                        <p class="info">* 耐力
+                            <br>
+                            基础: {{attribute.STA.baseVal }}
+                            <span v-if="attribute.STAP.value != 0">{{' +' + attribute.STAP.showValue}}</span>
+                            <span class="info" v-if="attribute.ALL.value>0">
+                                <br>
+                                全属性: {{attribute.ALL.baseVal}}
                                 <span v-if="attribute.ALLP.value>0">{{' +'+attribute.ALLP.showValue}}</span>
                             </span>
                         </p>
@@ -105,29 +168,83 @@
                             <br>
                             +10生命值
                             <br>
-                            +1生命恢复
+                            +5每五秒回血
                         </p>
-                        </template>
+                    </template>
                 </cTooltip>
                 <cTooltip placement="bottom">
                     <template v-slot:content>
                         <div class="item">
-                            <img src="../../assets/icons/stat/agi.png" alt="">
-                            <div class="value">
-                                <span>{{attribute.AGI.showValue}}</span>
-                            </div>
+                            <span class="smallIconContainer">
+                                <del class="grey smallIcon iconBorder"></del>
+                                <img src="/icons/stat/int.jpg" alt="" />
+                            </span>
+                            <span>{{attribute.INT.showValue}}</span>
                         </div>
                     </template>
                     <template v-slot:tip>
-                        <p class="info">* 敏捷
+                        <p class="info">* 智力
                             <br>
-                            基础：{{attribute.AGI.baseVal }}
-                            <span v-if="attribute.AGIP.value != 0">{{' +' + attribute.AGIP.showValue}}</span>
+                            基础: {{attribute.INT.baseVal }}
+                            <span v-if="attribute.INTP.value != 0">{{' +' + attribute.INTP.showValue}}</span>
                             <span class="info" v-if="attribute.ALL.value>0">
                                 <br>
-                                全属性：{{attribute.ALL.baseVal}}
+                                全属性: {{attribute.ALL.baseVal}}
                                 <span v-if="attribute.ALLP.value>0">{{' +'+attribute.ALLP.showValue}}</span>
                             </span>
+                        </p>
+                        <p class="info">* 每点提升属性
+                            <br>
+                            +5法术伤害
+                            <br>
+                            +0.1%法术暴击率
+                        </p>
+                    </template>
+                </cTooltip>
+                <cTooltip placement="bottom">
+                    <template v-slot:content>
+                        <div class="item">
+                            <span class="smallIconContainer">
+                                <del class="grey smallIcon iconBorder"></del>
+                                <img src="/icons/stat/spi.jpg" alt="" />
+                            </span>
+                            <span>{{attribute.SPI.showValue}}</span>
+                        </div>
+                    </template>
+                    <template v-slot:tip>
+                        <p class="info">* 精神
+                            <br>
+                            基础: {{attribute.SPI.baseVal }}
+                            <span v-if="attribute.SPIP.value != 0">{{' +' + attribute.SPIP.showValue}}</span>
+                            <span class="info" v-if="attribute.ALL.value>0">
+                                <br>
+                                全属性: {{attribute.ALL.baseVal}}
+                                <span v-if="attribute.ALLP.value>0">{{' +'+attribute.ALLP.showValue}}</span>
+                            </span>
+                        </p>
+                        <p class="info">* 每点提升属性
+                            <br>
+                            +4魔法值
+                            <br>
+                            +1每五秒回蓝
+                        </p>
+                    </template>
+                </cTooltip>
+                <cTooltip placement="bottom">
+                    <template v-slot:content>
+                        <div class="item">
+                            <span class="smallIconContainer">
+                                <del class="grey smallIcon iconBorder"></del>
+                                <img src="/icons/stat/all.png" alt="" />
+                            </span>
+                            <span>{{attribute.ALL.showValue}}</span>
+                        </div>
+                    </template>
+                    <template v-slot:tip>
+                        <p class="info">* 全属性
+                            <br>
+                            全属性: {{attribute.ALL.baseVal}}
+                            <span v-if="attribute.ALLP.value>0">{{' +'+attribute.ALLP.showValue}}</span>
                         </p>
                         <p class="info">* 每点提升属性
                             <br>
@@ -140,48 +257,17 @@
                 <cTooltip placement="bottom">
                     <template v-slot:content>
                         <div class="item">
-                            <img src="../../assets/icons/stat/int.png" alt="">
-                            <div class="value">
-                                <span>{{attribute.INT.showValue}}</span>
-                            </div>
-                        </div>
-                    </template>
-                    <template v-slot:tip>
-                        <p class="info">* 智力
-                            <br>
-                            基础：{{attribute.INT.baseVal }}
-                            <span v-if="attribute.INTP.value != 0">{{' +' + attribute.INTP.showValue}}</span>
-                            <span class="info" v-if="attribute.ALL.value>0">
-                                <br>
-                                全属性：{{attribute.ALL.baseVal}}
-                                <span v-if="attribute.ALLP.value>0">{{' +'+attribute.ALLP.showValue}}</span>
+                            <span class="smallIconContainer">
+                                <del class="grey smallIcon iconBorder"></del>
+                                <img src="/icons/stat/atk.jpg" alt="" />
                             </span>
-                        </p>
-                        <p class="info">* 每点提升属性
-                            <br>
-                            +3能量护盾
-                            <br>
-                            +3魔法值
-                            <br>
-                            +0.25魔法恢复
-                        </p>
-                    </template>
-                </cTooltip>
-                <cTooltip placement="bottom">
-                    <template v-slot:content>
-                        <div class="item">
-                            <img src="../../assets/icons/stat/atk.png" alt="">
-                            <div class="value">
-                                <span>
-                                    {{attribute.ATK.showValue}}
-                                </span>
-                            </div>
+                            <span>{{attribute.ATK.showValue}}</span>
                         </div>
                     </template>
                     <template v-slot:tip>
                         <p class="info">* 攻击力
                             <br>
-                            基础：{{attribute.ATK.baseVal }}
+                            基础: {{attribute.ATK.baseVal }}
                             <span v-if="attribute.ATKP.value != 0">{{' +' + attribute.ATKP.showValue}}</span>
                             <br>
                             <span v-if="attribute.CRIT.value <= 100">
@@ -193,101 +279,231 @@
                         </p>
                     </template>
                 </cTooltip>
-                <cTooltip placement="bottom">
+                <!-- <cTooltip placement="bottom">
                     <template v-slot:content>
                         <div class="item">
-                            <img src="../../assets/icons/stat/sunder.png" alt="">
-                            <div class="value">
-                                <span>
-                                    {{attribute.SUNDER.showValue}}
-                                    <div class="reducePercent">
-                                        ({{attribute.SUNDERRED.showValue}})
-                                    </div>
-                                </span>
-                            </div>
+                            <span class="smallIconContainer">
+                                <del class="grey smallIcon iconBorder"></del>
+                                <img src="/icons/stat/sunder.jpg" alt="" />
+                            </span>
+                            <span class="value">
+                                {{attribute.SUNDER.showValue}}<div class="percent">({{attribute.SUNDERRED.showValue+")"}}</div>
+                            </span>
                         </div>
                     </template>
                     <template v-slot:tip>
                         <p class="info">* 破甲
                             <br>
-                            基础：{{attribute.SUNDER.showValue }}
+                            基础: {{attribute.SUNDER.showValue }}
                             <br>
-                            破甲：{{attribute.SUNDERRED.showValue}}
+                            破甲: {{attribute.SUNDERRED.showValue}}
                         </p>
                         <p class="info">无视部分护甲</p>
                     </template>
-                </cTooltip>
+                </cTooltip> -->
                 <cTooltip placement="bottom">
                     <template v-slot:content>
                         <div class="item">
-                            <img src="../../assets/icons/stat/crit.png" alt="">
-                            <div class="value">
-                                <span>{{attribute.CRIT.showValue}}</span>
-                            </div>
-                        </div>
-                    </template>
-                    <template v-slot:tip>
-                        <p class="info">* 暴击率</p>
-                    </template>
-                </cTooltip>
-                <cTooltip placement="bottom">
-                    <template v-slot:content>
-                        <div class="item">
-                            <img src="../../assets/icons/stat/arm.png" alt="">
-                            <div class="value">
-                                <span>
-                                    {{attribute.DEF.showValue}}
-                                    <div class="reducePercent">
-                                        ({{attribute.DEFRED.showValue}})
-                                    </div>
-                                </span>
-                            </div>
+                            <span class="smallIconContainer">
+                                <del class="grey smallIcon iconBorder"></del>
+                                <img src="/icons/stat/arm.jpg" alt="" />
+                            </span>
+                            <span>{{attribute.DEF.showValue}}
+                                    <div class="percent">({{attribute.DEFRED.showValue}})
+                            </div></span>
                         </div>
                     </template>
                     <template v-slot:tip>
                         <p class="info">* 护甲
                             <br>
-                            基础：{{attribute.DEF.baseVal }}
+                            基础: {{attribute.DEF.baseVal }}
                             <span v-if="attribute.DEFP.value != 0">{{' +' + attribute.DEFP.showValue}}</span>
                             <br>
-                            减伤：{{attribute.DEFRED.showValue}}
+                            减伤: {{attribute.DEFRED.showValue}}
                         </p>
+                        <p class="info">降低受到的物理伤害</p>
                     </template>
                 </cTooltip>
                 <cTooltip placement="bottom">
                     <template v-slot:content>
                         <div class="item">
-                            <img src="../../assets/icons/stat/mr.png" alt="">
-                            <div class="value">
-                                <span>
-                                    {{attribute.MR.showValue}}
-                                </span>
-                            </div>
+                            <span class="smallIconContainer">
+                                <del class="grey smallIcon iconBorder"></del>
+                                <img src="/icons/stat/block.jpg" alt="" />
+                            </span>
+                            <span>{{attribute.BLOCK.showValue}}</span>
                         </div>
                     </template>
                     <template v-slot:tip>
-                        <p class="info">* 能量盾
+                        <p class="info">* 格挡
                             <br>
-                            基础：{{attribute.MR.baseVal }}
-                            <span v-if="attribute.MRP.value != 0">{{' +' + attribute.MRP.showValue}}</span>
+                            基础: {{attribute.BLOCK.baseVal }}
+                            <span v-if="attribute.BLOCKP.value != 0">{{' +' + attribute.BLOCKP.showValue}}</span>
                         </p>
-                        <p class="info">使用魔法值抵消伤害，每抵消一点消耗0.25魔法值，低于20%最大魔法值时无效</p>
+                        <p class="info">减少受到的物理伤害（结算于护甲之后）</p>
                     </template>
                 </cTooltip>
                 <cTooltip placement="bottom">
                     <template v-slot:content>
                         <div class="item">
-                            <img src="../../assets/icons/stat/critDmg2.png" alt="">
-                            <div class="value">
-                                <span>{{attribute.CRITDMG.showValue}}</span>
-                            </div>
+                            <span class="smallIconContainer">
+                                <del class="grey smallIcon iconBorder"></del>
+                                <img src="/icons/stat/ap.jpg" alt="" />
+                            </span>
+                            <span>{{attribute.AP.showValue}}</span>
+                        </div>
+                    </template>
+                    <template v-slot:tip>
+                        <p class="info">* 法术伤害
+                            <br>
+                            基础: {{attribute.AP.baseVal }}
+                            <span v-if="attribute.APP.value != 0">{{' +' + attribute.APP.showValue}}</span>
+                        </p>
+                    </template>
+                </cTooltip>
+                <cTooltip placement="bottom">
+                    <template v-slot:content>
+                        <div class="item">
+                            <span class="smallIconContainer">
+                                <del class="grey smallIcon iconBorder"></del>
+                                <img src="/icons/stat/apcrit.jpg" alt="" />
+                            </span>
+                            <span>{{attribute.APCRIT.showValue}}</span>
+                        </div>
+                    </template>
+                    <template v-slot:tip>
+                        <p class="info">* 法术暴击
+                            <br>
+                            基础: {{attribute.APCRIT.baseVal+'%'}}
+                        </p>
+                    </template>
+                </cTooltip>
+                <cTooltip placement="bottom">
+                    <template v-slot:content>
+                        <div class="item">
+                            <span class="smallIconContainer">
+                                <del class="grey smallIcon iconBorder"></del>
+                                <img src="/icons/stat/vers.jpg" alt="" />
+                            </span>
+                            <span>{{attribute.VERS.showValue}}
+                                <div class="percent">({{attribute.VERSBONUS.showValue}})</div>
+                            </span>
+                        </div>
+                    </template>
+                    <template v-slot:tip>
+                        <p class="info">* 全能
+                            <br>
+                            基础: {{attribute.VERS.baseVal }}
+                            <br>
+                            增伤/减伤: {{attribute.VERSBONUS.showValue}}
+                        </p>
+                        <p class="info">提升造成的伤害，降低受到的伤害</p>
+                    </template>
+                </cTooltip>
+                <cTooltip placement="bottom">
+                    <template v-slot:content>
+                        <div class="item">
+                            <span class="smallIconContainer">
+                                <del class="grey smallIcon iconBorder"></del>
+                                <img src="/icons/stat/crit.jpg" alt="" />
+                            </span>
+                            <span>{{attribute.CRIT.showValue}}</span>
+                        </div>
+                    </template>
+                    <template v-slot:tip>
+                        <p class="info">* 暴击率
+                            <br>
+                            基础: {{attribute.CRIT.baseVal}}%
+                        </p>
+                    </template>
+                </cTooltip>
+                <cTooltip placement="bottom">
+                    <template v-slot:content>
+                        <div class="item">
+                            <span class="smallIconContainer">
+                                <del class="grey smallIcon iconBorder"></del>
+                                <img src="/icons/stat/critDmg.jpg" alt="" />
+                            </span>
+                            <span>{{attribute.CRITDMG.showValue}}</span>
                         </div>
                     </template>
                     <template v-slot:tip>
                         <p class="info">* 暴击伤害
                             <br>
-                            基础：{{attribute.CRITDMG.baseVal }}
+                            基础: {{attribute.CRITDMG.baseVal }}
                         </p>
+                    </template>
+                </cTooltip>
+                <cTooltip placement="bottom">
+                    <template v-slot:content>
+                        <div class="item">
+                            <span class="smallIconContainer">
+                                <del class="grey smallIcon iconBorder"></del>
+                                <img src="/icons/stat/hpreg.jpg" alt="" />
+                            </span>
+                            <span>{{attribute.HEAL.showValue}}</span>
+                        </div>
+                    </template>
+                    <template v-slot:tip>
+                        <p class="info">* 治疗效果
+                            <br>
+                            基础: {{attribute.HEAL.baseVal }}
+                        </p>
+                    </template>
+                </cTooltip>
+                <cTooltip placement="bottom">
+                    <template v-slot:content>
+                        <div class="item">
+                            <span class="smallIconContainer">
+                                <del class="grey smallIcon iconBorder"></del>
+                                <img src="/icons/stat/appen.jpg" alt="" />
+                            </span>
+                            <span>{{attribute.APPEN.showValue}}</span>
+                        </div>
+                    </template>
+                    <template v-slot:tip>
+                        <p class="info">* 法术穿透
+                            <br>
+                            基础: {{attribute.APPEN.baseVal }}
+                            <span v-if="attribute.APPEN.value != 0">{{' +' + attribute.APPEN.showValue}}</span>
+                        </p>
+                    </template>
+                </cTooltip>
+                <cTooltip placement="bottom">
+                    <template v-slot:content>
+                        <div class="item">
+                            <span class="smallIconContainer">
+                                <del class="grey smallIcon iconBorder"></del>
+                                <img src="/icons/stat/mr.jpg" alt="" />
+                            </span>
+                            <span>{{attribute.MR.showValue}}</span>
+                        </div>
+                    </template>
+                    <template v-slot:tip>
+                        <p class="info">* 法术抗性
+                            <br>
+                            基础: {{attribute.MR.baseVal }}
+                            <span v-if="attribute.MRP.value != 0">{{' +' + attribute.MRP.showValue}}</span>
+                        </p>
+                        <p class="info">降低受到的魔法伤害</p>
+                    </template>
+                </cTooltip>
+                <cTooltip placement="bottom">
+                    <template v-slot:content>
+                        <div class="item">
+                            <span class="smallIconContainer">
+                                <del class="grey smallIcon iconBorder"></del>
+                                <img src="/icons/stat/haste.jpg" alt="" />
+                            </span>
+                            <span>{{attribute.HASTE.showValue}}</span>
+                        </div>
+                    </template>
+                    <template v-slot:tip>
+                        <p class="info">* 急速
+                            <br>
+                            基础: {{attribute.HASTE.baseVal }}
+                        </p>
+                        <p class="info">提升行动后获得的技能充能</p>
                     </template>
                 </cTooltip>
             </div>
@@ -307,116 +523,24 @@
             </div>
             
             <div class="equips">
-                <div class="equip helmet" @mouseover="showInfo($event,'helmet',playerHelmet,false)" @contextmenu.prevent="openMenu(playerHelmet,$event)" @touchstart.stop.prevent="openMenu(playerHelmet,$event)" @mouseleave="closeInfo('equip')">
-                    <div class="title" v-if="playerHelmet.quality">
-                        <div class='icon' :style="{'box-shadow':'inset 0 0 7px 2px '+playerHelmet.quality.color}">
-                            <img :src="playerHelmet.description.iconSrc" alt="">
+                <div class="equip" v-for="(stat, name) in playerEquips" :key="name" @mouseover="showInfo($event, name,stat,false)" @contextmenu.prevent="openMenu(stat,$event)" @touchstart.stop.prevent="openMenu(stat,$event)" @mouseleave="closeInfo('equip')">
+                    <div class="title" v-if="stat.quality">
+                        <div class="mediumIconContainer">
+                            <del :class="[{grey:stat.quality.qualityLv==1, green:stat.quality.qualityLv==3, blue:stat.quality.qualityLv==4, purple:stat.quality.qualityLv==5, orange:stat.quality.qualityLv==6}, 'mediumIcon iconBorder']"></del>
+                            <img :src="stat.description.iconSrc" alt="">
                         </div>
-                        <div class='name' :class="{'red-flash':playerHelmet.enhanceLv>=20}" :style="{color:playerHelmet.quality.color}">
-                            {{playerHelmet.description.name}} {{playerHelmet.enhanceLv?'(+'+playerHelmet.enhanceLv+')':''}}
-                        </div>
-                    </div>
-                    <div class="title" v-else>
-                        <div class='icon' :style="{'box-shadow':'inset 0 0 7px 2px #ccc'}">
-                        </div>
-                        <div class='name'>
-                        </div>
-                    </div>
-                </div>
-                <div class="equip shoulder" @mouseover="showInfo($event,'shoulder',playerShoulder,false)" @contextmenu.prevent="openMenu(playerShoulder,$event)" @touchstart.stop.prevent="openMenu(playerShoulder,$event)" @mouseleave="closeInfo('equip')">
-                    <div class="title" v-if="playerShoulder.quality">
-                        <div class='icon' :class="{'red-flash':playerShoulder.enhanceLv>=20}" :style="{'box-shadow':'inset 0 0 7px 2px'+playerShoulder.quality.color}">
-                            <!-- <img class="iconBorder"/> -->
-                            <img :src="playerShoulder.description.iconSrc" alt="">
-                        </div>
-                        <div class='name' :style="{color:playerShoulder.quality.color}">
-                            {{playerShoulder.description.name}} {{playerShoulder.enhanceLv?'(+'+playerShoulder.enhanceLv+')':''}}
-                        </div>                
-                    </div>
-                    <div class="title" v-else>
-                        <div class='icon' :style="{'box-shadow':'inset 0 0 7px 2px #ccc'}">
-                        </div>
-                        <div class='name'>
-                        </div>
-                    </div>
-                </div>
-                <div class="equip weapon" @mouseover="showInfo($event,'weapon',playerWeapon,false)" @contextmenu.prevent="openMenu(playerWeapon,$event)" @touchstart.stop.prevent="openMenu(playerWeapon,$event)" @mouseleave="closeInfo('equip')">
-                    <div class="title" v-if="playerWeapon.quality">
-                        <div class='icon' :class="{'red-flash':playerWeapon.enhanceLv>=20}" :style="{'box-shadow':'inset 0 0 7px 2px '+playerWeapon.quality.color}">
-                            <!-- <img class="iconBorder"/> -->
-                            <img :src="playerWeapon.description.iconSrc" alt="">
-                        </div>
-                        <div class='name' :style="{color:playerWeapon.quality.color}">
-                            {{playerWeapon.description.name}} {{playerWeapon.enhanceLv?'(+'+playerWeapon.enhanceLv+')':''}}
-                        </div>                    
-                    </div>
-                    <div class="title" v-else>
-                        <div class='icon' :style="{'box-shadow':'inset 0 0 7px 2px #ccc'}">
-                        </div>
-                        <div class='name'>
-                        </div>
-                    </div>
-                </div>
-                <div class="equip armor" @mouseover="showInfo($event,'armor',playerArmor,false)" @contextmenu.prevent="openMenu(playerArmor,$event)" @touchstart.stop.prevent="openMenu(playerArmor,$event)" @mouseleave="closeInfo('equip')">
-                    <div class="title" v-if="playerArmor.quality">
-                        <div class='icon' :class="{'red-flash':playerArmor.enhanceLv>=20}" :style="{'box-shadow':'inset 0 0 7px 2px'+playerArmor.quality.color}">
-                            <!-- <del class="iconBorder"></del>
-                            <svg>
-                                <filter id="green">
-                                    <feColorMatrix 
-                                    type="matrix" 
-                                    values="0 0 0 0 0
-                                            0 1 0 0 0
-                                            0 0 0 0 0
-                                            0 0 0 1 0">
-                                    </feColorMatrix>
-                                </filter>
-                            </svg> -->
-                            <img :src="playerArmor.description.iconSrc" alt="">
-                        </div>
-                        <div class='name' :style="{color:playerArmor.quality.color}">
-                            {{playerArmor.description.name}} {{playerArmor.enhanceLv?'(+'+playerArmor.enhanceLv+')':''}}
-                        </div>                
-                    </div>
-                    <div class="title" v-else>
-                        <div class='icon' :style="{'box-shadow':'inset 0 0 7px 2px #ccc'}">
-                        </div>
-                        <div class='name'>
-                        </div>
-                    </div>
-                </div>
-                <div class="equip shoe" @mouseover="showInfo($event,'shoe',playerShoe,false)" @contextmenu.prevent="openMenu(playerShoe,$event)" @touchstart.stop.prevent="openMenu(playerShoe,$event)" @mouseleave="closeInfo('equip')">
-                    <div class="title" v-if="playerShoe.quality">
-                        <div class='icon' :class="{'red-flash':playerShoe.enhanceLv>=20}" :style="{'box-shadow':'inset 0 0 7px 2px'+playerShoe.quality.color}">
-                            <img :src="playerShoe.description.iconSrc" alt="">
-                        </div>
-                        <div class='name' :style="{color:playerShoe.quality.color}">
-                            {{playerShoe.description.name}} {{playerShoe.enhanceLv?'(+'+playerShoe.enhanceLv+')':''}}
+                        <div class="name" :class="{'red-flash':stat.enhanceLv>=20}" :style="{color:stat.quality.color}">
+                            {{stat.description.name}} {{stat.enhanceLv?'(+'+stat.enhanceLv+')':''}}
                         </div>
                     </div>
                     <div class="title" v-else>
-                        <div class='icon' :style="{'box-shadow':'inset 0 0 7px 2px #ccc'}">
+                        <div class="icon" :style="{'box-shadow':'inset 0 0 7px 2px #ccc'}">
                         </div>
-                        <div class='name'>
-                        </div>
-                    </div>
-                </div>
-                <div class="equip accessory" @mouseover="showInfo($event,'accessory',playerAccessory,false)" @contextmenu.prevent="openMenu(playerAccessory,$event)" @touchstart.stop.prevent="openMenu(playerAccessory,$event)" @mouseleave="closeInfo('equip')">
-                    <div class="title" v-if="playerAccessory.quality">
-                        <div class='icon' :style="{'box-shadow':'inset 0 0 7px 2px '+playerAccessory.quality.color}">
-                            <img :src="playerAccessory.description.iconSrc" alt="">
-                        </div>
-                        <div class='name' :class="{'red-flash':playerAccessory.enhanceLv>=20}" :style="{color:playerAccessory.quality.color}">
-                            {{playerAccessory.description.name}} {{playerAccessory.enhanceLv?'(+'+playerAccessory.enhanceLv+')':''}}
-                        </div>
-                    </div>
-                    <div class="title" v-else>
-                        <div class='icon' :style="{'box-shadow':'inset 0 0 7px 2px #ccc'}">
-                        </div>
-                        <div class='name'>
+                        <div class="name">
                         </div>
                     </div>
                 </div>
+                
             </div>
         </div>
         <div class="user-spell" v-show="playerLv >= 20">
@@ -425,14 +549,17 @@
                     <a class="nav-link" :class="{active: dmgFilterSelected==v}" id="charInfo" @click="switchFilter(v)">{{v}}</a>
                 </li>
             </ul>
-            过滤：<select v-model="activeFilterSelected">
+            过滤: <select v-model="activeFilterSelected">
                 <option v-for="(item, key) in activeFilter" :key="key">
                 {{item}}
                 </option>
             </select>
             <div class="container scrollbar-morpheus-den">
                 <div class="spell" v-for="(v, k) in filteredSpell" :key="k" :set="curLv=spell[v].level[spells[v].lv-1]">
-                    <span class="spellIcon"><img class="icon" :src="spell[v].iconSrc"></span>
+                    <span class="largeIconContainer spellIcon">
+                        <del :class="[{grey:spell[v].quality==1, green:spell[v].quality==3, blue:spell[v].quality==4, purple:spell[v].quality==5, orange:spell[v].quality==6}, 'largeIcon iconBorder']"></del>
+                        <img :src="spell[v].iconSrc" alt="">
+                    </span>
                     <span class="spellName" :style="spellQuality[spell[v].quality-1]">{{(spells[v].lv)+'级'+spell[v].name}}</span>
                     <span class="spellDesc">{{curLv.des}}</span>
                     <span class="spellProgress" v-if="v!='attack'">
@@ -445,22 +572,22 @@
                         </div>
                     </span>
                     <span class="spellCost" v-if="curLv.cost['HP']">
-                        {{"消耗："+curLv.cost['HP']+entryInfo['HP'].name}}
+                        {{"消耗: "+curLv.cost['HP']+entryInfo['HP'].name}}
                     </span>
                     <span class="spellCost" v-if="curLv.cost['MP']">
-                        {{"消耗："+curLv.cost['MP']+entryInfo['MP'].name}}
+                        {{"消耗: "+curLv.cost['MP']+entryInfo['MP'].name}}
                     </span>
                     <span class="spellCost" v-if="curLv.cost['MAXMP']">
-                        {{"消耗："+curLv.cost['MAXMP']*100+'%最大魔法值'}}
+                        {{"消耗: "+curLv.cost['MAXMP']*100+'%最大魔法值'}}
                     </span>
                     <span class="spellCost" v-if="curLv.cost['MAXHP']">
-                        {{"消耗："+curLv.cost['MAXHP']*100+'%最大生命值'}}
+                        {{"消耗: "+curLv.cost['MAXHP']*100+'%最大生命值'}}
                     </span>
                     <span class="spellCost" v-if="curLv.cost['CURMP']">
-                        {{"消耗："+curLv.cost['CURMP']*100+'%当前魔法值'}}
+                        {{"消耗: "+curLv.cost['CURMP']*100+'%当前魔法值'}}
                     </span>
                     <span class="spellCost" v-if="curLv.cost['CURHP']">
-                        {{"消耗："+curLv.cost['CURHP']*100+'%当前生命值'}}
+                        {{"消耗: "+curLv.cost['CURHP']*100+'%当前生命值'}}
                     </span>
                 </div>
             </div>
@@ -518,12 +645,22 @@ export default {
         baseAttribute() { return this.$store.state.baseAttribute },
         attribute() { return this.$store.state.playerAttribute.attribute },
         userGold() { return this.$store.state.guildAttribute.gold },
-        playerWeapon() { return this.$store.state.playerAttribute.weapon },
-        playerArmor() { return this.$store.state.playerAttribute.armor },
-        playerAccessory() { return this.$store.state.playerAttribute.accessory },
-        playerHelmet() { return this.$store.state.playerAttribute.helmet },
-        playerShoe() { return this.$store.state.playerAttribute.shoe },
-        playerShoulder() { return this.$store.state.playerAttribute.shoulder },
+        playerEquips() {
+            return {
+                'helmet': this.$store.state.playerAttribute.helmet,
+                'shoulder': this.$store.state.playerAttribute.shoulder,
+                'necklace': this.$store.state.playerAttribute.necklace,
+                'cape': this.$store.state.playerAttribute.cape,
+                'weapon': this.$store.state.playerAttribute.weapon,
+                'armor': this.$store.state.playerAttribute.armor,
+                'bracer': this.$store.state.playerAttribute.bracer,
+                'belt': this.$store.state.playerAttribute.belt,
+                'glove': this.$store.state.playerAttribute.glove,
+                'legging': this.$store.state.playerAttribute.legging,
+                'ring': this.$store.state.playerAttribute.ring,
+                'shoe': this.$store.state.playerAttribute.shoe,
+            };
+        },
         playerLv() { return this.$store.state.playerAttribute.lv },
         spells() { return this.$store.state.playerAttribute.spells},
         filteredSpell() { 
@@ -573,9 +710,6 @@ export default {
                         case 'helmet':
                             this.$store.commit('set_player_helmet', {});
                             break;
-                        case 'accessory':
-                            this.$store.commit('set_player_accessory', {});
-                            break;
                         case 'weapon':
                             this.$store.commit('set_player_weapon', {});
                             break;
@@ -587,6 +721,27 @@ export default {
                             break;
                         case 'shoulder':
                             this.$store.commit('set_player_shoulder', {});
+                            break;            
+                        case 'glove':
+                            this.$store.commit('set_player_glove', {});
+                            break;
+                        case 'ring':
+                            this.$store.commit('set_player_ring', {});
+                            break;
+                        case 'cape':
+                            this.$store.commit('set_player_cape', {});
+                            break;
+                        case 'bracer':
+                            this.$store.commit('set_player_bracer', {});
+                            break;
+                        case 'belt':
+                            this.$store.commit('set_player_belt', {});
+                            break;
+                        case 'legging':
+                            this.$store.commit('set_player_legging', {});
+                            break;
+                        case 'necklace':
+                            this.$store.commit('set_player_necklace', {});
                             break;
                         default:
                             break;
@@ -622,7 +777,7 @@ export default {
             let itemName = this.itemType[itemCode].description.name;
             let has = itemInfo.getItemQty(itemCode);
             this.$message({
-                message: '消耗材料'+itemName+"*"+quantity+",目前拥有数量："+has,
+                message: '消耗材料'+itemName+"*"+quantity+",目前拥有数量: "+has,
                 title: '升级装备',
                 confirmBtnText: '升级',
                 onClose: () => {
@@ -787,7 +942,7 @@ export default {
     left: 0.5rem;
     padding: 0.5rem;
     border: 2px solid #ccc;
-    border-image: url("/icons/border2.png") 81 40/60px 50px/0.5rem round;
+    border-image: url("/icons/ui/border2.png") 81 40/60px 50px/0.5rem round;
     height: 25rem;
     width: 25rem;
     display: flex;
@@ -874,35 +1029,27 @@ export default {
         width: 100%;
         flex: 1;
         padding: 0.1rem;
-        // border: 2px solid #ccc;
         margin-top: -0.06rem;
+        padding-left: 30px;
+        padding-right: 30px;
         flex-wrap: wrap;
         display: flex;
-        img {
-            width: 2.5rem;
-            height: 2.5rem;
-        }
         & > div,
         .item {
             cursor: pointer;
-            width: 33.3%;
+            width: 16.6%;
             padding-top: 0.1rem;
             padding-bottom: 0rem;
             display: flex;
             align-items: center;
             justify-content: flex-start;
             flex-direction: column;
-            .value {
-                // margin-top: 0.3rem;
-                font-size: 1rem;
-                flex: 1;
-                display: flex;
-                align-items: center;
-                text-align: center;
-                .reducePercent {
-                    margin-top: -0.3rem;
-                    font-size: 0.75rem;
-                }
+            .smallIconContainer {
+                margin: initial;
+            }
+            .percent {
+                margin-top: -5px;
+                font-size: 10px;
             }
         }
         .item {
@@ -915,7 +1062,7 @@ export default {
     top: 4rem;
     left: 26rem;
     border: 2px solid #ccc;
-    border-image: url("/icons/border2.png") 81 40/60px 50px/0.5rem round;
+    border-image: url("/icons/ui/border2.png") 81 40/60px 50px/0.5rem round;
     height: 25rem;
     width: 25rem;
     display: flex;
@@ -926,7 +1073,7 @@ export default {
         width: calc(100% -0.4rem);
     }
     .equips {
-        margin: 0rem 1rem;
+        padding: 0px 25px;
         width: 100%;
         height: 100%;
         flex: 1;
@@ -934,29 +1081,31 @@ export default {
         display: flex;
         cursor: pointer;
         .equip {
-            width: 45%;
+            width: 50%;
             display: flex;
             align-items: center;
             justify-content: flex-start;
             flex-direction: row;
             .title {
-                padding: 0.05rem;
+                display: flex;
+                align-items: center;
                 width: 100%;
-                height: 5rem;
+                .mediumIconContainer {
+                    margin: initial;
+                }
                 .icon {
                     position: relative;
-                    width: 64px;
-                    height: 64px;
+                    width: 44px;
+                    height: 44px;
                     background-color: #000;
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    margin: auto;
-                    border-radius: 0.3rem;
+                    border-radius: 5px;
                     img {
-                        width: 100%;
-                        height: 100%;
-                        border-radius: 1rem;
+                        width: 90%;
+                        height: 90%;
+                        // border-radius: 1rem;
                     }
                 }
                 .name {
@@ -974,7 +1123,7 @@ export default {
     top: 30rem;
     left: 0.5rem;
     border: 2px solid #ccc;
-    border-image: url("/icons/border2.png") 81 40/60px 50px/0.5rem round;
+    border-image: url("/icons/ui/border2.png") 81 40/60px 50px/0.5rem round;
     height: calc(100% - 31rem);
     width: 50.5rem;
     padding: 0.5rem;
@@ -992,14 +1141,8 @@ export default {
             margin: 0.1rem;
             .spellIcon {
                 position: absolute;
-                left: 1rem;
-                top: 0.5rem;
-                height: 4rem;
-                width: 4rem;
-                img {
-                    width: 100%;
-                    height: 100%;
-                }
+                left: 2px;
+                top: 2px;
             }
             .spellName {
                 position: absolute;
@@ -1207,14 +1350,4 @@ export default {
     // border-bottom-right-radius: 0.25rem;
     border-bottom: 1px solid #e6e5de;
 }
-// .iconBorder {    
-//     // left: 63px;
-//     // top: 144px;
-//     position: absolute;
-//     height: 64px;
-//     width: 64px;
-//     background-image: url(/icons/other/largeBorder.png);
-//     filter: url(#green)
-// 图片改成90%大小
-// }
 </style>

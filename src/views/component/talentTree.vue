@@ -3,7 +3,7 @@
 <draggable :left_limit="-300" :right_limit="1" :top_bot="false">
     <template slot="header">
 <!-- <div class="container"> -->
-    <div>剩余天赋点：{{player.talentPoint}}
+    <div>剩余天赋点: {{player.talentPoint}}
     </div>
     <div class="talentTree scrollbar-morpheus-den" >
         <div class="power" v-for="(grid, i) in talents" :key="i">
@@ -30,9 +30,9 @@
                     </div>
                     <div class="talent-tip">
                         <h5>{{v.name}}</h5>
-                        <div class="desc" v-if="playerTalent[v.type]>0">当前：{{v.desc[playerTalent[v.type]]}}</div>
-                        <div class="desc" v-if="playerTalent[v.type]<v.maxLv">下一级：{{v.desc[playerTalent[v.type]+1]}}</div>
-                        <div class="preReq" v-if="preReqList[v.type]">前置天赋：
+                        <div class="desc" v-if="playerTalent[v.type]>0">当前: {{v.desc[playerTalent[v.type]]}}</div>
+                        <div class="desc" v-if="playerTalent[v.type]<v.maxLv">下一级: {{v.desc[playerTalent[v.type]+1]}}</div>
+                        <div class="preReq" v-if="preReqList[v.type]">前置天赋: 
                             <br>
                             <div class="detail" v-for="(preReq, index) in preReqList[v.type]" :key="index">
                                 <div :style="{color:playerTalent[preReq[0]]>=preReq[1]?'#0f0':'#ccc'}">
@@ -183,7 +183,7 @@ export default {
                 case 'ATK':
                 case 'SUNDER':
                 case 'DEF':
-                case 'MR':
+                case 'BLOCK':
                 case 'STR':
                 case 'AGI':
                 case 'INT':
@@ -294,7 +294,7 @@ $border-size: 50px;
             position: absolute; 
             background-size: 200%;
             border: 1px solid black;
-            border-image-source: url(/icons/talentBorder1.png);
+            border-image-source: url(/icons/talent/talentBorder1.png);
             border-image-slice: 50%;
             border-image-width: 100%;
             border-image-repeat: stretch;
@@ -307,7 +307,7 @@ $border-size: 50px;
             position: absolute; 
             background-size: 200%;
             border: 1px solid black;
-            border-image-source: url(/icons/talentBorder2.png);
+            border-image-source: url(/icons/talent/talentBorder2.png);
             border-image-slice: 50%;
             border-image-width: 100%;
             border-image-repeat: stretch;
@@ -320,7 +320,7 @@ $border-size: 50px;
             position: absolute;  
             background-size: 200%;
             border: 1px solid black;
-            border-image-source: url(/icons/talentBorder3.png);
+            border-image-source: url(/icons/talent/talentBorder3.png);
             border-image-slice: 50%;
             border-image-width: 100%;
             border-image-repeat: stretch;
@@ -378,7 +378,7 @@ $border-size: 50px;
             width: 25px;
             height: 25px;
             z-index: 1;
-            background: url(/icons/down.png);
+            background: url(/icons/talent/down.png);
             background-size: 100%;
         }
         .down2 {
@@ -390,7 +390,7 @@ $border-size: 50px;
             width: 35px;
             height: 75px;
             z-index: 1;
-            background: url(/icons/down2.png);
+            background: url(/icons/talent/down2.png);
             background-size: 100%;
         }
         .down4 {
@@ -402,7 +402,7 @@ $border-size: 50px;
             width: 35px;
             height: 200px;
             z-index: 1;
-            background: url(/icons/down4.png);
+            background: url(/icons/talent/down4.png);
             background-size: 100%;
         }
         .right {
@@ -414,7 +414,7 @@ $border-size: 50px;
             width: 25px;
             height: 25px;
             z-index: 1;
-            background: url(/icons/right.png);
+            background: url(/icons/talent/right.png);
             background-size: 100%;
         }
         .disable {

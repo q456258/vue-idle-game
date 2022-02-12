@@ -1,5 +1,22 @@
 <template>
   <div class="main" @contextmenu.prevent="contextmenu($event)">
+    <svg style="display: none">
+        <filter id="greyBorder">
+            <feColorMatrix type="matrix" values="0.4 0 0 0 0 0 0.4 0 0 0 0 0 0.4 0 0 0 0 0 1 0"></feColorMatrix>
+        </filter>
+        <filter id="greenBorder">
+            <feColorMatrix type="matrix" values="0.1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 0"></feColorMatrix>
+        </filter>
+        <filter id="blueBorder">
+            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0.44 0 0 0 0 0 0.87 0 0 0 0 0 1 0"></feColorMatrix>
+        </filter>
+        <filter id="purpleBorder">
+            <feColorMatrix type="matrix" values="0.4 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0"></feColorMatrix>
+        </filter>
+        <filter id="orangeBorder">
+            <feColorMatrix type="matrix" values="1 0 0 0 0 0 0.4 0 0 0 0 0 0 0 0 0 0 0 1 0"></feColorMatrix>
+        </filter>
+    </svg>
     <ul class="nav nav-tabs">
       <li class="nav-item">
         <a class="nav-link active" id="charInfo" @click="switchTab('charInfo')">角色信息</a>
@@ -29,7 +46,7 @@
         <div class="clear" @click="clearBattleInfo">清除信息</div>
         <div id="battleInfo" class="scrollbar-morpheus-den">
           <div class="info" :class="{dmged:v.type=='dmged',dmg:v.type=='dmg',win:v.type=='win',lose:v.type=='lose'}" v-for="(v,k) in battleInfo" :key="k">
-            <span v-if="v.source=='player'">【你】</span>
+            <span v-if="v.source=='player'" style="color:#00ff00">【友】</span>
             <span v-else-if="v.source==undefined"></span>
             <span v-else style="color:#ff0000">【敌】</span>
             <span v-if="v.msg">{{v.msg}}</span>
@@ -237,27 +254,33 @@ export default {
     //初始生成地图
     this.createMaps();
     //测试·随机装备
-    let equipLv = 10;
-    let equipQuality = 3;
+    // let equipLv = 1;
+    // let equipQuality = 1;
     // let equipInfo = this.findComponentDownward(this, 'equipInfo');   
-    // // let newEquip = JSON.parse(equipInfo.createEquip(0,2,'helmet'));
     // let newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'helmet'));
     // this.$store.commit('set_player_helmet', this.$deepCopy(newEquip));
-    // // let newEquip = JSON.parse(equipInfo.createEquip(1,2,'accessory'));
-    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'accessory'));
-    // this.$store.commit('set_player_accessory', this.$deepCopy(newEquip));
-    // // let newEquip = JSON.parse(equipInfo.createEquip(2,2,'weapon'));
     // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'weapon'));
     // this.$store.commit('set_player_weapon', this.$deepCopy(newEquip));
-    // // let newEquip = JSON.parse(equipInfo.createEquip(3,2,'armor'));
     // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'armor'));
     // this.$store.commit('set_player_armor', this.$deepCopy(newEquip));
-    // // let newEquip = JSON.parse(equipInfo.createEquip(4,10,'shoe'));
     // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'shoe'));
     // this.$store.commit('set_player_shoe', this.$deepCopy(newEquip));
-    // // let newEquip = JSON.parse(equipInfo.createEquip(5,20,'leg'));
     // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'shoulder'));
     // this.$store.commit('set_player_shoulder', this.$deepCopy(newEquip));
+    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'glove'));
+    // this.$store.commit('set_player_glove', this.$deepCopy(newEquip));
+    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'ring'));
+    // this.$store.commit('set_player_ring', this.$deepCopy(newEquip));
+    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'cape'));
+    // this.$store.commit('set_player_cape', this.$deepCopy(newEquip));
+    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'bracer'));
+    // this.$store.commit('set_player_bracer', this.$deepCopy(newEquip));
+    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'belt'));
+    // this.$store.commit('set_player_belt', this.$deepCopy(newEquip));
+    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'legging'));
+    // this.$store.commit('set_player_legging', this.$deepCopy(newEquip));
+    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'necklace'));
+    // this.$store.commit('set_player_necklace', this.$deepCopy(newEquip));
 
 //     let itemInfo = this.findComponentDownward(this, 'itemInfo');
 //     let item ;
@@ -310,10 +333,17 @@ export default {
     userGold() { return this.$store.state.guildAttribute.gold },
     playerWeapon() { return this.$store.state.playerAttribute.weapon },
     playerArmor() { return this.$store.state.playerAttribute.armor },
-    playerAccessory() { return this.$store.state.playerAttribute.accessory },
     playerHelmet() { return this.$store.state.playerAttribute.helmet },
     playerShoe() { return this.$store.state.playerAttribute.shoe },
     playerShoulder() { return this.$store.state.playerAttribute.shoulder },
+    playerGlove() { return this.$store.state.playerAttribute.glove },
+    playerRing() { return this.$store.state.playerAttribute.ring },
+    playerCape() { return this.$store.state.playerAttribute.cape },
+    playerBracer() { return this.$store.state.playerAttribute.bracer },
+    playerBelt() { return this.$store.state.playerAttribute.belt },
+    playerLegging() { return this.$store.state.playerAttribute.legging },
+    playerNecklace() { return this.$store.state.playerAttribute.necklace },
+
     playerLv() { return this.$store.state.playerAttribute.lv },
     playerTalent() { return this.$store.state.playerAttribute.talent },
     inBattle() { return this.$store.state.dungeonInfo.inBattle;},
@@ -421,7 +451,8 @@ export default {
     },
     showInfo(e, type, item, compare) {
       this.compare = compare;
-      let equip = ['helmet', 'accessory', 'weapon', 'armor', 'shoe', 'shoulder'];
+      let equip = ['helmet', 'weapon', 'armor', 'shoe', 'shoulder', 'glove', 'ring', 'cape', 'bracer', 'belt', 'legging', 'necklace'];
+
       if(equip.indexOf(type) != -1) {
         this.showEquipInfo = true;
         this.equip = item;    
@@ -430,9 +461,6 @@ export default {
           switch(type){
             case 'helmet':
               this.compareEquip = this.playerHelmet;
-              break;
-            case 'accessory':
-              this.compareEquip = this.playerAccessory;
               break;
             case 'weapon':
               this.compareEquip = this.playerWeapon;
@@ -445,6 +473,27 @@ export default {
               break;
             case 'shoulder':
               this.compareEquip = this.playerShoulder;
+              break;
+            case 'glove':
+              this.compareEquip = this.playerGlove;
+              break;
+            case 'ring':
+              this.compareEquip = this.playerGlove;
+              break;
+            case 'cape':
+              this.compareEquip = this.playerGlove;
+              break;
+            case 'bracer':
+              this.compareEquip = this.playerGlove;
+              break;
+            case 'belt':
+              this.compareEquip = this.playerGlove;
+              break;
+            case 'legging':
+              this.compareEquip = this.playerGlove;
+              break;
+            case 'necklace':
+              this.compareEquip = this.playerGlove;
               break;
             default:
               this.compareEquip = item;
@@ -562,32 +611,42 @@ export default {
       clearInterval(this.autoHealthRecovery);
       clearInterval(this.autoManRecovery);
       this.autoHealthRecovery = setInterval(() => {
-        if(this.dungeonInfo.inBattle)
-          return;
-        let achievement = this.findComponentDownward(this, 'achievement');  
         let mapEvent = this.findComponentDownward(this, 'mapEvent');  
         let player = this.$store.state.playerAttribute;
-        achievement.set_statistic({gameTime: 1000});
-        let recover = 0.01;
+        let recover = 0.05;
         let talent = 'ability_hunter_harass';
         if(this.playerTalent[talent] > 0) {
-            recover += this.playerTalent[talent]*0.002;
+          recover += this.playerTalent[talent]*0.01;
         }
-
-        this.hpChange(player, player, Math.ceil(this.attribute.MAXHP.value*recover+this.attribute.STR.value));
+        let amount = this.attribute.MAXHP.value*recover+this.attribute.STA.value*5;
+        if(this.dungeonInfo.inBattle) {
+          amount = this.attribute.STA.value;
+          // this.hpChange(player, player, {heal: Math.ceil(amount)});
+          this.set_player_hp(Math.ceil(amount), player);
+          return;
+        }
+        else {
+          // this.hpChange(player, player, {heal: Math.ceil(amount)});
+          this.set_player_hp(Math.ceil(amount), player);
+        }
         if(this.attribute.CURHP.value == this.attribute.MAXHP.value && this.dungeonInfo.auto) {
           setTimeout(() => {
             if(!this.dungeonInfo.inBattle)
               mapEvent.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
           }, 200);
         }
-      }, 1000);
+      }, 5000);
       this.autoManRecovery = setInterval(() => {
-        if(this.dungeonInfo.inBattle)
-          return;
         let player = this.$store.state.playerAttribute;
-        this.mpChange(player, player, Math.ceil(this.attribute.MAXMP.value*0.01+this.attribute.INT.value/4));
-      }, 1000);
+        let amount = this.attribute.MAXMP.value*0.05+this.attribute.SPI.value;
+        if(this.dungeonInfo.inBattle) {
+          amount = this.attribute.SPI.value/5;
+          this.mpChange(player, player, Math.ceil(amount));
+          return;
+        }
+        else
+          this.mpChange(player, player, Math.ceil(amount));
+      }, 5000);
     },
     openMenuPanel(type) {
       let saveload = this.findComponentDownward(this, 'saveload');  

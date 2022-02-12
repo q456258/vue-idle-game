@@ -28,12 +28,6 @@ export const spellEffect = {
             armor = Math.abs(armor);
             return sign*Math.round((armor/(100+armor) + armor/(armor+3500))/2*1000000)/10000;
         },
-        // 计算破甲百分比值
-        getSunderRed(sunder) {
-            let sign = sunder>=0 ? 1 : -1;
-            sunder = Math.abs(sunder);
-            return sign*Math.round((sunder/(100+sunder))*100);
-        },
         callAction(source, target) {
             if(this.stun(source))
                 return 0;
@@ -88,8 +82,12 @@ export const spellEffect = {
             }
             for(let cost in this.spell[spell].level[spellLv].cost) {
                 if(cost == 'MP') {
-                    if(attr['CURMP'].value < this.spell[spell].level[spellLv].cost['MP'])
+                    if(attr['CURMP'].value < this.spell[spell].level[spellLv].cost['MP']) {
+                        this.$store.commit("set_battle_info", {
+                            html: '<span style="color:#ff0000">【'+this.spell[spell].name+'】释放失败</span>'
+                        })
                         return false;
+                    }
                 }
             }
             return true;
@@ -128,10 +126,22 @@ export const spellEffect = {
         getSpellDmg(spell, source) {
             let spellLv = source.spells == undefined ? 0 : source.spells[spell].lv-1;
             let dmgs = this.spell[spell].level[spellLv];
-            let dmg = dmgs.dmg['FIX'] == undefined ? 0 : dmgs.dmg['FIX'];
-            for(let attr in dmgs.dmg) {
-                if(source.attribute[attr] != undefined)
-                    dmg += source.attribute[attr].value*dmgs.dmg[attr];
+            let dmg = {};
+            // 物理
+            if(dmgs.adDmg) {
+                dmg.adDmg = dmgs.adDmg['FIX'] == undefined ? 0 : dmgs.adDmg['FIX'];
+                for(let attr in dmgs.adDmg) {
+                    if(source.attribute[attr] != undefined)
+                        dmg.adDmg += source.attribute[attr].value*dmgs.adDmg[attr];
+                }
+            }
+            // 魔法
+            if(dmgs.apDmg) {
+                dmg.apDmg = dmgs.apDmg['FIX'] == undefined ? 0 : dmgs.apDmg['FIX'];
+                for(let attr in dmgs.apDmg) {
+                    if(source.attribute[attr] != undefined)
+                        dmg.apDmg += source.attribute[attr].value*dmgs.apDmg[attr];
+                }
             }
             return dmg;
         },
@@ -148,34 +158,41 @@ export const spellEffect = {
             heal = Math.round(heal);
             return heal;
         },
-        applyDmg(source, target, spell, dmg) {
+        applyDmg(source, target, spell, dmgs) {
             let spellInfo = this.spell[spell];
-            dmg = this.applyReducedDmg(source, target, dmg);
-            dmg = this.applyCrit(source, dmg, spell);
-            dmg = this.applyMR(source, target, dmg, spell);
-            dmg = this.applyBonusFinalDmg(source, target, spell, dmg);
+            // 物理
+            this.applyAdReducedDmg(source, target, dmgs);
+            this.applyCrit(source, dmgs, spell);
+            this.applyBlock(source, target, dmgs, spell);
+            // 魔法
+            this.applyApReducedDmg(source, target, dmgs);
+            this.applyApCrit(source, dmgs, spell);
+            // 最终伤害
+            this.applyBonusFinalDmg(source, target, spell, dmgs);
+            
             let talent = 'ability_warrior_punishingblow';
             if(source.lv > target.lv && source.talent[talent] > 0) {
-                dmg += source.talent[talent]*50;
+                this.set_ad_dmg(dmgs, dmgs.adDmg+source.talent[talent]*50);
             }
             talent = 'ability_defend';
             if(target.talent[talent] > 0) {
-                dmg -= source.talent[talent]*5;
-            }
-            dmg = Math.round(dmg);
-            if(dmg < 0) {
-                dmg = 0;
+                this.set_ad_dmg(dmgs, dmgs.adDmg+source.talent[talent]*5);
             }
             this.triggerOnHit(source, target);
             talent = 'ability_revendreth_druid';
             if(source.talent[talent] > 0) {
-                let heal = source.talent[talent]*0.004*dmg;
+                let heal = source.talent[talent]*0.004*(this.get_dmg(dmgs, 'ad')+this.get_dmg(dmgs, 'ap'));
                 heal = Math.round(heal);
-                this.hpChange(source, source, heal);
+                this.hpChange(source, source, {heal: heal});
             }
-            this.hpChange(source, target, -1*dmg, spellInfo.name);
+            for(let i in dmgs) {
+                dmgs[i] = Math.round(dmgs[i]);
+            }
+            this.lifesteal(source, dmgs);
+            this.manasteal(source, dmgs);
+            this.hpChange(source, target, dmgs, spellInfo.name);
         },
-        applyBonusFinalDmg(source, target, spell, dmg) {
+        applyBonusFinalDmg(source, target, spell, dmgs) {
             let bonus = 1;
             // 天神下凡
             if(source.buff['avatar'] != undefined) {
@@ -198,31 +215,56 @@ export const spellEffect = {
                 if(this.$store.state.statistic.slainBy[target.name] != undefined)
                     bonus += source.talent[talent]*0.02;
             }
+            for(let i in dmgs) {
+                dmgs[i] = dmgs[i]*bonus;
+            }
             
-            
-            return dmg*bonus;
+            this.set_ad_dmg(dmgs, this.get_dmg(dmgs, 'ad')*bonus);
+            this.set_ap_dmg(dmgs, this.get_dmg(dmgs, 'ap')*bonus);
         },
-        applyReducedDmg(source, target, baseDmg) {
-            if(baseDmg == 0)
+        applyAdReducedDmg(source, target, dmgs) {
+            if(this.get_dmg(dmgs, 'ad') == 0)
                 return 0;
-            baseDmg = this.charge(source, baseDmg);
-            baseDmg = this.block(target, baseDmg);
-            let penDmg = this.penetrate(source, baseDmg);
+            let dmg = this.get_dmg(dmgs, 'ad');
+            dmg = this.charge(source, dmg);
+            dmg = this.block(target, dmg);
+            let penDmg = this.penetrate(source, dmg);
             let armor = this.sunder(source, target.attribute.DEF.value);
-            armor = Math.round(armor*(1-source.attribute.SUNDERRED.value/100));
             let defRed = this.getDefRed(armor);
-            baseDmg -= penDmg;
-            let dmg = baseDmg*(1-defRed/100)+penDmg;
-            this.lifesteal(source, dmg);
-            this.manasteal(source, dmg);
-            return dmg;
+            dmg -= penDmg;
+            dmg = dmg*(1-defRed/100)+penDmg;
+            this.set_ad_dmg(dmgs, dmg);
         },
-        applyCrit(source, dmg, spell) {
+        applyApReducedDmg(source, target, dmgs) {
+            if(this.get_dmg(dmgs, 'ap') == 0)
+                return 0;
+            // 伤害减少 0%, 25%, 50%, 75%, 100%
+            let reduce = [0, 0, 0, 0, 0];
+            let mr = target.attribute.MR.value;
+            if(source.attribute.APPEN)
+                mr -= source.attribute.APPEN.value;
+            let total = 0;
+            let random = Math.random()*100;
+            reduce[4] = mr/(mr+100)*25;
+            reduce[3] = mr/(mr+50)*40;
+            reduce[2] = mr/(mr+25)*20;
+            reduce[1] = mr/(mr+10)*14;
+            console.log(reduce)
+            for(let i=4; i>0; i--) {
+                total += reduce[i];
+                if(random < total) {
+                    console.log("=11111111=")
+                    this.set_ap_dmg(dmgs, this.get_dmg(dmgs, 'ap')*(1-i*0.25));
+                    return;
+                }
+            }
+        },
+        applyCrit(source, dmgs, spell) {
             let crit = Math.round(Math.random()*100);
             if(spell == 'MUST_CRIT')
                 crit = 100;
             if(crit<source.attribute.CRIT.value) {
-                dmg *= source.attribute.CRITDMG.value/100;
+                this.set_ad_dmg(dmgs, this.get_dmg(dmgs, 'ad')*source.attribute.CRITDMG.value/100);
                 if(source.type == 'player') {
                     let talent = 'spell_shadow_summonimp';
                     if(source.talent[talent] > 0) {
@@ -232,20 +274,19 @@ export const spellEffect = {
                     }
                 }
             }
-            return dmg;
         },
-        applyMR(source, target, dmg, spell) {
+        applyApCrit(source, dmgs, spell) {
+            let crit = Math.round(Math.random()*100);
+            if(spell == 'MUST_CRIT')
+                crit = 100;
+            if(crit<source.attribute.APCRIT.value) {
+                this.set_ap_dmg(dmgs, this.get_dmg(dmgs, 'ap')*2);
+            }
+        },
+        applyBlock(source, target, dmgs, spell) {
             let attr = target.attribute;
-            let value = attr['MR'].value;
-            // 玩家进攻时无视目标魔法消耗
-            if(target.type != 'player')
-                return dmg-value;
-            let allowedMp = attr['CURMP'].value-attr['MAXMP'].value/5;
-            if(allowedMp < value/4)
-                value = allowedMp * 4;
-            let cost = value/4;
-            this.mpChange(source, target, -1*Math.round(cost));
-            return dmg-Math.round(value);
+            let value = attr['BLOCK'].value;
+            this.set_ad_dmg(dmgs, this.get_dmg(dmgs, 'ad')-value);
         },
         applyHeal(source, spell, heal) {
             let spellInfo = this.spell[spell];
@@ -274,13 +315,13 @@ export const spellEffect = {
         },
         // 普通攻击
         attack(source, target, spell) {
-            let dmg = this.getSpellDmg(spell, source);
+            let dmgs = this.getSpellDmg(spell, source);
             let effectList = this.getSpellEffect(source, spell);
             // 强化攻击
             let talent = 'classicon_warrior';
             if(source.talent[talent] > 0) {
                 let talentLv = source.talent[talent];
-                dmg = source.attribute['ATK'].value*(1+talentLv*0.05);
+                this.set_ad_dmg(dmgs, source.attribute['ATK'].value*(1+talentLv*0.05));
             }
             // 重击
             talent = 'ability_warrior_decisivestrike';
@@ -288,8 +329,7 @@ export const spellEffect = {
                 let chance = source.talent[talent]*1;
                 effectList['stun'] = {stack: 1, chance: chance, target: 'enermy'};
             }
-            
-            this.applyDmg(source, target, spell, dmg);
+            this.applyDmg(source, target, spell, dmgs);
             this.applyEffect(source, target, effectList);
         },
         // 雷霆一击
@@ -305,7 +345,7 @@ export const spellEffect = {
             // 无坚不摧之力
             talent = 'warrior_talent_icon_thunderstruck';
             if(source.talent[talent] > 0) {
-                dmg = dmg*1.3;
+                dmg.adDmg = dmg.adDmg*1.3;
                 source.spells[spell].progress += 3;
             }
             // 十字军之力
@@ -331,9 +371,9 @@ export const spellEffect = {
                 talent = 'ability_blackhand_marked4death';
                 if(source.talent[talent] > 0 && hp_percent < 50) {
                     let bonus = 0.9+source.talent[talent]/10;
-                    dmg += source.attribute['ATK'].value*bonus;
+                    dmg.adDmg += source.attribute['ATK'].value*bonus;
                 } else if(hp_percent < 80)
-                    dmg += source.attribute['ATK'].value*(0.75);
+                    dmg.adDmg += source.attribute['ATK'].value*(0.75);
                 
                 this.applyDmg(source, target, spell, dmg);
             }
@@ -351,7 +391,7 @@ export const spellEffect = {
             // 惩罚
             talent = 'ability_deathknight_sanguinfortitude';
             if(source.talent[talent] > 0) {
-                dmg = dmg*1.2;
+                dmg.adDmg = dmg.adDmg*(1+0.5*source.talent[talent]);
                 let stack = source.talent[talent]*1;
                 effectList['weak'] = {stack: stack, chance: 100, target: 'enermy'};
             }

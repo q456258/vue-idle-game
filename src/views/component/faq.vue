@@ -41,23 +41,23 @@
             <p>
               <span class="box">
                   <span class="centerImg">
-                      <img src="../../../public/icons/gold.png">
+                      <img src="../../../public/icons/other/gold.png">
                   </span>
                   <span class="description">金币</span>
                   <span class="centerImg">
-                      <img src="../../../public/icons/equip.png">
+                      <img src="../../../public/icons/other/equip.png">
                   </span>
                   <span class="description">装备</span>
                   <!-- <span class="centerImg">
-                      <img src="../../../public/icons/wood.png">
+                      <img src="../../../public/icons/other/wood.png">
                   </span>
                   <span class="description">木材</span> -->
                   <span class="centerImg">
-                      <img src="../../../public/icons/crystal.png">
+                      <img src="../../../public/icons/other/crystal.png">
                   </span>
                   <span class="description">水晶</span>
                   <span class="centerImg">
-                      <img src="../../../public/icons/chest.png">
+                      <img src="../../../public/icons/other/chest.png">
                   </span>
                   <span class="description">宝箱</span>
               </span>
@@ -69,9 +69,7 @@
         <div class="tab__content">
             <h3>怪物拥有哪些属性？</h3>
             <p>
-                ✵生命值、攻击、护甲、破甲、能量盾、暴击率、暴击伤害
-                <br>
-                ✵怪物的能量盾不消耗魔法值
+                ✵生命值、攻击、护甲、破甲、格挡、暴击率、暴击伤害
             </p>
             <h3>怪物攻击频率是多久一次？</h3>
             <p>✵同玩家一致，每秒一次，玩家先攻</p>
@@ -151,24 +149,24 @@
             <h3>强化是什么？</h3>
             <p>✵提升装备的基础属性，根据装备品质可强化0-25次，每次强化提升基础属性10%
                 <br>
-                ✵解锁条件：1级公会铁匠铺
+                ✵解锁条件: 1级公会铁匠铺
             </p>
             <h3>重铸是什么？</h3>
             <p>✵重置装备的附加词条，可重置单条或者全部
                 <br>
-                ✵解锁条件：10级公会铁匠铺
+                ✵解锁条件: 10级公会铁匠铺
             </p>
             <h3>洗炼是什么？</h3>
             <p>✵重置装备的潜在属性，需要消耗一个神秘宝珠（15级铁匠铺后打怪2.5%掉落）
                 <br>
-                ✵解锁条件：20级公会铁匠铺
+                ✵解锁条件: 20级公会铁匠铺
             </p>
             <h3>升级是什么？</h3>
             <p>✵提升装备的等级，提升基础属性以及附加属性数值，保留强化以及词条属性类别
                 <br>
                 ✵右键身上的装备点升级，装备等级上限为人物等级
                 <br>
-                ✵解锁条件：30级公会铁匠铺
+                ✵解锁条件: 30级公会铁匠铺
             </p>
             <h3>精炼是什么？</h3>
             <p>✵消耗一个装备，将主装备基础属性提升至两者之间较好的属性（暴击伤害、暴击率无效）
@@ -178,7 +176,7 @@
             </p>
         </div>
 
-        <div class="tab__content">
+        <!-- <div class="tab__content">
             <table class="table">
                 <thead>
                     <tr>
@@ -212,7 +210,7 @@
                     </tr>
                 </tbody>
             </table>
-        </div>
+        </div> -->
     </div>
 
 
@@ -229,7 +227,7 @@
         <div class="tab__content">
             <h3>技能伤害怎么算的？</h3>
             <p>
-                ✵基础伤害*暴击伤害*(1-目标护甲减免)-能量盾
+                ✵基础伤害*暴击伤害*(1-目标护甲减免)-格挡
                 <br>
                 ✵技能描述没写造成xx点伤害时，基础伤害为0
             </p>
@@ -349,15 +347,15 @@
             </p>
             <h3>公会成员的五项属性有什么用？</h3>
             <p>           
-                ✵悟性：成员每10级有概率提升技能等级，获得概率为悟性值
+                ✵悟性: 成员每10级有概率提升技能等级，获得概率为悟性值
                 <br>
-                ✵运势：当成员某一项技能达到5级时，有概率获得一项特殊技能，获得概率为运势值
+                ✵运势: 当成员某一项技能达到5级时，有概率获得一项特殊技能，获得概率为运势值
                 <br>
-                ✵潜力：每满一小时游戏时间，成员会触发一次升级，升级成功概率为潜力值
+                ✵潜力: 每满一小时游戏时间，成员会触发一次升级，升级成功概率为潜力值
                 <br>
-                ✵效率 ：影响工作效率，职业与职位对应时效率为正常的1.5倍
+                ✵效率 : 影响工作效率，职业与职位对应时效率为正常的1.5倍
                 <br>
-                ✵专注：提升技能时，技能为职业对应技能的概率
+                ✵专注: 提升技能时，技能为职业对应技能的概率
                 <br>
             </p>
         </div>

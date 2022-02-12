@@ -21,7 +21,8 @@
         <div class="equip" v-show="displayPage=='equip'">
             <div class="grid" :style="{cursor:leftClickEnabled?'pointer':''}" @click="selectForSmith($event, k)" v-on:drop="drop($event, k)" v-on:dragover="allowDrop($event)" v-for="(v, k) in grid" :key="k">
                 <div v-if="v.lv" draggable="true" v-on:dblclick="equip($event, k)" v-on:dragstart="dragStart($event,k)" v-on:dragend="dragEnd" @contextmenu.prevent="openMenu(k,$event)" @touchstart.stop.prevent="openMenu(k,$event)"  @mouseover="showInfo($event,v.itemType,v,true)" @mouseleave="closeInfo">
-                    <div class="icon" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v.quality.color }">
+                    <div class="mediumIconContainer" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v.quality.color }">
+                        <del :class="[{grey:v.quality.qualityLv==1, green:v.quality.qualityLv==3, blue:v.quality.qualityLv==4, purple:v.quality.qualityLv==5, orange:v.quality.qualityLv==5}, 'mediumIcon iconBorder']"></del>
                         <img :src="v.description.iconSrc" alt="" />
                     </div>
                     <div class="lock" v-if="v.locked">
@@ -33,7 +34,8 @@
         <div class="item" v-show="displayPage=='use'">
             <div class="grid" v-on:drop="drop($event, k)" v-on:dragover="allowDrop($event)" v-for="(v, k) in useGrid" :key="k">
                 <div v-if="v.description" draggable="true" v-on:dblclick="useItemByIndex($event, k)" v-on:dragstart="dragStart($event,k)" v-on:dragend="dragEnd" @contextmenu.prevent="openMenu(k,$event)" @touchstart.stop.prevent="openMenu(k,$event)"  @mouseover="showInfo($event,v.itemType,v,true)" @mouseleave="closeInfo">
-                    <div class="icon" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v.quality.color }">
+                    <div class="mediumIconContainer" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v.quality.color }">
+                        <del :class="[{grey:v.quality.qualityLv==1, green:v.quality.qualityLv==3, blue:v.quality.qualityLv==4, purple:v.quality.qualityLv==5, orange:v.quality.qualityLv==5}, 'mediumIcon iconBorder']"></del>
                         <img :src="v.description.iconSrc" alt="" />
                     </div>
                     <div class="quantity" v-if="v.stack">
@@ -45,7 +47,8 @@
         <div class="item" v-show="displayPage=='etc'">
             <div class="grid" v-on:drop="drop($event, k)" v-on:dragover="allowDrop($event)" v-for="(v, k) in etcGrid" :key="k">
                 <div v-if="v.description" draggable="true" v-on:dragstart="dragStart($event,k)" v-on:dragend="dragEnd" @contextmenu.prevent="openMenu(k,$event)" @touchstart.stop.prevent="openMenu(k,$event)"  @mouseover="showInfo($event,v.itemType,v,true)" @mouseleave="closeInfo">
-                    <div class="icon" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v.quality.color }">
+                    <div class="mediumIconContainer" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v.quality.color }">
+                        <del :class="[{grey:v.quality.qualityLv==1, green:v.quality.qualityLv==3, blue:v.quality.qualityLv==4, purple:v.quality.qualityLv==5, orange:v.quality.qualityLv==5}, 'mediumIcon iconBorder']"></del>
                         <img :src="v.description.iconSrc" alt="" />
                     </div>
                     <div class="quantity" v-if="v.stack">
@@ -183,9 +186,9 @@ export default {
                     this.grid[this.currentItemIndex] = this.$store.state.playerAttribute.helmet;
                     this.$store.commit('set_player_helmet', this.currentItem);
                     break;
-                case 'accessory':
-                    this.grid[this.currentItemIndex] = this.$store.state.playerAttribute.accessory;
-                    this.$store.commit('set_player_accessory', this.currentItem);
+                case 'shoulder':
+                    this.grid[this.currentItemIndex] = this.$store.state.playerAttribute.shoulder;
+                    this.$store.commit('set_player_shoulder', this.currentItem);
                     break;
                 case 'weapon':
                     this.grid[this.currentItemIndex] = this.$store.state.playerAttribute.weapon;
@@ -195,13 +198,37 @@ export default {
                     this.grid[this.currentItemIndex] = this.$store.state.playerAttribute.armor;
                     this.$store.commit('set_player_armor', this.currentItem);
                     break;
-                case 'shoulder':
-                    this.grid[this.currentItemIndex] = this.$store.state.playerAttribute.shoulder;
-                    this.$store.commit('set_player_shoulder', this.currentItem);
-                    break;
                 case 'shoe':
                     this.grid[this.currentItemIndex] = this.$store.state.playerAttribute.shoe;
                     this.$store.commit('set_player_shoe', this.currentItem);
+                    break;
+                case 'glove':
+                    this.grid[this.currentItemIndex] = this.$store.state.playerAttribute.glove;
+                    this.$store.commit('set_player_glove', this.currentItem);
+                    break;
+                case 'ring':
+                    this.grid[this.currentItemIndex] = this.$store.state.playerAttribute.ring;
+                    this.$store.commit('set_player_ring', this.currentItem);
+                    break;
+                case 'cape':
+                    this.grid[this.currentItemIndex] = this.$store.state.playerAttribute.cape;
+                    this.$store.commit('set_player_cape', this.currentItem);
+                    break;
+                case 'bracer':
+                    this.grid[this.currentItemIndex] = this.$store.state.playerAttribute.bracer;
+                    this.$store.commit('set_player_bracer', this.currentItem);
+                    break;
+                case 'belt':
+                    this.grid[this.currentItemIndex] = this.$store.state.playerAttribute.belt;
+                    this.$store.commit('set_player_belt', this.currentItem);
+                    break;
+                case 'legging':
+                    this.grid[this.currentItemIndex] = this.$store.state.playerAttribute.legging;
+                    this.$store.commit('set_player_legging', this.currentItem);
+                    break;
+                case 'necklace':
+                    this.grid[this.currentItemIndex] = this.$store.state.playerAttribute.necklace;
+                    this.$store.commit('set_player_necklace', this.currentItem);
                     break;
                 default:
                     break;
@@ -615,21 +642,6 @@ export default {
             margin: 2px;
             height: 3rem;
             width: 3rem;
-            .icon {
-                width: 2.9rem;
-                height: 2.9rem;
-                background-color: #000;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin: auto;
-                border-radius: 0.3rem;
-                img {
-                    width:2.9rem;
-                    height:2.9rem;
-                    border-radius: 1rem;
-                }
-            }
             .quantity {
                 position: relative;
                 top: -0.6rem;
@@ -782,7 +794,6 @@ export default {
         background-color: rgba(0, 0, 0, 0.479);
         width: 8rem;
     }
-
     
 }
 </style>

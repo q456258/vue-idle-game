@@ -22,7 +22,7 @@ let initial_helmet = {
             name: "村里最好的头盔",
             desc: "",
             type: "头盔",
-            iconSrc: "./icons/helmet/Inv_helm_cloth_sunhat_b_01.png",
+            iconSrc: "./icons/helmet/inv_helm_cloth_sunhat_b_01.jpg",
         },
         baseEntry: [{
             value: 150,
@@ -50,7 +50,7 @@ let initial_helmet = {
             name: "村里最好的鞋子",
             desc: "",
             type: "鞋子",
-            iconSrc: "./icons/shoe/INV_Boots_Leather_01.png",
+            iconSrc: "./icons/shoe/inv_boots_01.jpg",
         },
         baseEntry: [{
             value: 10,
@@ -78,7 +78,7 @@ let initial_helmet = {
             name: "村里最好的武器",
             desc: "",
             type: "武器",
-            iconSrc: "./icons/weapon/INV_Axe_75.png",
+            iconSrc: "./icons/weapon/inv_axe_75.jpg",
         },
         baseEntry: [{
             value: 30,
@@ -106,41 +106,13 @@ let initial_helmet = {
             name: "村里最好的铠甲",
             desc: "",
             type: "铠甲",
-            iconSrc: "./icons/armor/INV_Chest_Cloth_71.png",
+            iconSrc: "./icons/armor/inv_chest_cloth_71.jpg",
         },
         baseEntry: [{
             value: 25,
             showVal: "+25",
             type: "DEF",
             name: "护甲"
-        }],
-        extraEntry: [],
-        potential: []
-    },
-    initial_accessory = {
-        lv: 1,
-        lvReq: 1,
-        itemType: 'accessory',
-        maxEnhanceLv: 0,
-        enhanceLv: 0,
-        quality: {
-            color: "#a1a1a1",
-            extraEntryNum: 1,
-            name: "破旧",
-            qualityCoefficient: 1.8,
-            qualityLv: 1
-        },
-        description: {
-            name: "村里最好的项链",
-            desc: "",
-            type: "饰品",
-            iconSrc: "./icons/accessory/Inv_jewelry_ring_03.png",
-        },
-        baseEntry: [{
-            value: 3,
-            showVal: "+3",
-            type: "ALL",
-            name: "全属性"
         }],
         extraEntry: [],
         potential: []
@@ -162,13 +134,13 @@ let initial_helmet = {
             name: "村里最好的护肩",
             desc: "",
             type: "肩膀",
-            iconSrc: "./icons/shoulder/Inv_shoulder_09.png",
+            iconSrc: "./icons/shoulder/inv_shoulder_09.jpg",
         },
         baseEntry: [{
             value: 10,
             showVal: "+10",
-            type: "MR",
-            name: "能量盾"
+            type: "BLOCK",
+            name: "格挡"
         }],
         extraEntry: [],
         potential: []
@@ -268,23 +240,36 @@ export default new Vuex.Store({
                 STR: { baseVal: 0, value: 0, showbaseVal: 0},
                 AGI: { baseVal: 0, value: 0, showbaseVal: 0},
                 INT: { baseVal: 0, value: 0, showbaseVal: 0},
+                STA: { baseVal: 0, value: 0, showbaseVal: 0},
+                SPI: { baseVal: 0, value: 0, showbaseVal: 0},
                 ALL: { baseVal: 0, value: 0, showbaseVal: 0},
                 ATK: { baseVal: 0, value: 5, showbaseVal: 0},
                 DEF: { baseVal: 0, value: 0, showbaseVal: 0},
                 DEFRED: { baseVal: 0, value: 0, showbaseVal: 0},
-                SUNDER: { baseVal: 0, value: 0, showbaseVal: 0},
-                SUNDERRED: { baseVal: 0, value: 0, showbaseVal: 0},
+                BLOCK: { baseVal: 0, value: 0, showbaseVal: 0},
+                AP: { baseVal: 0, value: 0, showbaseVal: 0},
+                APCRIT: { baseVal: 0, value: 0, showbaseVal: 0},
+                APPEN: { baseVal: 0, value: 0, showbaseVal: 0},
                 MR: { baseVal: 0, value: 0, showbaseVal: 0},
+                HASTE: { baseVal: 0, value: 0, showbaseVal: 0},
+                HEAL: { baseVal: 0, value: 0, showbaseVal: 0},
+                VERS: { baseVal: 0, value: 0, showbaseVal: 0},
+                VERSBONUS: { baseVal: 0, value: 0, showbaseVal: 0},
                 CRIT: { baseVal: 0, value: 0, showbaseVal: 0},
                 CRITDMG: { baseVal: 0, value: 150, showbaseVal: 0},
                 STRP: { baseVal: 0, value: 0, showbaseVal: 0},
                 AGIP: { baseVal: 0, value: 0, showbaseVal: 0},
                 INTP: { baseVal: 0, value: 0, showbaseVal: 0},
+                STAP: { baseVal: 0, value: 0, showbaseVal: 0},
+                SPIP: { baseVal: 0, value: 0, showbaseVal: 0},
                 ALLP: { baseVal: 0, value: 0, showbaseVal: 0},
                 HPP: { baseVal: 0, value: 0, showbaseVal: 0},
                 MPP: { baseVal: 0, value: 0, showbaseVal: 0},
                 ATKP: { baseVal: 0, value: 0, showbaseVal: 0},
                 DEFP: { baseVal: 0, value: 0, showbaseVal: 0},
+                BLOCKP: { baseVal: 0, value: 0, showbaseVal: 0},
+                APP: { baseVal: 0, value: 0, showbaseVal: 0},
+                APPENP: { baseVal: 0, value: 0, showbaseVal: 0},
                 MRP: { baseVal: 0, value: 0, showbaseVal: 0},
             },
             simulatedAttribute: {
@@ -303,8 +288,14 @@ export default new Vuex.Store({
             weapon: initial_weapon,
             armor: initial_armor,
             shoulder: initial_shoulder,
-            accessory: initial_accessory,
             shoe: initial_shoe,
+            glove: {},
+            ring: {},
+            cape: {},
+            bracer: {},
+            belt: {},
+            legging: {},
+            necklace: {}
         },
         trialAttribute: {
             name: "小鸡",
@@ -315,8 +306,7 @@ export default new Vuex.Store({
                 ATK: { value: 0, showValue: 0, },
                 DEF: { value: 0, showValue: 0, },
                 DEFRED: { value: 0, showValue: 0, },
-                SUNDER: { value: 0, showValue: 0, },
-                SUNDERRED: { value: 0, showValue: 0, },
+                BLOCK: { value: 0, showValue: 0, },
                 MR: { value: 0, showValue: 0, },
                 CRIT: { value: 0, showValue: 0, },
                 CRITDMG: { value: 200, showValue: 200, },
@@ -331,9 +321,14 @@ export default new Vuex.Store({
                 ATK: { value: 0, showValue: 0, },
                 DEF: { value: 0, showValue: 0, },
                 DEFRED: { value: 0, showValue: 0, },
-                SUNDER: { value: 0, showValue: 0, },
-                SUNDERRED: { value: 0, showValue: 0, },
-                MR: { value: 0, showValue: 0, },
+                BLOCK: { value: 0, showValue: 0, },
+                AP: { value: 0, showbaseVal: 0},
+                APCRIT: { value: 0, showbaseVal: 0},
+                APPEN: { value: 0, showbaseVal: 0},
+                MR: { value: 0, showbaseVal: 0},
+                HASTE: { value: 0, showbaseVal: 0},
+                HEAL: { value: 0, showbaseVal: 0},
+                VERS: { value: 0, showbaseVal: 0},
                 CRIT: { value: 0, showValue: 0, },
                 CRITDMG: { value: 0, showValue: 0, },
             },
@@ -348,51 +343,43 @@ export default new Vuex.Store({
             STR: 0,
             AGI: 0,
             INT: 0,
+            STA: 0,
+            SPI: 0,
             ALL: 0,
             ATK: 10,
             DEF: 0,
             DEFRED: 0,
-            SUNDER: 0,
+            BLOCK: 0,
+            AP: 0,
+            APCRIT: 0,
+            APPEN: 0,
             MR: 0,
+            HASTE: 0,
+            HEAL: 0,
+            VERS: 0,
+            VERSBONUS: 0,
             CRIT: 0,
             CRITDMG: 150,
             STRP: 0,
             AGIP: 0,
             INTP: 0,
+            STAP: 0,
+            SPIP: 0,
             ALLP: 0,
             HPP: 0,
             MPP: 0,
             ATKP: 0,
             DEFP: 0,
+            BLOCKP: 0,
+            APP: 0,
+            APPENP: 0,
             MRP: 0,
         },    
         memberAttribute: {
-            CURHP: 0,
-            MAXHP: 0,
-            CURMP: 0,
-            MAXMP: 0,
             HP: 0,
             MP: 0,
-            STR: 0,
-            AGI: 0,
-            INT: 0,
-            ALL: 0,
             ATK: 0,
             DEF: 0,
-            DEFRED: 0,
-            SUNDER: 0,
-            MR: 0,
-            CRIT: 0,
-            CRITDMG: 0,
-            STRP: 0,
-            AGIP: 0,
-            INTP: 0,
-            ALLP: 0,
-            HPP: 0,
-            MPP: 0,
-            ATKP: 0,
-            DEFP: 0,
-            MRP: 0,
         },
         setting: {
         },
@@ -409,12 +396,36 @@ export default new Vuex.Store({
         exitTime: 0
     },
     mutations: {             
-        set_player_helmet(state, data) {
-            this.state.playerAttribute.helmet = data || initial_helmet;
+        set_player_glove(state, data) {
+            this.state.playerAttribute.glove = data || {};
             vueInstance.$store.commit('set_player_attribute');
         },
-        set_player_accessory(state, data) {
-            this.state.playerAttribute.accessory = data || initial_accessory;
+        set_player_ring(state, data) {
+            this.state.playerAttribute.ring = data || {};
+            vueInstance.$store.commit('set_player_attribute');
+        },
+        set_player_cape(state, data) {
+            this.state.playerAttribute.cape = data || {};
+            vueInstance.$store.commit('set_player_attribute');
+        },
+        set_player_bracer(state, data) {
+            this.state.playerAttribute.bracer = data || {};
+            vueInstance.$store.commit('set_player_attribute');
+        },
+        set_player_belt(state, data) {
+            this.state.playerAttribute.belt = data || {};
+            vueInstance.$store.commit('set_player_attribute');
+        },
+        set_player_legging(state, data) {
+            this.state.playerAttribute.legging = data || {};
+            vueInstance.$store.commit('set_player_attribute');
+        },
+        set_player_necklace(state, data) {
+            this.state.playerAttribute.necklace = data || {};
+            vueInstance.$store.commit('set_player_attribute');
+        },
+        set_player_helmet(state, data) {
+            this.state.playerAttribute.helmet = data || initial_helmet;
             vueInstance.$store.commit('set_player_attribute');
         },
         set_player_weapon(state, data) {
@@ -436,20 +447,23 @@ export default new Vuex.Store({
         set_player_attribute(state, data) {
             let playerAttribute = this.state.playerAttribute,
                 helmet = playerAttribute.helmet,
-                accessory = playerAttribute.accessory,
                 weapon = playerAttribute.weapon,
                 armor = playerAttribute.armor,
                 shoe = playerAttribute.shoe,
                 shoulder = playerAttribute.shoulder,
+                glove = playerAttribute.glove,
+                ring = playerAttribute.ring,
+                cape = playerAttribute.cape,
+                bracer = playerAttribute.bracer,
+                belt = playerAttribute.belt,
+                legging = playerAttribute.legging,
+                necklace = playerAttribute.necklace,
                 entries = [],
                 potentials = [];
             if(data != undefined && data.simulate == true) {
                 switch (data.equip.itemType) {
                     case 'helmet':
                         helmet = data.equip;
-                        break;
-                    case 'accessory':
-                        accessory = data.equip;
                         break;
                     case 'weapon':
                         weapon = data.equip;
@@ -463,6 +477,27 @@ export default new Vuex.Store({
                     case 'shoe':
                         shoe = data.equip;
                         break;
+                    case 'glove':
+                        glove = data.equip;
+                        break;
+                    case 'ring':
+                        ring = data.equip;
+                        break;
+                    case 'cape':
+                       cape = data.equip;
+                       break;
+                    case 'bracer':
+                       bracer = data.equip;
+                       break;
+                    case 'belt':
+                       belt = data.equip;
+                       break;
+                    case 'legging':
+                       legging = data.equip;
+                       break;
+                    case 'necklace':
+                       necklace = data.equip;
+                       break;
                     default:
                         break;
                 }
@@ -471,45 +506,58 @@ export default new Vuex.Store({
                     mpPercent = playerAttribute.attribute.CURMP.value/playerAttribute.attribute.MAXMP.value;
             let attribute = {};
             let attributes = [
-                'MAXHP','CURHP','MAXMP','CURMP','STR','AGI','INT','ALL','CRIT','CRITDMG','ATK','DEF','DEFRED','SUNDER','SUNDERRED','MR','HP','MP',
-                'STRP','AGIP','INTP','ALLP','ATKP', 'MRP','DEFP','HPP','MPP',
+                'MAXHP','CURHP','MAXMP','CURMP','STR','AGI','INT','STA','SPI','ALL','CRIT','CRITDMG','ATK','DEF','DEFRED','BLOCK','AP','APCRIT','APPEN','MR','HASTE','HEAL','VERS','VERSBONUS','HP','MP',
+                'STRP','AGIP','INTP','STAP','SPIP','ALLP','ATKP','DEFP','BLOCKP','APP','APPENP','MRP','HPP','MPP',
             ];
-            let advancedAttributes = ['STR','AGI','INT','ALL','STRP','AGIP','INTP','ALLP',];
+            let advancedAttributes = ['STR','AGI','INT','STA','SPI','ALL','STRP','AGIP','INTP','STAP','SPIP','ALLP',];
             let normalAttributes = [
-                'CRIT','CRITDMG','ATK','DEF','DEFRED','SUNDER','MR','HP','MP',
-                'ATKP', 'MRP','DEFP','HPP','MPP',
+                'CRIT','CRITDMG','ATK','DEF','DEFRED','BLOCK','AP','APCRIT','APPEN','MR','HASTE','HEAL','VERS','VERSBONUS','HP','MP',
+                'ATKP','DEFP','BLOCKP','APP','APPENP','MRP','HPP','MPP',
             ];
             let percent = [
-                'STRP','AGIP','INTP','ALLP','CRIT','CRITDMG','ATKP','DEFP','MRP','HPP','MPP'
+                'STRP','AGIP','INTP','STAP','SPIP','ALLP','CRIT','CRITDMG','APCRIT','ATKP','DEFP','BLOCKP','APP','APPENP','MRP','HPP','MPP'
             ];
             let hasPercent = [
-                'STR','AGI','INT','ALL','ATK','DEF','MR','HP','MP'
+                'STR','AGI','INT','STA','SPI','ALL','ATK','DEF','BLOCK','AP','APPEN','MR','HP','MP'
+                
             ];
             let advancedAttr = {
-                STR: { HP: 10}, 
-                AGI: { ATK: 4, DEF: 1}, 
-                INT: { MP: 3, MR: 3 }, 
+                STR: { DEF: 3, BLOCK: 1}, 
+                AGI: { ATK: 3, CRIT: 0.05}, 
+                INT: { AP: 5, APCRIT: 0.1}, 
+                STA: { HP: 10}, 
+                SPI: { MP: 4}, 
+                ALL: { VERS: 1}
             };
             attributes.forEach(attr => {
+                let val = this.state.baseAttribute[attr];
+                if(this.state.memberAttribute[attr] != undefined)
+                    val += this.state.memberAttribute[attr];
                 attribute[attr] = { 
-                    baseVal: this.state.baseAttribute[attr] + this.state.memberAttribute[attr], 
-                    value: this.state.baseAttribute[attr] + this.state.memberAttribute[attr], 
-                    showValue: this.state.baseAttribute[attr] + this.state.memberAttribute[attr]}
+                    baseVal: val, 
+                    value: val, 
+                    showValue: val
+                }
             });
 
             entries = helmet.baseEntry ? entries.concat(helmet.baseEntry, helmet.extraEntry) : entries;
             entries = weapon.baseEntry ? entries.concat(weapon.baseEntry, weapon.extraEntry) : entries;
-            entries = accessory.baseEntry ? entries.concat(accessory.baseEntry, accessory.extraEntry) : entries;
             entries = armor.baseEntry ? entries.concat(armor.baseEntry, armor.extraEntry) : entries;
             entries = shoe.baseEntry ? entries.concat(shoe.baseEntry, shoe.extraEntry) : entries;
             entries = shoulder.baseEntry ? entries.concat(shoulder.baseEntry, shoulder.extraEntry) : entries;
+            entries = glove.baseEntry ? entries.concat(glove.baseEntry, glove.extraEntry) : entries;
+            entries = ring.baseEntry ? entries.concat(ring.baseEntry, ring.extraEntry) : entries;
+            entries = cape.baseEntry ? entries.concat(cape.baseEntry, cape.extraEntry) : entries;
+            entries = bracer.baseEntry ? entries.concat(bracer.baseEntry, bracer.extraEntry) : entries;
+            entries = belt.baseEntry ? entries.concat(belt.baseEntry, belt.extraEntry) : entries;
+            entries = legging.baseEntry ? entries.concat(legging.baseEntry, legging.extraEntry) : entries;
+            entries = necklace.baseEntry ? entries.concat(necklace.baseEntry, necklace.extraEntry) : entries;
 
             entries.forEach(entry => {
                 attribute[entry.type].baseVal += entry.value;
             });
-            potentials = [].concat(weapon.potential, helmet.potential, 
-                                                    accessory.potential, armor.potential, 
-                                                    shoe.potential, shoulder.potential);
+            potentials = [].concat(weapon.potential, helmet.potential, armor.potential, shoe.potential, shoulder.potential,
+                glove.potential, ring.potential, cape.potential, bracer.potential, belt.potential, legging.potential, necklace.potential);
 
             potentials.forEach(potential => {
                 if(potential != undefined && potential.active)
@@ -519,6 +567,8 @@ export default new Vuex.Store({
             attribute['STRP'].baseVal += attribute['ALLP'].baseVal;
             attribute['AGIP'].baseVal += attribute['ALLP'].baseVal;
             attribute['INTP'].baseVal += attribute['ALLP'].baseVal;
+            attribute['STAP'].baseVal += attribute['ALLP'].baseVal;
+            attribute['SPIP'].baseVal += attribute['ALLP'].baseVal;
             hasPercent.forEach(attr => {
                 if(playerAttribute.talent[attr])
                     attribute[attr+'P'].baseVal += playerAttribute.talent[attr]*2;
@@ -537,11 +587,14 @@ export default new Vuex.Store({
             attribute['STR'].value += attribute['ALL'].value;
             attribute['AGI'].value += attribute['ALL'].value;
             attribute['INT'].value += attribute['ALL'].value;
+            attribute['STA'].value += attribute['ALL'].value;
+            attribute['SPI'].value += attribute['ALL'].value;
             for(let adv in advancedAttr) {
                 for(let attr in advancedAttr[adv]) {
-                    attribute[attr].baseVal += advancedAttr[adv][attr]*attribute[adv].value;
+                    attribute[attr].baseVal += Math.round(advancedAttr[adv][attr]*attribute[adv].value*100)/100;
                 }
             }
+            
             normalAttributes.forEach(attr => {
                 if(hasPercent.indexOf(attr) > -1)
                     attribute[attr].value = Math.round(attribute[attr].baseVal*(1+attribute[attr+'P'].baseVal/100));
@@ -565,13 +618,12 @@ export default new Vuex.Store({
             attribute['MAXMP'].showValue += attribute['MP'].value;
             attribute['CURMP'].showValue += playerAttribute.attribute['CURMP'].value;
             attribute['DEFRED'].value = 
-                Math.round((attribute['DEF'].value/(100+attribute['DEF'].value) + attribute['DEF'].value/(attribute['DEF'].value+3500))/2*1000000)/10000;
+                Math.round((attribute['DEF'].value/(100+attribute['DEF'].value) + attribute['DEF'].value/(attribute['DEF'].value+3500))/2*10000)/100;
             // attribute['DEFRED'].value = Math.round(0.01 * attribute['DEF'].value / (1 + (0.0105 * attribute['DEF'].value))*1000000)/10000;
             // attribute['DEFRED'].value = Math.round(0.01 * attribute['DEF'].value / (1 + (0.01 * attribute['DEF'].value))*10000)/100;
-            attribute['SUNDERRED'].value = 
-                Math.round((attribute['SUNDER'].value/(100+attribute['SUNDER'].value)*100));
-            attribute['SUNDERRED'].showValue = attribute['SUNDERRED'].value+'%';
             attribute['DEFRED'].showValue = attribute['DEFRED'].value+'%';
+            attribute['VERSBONUS'].value = Math.round(attribute['VERS'].value*4)/100;
+            attribute['VERSBONUS'].showValue = attribute['VERSBONUS'].value+'%';
             if(data != undefined && data.simulate == true)
                 playerAttribute.simulatedAttribute = attribute;
             else
@@ -621,6 +673,8 @@ export default new Vuex.Store({
                     let percent = data.substring(0, data.length-1);
                     CURHP.value += Math.round(MAXHP.value*percent*0.01);
                 }
+                else if(isNaN(data))
+                    console.log("回血数据传入非数字字符: " +data);
                 else
                     CURHP.value += Math.round(data);
                 if (CURHP.value > MAXHP.value) {

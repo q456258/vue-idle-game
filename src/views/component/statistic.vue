@@ -7,10 +7,10 @@
             </div>
             <div class="content">
                 <div>
-                    累积获得金币：<currency :amount=statistic.cumulatedGold></currency>
+                    累积获得金币: <currency :amount=statistic.cumulatedGold></currency>
                 </div>
                 <div>
-                    累积获得水晶：{{statistic.cumulatedCrystal}}
+                    累积获得水晶: {{statistic.cumulatedCrystal}}
                 </div>
             </div>
         </div>
@@ -20,13 +20,13 @@
             </div>
             <div class="content">
                 <div>
-                开始时间：{{new Date(statistic.gameStartDate)}}
+                开始时间: {{new Date(statistic.gameStartDate)}}
                 </div>
                 <div>
-                活跃时长：{{gameTime}}
+                活跃时长: {{gameTime}}
                 </div>
                 <div>
-                离线时长：{{awayTime}}
+                离线时长: {{awayTime}}
                 </div>
             </div>
         </div>
@@ -46,7 +46,7 @@
             死亡
             </div>
             <div class="content">
-                次数：{{statistic.death}}
+                次数: {{statistic.death}}
                 <br>
                 <span v-for="(v, k) in statistic.slainBy" :key="k">
                     {{k+":  "+v}}

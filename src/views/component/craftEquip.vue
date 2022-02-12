@@ -41,8 +41,7 @@
                 <div class="grid" @click="takeAction($event, k)" v-for="(v, k) in rewardList" :key="k">
                     <div class="craftRewardIcon flipped" >
                         <div class="frontIcon" >
-                            <!-- <img src="../../../public/icons/Trade_blacksmithing.png" alt="" /> -->
-                            <img draggable="false" src="/icons/Trade_blacksmithing.png" alt="" />
+                            <img draggable="false" src="/icons/other/Trade_blacksmithing.png" alt="" />
                         </div>
                         <div :class="[{purpleGlow: v.quality==1,goldGlow: v.quality==2},'backIcon']">
                             <img draggable="false" :src=v.icon alt="" />
@@ -123,17 +122,17 @@ export default {
             ],
             rewardType: [
                 // 装备属性随机1-3条带以下属性
-                {type: 'HP', icon: "./icons/spell/hp.png", desc: "潜能: 生命"},
-                {type: 'MP', icon: "./icons/spell/mp.png", desc: "潜能: 魔法"},
-                {type: 'STR', icon: "./icons/spell/str_large.png", desc: "潜能: 力量"},
-                {type: 'AGI', icon: "./icons/spell/agi.png", desc: "潜能: 敏捷"},
-                {type: 'INT', icon: "./icons/spell/int_large.png", desc: "潜能: 智力"},
-                {type: 'CRIT', icon: "./icons/spell/crit_large.png", desc: "潜能: 暴击率"},
-                {type: 'CRITDMG', icon: "./icons/spell/critdmg_large.png", desc: "潜能: 暴击伤害"},
-                {type: 'ATK', icon: "./icons/spell/atk_large.png", desc: "潜能: 攻击"},
-                {type: 'DEF', icon: "./icons/spell/arm_large.png", desc: "潜能: 护甲"},
-                {type: 'SUNDER', icon: "./icons/spell/sunder.png", desc: "潜能: 破甲"},
-                {type: 'MR', icon: "./icons/spell/mr_large.png", desc: "潜能: 能量盾"},
+                {type: 'HP', icon: "./icons/stat/hp.jpg", desc: "潜能: 生命"},
+                {type: 'MP', icon: "./icons/stat/mp.jpg", desc: "潜能: 魔法"},
+                {type: 'STR', icon: "./icons/stat/str.jpg", desc: "潜能: 力量"},
+                {type: 'AGI', icon: "./icons/stat/agi.jpg", desc: "潜能: 敏捷"},
+                {type: 'INT', icon: "./icons/stat/int.jpg", desc: "潜能: 智力"},
+                {type: 'CRIT', icon: "./icons/stat/crit.jpg", desc: "潜能: 暴击率"},
+                {type: 'CRITDMG', icon: "./icons/stat/critdmg.jpg", desc: "潜能: 暴击伤害"},
+                {type: 'ATK', icon: "./icons/stat/atk.jpg", desc: "潜能: 攻击"},
+                {type: 'DEF', icon: "./icons/stat/arm.jpg", desc: "潜能: 护甲"},
+                {type: 'SUNDER', icon: "./icons/stat/sunder.jpg", desc: "潜能: 破甲"},
+                {type: 'BLOCK', icon: "./icons/stat/block.jpg", desc: "潜能:格挡"},
                 // 装备品质提升1-3
                 {type: 'quality', icon: "./icons/craft/Inv_stone_01.png", desc: "提升品质"},
                 // 装备等级提升
@@ -551,7 +550,7 @@ export default {
                 case 'ATK':
                 case 'DEF':
                 case 'SUNDER':
-                case 'MR':
+                case 'BLOCK':
                     reward.success = this.addPotential(reward.type, reward.quality+1);
                     break;
                 // 装备品质提升1-3
@@ -651,6 +650,7 @@ export default {
 
             // 添加装备额外属性，如果数量不足，用装备类型允许的额外属性随机补充
             let type = newEquip.itemType;
+            let mod = this.equipMod[type];
             let index = 0;
             let extraEntryTypes = this[type].extraEntry;
             for(let i=0; i<newEquip.quality.extraEntryNum; i++) {
@@ -673,11 +673,11 @@ export default {
             // 设置基础潜能、额外潜能数值
             baseEntry.forEach(entry => {
                 let random = Math.random();
-                equipInfo.createBaseEntryValue(newEquip.quality.qualityCoefficient, entry, random, newEquip.lv, newEquip.enhanceLv);
+                equipInfo.createBaseEntryValue(newEquip.quality.qualityCoefficient, entry, random, newEquip.lv, newEquip.enhanceLv, mod);
             }); 
             extraEntry.forEach(entry => {
                 let random = Math.random();
-                equipInfo.createExtraEntryValue(entry, random, newEquip.lv);
+                equipInfo.createExtraEntryValue(entry, random, newEquip.lv. mod);
             });
 
             // 读取装备描述信息
@@ -929,7 +929,7 @@ $tertiary: #ced6d5;
     position: absolute;
     top: 0px;
     z-index: 20;
-    background: url(/icons/glowBorder40.png) no-repeat 62px 0;
+    background: url(/icons/ui/glowBorder40.png) no-repeat 62px 0;
     &:hover{
         background-position: 0 0;
     }

@@ -12,18 +12,18 @@
                     <img :src="item.description.iconSrc" alt="icon">
                 </div>
                 <div class="lv" v-if="item.lvReq > 0">
-                    <span :style="{color: player.lv<item.lvReq? '#f00':''}">等级：{{item.lvReq}}</span>
+                    <span :style="{color: player.lv<item.lvReq? '#f00':''}">等级: {{item.lvReq}}</span>
                 </div>
             </div>
             <div class="description">
                 <div class="type">
-                    物品分类：{{item.description.category}}
+                    物品分类: {{item.description.category}}
                 </div>
                 <div class="baseEntry">
                     {{item.description.desc}}
                 </div>
                 <div class="extraEntry">
-                    数量：{{item.quantity}}
+                    数量: {{item.quantity}}
                 </div>
             </div>
         </div>

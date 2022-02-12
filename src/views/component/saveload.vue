@@ -187,17 +187,17 @@ export default {
                 gold += Math.round((100+lv**2)*(2+2*Math.random()))
                 if(i%5 == 0)
                     crystal += Math.round((1+lv*2)*(1+Math.random()));
-                if(Math.random() < 1/24) {
-            // 此处需改动qualitySet参数
-                    let equip = equipInfo.createEquip(-1, lv, 'random', 1);  
-                    equip = JSON.parse(equip);
-                    this.$store.commit("set_sys_info", {
-                        type: 'reward',
-                        msg: '外出游荡时的意外收获',
-                        equip: equip
-                    });
-                    backpack.giveEquip(equip);
-                }
+            //     if(Math.random() < 1/24) {
+            // // 此处需改动qualitySet参数
+            //         let equip = equipInfo.createEquip(-1, lv, 'random', 1);  
+            //         equip = JSON.parse(equip);
+            //         this.$store.commit("set_sys_info", {
+            //             type: 'reward',
+            //             msg: '外出游荡时的意外收获',
+            //             equip: equip
+            //         });
+            //         backpack.giveEquip(equip);
+            //     }
             }
             guild.getGold('外出游荡时累积', gold);
             guild.getCrystal('外出游荡时累积', crystal);

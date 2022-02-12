@@ -33,7 +33,7 @@
             </div>
 
         </div>
-        <!-- <span class="cost" :class="{'warning':warning}">消耗金币：{{cost}}</span> -->
+        <!-- <span class="cost" :class="{'warning':warning}">消耗金币: {{cost}}</span> -->
         <span class="cost" :class="{'warning':warning}">
             消耗<img src="/icons/item/Inv_enchant_voidsphere.png">&nbsp;{{cost}}/{{itemQty}}
         </span>
@@ -175,7 +175,7 @@ export default {
     margin: auto;
     height: 28rem;
     width: 48rem;
-    background-image: url("/icons/enhancePanel2.png");
+    background-image: url("/icons/ui/enhancePanel2.png");
     background-repeat: no-repeat;
     background-size: 49rem 28rem;
     z-index: 10;
@@ -233,7 +233,7 @@ export default {
         left: 35rem;
         height: 2.5rem;
         width: 8rem;
-        background-image: url("/icons/button.png");
+        background-image: url("/icons/ui/button.png");
         background-repeat: no-repeat;
         background-size: 8rem 2.5rem;
         display: flex;
@@ -251,7 +251,7 @@ export default {
         left: 35rem;
         height: 2.5rem;
         width: 8rem;
-        background-image: url("/icons/button.png");
+        background-image: url("/icons/ui/button.png");
         background-repeat: no-repeat;
         background-size: 8rem 2.5rem;
         display: flex;

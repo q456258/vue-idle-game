@@ -105,7 +105,7 @@ export default {
             case 2:
                 // this.values = this.values.concat(['STR', 'AGI', 'INT']);
             case 1:
-                // this.values = this.values.concat(['SUNDER', 'MR']);
+                // this.values = this.values.concat(['SUNDER', 'BLOCK']);
             case 0:
                 this.values = this.values.concat(['HP', 'MP', 'ATK', 'DEF']);
         }

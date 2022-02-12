@@ -20,7 +20,7 @@
     </div>
     <div class="building" v-show="displayPage=='shop'" :set="type='shop'">
         <div class="buildInfo">
-            {{guild[type].lv+'级 (效率：'+totalEfficiency[type]+'/秒)'}}
+            {{guild[type].lv+'级 (效率: '+totalEfficiency[type]+'/秒)'}}
         </div>
         <div class="progress" style="width:100%;">
             <div class="progress-bar progress-bar-striped" :style="{width:progress[type].current/progress[type].max*100+'%'}">
@@ -43,7 +43,7 @@
     </div>
     <div class="building" v-show="displayPage=='smith'" :set="type='smith'">
         <div class="buildInfo">
-            {{guild[type].lv+'级 (效率：'+totalEfficiency[type]+'/秒)'}}
+            {{guild[type].lv+'级 (效率: '+totalEfficiency[type]+'/秒)'}}
         </div>
         <div class="progress" style="width:100%;">
             <div class="progress-bar progress-bar-striped" :style="{width:progress[type].current/progress[type].max*100+'%'}">
@@ -58,9 +58,9 @@
                     </option>
                 </select>
                 <span v-if="selectedType[type] != 'smith'">
-                    主材料：<a v-if="smith_main.lv" :style="{color:smith_main.quality.color}" @mouseover="showInfo($event,smith_main.itemType,smith_main)" @mouseleave="closeInfo('equip')">{{smith_main.description.name}}</a>
+                    主材料: <a v-if="smith_main.lv" :style="{color:smith_main.quality.color}" @mouseover="showInfo($event,smith_main.itemType,smith_main)" @mouseleave="closeInfo('equip')">{{smith_main.description.name}}</a>
                     <div class="btn btn-outline-light" @click="selectEquip('smith_main')">+</div>
-                    副材料：<a v-if="smith_sub.lv" :style="{color:smith_sub.quality.color}" @mouseover="showInfo($event,smith_sub.itemType,smith_sub)" @mouseleave="closeInfo('equip')">{{smith_sub.description.name}}</a>
+                    副材料: <a v-if="smith_sub.lv" :style="{color:smith_sub.quality.color}" @mouseover="showInfo($event,smith_sub.itemType,smith_sub)" @mouseleave="closeInfo('equip')">{{smith_sub.description.name}}</a>
                     <div class="btn btn-outline-light" @click="selectEquip('smith_sub')">+</div>
                 </span>
                 &nbsp;<div class="btn btn-success" @click="start('smith')">开始</div>
@@ -122,7 +122,7 @@ export default {
                 smith: [{name: '打造', value: 'smith', lv: 0},{name: '精炼', value: 'refine', lv: 15}, {name: '熔炼', value: 'melt', lv: 30}],
                 train: [{name: '生命训练', value: 'HP', lv: 0}, {name: '魔法训练', value: 'MP', lv: 0}, {name: '攻击训练', value: 'ATK', lv: 0},
                         {name: '防御训练', value: 'DEF', lv: 0}],
-                train2: [{name: '元素训练', value: 'SUNDER', lv: 0}, {name: '能量盾训练', value: 'MR', lv: 0}],
+                train2: [{name: '元素训练', value: 'SUNDER', lv: 0}, {name: '格挡训练', value: 'BLOCK', lv: 0}],
                 train3: [{name: '力量训练', value: 'STR', lv: 0}, {name: '敏捷训练', value: 'AGI', lv: 0}, {name: '智力训练', value: 'INT', lv: 0}],
             },
             selectedType: {
