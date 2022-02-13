@@ -210,15 +210,10 @@ export default {
             return extraEntry;
         },
         createExtraEntryValue(entry, random, lv, mod=1) {
-            if(entry.type == 'CRITDMG') {
-                entry.value = Math.round((0.5+0.5*random) * Math.floor(this.entryInfo[entry.type].base+lv*lv/200));
-                entry.showVal = '+' + entry.value + '%';
-            }
-            else if(this.percent.indexOf(entry.type) > -1) {
+            if(entry.type == 'CRITDMG' || entry.type == 'APCRITDMG') {
                 entry.value = Math.round((0.5+0.5*random) * this.entryInfo[entry.type].base);
                 entry.showVal = '+' + entry.value + '%';
-            }
-            else {
+            } else {
                 entry.value = Math.round((0.5+0.5*random) * this.entryInfo[entry.type].base * mod * (1.6+lv*0.08));
                 entry.showVal = '+' + entry.value;
             }

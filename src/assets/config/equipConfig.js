@@ -85,28 +85,28 @@ export const equipConfig = {
         INT: { base: 2.5, name: '智力' }, 
         STA: { base: 2.5, name: '耐力' }, 
         SPI: { base: 2.5, name: '精神' }, 
-        ALL: { base: 1, name: '全属性'},
+        ALL: { base: 0.8, name: '全属性'},
         ATK: { base: 16, name: '攻击' }, 
         DEF: { base: 4, name: '护甲' }, 
-        BLOCK: { base: 4, name: '格挡' }, //数值待定
-        AP: { base: 4, name: '法伤' }, //
-        APCRIT: { base: 4, name: '法术暴击' }, //
-        APCRITDMG: { base: 4, name: '法术暴击' }, //
-        APPEN: { base: 4, name: '法术穿透' }, //
-        MR: { base: 4, name: '魔抗' }, //
-        HASTE: { base: 4, name: '急速' }, //
-        HEAL: { base: 4, name: '治疗效果' }, //
-        VERS: { base: 4, name: '全能' }, //
+        BLOCK: { base: 2, name: '格挡' }, 
+        AP: { base: 16, name: '法伤' }, 
+        APCRIT: { base: 2, name: '法术暴击' }, 
+        APCRITDMG: { base: 5, name: '法暴伤害' }, 
+        APPEN: { base: 2, name: '法术穿透' }, 
+        MR: { base: 4, name: '魔抗' }, 
+        HASTE: { base: 4, name: '急速' }, 
+        HEAL: { base: 8, name: '治疗效果' }, 
+        VERS: { base: 4, name: '全能' }, 
         HP: { base: 40, name: '生命值' }, 
         MP: { base: 15, name: '魔法值' }, 
-        CRIT: { base: 5, name: '暴击率' }, 
-        CRITDMG: { base: 20, name: '暴击伤害' }, 
+        CRIT: { base: 2, name: '暴击率' }, 
+        CRITDMG: { base: 5, name: '暴击伤害' }, 
         STRP: { base: 6, name: '力量' }, 
         AGIP: { base: 6, name: '敏捷' }, 
         INTP: { base: 6, name: '智力' }, 
         STAP: { base: 6, name: '耐力' }, 
         SPIP: { base: 6, name: '精神' }, 
-        ALLP: { base: 4, name: '全属性'},
+        ALLP: { base: 2, name: '全属性'},
         ATKP: { base: 6, name: '攻击力' }, 
         DEFP: { base: 6, name: '防御力' }, 
         BLOCKP: { base: 6, name: '格挡' }, 

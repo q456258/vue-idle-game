@@ -591,17 +591,16 @@ export default {
             }
         },
         addPotential(type, count=1) {
-            let percent = [100, 50, 25, 10];
+            let percent = [25, 10];
             let mainPotCount = this.finalEquip.mainPotCount;
             let pot = {type: type};
-            if(mainPotCount <= 2) {
+            if(mainPotCount < 2) {
                 this.finalEquip.mainPot.push(pot);
                 this.finalEquip.mainPotCount += 1;
                 return true;
-            }
-            else if(mainPotCount <= 4 && this.finalEquip.mainPot.length == mainPotCount) {
+            } else if(mainPotCount < 4 && this.finalEquip.mainPot.length == mainPotCount) {
                 this.finalEquip.mainPotCount += 1;
-                if(Math.random()*100 <= percent[mainPotCount]*count) {
+                if(Math.random()*100 <= percent[mainPotCount-2]*count) {
                     this.finalEquip.mainPot.push(pot);
                     return true;
                 }
@@ -718,12 +717,13 @@ export default {
             }
             // 额外主潜能
             extraBaseEntry.forEach(entry => {
-                equipInfo.createBaseEntryValue(newEquip.quality.qualityCoefficient, [entry], 0, newEquip.lv, newEquip.enhanceLv, mod);
+                let random = Math.random()*100+this.finalEquip.extraStatBoost;
+                equipInfo.createExtraEntryValue(entry, random/100, newEquip.lv, mod);
             });
 
             extraEntry.forEach(entry => {
-                let random = Math.random()+this.finalEquip.extraStatBoost;
-                equipInfo.createExtraEntryValue(entry, random, newEquip.lv, mod);
+                let random = Math.random()*100+this.finalEquip.extraStatBoost;
+                equipInfo.createExtraEntryValue(entry, random/100, newEquip.lv, mod);
             });
             
             newEquip.baseEntry = baseEntry;
