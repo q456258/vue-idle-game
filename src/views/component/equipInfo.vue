@@ -48,6 +48,11 @@
                             </span> -->
                         </div>
                     </div>
+                    <div v-for="v in equip.extraBaseEntry" :key="v.id">
+                        <div>
+                            <span style="color:#00ff00;">{{v.showVal}} {{v.name}}</span> 
+                        </div>
+                    </div>
                 </div>
                 <div class="extraEntry" v-if="equip.extraEntry.length > 0">
                     <div v-for="v in equip.extraEntry" :key="v.id">
@@ -121,6 +126,7 @@ export default {
             newEquip.maxEnhanceLv = (newEquip.quality.qualityLv-1)*5;
             newEquip.enhanceLv = Math.min(0, newEquip.maxEnhanceLv);
             newEquip.baseEntry = this.createBaseEntry(newEquip);
+            newEquip.extraBaseEntry = [];
             newEquip.extraEntry = this.createExtraEntry(newEquip);
             newEquip.potential = newEquip.lv >= 30 ? this.createPotential(newEquip) : [];
             return JSON.stringify(newEquip);
@@ -129,7 +135,7 @@ export default {
         //     return parseInt(Math.random() * (Max || 39)) + 1;
         // },
         createType() {
-            let random = Math.floor(Math.random()*6)
+            let random = Math.floor(Math.random()*this.typeName.length)
             return this.typeName[random];
         },
         createQuality(qualitySet) {
@@ -174,15 +180,16 @@ export default {
             return fixEntry.concat(baseEntry);
         },
         createBaseEntryValue(qualityCoefficient, entry, bonus, lv, enhanceLv, mod=1) {
+            console.log(entry)
             for(let i=0; i<entry.length; i++) {
                 let type = entry[i].type;
                 let base = qualityCoefficient * this.entryInfo[type].base * mod * (1.6+lv*0.08)+bonus;
 
                 if(entry.length == 2)
-                    entry[i].base = Math.floor(Math.pow(Math.pow(base, 1.5)/2, 0.66));
+                    entry[i].base = Math.ceil(Math.pow(Math.pow(base, 1.5)/2, 0.66));
                 else
-                    entry[i].base = Math.floor(base);
-                entry[i].value = Math.floor(entry[i].base * (1+enhanceLv*0.1));
+                    entry[i].base = Math.ceil(base);
+                entry[i].value = Math.ceil(entry[i].base * (1+enhanceLv*0.1));
                 entry[i].showVal = '+' + entry[i].value;
                 entry[i].name = this.entryInfo[type].name;
             }

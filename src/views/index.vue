@@ -254,33 +254,33 @@ export default {
     //初始生成地图
     this.createMaps();
     //测试·随机装备
-    // let equipLv = 1;
-    // let equipQuality = 1;
-    // let equipInfo = this.findComponentDownward(this, 'equipInfo');   
-    // let newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'helmet'));
-    // this.$store.commit('set_player_helmet', this.$deepCopy(newEquip));
-    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'weapon'));
-    // this.$store.commit('set_player_weapon', this.$deepCopy(newEquip));
-    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'armor'));
-    // this.$store.commit('set_player_armor', this.$deepCopy(newEquip));
-    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'shoe'));
-    // this.$store.commit('set_player_shoe', this.$deepCopy(newEquip));
-    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'shoulder'));
-    // this.$store.commit('set_player_shoulder', this.$deepCopy(newEquip));
-    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'glove'));
-    // this.$store.commit('set_player_glove', this.$deepCopy(newEquip));
-    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'ring'));
-    // this.$store.commit('set_player_ring', this.$deepCopy(newEquip));
-    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'cape'));
-    // this.$store.commit('set_player_cape', this.$deepCopy(newEquip));
-    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'bracer'));
-    // this.$store.commit('set_player_bracer', this.$deepCopy(newEquip));
-    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'belt'));
-    // this.$store.commit('set_player_belt', this.$deepCopy(newEquip));
-    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'legging'));
-    // this.$store.commit('set_player_legging', this.$deepCopy(newEquip));
-    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'necklace'));
-    // this.$store.commit('set_player_necklace', this.$deepCopy(newEquip));
+    let equipLv = 1;
+    let equipQuality = 5;
+    let equipInfo = this.findComponentDownward(this, 'equipInfo');   
+    let newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'helmet'));
+    this.$store.commit('set_player_helmet', this.$deepCopy(newEquip));
+    newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'weapon'));
+    this.$store.commit('set_player_weapon', this.$deepCopy(newEquip));
+    newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'armor'));
+    this.$store.commit('set_player_armor', this.$deepCopy(newEquip));
+    newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'shoe'));
+    this.$store.commit('set_player_shoe', this.$deepCopy(newEquip));
+    newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'shoulder'));
+    this.$store.commit('set_player_shoulder', this.$deepCopy(newEquip));
+    newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'glove'));
+    this.$store.commit('set_player_glove', this.$deepCopy(newEquip));
+    newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'ring'));
+    this.$store.commit('set_player_ring', this.$deepCopy(newEquip));
+    newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'cape'));
+    this.$store.commit('set_player_cape', this.$deepCopy(newEquip));
+    newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'bracer'));
+    this.$store.commit('set_player_bracer', this.$deepCopy(newEquip));
+    newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'belt'));
+    this.$store.commit('set_player_belt', this.$deepCopy(newEquip));
+    newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'legging'));
+    this.$store.commit('set_player_legging', this.$deepCopy(newEquip));
+    newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'necklace'));
+    this.$store.commit('set_player_necklace', this.$deepCopy(newEquip));
 
 //     let itemInfo = this.findComponentDownward(this, 'itemInfo');
 //     let item ;
@@ -478,22 +478,22 @@ export default {
               this.compareEquip = this.playerGlove;
               break;
             case 'ring':
-              this.compareEquip = this.playerGlove;
+              this.compareEquip = this.playerRing;
               break;
             case 'cape':
-              this.compareEquip = this.playerGlove;
+              this.compareEquip = this.playerCape;
               break;
             case 'bracer':
-              this.compareEquip = this.playerGlove;
+              this.compareEquip = this.playerBracer;
               break;
             case 'belt':
-              this.compareEquip = this.playerGlove;
+              this.compareEquip = this.playerBelt;
               break;
             case 'legging':
-              this.compareEquip = this.playerGlove;
+              this.compareEquip = this.playerLegging;
               break;
             case 'necklace':
-              this.compareEquip = this.playerGlove;
+              this.compareEquip = this.playerNecklace;
               break;
             default:
               this.compareEquip = item;

@@ -91,6 +91,7 @@ export const equipConfig = {
         BLOCK: { base: 4, name: '格挡' }, //数值待定
         AP: { base: 4, name: '法伤' }, //
         APCRIT: { base: 4, name: '法术暴击' }, //
+        APCRITDMG: { base: 4, name: '法术暴击' }, //
         APPEN: { base: 4, name: '法术穿透' }, //
         MR: { base: 4, name: '魔抗' }, //
         HASTE: { base: 4, name: '急速' }, //

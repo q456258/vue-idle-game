@@ -30,6 +30,7 @@ let initial_helmet = {
             type: "HP",
             name: "生命值"
         }],
+        extraBaseEntry: [],
         extraEntry: [],
         potential: []
     },
@@ -58,6 +59,7 @@ let initial_helmet = {
             type: "CRIT",
             name: "暴击率"
         }],
+        extraBaseEntry: [],
         extraEntry: [],
         potential: []
     },
@@ -86,6 +88,7 @@ let initial_helmet = {
             type: "ATK",
             name: "攻击"
         }],
+        extraBaseEntry: [],
         extraEntry: [],
         potential: []
     },
@@ -114,6 +117,7 @@ let initial_helmet = {
             type: "DEF",
             name: "护甲"
         }],
+        extraBaseEntry: [],
         extraEntry: [],
         potential: []
     },
@@ -142,6 +146,7 @@ let initial_helmet = {
             type: "BLOCK",
             name: "格挡"
         }],
+        extraBaseEntry: [],
         extraEntry: [],
         potential: []
     };
@@ -249,6 +254,7 @@ export default new Vuex.Store({
                 BLOCK: { baseVal: 0, value: 0, showbaseVal: 0},
                 AP: { baseVal: 0, value: 0, showbaseVal: 0},
                 APCRIT: { baseVal: 0, value: 0, showbaseVal: 0},
+                APCRITDMG: { baseVal: 200, value: 200, showbaseVal: 0},
                 APPEN: { baseVal: 0, value: 0, showbaseVal: 0},
                 MR: { baseVal: 0, value: 0, showbaseVal: 0},
                 HASTE: { baseVal: 0, value: 0, showbaseVal: 0},
@@ -324,6 +330,7 @@ export default new Vuex.Store({
                 BLOCK: { value: 0, showValue: 0, },
                 AP: { value: 0, showbaseVal: 0},
                 APCRIT: { value: 0, showbaseVal: 0},
+                APCRITDMG: { value: 0, showbaseVal: 0},
                 APPEN: { value: 0, showbaseVal: 0},
                 MR: { value: 0, showbaseVal: 0},
                 HASTE: { value: 0, showbaseVal: 0},
@@ -352,6 +359,7 @@ export default new Vuex.Store({
             BLOCK: 0,
             AP: 0,
             APCRIT: 0,
+            APCRITDMG: 0,
             APPEN: 0,
             MR: 0,
             HASTE: 0,
@@ -506,16 +514,16 @@ export default new Vuex.Store({
                     mpPercent = playerAttribute.attribute.CURMP.value/playerAttribute.attribute.MAXMP.value;
             let attribute = {};
             let attributes = [
-                'MAXHP','CURHP','MAXMP','CURMP','STR','AGI','INT','STA','SPI','ALL','CRIT','CRITDMG','ATK','DEF','DEFRED','BLOCK','AP','APCRIT','APPEN','MR','HASTE','HEAL','VERS','VERSBONUS','HP','MP',
+                'MAXHP','CURHP','MAXMP','CURMP','STR','AGI','INT','STA','SPI','ALL','CRIT','CRITDMG','ATK','DEF','DEFRED','BLOCK','AP','APCRIT','APCRITDMG','APPEN','MR','HASTE','HEAL','VERS','VERSBONUS','HP','MP',
                 'STRP','AGIP','INTP','STAP','SPIP','ALLP','ATKP','DEFP','BLOCKP','APP','APPENP','MRP','HPP','MPP',
             ];
             let advancedAttributes = ['STR','AGI','INT','STA','SPI','ALL','STRP','AGIP','INTP','STAP','SPIP','ALLP',];
             let normalAttributes = [
-                'CRIT','CRITDMG','ATK','DEF','DEFRED','BLOCK','AP','APCRIT','APPEN','MR','HASTE','HEAL','VERS','VERSBONUS','HP','MP',
+                'CRIT','CRITDMG','ATK','DEF','DEFRED','BLOCK','AP','APCRIT','APCRITDMG','APPEN','MR','HASTE','HEAL','VERS','VERSBONUS','HP','MP',
                 'ATKP','DEFP','BLOCKP','APP','APPENP','MRP','HPP','MPP',
             ];
             let percent = [
-                'STRP','AGIP','INTP','STAP','SPIP','ALLP','CRIT','CRITDMG','APCRIT','ATKP','DEFP','BLOCKP','APP','APPENP','MRP','HPP','MPP'
+                'STRP','AGIP','INTP','STAP','SPIP','ALLP','CRIT','CRITDMG','APCRIT','APCRITDMG','ATKP','DEFP','BLOCKP','APP','APPENP','MRP','HPP','MPP'
             ];
             let hasPercent = [
                 'STR','AGI','INT','STA','SPI','ALL','ATK','DEF','BLOCK','AP','APPEN','MR','HP','MP'
@@ -540,18 +548,18 @@ export default new Vuex.Store({
                 }
             });
 
-            entries = helmet.baseEntry ? entries.concat(helmet.baseEntry, helmet.extraEntry) : entries;
-            entries = weapon.baseEntry ? entries.concat(weapon.baseEntry, weapon.extraEntry) : entries;
-            entries = armor.baseEntry ? entries.concat(armor.baseEntry, armor.extraEntry) : entries;
-            entries = shoe.baseEntry ? entries.concat(shoe.baseEntry, shoe.extraEntry) : entries;
-            entries = shoulder.baseEntry ? entries.concat(shoulder.baseEntry, shoulder.extraEntry) : entries;
-            entries = glove.baseEntry ? entries.concat(glove.baseEntry, glove.extraEntry) : entries;
-            entries = ring.baseEntry ? entries.concat(ring.baseEntry, ring.extraEntry) : entries;
-            entries = cape.baseEntry ? entries.concat(cape.baseEntry, cape.extraEntry) : entries;
-            entries = bracer.baseEntry ? entries.concat(bracer.baseEntry, bracer.extraEntry) : entries;
-            entries = belt.baseEntry ? entries.concat(belt.baseEntry, belt.extraEntry) : entries;
-            entries = legging.baseEntry ? entries.concat(legging.baseEntry, legging.extraEntry) : entries;
-            entries = necklace.baseEntry ? entries.concat(necklace.baseEntry, necklace.extraEntry) : entries;
+            entries = helmet.baseEntry ? entries.concat(helmet.baseEntry, helmet.extraBaseEntry, helmet.extraEntry) : entries;
+            entries = weapon.baseEntry ? entries.concat(weapon.baseEntry, weapon.extraBaseEntry, weapon.extraEntry) : entries;
+            entries = armor.baseEntry ? entries.concat(armor.baseEntry, armor.extraBaseEntry, armor.extraEntry) : entries;
+            entries = shoe.baseEntry ? entries.concat(shoe.baseEntry, shoe.extraBaseEntry, shoe.extraEntry) : entries;
+            entries = shoulder.baseEntry ? entries.concat(shoulder.baseEntry, shoulder.extraBaseEntry, shoulder.extraEntry) : entries;
+            entries = glove.baseEntry ? entries.concat(glove.baseEntry, glove.extraBaseEntry, glove.extraEntry) : entries;
+            entries = ring.baseEntry ? entries.concat(ring.baseEntry, ring.extraBaseEntry, ring.extraEntry) : entries;
+            entries = cape.baseEntry ? entries.concat(cape.baseEntry, cape.extraBaseEntry, cape.extraEntry) : entries;
+            entries = bracer.baseEntry ? entries.concat(bracer.baseEntry, bracer.extraBaseEntry, bracer.extraEntry) : entries;
+            entries = belt.baseEntry ? entries.concat(belt.baseEntry, belt.extraBaseEntry, belt.extraEntry) : entries;
+            entries = legging.baseEntry ? entries.concat(legging.baseEntry, legging.extraBaseEntry, legging.extraEntry) : entries;
+            entries = necklace.baseEntry ? entries.concat(necklace.baseEntry, necklace.extraBaseEntry, necklace.extraEntry) : entries;
 
             entries.forEach(entry => {
                 attribute[entry.type].baseVal += entry.value;

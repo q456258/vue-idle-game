@@ -280,7 +280,7 @@ export const spellEffect = {
             if(spell == 'MUST_CRIT')
                 crit = 100;
             if(crit<source.attribute.APCRIT.value) {
-                this.set_ap_dmg(dmgs, this.get_dmg(dmgs, 'ap')*2);
+                this.set_ap_dmg(dmgs, this.get_dmg(dmgs, 'ap')*source.attribute.APCRITDMG.value);
             }
         },
         applyBlock(source, target, dmgs, spell) {

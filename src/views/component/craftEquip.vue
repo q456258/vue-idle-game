@@ -112,27 +112,30 @@ export default {
                 {type: 0, name: "铜锭", desc: "提升最终装备10级", icon: "/icons/material/inv_ingot_02.png", itemCode: 'inv_ingot_02', max: 10},
                 {type: 1, name: "锡锭", desc: "随机重置所有选项类型", icon: "/icons/material/inv_ingot_05.png", itemCode: 'inv_ingot_05', max: -1},
                 {type: 2, name: "银锭", desc: "提升最终装备品质", icon: "/icons/material/inv_ingot_01.png", itemCode: 'inv_ingot_01', max: 10},
-                {type: 3, name: "铁锭", desc: "赋予随机3个选项额外‘降低装备等级’奖励", icon: "/icons/material/inv_ingot_iron.png", itemCode: 'inv_ingot_iron', max: 10},
-                {type: 4, name: "钢锭", desc: "赋予随机3个选项额外‘提升装备等级’奖励", icon: "/icons/material/inv_ingot_steel.png", itemCode: 'inv_ingot_steel', max: -1},
-                {type: 5, name: "金锭", desc: "赋予随机3个选项额外‘降低装备品质’奖励", icon: "/icons/material/inv_ingot_03.png", itemCode: 'inv_ingot_03', max: 10},
+                {type: 3, name: "铁锭", desc: "赋予随机3个选项额外'降低装备等级'奖励", icon: "/icons/material/inv_ingot_iron.png", itemCode: 'inv_ingot_iron', max: 10},
+                {type: 4, name: "钢锭", desc: "赋予随机3个选项额外'提升装备等级'奖励", icon: "/icons/material/inv_ingot_steel.png", itemCode: 'inv_ingot_steel', max: -1},
+                {type: 5, name: "金锭", desc: "赋予随机3个选项额外'降低装备品质'奖励", icon: "/icons/material/inv_ingot_03.png", itemCode: 'inv_ingot_03', max: 10},
                 {type: 6, name: "秘银锭", desc: "随机提升3个选项的品质", icon: "/icons/material/inv_ingot_06.png", itemCode: 'inv_ingot_06', max: 10},
                 // {type: 7, name: "真银锭", desc: "待定", icon: "/icons/material/inv_ingot_08.png", itemCode: 'inv_ingot_08', max: 10},
-                {type: 8, name: "瑟银锭", desc: "赋予随机3个选项额外‘降低装备品质’奖励", icon: "/icons/material/inv_ingot_07.png", itemCode: 'inv_ingot_07', max: 10},
-                // {type: 9, name: "黑铁锭", desc: "赋予随机3个选项额外‘附加技能’奖励", icon: "/icons/material/inv_ingot_mithril.png", itemCode: 'inv_ingot_mithril', max: 10},
+                {type: 8, name: "瑟银锭", desc: "赋予随机3个选项额外'降低装备品质'奖励", icon: "/icons/material/inv_ingot_07.png", itemCode: 'inv_ingot_07', max: 10},
+                // {type: 9, name: "黑铁锭", desc: "赋予随机3个选项额外'附加技能'奖励", icon: "/icons/material/inv_ingot_mithril.png", itemCode: 'inv_ingot_mithril', max: 10},
             ],
             rewardType: [
-                // 装备属性随机1-3条带以下属性
-                {type: 'HP', icon: "./icons/stat/hp.jpg", desc: "潜能: 生命"},
-                {type: 'MP', icon: "./icons/stat/mp.jpg", desc: "潜能: 魔法"},
+                // // 装备属性随机1-3条带以下属性
+                // {type: 'HP', icon: "./icons/stat/hp.jpg", desc: "潜能: 生命"},
+                // {type: 'MP', icon: "./icons/stat/mp.jpg", desc: "潜能: 魔法"},
                 {type: 'STR', icon: "./icons/stat/str.jpg", desc: "潜能: 力量"},
                 {type: 'AGI', icon: "./icons/stat/agi.jpg", desc: "潜能: 敏捷"},
                 {type: 'INT', icon: "./icons/stat/int.jpg", desc: "潜能: 智力"},
-                {type: 'CRIT', icon: "./icons/stat/crit.jpg", desc: "潜能: 暴击率"},
-                {type: 'CRITDMG', icon: "./icons/stat/critdmg.jpg", desc: "潜能: 暴击伤害"},
-                {type: 'ATK', icon: "./icons/stat/atk.jpg", desc: "潜能: 攻击"},
-                {type: 'DEF', icon: "./icons/stat/arm.jpg", desc: "潜能: 护甲"},
-                {type: 'SUNDER', icon: "./icons/stat/sunder.jpg", desc: "潜能: 破甲"},
-                {type: 'BLOCK', icon: "./icons/stat/block.jpg", desc: "潜能:格挡"},
+                {type: 'STA', icon: "./icons/stat/sta.jpg", desc: "潜能: 耐力"},
+                {type: 'SPI', icon: "./icons/stat/spi.jpg", desc: "潜能: 精神"},
+                {type: 'ALL', icon: "./icons/stat/all.png", desc: "潜能: 全属性"},
+                // {type: 'CRIT', icon: "./icons/stat/crit.jpg", desc: "潜能: 暴击率"},
+                // {type: 'CRITDMG', icon: "./icons/stat/critdmg.jpg", desc: "潜能: 暴击伤害"},
+                // {type: 'ATK', icon: "./icons/stat/atk.jpg", desc: "潜能: 攻击"},
+                // {type: 'DEF', icon: "./icons/stat/arm.jpg", desc: "潜能: 护甲"},
+                // {type: 'SUNDER', icon: "./icons/stat/sunder.jpg", desc: "潜能: 破甲"},
+                // {type: 'BLOCK', icon: "./icons/stat/block.jpg", desc: "潜能:格挡"},
                 // 装备品质提升1-3
                 {type: 'quality', icon: "./icons/craft/Inv_stone_01.png", desc: "提升品质"},
                 // 装备等级提升
@@ -140,9 +143,9 @@ export default {
                 // 装备等级需求降低
                 {type: 'lvReq', icon: "./icons/craft/inv_misc_book_08.png", desc: "降低等级需求"},
                 // 基础属性上限提升
-                {type: 'statMax', icon: "./icons/craft/inv_misc_gem_sapphire_01.png", desc: "提升主潜属性上限"},
+                {type: 'extraStat', icon: "./icons/craft/inv_misc_gem_sapphire_01.png", desc: "提升主潜属性上限"},
                 // 基础属性提升
-                {type: 'stat', icon: "./icons/craft/Inv_stone_03.png", desc: "提升主潜属性"},
+                {type: 'baseStat', icon: "./icons/craft/Inv_stone_03.png", desc: "提升主潜属性"},
             ],
             rewardList: [],
             rewards: [],
@@ -156,7 +159,7 @@ export default {
                 lvReq: 0,
                 quality: 0,
                 baseStatBoost: 0,
-                maxStatBoost: 0
+                extraStatBoost: 0
             },
             baseQuality: [100,0,0,0,0,0],
             // none, wait, picking, picked, donePick, order, crafting, done
@@ -320,6 +323,12 @@ export default {
                     break;
             }
         },
+        shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        },
         craft() {
             this.remain = 10;
             this.statusChange('picking');
@@ -327,6 +336,9 @@ export default {
             for(let i=0; i<elements.length; i++) {
                 elements[i].classList.remove("flipped")
             }
+            setTimeout(() => {
+                this.shuffleArray(this.rewardList);
+            }, 1000);
         },
         forfeit() {
             this.statusChange('none');
@@ -340,7 +352,7 @@ export default {
                 lvReq: 0,
                 quality: 0,
                 baseStatBoost: 0,
-                maxStatBoost: 0
+                extraStatBoost: 0
             };
             this.remain = 0;
             this.rewards = [];
@@ -451,7 +463,8 @@ export default {
             }
         },
         addReward(reward) {
-            reward['max'] = 100;
+            // reward['max'] = 100;
+            reward['max'] = 1;
             reward['cur'] = 0;
             this.rewards.push(reward);
         },
@@ -540,17 +553,20 @@ export default {
         craftReward(reward) {
             switch(reward.type) {
                 // 潜能
-                case 'HP':
-                case 'MP':
+                // case 'HP':
+                // case 'MP':
                 case 'STR':
                 case 'AGI':
                 case 'INT':
-                case 'CRIT':
-                case 'CRITDMG':
-                case 'ATK':
-                case 'DEF':
-                case 'SUNDER':
-                case 'BLOCK':
+                case 'STA':
+                case 'SPI':
+                case 'ALL':
+                // case 'CRIT':
+                // case 'CRITDMG':
+                // case 'ATK':
+                // case 'DEF':
+                // case 'SUNDER':
+                // case 'BLOCK':
                     reward.success = this.addPotential(reward.type, reward.quality+1);
                     break;
                 // 装备品质提升1-3
@@ -566,33 +582,32 @@ export default {
                     reward.success = this.redLvReq(reward.quality+1);
                     break;
                 // 基础属性上限提升
-                case 'stat':
-                    reward.success = this.addMax((reward.quality+1)*5);
+                case 'extraStat':
+                    reward.success = this.addExtra((reward.quality+1)*5);
                     break;
                 // 基础属性提升
-                case 'statMax':
-                    reward.success = this.addBase((reward.quality+1)*10);
+                case 'baseStat':
+                    reward.success = this.addBase(reward.quality+1);
                     break;
             }
         },
         addPotential(type, count=1) {
-            let percent = [100, 50, 25, 10, 5];
+            let percent = [100, 50, 25, 10];
             let mainPotCount = this.finalEquip.mainPotCount;
-            if(this.finalEquip.mainPotSuccess < 3 || (mainPotCount < 5 && this.finalEquip.mainPotSuccess == mainPotCount)) {
-                let pot = {type: type};
-                if(Math.random()*100 <= percent[mainPotCount]*count) {
-                    this.finalEquip.mainPotSuccess += 1;
-                    pot['success'] = true;
-                }
-                else {
-                    pot['success'] = false;
-                }
-                this.finalEquip.mainPotCount += 1;
+            let pot = {type: type};
+            if(mainPotCount <= 2) {
                 this.finalEquip.mainPot.push(pot);
-                return pot['success'];
+                this.finalEquip.mainPotCount += 1;
+                return true;
             }
-            else {
-                let pot = {type: type};
+            else if(mainPotCount <= 4 && this.finalEquip.mainPot.length == mainPotCount) {
+                this.finalEquip.mainPotCount += 1;
+                if(Math.random()*100 <= percent[mainPotCount]*count) {
+                    this.finalEquip.mainPot.push(pot);
+                    return true;
+                }
+                return false;
+            } else {
                 this.finalEquip.subPot.push(pot);
                 return true;
             }
@@ -617,8 +632,8 @@ export default {
                 this.finalEquip.lvReq = 0;
             return true;
         },
-        addMax(count=1) {
-            this.finalEquip.maxStatBoost += count;
+        addExtra(count=1) {
+            this.finalEquip.extraStatBoost += count;
             return true;
         },
         addBase(count=1) {
@@ -630,10 +645,13 @@ export default {
             let equipInfo = this.findBrothersComponents(guild, 'equipInfo', false)[0];
             let backpack = this.findBrothersComponents(guild, 'backpack', false)[0];
              
+            let fixEntry = [];
             let baseEntry = [];
+            let extraBaseEntry = [];
             let extraEntry = [];
             let newEquip = {};
-
+            let extraEntries = {STR:'CRITDMG',AGT:'HASTE',INT:'APPEN',STA:'HEAL',SPI:'APCRITDMG',ALL:'VERS'};
+            console.log(this.finalEquip)
             // 设置装备类型、等级、质量信息
             newEquip.itemType = equipInfo.createType();
             newEquip.lvReq = this.finalEquip.lvReq || 1;
@@ -643,10 +661,23 @@ export default {
             newEquip.enhanceLv = Math.min(0, newEquip.maxEnhanceLv);
 
             // 添加装备基础属性类型
-            this.finalEquip.mainPot.forEach(entry => {
-                if(entry.success)
-                    baseEntry.push({type: entry.type});
-            });
+            while(this.finalEquip.mainPot.length < 2) {
+                let entries = ['STR','AGI','INT','STA','SPI','ALL'];
+                let type = entries[Math.floor(Math.random()*entries.length)];
+                this.finalEquip.mainPot.push({type: type});
+            }
+            let mainPots = this.finalEquip.mainPot;
+            if(mainPots[0].type == mainPots[1].type)
+                baseEntry.push({type: mainPots[0].type});
+            else {
+                baseEntry.push({type: mainPots[0].type});
+                baseEntry.push({type: mainPots[1].type});
+            }
+            if(mainPots[2] != undefined)
+                extraBaseEntry.push({type: extraEntries[mainPots[2].type]});
+            if(mainPots[3] != undefined)
+                extraBaseEntry.push({type: extraEntries[mainPots[3].type]});
+            console.log(extraBaseEntry);
 
             // 添加装备额外属性，如果数量不足，用装备类型允许的额外属性随机补充
             let type = newEquip.itemType;
@@ -661,39 +692,46 @@ export default {
                 else
                     extraEntry.push({type: this.finalEquip.subPot[i].type});
             }
-            newEquip.baseEntry = baseEntry;
-            newEquip.extraEntry = extraEntry;
 
             // 随机隐藏潜能
             newEquip.potential = newEquip.lv >= 30 ? equipInfo.createPotential(newEquip) : [];
 
             // 应用属性上限
-            newEquip.quality.qualityCoefficient += (this.finalEquip.maxStatBoost/10);
+            newEquip.quality.qualityCoefficient += (this.finalEquip.baseStatBoost/20);
 
             // 设置基础潜能、额外潜能数值
-            baseEntry.forEach(entry => {
-                let random = Math.random();
-                equipInfo.createBaseEntryValue(newEquip.quality.qualityCoefficient, entry, random, newEquip.lv, newEquip.enhanceLv, mod);
-            }); 
-            extraEntry.forEach(entry => {
-                let random = Math.random();
-                equipInfo.createExtraEntryValue(entry, random, newEquip.lv. mod);
-            });
+            let bonus = Math.random() > 0.5 ? 0 : 1;
+            equipInfo.createBaseEntryValue(newEquip.quality.qualityCoefficient, baseEntry, bonus, newEquip.lv, newEquip.enhanceLv, mod);
 
             // 读取装备描述信息
-            index = Math.floor(Math.random()*this[type].type.length);
-            if(baseEntry.length < 2) {
-                newEquip.description = this[type].type[index].description;
+            if(baseEntry[0].type == 'ALL') {
+                let types = Object.keys(this[type].type);
+                let key = types[Math.floor(Math.random()*types.length)];
+                newEquip.description = this[type].type[key][newEquip.quality.qualityLv-1];
             } else {
-                for(let k in this[type].type) {
-                    let equipType = this[type].type[k];
-                    if(equipType.entry[0] == baseEntry[1].type) {
-                        newEquip.description = equipType.description;
-                        break;
-                    }
-                }
+                newEquip.description = this[type].type[baseEntry[0].type][newEquip.quality.qualityLv-1];
             }
             newEquip.description.type = this.type[type];
+
+            // 装备类型自带主潜能
+            if(this[type].baseEntry.length > 0) {
+                fixEntry.push({type:this[type].baseEntry[0]});
+                equipInfo.createBaseEntryValue(newEquip.quality.qualityCoefficient, fixEntry, 0, newEquip.lv, newEquip.enhanceLv, mod);
+                baseEntry = fixEntry.concat(baseEntry);
+            }
+            // 额外主潜能
+            extraBaseEntry.forEach(entry => {
+                equipInfo.createBaseEntryValue(newEquip.quality.qualityCoefficient, [entry], 0, newEquip.lv, newEquip.enhanceLv, mod);
+            });
+
+            extraEntry.forEach(entry => {
+                let random = Math.random()+this.finalEquip.extraStatBoost;
+                equipInfo.createExtraEntryValue(entry, random, newEquip.lv, mod);
+            });
+            
+            newEquip.baseEntry = baseEntry;
+            newEquip.extraBaseEntry = extraBaseEntry;
+            newEquip.extraEntry = extraEntry;
 
             backpack.giveEquip(newEquip);
             this.forfeit();
@@ -748,6 +786,7 @@ export default {
             margin: auto;
             border-radius: 0.3rem;
             backface-visibility: hidden;
+            z-index: 1;
             filter: grayscale(100%);
             img {
                 width:100%;
