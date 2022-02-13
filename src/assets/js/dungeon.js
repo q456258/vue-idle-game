@@ -16,6 +16,7 @@ export const dungeon = {
     methods: {
         generateDungeon(type, count, minlv, maxLv, monster=0) {
             let map = [];
+            let arrList = Array.from(Array(24).keys());
             let playerLv = this.$store.state.playerAttribute.lv;
             for(let i=0; i<count; i++) {
                 let choice = {};
@@ -24,6 +25,7 @@ export const dungeon = {
                 let eventType = type == 'advanture' ? this.getType(lv) : type;
                 let monsterID = monster || this.monsterId[this.getName(eventType, lv)];
                 let monsterName = this.getNameById(monsterID);
+                let ran = Math.floor(Math.random()*arrList.length);
                 choice = {
                     type: eventType, 
                     color: this.typeColor[eventType],
@@ -33,27 +35,32 @@ export const dungeon = {
                     monsterID: monsterID,
                     monsterName: monsterName,
                     count: this.getCount(eventType),
-                    left: Math.random()*90,
-                    top: Math.random()*90,
+                    left: Math.floor(arrList[ran]%6)*15+Math.random()*10+5,
+                    top: arrList[ran]/6*20+Math.random()*5+5,
                 };
+                [arrList[ran], arrList[arrList.length-1]] = [arrList[arrList.length-1], arrList[ran]];
+                arrList.pop();
                 map.push(choice);
             }
             if(minlv <= playerLv && maxLv >= playerLv && type == 'advanture') {
                 let eventType = 'normal';
                 let monsterID = this.monsterId[this.getName(eventType, playerLv)];
                 let monsterName = this.getNameById(monsterID);
+                let ran = Math.floor(Math.random()*arrList.length);
                 let choice = {
                     type: eventType, 
                     color: this.typeColor[eventType],
                     rewardType: this.getReward(eventType, playerLv), 
-                    img: './icons/item/'+eventType+'.png',
+                    img: './icons/other/'+eventType+'.png',
                     lv: playerLv,
                     monsterID: monsterID,
                     monsterName: monsterName,
                     count: this.getCount(eventType),
-                    left: Math.random()*90,
-                    top: Math.random()*90,
+                    left: Math.floor(arrList[ran]%6)*15+Math.random()*10+5,
+                    top: arrList[ran]/6*20+Math.random()*5+5,
                 };
+                [arrList[ran], arrList[arrList.length-1]] = [arrList[arrList.length-1], arrList[ran]];
+                arrList.pop();
                 map.push(choice);
             }
             return map;
