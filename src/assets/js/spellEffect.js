@@ -66,11 +66,10 @@ export const spellEffect = {
             
         },
         generalSpell(source, target, spell) {
-            let dmg = this.getSpellDmg(spell, source);
-            let heal = this.getSpellHeal(spell, source);
+            let dmgs = this.getSpellDmg(spell, source);
+            this.getSpellHeal(spell, source, dmgs);
             let effectList = this.getSpellEffect(source, spell);
-            this.applyDmg(source, target, spell, dmg);
-            this.applyHeal(source, spell, heal);
+            this.applyDmg(source, target, spell, dmgs);
             this.applyEffect(source, target, effectList);
         },
         checkCost(spell) {
@@ -145,9 +144,10 @@ export const spellEffect = {
             }
             return dmg;
         },
-        getSpellHeal(spell, source) {
+        getSpellHeal(spell, source, dmgs) {
             let spellLv = source.spells == undefined ? 0 : source.spells[spell].lv-1;
             let heals = this.spell[spell].level[spellLv];
+            let healBonus = source.attribute['HEAL'].value;
             if(!heals.heal)
                 return 0;
             let heal = heals.heal['FIX'] == undefined ? 0 : heals.heal['FIX'];
@@ -155,8 +155,10 @@ export const spellEffect = {
                 if(source.attribute[attr] != undefined)
                     heal += source.attribute[attr].value*heals.heal[attr];
             }
+            if(heal > 0)
+                heal += healBonus;
             heal = Math.round(heal);
-            return heal;
+            this.set_heal(dmgs, heal);
         },
         applyDmg(source, target, spell, dmgs) {
             let spellInfo = this.spell[spell];
@@ -215,6 +217,10 @@ export const spellEffect = {
                 if(this.$store.state.statistic.slainBy[target.name] != undefined)
                     bonus += source.talent[talent]*0.02;
             }
+            if(source.attribute.VERSBONUS != undefined)
+                bonus += source.attribute.VERSBONUS.value/100;
+            if(target.attribute.VERSBONUS != undefined)
+                bonus -= target.attribute.VERSBONUS.value/100;
             for(let i in dmgs) {
                 dmgs[i] = dmgs[i]*bonus;
             }
@@ -268,7 +274,7 @@ export const spellEffect = {
                     if(source.talent[talent] > 0) {
                         let heal = source.talent[talent]*0.025*source.attribute.MAXHP.value;
                         heal = Math.round(heal);
-                        this.hpChange(source, source, heal);
+                        this.hpChange(source, source, {heal: heal});
                     }
                 }
             }
@@ -285,12 +291,6 @@ export const spellEffect = {
             let attr = target.attribute;
             let value = attr['BLOCK'].value;
             this.set_ad_dmg(dmgs, this.get_dmg(dmgs, 'ad')-value);
-        },
-        applyHeal(source, spell, heal) {
-            let spellInfo = this.spell[spell];
-            if(heal > 0) {
-                this.hpChange(source, source, heal, spellInfo.name);
-            }
         },
         getSpellEffect(source, spellName) {
             let spellLv = source.spells == undefined ? 0 : source.spells[spellName].lv-1;

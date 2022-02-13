@@ -463,8 +463,7 @@ export default {
             }
         },
         addReward(reward) {
-            // reward['max'] = 100;
-            reward['max'] = 1;
+            reward['max'] = 100+100*reward.quality;
             reward['cur'] = 0;
             this.rewards.push(reward);
         },
@@ -650,7 +649,7 @@ export default {
             let extraBaseEntry = [];
             let extraEntry = [];
             let newEquip = {};
-            let extraEntries = {STR:'CRITDMG',AGT:'HASTE',INT:'APPEN',STA:'HEAL',SPI:'APCRITDMG',ALL:'VERS'};
+            let extraEntries = {STR:'CRITDMG',AGI:'HASTE',INT:'APPEN',STA:'HEAL',SPI:'APCRITDMG',ALL:'VERS'};
             // 设置装备类型、等级、质量信息
             newEquip.itemType = equipInfo.createType();
             newEquip.lvReq = this.finalEquip.lvReq || 1;

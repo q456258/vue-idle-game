@@ -341,7 +341,7 @@ export const buffAndTrigger = {
             this.absorb(target, dmgs);
             this.damage(source, target, dmgs, sourceName);
             if(!isNaN(dmgs.heal))
-                this.heal(source, target, this.get_dmg(dmgs, 'heal'), sourceName);
+                this.heal(source, source, this.get_dmg(dmgs, 'heal'), sourceName);
         },
         damage(source, target, dmgs, sourceName) {
             this.weak(source, dmgs);
@@ -436,7 +436,7 @@ export const buffAndTrigger = {
             return isNaN(dmg) ? 0 : dmg;
         },
         set_ad_dmg(dmgs, target) {
-            if(dmgs.adDmg == undefined)
+            if(dmgs.adDmg == undefined && target == 0)
                 return;
             if(isNaN(target)) {
                 console.log("物理伤害传入非数字字符: " +target);
@@ -447,7 +447,7 @@ export const buffAndTrigger = {
             dmgs.adDmg = target;
         },
         set_ap_dmg(dmgs, target) {
-            if(dmgs.apDmg == undefined)
+            if(dmgs.apDmg == undefined && target == 0)
                 return;
             if(isNaN(target)) {
                 console.log("魔法伤害传入非数字字符: " +target);
@@ -458,7 +458,7 @@ export const buffAndTrigger = {
             dmgs.apDmg = target;
         },
         set_heal(dmgs, target) {
-            if(dmgs.heal == undefined)
+            if(dmgs.heal == undefined && target == 0)
                 return;
             if(isNaN(target)) {
                 console.log("治疗数据传入非数字字符: " +target);

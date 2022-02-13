@@ -36,9 +36,6 @@ data() {
                 level: [{
                         des: '造成攻击力*1点伤害',
                         adDmg: { ATK: 1, },
-                        apDmg: { ATK: 1, },
-                        // adDmg: { ATK: 1.1, },
-                        // heal: {AP: 1},
                         cost: { },
                     }
                 ],

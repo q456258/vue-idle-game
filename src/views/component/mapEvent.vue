@@ -332,9 +332,13 @@ export default {
             this.TriggerOnAttack(source, target);
             if(source.type == 'player') {
                 let spellList = this.playerAttr.spells;
+                let haste = this.playerAttr.attribute.HASTE.value;
+                let progress = 1+Math.floor(haste/100);
+                if(Math.random()*100 < haste%100) 
+                    progress += 1;
                 for(let spell in spellList) {
                     if(spellList[spell].progress < this.spell[spell].max) {
-                        spellList[spell].progress += 1;
+                        spellList[spell].progress += progress;
                     }
                 }
             }
