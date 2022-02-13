@@ -180,7 +180,6 @@ export default {
             return fixEntry.concat(baseEntry);
         },
         createBaseEntryValue(qualityCoefficient, entry, bonus, lv, enhanceLv, mod=1) {
-            console.log(entry)
             for(let i=0; i<entry.length; i++) {
                 let type = entry[i].type;
                 let base = qualityCoefficient * this.entryInfo[type].base * mod * (1.6+lv*0.08)+bonus;

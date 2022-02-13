@@ -497,9 +497,6 @@ export const buffAndTrigger = {
         set_enermy_hp(data) {
             let source = this.player;
             let target = this.$store.state.enermyAttribute;
-            if(this.$store.state.dungeonInfo.current == 'trial') {
-                target = this.$store.state.trialAttribute;
-            }
             let CURHP = target.attribute.CURHP,
                 MAXHP = target.attribute.MAXHP;
             if(data < 0)
@@ -511,16 +508,5 @@ export const buffAndTrigger = {
             this.$store.commit('set_hp', {data, CURHP, MAXHP});
             CURHP.showValue = CURHP.value;
         },    
-        set_trial_hp(data) {
-            let target = this.$store.state.trialAttribute;
-            let CURHP = target.attribute.CURHP,
-                MAXHP = target.attribute.MAXHP;
-            if(-1*data >= CURHP.value)
-                data = this.triggerBeforeKilled(source, target, data);
-            if(-1*data >= CURHP.value)
-                this.triggerAfterKilled(source, target);
-            this.$store.commit('set_hp', {data, CURHP, MAXHP});
-            CURHP.showValue = CURHP.value;
-        },  
     }
 }

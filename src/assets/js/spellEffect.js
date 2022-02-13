@@ -249,11 +249,9 @@ export const spellEffect = {
             reduce[3] = mr/(mr+50)*40;
             reduce[2] = mr/(mr+25)*20;
             reduce[1] = mr/(mr+10)*14;
-            console.log(reduce)
             for(let i=4; i>0; i--) {
                 total += reduce[i];
                 if(random < total) {
-                    console.log("=11111111=")
                     this.set_ap_dmg(dmgs, this.get_dmg(dmgs, 'ap')*(1-i*0.25));
                     return;
                 }

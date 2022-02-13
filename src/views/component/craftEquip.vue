@@ -651,7 +651,6 @@ export default {
             let extraEntry = [];
             let newEquip = {};
             let extraEntries = {STR:'CRITDMG',AGT:'HASTE',INT:'APPEN',STA:'HEAL',SPI:'APCRITDMG',ALL:'VERS'};
-            console.log(this.finalEquip)
             // 设置装备类型、等级、质量信息
             newEquip.itemType = equipInfo.createType();
             newEquip.lvReq = this.finalEquip.lvReq || 1;
@@ -677,7 +676,6 @@ export default {
                 extraBaseEntry.push({type: extraEntries[mainPots[2].type]});
             if(mainPots[3] != undefined)
                 extraBaseEntry.push({type: extraEntries[mainPots[3].type]});
-            console.log(extraBaseEntry);
 
             // 添加装备额外属性，如果数量不足，用装备类型允许的额外属性随机补充
             let type = newEquip.itemType;

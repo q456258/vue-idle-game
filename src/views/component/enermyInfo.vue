@@ -86,12 +86,7 @@ export default {
     },
     computed: {
         attr() {
-            if(this.enermy == 'trial') {
-                return this.$store.state.trialAttribute;
-            }
-            else {
-                return this.$store.state.enermyAttribute;
-            }
+            return this.$store.state.enermyAttribute;
         },
     },
     methods: {      

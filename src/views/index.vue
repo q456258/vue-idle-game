@@ -73,18 +73,9 @@
           <button id="advanture" class="btn btn-light btn-sm lvZone" @click="switchZone('advanture')">
             冒险区
           </button>    
-          <!-- <button id="trial" class="btn btn-outline-light btn-sm lvZone" @click="switchZone('trial')">
-            试炼区
-          </button>          -->
           <button class="btn btn-outline-light btn-sm" id="resetMap" v-show="dungeonInfo.current=='advanture'" @click="resetMap()">
             重置地图<span v-if="resetTime>0">({{resetTime}})</span>
           </button>   
-          <button v-if="!inBattle&&dungeonInfo.current=='trial'" class="btn btn-success btn-sm" @click="toggleBattle('trial')">
-            开始/继续战斗
-          </button>
-          <button v-if="inBattle&&dungeonInfo.current=='trial'" class="btn btn-danger btn-sm" @click="toggleBattle('trial')">
-            停止战斗
-          </button>
           <select v-model="selectedZone" @change="setSelectedZone($event)" class="btn btn-light">
             <option :value="index" v-for="(zone, index) in filteredMonsterZone" :key="index">
               {{zone.name+'('+zone.minLv+'-'+zone.maxLv+'级)'}}
@@ -328,7 +319,6 @@ export default {
   },
   computed: {
     baseAttribute() { return this.$store.state.baseAttribute },
-    trialAttribute() { return this.$store.state.trialAttribute.attribute },
     attribute() { return this.$store.state.playerAttribute.attribute },
     userGold() { return this.$store.state.guildAttribute.gold },
     playerWeapon() { return this.$store.state.playerAttribute.weapon },
@@ -401,13 +391,6 @@ export default {
         element.classList.replace('btn-outline-light', 'btn-light');
         // this.$store.commit('set_enermy_hp', 0);
         this.dungeonInfo.current = type;
-        if(type == 'trial') {
-          mapEvent.startBattle('trial');
-          mapEvent.toggleBattle('trial');
-          this.enermyInfo = 'trial';
-        }
-        else
-          this.enermyInfo = 'advanture';
       }
     },
     toggleBattle(type) {

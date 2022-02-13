@@ -75,7 +75,7 @@ export default {
             battleTimer: "",
             selectedDungeon: {},
             reqExp: [],
-            type: {normal: '普通', elite: '精英', boss: 'BOSS', trial: '试炼', gold: '金矿', chest: '宝藏'}
+            type: {normal: '普通', elite: '精英', boss: 'BOSS', gold: '金矿', chest: '宝藏'}
         }
     },
     watch: {
@@ -111,22 +111,19 @@ export default {
         startBattle(type) {
             if(!type)
                 type = this.dungeonInfo['advanture'].type;
-            // if(['gold', 'wood', 'crystal', 'equip', 'trial'].indexOf(type) != -1)
-            if(['normal', 'trial', 'elite', 'boss', 'gold'].indexOf(type) != -1)
+            // if(['gold', 'wood', 'crystal', 'equip'].indexOf(type) != -1)
+            if(['normal', 'elite', 'boss', 'gold'].indexOf(type) != -1)
                 this.battle(type);
             if(type == 'chest')
                 this.chest();
         },
         battle(type) {
             let playerAttribute = this.playerAttr,
-                enermyAttribute = type == 'trial' ? this.$store.state.trialAttribute : this.$store.state.enermyAttribute,
+                enermyAttribute = this.$store.state.enermyAttribute,
                 dungeonInfo = this.dungeonInfo;
             if(enermyAttribute.attribute.CURHP.value == 0) {
-                if(type == 'trial')
-                    this.generateEnermy('trial', dungeonInfo.trial.level);
-                else
-                    this.generateEnermy();
-                enermyAttribute = type == 'trial' ? this.$store.state.trialAttribute : this.$store.state.enermyAttribute;
+                this.generateEnermy();
+                enermyAttribute = this.$store.state.enermyAttribute;
             }
             if(dungeonInfo.inBattle)
                 return;
@@ -148,10 +145,6 @@ export default {
                 this.setBattleStatus(false, dungeonInfo.auto);
                 if(dungeonInfo.current == 'normal')
                     this.generateEnermy();
-                else if(dungeonInfo.current == 'trial') {
-                    dungeonInfo.trial.level += 20;
-                    this.generateEnermy('trial', dungeonInfo.trial.level);
-                }
                 if(this.selectedDungeon.count == 0)
                     dungeonInfo.auto = false;
                 this.gainExp(target.lv);
@@ -327,8 +320,6 @@ export default {
             }
             else if(type=='boss') {
                 attribute = this.bossStat(attribute);
-            } if(type=='trial') {
-                attribute = this.trialStat(attribute);
             }
             val = this.getDefRed(attribute['DEF'].value);
             attribute['DEFRED'] = {
@@ -350,19 +341,11 @@ export default {
         },
         reward() {
             let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-            let type = this.dungeonInfo.current;
-            if(type == 'trial') {
-                let item = itemInfo.createItem('random_equip_4', 1);  
-                item = JSON.parse(item);
-                itemInfo.addItem(item);
-            }
-            else {
-                let rewardList = this.dungeonInfo.advanture.reward;
-                for(let k=0; k<rewardList.length; k++) {
-                    let random = Math.random()*100;
-                    if(random <= rewardList[k][1]) {
-                        itemInfo.addItem(rewardList[k][0]);
-                    }
+            let rewardList = this.dungeonInfo.advanture.reward;
+            for(let k=0; k<rewardList.length; k++) {
+                let random = Math.random()*100;
+                if(random <= rewardList[k][1]) {
+                    itemInfo.addItem(rewardList[k][0]);
                 }
             }
             // let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
@@ -377,33 +360,6 @@ export default {
             let achievement = this.findBrothersComponents(this, 'achievement', false)[0];
             achievement.set_statistic(slain);
             // this.$store.commit("set_statistic", slain);
-        },
-        trialStat(attribute) {
-            attribute['ATK'] = {
-                value: Math.round(attribute['ATK'].value*1.25),
-                showValue: Math.round(attribute['ATK'].value*1.25),
-            }
-            attribute['DEF'] = {
-                value: attribute['DEF'].value*2,
-                showValue: attribute['DEF'].value*2,
-            }
-            attribute['SUNDER'] = {
-                value: Math.round(attribute['SUNDER'].value*1.25),
-                showValue: Math.round(attribute['SUNDER'].value*1.25),
-            }
-            attribute['BLOCK'] = {
-                value: attribute['BLOCK'].value*2,
-                showValue: attribute['BLOCK'].value*2,
-            }
-            attribute['MAXHP'] = {
-                value: attribute['MAXHP'].value*20,
-                showValue: attribute['MAXHP'].value*20
-            }
-            attribute['CURHP'] = {
-                value: attribute['MAXHP'].value,
-                showValue: attribute['MAXHP'].value
-            }
-            return attribute;
         },
         eliteStat(attribute) {
             attribute['ATK'] = {

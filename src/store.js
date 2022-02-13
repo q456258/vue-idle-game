@@ -212,10 +212,6 @@ export default new Vuex.Store({
                 monsterID: 0,
                 monsterName: ''
             },
-            trial: {
-                level: 1,
-                monsterID: 0,
-            }
         },
         guildAttribute: {
             gold: 0,
@@ -302,21 +298,6 @@ export default new Vuex.Store({
             belt: {},
             legging: {},
             necklace: {}
-        },
-        trialAttribute: {
-            name: "小鸡",
-            lv: 1,
-            attribute: {
-                CURHP: { value: 0, showValue: 0, },
-                MAXHP: { value: 0, showValue: 0, },                
-                ATK: { value: 0, showValue: 0, },
-                DEF: { value: 0, showValue: 0, },
-                DEFRED: { value: 0, showValue: 0, },
-                BLOCK: { value: 0, showValue: 0, },
-                MR: { value: 0, showValue: 0, },
-                CRIT: { value: 0, showValue: 0, },
-                CRITDMG: { value: 200, showValue: 200, },
-            },
         },
         enermyAttribute: {
             name: "小鸡",
@@ -661,10 +642,7 @@ export default new Vuex.Store({
             CURMP.showValue = CURMP.value;
         },
         set_enermy_attribute(state, data) {
-            if(this.state.dungeonInfo.current == 'trial')
-                this.state.trialAttribute = data;
-            else
-                this.state.enermyAttribute = data;
+            this.state.enermyAttribute = data;
         },
         set_hp(state, data) {
             let CURHP = data.CURHP,

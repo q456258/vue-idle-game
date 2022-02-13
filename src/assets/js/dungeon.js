@@ -7,7 +7,7 @@ export const dungeon = {
             typeColor: {
                 normal: '#6d3', gold: '#6d3', 
                 elite: '#dc3', 
-                boss: '#d63', trial: '#d63', 
+                boss: '#d63',
                 chest: '#c0f'
             },
             monsterName: {}
@@ -59,7 +59,7 @@ export const dungeon = {
             return map;
         },
         getType(level) {
-            // normal, elite, boss, trial, chest
+            // normal, elite, boss, chest
             // gold, wood, chest, equip
             let types = {
                 normal: 10000, 
@@ -108,9 +108,6 @@ export const dungeon = {
                 case 'boss':
                     name = bossName[Math.floor((level-1)/20)];
                     break;
-                case 'trial':
-                    name = bossName[Math.floor((level-1)/20)];
-                    break;
                 case 'gold':
                     name = '金矿';
                     break;
@@ -139,8 +136,6 @@ export const dungeon = {
                 case 'boss':
                     return 1;
                 case 'chest':
-                    return 1;
-                case 'trial':
                     return 1;
             }
             return -1;
