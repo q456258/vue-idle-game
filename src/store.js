@@ -5,36 +5,7 @@ Vue.use(Vuex)
 //灰、白、蓝、紫、橙、红
 //破旧，普通，精良，完美，史诗，传说
 //a1a1a1,D9D9D9,00BBFF,BB00FF,FFBB00,FF0000
-let initial_helmet = {
-        lv: 1,
-        lvReq: 1,
-        itemType: 'helmet',
-        maxEnhanceLv: 0,
-        enhanceLv: 0,
-        quality: {
-            color: "#a1a1a1",
-            extraEntryNum: 1,
-            name: "破旧",
-            qualityCoefficient: 1.8,
-            qualityLv: 1
-        },
-        description: {
-            name: "村里最好的头盔",
-            desc: "",
-            type: "头盔",
-            iconSrc: "./icons/helmet/inv_helm_cloth_sunhat_b_01.jpg",
-        },
-        baseEntry: [{
-            value: 150,
-            showVal: "+150",
-            type: "HP",
-            name: "生命值"
-        }],
-        extraBaseEntry: [],
-        extraEntry: [],
-        potential: []
-    },
-    initial_shoe = {
+let initial_shoe = {
         lv: 1,
         lvReq: 1,
         itemType: 'shoe',
@@ -51,11 +22,11 @@ let initial_helmet = {
             name: "村里最好的鞋子",
             desc: "",
             type: "鞋子",
-            iconSrc: "./icons/shoe/inv_boots_01.jpg",
+            iconSrc: "./icons/shoe/inv_cloth_startinggear_a_01_boot.jpg",
         },
         baseEntry: [{
-            value: 10,
-            showVal: "+10",
+            value: 5,
+            showVal: "+5%",
             type: "CRIT",
             name: "暴击率"
         }],
@@ -80,7 +51,7 @@ let initial_helmet = {
             name: "村里最好的武器",
             desc: "",
             type: "武器",
-            iconSrc: "./icons/weapon/inv_axe_75.jpg",
+            iconSrc: "./icons/weapon/inv_axe_19.jpg",
         },
         baseEntry: [{
             value: 30,
@@ -109,7 +80,7 @@ let initial_helmet = {
             name: "村里最好的铠甲",
             desc: "",
             type: "铠甲",
-            iconSrc: "./icons/armor/inv_chest_cloth_71.jpg",
+            iconSrc: "./icons/armor/inv_shirt_05.jpg",
         },
         baseEntry: [{
             value: 25,
@@ -121,7 +92,7 @@ let initial_helmet = {
         extraEntry: [],
         potential: []
     },
-    initial_shoulder = {
+    initial_legging = {
         lv: 1,
         lvReq: 1,
         itemType: 'shoulder',
@@ -135,14 +106,14 @@ let initial_helmet = {
             qualityLv: 1
         },
         description: {
-            name: "村里最好的护肩",
+            name: "村里最好的裤子",
             desc: "",
-            type: "肩膀",
-            iconSrc: "./icons/shoulder/inv_shoulder_09.jpg",
+            type: "腿部",
+            iconSrc: "./icons/legging/inv_pants_09.jpg",
         },
         baseEntry: [{
-            value: 10,
-            showVal: "+10",
+            value: 5,
+            showVal: "+5",
             type: "BLOCK",
             name: "格挡"
         }],
@@ -226,8 +197,7 @@ export default new Vuex.Store({
         },
         playerAttribute: {
             name: '无名',
-            lv: 50,
-            // lv: 1,
+            lv: 1,
             type: 'player',
             exp: {cur: 0, req: 400},
             healthRecoverySpeed: 1,
@@ -284,19 +254,18 @@ export default new Vuex.Store({
                 generalBranch: 0
             },
             globalCD: {},
-            // talentPoint: 1,
-            talentPoint: 100,
-            helmet: initial_helmet,
+            talentPoint: 1,
+            helmet: {},
             weapon: initial_weapon,
             armor: initial_armor,
-            shoulder: initial_shoulder,
+            shoulder: {},
             shoe: initial_shoe,
             glove: {},
             ring: {},
             cape: {},
             bracer: {},
             belt: {},
-            legging: {},
+            legging: initial_legging,
             necklace: {}
         },
         enermyAttribute: {
@@ -314,9 +283,7 @@ export default new Vuex.Store({
                 APCRITDMG: { value: 0, showbaseVal: 0},
                 APPEN: { value: 0, showbaseVal: 0},
                 MR: { value: 0, showbaseVal: 0},
-                HASTE: { value: 0, showbaseVal: 0},
                 HEAL: { value: 0, showbaseVal: 0},
-                VERS: { value: 0, showbaseVal: 0},
                 CRIT: { value: 0, showValue: 0, },
                 CRITDMG: { value: 0, showValue: 0, },
             },
@@ -511,7 +478,7 @@ export default new Vuex.Store({
                 
             ];
             let advancedAttr = {
-                STR: { DEF: 3, BLOCK: 1}, 
+                STR: { DEF: 3, BLOCK: 0.5}, 
                 AGI: { ATK: 3, CRIT: 0.05}, 
                 INT: { AP: 5, APCRIT: 0.1}, 
                 STA: { HP: 10}, 

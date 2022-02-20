@@ -696,8 +696,7 @@ export default {
             newEquip.quality.qualityCoefficient += (this.finalEquip.baseStatBoost/20);
 
             // 设置基础潜能、额外潜能数值
-            let bonus = Math.random() > 0.5 ? 0 : 1;
-            equipInfo.createBaseEntryValue(newEquip.quality.qualityCoefficient, baseEntry, bonus, newEquip.lv, newEquip.enhanceLv, mod);
+            equipInfo.createBaseEntryValue(newEquip.quality.qualityCoefficient, baseEntry, 1, newEquip.lv, newEquip.enhanceLv, mod);
 
             // 读取装备描述信息
             if(baseEntry[0].type == 'ALL') {
@@ -711,7 +710,10 @@ export default {
 
             // 装备类型自带主潜能
             if(this[type].baseEntry.length > 0) {
-                fixEntry.push({type:this[type].baseEntry[0]});
+                if(type == 'weapon' && (baseEntry[0].type == 'INT' || baseEntry[0].type == 'SPI'))
+                    fixEntry.push({type:'AP'});
+                else
+                    fixEntry.push({type:this[type].baseEntry[0]});
                 equipInfo.createBaseEntryValue(newEquip.quality.qualityCoefficient, fixEntry, 0, newEquip.lv, newEquip.enhanceLv, mod);
                 baseEntry = fixEntry.concat(baseEntry);
             }

@@ -236,9 +236,12 @@ export default {
         levelUp() {
             let playerLv = this.playerAttr.lv;
             this.playerAttr.lv += 1;
-            if(this.playerAttr.lv > 10)
-                this.playerAttr.talentPoint += 1;
+            this.playerAttr.talentPoint += 1;
             this.playerAttr.exp.req = this.reqExp[playerLv+1];
+            if(this.playerAttr.lv == 10) {
+                let element = document.getElementById('talentTree');
+                element.classList.add('glow');
+            }
             if(this.playerAttr.lv == 15) {
                 let element = document.getElementById('guild');
                 element.classList.add('glow');
@@ -282,9 +285,9 @@ export default {
             enermyAttribute.attribute = this.$deepCopy(this.monster[templateId].template);
             let attribute = enermyAttribute.attribute,
             val = 0.0,
-            flexStats = ['MAXHP', 'ATK', 'DEF'],
-            lvStats = ['BLOCK'],
-            fixStats = ['CRIT', 'CRITDMG']; 
+            flexStats = ['MAXHP', 'ATK', 'AP', 'DEF', 'MR'],
+            lvStats = ['BLOCK', 'HEAL'],
+            percentStats = ['CRIT', 'CRITDMG', 'APCRIT', 'APCRITDMG']; 
             enermyAttribute.lv = level;
             enermyAttribute.type = type;
             enermyAttribute.name = this.dungeonInfo[this.dungeonInfo.current].monsterName;
@@ -295,7 +298,7 @@ export default {
                 // attribute.value = Math.round(attribute.value*(1+enermyAttribute.lv*0.15)*(1+Math.random()/10));
                 // attribute.value = Math.round(attribute.value*(1+enermyAttribute.lv*0.15));
                 // attribute.value = Math.round(attribute.value*(1.5+enermyAttribute.lv*(enermyAttribute.lv-1)*(enermyAttribute.lv/50)));
-                attr.value = Math.round(attr.value*(2+enermyAttribute.lv*(enermyAttribute.lv/15)));
+                attr.value = Math.round(attr.value*(2+enermyAttribute.lv*(enermyAttribute.lv/35)*(0.9+Math.random()*0.2)));
                 attr.showValue = attr.value;
                 enermyAttribute.attribute[stat] = attr;
             });
@@ -305,7 +308,7 @@ export default {
                 attr.showValue = attr.value;
                 enermyAttribute.attribute[stat] = attr;
             });
-            fixStats.forEach(stat => {
+            percentStats.forEach(stat => {
                 let attr = enermyAttribute.attribute[stat];
                 // attribute.value = Math.round(attribute.value*(enermyAttribute.lv));
                 attr.showValue = attr.value + '%';
@@ -374,9 +377,9 @@ export default {
                 value: attribute['DEF'].value,
                 showValue: attribute['DEF'].value,
             }
-            attribute['SUNDER'] = {
-                value: attribute['SUNDER'].value,
-                showValue: attribute['SUNDER'].value,
+            attribute['AP'] = {
+                value: attribute['AP'].value,
+                showValue: attribute['AP'].value,
             }
             attribute['BLOCK'] = {
                 value: attribute['BLOCK'].value,
@@ -401,9 +404,9 @@ export default {
                 value: attribute['DEF'].value*2,
                 showValue: attribute['DEF'].value*2,
             }
-            attribute['SUNDER'] = {
-                value: attribute['SUNDER'].value*2,
-                showValue: attribute['SUNDER'].value*2,
+            attribute['AP'] = {
+                value: attribute['AP'].value*2,
+                showValue: attribute['AP'].value*2,
             }
             attribute['BLOCK'] = {
                 value: attribute['BLOCK'].value*2,

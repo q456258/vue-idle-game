@@ -88,7 +88,7 @@ export const equipConfig = {
         ALL: { base: 0.8, name: '全属性'},
         ATK: { base: 16, name: '攻击' }, 
         DEF: { base: 4, name: '护甲' }, 
-        BLOCK: { base: 2, name: '格挡' }, 
+        BLOCK: { base: 1, name: '格挡' }, 
         AP: { base: 16, name: '法伤' }, 
         APCRIT: { base: 2, name: '法术暴击' }, 
         APCRITDMG: { base: 5, name: '法暴伤害' }, 
@@ -118,13 +118,12 @@ export const equipConfig = {
         MRP: { base: 6, name: '魔抗' }, 
       },
       entries: [
-        'STR','AGI','INT', 'ALL', 'CRIT','CRITDMG','ATK', 'DEF', 'BLOCK', 'HP', 'MP', 
+        'STR','AGI','INT', 'ALL', 'CRIT','CRITDMG','ATK', 'DEF', 'BLOCK','HP', 'MP', 
       ],
       helmet: {
         baseEntry: ['DEF'],
         extraEntry: [
-          // 'STR','AGI','INT','STA','SPI'
-          'STR','AGI','INT','ALL','CRIT','CRITDMG','ATK','DEF','BLOCK','HP','MP',
+          'STR','AGI','INT','STA','SPI','ALL','ATK','AP','DEF','MR','BLOCK','HP','MP',
         ],
         type: {
           STR: [{
@@ -243,7 +242,7 @@ export const equipConfig = {
       weapon: {
         baseEntry: [ 'ATK'],
         extraEntry: [
-          'STR','AGI','INT','ALL','CRIT','CRITDMG','ATK','DEF','BLOCK','HP','MP',
+          'STR','AGI','INT','STA','SPI','ALL','ATK','AP','DEF','MR','BLOCK','HP','MP',
         ],
         type: {
           STR: [{
@@ -359,7 +358,7 @@ export const equipConfig = {
       armor: {
         baseEntry: ['DEF'],
         extraEntry: [
-          'STR','AGI','INT','ALL','CRIT','CRITDMG','ATK','DEF','BLOCK','HP','MP',
+          'STR','AGI','INT','STA','SPI','ALL','ATK','AP','DEF','MR','BLOCK','HP','MP',
         ],
         type: {
           STR: [{
@@ -467,7 +466,7 @@ export const equipConfig = {
       shoe: {
         baseEntry: [],
         extraEntry: [
-          'STR','AGI','INT','ALL','CRIT','CRITDMG','ATK','DEF','BLOCK','HP','MP',
+          'STR','AGI','INT','STA','SPI','ALL','ATK','AP','DEF','MR','BLOCK','HP','MP',
         ],
         type: {
           STR: [{
@@ -575,7 +574,7 @@ export const equipConfig = {
       shoulder: {
         baseEntry: ['DEF'],
         extraEntry: [
-          'STR','AGI','INT','ALL','CRIT','CRITDMG','ATK','DEF','BLOCK','HP','MP',
+          'STR','AGI','INT','STA','SPI','ALL','ATK','AP','DEF','MR','BLOCK','HP','MP',
         ],
         type: {
           STR: [{
@@ -689,7 +688,7 @@ export const equipConfig = {
       glove: {
         baseEntry: [],
         extraEntry: [
-          'STR','AGI','INT','ALL','CRIT','CRITDMG','ATK','DEF','BLOCK','HP','MP',
+          'STR','AGI','INT','STA','SPI','ALL','ATK','AP','DEF','MR','BLOCK','HP','MP',
         ],
         type: {
           STR: [{
@@ -797,7 +796,7 @@ export const equipConfig = {
       ring: {
         baseEntry: [ 'HP'],
         extraEntry: [
-          'STR','AGI','INT','ALL','CRIT','CRITDMG','ATK','DEF','BLOCK','HP','MP',
+          'STR','AGI','INT','STA','SPI','ALL','ATK','AP','DEF','MR','BLOCK','HP','MP',
         ],
         type: {
           STR: [{
@@ -905,7 +904,7 @@ export const equipConfig = {
       cape: {
         baseEntry: [],
         extraEntry: [
-          'STR','AGI','INT','ALL','CRIT','CRITDMG','ATK','DEF','BLOCK','HP','MP',
+          'STR','AGI','INT','STA','SPI','ALL','ATK','AP','DEF','MR','BLOCK','HP','MP',
         ],
         type: {
           STR: [{
@@ -1013,7 +1012,7 @@ export const equipConfig = {
       bracer: {
         baseEntry: [ 'DEF'],
         extraEntry: [
-          'STR','AGI','INT','ALL','CRIT','CRITDMG','ATK','DEF','BLOCK','HP','MP',
+          'STR','AGI','INT','STA','SPI','ALL','ATK','AP','DEF','MR','BLOCK','HP','MP',
         ],
         type: {
           STR: [{
@@ -1121,7 +1120,7 @@ export const equipConfig = {
       belt: {
         baseEntry: [ 'MP'],
         extraEntry: [
-          'STR','AGI','INT','ALL','CRIT','CRITDMG','ATK','DEF','BLOCK','HP','MP',
+          'STR','AGI','INT','STA','SPI','ALL','ATK','AP','DEF','MR','BLOCK','HP','MP',
         ],
         type: {
           STR: [{
@@ -1229,7 +1228,7 @@ export const equipConfig = {
       legging: {
         baseEntry: [ 'DEF'],
         extraEntry: [
-          'STR','AGI','INT','ALL','CRIT','CRITDMG','ATK','DEF','BLOCK','HP','MP',
+          'STR','AGI','INT','STA','SPI','ALL','ATK','AP','DEF','MR','BLOCK','HP','MP',
         ],
         type: {
           STR: [{
@@ -1337,7 +1336,7 @@ export const equipConfig = {
       necklace: {
         baseEntry: [ 'MR'],
         extraEntry: [
-          'STR','AGI','INT','ALL','CRIT','CRITDMG','ATK','DEF','BLOCK','HP','MP',
+          'STR','AGI','INT','STA','SPI','ALL','ATK','AP','DEF','MR','BLOCK','HP','MP',
         ],
         type: {
           STR: [{

@@ -36,7 +36,7 @@ export const dungeon = {
                     monsterName: monsterName,
                     count: this.getCount(eventType),
                     left: Math.floor(arrList[ran]%6)*15+Math.random()*10+5,
-                    top: arrList[ran]/6*20+Math.random()*5+5,
+                    top: arrList[ran]/6*20+Math.random()*10+5,
                 };
                 [arrList[ran], arrList[arrList.length-1]] = [arrList[arrList.length-1], arrList[ran]];
                 arrList.pop();
@@ -57,7 +57,7 @@ export const dungeon = {
                     monsterName: monsterName,
                     count: this.getCount(eventType),
                     left: Math.floor(arrList[ran]%6)*15+Math.random()*10+5,
-                    top: arrList[ran]/6*20+Math.random()*5+5,
+                    top: arrList[ran]/6*20+Math.random()*10+5,
                 };
                 [arrList[ran], arrList[arrList.length-1]] = [arrList[arrList.length-1], arrList[ran]];
                 arrList.pop();
@@ -108,6 +108,7 @@ export const dungeon = {
             switch(type) {
                 case 'normal':
                     name = level == 0 ?nameList[0] : nameList[Math.floor((level-1)/10)+1];
+                    console.log(name)
                     break;
                 case 'elite':
                     name = nameList[Math.floor((level-1)/10)+1]+'精英';

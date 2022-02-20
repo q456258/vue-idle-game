@@ -574,6 +574,19 @@ export const itemConfig = {
                     stack: true,
                     maxStack: 20
                 },
+                random_equip_10: {
+                    quality: 1,
+                    description: {
+                        name: '随机装备',
+                        category: '消耗品',
+                        desc: '必定获得一件垃圾装备',
+                        iconSrc: "./icons/item/inv_misc_questionmark.jpg",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    maxStack: 20
+                },
                 //'导师', '阿迦玛', '金牙', '霍格', '铁背龟', '熔岩元素', '咕噜咕拉', '塞瑞娜·血羽', '科多兽', '维斯迦尔', '安戈雷尔'
                 bossTicket0: {
                     quality: 3,

@@ -17,25 +17,19 @@
     </div>
     <div class="other">
         <div class="item">
-            <img src="../../assets/icons/stat/atk.png" alt="">
+            <span class="smallIconContainer">
+                <del class="grey smallIcon iconBorder"></del>
+                <img src="/icons/stat/atk.jpg" alt="">
+            </span>
             <div class="value">
                 <span>{{attr.attribute.ATK.showValue}}</span>
             </div>
         </div>
         <div class="item">
-            <img src="../../assets/icons/stat/sunder.png" alt="">
-            <div class="value">
-                <span>{{attr.attribute.BLOCK.showValue}}</span>
-            </div>
-        </div>
-        <div class="item">
-            <img src="../../assets/icons/stat/crit.png" alt="">
-            <div class="value">
-                <span>{{attr.attribute.CRIT.showValue}}</span>
-            </div>
-        </div>
-        <div class="item">
-            <img src="../../assets/icons/stat/arm.png" alt="">
+            <span class="smallIconContainer">
+                <del class="grey smallIcon iconBorder"></del>
+                <img src="/icons/stat/arm.jpg" alt="">
+            </span>
             <div class="value">
                 <span>
                     {{attr.attribute.DEF.showValue}}
@@ -46,17 +40,75 @@
             </div>
         </div>
         <div class="item">
-            <img src="../../assets/icons/stat/mr.png" alt="">
+            <span class="smallIconContainer">
+                <del class="grey smallIcon iconBorder"></del>
+                <img src="/icons/stat/block.jpg" alt="">
+            </span>
             <div class="value">
-                <span>
-                    {{attr.attribute.MR.showValue}}
-                </span>
+                <span>{{attr.attribute.BLOCK.showValue}}</span>
             </div>
         </div>
         <div class="item">
-            <img src="../../assets/icons/stat/critDmg.png" alt="">
+            <span class="smallIconContainer">
+                <del class="grey smallIcon iconBorder"></del>
+                <img src="/icons/stat/ap.jpg" alt="">
+            </span>
+            <div class="value">
+                <span>{{attr.attribute.AP.showValue}}</span>
+            </div>
+        </div>
+        <div class="item">
+            <span class="smallIconContainer">
+                <del class="grey smallIcon iconBorder"></del>
+                <img src="/icons/stat/apcrit.jpg" alt="">
+            </span>
+            <div class="value">
+                <span>{{attr.attribute.APCRIT.showValue}}</span>
+            </div>
+        </div>
+        <div class="item">
+            <span class="smallIconContainer">
+                <del class="grey smallIcon iconBorder"></del>
+                <img src="/icons/stat/crit.jpg" alt="">
+            </span>
+            <div class="value">
+                <span>{{attr.attribute.CRIT.showValue}}</span>
+            </div>
+        </div>
+        <div class="item">
+            <span class="smallIconContainer">
+                <del class="grey smallIcon iconBorder"></del>
+                <img src="/icons/stat/critDmg.jpg" alt="">
+            </span>
             <div class="value">
                 <span>{{attr.attribute.CRITDMG.showValue}}</span>
+            </div>
+        </div>
+        <div class="item">
+            <span class="smallIconContainer">
+                <del class="grey smallIcon iconBorder"></del>
+                <img src="/icons/stat/hpreg.jpg" alt="">
+            </span>
+            <div class="value">
+                <span>{{attr.attribute.HEAL.showValue}}</span>
+            </div>
+        </div>
+        <div class="item">
+            <span class="smallIconContainer">
+                <del class="grey smallIcon iconBorder"></del>
+                <img src="/icons/stat/appen.jpg" alt="">
+            </span>
+            <div class="value">
+                <span>{{attr.attribute.APPEN.showValue}}</span>
+            </div>
+        </div>
+        <div class="item">
+            <span class="smallIconContainer">
+                <del class="grey smallIcon iconBorder"></del>
+                <img src="/icons/stat/mr.jpg" alt="">
+            </span>
+            <div class="value">
+                <span>{{attr.attribute.MR.showValue}}</span>
             </div>
         </div>
     </div>
@@ -131,14 +183,13 @@ export default {
     }
     & > div,
     .item {
-        width: 33.3%;
+        width: 20%;
         padding-bottom: 0.3rem;
         display: flex;
         align-items: center;
         justify-content: flex-start;
         flex-direction: column;
         .value {
-            margin-top: 0.3rem;
             font-size: 1rem;
             flex: 1;
             display: flex;

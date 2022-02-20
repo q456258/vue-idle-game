@@ -90,17 +90,17 @@ export default {
         return {
             newEquip: {},
             qualityProbability: [
-                // [0.50, 0.75, 0.9, 0.99, 0.999, 1],
-                [0.75, 1, 1, 1, 1, 1], //普通(1-50)
-                [0.55, 0.85, 1, 1, 1, 1], //普通(51-80)
-                [0.45, 0.78, 0.98, 1, 1, 1], //普通(80+)
-                [0.25, 0.65, 0.95, 1, 1, 1], //精英(1-60)
-                [0.19, 0.49, 0.84, 0.99, 1, 1], //精英(6+)
-                [0.25, 0.6, 0.94, 0.99, 0.9995, 1], //宝箱
-                [0.1, 0.25, 0.57, 0.92, 0.995, 1], //BOSS
-                [0.1, 0.25, 0.55, 0.85, 0.99, 1], //
-                [0.05, 0.15, 0.35, 0.75, 0.95, 1], //
-                [0, 0, 0.15, 0.55, 0.9, 1], //
+                [0.75, 1, 1, 1, 1, 1], //0普通(1-50)
+                [0.55, 0.85, 1, 1, 1, 1], //1普通(51-80)
+                [0.45, 0.78, 0.98, 1, 1, 1], //2普通(80+)
+                [0.25, 0.65, 0.95, 1, 1, 1], //3精英(1-60)
+                [0.19, 0.49, 0.84, 0.99, 1, 1], //4精英(6+)
+                [0.25, 0.6, 0.94, 0.99, 0.9995, 1], //5宝箱
+                [0.1, 0.25, 0.57, 0.92, 0.995, 1], //6BOSS
+                [0.1, 0.25, 0.55, 0.85, 0.99, 1], //7
+                [0.05, 0.15, 0.35, 0.75, 0.95, 1], //8
+                [0, 0, 0.15, 0.55, 0.9, 1], //9
+                [1, 1, 1, 1, 1, 1], //10小鸡
             ],
             typeName: ['helmet', 'weapon', 'armor', 'shoe', 'shoulder', 'glove', 'ring', 'cape', 'bracer', 'belt', 'legging', 'necklace'],
             percent: [
@@ -166,11 +166,14 @@ export default {
                 baseEntry.push({type:options[ran]});
             }
             for(let i in this[type].baseEntry) {
-                fixEntry.push({type: this[type].baseEntry[i]});
+                if(type == 'weapon' && (baseEntry[0].type == 'INT' || baseEntry[0].type == 'SPI'))
+                    fixEntry.push({type:'AP'});
+                else
+                    fixEntry.push({type: this[type].baseEntry[i]});
             }
 
             this.createBaseEntryValue(newEquip.quality.qualityCoefficient, fixEntry, 0, newEquip.lv, newEquip.enhanceLv, mod);
-            let bonus = Math.random() > 0.5 ? 0 : 1;
+            let bonus = newEquip.quality.qualityLv != 3 ? 1 : Math.round(1+(newEquip.quality.qualityCoefficient * mod * (1.6+newEquip.lv*0.08)));
             this.createBaseEntryValue(newEquip.quality.qualityCoefficient, baseEntry, bonus, newEquip.lv, newEquip.enhanceLv, mod);
 
             index = Math.min(newEquip.quality.qualityLv-1, this[type].type[baseEntry[0].type].length-1);
@@ -182,12 +185,12 @@ export default {
         createBaseEntryValue(qualityCoefficient, entry, bonus, lv, enhanceLv, mod=1) {
             for(let i=0; i<entry.length; i++) {
                 let type = entry[i].type;
-                let base = qualityCoefficient * this.entryInfo[type].base * mod * (1.6+lv*0.08)+bonus;
-
-                if(entry.length == 2)
-                    entry[i].base = Math.ceil(Math.pow(Math.pow(base, 1.5)/2, 0.66));
+                let ran = Math.round(Math.random()*bonus);
+                let base = qualityCoefficient * this.entryInfo[type].base * mod * (1.6+lv*0.08);
+                if(entry.length > 1)
+                    entry[i].base = Math.round(Math.pow(Math.pow(base, 1.5)/2, 0.66))+ran;
                 else
-                    entry[i].base = Math.ceil(base);
+                    entry[i].base = Math.ceil(base)+ran;
                 entry[i].value = Math.ceil(entry[i].base * (1+enhanceLv*0.1));
                 entry[i].showVal = '+' + entry[i].value;
                 entry[i].name = this.entryInfo[type].name;
@@ -349,23 +352,25 @@ export default {
             itemInfo.removeItemByItem(item, quantity);
             equip.lv = parseInt(equip.lv)+1;
             equip.baseEntry.forEach(entry => {
-                let percent = (entry.base/(this.entryInfo[entry.type].base*(1+(equip.lv-1)**2*0.05))-1)*5;
-                this.createBaseEntryValue(equip.quality.qualityCoefficient, entry, percent, equip.lv, equip.enhanceLv, mod);
+                // let percent = (entry.base/(this.entryInfo[entry.type].base*(1+(equip.lv-1)**2*0.05))-1)*5;
+                // 主属性部分好像需要调整一下，fix不应该加，正常的需要加
+                this.createBaseEntryValue(equip.quality.qualityCoefficient, entry, 0, equip.lv, equip.enhanceLv, mod);
             });
             equip.extraEntry.forEach(entry => {
                 this.createExtraEntryValue(entry, entry.quality/100, equip.lv, mod);
             });
             this.$store.commit('set_player_attribute');
         },
-        refine(equip, equip2) {
-            let mod = this.equipMod[newEquip.itemType];
-            for(let i=0; i<equip.baseEntry.length; i++) {
-                let percent = (equip.baseEntry[i].base/(this.entryInfo[equip.baseEntry[i].type].base*(1+(equip.lv)**2*0.05))-1)*5;
-                let percent2 = (equip2.baseEntry[i].base/(this.entryInfo[equip2.baseEntry[i].type].base*(1+(equip2.lv)**2*0.05))-1)*5;
-                percent = percent>percent2 ? percent : percent2;
-                this.createBaseEntryValue(equip.quality.qualityCoefficient, equip.baseEntry[i], percent, equip.lv, equip.enhanceLv, mod);
-            }
-        },
+        // 主属性固定了，没百分比浮动
+        // refine(equip, equip2) {
+        //     let mod = this.equipMod[newEquip.itemType];
+        //     for(let i=0; i<equip.baseEntry.length; i++) {
+        //         let percent = (equip.baseEntry[i].base/(this.entryInfo[equip.baseEntry[i].type].base*(1+(equip.lv)**2*0.05))-1)*5;
+        //         let percent2 = (equip2.baseEntry[i].base/(this.entryInfo[equip2.baseEntry[i].type].base*(1+(equip2.lv)**2*0.05))-1)*5;
+        //         percent = percent>percent2 ? percent : percent2;
+        //         this.createBaseEntryValue(equip.quality.qualityCoefficient, equip.baseEntry[i], percent, equip.lv, equip.enhanceLv, mod);
+        //     }
+        // },
         melt(equip, equip2) {
             this.$set(equip.potential, 0, equip2.potential[0]);
             this.$set(equip.potential, 1, equip2.potential[1]);

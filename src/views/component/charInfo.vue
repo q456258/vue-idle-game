@@ -110,7 +110,7 @@
                             <br>
                             +3护甲
                             <br>
-                            +1格挡
+                            +0.5格挡
                         </p>
                         </template>
                 </cTooltip>

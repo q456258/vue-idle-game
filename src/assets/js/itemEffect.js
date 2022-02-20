@@ -59,6 +59,9 @@ export const itemEffect = {
                 case 'random_equip_9':
                     used = this.randomEquip(9, lv);
                     break;
+                case 'random_equip_10':
+                    used = this.randomEquip(10, lv);
+                    break;
                 // case 'inv_box_01':
                 //     used = this.inv_box_01();
                 //     break;
