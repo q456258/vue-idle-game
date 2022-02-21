@@ -246,7 +246,7 @@ export default {
     this.createMaps();
     //测试·随机装备
     // let equipLv = 1;
-    // let equipQuality = 5;
+    // let equipQuality = 3;
     // let equipInfo = this.findComponentDownward(this, 'equipInfo');   
     // let newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'helmet'));
     // this.$store.commit('set_player_helmet', this.$deepCopy(newEquip));
@@ -264,7 +264,7 @@ export default {
     // this.$store.commit('set_player_ring', this.$deepCopy(newEquip));
     // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'cape'));
     // this.$store.commit('set_player_cape', this.$deepCopy(newEquip));
-    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'bracer'));
+    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'bracer')); 
     // this.$store.commit('set_player_bracer', this.$deepCopy(newEquip));
     // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'belt'));
     // this.$store.commit('set_player_belt', this.$deepCopy(newEquip));
@@ -401,9 +401,7 @@ export default {
       let itemInfo = this.findComponentDownward(this, 'itemInfo');
       let count = 5;
       let type = 'advanture';
-      let minLv = this.monsterZone[this.selectedZone].minLv;
-      let maxLv = this.monsterZone[this.selectedZone].maxLv;
-      this.mapArr = this.generateDungeon(type, count, minLv, maxLv);
+      this.mapArr = this.generateDungeonByZone(count, this.monsterZone[this.selectedZone]);
       for(let map in this.mapArr) {
         this.mapArr[map].reward = [];
         for(let type in this.mapArr[map].rewardType) {
@@ -571,7 +569,7 @@ export default {
         mapEvent.toggleBattle();
       this.set_enermy_hp('dead');
       this.createMaps();
-      this.resetTime = 10;
+      this.resetTime = 1;
       element.disabled = true;
       clearInterval(this.resetTimer);
       this.resetTimer = setInterval(() => {

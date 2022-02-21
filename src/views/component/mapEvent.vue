@@ -281,14 +281,14 @@ export default {
                 level = this.dungeonInfo[this.dungeonInfo.current].level;
             if(!monsterID)
                 monsterID = this.dungeonInfo[this.dungeonInfo.current].monsterID;
-            let templateId = this.templateId[monsterID];
-            enermyAttribute.attribute = this.$deepCopy(this.monster[templateId].template);
+            enermyAttribute.attribute = this.$deepCopy(this.monster[monsterID].template);
             let attribute = enermyAttribute.attribute,
             val = 0.0,
             flexStats = ['MAXHP', 'ATK', 'AP', 'DEF', 'MR'],
             lvStats = ['BLOCK', 'HEAL'],
             percentStats = ['CRIT', 'CRITDMG', 'APCRIT', 'APCRITDMG']; 
             enermyAttribute.lv = level;
+            let flexLv = level - this.monster[monsterID].minLv;
             enermyAttribute.type = type;
             enermyAttribute.name = this.dungeonInfo[this.dungeonInfo.current].monsterName;
             enermyAttribute.talent = {};
@@ -298,13 +298,14 @@ export default {
                 // attribute.value = Math.round(attribute.value*(1+enermyAttribute.lv*0.15)*(1+Math.random()/10));
                 // attribute.value = Math.round(attribute.value*(1+enermyAttribute.lv*0.15));
                 // attribute.value = Math.round(attribute.value*(1.5+enermyAttribute.lv*(enermyAttribute.lv-1)*(enermyAttribute.lv/50)));
-                attr.value = Math.round(attr.value*(2+enermyAttribute.lv*(enermyAttribute.lv/35)*(0.9+Math.random()*0.2)));
+                // attr.value = Math.round(attr.value*(2+enermyAttribute.lv*(enermyAttribute.lv/35)*(0.9+Math.random()*0.2)));
+                attr.value = Math.round(attr.value*(1+flexLv*(flexLv/35))*(0.9+Math.random()*0.2));
                 attr.showValue = attr.value;
                 enermyAttribute.attribute[stat] = attr;
             });
             lvStats.forEach(stat => {
                 let attr = enermyAttribute.attribute[stat];
-                attr.value = Math.round(attr.value*(enermyAttribute.lv));
+                attr.value = Math.round(attr.value*(1+flexLv/10));
                 attr.showValue = attr.value;
                 enermyAttribute.attribute[stat] = attr;
             });
@@ -318,12 +319,12 @@ export default {
                 value: attribute['MAXHP'].value,
                 showValue: attribute['MAXHP'].value
             }
-            if(type=='elite') {
-                attribute = this.eliteStat(attribute);
-            }
-            else if(type=='boss') {
-                attribute = this.bossStat(attribute);
-            }
+            // if(type=='elite') {
+            //     attribute = this.eliteStat(attribute);
+            // }
+            // else if(type=='boss') {
+            //     attribute = this.bossStat(attribute);
+            // }
             val = this.getDefRed(attribute['DEF'].value);
             attribute['DEFRED'] = {
                 value: val,
