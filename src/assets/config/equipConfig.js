@@ -88,7 +88,7 @@ export const equipConfig = {
         ALL: { base: 0.8, name: '全属性'},
         ATK: { base: 16, name: '攻击' }, 
         DEF: { base: 4, name: '护甲' }, 
-        BLOCK: { base: 1, name: '格挡' }, 
+        BLOCK: { base: 2, name: '格挡' }, 
         AP: { base: 16, name: '法伤' }, 
         APCRIT: { base: 2, name: '法术暴击' }, 
         APCRITDMG: { base: 5, name: '法暴伤害' }, 

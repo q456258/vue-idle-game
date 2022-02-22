@@ -293,7 +293,7 @@ export default new Vuex.Store({
             MAXHP: 0,
             CURMP: 0,
             MAXMP: 0,
-            HP: 100,
+            HP: 200,
             MP: 100,
             STR: 0,
             AGI: 0,

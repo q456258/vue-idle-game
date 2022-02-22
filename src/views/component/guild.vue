@@ -125,7 +125,8 @@ export default {
             if(showText) {
                 this.$store.commit("set_sys_info", {
                     type: 'reward',
-                    msg: text+'获得'+gold+'金币'
+                    msg: text+'获得',
+                    gold: gold
                 });
             }
             let achievement = this.findBrothersComponents(this, 'achievement', false)[0];

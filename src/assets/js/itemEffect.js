@@ -106,38 +106,38 @@ export const itemEffect = {
                     break;
                 // 药剂
                 case 'inv_potion_27':
-                case 'Inv_potion_49':
-                case 'Inv_potion_50':
-                case 'Inv_potion_51':
-                case 'Inv_potion_52':
-                case 'Inv_potion_53':
-                case 'Inv_potion_54':
-                case 'Inv_potion_160':
-                case 'Inv_potion_55':
-                case 'Inv_potion_131':
-                case 'Inv_potion_142':
-                case 'Inv_potion_167':
-                case 'Inv_potion_70':
-                case 'Inv_potion_71':
-                case 'Inv_potion_72':
-                case 'Inv_potion_73':
-                case 'Inv_potion_74':
-                case 'Inv_potion_75':
-                case 'Inv_potion_163':
-                case 'Inv_potion_76':
-                case 'Inv_potion_137':
-                case 'Inv_potion_148':
-                case 'Inv_potion_168':
-                case 'Inv_potion_42':
-                case 'Inv_potion_43':
-                case 'Inv_potion_44':
-                case 'Inv_potion_45':
-                case 'Inv_potion_46':
-                case 'Inv_potion_47':
-                case 'Inv_potion_164':
-                case 'Inv_potion_48':
-                case 'Inv_potion_134':
-                case 'Inv_potion_145':
+                case 'inv_potion_49':
+                case 'inv_potion_50':
+                case 'inv_potion_51':
+                case 'inv_potion_52':
+                case 'inv_potion_53':
+                case 'inv_potion_54':
+                case 'inv_potion_160':
+                case 'inv_potion_55':
+                case 'inv_potion_131':
+                case 'inv_potion_142':
+                case 'inv_potion_167':
+                case 'inv_potion_70':
+                case 'inv_potion_71':
+                case 'inv_potion_72':
+                case 'inv_potion_73':
+                case 'inv_potion_74':
+                case 'inv_potion_75':
+                case 'inv_potion_163':
+                case 'inv_potion_76':
+                case 'inv_potion_137':
+                case 'inv_potion_148':
+                case 'inv_potion_168':
+                case 'inv_potion_42':
+                case 'inv_potion_43':
+                case 'inv_potion_44':
+                case 'inv_potion_45':
+                case 'inv_potion_46':
+                case 'inv_potion_47':
+                case 'inv_potion_164':
+                case 'inv_potion_48':
+                case 'inv_potion_134':
+                case 'inv_potion_145':
                     used = this.potion(type);
                     break;
             }
@@ -184,100 +184,100 @@ export const itemEffect = {
                 case 'inv_potion_27':
                     used = this.inv_potion_27();
                     break;
-                case 'Inv_potion_49':
+                case 'inv_potion_49':
                     used = this.hpPotion(15, 1, 10, 'fix');
                     break;
-                case 'Inv_potion_50':
+                case 'inv_potion_50':
                     used = this.hpPotion(100, 0, 0, 'fix', itemInfo.description.name);
                     break;
-                case 'Inv_potion_51':
+                case 'inv_potion_51':
                     used = this.hpPotion(150, 1, 10, 'fix');
                     break;
-                case 'Inv_potion_52':
+                case 'inv_potion_52':
                     used = this.hpPotion(1000, 0, 0, 'fix', itemInfo.description.name);
                     break;
-                case 'Inv_potion_53':
+                case 'inv_potion_53':
                     used = this.hpPotion(1500, 1, 10, 'fix');
                     break;
-                case 'Inv_potion_54':
+                case 'inv_potion_54':
                     used = this.hpPotion(10000, 0, 0, 'fix', itemInfo.description.name);
                     break;
-                case 'Inv_potion_160':
+                case 'inv_potion_160':
                     used = this.hpPotion(1, 1, 100, 'maxPercent');
                     break;
-                case 'Inv_potion_55':
+                case 'inv_potion_55':
                     used = this.hpPotion(5, 1, 100, 'maxPercent');
                     break;
-                case 'Inv_potion_131':
+                case 'inv_potion_131':
                     used = this.hpPotion(25, 0, 0, 'maxPercent', itemInfo.description.name);
                     break;
-                case 'Inv_potion_142':
+                case 'inv_potion_142':
                     used = this.hpPotion(50, 0, 0, 'maxPercent', itemInfo.description.name);
                     break;
-                case 'Inv_potion_167':
+                case 'inv_potion_167':
                     used = this.hpPotion(100, 0, 0, 'maxPercent', itemInfo.description.name);
                     break;
-                case 'Inv_potion_70':
+                case 'inv_potion_70':
                     used = this.mpPotion(15, 1, 10, 'fix');
                     break;
-                case 'Inv_potion_71':
+                case 'inv_potion_71':
                     used = this.mpPotion(100, 0, 0, 'fix', itemInfo.description.name);
                     break;
-                case 'Inv_potion_72':
+                case 'inv_potion_72':
                     used = this.mpPotion(150, 1, 10, 'fix');
                     break;
-                case 'Inv_potion_73':
+                case 'inv_potion_73':
                     used = this.mpPotion(1000, 0, 0, 'fix', itemInfo.description.name);
                     break;
-                case 'Inv_potion_74':
+                case 'inv_potion_74':
                     used = this.mpPotion(1500, 1, 10, 'fix');
                     break;
-                case 'Inv_potion_75':
+                case 'inv_potion_75':
                     used = this.mpPotion(10000, 0, 0, 'fix', itemInfo.description.name);
                     break;
-                case 'Inv_potion_163':
+                case 'inv_potion_163':
                     used = this.mpPotion(1, 1, 100, 'maxPercent');
                     break;
-                case 'Inv_potion_76':
+                case 'inv_potion_76':
                     used = this.mpPotion(5, 1, 100, 'maxPercent');
                     break;
-                case 'Inv_potion_137':
+                case 'inv_potion_137':
                     used = this.mpPotion(25, 0, 0, 'maxPercent', itemInfo.description.name);
                     break;
-                case 'Inv_potion_148':
+                case 'inv_potion_148':
                     used = this.mpPotion(50, 0, 0, 'maxPercent', itemInfo.description.name);
                     break;
-                case 'Inv_potion_168':
+                case 'inv_potion_168':
                     used = this.mpPotion(100, 0, 0, 'maxPercent', itemInfo.description.name);
                     break;
-                case 'Inv_potion_42':
+                case 'inv_potion_42':
                     used = this.hpPotion(15, 1, 10, 'fix') && this.mpPotion(15, 1, 10, 'fix');
                     break;
-                case 'Inv_potion_43':
+                case 'inv_potion_43':
                     used = this.hpPotion(100, 0, 0, 'fix', itemInfo.description.name) && this.mpPotion(100, 0, 0, 'fix', itemInfo.description.name);
                     break;
-                case 'Inv_potion_44':
+                case 'inv_potion_44':
                     used = this.hpPotion(150, 1, 10, 'fix') && this.mpPotion(150, 1, 10, 'fix');
                     break;
-                case 'Inv_potion_45':
+                case 'inv_potion_45':
                     used = this.hpPotion(1000, 0, 0, 'fix', itemInfo.description.name) && this.mpPotion(1000, 0, 0, 'fix', itemInfo.description.name);
                     break;
-                case 'Inv_potion_46':
+                case 'inv_potion_46':
                     used = this.hpPotion(1500, 1, 10, 'fix') && this.mpPotion(1500, 1, 10, 'fix');
                     break;
-                case 'Inv_potion_47':
+                case 'inv_potion_47':
                     used = this.hpPotion(10000, 0, 0, 'fix', itemInfo.description.name) && this.mpPotion(10000, 0, 0, 'fix', itemInfo.description.name);
                     break;
-                case 'Inv_potion_164':
+                case 'inv_potion_164':
                     used = this.hpPotion(1, 1, 100, 'maxPercent') && this.mpPotion(1, 1, 100, 'maxPercent');
                     break;
-                case 'Inv_potion_48':
+                case 'inv_potion_48':
                     used = this.hpPotion(5, 1, 100, 'maxPercent') && this.mpPotion(5, 1, 100, 'maxPercent');
                     break;
-                case 'Inv_potion_134':
+                case 'inv_potion_134':
                     used = this.hpPotion(33, 0, 0, 'maxPercent', itemInfo.description.name) && this.mpPotion(33, 0, 0, 'maxPercent', itemInfo.description.name);
                     break;
-                case 'Inv_potion_145':
+                case 'inv_potion_145':
                     used = this.hpPotion(75, 0, 0, 'maxPercent', itemInfo.description.name) && this.mpPotion(75, 0, 0, 'maxPercent', itemInfo.description.name);
                     break;
             }

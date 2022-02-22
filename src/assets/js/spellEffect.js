@@ -5,8 +5,9 @@ export const spellEffect = {
     },
     methods: {
         getSpell(source, target) {
-            if(source.spells == undefined)
-                return 'attack'
+            if(source.type != 'player') {
+                return this.getEnermySpell(source);
+            }
             let selectSpell = 'attack';
             let keys = Object.keys(source.spells).reverse();
             for(let i in keys) {
@@ -21,6 +22,13 @@ export const spellEffect = {
                 return selectSpell;
             }
             return 'attack';
+        },
+        getEnermySpell(source) {
+            let spellCycle = source.spellCycle;
+            let curSpell = source.curSpell;
+            let spell = spellCycle[curSpell];
+            source.curSpell = (curSpell+1)%spellCycle.length;
+            return spell;
         },
         // 计算护甲减免百分比
         getDefRed(armor) {
@@ -174,7 +182,7 @@ export const spellEffect = {
             
             let talent = 'ability_warrior_punishingblow';
             if(source.lv > target.lv && source.talent[talent] > 0) {
-                this.set_ad_dmg(dmgs, dmgs.adDmg+source.talent[talent]*50);
+                this.set_ad_dmg(dmgs, dmgs.adDmg+source.talent[talent]*10);
             }
             talent = 'ability_defend';
             if(target.talent[talent] > 0) {
@@ -243,7 +251,7 @@ export const spellEffect = {
         },
         applyApReducedDmg(source, target, dmgs) {
             if(this.get_dmg(dmgs, 'ap') == 0)
-                return 0;
+                return;
             // 伤害减少 0%, 25%, 50%, 75%, 100%
             let reduce = [0, 0, 0, 0, 0];
             let mr = target.attribute.MR.value;
@@ -284,7 +292,7 @@ export const spellEffect = {
             if(spell == 'MUST_CRIT')
                 crit = 100;
             if(crit<source.attribute.APCRIT.value) {
-                this.set_ap_dmg(dmgs, this.get_dmg(dmgs, 'ap')*source.attribute.APCRITDMG.value);
+                this.set_ap_dmg(dmgs, this.get_dmg(dmgs, 'ap')*source.attribute.APCRITDMG.value/100);
             }
         },
         applyBlock(source, target, dmgs, spell) {

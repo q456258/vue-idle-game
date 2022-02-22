@@ -10,18 +10,19 @@ export const dungeon = {
                 boss: '#d63',
                 chest: '#c0f'
             },
-            monsterName: {}
+            monsterName: {},
+            arrList: []
         }
     },
     methods: {
         generateDungeonByZone(count, zoneInfo) {
             let map = [];
-            let arrList = Array.from(Array(24).keys());
+            this.arrList = Array.from(Array(24).keys());
             for(let i=0; i<count; i++) {
                 let choice = {};
                 let monsterID = this.getMonsterID(zoneInfo.monsterList, zoneInfo.probability);
                 let monsterInfo = this.monster[monsterID];
-                let ran = Math.floor(Math.random()*arrList.length);
+                let ran = Math.floor(Math.random()*this.arrList.length);
                 let eventType = monsterInfo.type;
                 let monsterName = this.getName(eventType, monsterID);
                 let lv = this.getLv(eventType, zoneInfo, monsterInfo);
@@ -34,11 +35,38 @@ export const dungeon = {
                     monsterID: monsterID,
                     monsterName: monsterName,
                     count: this.getCount(eventType),
-                    left: Math.floor(arrList[ran]%6)*15+Math.random()*10+5,
-                    top: arrList[ran]/6*20+Math.random()*10+5,
+                    left: Math.floor(this.arrList[ran]%6)*15+Math.random()*10+5,
+                    top: this.arrList[ran]/6*20+Math.random()*10+5,
                 };
-                [arrList[ran], arrList[arrList.length-1]] = [arrList[arrList.length-1], arrList[ran]];
-                arrList.pop();
+                [this.arrList[ran], this.arrList[this.arrList.length-1]] = [this.arrList[this.arrList.length-1], this.arrList[ran]];
+                this.arrList.pop();
+                map.push(choice);
+            }
+            return map;
+        },
+        generateDungeonByID(count, zoneInfo, monsterID) {
+            let map = [];
+            for(let i=0; i<count; i++) {
+                let choice = {};
+                let monsterInfo = this.monster[monsterID];
+                let ran = Math.floor(Math.random()*this.arrList.length);
+                let eventType = monsterInfo.type;
+                let monsterName = this.getName(eventType, monsterID);
+                let lv = this.getLv(eventType, zoneInfo, monsterInfo);
+                choice = {
+                    type: eventType, 
+                    color: this.typeColor[eventType],
+                    rewardType: this.monsterReward[monsterID], 
+                    img: './icons/other/'+eventType+'.png',
+                    lv: lv,
+                    monsterID: monsterID,
+                    monsterName: monsterName,
+                    count: this.getCount(eventType),
+                    left: Math.floor(this.arrList[ran]%6)*15+Math.random()*10+5,
+                    top: this.arrList[ran]/6*20+Math.random()*10+5,
+                };
+                [this.arrList[ran], this.arrList[this.arrList.length-1]] = [this.arrList[this.arrList.length-1], this.arrList[ran]];
+                this.arrList.pop();
                 map.push(choice);
             }
             return map;

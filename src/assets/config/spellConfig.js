@@ -29,7 +29,6 @@ data() {
         spell: {
             attack: {
                 name: '普通攻击',
-                // type: '物理',
                 max: 0,
                 iconSrc: "./icons/stat/atk.jpg",
                 quality: 1,
@@ -40,6 +39,19 @@ data() {
                     }
                 ],
                 tag: ['攻击']
+            },
+            spell_frost_frostbolt02: {
+                name: '寒冰箭',
+                max: 0,
+                iconSrc: "./icons/spell/spell_frost_frostbolt02.jpg",
+                quality: 1,
+                level: [{
+                        des: '造成法伤*1点伤害',
+                        apDmg: { AP: 1, },
+                        cost: { MP: 20 },
+                    }
+                ],
+                tag: ['法伤']
             },
             spell_nature_thunderclap: {
                 name: '雷霆一击',

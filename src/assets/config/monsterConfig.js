@@ -45,10 +45,11 @@ export const monsterConfig = {
             monster: {
                 0: {
                     name: '小鸡', type: 'normal', minLv: 0, maxLv: 0,
+                    spellCycle: ['attack'],
                     template: {
                         MAXHP: { value: 150 },        
                         ATK: { value: 15 },
-                        DEF: { value: 5 },
+                        DEF: { value: 0 },
                         BLOCK: { value: 0 },
                         AP: { value: 0 },
                         APCRIT: { value: 0 },
@@ -62,9 +63,10 @@ export const monsterConfig = {
                 }, 
                 1: {
                     name: '训练假人', type: 'normal', minLv: 1, maxLv: 5,
+                    spellCycle: ['attack'],
                     template:{
-                        MAXHP: { value: 200 },        
-                        ATK: { value: 20 },
+                        MAXHP: { value: 250 },        
+                        ATK: { value: 17 },
                         DEF: { value: 5 },
                         BLOCK: { value: 0 },
                         AP: { value: 0 },
@@ -79,10 +81,11 @@ export const monsterConfig = {
                 }, 
                 2:{
                     name: '高级训练假人', type: 'normal', minLv: 6, maxLv: 10,
+                    spellCycle: ['attack'],
                     template:{
-                        MAXHP: { value: 700 },        
-                        ATK: { value: 100 },
-                        DEF: { value: 5 },
+                        MAXHP: { value: 400 },        
+                        ATK: { value: 25 },
+                        DEF: { value: 7 },
                         BLOCK: { value: 0 },
                         AP: { value: 0 },
                         APCRIT: { value: 0 },
@@ -96,9 +99,10 @@ export const monsterConfig = {
                 }, 
                 3: {
                     name: '训练假人精英', type: 'elite', minLv: 1, maxLv: 5,
+                    spellCycle: ['attack'],
                     template:{
-                        MAXHP: { value: 70 },        
-                        ATK: { value: 10 },
+                        MAXHP: { value: 3000 },        
+                        ATK: { value: 20 },
                         DEF: { value: 5 },
                         BLOCK: { value: 0 },
                         AP: { value: 0 },
@@ -113,9 +117,10 @@ export const monsterConfig = {
                 }, 
                 4: {
                     name: '高级训练假人精英', type: 'elite', minLv: 6, maxLv: 10,
+                    spellCycle: ['attack'],
                     template:{
-                        MAXHP: { value: 70 },        
-                        ATK: { value: 10 },
+                        MAXHP: { value: 5000 },        
+                        ATK: { value: 30 },
                         DEF: { value: 5 },
                         BLOCK: { value: 0 },
                         AP: { value: 0 },
@@ -130,11 +135,12 @@ export const monsterConfig = {
                 }, 
                 5: {
                     name: '导师', type: 'boss', minLv: 10, maxLv: 10,
+                    spellCycle: ['attack'],
                     template:{
-                        MAXHP: { value: 7000 },        
+                        MAXHP: { value: 20000 },        
                         ATK: { value: 500 },
-                        DEF: { value: 5 },
-                        BLOCK: { value: 0 },
+                        DEF: { value: 20 },
+                        BLOCK: { value: 20 },
                         AP: { value: 0 },
                         APCRIT: { value: 0 },
                         APCRITDMG: { value: 200 },
@@ -147,15 +153,16 @@ export const monsterConfig = {
                 }, 
                 11: {
                     name: '杂斑野猪', type: 'normal', minLv: 11, maxLv: 15,
+                    spellCycle: ['attack'],
                     template:{
-                        MAXHP: { value: 70 },        
-                        ATK: { value: 10 },
-                        DEF: { value: 5 },
-                        BLOCK: { value: 0 },
+                        MAXHP: { value: 500 },        
+                        ATK: { value: 35 },
+                        DEF: { value: 50 },
+                        BLOCK: { value: 5 },
                         AP: { value: 0 },
                         APCRIT: { value: 0 },
                         APCRITDMG: { value: 200 },
-                        CRIT: { value: 0 },
+                        CRIT: { value: 20 },
                         CRITDMG: { value: 200 },
                         HEAL: { value: 0 },
                         APPEN: { value: 0 },
@@ -164,15 +171,16 @@ export const monsterConfig = {
                 }, 
                 12: {
                     name: '癞皮山猪', type: 'normal', minLv: 16, maxLv: 20,
+                    spellCycle: ['attack'],
                     template:{
-                        MAXHP: { value: 70 },        
-                        ATK: { value: 10 },
-                        DEF: { value: 5 },
-                        BLOCK: { value: 0 },
+                        MAXHP: { value: 700 },        
+                        ATK: { value: 45 },
+                        DEF: { value: 70 },
+                        BLOCK: { value: 15 },
                         AP: { value: 0 },
                         APCRIT: { value: 0 },
                         APCRITDMG: { value: 200 },
-                        CRIT: { value: 0 },
+                        CRIT: { value: 20 },
                         CRITDMG: { value: 200 },
                         HEAL: { value: 0 },
                         APPEN: { value: 0 },
@@ -181,16 +189,17 @@ export const monsterConfig = {
                 }, 
                 13: {
                     name: '杂斑野猪精英', type: 'elite', minLv: 11, maxLv: 15,
+                    spellCycle: ['attack'],
                     template:{
-                        MAXHP: { value: 70 },        
-                        ATK: { value: 10 },
-                        DEF: { value: 5 },
-                        BLOCK: { value: 0 },
+                        MAXHP: { value: 7000 },        
+                        ATK: { value: 100 },
+                        DEF: { value: 150 },
+                        BLOCK: { value: 40 },
                         AP: { value: 0 },
                         APCRIT: { value: 0 },
                         APCRITDMG: { value: 200 },
-                        CRIT: { value: 0 },
-                        CRITDMG: { value: 200 },
+                        CRIT: { value: 20 },
+                        CRITDMG: { value: 250 },
                         HEAL: { value: 0 },
                         APPEN: { value: 0 },
                         MR: { value: 0 },
@@ -198,16 +207,17 @@ export const monsterConfig = {
                 }, 
                 14: {
                     name: '癞皮山猪精英', type: 'elite', minLv: 16, maxLv: 20,
+                    spellCycle: ['attack'],
                     template:{
-                        MAXHP: { value: 70 },        
-                        ATK: { value: 10 },
-                        DEF: { value: 5 },
-                        BLOCK: { value: 0 },
+                        MAXHP: { value: 9000 },        
+                        ATK: { value: 120 },
+                        DEF: { value: 500 },
+                        BLOCK: { value: 50 },
                         AP: { value: 0 },
                         APCRIT: { value: 0 },
                         APCRITDMG: { value: 200 },
-                        CRIT: { value: 0 },
-                        CRITDMG: { value: 200 },
+                        CRIT: { value: 20 },
+                        CRITDMG: { value: 300 },
                         HEAL: { value: 0 },
                         APPEN: { value: 0 },
                         MR: { value: 0 },
@@ -215,16 +225,17 @@ export const monsterConfig = {
                 }, 
                 15: {
                     name: '阿迦玛', type: 'boss', minLv: 2, maxLv: 20,
+                    spellCycle: ['attack'],
                     template:{
-                        MAXHP: { value: 70 },        
-                        ATK: { value: 10 },
-                        DEF: { value: 5 },
-                        BLOCK: { value: 0 },
+                        MAXHP: { value: 300000 },        
+                        ATK: { value: 500 },
+                        DEF: { value: 1000 },
+                        BLOCK: { value: 100 },
                         AP: { value: 0 },
                         APCRIT: { value: 0 },
                         APCRITDMG: { value: 200 },
-                        CRIT: { value: 0 },
-                        CRITDMG: { value: 200 },
+                        CRIT: { value: 30 },
+                        CRITDMG: { value: 300 },
                         HEAL: { value: 0 },
                         APPEN: { value: 0 },
                         MR: { value: 0 },
@@ -232,10 +243,11 @@ export const monsterConfig = {
                 }, 
                 21: {
                     name: '狗头人矿工', type: 'normal', minLv: 21, maxLv: 25,
+                    spellCycle: ['attack'],
                     template:{
-                        MAXHP: { value: 70 },        
-                        ATK: { value: 10 },
-                        DEF: { value: 5 },
+                        MAXHP: { value: 2000 },        
+                        ATK: { value: 70 },
+                        DEF: { value: 200 },
                         BLOCK: { value: 0 },
                         AP: { value: 0 },
                         APCRIT: { value: 0 },
@@ -249,13 +261,14 @@ export const monsterConfig = {
                 }, 
                 22: {
                     name: '狗头人地卜师', type: 'normal', minLv: 26, maxLv: 30,
+                    spellCycle: ['spell_frost_frostbolt02'],
                     template:{
-                        MAXHP: { value: 70 },        
-                        ATK: { value: 10 },
-                        DEF: { value: 5 },
+                        MAXHP: { value: 2000 },        
+                        ATK: { value: 50 },
+                        DEF: { value: 100 },
                         BLOCK: { value: 0 },
-                        AP: { value: 0 },
-                        APCRIT: { value: 0 },
+                        AP: { value: 100 },
+                        APCRIT: { value: 100 },
                         APCRITDMG: { value: 200 },
                         CRIT: { value: 0 },
                         CRITDMG: { value: 200 },
@@ -266,6 +279,7 @@ export const monsterConfig = {
                 }, 
                 23: {
                     name: '狗头人矿工精英', type: 'elite', minLv: 21, maxLv: 25,
+                    spellCycle: ['attack'],
                     template:{
                         MAXHP: { value: 70 },        
                         ATK: { value: 10 },
@@ -283,6 +297,7 @@ export const monsterConfig = {
                 }, 
                 24: {
                     name: '狗头人地卜师精英', type: 'elite', minLv: 26, maxLv: 30,
+                    spellCycle: ['attack'],
                     template:{
                         MAXHP: { value: 70 },        
                         ATK: { value: 10 },
@@ -300,6 +315,7 @@ export const monsterConfig = {
                 }, 
                 25: {
                     name: '金牙', type: 'boss', minLv: 30, maxLv: 30,
+                    spellCycle: ['attack'],
                     template:{
                         MAXHP: { value: 70 },        
                         ATK: { value: 10 },
@@ -317,6 +333,7 @@ export const monsterConfig = {
                 }, 
                 31: {
                     name: '河爪豺狼人', type: 'normal', minLv: 31, maxLv: 36,
+                    spellCycle: ['attack'],
                     template:{
                         MAXHP: { value: 800 },        
                         ATK: { value: 120 },
@@ -334,6 +351,7 @@ export const monsterConfig = {
                 }, 
                 32: {
                     name: '黑爪豺狼人', type: 'normal', minLv: 36, maxLv: 40,
+                    spellCycle: ['attack'],
                     template:{
                         MAXHP: { value: 800 },        
                         ATK: { value: 120 },
@@ -351,6 +369,7 @@ export const monsterConfig = {
                 }, 
                 33: {
                     name: '河爪豺狼人精英', type: 'elite', minLv: 31, maxLv: 36,
+                    spellCycle: ['attack'],
                     template:{
                         MAXHP: { value: 800 },        
                         ATK: { value: 120 },
@@ -368,6 +387,7 @@ export const monsterConfig = {
                 }, 
                 34: {
                     name: '黑爪豺狼人精英', type: 'elite', minLv: 36, maxLv: 40,
+                    spellCycle: ['attack'],
                     template:{
                         MAXHP: { value: 800 },        
                         ATK: { value: 120 },
@@ -385,6 +405,7 @@ export const monsterConfig = {
                 }, 
                 35: {
                     name: '霍格', type: 'boss', minLv: 40, maxLv: 40,
+                    spellCycle: ['attack'],
                     template:{
                         MAXHP: { value: 800 },        
                         ATK: { value: 120 },
@@ -402,6 +423,7 @@ export const monsterConfig = {
                 }, 
                 41: {
                     name: '盐壳龟', type: 'normal', minLv: 41, maxLv: 46,
+                    spellCycle: ['attack'],
                     template:{
                         MAXHP: { value: 800 },        
                         ATK: { value: 120 },
@@ -419,6 +441,7 @@ export const monsterConfig = {
                 }, 
                 42: {
                     name: '钳嘴龟', type: 'normal', minLv: 46, maxLv: 50,
+                    spellCycle: ['attack'],
                     template:{
                         MAXHP: { value: 800 },        
                         ATK: { value: 120 },
@@ -436,6 +459,7 @@ export const monsterConfig = {
                 }, 
                 43: {
                     name: '盐壳龟精英', type: 'elite', minLv: 41, maxLv: 46,
+                    spellCycle: ['attack'],
                     template:{
                         MAXHP: { value: 800 },        
                         ATK: { value: 120 },
@@ -453,6 +477,7 @@ export const monsterConfig = {
                 }, 
                 45: {
                     name: '铁背龟', type: 'boss', minLv: 50, maxLv: 50,
+                    spellCycle: ['attack'],
                     template:{
                         MAXHP: { value: 800 },        
                         ATK: { value: 120 },
@@ -470,6 +495,7 @@ export const monsterConfig = {
                 }, 
                 51: {
                     name: '灼热元素', type: 'normal', minLv: 51, maxLv: 55,
+                    spellCycle: ['attack'],
                     template:{
                         MAXHP: { value: 800 },        
                         ATK: { value: 120 },
@@ -487,6 +513,7 @@ export const monsterConfig = {
                 }, 
                 52: {
                     name: '熔岩元素', type: 'normal', minLv: 56, maxLv: 60,
+                    spellCycle: ['attack'],
                     template: {
                         MAXHP: { value: 800 },        
                         ATK: { value: 120 },
@@ -504,6 +531,7 @@ export const monsterConfig = {
                 }, 
                 53: {
                     name: '灼热元素精英', type: 'elite', minLv: 51, maxLv: 55,
+                    spellCycle: ['attack'],
                     template:{
                         MAXHP: { value: 800 },        
                         ATK: { value: 120 },
@@ -521,6 +549,7 @@ export const monsterConfig = {
                 }, 
                 54: {
                     name: '熔岩元素精英', type: 'elite', minLv: 56, maxLv: 60,
+                    spellCycle: ['attack'],
                     template: {
                         MAXHP: { value: 800 },        
                         ATK: { value: 120 },
@@ -538,6 +567,7 @@ export const monsterConfig = {
                 }, 
                 55: {
                     name: '地狱元素', type: 'boss', minLv: 60, maxLv: 60,
+                    spellCycle: ['attack'],
                     template: {
                         MAXHP: { value: 800 },        
                         ATK: { value: 120 },
@@ -555,6 +585,7 @@ export const monsterConfig = {
                 }, 
                 61: {
                     name: '愤怒的鱼人', type: 'normal', minLv: 61, maxLv: 65,
+                    spellCycle: ['attack'],
                     template: {
                         MAXHP: { value: 800 },        
                         ATK: { value: 120 },
@@ -572,6 +603,7 @@ export const monsterConfig = {
                 }, 
                 62: {
                     name: '沙鳞鱼人', type: 'normal', minLv: 66, maxLv: 70,
+                    spellCycle: ['attack'],
                     template: {
                         MAXHP: { value: 800 },        
                         ATK: { value: 120 },
@@ -589,6 +621,7 @@ export const monsterConfig = {
                 }, 
                 63: {
                     name: '愤怒的鱼人精英', type: 'elite', minLv: 61, maxLv: 65,
+                    spellCycle: ['attack'],
                     template: {
                         MAXHP: { value: 800 },        
                         ATK: { value: 120 },
@@ -606,6 +639,7 @@ export const monsterConfig = {
                 }, 
                 64: {
                     name: '沙鳞鱼人精英', type: 'elite', minLv: 66, maxLv: 70,
+                    spellCycle: ['attack'],
                     template: {
                         MAXHP: { value: 800 },        
                         ATK: { value: 120 },
@@ -623,6 +657,7 @@ export const monsterConfig = {
                 }, 
                 65: {
                     name: '咕噜咕拉', type: 'boss', minLv: 70, maxLv: 70,
+                    spellCycle: ['attack'],
                     template: {
                         MAXHP: { value: 800 },        
                         ATK: { value: 120 },
@@ -640,6 +675,7 @@ export const monsterConfig = {
                 }, 
                 71: {
                     name: '巫翼鹰身人', type: 'normal', minLv: 71, maxLv: 75,
+                    spellCycle: ['attack'],
                     template: {
                         MAXHP: { value: 800 },        
                         ATK: { value: 120 },
@@ -657,6 +693,7 @@ export const monsterConfig = {
                 }, 
                 72: {
                     name: '巫翼游荡者', type: 'normal', minLv: 76, maxLv: 80,
+                    spellCycle: ['attack'],
                     template: {
                         MAXHP: { value: 800 },        
                         ATK: { value: 120 },
@@ -674,6 +711,7 @@ export const monsterConfig = {
                 }, 
                 73: {
                     name: '巫翼鹰身人精英', type: 'elite', minLv: 71, maxLv: 75,
+                    spellCycle: ['attack'],
                     template: {
                         MAXHP: { value: 800 },        
                         ATK: { value: 120 },
@@ -691,6 +729,7 @@ export const monsterConfig = {
                 }, 
                 74: {
                     name: '巫翼游荡者精英', type: 'elite', minLv: 76, maxLv: 80,
+                    spellCycle: ['attack'],
                     template: {
                         MAXHP: { value: 800 },        
                         ATK: { value: 120 },
@@ -708,6 +747,7 @@ export const monsterConfig = {
                 }, 
                 75: {
                     name: '塞瑞娜·血羽', type: 'boss', minLv: 80, maxLv: 80,
+                    spellCycle: ['attack'],
                     template: {
                         MAXHP: { value: 800 },        
                         ATK: { value: 120 },
@@ -725,6 +765,7 @@ export const monsterConfig = {
                 }, 
                 81: {
                     name: '火蜥蜴', type: 'normal', minLv: 81, maxLv: 85,
+                    spellCycle: ['attack'],
                     template: {
                         MAXHP: { value: 800 },        
                         ATK: { value: 120 },
@@ -742,6 +783,7 @@ export const monsterConfig = {
                 }, 
                 82: {
                     name: '雷霆蜥蜴', type: 'normal', minLv: 86, maxLv: 90,
+                    spellCycle: ['attack'],
                     template: {
                         MAXHP: { value: 800 },        
                         ATK: { value: 120 },
@@ -759,6 +801,7 @@ export const monsterConfig = {
                 }, 
                 83: {
                     name: '火蜥蜴精英', type: 'elite', minLv: 81, maxLv: 85,
+                    spellCycle: ['attack'],
                     template: {
                         MAXHP: { value: 800 },        
                         ATK: { value: 120 },
@@ -776,6 +819,7 @@ export const monsterConfig = {
                 }, 
                 84: {
                     name: '雷霆蜥蜴精英', type: 'elite', minLv: 86, maxLv: 90,
+                    spellCycle: ['attack'],
                     template: {
                         MAXHP: { value: 800 },        
                         ATK: { value: 120 },
@@ -793,6 +837,7 @@ export const monsterConfig = {
                 }, 
                 85: {
                     name: '科多兽', type: 'boss', minLv: 90, maxLv: 90,
+                    spellCycle: ['attack'],
                     template: {
                         MAXHP: { value: 800 },        
                         ATK: { value: 120 },
@@ -810,6 +855,7 @@ export const monsterConfig = {
                 }, 
                 91: {
                     name: '黑熊', type: 'normal', minLv: 91, maxLv: 95,
+                    spellCycle: ['attack'],
                     template: {
                         MAXHP: { value: 800 },        
                         ATK: { value: 120 },
@@ -827,6 +873,7 @@ export const monsterConfig = {
                 }, 
                 92: {
                     name: '冰爪熊', type: 'normal', minLv: 96, maxLv: 100,
+                    spellCycle: ['attack'],
                     template: {
                         MAXHP: { value: 800 },        
                         ATK: { value: 120 },
@@ -844,6 +891,7 @@ export const monsterConfig = {
                 }, 
                 93: {
                     name: '黑熊精英', type: 'elite', minLv: 91, maxLv: 95,
+                    spellCycle: ['attack'],
                     template: {
                         MAXHP: { value: 800 },        
                         ATK: { value: 120 },
@@ -861,6 +909,7 @@ export const monsterConfig = {
                 }, 
                 94: {
                     name: '冰爪熊精英', type: 'elite', minLv: 96, maxLv: 100,
+                    spellCycle: ['attack'],
                     template: {
                         MAXHP: { value: 800 },        
                         ATK: { value: 120 },
@@ -878,6 +927,7 @@ export const monsterConfig = {
                 }, 
                 95: {
                     name: '维斯迦尔', type: 'boss', minLv: 100, maxLv: 100,
+                    spellCycle: ['attack'],
                     template: {
                         MAXHP: { value: 800 },        
                         ATK: { value: 120 },
@@ -895,6 +945,7 @@ export const monsterConfig = {
                 }, 
                 101: {
                     name: '滑壳龙虾人', type: 'normal', minLv: 101, maxLv: 105,
+                    spellCycle: ['attack'],
                     template: {
                         MAXHP: { value: 800 },        
                         ATK: { value: 120 },
@@ -912,6 +963,7 @@ export const monsterConfig = {
                 }, 
                 102: {
                     name: '巨壳甲壳蟹', type: 'normal', minLv: 106, maxLv: 110,
+                    spellCycle: ['attack'],
                     template: {
                         MAXHP: { value: 800 },        
                         ATK: { value: 120 },
@@ -929,6 +981,7 @@ export const monsterConfig = {
                 }, 
                 103: {
                     name: '滑壳龙虾人精英', type: 'elite', minLv: 101, maxLv: 105,
+                    spellCycle: ['attack'],
                     template: {
                         MAXHP: { value: 800 },        
                         ATK: { value: 120 },
@@ -946,6 +999,7 @@ export const monsterConfig = {
                 }, 
                 104: {
                     name: '巨壳甲壳蟹精英', type: 'elite', minLv: 106, maxLv: 110,
+                    spellCycle: ['attack'],
                     template: {
                         MAXHP: { value: 800 },        
                         ATK: { value: 120 },
@@ -963,6 +1017,7 @@ export const monsterConfig = {
                 }, 
                 105: {
                     name: '安戈雷尔', type: 'boss', minLv: 110, maxLv: 110,
+                    spellCycle: ['attack'],
                     template: {
                         MAXHP: { value: 800 },        
                         ATK: { value: 120 },
@@ -980,6 +1035,7 @@ export const monsterConfig = {
                 }, 
                 1000: {
                     name: '金矿', 
+                    spellCycle: ['attack'],
                     template: {
                         MAXHP: { value: 1000 },        
                         ATK: { value: 1 },

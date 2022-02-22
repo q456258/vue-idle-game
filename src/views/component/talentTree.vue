@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-<draggable :left_limit="-300" :right_limit="1" :top_bot="false">
+<draggable :left_limit="-500" :right_limit="1" :top_bot="false">
     <template slot="header">
 <!-- <div class="container"> -->
     <div>剩余天赋点: {{player.talentPoint}}
@@ -70,7 +70,8 @@ export default {
         return {
             talents: {
                 generalBranch: [],
-                warriorBranch: []
+                warriorBranch: [],
+                mageBranch: []
             }
         };
     },
@@ -82,6 +83,7 @@ export default {
     mounted() {
         this.setGrid('generalBranch');
         this.setGrid('warriorBranch');
+        this.setGrid('mageBranch');
     },
     watch: {
     },
@@ -89,7 +91,7 @@ export default {
         playerTalent() { return this.$store.state.playerAttribute.talent },
         player() { return this.$store.state.playerAttribute },
         branchInfo() {
-            let types = Object.assign(this.generalBranch, this.warriorBranch);
+            let types = Object.assign(this.generalBranch, this.warriorBranch, this.mageBranch);
             return types;
          },
     },
@@ -97,6 +99,7 @@ export default {
         init() {
             this.setStatus('generalBranch');
             this.setStatus('warriorBranch');
+            this.setStatus('mageBranch');
         },
         setGrid(branch) {
             for(let talent in this[branch]) {
@@ -191,6 +194,7 @@ export default {
                 case 'CRITDMG':
                     this.$store.commit('set_player_attribute');
                     break;
+                // 战士
                 case 'spell_nature_thunderclap':
                 case 'inv_sword_48':
                 case 'ability_whirlwind':
@@ -202,6 +206,8 @@ export default {
                 case 'ability_druid_starfall':
                 case 'spell_shadow_deathscream':
                 case 'ability_revendreth_paladin':
+                // 法师
+                case 'spell_frost_frostbolt02':
                     this.learnSpell(talent.type);
                     break;
             }

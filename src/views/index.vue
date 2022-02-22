@@ -61,6 +61,7 @@
             <span>{{v.msg}}</span>
             <a v-if="v.equip" :style="{color:v.equip.quality.color}" @mouseover="showInfo($event,v.equip.itemType,v.equip)" @mouseleave="closeInfo('equip')">{{v.equip.description.name}}</a>
             <a v-if="v.item" :style="{color:v.item.quality.color}" @mouseover="showInfo($event,'',v.item)" @mouseleave="closeInfo('item')">{{v.item.description.name}}*{{v.quantity}}</a>
+            <a v-if="v.gold"><currency :amount="v.gold"></currency> </a>
           </div>
         </div>
       </div>
@@ -153,6 +154,7 @@
 </template>
 <script>
 import cTooltip from './uiComponent/tooltip';
+import currency from './uiComponent/currency';
 import equipInfo from './component/equipInfo';
 import compareEquip from './component/compareEquip';
 import itemInfo from './component/itemInfo';
@@ -208,7 +210,7 @@ export default {
     }
   },
   components: {cTooltip, equipInfo, compareEquip, itemInfo, mapEvent, assist, backpack, equipEnhance, equipForge, equipPotential, 
-              charInfo, guild, guildMember, shop, talentTree, faq, achievement, statistic, saveload, setting, enermyInfo},
+              charInfo, guild, guildMember, shop, talentTree, faq, achievement, statistic, saveload, setting, enermyInfo, currency},
   mounted() {    
     //读取本地存档
     let saveload = this.findComponentDownward(this, 'saveload');  
@@ -276,38 +278,38 @@ export default {
 //     let itemInfo = this.findComponentDownward(this, 'itemInfo');
 //     let item ;
 //     let items = [
-//      'Inv_potion_49',
-// 'Inv_potion_50',
-// 'Inv_potion_51',
-// 'Inv_potion_52',
-// 'Inv_potion_53',
-// 'Inv_potion_54',
-// 'Inv_potion_160',
-// 'Inv_potion_55',
-// 'Inv_potion_131',
-// 'Inv_potion_142',
-// 'Inv_potion_167',
-// 'Inv_potion_70',
-// 'Inv_potion_71',
-// 'Inv_potion_72',
-// 'Inv_potion_73',
-// 'Inv_potion_74',
-// 'Inv_potion_75',
-// 'Inv_potion_163',
-// 'Inv_potion_76',
-// 'Inv_potion_137',
-// 'Inv_potion_148',
-// 'Inv_potion_168',
-// 'Inv_potion_42',
-// 'Inv_potion_43',
-// 'Inv_potion_44',
-// 'Inv_potion_45',
-// 'Inv_potion_46',
-// 'Inv_potion_47',
-// 'Inv_potion_164',
-// 'Inv_potion_48',
-// 'Inv_potion_134',
-// 'Inv_potion_145',];
+//      'inv_potion_49',
+// 'inv_potion_50',
+// 'inv_potion_51',
+// 'inv_potion_52',
+// 'inv_potion_53',
+// 'inv_potion_54',
+// 'inv_potion_160',
+// 'inv_potion_55',
+// 'inv_potion_131',
+// 'inv_potion_142',
+// 'inv_potion_167',
+// 'inv_potion_70',
+// 'inv_potion_71',
+// 'inv_potion_72',
+// 'inv_potion_73',
+// 'inv_potion_74',
+// 'inv_potion_75',
+// 'inv_potion_163',
+// 'inv_potion_76',
+// 'inv_potion_137',
+// 'inv_potion_148',
+// 'inv_potion_168',
+// 'inv_potion_42',
+// 'inv_potion_43',
+// 'inv_potion_44',
+// 'inv_potion_45',
+// 'inv_potion_46',
+// 'inv_potion_47',
+// 'inv_potion_164',
+// 'inv_potion_48',
+// 'inv_potion_134',
+// 'inv_potion_145',];
 //     for(let i in items) {
 //       item = itemInfo.createItem(items[i], 20);  
 //       itemInfo.addItem(JSON.parse(item));
@@ -418,9 +420,7 @@ export default {
     },
     addToMap(type='advanture', lv, count=1, monsterID) {
       let itemInfo = this.findComponentDownward(this, 'itemInfo');
-      let minLv = lv || this.monsterZone[this.selectedZone].minLv;
-      let maxLv = lv || this.monsterZone[this.selectedZone].maxLv;
-      let newMaps = this.generateDungeon(type, count, minLv, maxLv, monsterID);
+      let newMaps = this.generateDungeonByID(count, this.monsterZone[this.selectedZone], monsterID);
       for(let map in newMaps) {
         newMaps[map].reward = [];
         for(let type in newMaps[map].rewardType) {

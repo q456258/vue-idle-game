@@ -721,7 +721,7 @@ export const itemConfig = {
                     maxStack: 10
                 },
                 //potion
-                Inv_alchemy_80_potion01red: {
+                inv_alchemy_80_potion01red: {
                     quality: 1,
                     description: {
                         name: '特效生命药水',
@@ -733,7 +733,7 @@ export const itemConfig = {
                     stack: true,
                     maxStack: 100
                 },
-                Inv_alchemy_80_potion01blue: {
+                inv_alchemy_80_potion01blue: {
                     quality: 1,
                     description: {
                         name: '特效法力药水',
@@ -745,7 +745,7 @@ export const itemConfig = {
                     stack: true,
                     maxStack: 100
                 },
-                Inv_potion_49: {
+                inv_potion_49: {
                     quality: 2,
                     description: {
                         name: '初级治疗药水',
@@ -759,7 +759,7 @@ export const itemConfig = {
                     cdgroup: 'hpPotion',
                     cd: 15
                 },
-                Inv_potion_50: {
+                inv_potion_50: {
                     quality: 2,
                     description: {
                         name: '初级生命药水',
@@ -773,7 +773,7 @@ export const itemConfig = {
                     cdgroup: 'hpPotion',
                     cd: 15
                 },
-                Inv_potion_51: {
+                inv_potion_51: {
                     quality: 3,
                     description: {
                         name: '次级治疗药水',
@@ -785,7 +785,7 @@ export const itemConfig = {
                     stack: true,
                     maxStack: 100
                 },
-                Inv_potion_52: {
+                inv_potion_52: {
                     quality: 3,
                     description: {
                         name: '次级生命药水',
@@ -797,7 +797,7 @@ export const itemConfig = {
                     stack: true,
                     maxStack: 100
                 },
-                Inv_potion_53: {
+                inv_potion_53: {
                     quality: 4,
                     description: {
                         name: '治疗药水',
@@ -809,7 +809,7 @@ export const itemConfig = {
                     stack: true,
                     maxStack: 100
                 },
-                Inv_potion_54: {
+                inv_potion_54: {
                     quality: 4,
                     description: {
                         name: '生命药水',
@@ -821,7 +821,7 @@ export const itemConfig = {
                     stack: true,
                     maxStack: 100
                 },
-                Inv_potion_160: {
+                inv_potion_160: {
                     quality: 3,
                     description: {
                         name: '强效治疗药水',
@@ -833,7 +833,7 @@ export const itemConfig = {
                     stack: true,
                     maxStack: 100
                 },
-                Inv_potion_55: {
+                inv_potion_55: {
                     quality: 4,
                     description: {
                         name: '超级治疗药水',
@@ -845,7 +845,7 @@ export const itemConfig = {
                     stack: true,
                     maxStack: 100
                 },
-                Inv_potion_131: {
+                inv_potion_131: {
                     quality: 3,
                     description: {
                         name: '强效生命药水',
@@ -857,7 +857,7 @@ export const itemConfig = {
                     stack: true,
                     maxStack: 100
                 },
-                Inv_potion_142: {
+                inv_potion_142: {
                     quality: 4,
                     description: {
                         name: '超级生命药水',
@@ -869,7 +869,7 @@ export const itemConfig = {
                     stack: true,
                     maxStack: 100
                 },
-                Inv_potion_167: {
+                inv_potion_167: {
                     quality: 5,
                     description: {
                         name: '终极生命药水',
@@ -881,7 +881,7 @@ export const itemConfig = {
                     stack: true,
                     maxStack: 100
                 },
-                Inv_potion_70: {
+                inv_potion_70: {
                     quality: 2,
                     description: {
                         name: '初级魔能药水',
@@ -895,7 +895,7 @@ export const itemConfig = {
                     cdgroup: 'mpPotion',
                     cd: 15
                 },
-                Inv_potion_71: {
+                inv_potion_71: {
                     quality: 2,
                     description: {
                         name: '初级法力药水',
@@ -907,7 +907,7 @@ export const itemConfig = {
                     stack: true,
                     maxStack: 100
                 },
-                Inv_potion_72: {
+                inv_potion_72: {
                     quality: 3,
                     description: {
                         name: '次级魔能药水',
@@ -919,7 +919,7 @@ export const itemConfig = {
                     stack: true,
                     maxStack: 100
                 },
-                Inv_potion_73: {
+                inv_potion_73: {
                     quality: 3,
                     description: {
                         name: '次级法力药水',
@@ -931,7 +931,7 @@ export const itemConfig = {
                     stack: true,
                     maxStack: 100
                 },
-                Inv_potion_74: {
+                inv_potion_74: {
                     quality: 4,
                     description: {
                         name: '魔能药水',
@@ -943,7 +943,7 @@ export const itemConfig = {
                     stack: true,
                     maxStack: 100
                 },
-                Inv_potion_75: {
+                inv_potion_75: {
                     quality: 4,
                     description: {
                         name: '法力药水',
@@ -955,7 +955,7 @@ export const itemConfig = {
                     stack: true,
                     maxStack: 100
                 },
-                Inv_potion_163: {
+                inv_potion_163: {
                     quality: 3,
                     description: {
                         name: '强效魔能药水',
@@ -967,7 +967,7 @@ export const itemConfig = {
                     stack: true,
                     maxStack: 100
                 },
-                Inv_potion_76: {
+                inv_potion_76: {
                     quality: 4,
                     description: {
                         name: '超级魔能药水',
@@ -979,7 +979,7 @@ export const itemConfig = {
                     stack: true,
                     maxStack: 100
                 },
-                Inv_potion_137: {
+                inv_potion_137: {
                     quality: 3,
                     description: {
                         name: '强效法力药水',
@@ -991,7 +991,7 @@ export const itemConfig = {
                     stack: true,
                     maxStack: 100
                 },
-                Inv_potion_148: {
+                inv_potion_148: {
                     quality: 4,
                     description: {
                         name: '超级法力药水',
@@ -1003,7 +1003,7 @@ export const itemConfig = {
                     stack: true,
                     maxStack: 100
                 },
-                Inv_potion_168: {
+                inv_potion_168: {
                     quality: 5,
                     description: {
                         name: '终极法力药水',
@@ -1015,7 +1015,7 @@ export const itemConfig = {
                     stack: true,
                     maxStack: 100
                 },
-                Inv_potion_42: {
+                inv_potion_42: {
                     quality: 2,
                     description: {
                         name: '初级恢复药水',
@@ -1027,7 +1027,7 @@ export const itemConfig = {
                     stack: true,
                     maxStack: 100
                 },
-                Inv_potion_43: {
+                inv_potion_43: {
                     quality: 2,
                     description: {
                         name: '初级活力药水',
@@ -1039,7 +1039,7 @@ export const itemConfig = {
                     stack: true,
                     maxStack: 100
                 },
-                Inv_potion_44: {
+                inv_potion_44: {
                     quality: 3,
                     description: {
                         name: '次级恢复药水',
@@ -1051,7 +1051,7 @@ export const itemConfig = {
                     stack: true,
                     maxStack: 100
                 },
-                Inv_potion_45: {
+                inv_potion_45: {
                     quality: 3,
                     description: {
                         name: '次级活力药水',
@@ -1063,7 +1063,7 @@ export const itemConfig = {
                     stack: true,
                     maxStack: 100
                 },
-                Inv_potion_46: {
+                inv_potion_46: {
                     quality: 4,
                     description: {
                         name: '恢复药水',
@@ -1075,7 +1075,7 @@ export const itemConfig = {
                     stack: true,
                     maxStack: 100
                 },
-                Inv_potion_47: {
+                inv_potion_47: {
                     quality: 4,
                     description: {
                         name: '活力药水',
@@ -1087,7 +1087,7 @@ export const itemConfig = {
                     stack: true,
                     maxStack: 100
                 },
-                Inv_potion_164: {
+                inv_potion_164: {
                     quality: 3,
                     description: {
                         name: '强效恢复药水',
@@ -1099,7 +1099,7 @@ export const itemConfig = {
                     stack: true,
                     maxStack: 100
                 },
-                Inv_potion_48: {
+                inv_potion_48: {
                     quality: 4,
                     description: {
                         name: '超级恢复药水',
@@ -1111,7 +1111,7 @@ export const itemConfig = {
                     stack: true,
                     maxStack: 100
                 },
-                Inv_potion_134: {
+                inv_potion_134: {
                     quality: 4,
                     description: {
                         name: '强效活力药水',
@@ -1123,7 +1123,7 @@ export const itemConfig = {
                     stack: true,
                     maxStack: 100
                 },
-                Inv_potion_145: {
+                inv_potion_145: {
                     quality: 5,
                     description: {
                         name: '超级活力药水',

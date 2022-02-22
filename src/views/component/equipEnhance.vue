@@ -9,8 +9,9 @@
                 <div class="name" :style="{color:equip.quality.color}">
                     {{ equip.description.name }}
                 </div>
-                <div class='icon'>
-                    <img :src="equip.description.iconSrc" alt="icon">
+                <div class="largeIconContainer">
+                    <del :class="[{grey:equip.quality.qualityLv==1, green:equip.quality.qualityLv==3, blue:equip.quality.qualityLv==4, purple:equip.quality.qualityLv==5, orange:equip.quality.qualityLv==5}, 'largeIcon iconBorder']"></del>
+                    <img :src="equip.description.iconSrc" alt="icon" />
                 </div>
                 <span class="enhanceLv">
                     <div v-if="equip.enhanceLv >= equip.maxEnhanceLv" style="color:#c00;">强化等级已达到上限</div>
@@ -42,7 +43,7 @@
             </div>
             <!-- <span class="cost" :class="{'warning':warning}" v-show="equip.enhanceLv < equip.maxEnhanceLv">消耗金币: {{cost}}</span> -->
             <span class="cost" :class="{'warning':warning}">
-                消耗<img :src="'/icons/item/'+imgSrc+'.png'">&nbsp;{{cost}}/{{itemQty}}
+                消耗<img :src="'/icons/item/'+imgSrc+'.jpg'">&nbsp;{{cost}}/{{itemQty}}
             </span>
             <div class="confirm" @click="enhance()" v-show="equip.enhanceLv < equip.maxEnhanceLv">
                 强化
@@ -169,7 +170,7 @@ export default {
             top: 11rem;
             left: 2.5rem;
         }
-        .icon {
+        .largeIconContainer {
             position: relative;
             top: 12rem;
             left: 2.5rem;

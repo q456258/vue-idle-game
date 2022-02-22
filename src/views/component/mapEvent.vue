@@ -7,6 +7,7 @@
             </div>
             <div class="detail">
                 <!-- <div class="centerImg"><img :src="selectedDungeon.img"></div> -->
+                <div>怪物: {{selectedDungeon.monsterName}}</div>
                 <div>等级: {{selectedDungeon.lv}}</div>
                 <div>类型: {{type[selectedDungeon.type]}}</div>
                 <div>剩余次数: 
@@ -242,14 +243,9 @@ export default {
                 let element = document.getElementById('talentTree');
                 element.classList.add('glow');
             }
-            if(this.playerAttr.lv == 15) {
+            if(this.playerAttr.lv == 20) {
                 let element = document.getElementById('guild');
                 element.classList.add('glow');
-            }
-            if(this.playerAttr.lv == 20) {
-                let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-                let item = itemInfo.createItem('spell_nature_thunderclap', 1);  
-                itemInfo.addItem(JSON.parse(item));
             }
         },
         autoBattle(auto) {
@@ -282,10 +278,12 @@ export default {
             if(!monsterID)
                 monsterID = this.dungeonInfo[this.dungeonInfo.current].monsterID;
             enermyAttribute.attribute = this.$deepCopy(this.monster[monsterID].template);
+            enermyAttribute.spellCycle = this.$deepCopy(this.monster[monsterID].spellCycle);
+            enermyAttribute.curSpell = 0;
             let attribute = enermyAttribute.attribute,
             val = 0.0,
             flexStats = ['MAXHP', 'ATK', 'AP', 'DEF', 'MR'],
-            lvStats = ['BLOCK', 'HEAL'],
+            lvStats = ['BLOCK', 'HEAL', 'APPEN'],
             percentStats = ['CRIT', 'CRITDMG', 'APCRIT', 'APCRITDMG']; 
             enermyAttribute.lv = level;
             let flexLv = level - this.monster[monsterID].minLv;
@@ -299,7 +297,7 @@ export default {
                 // attribute.value = Math.round(attribute.value*(1+enermyAttribute.lv*0.15));
                 // attribute.value = Math.round(attribute.value*(1.5+enermyAttribute.lv*(enermyAttribute.lv-1)*(enermyAttribute.lv/50)));
                 // attr.value = Math.round(attr.value*(2+enermyAttribute.lv*(enermyAttribute.lv/35)*(0.9+Math.random()*0.2)));
-                attr.value = Math.round(attr.value*(1+flexLv*(flexLv/35))*(0.9+Math.random()*0.2));
+                attr.value = Math.round(attr.value*(1+flexLv*(flexLv/75))*(0.9+Math.random()*0.2));
                 attr.showValue = attr.value;
                 enermyAttribute.attribute[stat] = attr;
             });

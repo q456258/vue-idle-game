@@ -1,13 +1,13 @@
 <template>
     <span class="currency">
         <span v-if="gold>0">
-            {{gold}}<img src="../../../public/icons/other/gold2.png">
+            {{gold}}<img class="currencyIcon" src="../../../public/icons/other/gold2.png">
         </span>
         <span v-if="silver>0">
-            {{silver}}<img src="../../../public/icons/other/silver.png">
+            {{silver}}<img class="currencyIcon" src="../../../public/icons/other/silver.png">
         </span>
         <span v-if="copper>0 | (gold==0 && silver==0)">
-            {{copper}}<img src="../../../public/icons/other/copper.png">
+            {{copper}}<img class="currencyIcon" src="../../../public/icons/other/copper.png">
         </span>
     </span>
 </template>
@@ -41,7 +41,10 @@ export default {
 
 </script>
 <style lang="scss" scoped>
-.currency{
+.currency {
     font-size: 12px;
+}
+.currencyIcon {
+    margin-top: -4px;
 }
 </style>

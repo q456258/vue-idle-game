@@ -22,7 +22,7 @@
                 </div>
             </div>
             <span class="cost">
-                消耗<img src="/icons/item/Inv_misc_enchantedpearla.png">*1
+                消耗<img src="/icons/item/inv_misc_enchantedpearla.png">*1
             </span>
             <span class="has">
                 目前持有数: {{itemQty}}
