@@ -343,4 +343,140 @@
             height: 21px;
         }
     }
+    .svg-pentagon {
+        text-align: center;
+    }
+    .pentagon {
+        stroke-width:0.5px;
+        transform: rotate(180deg);
+    }
+    .pentagon-1 {
+        fill: rgb(46, 46, 51);
+        stroke-width: 0.7px;
+        stroke: rgba(101, 93, 92, 0.75);
+    }
+    .pentagon-2 {
+        fill: rgb(46, 46, 51);
+        stroke-width: 0.7px;
+        stroke: rgba(101, 93, 92, 0.75);
+    }
+    .pentagon-3 {
+        fill: rgb(46, 46, 51);
+        stroke-width: 0.7px;
+        stroke: rgba(101, 93, 92, 0.75);
+    }
+    .pentagon-4 {
+        fill: rgb(46, 46, 51);
+        stroke-width: 0.7px;
+        stroke: rgba(101, 93, 92, 0.75);
+    }
+    .pentagon-5 {
+        fill: rgb(46, 46, 51);
+        stroke-width: 0.7px;
+        stroke: rgba(101, 93, 92, 0.75);
+    }
+    .pentagonAbility {
+        /*fill: #F17D61;*/
+        fill: rgb(204, 173, 112);
+        fill-opacity: 0.1;
+        stroke: rgb(204, 173, 112);
+        stroke-width: 1.2px;
+    }
+    .statList {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        margin: auto 0rem;
+        width: 10rem;
+        font-size: 0.75rem;
+        .stat {
+            .statDesc {
+                display: none;
+            }
+        }
+        .stat:hover .statName{
+            position: absolute;
+            width: 0px;
+            visibility: hidden;
+        }
+        .stat:hover .statDesc{
+            display: inline;
+        }
+        .STR {
+            position: absolute;
+            top: 0.2rem;
+            left: 4.3rem;
+        }
+        .AGI {
+            position: absolute;
+            top: 3rem;
+            left: 0.4rem;
+        }
+        .STA {
+            position: absolute;
+            top: 7.3rem;
+            left: 2.2rem;
+            width: 4rem;
+            text-align: left;
+        }
+        .INT {
+            position: absolute;
+            top: 7.3rem;
+            left: 6.5rem;
+            width: 4rem;
+            text-align: left;
+        }
+        .SPI {
+            position: absolute;
+            top: 3rem;
+            left: 8.2rem;
+        }
+    }
+    .specialButton {
+        font-size: 60px;
+        text-align: center;
+        line-height: 85px;
+        color: #fff;
+        margin: 0 auto;
+        margin-top: 150px;
+        width: 350px;
+        height: 85px;
+        background: linear-gradient(#1d7751, #0e382c);
+        border: 3px #25793b solid; 
+        border-radius: 5px;
+        text-shadow: 0 0 20px rgba(255,255,255,0.3);
+        transition: .1s;
+        transform: scale(1);
+        cursor: pointer;
+        user-select: none;
+        // box-shadow: 0 0 50px rgba(0,117,9,0.5);
+        overflow: hidden;
+    }
+    .accept {
+        font-size: 15px;
+        padding: 5px;
+        line-height: 30px;
+        margin: auto;
+        width: 70px;
+        height: 40px;
+    }
+    .accept:active {
+        background: linear-gradient(#21885d, #145845);
+        box-shadow: 0 0 75px rgba(0, 148, 12, 0.5);
+    }
+    .reject {
+        font-size: 15px;
+        padding: 5px;
+        line-height: 30px;
+        margin: auto;
+        width: 70px;
+        height: 40px;
+        background: linear-gradient(#771d1d, #380e0e);
+        border: 3px #792525 solid; 
+        // box-shadow: 0 0 50px rgba(117, 0, 0, 0.5);
+    }
+    .reject:active {
+        background: linear-gradient(#821f1f, #441111);
+        box-shadow: 0 0 75px rgba(137, 43, 43, 0.5);
+    }
 }

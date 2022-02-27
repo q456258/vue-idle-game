@@ -80,6 +80,30 @@
                 <p class="info">* 每一级提升1%强化成功率</p>
             </template>
         </cTooltip>
+        <cTooltip :placement="'bottom'" v-if="guild.guild.lv>0">
+            <template v-slot:content>
+                <a id="mineBtn" class='glowBtn' @click="switchTab($event, 'mine')">矿场 {{guild.smith.lv}}</a>
+                <!-- <a id="mineBtn" class='glowBtn' @click="switchTab($event, 'mine')">矿场 {{guild.mine.lv}}</a> -->
+            </template>
+            <template v-slot:tip>
+            </template> 
+        </cTooltip>
+        <cTooltip :placement="'bottom'" v-if="guild.guild.lv>0">
+            <template v-slot:content>
+                <a id="herbBtn" class='glowBtn' @click="switchTab($event, 'herb')">药园 {{guild.smith.lv}}</a>
+                <!-- <a id="herbBtn" class='glowBtn' @click="switchTab($event, 'herb')">药园 {{guild.herb.lv}}</a> -->
+            </template>
+            <template v-slot:tip>
+            </template>
+        </cTooltip>
+        <cTooltip :placement="'bottom'" v-if="guild.guild.lv>0">
+            <template v-slot:content>
+                <a id="barBtn" class='glowBtn' @click="switchTab($event, 'bar')">酒馆 {{guild.smith.lv}}</a>
+                <!-- <a id="barBtn" class='glowBtn' @click="switchTab($event, 'bar')">酒馆 {{guild.bar.lv}}</a> -->
+            </template>
+            <template v-slot:tip>
+            </template>
+        </cTooltip>
     </div>
     <guildPosition></guildPosition>
 </div>

@@ -187,12 +187,15 @@ export default new Vuex.Store({
         guildAttribute: {
             gold: 0,
             crystal: 0,
-            guild: {lv: 1},
-            train: {lv: 1},
+            guild: {lv: 0},
+            train: {lv: 0},
             train2: {lv: 0},
             train3: {lv: 0},
-            shop: {lv: 1},
-            smith: {lv: 1},
+            shop: {lv: 0},
+            smith: {lv: 0},
+            mine: {lv: 0},
+            herb: {lv: 0},
+            bar: {lv: 0},
             member: []
         },
         playerAttribute: {
@@ -332,10 +335,11 @@ export default new Vuex.Store({
             MRP: 0,
         },    
         memberAttribute: {
-            HP: 0,
-            MP: 0,
-            ATK: 0,
-            DEF: 0,
+            STR: 0,
+            AGI: 0,
+            STA: 0,
+            INT: 0,
+            SPI: 0
         },
         setting: {
         },

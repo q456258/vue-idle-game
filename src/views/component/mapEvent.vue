@@ -246,6 +246,11 @@ export default {
             if(this.playerAttr.lv == 20) {
                 let element = document.getElementById('guild');
                 element.classList.add('glow');
+                guild = this.$store.state.guildAttribute;
+                guild.guild.lv = 1;
+                guild.train.lv = 1;
+                guild.shop.lv = 1;
+                guild.smith.lv = 1;
             }
         },
         autoBattle(auto) {

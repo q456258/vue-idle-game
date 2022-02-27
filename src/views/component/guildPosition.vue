@@ -22,6 +22,34 @@
         <div class="buildInfo">
             {{guild[type].lv+'级 (效率: '+totalEfficiency[type]+'/秒)'}}
         </div>
+        <div class="member">
+            成员{{building[type].length}}/{{maxMember[type]}}
+            <!-- 此处setPosition参数里面用:set设置的变量(type)会随着别处:set重新赋值导致传进去值不同 -->
+            <div class="btn btn-outline-success" v-if="building[type].length<maxMember[type]" @click="setPosition('shop', -1)">添加</div>
+            <div class="list">
+                <div class="grid" v-for="(v, k) in building[type]" :key="k">
+                    <div class="info">
+                        <div class="name">
+                            {{v.name}}
+                            <br>
+                            {{race[v.race].name+' '+v.lv}}级
+                        </div>
+                    </div>
+                    <!-- <div class="skillList">
+                        <span class="statName">{{guildStat['efficiency'].name+': '+v.stat['efficiency']}}</span>
+                        <span class="statName" v-if="v.skill[type]">{{v.skill[type]+"级"+guildSkill[type].name}}</span>
+                        <div class="skill" v-for="(special, index) in v.special" :key="index">
+                            <span class="skillName">{{guildSpecialSkill[special].name}}</span>
+                            <span class="skillDesc">({{guildSpecialSkill[special].desc}})</span>
+                        </div>
+                    </div> -->
+                    <div class="action">
+                        <div class="button kick btn btn-outline-warning" @click="setPosition('shop', k)">更换</div>
+                        <div class="button kick btn btn-outline-danger" @click="cancelPosition('shop', k)">取消</div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="progress" style="width:100%;">
             <div class="progress-bar progress-bar-striped" :style="{width:progress[type].current/progress[type].max*100+'%'}">
                 <small class="justify-content-center d-flex position-absolute w-90" style="color:black">{{progress[type].current+'/'+progress[type].max}} </small>
@@ -44,6 +72,25 @@
     <div class="building" v-show="displayPage=='smith'" :set="type='smith'">
         <div class="buildInfo">
             {{guild[type].lv+'级 (效率: '+totalEfficiency[type]+'/秒)'}}
+        </div>
+        <div class="member">
+            成员{{building[type].length}}/{{maxMember[type]}}
+            <div class="btn btn-outline-success" v-if="building[type].length<maxMember[type]" @click="setPosition('smith', -1)">添加</div>
+            <div class="list">
+                <div class="grid" v-for="(v, k) in building[type]" :key="k">
+                    <div class="info">
+                        <div class="name">
+                            {{v.name}}
+                            <br>
+                            {{race[v.race].name+' '+v.lv}}级
+                        </div>
+                    </div>
+                    <div class="action">
+                        <div class="button kick btn btn-outline-warning" @click="setPosition('smith', k)">更换</div>
+                        <div class="button kick btn btn-outline-danger" @click="cancelPosition('smith', k)">取消</div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="progress" style="width:100%;">
             <div class="progress-bar progress-bar-striped" :style="{width:progress[type].current/progress[type].max*100+'%'}">
@@ -70,6 +117,73 @@
             </div>
             <craftEquip></craftEquip>
         </div>
+    </div>
+    <div class="building" v-show="displayPage=='bar'" :set="type='bar'">
+        <!-- <div class="buildInfo">
+            {{guild[type].lv+'级 (效率: '+totalEfficiency[type]+'/秒)'}}
+        </div> -->
+        <div class="member">
+            成员{{building[type].length}}/{{maxMember[type]}}
+            <div class="btn btn-outline-success" v-if="building[type].length<maxMember[type]" @click="setPosition('bar', -1)">添加</div>
+            <div class="list">
+                <div class="grid" v-for="(v, k) in building[type]" :key="k">
+                    <div class="info">
+                        <div class="name">
+                            {{v.name}}
+                            <br>
+                            {{race[v.race].name+' '+v.lv}}级
+                        </div>
+                    </div>
+                    <div class="action">
+                        <div class="button kick btn btn-outline-warning" @click="setPosition('bar', k)">更换</div>
+                        <div class="button kick btn btn-outline-danger" @click="cancelPosition('bar', k)">取消</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="action">
+            
+        </div>
+        <div class="applicant scrollbar-morpheus-den">
+        <div class="list">
+            <div class="grid" v-for="(v, k) in applicantList" :key="k">
+                <div class="info">
+                    <div class="icon"><img :src="v.iconSrc"></div>
+                    <div class="name">
+                        {{v.name}}
+                        <br>
+                        {{race[v.race].name+' '+v.lv}}级
+                    </div>
+                </div>
+                <div class="svg-pentagon">
+                    <div class="statList">
+                        <div :class="'stat ' +type" v-for="(value, type) in v.talent" :key="type">{{guildStat[type].name}}
+                        </div>
+                    </div>
+                    <svg id="J-svg-pentagon"  width="120" height="120">
+                        <g transform="translate(10, 15)">
+                            <polygon class="pentagon pentagon-5" points="-50 0.00 -2.45 -34.55 -20.61 -90.45 -79.39 -90.45 -97.55 -34.55"/>
+                            <polygon class="pentagon pentagon-4" points="-50 -10.00 -11.96 -37.64 -26.49 -82.36 -73.51 -82.36 -88.04 -37.64"/>
+                            <polygon class="pentagon pentagon-3" points="-50 -20.00 -21.47 -40.73 -32.37 -74.27 -67.63 -74.27 -78.53 -40.73"/>
+                            <polygon class="pentagon pentagon-2" points="-50 -30.00 -30.98 -43.82 -38.24 -66.18 -61.76 -66.18 -69.02 -43.82"/>
+                            <polygon class="pentagon pentagon-1" points="-50 -40.00 -40.49 -46.91 -44.12 -58.09 -55.88 -58.09 -59.51 -46.91"/>
+                            <polygon class="pentagon pentagonAbility" :points="v.points" />
+                        </g>
+                    </svg>
+                </div>
+                <div class="skillList">
+                    <div class="skill" v-for="(id, index) in v.skill" :key="index">
+                        <span class="skillName">{{guildSkill[id].name}}</span>
+                        <span class="skillDesc">({{guildSkill[id].desc}})</span>
+                    </div>
+                </div>
+                <div class="action">
+                    <div class="button specialButton accept" @click="recruit(k)">招募</div>
+                    <div class="button specialButton reject" @click="reject(k)">婉拒</div>
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
 </div>
     
@@ -98,12 +212,25 @@ export default {
                 train: [],
                 train2: [],
                 train3: [],
+                mine: [],
+                herb: [],
+                bar: [],
+            }, 
+            maxMember: {
+                shop: 2,
+                smith: 2,
+                train: 2,
+                train2: 2,
+                train3: 2,
+                mine: 2,
+                herb: 2,
+                bar: 2,
             },
             totalEfficiency: {
                 shop: 1, smith: 1, train: 1, train2: 1, train3: 1,
             },
             timerList: {
-                shop: 0, smith: 0, train: 0, train2: 0, train3: 0,
+                shop: 0, smith: 0, train: 0, train2: 0, train3: 0, bar: 0,
             },
             progress: {
                 shop: { current: 0, max: 1000 },
@@ -136,22 +263,28 @@ export default {
                 shop: false, smith: false, train:  false, train2: false, train3: false,
             },
             displayPage: 'guild',
+            applicantList: [],
         };
     },
     props: {
     },
     computed: {
         guild() {return this.$store.state.guildAttribute;},
-        player() {return this.$store.state.playerAttribute;}
+        player() {return this.$store.state.playerAttribute;},
     },
     methods: {    
         init() {
-            for(let mem in this.maxMember) {
-                this.maxMember[mem] = Math.floor(this.guild[mem].lv/10+1);
+            // for(let mem in this.maxMember) {
+            //     this.maxMember[mem] = Math.floor(this.guild[mem].lv/10+1);
+            // }
+            for(var mem in this.guild.member) {
+                if(this.guild.member[mem].job != 'None')
+                    this.assignPosition(this.guild.member[mem].job, -1, this.guild.member[mem], true);
             }
             for(let timer in this.timerList) 
                 clearInterval(this.timerList[timer]);
             this.start('shop');
+            this.start('bar');
             // this.start('smith');
             // this.smith_main = this.player.shoulder;
             // this.smith_sub = this.player.weapon;
@@ -227,6 +360,9 @@ export default {
                 case 'shop':
                     this.startShop();
                     break;
+                case 'bar':
+                    this.startBar();
+                    break;
             }
         },
         stop(type) {
@@ -288,6 +424,16 @@ export default {
                 }
             }, 1000);
         },
+        startBar() {
+            var guild = this.findComponentUpward(this, 'guild');
+            var guildMember = this.findBrothersComponents(guild, 'guildMember', false)[0];
+            this.timerList['bar'] = setInterval(() => {
+                if(this.applicantList.length > 4) {
+                    guildMember.reject(Math.floor(Math.random()*this.applicantList.length));
+                } 
+                guildMember.generateApplicant();
+            }, 30*60*1000);
+        },
         smith() {
             let guild = this.findComponentUpward(this, 'guild');
             let equipInfo = this.findBrothersComponents(guild, 'equipInfo', false)[0];
@@ -339,6 +485,57 @@ export default {
             });
             this.smith_main = {};
             this.smith_sub = {};
+        },
+        
+        findTarget(target) {
+            if(target.job == 'None')
+                return -1;
+            var list = this.building[target.job];
+            for(var i in list) {
+                if(list[i].id == target.id)
+                    return i;
+            }
+            return -1;
+        },
+        assignPosition(type, index, target, force=false) {
+            if(!force && type == target.job)
+                return;
+            if(target.job != 'None') {
+                let targetIndex = this.findTarget(target);
+                if(targetIndex != -1)
+                    this.cancelPosition(target.job, targetIndex);
+            }
+            if(index == -1)
+                this.building[type].push(target);
+            else {
+                this.cancelPosition(type, index, true);
+                this.building[type][index] = target;
+            }
+            target.job = type;
+        },
+        setPosition(type, k) {
+            var guild = this.findComponentUpward(this, 'guild');
+            var index = this.findComponentUpward(this, 'index');
+            var guildMember = this.findBrothersComponents(guild, 'guildMember', false)[0];
+            index.displayPage = 'guildMember';
+            guildMember.positionType = type;
+            guildMember.positionIndex = k;
+        },
+        cancelPosition(type, index, replace=false) {
+            var target = this.building[type][index];
+            this.building[type][index].job = 'None';
+            if(!replace)
+                this.building[type].splice(index, 1);
+        },
+        recruit(k) {
+            var guild = this.findComponentUpward(this, 'guild');
+            var guildMember = this.findBrothersComponents(guild, 'guildMember', false)[0];
+            guildMember.recruit(k);
+        },
+        reject(k) {
+            var guild = this.findComponentUpward(this, 'guild');
+            var guildMember = this.findBrothersComponents(guild, 'guildMember', false)[0];
+            guildMember.reject(k);
         },
         showInfo($event, type, item, compare) {
             let guild = this.findComponentUpward(this, 'guild');
@@ -438,25 +635,16 @@ export default {
             width: 4rem;
             margin: auto 0rem;
             .accept {
-                font-size: 20px;
-                line-height: 30px;
-                margin: 0.5rem;
-                width: 70px;
-                height: 40px;
+                font-size: 15px;
+                line-height: 15px;
+                width: 50px;
+                height: 30px;
             }
             .reject {
-                font-size: 20px;
-                line-height: 30px;
-                margin: 0.5rem;
-                width: 70px;
-                height: 40px;
-                background: linear-gradient(#771d1d, #380e0e);
-                border: 3px #792525 solid; 
-                box-shadow: 0 0 50px rgba(117, 0, 0, 0.5);
-            }
-            .reject:active {
-                background: linear-gradient(#821f1f, #441111);
-                box-shadow: 0 0 75px rgba(137, 43, 43, 0.5);
+                font-size: 15px;
+                line-height: 15px;
+                width: 50px;
+                height: 30px;
             }
         }
     }

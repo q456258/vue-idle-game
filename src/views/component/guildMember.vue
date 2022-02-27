@@ -13,48 +13,54 @@
         <button class="btn btn-secondary" v-if="size=='maximize'" style="margin-left: 1rem;" @click="changeSize('minimize')"><i class="fa fa-window-minimize" aria-hidden="true"></i></button>
         <button class="btn btn-secondary" v-if="size=='minimize'" style="margin-left: 1rem;" @click="changeSize('maximize')"><i class="fa fa-window-maximize" aria-hidden="true"></i></button>
 
-        <table class="table" v-if="size=='maximize'">
+        <table class="table memberTable" v-if="size=='maximize'">
             <thead>
                 <tr>
-                    <th scope="col">名字</th>
+                    <th scope="col">名称</th>
                     <th scope="col" style="cursor:pointer" @click="sortBy('lv')">等级</th>
-                    <th scope="col" style="cursor:pointer" @click="sortBy('ATK', 'stat')">攻击</th>
-                    <th scope="col" style="cursor:pointer" @click="sortBy('DEF', 'stat')">防御</th>
-                    <th scope="col" style="cursor:pointer" @click="sortBy('HP', 'stat')">生命</th>
-                    <th scope="col" style="cursor:pointer" @click="sortBy('MP', 'stat')">魔法</th>
-                    <th scope="col" style="cursor:pointer" @click="sortBy('potential', 'talent')">潜力</th>
+                    <th scope="col" style="cursor:pointer" @click="sortBy('STR', 'stat')">力量</th>
+                    <th scope="col" style="cursor:pointer" @click="sortBy('AGI', 'stat')">敏捷</th>
+                    <th scope="col" style="cursor:pointer" @click="sortBy('STA', 'stat')">耐力</th>
+                    <th scope="col" style="cursor:pointer" @click="sortBy('INT', 'stat')">智力</th>
+                    <th scope="col" style="cursor:pointer" @click="sortBy('SPI', 'stat')">精神</th>
                     <th scope="col">技能</th>
-                    <th scope="col"></th>
+                    <th scope="col">职位</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="(v, k) in guild.member" :key="k">
                     <td>{{v.name}}</td>
                     <td>{{v.lv}}</td>
-                    <td>{{v.stat.ATK}}
-                        <br>
-                        <span class="mini-talent">({{v.talent.ATK}})</span>
+                    <td>{{v.stat.STR}}
+                        <!-- <br>
+                        <span class="mini-talent">({{v.talent.STR}})</span> -->
                     </td>
-                    <td>{{v.stat.DEF}}
-                        <br>
-                        <span class="mini-talent">({{v.talent.DEF}})</span>
+                    <td>{{v.stat.AGI}}
+                        <!-- <br>
+                        <span class="mini-talent">({{v.talent.AGI}})</span> -->
                     </td>
-                    <td>{{v.stat.HP}}
-                        <br>
-                        <span class="mini-talent">({{v.talent.HP}})</span>
+                    <td>{{v.stat.STA}}
+                        <!-- <br>
+                        <span class="mini-talent">({{v.talent.STA}})</span> -->
                     </td>
-                    <td>{{v.stat.MP}}
-                        <br>
-                        <span class="mini-talent">({{v.talent.MP}})</span>
+                    <td>{{v.stat.INT}}
+                        <!-- <br>
+                        <span class="mini-talent">({{v.talent.INT}})</span> -->
                     </td>
-                    <td>{{v.talent.potential}}</td>
+                    <td>{{v.stat.SPI}}
+                        <!-- <br>
+                        <span class="mini-talent">({{v.talent.SPI}})</span> -->
+                    </td>
                     <td style="width: 8em;">
                         <div class="skill" v-for="(id, index) in v.skill" :key="index">
                             <span class="skillName">{{guildSkill[id].name}}</span>
                         </div>
                     </td>
                     <td style="width: 6em;">
-                        <span class="button kick" v-if="kickEnabled" @click="kick(k)">踢出</span>
+                        <span v-if="v.job=='None'">空闲</span>
+                        <span v-else>{{typeName[v.job]}}</span>
+                        <div class="button specialButton accept" v-if="positionType!='None'" @click="assignPosition(k)">任命</div>
+                        <span class="button specialButton kick" v-if="kickEnabled" @click="kick(k)">踢出</span>
                     </td>
                 </tr>
             </tbody>
@@ -70,11 +76,11 @@
                 <thead>
                     <tr>
                         <th scope="col" style="cursor:pointer" @click="sortBy('lv')">等级</th>
-                        <th scope="col" style="cursor:pointer" @click="sortBy('ATK', 'talent')">攻击</th>
-                        <th scope="col" style="cursor:pointer" @click="sortBy('DEF', 'talent')">防御</th>
-                        <th scope="col" style="cursor:pointer" @click="sortBy('HP', 'talent')">生命</th>
-                        <th scope="col" style="cursor:pointer" @click="sortBy('MP', 'talent')">魔法</th>
-                        <th scope="col" style="cursor:pointer" @click="sortBy('potential', 'talent')">潜力</th>
+                        <th scope="col" style="cursor:pointer" @click="sortBy('STR', 'stat')">力量</th>
+                        <th scope="col" style="cursor:pointer" @click="sortBy('AGI', 'stat')">敏捷</th>
+                        <th scope="col" style="cursor:pointer" @click="sortBy('STA', 'stat')">耐力</th>
+                        <th scope="col" style="cursor:pointer" @click="sortBy('INT', 'stat')">智力</th>
+                        <th scope="col" style="cursor:pointer" @click="sortBy('SPI', 'stat')">精神</th>
                     </tr>
                 </thead>
             </table>
@@ -112,100 +118,10 @@
                     </div>
                 </div>
                 <div class="action">
-                    <div class="button kick"  v-if="kickEnabled" @click="kick(k)">踢出公会</div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="member scrollbar-morpheus-den" v-if="viewType=='list'">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">名字</th>
-                    <th scope="col" style="cursor:pointer" @click="sortAppBy('lv', 'talent')">等级</th>
-                    <th scope="col" style="cursor:pointer" @click="sortAppBy('ATK', 'talent')">攻击</th>
-                    <th scope="col" style="cursor:pointer" @click="sortAppBy('DEF', 'talent')">防御</th>
-                    <th scope="col" style="cursor:pointer" @click="sortAppBy('HP', 'talent')">生命</th>
-                    <th scope="col" style="cursor:pointer" @click="sortAppBy('MP', 'talent')">魔法</th>
-                    <th scope="col" style="cursor:pointer" @click="sortAppBy('potential', 'talent')">潜力</th>
-                    <th scope="col">技能</th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(v, k) in applicantList" :key="k">
-                    <td>{{v.name}}</td>
-                    <td>{{v.lv}}</td>
-                    <td>{{v.talent.ATK}}</td>
-                    <td>{{v.talent.DEF}}</td>
-                    <td>{{v.talent.HP}}</td>
-                    <td>{{v.talent.MP}}</td>
-                    <td>{{v.talent.potential}}</td>
-                    <td style="width: 8em;">
-                        <div class="skill" v-for="(content, index) in v.skill" :key="index">
-                            <span class="skillName">{{guildSkill[content].name}}</span>
-                        </div>
-                    </td>
-                    <td style="width: 6em;">
-                        <span class="button accept" @click="recruit(k)">招募</span>
-                        <br>
-                        <span class="button reject" @click="reject(k)">婉拒</span>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="applicant scrollbar-morpheus-den" v-if="viewType=='detail'">
-        申请列表
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col" style="cursor:pointer" @click="sortAppBy('lv')">等级</th>
-                    <th scope="col" style="cursor:pointer" @click="sortAppBy('ATK', 'talent')">攻击</th>
-                    <th scope="col" style="cursor:pointer" @click="sortAppBy('DEF', 'talent')">防御</th>
-                    <th scope="col" style="cursor:pointer" @click="sortAppBy('HP', 'talent')">生命</th>
-                    <th scope="col" style="cursor:pointer" @click="sortAppBy('MP', 'talent')">魔法</th>
-                    <th scope="col" style="cursor:pointer" @click="sortAppBy('potential', 'talent')">潜力</th>
-                </tr>
-            </thead>
-        </table>
-        <div class="list">
-            <div class="grid" v-for="(v, k) in applicantList" :key="k">
-                <div class="info">
-                    <div class="icon"><img :src="v.iconSrc"></div>
-                    <div class="name">
-                        {{v.name}}
-                        <br>
-                        {{race[v.race].name+' '+v.lv}}级
-                    </div>
-                </div>
-                <div class="svg-pentagon">
-                    <div class="statList">
-                        <div :class="'stat ' +type" v-for="(value, type) in v.talent" :key="type">
-                            <span class="statName">{{guildStat[type].name}}</span>
-                            <span class="statDesc">{{'('+value+')'+guildStat[type].desc}}</span>
-                        </div>
-                    </div>
-                    <svg id="J-svg-pentagon"  width="120" height="120">
-                        <g transform="translate(10, 15)">
-                            <polygon class="pentagon pentagon-5" points="-50 0.00 -2.45 -34.55 -20.61 -90.45 -79.39 -90.45 -97.55 -34.55"/>
-                            <polygon class="pentagon pentagon-4" points="-50 -10.00 -11.96 -37.64 -26.49 -82.36 -73.51 -82.36 -88.04 -37.64"/>
-                            <polygon class="pentagon pentagon-3" points="-50 -20.00 -21.47 -40.73 -32.37 -74.27 -67.63 -74.27 -78.53 -40.73"/>
-                            <polygon class="pentagon pentagon-2" points="-50 -30.00 -30.98 -43.82 -38.24 -66.18 -61.76 -66.18 -69.02 -43.82"/>
-                            <polygon class="pentagon pentagon-1" points="-50 -40.00 -40.49 -46.91 -44.12 -58.09 -55.88 -58.09 -59.51 -46.91"/>
-                            <polygon class="pentagon pentagonAbility" :points="v.points" />
-                        </g>
-                    </svg>
-                </div>
-                <div class="skillList">
-                    <div class="skill" v-for="(id, index) in v.skill" :key="index">
-                        <span class="skillName">{{guildSkill[id].name}}</span>
-                        <span class="skillDesc">({{guildSkill[id].desc}})</span>
-                    </div>
-                </div>
-                <div class="action">
-                    <div class="button accept" @click="recruit(k)">招募</div>
-                    <div class="button reject" @click="reject(k)">婉拒</div>
+                    <span v-if="v.job=='None'">空闲</span>
+                    <span v-else>{{typeName[v.job]}}</span>
+                    <div class="button accept" v-if="positionType!='None'" @click="assignPosition(k)">任命</div>
+                    <div class="button kick" v-if="kickEnabled" @click="kick(k)">踢出公会</div>
                 </div>
             </div>
         </div>
@@ -240,9 +156,10 @@ export default {
                 ['train5', 'shop5', 'smith5'],
                 ['train6', 'shop6', 'smith6'],
             ],
-            applicantList: [],
+            // applicantList: [],
             positionList: [['None','空闲'], ['trainManager','练功房管理'], ['train2Manager','中级练功房管理'], ['train3Manager','高级练功房管理']],
-            typeName: {shop:'商店', smith:'铁匠铺', train:'练功房', train2:'中级练功房', train3:'高级练功房'},
+            positionType: 'None',
+            typeName: {shop:'商店', smith:'铁匠铺', train:'练功房', train2:'中级练功房', train3:'高级练功房', mine: '矿场', herb: '药园', bar: '酒馆'},
             viewType: 'list',
             size: 'maximize',
             sortKey: 'name',
@@ -265,6 +182,11 @@ export default {
                     max += Math.floor(this.guild[build].lv/10+1);
             }
             return max;
+        },
+        applicantList() {
+            var guild = this.findBrothersComponents(this, 'guild', false)[0];
+            var guildPosition = this.findComponentDownward(guild, 'guildPosition');
+            return guildPosition.applicantList;
         }
     },
     methods: {
@@ -273,25 +195,30 @@ export default {
             applicant.lv = lv || 1;
             applicant.race = race || this.createRace();
             applicant.name = name || this.generateName(applicant.race);
-            applicant.stat = this.createStat();
+            // 天赋：基础值
             applicant.talent = this.createTalent(applicant.race);
+            // 属性：最终值
+            applicant.stat = this.createStat(applicant);
             applicant.points = this.createPoints(applicant.talent);
             applicant.skill = this.createSkill(applicant);
             applicant.special = [];
             applicant.id = Math.round(Math.random()*90071992547);
-            this.gainStat(applicant);
             this.applicantList.push(applicant);
         },
         createRace() {
             return 'Human';
         },
-        createStat() {
+        createStat(applicant) {
             let stat = {
-                ATK: 0,
-                DEF: 0,
-                HP: 0,
-                MP: 0,
+                STR: 0,
+                AGI: 0,
+                STA: 0,
+                INT: 0,
+                SPI: 0
             };
+            for(let s in stat) {
+                stat[s] = applicant.talent[s];
+            }
             return stat;
         },
         createTalent(race) {
@@ -342,7 +269,8 @@ export default {
             return skillList;
         },
         generateSkill(applicant) {
-            let potential = applicant.stat.potential;
+            // let potential = applicant.stat.potential;
+            let potential = 0;
             let skill = '';
             let ran = Math.random()*potential;
             let pool = this.skillPool[0];
@@ -384,7 +312,7 @@ export default {
         },
         gainStat(member, type, value) {
             member.stat[type] += value;
-            this.playerGainStat(type, value);
+            // this.playerGainStat(type, value);
         },
         playerGainStat(type, value) {
             this.$store.state.memberAttribute[type] += Math.round(value*0.1);
@@ -408,6 +336,7 @@ export default {
             let member = this.applicantList[k];
             for(let type in member.stat) 
                 this.playerGainStat(type, Math.round(member.stat[type]*0.1));
+            this.applicantList[k].job = 'None';
             this.applicantList[k].isMember = true;
             this.guild.member.push(this.applicantList[k]);
             for(let index in this.applicantList[k].skill) {
@@ -423,10 +352,67 @@ export default {
         reject(k) {
             this.applicantList.splice(k, 1);
         },
+        
+        allCancel() {
+            var guild = this.findBrothersComponents(this, 'guild', false)[0];
+            var guildPosition = this.findComponentDownward(guild, 'guildPosition');
+            var members = this.guild.member;
+            for(let index in members) {
+                let member = members[index];
+                if(member.job == 'None')
+                    continue;
+                guildPosition.cancelPosition(member.job, guildPosition.findTarget(member));
+            }
+        },
+        autoAssign() {
+            var guild = this.findBrothersComponents(this, 'guild', false)[0];
+            var guildPosition = this.findComponentDownward(guild, 'guildPosition');
+            var members = this.guild.member;
+            members.sort((a, b) => {
+                return (b.stat['efficiency']-a.stat['efficiency']);
+            })
+            var need = {};
+            for(let type in guildPosition.building) {
+                need[type] = guildPosition.maxMember[type]-guildPosition.building[type].length;
+            }
+            for(let index in members) {
+                let member = members[index];
+                if(member.job != 'None')
+                    continue;
+                if(need[member.career] > 0) {
+                    guildPosition.assignPosition(member.career, -1, member);
+                    need[member.career]--;
+                }
+            }
+            for(let index in members) {
+                let member = members[index];
+                if(member.job != 'None')
+                    continue;
+                for(let type in guildPosition.building) {
+                    if(need[type] > 0) {
+                        guildPosition.assignPosition(type, -1, member);
+                        need[type]--;
+                        break;
+                    }
+                }
+            }
+        },
+        assignPosition(k) {
+            var index = this.findComponentUpward(this, 'index');
+            var guild = this.findBrothersComponents(this, 'guild', false)[0];
+            var guildPosition = this.findComponentDownward(guild, 'guildPosition');
+            guildPosition.assignPosition(this.positionType, this.positionIndex, this.guild.member[k])
+            this.positionType = 'None';
+            index.displayPage = 'guild';
+            guildPosition.$forceUpdate();
+        },
         kick(k) {
             let member = this.guild.member[k];
             for(let type in member.stat)
                 this.playerGainStat(type, -1*Math.round(member.stat[type]*0.1));
+            var guild = this.findBrothersComponents(this, 'guild', false)[0];
+            var guildPosition = this.findComponentDownward(guild, 'guildPosition');
+            guildPosition.cancelPosition(this.guild.member[k].job, guildPosition.findTarget(this.guild.member[k]));
             for(let index in member.skill) {
                 let skill = member.skill[index];
                 let type = this.guildSkill[skill].type;
@@ -585,56 +571,6 @@ export default {
             overflow: auto;
         }
     }
-    .statList {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        margin: auto 0rem;
-        width: 10rem;
-        font-size: 0.75rem;
-        .stat {
-            .statDesc {
-                display: none;
-            }
-        }
-        .stat:hover .statName{
-            position: absolute;
-            width: 0px;
-            visibility: hidden;
-        }
-        .stat:hover .statDesc{
-            display: inline;
-        }
-        .ATK {
-            position: absolute;
-            top: 0.2rem;
-            left: 4.3rem;
-        }
-        .DEF {
-            position: absolute;
-            top: 3rem;
-            left: 0.4rem;
-        }
-        .HP {
-            position: absolute;
-            top: 7.3rem;
-            left: 2.2rem;
-            width: 4rem;
-            text-align: left;
-        }
-        .MP {
-            position: absolute;
-            top: 7.3rem;
-            left: 6.5rem;
-            width: 4rem;
-            text-align: left;
-        }
-        .potential {
-            position: absolute;
-            top: 3rem;
-            left: 8.2rem;
-        }
-    }
     .skillList {
         display: flex;
         flex-direction: column;
@@ -652,26 +588,6 @@ export default {
             display: inline;
         }
     }
-}
-.button {
-    font-size: 60px;
-    text-align: center;
-    line-height: 85px;
-    color: #fff;
-    margin: 0 auto;
-    margin-top: 150px;
-    width: 350px;
-    height: 85px;
-    background: linear-gradient(#1d7751, #0e382c);
-    border: 3px #25793b solid; 
-    border-radius: 5px;
-    text-shadow: 0 0 20px rgba(255,255,255,0.3);
-    transition: .1s;
-    transform: scale(1);
-    cursor: pointer;
-    user-select: none;
-    box-shadow: 0 0 50px rgba(0,117,9,0.5);
-    overflow: hidden;
 }
 
 // .button:hover {
@@ -718,68 +634,6 @@ export default {
     background: linear-gradient(#821f1f, #441111);
     box-shadow: 0 0 75px rgba(137, 43, 43, 0.5);
 }
-.accept {
-    font-size: 15px;
-    padding: 5px;
-    line-height: 30px;
-    margin: auto;
-    width: 70px;
-    height: 40px;
-}
-.reject {
-    font-size: 15px;
-    padding: 5px;
-    line-height: 30px;
-    margin: auto;
-    width: 70px;
-    height: 40px;
-    background: linear-gradient(#771d1d, #380e0e);
-    border: 3px #792525 solid; 
-    box-shadow: 0 0 50px rgba(117, 0, 0, 0.5);
-}
-.reject:active {
-    background: linear-gradient(#821f1f, #441111);
-    box-shadow: 0 0 75px rgba(137, 43, 43, 0.5);
-}
-.svg-pentagon {
-    text-align: center;
-}
-.pentagon {
-    stroke-width:0.5px;
-    transform: rotate(180deg);
-}
-.pentagon-1 {
-    fill: rgb(46, 46, 51);
-    stroke-width: 0.7px;
-    stroke: rgba(101, 93, 92, 0.75);
-}
-.pentagon-2 {
-    fill: rgb(46, 46, 51);
-    stroke-width: 0.7px;
-    stroke: rgba(101, 93, 92, 0.75);
-}
-.pentagon-3 {
-    fill: rgb(46, 46, 51);
-    stroke-width: 0.7px;
-    stroke: rgba(101, 93, 92, 0.75);
-}
-.pentagon-4 {
-    fill: rgb(46, 46, 51);
-    stroke-width: 0.7px;
-    stroke: rgba(101, 93, 92, 0.75);
-}
-.pentagon-5 {
-    fill: rgb(46, 46, 51);
-    stroke-width: 0.7px;
-    stroke: rgba(101, 93, 92, 0.75);
-}
-.pentagonAbility {
-    /*fill: #F17D61;*/
-    fill: rgb(204, 173, 112);
-    fill-opacity: 0.1;
-    stroke: rgb(204, 173, 112);
-    stroke-width: 1.2px;
-}
 .btn {
     margin-left: -1rem;
     padding: .375rem 0rem;
@@ -788,22 +642,30 @@ export default {
 .hidden {
     display: none;
 }
-.table {
+.memberTable {
     color: rgb(238, 238, 238);
+    border-collapse: separate;
+    border-spacing: 0px;
 }
-.table td, .table th {
-    padding: 0.2rem 0.375rem;
+.memberTable td, .memberTable th {
+    padding: 2px 0px 1px 5px;
     border-top: none;
     vertical-align: middle;
+    text-align: left;
 }
-.table th {
-    border-bottom: 1px solid #dee2e6;
+.memberTable th {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    margin-left: 7px;
+    border: 1px solid #494745;
+    border-bottom: none;
+    background-color: #231f1b;
 }
-tr {
-    height: 2.5rem;
+.memberTable tr {
+    height: 20px;
 }
-tr:nth-of-type(odd) td{
-    background-color: lighten(#000000, 15%);
+.memberTable tr:nth-of-type(odd) td{
+    background-color: #161616;
 }
 // tr:nth-of-type(even) td{
     // background-color: lighten(#000000, 15%);

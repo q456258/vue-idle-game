@@ -5,11 +5,11 @@ export const guildMemberConfig = {
                 Human: {
                     name: '人类',
                     talent: {
-                        ATK: 10,
-                        DEF: 10,
-                        HP: 30,
-                        MP: 50,
-                        potential: 50,
+                        STR: 10,
+                        AGI: 30,
+                        STA: 50,
+                        INT: 70,
+                        SPI: 10,
                     }
                 }, 
                 Dwarf: {
@@ -80,25 +80,25 @@ export const guildMemberConfig = {
                 }, 
             },
             guildStat: {
-                ATK: {
-                    name: '攻击',
-                    desc: '攻击成长上限'
+                STR: {
+                    name: '力量',
+                    desc: ''
                 },
-                DEF: {
-                    name: '防御',
-                    desc: '防御成长上限'
+                AGI: {
+                    name: '敏捷',
+                    desc: ''
                 },
-                HP: {
-                    name: '生命',
-                    desc: '生命值成长上限'
+                STA: {
+                    name: '耐力',
+                    desc: ''
                 },
-                MP: {
-                    name: '魔法',
-                    desc: '魔法值成长上限'
+                INT: {
+                    name: '智力',
+                    desc: ''
                 },
-                potential: {
-                    name: '潜力',
-                    desc: '影响技能品质'
+                SPI: {
+                    name: '精神',
+                    desc: ''
                 },
             }, 
             guildSkill: {
