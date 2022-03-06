@@ -46,6 +46,8 @@ export const spellEffect = {
         },
         callSpell(source, target, spell) {
             switch(spell) {
+                case undefined:
+                    break;
                 case 'attack':
                     this.attack(source, target, spell);
                     break;
@@ -197,6 +199,13 @@ export const spellEffect = {
             }
             for(let i in dmgs) {
                 dmgs[i] = Math.round(dmgs[i]);
+            }
+            talent = 'magic_immune';
+            if(target.talent[talent] > 0)
+                this.set_ap_dmg(dmgs, 0);
+            talent = 'mine';
+            if(target.talent[talent] > 0) {
+                this.set_ad_dmg(dmgs, 1);
             }
             this.lifesteal(source, dmgs);
             this.manasteal(source, dmgs);

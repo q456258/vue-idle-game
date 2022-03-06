@@ -29,7 +29,7 @@ export const dungeon = {
                 choice = {
                     type: eventType, 
                     color: this.typeColor[eventType],
-                    rewardType: this.monsterReward[monsterID], 
+                    rewardType: this.getReward(eventType, monsterID), 
                     img: './icons/other/'+eventType+'.png',
                     lv: lv,
                     monsterID: monsterID,
@@ -56,7 +56,7 @@ export const dungeon = {
                 choice = {
                     type: eventType, 
                     color: this.typeColor[eventType],
-                    rewardType: this.monsterReward[monsterID], 
+                    rewardType: this.getReward(type, monsterID), 
                     img: './icons/other/'+eventType+'.png',
                     lv: lv,
                     monsterID: monsterID,
@@ -86,7 +86,7 @@ export const dungeon = {
             }
         },
         getLv(type, zoneInfo, monsterInfo) {
-            if(type == 'chest')
+            if(['chest','gold','mine','herb'].indexOf(type) != -1)
                 return zoneInfo.minLv+Math.round(Math.random()*(zoneInfo.maxLv-zoneInfo.minLv));
             else
                 return monsterInfo.minLv+Math.round(Math.random()*(monsterInfo.maxLv-monsterInfo.minLv));
@@ -94,34 +94,62 @@ export const dungeon = {
         getName(type, id) {
             let name = '';
             switch(type) {
-                case 'normal':
-                case 'elite':
-                case 'boss':
-                    name = this.monster[id].name;
-                    break;
-                case 'gold':
-                    name = '金矿';
-                    break;
                 case 'chest':
                     name = '宝藏';
                     break;
+                // case 'normal':
+                // case 'elite':
+                // case 'boss':
+                // case 'gold':
+                // case 'mine':
+                // case 'herb':
+                default:
+                    name = this.monster[id].name;
             }
             return name;
         },
         getCount(type) {
+            let count = 1;
             switch(type) {
                 case 'gold':
-                    return -1;
+                    count = Math.floor(Math.random()*100);
+                    break;
+                case 'mine':
+                case 'herb':
+                    count = Math.floor(Math.random()*30);
+                    break;
                 case 'normal':
-                    return -1;
+                    count = -1;
+                    break;
                 case 'elite':
-                    return 5;
+                    count = 5;
+                    break;
                 case 'boss':
-                    return 1;
+                    count = 1;
+                    break;
                 case 'chest':
-                    return 1;
+                    count = 1;
+                    break;
+                default:
+                    count = 1;
             }
-            return -1;
+            return count;
+        },
+        getReward(type, monsterID) {
+            let reward = this.$deepCopy(this.monsterReward[monsterID]);
+            switch(type) {
+                case 'gold':
+                case 'mine':
+                case 'herb':
+                    reward[0][1] = Math.floor(Math.random()*100);
+                    break;
+                // case 'normal':
+                // case 'elite':
+                // case 'boss':
+                // case 'chest':
+                //     return this.monsterReward[monsterID];
+            }
+            return reward;
         }
     }
 }

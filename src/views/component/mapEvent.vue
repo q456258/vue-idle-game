@@ -1,5 +1,6 @@
 <template>
     <div class='mapEvent scrollbar-morpheus-den scrollbar-square'>
+        <minesweeper :difficulty="mineDifficulty" :rewardList="mineReward"></minesweeper>
         <div class="dungeonInfo" v-if="dungeon.type">
             <a href="#" class="close" @click="close()"></a>
             <div class="title">
@@ -36,6 +37,9 @@
                 <!-- <div>奖励: {{selectedDungeon.reward}}</div> -->
             </div>
             <div class="action" v-if="!inBattle&&selectedDungeon.count!=0">
+                <button v-if="selectedDungeon.type=='gold' || selectedDungeon.type=='mine'" class="btn btn-success btn-sm" @click="initMine()">
+                    手动采集
+                </button>   
                 <button class="btn btn-success btn-sm" @click="toggleBattle(selectedDungeon.type)">
                     开始战斗
                 </button>   
@@ -66,9 +70,11 @@ import { buffAndTrigger } from '../../assets/js/buffAndTrigger';
 import { monsterConfig } from '@/assets/config/monsterConfig'
 import { spellConfig } from '@/assets/config/spellConfig'
 import { buffConfig } from '@/assets/config/buffConfig'
+import minesweeper from '../component/minesweeper';
 export default {
     name: 'mapEvent',
     mixins: [assist, spellEffect, buffAndTrigger, monsterConfig, spellConfig, buffConfig],
+    components: {minesweeper},
     props: {
     },
     data() {
@@ -76,7 +82,9 @@ export default {
             battleTimer: "",
             selectedDungeon: {},
             reqExp: [],
-            type: {normal: '普通', elite: '精英', boss: 'BOSS', gold: '金矿', chest: '宝藏'}
+            type: {normal: '普通', elite: '精英', boss: 'BOSS', chest: '宝藏', gold: '矿物', mine: '矿物', herb: '草药'},
+            mineDifficulty: 0,
+            mineReward: [],
         }
     },
     watch: {
@@ -151,7 +159,7 @@ export default {
                 this.gainExp(target.lv);
                 this.$store.commit("set_battle_info", {
                     type: 'win',
-                    msg: '战斗结束，你胜利了'
+                    msg: '战斗结束, 你胜利了'
                 });
                 return false;
             } 
@@ -166,13 +174,13 @@ export default {
                 this.setBattleStatus(false, false);
                 this.$store.commit("set_battle_info", {
                     type: 'lose',
-                    msg: '战斗结束，你扑街了'
+                    msg: '战斗结束, 你扑街了'
                 });
             } 
         },
-        reduceCount() {
+        reduceCount(count=1) {
             if(this.selectedDungeon.count > 0) {
-                this.selectedDungeon.count -= 1;
+                this.selectedDungeon.count -= Math.min(count, this.selectedDungeon.count);
                 return true;
             }
             else if(this.selectedDungeon.count == 0)
@@ -267,6 +275,14 @@ export default {
                 this.set_enermy_hp('dead');
             }
         },
+        initMine() {
+            if(!this.reduceCount(10))
+                return;
+            this.mineDifficulty = Math.floor(Math.random()*3);
+            this.mineReward = this.$deepCopy(this.selectedDungeon.reward);
+            let minesweeper = this.findComponentDownward(this, 'minesweeper');
+            minesweeper.reset();
+        },
         chest() {
             if(!this.reduceCount())
                 return;
@@ -282,9 +298,13 @@ export default {
                 level = this.dungeonInfo[this.dungeonInfo.current].level;
             if(!monsterID)
                 monsterID = this.dungeonInfo[this.dungeonInfo.current].monsterID;
-            enermyAttribute.attribute = this.$deepCopy(this.monster[monsterID].template);
+            enermyAttribute.attribute = {};
             enermyAttribute.spellCycle = this.$deepCopy(this.monster[monsterID].spellCycle);
+            enermyAttribute.talent = this.$deepCopy(this.monster[monsterID].talent);
             enermyAttribute.curSpell = 0;
+            for(let stat in this.monster[monsterID].template) {
+                enermyAttribute.attribute[stat] = { value: this.monster[monsterID].template[stat] };
+            }
             let attribute = enermyAttribute.attribute,
             val = 0.0,
             flexStats = ['MAXHP', 'ATK', 'AP', 'DEF', 'MR'],
@@ -294,7 +314,6 @@ export default {
             let flexLv = level - this.monster[monsterID].minLv;
             enermyAttribute.type = type;
             enermyAttribute.name = this.dungeonInfo[this.dungeonInfo.current].monsterName;
-            enermyAttribute.talent = {};
             // enermyAttribute.spell = {};
             flexStats.forEach(stat => {
                 let attr = enermyAttribute.attribute[stat];

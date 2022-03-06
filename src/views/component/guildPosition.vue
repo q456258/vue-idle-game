@@ -194,12 +194,11 @@ import {guildConfig} from '@/assets/config/guildConfig'
 import {guildMemberConfig} from '@/assets/config/guildMemberConfig'
 import cTooltip from '../uiComponent/tooltip';
 import countdown from '../uiComponent/countdown';
-import trainStat from '../component/trainStat';
 import craftEquip from '../component/craftEquip';
 export default {
     name: "guildPosition",
     mixins: [assist, guildConfig, guildMemberConfig],
-    components: {cTooltip, countdown, trainStat, craftEquip},
+    components: {cTooltip, countdown, craftEquip},
     mounted() {
     },
     data() {
