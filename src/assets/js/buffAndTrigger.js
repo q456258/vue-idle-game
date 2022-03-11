@@ -431,6 +431,7 @@ export const buffAndTrigger = {
                     break;
                 default:
                     console.log("获取伤害类型错误");
+                    console.trace();
                     break;
             }
             return isNaN(dmg) ? 0 : dmg;
@@ -440,6 +441,7 @@ export const buffAndTrigger = {
                 return;
             if(isNaN(target)) {
                 console.log("物理伤害传入非数字字符: " +target);
+                console.trace();
                 return;
             }
             if(target < 0)
@@ -451,6 +453,7 @@ export const buffAndTrigger = {
                 return;
             if(isNaN(target)) {
                 console.log("魔法伤害传入非数字字符: " +target);
+                console.trace();
                 return;
             }
             if(target < 0)
@@ -462,6 +465,7 @@ export const buffAndTrigger = {
                 return;
             if(isNaN(target)) {
                 console.log("治疗数据传入非数字字符: " +target);
+                console.trace();
                 return;
             }
             dmgs.heal = target;

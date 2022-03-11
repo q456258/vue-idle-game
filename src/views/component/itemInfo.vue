@@ -111,9 +111,11 @@ export default {
             let name = item.type;
             let stack = this.findItem(name, true);
             if(this.itemType[item.type].autoUse) {
-                let used = backpack.useItem(item);
-                if(used)
-                    return;
+                for(let i=0; i<item.quantity; i++) {
+                    let used = backpack.useItem(item);
+                    if(used)
+                        return;
+                }
             }
             if(stack == -1) {
                 for (let i = 0; i < grid.length; i++) {

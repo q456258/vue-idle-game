@@ -118,6 +118,64 @@
             <craftEquip></craftEquip>
         </div>
     </div>
+    <div class="building" v-show="displayPage=='mine'" :set="type='mine'">
+        <div class="member">
+            成员{{building[type].length}}/{{maxMember[type]}}
+            <div class="btn btn-outline-success" v-if="building[type].length<maxMember[type]" @click="setPosition('mine', -1)">添加</div>
+            <div class="list">
+                <div class="grid" v-for="(v, k) in building[type]" :key="k">
+                    <div class="info">
+                        <div class="name">
+                            {{v.name}}
+                            <br>
+                            {{race[v.race].name+' '+v.lv}}级
+                        </div>
+                    </div>
+                    <div class="action">
+                        <div class="button kick btn btn-outline-warning" @click="setPosition('mine', k)">更换</div>
+                        <div class="button kick btn btn-outline-danger" @click="cancelPosition('mine', k)">取消</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="queue">
+            <table class="">
+                <thead>
+                    <tr>
+                        <th scope="col" style="width: 7%;">等级</th>
+                        <th scope="col" style="width: 12%;">剩余次数</th>
+                        <th scope="col">产出</th>
+                        <th scope="col" style="width: 25%;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(mine, index) in mineQueue" :key="index">
+                        <td>{{mine.lv}}</td>
+                        <td>
+                            <span v-if="mine.count>=0">{{mine.count}}</span>
+                            <span v-else>无限</span>
+                            <div style="font-size: 10px">{{mine.progress[0]+'/'+mine.progress[1]}}</div>
+                        </td>
+                        <td class="reward" v-for="(v, k) in mine.reward" :key="k">
+                            <div class="grid" v-if="v[0]" @mouseover="showInfo($event,v[0].itemType,v[0],true)" @mouseleave="closeInfo('item')">
+                                <div class="mediumIconContainer">
+                                    <del :class="[{grey:v[0].quality.qualityLv==1, green:v[0].quality.qualityLv==3, blue:v[0].quality.qualityLv==4, purple:v[0].quality.qualityLv==5, orange:v[0].quality.qualityLv==6}, 'mediumIcon iconBorder']"></del>
+                                    <img :src="v[0].description.iconSrc" alt="" />
+                                </div>
+                                <div class="quantity">{{v[1]+'%'}}</div>
+                             </div>
+                        </td>
+                        <td>
+                            <select v-model="mineQueue[index].member.id" @change="setMineMember($event, index)" class="btn btn-xsm btn-secondary" aria-label="training time">
+                                <option :value="v.id" v-for="(v, k) in building.mine" :key="k">{{v.name}}</option>
+                            </select>
+                            <span class="button kick btn btn-outline-danger" @click="removeFromQueue('mine', index)">移除</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
     <div class="building" v-show="displayPage=='bar'" :set="type='bar'">
         <!-- <div class="buildInfo">
             {{guild[type].lv+'级 (效率: '+totalEfficiency[type]+'/秒)'}}
@@ -145,45 +203,45 @@
             
         </div>
         <div class="applicant scrollbar-morpheus-den">
-        <div class="list">
-            <div class="grid" v-for="(v, k) in applicantList" :key="k">
-                <div class="info">
-                    <div class="icon"><img :src="v.iconSrc"></div>
-                    <div class="name">
-                        {{v.name}}
-                        <br>
-                        {{race[v.race].name+' '+v.lv}}级
-                    </div>
-                </div>
-                <div class="svg-pentagon">
-                    <div class="statList">
-                        <div :class="'stat ' +type" v-for="(value, type) in v.talent" :key="type">{{guildStat[type].name}}
+            <div class="list">
+                <div class="grid" v-for="(v, k) in applicantList" :key="k">
+                    <div class="info">
+                        <div class="icon"><img :src="v.iconSrc"></div>
+                        <div class="name">
+                            {{v.name}}
+                            <br>
+                            {{race[v.race].name+' '+v.lv}}级
                         </div>
                     </div>
-                    <svg id="J-svg-pentagon"  width="120" height="120">
-                        <g transform="translate(10, 15)">
-                            <polygon class="pentagon pentagon-5" points="-50 0.00 -2.45 -34.55 -20.61 -90.45 -79.39 -90.45 -97.55 -34.55"/>
-                            <polygon class="pentagon pentagon-4" points="-50 -10.00 -11.96 -37.64 -26.49 -82.36 -73.51 -82.36 -88.04 -37.64"/>
-                            <polygon class="pentagon pentagon-3" points="-50 -20.00 -21.47 -40.73 -32.37 -74.27 -67.63 -74.27 -78.53 -40.73"/>
-                            <polygon class="pentagon pentagon-2" points="-50 -30.00 -30.98 -43.82 -38.24 -66.18 -61.76 -66.18 -69.02 -43.82"/>
-                            <polygon class="pentagon pentagon-1" points="-50 -40.00 -40.49 -46.91 -44.12 -58.09 -55.88 -58.09 -59.51 -46.91"/>
-                            <polygon class="pentagon pentagonAbility" :points="v.points" />
-                        </g>
-                    </svg>
-                </div>
-                <div class="skillList">
-                    <div class="skill" v-for="(id, index) in v.skill" :key="index">
-                        <span class="skillName">{{guildSkill[id].name}}</span>
-                        <span class="skillDesc">({{guildSkill[id].desc}})</span>
+                    <div class="svg-pentagon">
+                        <div class="statList">
+                            <div :class="'stat ' +type" v-for="(value, type) in v.talent" :key="type">{{guildStat[type].name}}
+                            </div>
+                        </div>
+                        <svg id="J-svg-pentagon"  width="120" height="120">
+                            <g transform="translate(10, 15)">
+                                <polygon class="pentagon pentagon-5" points="-50 0.00 -2.45 -34.55 -20.61 -90.45 -79.39 -90.45 -97.55 -34.55"/>
+                                <polygon class="pentagon pentagon-4" points="-50 -10.00 -11.96 -37.64 -26.49 -82.36 -73.51 -82.36 -88.04 -37.64"/>
+                                <polygon class="pentagon pentagon-3" points="-50 -20.00 -21.47 -40.73 -32.37 -74.27 -67.63 -74.27 -78.53 -40.73"/>
+                                <polygon class="pentagon pentagon-2" points="-50 -30.00 -30.98 -43.82 -38.24 -66.18 -61.76 -66.18 -69.02 -43.82"/>
+                                <polygon class="pentagon pentagon-1" points="-50 -40.00 -40.49 -46.91 -44.12 -58.09 -55.88 -58.09 -59.51 -46.91"/>
+                                <polygon class="pentagon pentagonAbility" :points="v.points" />
+                            </g>
+                        </svg>
                     </div>
-                </div>
-                <div class="action">
-                    <div class="button specialButton accept" @click="recruit(k)">招募</div>
-                    <div class="button specialButton reject" @click="reject(k)">婉拒</div>
+                    <div class="skillList">
+                        <div class="skill" v-for="(id, index) in v.skill" :key="index">
+                            <span class="skillName">{{guildSkill[id].name}}</span>
+                            <span class="skillDesc">({{guildSkill[id].desc}})</span>
+                        </div>
+                    </div>
+                    <div class="action">
+                        <div class="button specialButton accept" @click="recruit(k)">招募</div>
+                        <div class="button specialButton reject" @click="reject(k)">婉拒</div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </div>
     
@@ -216,8 +274,8 @@ export default {
                 bar: [],
             }, 
             maxMember: {
-                shop: 2,
-                smith: 2,
+                shop: 1,
+                smith: 1,
                 train: 2,
                 train2: 2,
                 train3: 2,
@@ -229,7 +287,7 @@ export default {
                 shop: 1, smith: 1, train: 1, train2: 1, train3: 1,
             },
             timerList: {
-                shop: 0, smith: 0, train: 0, train2: 0, train3: 0, bar: 0,
+                shop: 0, smith: 0, train: 0, train2: 0, train3: 0, mine: 0, bar: 0,
             },
             progress: {
                 shop: { current: 0, max: 1000 },
@@ -262,6 +320,8 @@ export default {
                 shop: false, smith: false, train:  false, train2: false, train3: false,
             },
             displayPage: 'guild',
+            mineQueue: [],
+            memberID: 0,
             applicantList: [],
         };
     },
@@ -283,6 +343,7 @@ export default {
             for(let timer in this.timerList) 
                 clearInterval(this.timerList[timer]);
             this.start('shop');
+            this.start('mine');
             this.start('bar');
             // this.start('smith');
             // this.smith_main = this.player.shoulder;
@@ -359,6 +420,9 @@ export default {
                 case 'shop':
                     this.startShop();
                     break;
+                case 'mine':
+                    this.startMine();
+                    break;
                 case 'bar':
                     this.startBar();
                     break;
@@ -423,6 +487,17 @@ export default {
                 }
             }, 1000);
         },
+        startMine() {
+            this.timerList['mine'] = setInterval(() => {
+                for(let i=this.mineQueue.length-1; i>=0; i--) {
+                    let mine = this.mineQueue[i];
+                    if(mine.member.id != undefined) {
+                        if(!this.increaseMineProgress(mine, mine.member)) 
+                            this.mineQueue.splice(i, 1);
+                    }
+                }
+            }, 1*1000);
+        },
         startBar() {
             var guild = this.findComponentUpward(this, 'guild');
             var guildMember = this.findBrothersComponents(guild, 'guildMember', false)[0];
@@ -485,7 +560,43 @@ export default {
             this.smith_main = {};
             this.smith_sub = {};
         },
-        
+        increaseMineProgress(mine, member) {
+            let total = Math.floor((member.stat.STR+10) * (member.stat.STA+10) / 100);
+            mine.progress[0] += total;
+            if(mine.progress[0] >= mine.progress[1]) {
+                let count = Math.floor(mine.progress[0]/mine.progress[1]);
+                mine.progress[0] -= count*mine.progress[1];
+                this.mineReward(mine.reward, count);
+                mine.count -= count;
+                if(mine.count <= 0)
+                    return false;
+            }
+            return true;
+        },
+        mineReward(rewardList, rewardCount) {
+            // 清零
+            for(let k=0; k<rewardList.length; k++) {
+                rewardList[k][0].quantity = 0;
+            }
+            if(rewardCount <= 0)
+                return;
+            let guild = this.findComponentUpward(this, 'guild');
+            let itemInfo = this.findBrothersComponents(guild, 'itemInfo', false)[0];
+            // 添加数量
+            while(rewardCount > 0) {
+                for(let k=0; k<rewardList.length; k++) {
+                    let random = Math.random()*100;
+                    if(random <= rewardList[k][1]) {
+                        rewardList[k][0].quantity++;
+                    }
+                }
+                rewardCount--;
+            }
+            // 给予奖励
+            for(let k=0; k<rewardList.length; k++) {
+                itemInfo.addItem(rewardList[k][0]);
+            }
+        },
         findTarget(target) {
             if(target.job == 'None')
                 return -1;
@@ -522,7 +633,13 @@ export default {
         },
         cancelPosition(type, index, replace=false) {
             var target = this.building[type][index];
-            this.building[type][index].job = 'None';
+            if(target.job == 'mine') {
+                for(let i=0; i<this.mineQueue.length; i++) {
+                    if(this.mineQueue[i].member.id == target.id)
+                        this.mineQueue[i].member = {};
+                }
+            }
+            target.job = 'None';
             if(!replace)
                 this.building[type].splice(index, 1);
         },
@@ -536,15 +653,31 @@ export default {
             var guildMember = this.findBrothersComponents(guild, 'guildMember', false)[0];
             guildMember.reject(k);
         },
+        setMineMember(e, index) {
+            let value = e.target.value;
+            console.log(value)
+            let guild = this.findComponentUpward(this, 'guild');
+            let guildMember = this.findBrothersComponents(guild, 'guildMember', false)[0];
+            this.memberID = value;
+            let member = guildMember.findTargetByID(value);
+            for(let i=0; i<this.mineQueue.length; i++) {
+                if(this.mineQueue[i].member.id == member.id)
+                    this.mineQueue[i].member = {};
+            }
+            this.mineQueue[index].member = member;
+        },
+        removeFromQueue(type, index) {
+            this.mineQueue.splice(index, 1);
+        },
         showInfo($event, type, item, compare) {
             let guild = this.findComponentUpward(this, 'guild');
             let index = this.findComponentUpward(guild, 'index');
             index.showInfo($event, type, item, compare);
         },
-        closeInfo() {
+        closeInfo(type='equip') {
             let guild = this.findComponentUpward(this, 'guild');
             let index = this.findComponentUpward(guild, 'index');
-            index.closeInfo('equip');
+            index.closeInfo(type);
         },
     }
 }
@@ -599,9 +732,8 @@ export default {
     width: 100%;
     .grid {
         border: 1px solid rgba(255, 255, 255, 0.404);
-        border-radius: 0.3rem;
-        // margin: 0.25rem;
-        // width: 50%;
+        width: fit-content;
+        height: fit-content;
         display: flex;
         flex-wrap: wrap;
         .info {
@@ -647,6 +779,10 @@ export default {
             }
         }
     }
+}
+.queue {
+    width: 100%;
+    color: #ffffff;
 }
 .progress-bar {
     transition: 1s linear;

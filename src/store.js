@@ -630,8 +630,10 @@ export default new Vuex.Store({
                     let percent = data.substring(0, data.length-1);
                     CURHP.value += Math.round(MAXHP.value*percent*0.01);
                 }
-                else if(isNaN(data))
+                else if(isNaN(data)) {
                     console.log("回血数据传入非数字字符: " +data);
+                    console.trace();
+                }
                 else
                     CURHP.value += Math.round(data);
                 if (CURHP.value > MAXHP.value) {

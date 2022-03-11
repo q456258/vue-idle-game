@@ -288,9 +288,9 @@ export default {
                     let random = Math.random()*100;
                     if(random <= this.rewardList[k][1]) {
                         this.rewardList[k][0].quantity++;
-                        rewardCount--;
                     }
                 }
+                rewardCount--;
             }
             // 给予奖励
             for(let k=0; k<this.rewardList.length; k++) {

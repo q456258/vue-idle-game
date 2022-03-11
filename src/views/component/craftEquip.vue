@@ -109,16 +109,16 @@ export default {
         return {
             addons: [],
             addonType: [
-                {type: 0, name: "铜锭", desc: "提升最终装备10级", icon: "/icons/material/inv_ingot_02.png", itemCode: 'inv_ingot_02', max: 10},
-                {type: 1, name: "锡锭", desc: "随机重置所有选项类型", icon: "/icons/material/inv_ingot_05.png", itemCode: 'inv_ingot_05', max: -1},
-                {type: 2, name: "银锭", desc: "提升最终装备品质", icon: "/icons/material/inv_ingot_01.png", itemCode: 'inv_ingot_01', max: 10},
-                {type: 3, name: "铁锭", desc: "赋予随机3个选项额外'降低装备等级'奖励", icon: "/icons/material/inv_ingot_iron.png", itemCode: 'inv_ingot_iron', max: 10},
-                {type: 4, name: "钢锭", desc: "赋予随机3个选项额外'提升装备等级'奖励", icon: "/icons/material/inv_ingot_steel.png", itemCode: 'inv_ingot_steel', max: -1},
-                {type: 5, name: "金锭", desc: "赋予随机3个选项额外'降低装备品质'奖励", icon: "/icons/material/inv_ingot_03.png", itemCode: 'inv_ingot_03', max: 10},
-                {type: 6, name: "秘银锭", desc: "随机提升3个选项的品质", icon: "/icons/material/inv_ingot_06.png", itemCode: 'inv_ingot_06', max: 10},
-                // {type: 7, name: "真银锭", desc: "待定", icon: "/icons/material/inv_ingot_08.png", itemCode: 'inv_ingot_08', max: 10},
-                {type: 8, name: "瑟银锭", desc: "赋予随机3个选项额外'降低装备品质'奖励", icon: "/icons/material/inv_ingot_07.png", itemCode: 'inv_ingot_07', max: 10},
-                // {type: 9, name: "黑铁锭", desc: "赋予随机3个选项额外'附加技能'奖励", icon: "/icons/material/inv_ingot_mithril.png", itemCode: 'inv_ingot_mithril', max: 10},
+                {type: 0, name: "铜锭", desc: "提升最终装备10级", icon: "/icons/material/inv_ingot_02.jpg", itemCode: 'inv_ingot_02', max: 10},
+                {type: 1, name: "锡锭", desc: "随机重置所有选项类型", icon: "/icons/material/inv_ingot_05.jpg", itemCode: 'inv_ingot_05', max: -1},
+                {type: 2, name: "银锭", desc: "提升最终装备品质", icon: "/icons/material/inv_ingot_01.jpg", itemCode: 'inv_ingot_01', max: 10},
+                {type: 3, name: "铁锭", desc: "赋予随机3个选项额外'降低装备等级'奖励", icon: "/icons/material/inv_ingot_iron.jpg", itemCode: 'inv_ingot_iron', max: 10},
+                {type: 4, name: "钢锭", desc: "赋予随机3个选项额外'提升装备等级'奖励", icon: "/icons/material/inv_ingot_steel.jpg", itemCode: 'inv_ingot_steel', max: -1},
+                {type: 5, name: "金锭", desc: "赋予随机3个选项额外'降低装备品质'奖励", icon: "/icons/material/inv_ingot_03.jpg", itemCode: 'inv_ingot_03', max: 10},
+                {type: 6, name: "秘银锭", desc: "随机提升3个选项的品质", icon: "/icons/material/inv_ingot_06.jpg", itemCode: 'inv_ingot_06', max: 10},
+                // {type: 7, name: "真银锭", desc: "待定", icon: "/icons/material/inv_ingot_08.jpg", itemCode: 'inv_ingot_08', max: 10},
+                {type: 8, name: "瑟银锭", desc: "赋予随机3个选项额外'降低装备品质'奖励", icon: "/icons/material/inv_ingot_07.jpg", itemCode: 'inv_ingot_07', max: 10},
+                // {type: 9, name: "黑铁锭", desc: "赋予随机3个选项额外'附加技能'奖励", icon: "/icons/material/inv_ingot_mithril.jpg", itemCode: 'inv_ingot_mithril', max: 10},
             ],
             rewardType: [
                 // // 装备属性随机1-3条带以下属性
@@ -763,6 +763,7 @@ export default {
         .grid {
             height: 60px;
             width: 60px;
+            border: none;
         }
     }
     .craftRewardIcon {

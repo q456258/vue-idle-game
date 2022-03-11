@@ -56,7 +56,7 @@ export const dungeon = {
                 choice = {
                     type: eventType, 
                     color: this.typeColor[eventType],
-                    rewardType: this.getReward(type, monsterID), 
+                    rewardType: this.getReward(eventType, monsterID), 
                     img: './icons/other/'+eventType+'.png',
                     lv: lv,
                     monsterID: monsterID,

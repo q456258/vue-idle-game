@@ -587,27 +587,7 @@ export default {
         width: 33rem;
         height: 20rem;
         .grid {
-            border: 1px solid rgb(72, 70, 63);
-            border-radius: 0.3rem;
             background: linear-gradient(180deg, rgb(99, 87, 90) 0%, rgb(41, 33, 19) 30%, rgb(14, 10, 6) 100%);
-            margin: 2px;
-            height: 3rem;
-            width: 3rem;
-            .icon {
-                width: 2.9rem;
-                height: 2.9rem;
-                background-color: #000;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin: auto;
-                border-radius: 0.3rem;
-                img {
-                    width:2.9rem;
-                    height:2.9rem;
-                    border-radius: 1rem;
-                }
-            }
             .lock {
                 position: relative;
                 top: -3.1rem;
@@ -637,23 +617,7 @@ export default {
         width: 33rem;
         height: 20rem;
         .grid {
-            border: 1px solid rgb(72, 70, 63);
-            border-radius: 0.3rem;
             background: linear-gradient(180deg, rgb(99, 87, 90) 0%, rgb(41, 33, 19) 30%, rgb(14, 10, 6) 100%);
-            margin: 2px;
-            height: 3rem;
-            width: 3rem;
-            .quantity {
-                position: relative;
-                top: -0.6rem;
-                right: -0.8rem;
-                width: 2rem;
-                height: 0.5rem;
-                font-size: 0.8rem;
-                line-height: 0;
-                text-align: right;
-                text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
-            }
         }
     }
     .footer {

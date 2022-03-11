@@ -14,7 +14,7 @@
                 <div class="progress-bar" :style="{height:playerTalent[i]*2+'%', width: '1px'}">
                 </div>
             </div>
-            <div class="grid" v-for="(v, k) in talents[i]" :key="k">
+            <div class="talentGrid" v-for="(v, k) in talents[i]" :key="k">
                 <div :class="'down '+v.status" v-if="v.down"></div>
                 <div :class="'down2 '+v.status" v-if="v.down2"></div>
                 <div :class="'down4 '+v.status" v-if="v.down4"></div>
@@ -282,7 +282,7 @@ $border-size: 50px;
     flex-wrap: wrap;
     padding: 1rem 1.5rem 1.5rem 2.7rem;
     width: 26rem;
-    .grid {
+    .talentGrid {
         position: relative;
         width: 60px;
         height: 60px;

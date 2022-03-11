@@ -479,4 +479,52 @@
         background: linear-gradient(#821f1f, #441111);
         box-shadow: 0 0 75px rgba(137, 43, 43, 0.5);
     }
+    .grid {
+        border: 1px solid rgb(72, 70, 63);
+        border-radius: 0.3rem;
+        margin: 2px;
+        height: 3rem;
+        width: 3rem;
+        .quantity {
+            position: relative;
+            top: -0.6rem;
+            right: -0.8rem;
+            width: 2rem;
+            height: 0.5rem;
+            font-size: 0.8rem;
+            line-height: 0;
+            text-align: right;
+            text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
+        }
+    }
+    table {
+        width: 100%;
+        color: rgb(238, 238, 238);
+        border-collapse: separate;
+        border-spacing: 0px;
+    }
+    td th{
+        padding: 2px 0px 1px 5px;
+        border-top: none;
+        vertical-align: middle;
+        text-align: left;
+    }
+    th {
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        padding-left: 7px;
+        text-align: left;
+        border: 1px solid #494745;
+        border-bottom: none;
+        background-color: #231f1b;
+    }
+    tr {
+        height: 20px;
+    }
+    tr:nth-of-type(odd) td{
+        background-color: #161616;
+    }
+    tr:nth-of-type(even) td{
+        background-color: #2b2b2b;
+    }
 }

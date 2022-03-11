@@ -37,9 +37,14 @@
                 <!-- <div>奖励: {{selectedDungeon.reward}}</div> -->
             </div>
             <div class="action" v-if="!inBattle&&selectedDungeon.count!=0">
-                <button v-if="selectedDungeon.type=='gold' || selectedDungeon.type=='mine'" class="btn btn-success btn-sm" @click="initMine()">
-                    手动采集
-                </button>   
+                <span v-if="selectedDungeon.type=='gold' || selectedDungeon.type=='mine'" >
+                    <button class="btn btn-success btn-sm" @click="addToQueue(selectedDungeon)">
+                        添加至队列
+                    </button>   
+                    <button class="btn btn-success btn-sm" @click="initMine()">
+                        手动采集
+                    </button>   
+                </span>
                 <button class="btn btn-success btn-sm" @click="toggleBattle(selectedDungeon.type)">
                     开始战斗
                 </button>   
@@ -275,6 +280,25 @@ export default {
                 this.set_enermy_hp('dead');
             }
         },
+        addToQueue(dungeon) {
+            let guild = this.findBrothersComponents(this, 'guild', false)[0];
+            let guildPosition = this.findComponentDownward(guild, 'guildPosition');
+            let newDungeon = this.$deepCopy(dungeon);
+            newDungeon.progress = [0, this.monster[newDungeon.monsterID].template.MAXHP];
+            this.reduceCount(999999);
+            console.log(this.monster)
+            console.log(newDungeon.monsterId)
+            console.log(newDungeon)
+            switch(dungeon.type) {
+                case 'gold':
+                case 'mine':
+                    newDungeon.member = {};
+                    guildPosition.mineQueue.push(newDungeon);
+                    break;
+                case 'herb':
+                    break;
+            }
+        },
         initMine() {
             if(!this.reduceCount(10))
                 return;
@@ -501,39 +525,6 @@ export default {
 .reward {
     display: flex;
     flex-wrap: wrap;
-    .grid {
-        border: 1px solid rgb(72, 70, 63);
-        border-radius: 0.3rem;
-        margin: 2px;
-        height: 3rem;
-        width: 3rem;
-        .icon {
-            width: 2.9rem;
-            height: 2.9rem;
-            background-color: #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: auto;
-            border-radius: 0.3rem;
-            img {
-                width:2.9rem;
-                height:2.9rem;
-                border-radius: 1rem;
-            }
-        }
-        .quantity {
-            position: relative;
-            top: -0.6rem;
-            right: -0.8rem;
-            width: 2rem;
-            height: 0.5rem;
-            font-size: 0.8rem;
-            line-height: 0;
-            text-align: right;
-            text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
-        }
-    }
 }
 .close {
     position: absolute;

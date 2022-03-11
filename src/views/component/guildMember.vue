@@ -13,7 +13,7 @@
         <button class="btn btn-secondary" v-if="size=='maximize'" style="margin-left: 1rem;" @click="changeSize('minimize')"><i class="fa fa-window-minimize" aria-hidden="true"></i></button>
         <button class="btn btn-secondary" v-if="size=='minimize'" style="margin-left: 1rem;" @click="changeSize('maximize')"><i class="fa fa-window-maximize" aria-hidden="true"></i></button>
 
-        <table class="table memberTable" v-if="size=='maximize'">
+        <table v-if="size=='maximize'">
             <thead>
                 <tr>
                     <th scope="col">名称</th>
@@ -72,7 +72,7 @@
         <button class="btn btn-secondary" v-if="size=='minimize'" style="margin-left: 1rem;" @click="changeSize('maximize')"><i class="fa fa-window-maximize" aria-hidden="true"></i></button>
 
         <div class="list" v-if="size=='maximize'">        
-            <table class="table">
+            <table>
                 <thead>
                     <tr>
                         <th scope="col" style="cursor:pointer" @click="sortBy('lv')">等级</th>
@@ -84,7 +84,7 @@
                     </tr>
                 </thead>
             </table>
-            <div class="grid" v-for="(v, k) in guild.member" :key="k">
+            <div class="memberGrid" v-for="(v, k) in guild.member" :key="k">
                 <div class="info">
                     <div class="icon"><img :src="v.iconSrc"></div>
                     <div class="name">
@@ -202,8 +202,19 @@ export default {
             applicant.points = this.createPoints(applicant.talent);
             applicant.skill = this.createSkill(applicant);
             applicant.special = [];
-            applicant.id = Math.round(Math.random()*90071992547);
+            applicant.id = this.generateMemberId();
             this.applicantList.push(applicant);
+        },
+        generateMemberId() {
+            let id = Math.round(Math.random()*90071992547);
+            let attemp = 0;
+            while(this.findTargetByID(id).id != undefined || attemp>=10) {
+                id = Math.round(Math.random()*90071992547);
+                attemp++;
+            }
+            if(attemp>=10)
+                console.log("你这id生成有问题啊?");
+            return id;
         },
         createRace() {
             return 'Human';
@@ -497,7 +508,7 @@ export default {
         flex-wrap: wrap;
         padding: 0rem 0.5rem 1rem 0.5rem;
         width: 100%;
-        .grid {
+        .memberGrid {
             .action {
                 width: 8rem;
                 margin: auto 0rem;
@@ -523,7 +534,7 @@ export default {
         padding: 0rem 0rem 1rem 0rem;
         width: 100%;
         // height: 12rem;
-        .grid {
+        .memberGrid {
             .action {
                 display: flex;
                 height: 3.5rem;
@@ -538,7 +549,7 @@ export default {
         right:0;
     }
 }
-.grid {
+.memberGrid {
     border: 1px solid rgba(255, 255, 255, 0.404);
     border-radius: 0.3rem;
     margin: 0.25rem;
@@ -642,31 +653,31 @@ export default {
 .hidden {
     display: none;
 }
-.memberTable {
-    color: rgb(238, 238, 238);
-    border-collapse: separate;
-    border-spacing: 0px;
-}
-.memberTable td, .memberTable th {
-    padding: 2px 0px 1px 5px;
-    border-top: none;
-    vertical-align: middle;
-    text-align: left;
-}
-.memberTable th {
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    margin-left: 7px;
-    border: 1px solid #494745;
-    border-bottom: none;
-    background-color: #231f1b;
-}
-.memberTable tr {
-    height: 20px;
-}
-.memberTable tr:nth-of-type(odd) td{
-    background-color: #161616;
-}
+// .memberTable {
+//     color: rgb(238, 238, 238);
+//     border-collapse: separate;
+//     border-spacing: 0px;
+// }
+// .memberTable td, .memberTable th {
+//     padding: 2px 0px 1px 5px;
+//     border-top: none;
+//     vertical-align: middle;
+//     text-align: left;
+// }
+// .memberTable th {
+//     border-top-left-radius: 5px;
+//     border-top-right-radius: 5px;
+//     margin-left: 7px;
+//     border: 1px solid #494745;
+//     border-bottom: none;
+//     background-color: #231f1b;
+// }
+// .memberTable tr {
+//     height: 20px;
+// }
+// .memberTable tr:nth-of-type(odd) td{
+//     background-color: #161616;
+// }
 // tr:nth-of-type(even) td{
     // background-color: lighten(#000000, 15%);
 // }
