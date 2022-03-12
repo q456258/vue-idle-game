@@ -286,9 +286,6 @@ export default {
             let newDungeon = this.$deepCopy(dungeon);
             newDungeon.progress = [0, this.monster[newDungeon.monsterID].template.MAXHP];
             this.reduceCount(999999);
-            console.log(this.monster)
-            console.log(newDungeon.monsterId)
-            console.log(newDungeon)
             switch(dungeon.type) {
                 case 'gold':
                 case 'mine':

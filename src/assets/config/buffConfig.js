@@ -110,7 +110,7 @@ data() {
                     cleanse: true,
                     stacked: true,
                     iconSrc: "./icons/spell/inv_misc_shadowegg.jpg",
-                    desc: "炼狱: 每次行动减少一层，结束时生命值低于50%直接死亡"
+                    desc: "炼狱: 每次行动减少一层, 结束时生命值低于50%直接死亡"
                 },
                 bleed: {
                     cleanse: true,
@@ -128,7 +128,7 @@ data() {
                     cleanse: true,
                     stacked: true,
                     iconSrc: "./icons/buff/weak.jpg",
-                    desc: "虚弱: 每一层使造成的伤害降低3%，上限30%"
+                    desc: "虚弱: 每一层使造成的伤害降低3%, 上限30%"
                 },
                 // 需要图标
                 // vulnerable: {

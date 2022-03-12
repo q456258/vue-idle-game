@@ -397,7 +397,7 @@
                             <br>
                             增伤/减伤: {{attribute.VERSBONUS.showValue}}
                         </p>
-                        <p class="info">提升造成的伤害，降低受到的伤害</p>
+                        <p class="info">提升造成的伤害, 降低受到的伤害</p>
                     </template>
                 </cTooltip>
                 <cTooltip placement="bottom">
@@ -517,7 +517,7 @@
                     </template>
                     <template v-slot:tip>
                         <p class="info">* 你拥有的金币数量</p>
-                        <p class="info">* 钱不是万能的，但是没钱是万万不能的</p>
+                        <p class="info">* 钱不是万能的, 但是没钱是万万不能的</p>
                     </template>
                 </cTooltip>
             </div>
@@ -695,7 +695,7 @@ export default {
         checkValidity(name) {
             let alert = document.getElementById("nameAlert");
             if(name.length < 1 || name.length > 8) {
-                alert.innerHTML = "名字限定在1-8个字符之间，别一天到晚整点阴间活";
+                alert.innerHTML = "名字限定在1-8个字符之间, 别一天到晚整点阴间活";
                 return false;
             }
             alert.innerHTML = "";

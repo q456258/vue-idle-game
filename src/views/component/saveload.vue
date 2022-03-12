@@ -163,7 +163,7 @@ export default {
                 console.log(error)
                 this.$store.commit("set_sys_info", {
                     msg: `
-                        存档加载失败！
+                        存档加载失败! 
                         `,
                     type: 'warning'
                 });

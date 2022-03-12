@@ -110,7 +110,7 @@ export default {
                     allLocked = false;
             }
             if(allLocked) {
-                this.forgeInfo("全锁上了你重铸个锤子？", '')
+                this.forgeInfo("全锁上了你重铸个锤子? ", '')
             }
             for(let entry in this.equip.extraEntry) {
                 if(!this.equip.extraEntry[entry].locked)

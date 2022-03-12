@@ -5,7 +5,7 @@
             金币: <currency :amount="playerGold"></currency> <br>
             水晶: {{playerCrystal}} <br>
         </div>
-        <div class="crystalShop">
+        <div class="shops">
                 水晶商城
             <div class="crystal">
                 <div class="buyCrystal">
@@ -24,25 +24,39 @@
                 </div>
             </div>
         </div>
-        <div class="equipShop">
-                奸商
-            <div class="equip">
-                <div class="grid" v-for="(v, k) in equipShop" :key="k">
-                    <span v-if="v.lv">
-                        <div @mouseover="showInfo($event,v.itemType,v,true)" @mouseleave="closeInfo">
-                            <div class="icon" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v.quality.color }">
-                                <img :src="v.description.iconSrc" alt="" />
-                            </div>
+        <div class="shops">
+                杂货店
+            <div class="wrapper">
+                <div class="grid" v-for="(v, k) in generalShop" :key="k">
+                    <div @mouseover="showInfo($event,itemType[v].itemType,itemType[v],true)" @mouseleave="closeInfo('item')">
+                        <div class="mediumIconContainer">
+                            <del :class="[{grey:itemType[v].quality==1, green:itemType[v].quality==3, blue:itemType[v].quality==4, purple:itemType[v].quality==5, orange:itemType[v].quality==5}, 'mediumIcon iconBorder']"></del>
+                            <img :src="itemType[v].description.iconSrc" alt="" />
                         </div>
-                        <div class='name' :style="{color:v.quality.color}">
-                            {{v.description.name}}
-                        </div>          
-                        <span>
-                            <span :style="{color:playerGold<equipCost[k]?'#f00':''}">{{equipCost[k]}}金</span>
-                            <br>
-                            <button type="button" class="btn btn-outline-warning" :disabled="playerGold<equipCost[k]" @click="buyEquip(k)">购买</button>
-                        </span>
-                    </span>
+                    </div>       
+                    <button type="button" class="btn btn-outline-warning buy" :disabled="playerGold<itemType[v].cost" @click="buyItem(k)">购买</button>
+                    <span class="itemName">
+                        {{itemType[v].description.name}}
+                    </span>      
+                    <span :style="{color:playerGold<itemType[v].cost?'#f00':''}"><currency :amount="itemType[v].cost"></currency></span>
+                </div>
+            </div>
+        </div>
+        <div class="shops">
+                奸商
+            <div class="wrapper">
+                <div class="grid" v-for="(v, k) in equipShop" :key="k">
+                    <div @mouseover="showInfo($event,v.itemType,v,true)" @mouseleave="closeInfo('equip')">
+                        <div class="mediumIconContainer" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v.quality.color }">
+                            <del :class="[{grey:v.quality.qualityLv==1, green:v.quality.qualityLv==3, blue:v.quality.qualityLv==4, purple:v.quality.qualityLv==5, orange:v.quality.qualityLv==5}, 'mediumIcon iconBorder']"></del>
+                            <img :src="v.description.iconSrc" alt="" />
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-outline-warning buy" :disabled="playerGold<equipCost[k]" @click="buyEquip(k)">购买</button>
+                    <span class="itemName" :style="{color:v.quality.color}">
+                        {{v.description.name}}
+                    </span>          
+                    <span :style="{color:playerGold<equipCost[k]?'#f00':''}"><currency :amount="equipCost[k]"></currency></span>
                 </div>
                 <span class="equipTimer">
                     <button type="button" class="btn btn-outline-warning"  v-if="freeRefreshCount>0" @click="freeRefresh()">免费刷新({{freeRefreshCount}})</button>
@@ -60,9 +74,10 @@
 <script>
 import { assist } from '../../assets/js/assist';
 import currency from '../uiComponent/currency';
+import { itemConfig } from '../../assets/config/itemConfig';
 export default {
     name:"shop",
-    mixins: [assist],
+    mixins: [assist, itemConfig],
     components: {currency},
     props: {
     },
@@ -70,6 +85,7 @@ export default {
         return {
             buyCrystalAmt: 0,
             sellCrystalAmt: 0,
+            generalShop: ['inv_alchemy_80_potion01red', 'inv_alchemy_80_potion01blue'],
             equipShop: [],
             equipCost: [],
             equipTimer: 0,
@@ -132,14 +148,13 @@ export default {
         },
         setEquipShopItem() {
             let equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
-            // for(let i=0; i<5; i++) {
-            // // 此处需改动qualitySet参数
-            //     let equip = JSON.parse(equipInfo.createEquip(-1, this.playerLv, 'random', 0));
-            //     let cost = 400+100*Math.random();
-            //     cost *= (1+equip.lv/2)*(1+equip.quality.extraEntryNum**3);
-            //     this.equipShop[i] = equip;
-            //     this.equipCost[i] = Math.round(cost);
-            // }
+            for(let i=0; i<6; i++) {
+                let equip = JSON.parse(equipInfo.createEquip(-1, this.playerLv, 'random', 5));
+                let cost = 100+100*Math.random();
+                cost *= (1+equip.lv/3)*(1+equip.quality.extraEntryNum**3);
+                this.equipShop[i] = equip;
+                this.equipCost[i] = Math.round(cost);
+            }
             this.$forceUpdate();
         },
         freeRefresh() {
@@ -156,9 +171,9 @@ export default {
             }
             if(msg) {
                 this.$message({
-                    message: '有个传说装备没买，考虑考虑？',
+                    message: '有个传说装备没买, 考虑考虑?',
                     title: '奸商的友善提醒',
-                    confirmBtnText: '传说装备？狗都不买',
+                    confirmBtnText: '传说装备? 狗都不买',
                     onClose: () => {
                         this.freeRefreshCount -= 1;
                         this.setEquipShopItem();
@@ -184,9 +199,9 @@ export default {
             }
             if(msg) {
                 this.$message({
-                    message: '有个传说装备没买，考虑考虑？',
+                    message: '有个传说装备没买, 考虑考虑?',
                     title: '奸商的友善提醒',
-                    confirmBtnText: '传说装备？狗都不买',
+                    confirmBtnText: '传说装备? 狗都不买',
                     onClose: () => {
                         this.$store.state.guildAttribute.gold -= cost;
                         this.setEquipShopItem();
@@ -206,13 +221,22 @@ export default {
             backpack.giveEquip(this.equipShop[index], false);
             this.$set(this.equipShop, index, {});
         },
+        buyItem(index) {
+            let itemName = this.generalShop[index];
+            if(this.playerGold < this.itemType[itemName].cost)
+                return
+            this.$store.state.guildAttribute.gold -= this.itemType[itemName].cost;
+            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            let item = itemInfo.createItem(itemName, this.itemType[itemName].quantity);
+            itemInfo.addItem(JSON.parse(item));
+        },
         showInfo($event, type, item, compare) {
             let index = this.findComponentUpward(this, 'index');
             index.showInfo($event, type, item, compare);
         },
-        closeInfo() {
+        closeInfo(type) {
             let index = this.findComponentUpward(this, 'index');
-            index.closeInfo('equip');
+            index.closeInfo(type);
         },
     }
 }
@@ -234,39 +258,28 @@ export default {
     height: 100%;
     width: 50rem;
 }
-.crystalShop {
-    padding: 0.5rem;
-    margin: 0.5rem;
-    border: 1px solid rgba(255, 255, 255, 0.404);
-    border-radius: 1rem;
-    height: 100%;
-    width: 50rem;
+.crystal {
+    position: relative;
     display: flex;
-    flex-direction: row;
     flex-wrap: wrap;
-    .crystal {
-        position: relative;
-        display: flex;
-        flex-wrap: wrap;
-        padding: 0rem 1.5rem 1.5rem 1.7rem;
-        width: 100%;
-        height: 5rem;
-        margin-top: 0.5rem;
-        .buyCrystal {
-            margin: 0rem 2rem 0rem 3rem;
-        }
-        .target {
-            width: 5rem;    
-            height: 2rem;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            padding: 0.2rem;
-            font-size: 1rem;
-            background-color: #e0e8ea;
-        }
+    padding: 0rem 1.5rem 1.5rem 1.7rem;
+    width: 100%;
+    height: 5rem;
+    margin-top: 0.5rem;
+    .buyCrystal {
+        margin: 0rem 2rem 0rem 3rem;
+    }
+    .target {
+        width: 5rem;    
+        height: 2rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 0.2rem;
+        font-size: 1rem;
+        background-color: #e0e8ea;
     }
 }
-.equipShop {
+.shops {
     padding: 0.5rem;
     margin: 0.5rem;
     border: 1px solid rgba(255, 255, 255, 0.404);
@@ -276,41 +289,39 @@ export default {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+}
+.wrapper {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 5px 15px 45px 15px;
+    width: 100%;
+}
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 1px;
+    height: auto;
+    width: 100px;
+    border: none;
+}
+.itemName {
+    width: 100%;
+    text-align: start;
+    font-size: 12px;
+}
+.buy {
+    height: 33.5px;
+}
+.shopAction {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+.equipTimer {
+    position:absolute;
+    bottom:0;
+    right:0;
+}
 
-    .equip {
-        position: relative;
-        display: flex;
-        flex-wrap: wrap;
-        padding: 0rem 1.5rem 3rem 1.7rem;
-        width: 100%;
-        height: 12rem;
-        .grid {
-            // border: 1px solid rgba(255, 255, 255, 0.404);
-            // border-radius: 0.3rem;
-            margin: 0.5rem;
-            height: 9rem;
-            width: 7rem;
-            .icon {
-                width: 2.9rem;
-                height: 2.9rem;
-                background-color: #000;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin: auto;
-                border-radius: 0.3rem;
-                img {
-                    width:2.9rem;
-                    height:2.9rem;
-                    border-radius: 1rem;
-                }
-            }
-        }
-    }
-    .equipTimer {
-        position:absolute;
-        bottom:0;
-        right:0;
-    }
-}
 </style>

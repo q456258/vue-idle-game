@@ -517,7 +517,7 @@ export default {
             equip = JSON.parse(equip);
             this.$store.commit("set_sys_info", {
                 type: 'reward',
-                msg: '打造完成，获得',
+                msg: '打造完成, 获得',
                 equip: equip
             });
             backpack.giveEquip(equip);
@@ -655,7 +655,6 @@ export default {
         },
         setMineMember(e, index) {
             let value = e.target.value;
-            console.log(value)
             let guild = this.findComponentUpward(this, 'guild');
             let guildMember = this.findBrothersComponents(guild, 'guildMember', false)[0];
             this.memberID = value;

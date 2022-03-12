@@ -12,27 +12,27 @@ export const buffAndTrigger = {
     },
     methods: {
         // 内部运算 
-        // 1、是否包含技能效果？（提高/降低 攻击 命中 闪避 移动速度 群体伤害 替换技能ID 等 ） 
-        // 2、是否包含阶段效果？（BUFF分为多个阶段，不同的阶段有不同的效果，比如影之哀伤） 
-        // 3、是否包含计时器？（持续时长计算、叠加时长计算 总之所有关于持续性时间的问题 都丢这里） 
-        // 4、是否包含计数器？（用来计算阶段、剩余生效次数、比如影之哀伤 LOL电刀） 
-        // 5、是否具备分类规则？（魔法效果 诅咒效果 中毒效果 用于进行归类 方便程序进行的 驱散筛选判断） 
-        // 6、是否可以被驱散？ （魔法效果只能用祛除魔法解除 中毒效果只能用解药祛除） 
-        // 7、是否具备优先级？（附加优先级，低等级BUFF会被高等级BUFF替换，低等级BUFF无法附加给高等级怪） 
-        // 8、是否保留母体信息？（比如传染性的DEBUFF，感染者传播一次，母体会获得额外巴拉巴拉。。。多个项） 
-        // 9、是否共享同步规则？（比如多个角色共享一个BUFF状态，一个人的BUFF被祛除则其他人也被祛除） 
-        // 10、以上功能可以进行再补充，没有需求则可以逐个剔除。
+        // 1、是否包含技能效果? （提高/降低 攻击 命中 闪避 移动速度 群体伤害 替换技能ID 等 ） 
+        // 2、是否包含阶段效果? （BUFF分为多个阶段, 不同的阶段有不同的效果, 比如影之哀伤） 
+        // 3、是否包含计时器? （持续时长计算、叠加时长计算 总之所有关于持续性时间的问题 都丢这里） 
+        // 4、是否包含计数器? （用来计算阶段、剩余生效次数、比如影之哀伤 LOL电刀） 
+        // 5、是否具备分类规则? （魔法效果 诅咒效果 中毒效果 用于进行归类 方便程序进行的 驱散筛选判断） 
+        // 6、是否可以被驱散?  （魔法效果只能用祛除魔法解除 中毒效果只能用解药祛除） 
+        // 7、是否具备优先级? （附加优先级, 低等级BUFF会被高等级BUFF替换, 低等级BUFF无法附加给高等级怪） 
+        // 8、是否保留母体信息? （比如传染性的DEBUFF, 感染者传播一次, 母体会获得额外巴拉巴拉。。。多个项） 
+        // 9、是否共享同步规则? （比如多个角色共享一个BUFF状态, 一个人的BUFF被祛除则其他人也被祛除） 
+        // 10、以上功能可以进行再补充, 没有需求则可以逐个剔除。
 
         // 外部表现 
-        // 1、是否显示BUFF图标？（传奇里道士的BUFF是不显示图标的） 
-        // 2、是否不同阶段表现不同的图标？ 
-        // 3、是否显示计时器？ 
-        // 4、是否显示计数器？ 
-        // 5、是否显示BUFF文字说明？（对BUFF类型、效果的描述）
-        // 6、是否改变角色外形？（DNF里的冰冻、WOW里的变形） 
-        // 7、以上表现功能可以进行再补充，同上。
+        // 1、是否显示BUFF图标? （传奇里道士的BUFF是不显示图标的） 
+        // 2、是否不同阶段表现不同的图标?  
+        // 3、是否显示计时器?  
+        // 4、是否显示计数器?  
+        // 5、是否显示BUFF文字说明? （对BUFF类型、效果的描述）
+        // 6、是否改变角色外形? （DNF里的冰冻、WOW里的变形） 
+        // 7、以上表现功能可以进行再补充, 同上。
 
-        // 启用中心计时器，按时间减少buff时间
+        // 启用中心计时器, 按时间减少buff时间
         buffTimer(time){
             this.centralTimer = setInterval(() => {
                 let achievement = this.findComponentDownward(this, 'achievement');  
@@ -257,13 +257,13 @@ export const buffAndTrigger = {
                 if(source.type == 'player') {
                     this.$store.commit("set_battle_info", {
                         type: 'dmg',
-                        msg: '处于眩晕状态中，无法行动'
+                        msg: '处于眩晕状态中, 无法行动'
                     })
                 }
                 else {
                     this.$store.commit("set_battle_info", {
                         type: 'dmged',
-                        msg: '目标处于眩晕状态中，无法行动'
+                        msg: '目标处于眩晕状态中, 无法行动'
                     })
                 }
                 return true;
@@ -319,7 +319,7 @@ export const buffAndTrigger = {
             }
             return dmg;
         },
-        // 死亡后触发，source为击杀者
+        // 死亡后触发, source为击杀者
         triggerAfterKilled(source, target) {
             if(target.type == 'player' && this.$store.state.statistic.death%50 == 0 && this.$store.state.statistic.death > 0) {
                 let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
@@ -474,7 +474,7 @@ export const buffAndTrigger = {
             let target = this.player;
             let CURHP = target.attribute.CURHP,
                 MAXHP = target.attribute.MAXHP;
-            // dead/full 等，跳过乱七八糟的判断
+            // dead/full 等, 跳过乱七八糟的判断
             if(isNaN(data)) {
                 this.$store.commit('set_hp', {data, CURHP, MAXHP});
                 if(source != undefined) {

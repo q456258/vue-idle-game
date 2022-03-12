@@ -1,5 +1,5 @@
 //灰、白、蓝、紫、橙、红
-//破旧，普通，精良，完美，史诗，传说
+//破旧, 普通, 精良, 完美, 史诗, 传说
 //a1a1a1,D9D9D9,00BBFF,BB00FF,FFBB00,FF0000
 //https://wowpedia.fandom.com/wiki/death_knight?file=inv_shoulder_09.jpg
 //https://wowpedia.fandom.com/wiki/Wowpedia:Warcraft_III_icons

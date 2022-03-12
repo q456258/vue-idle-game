@@ -37,6 +37,8 @@ export const itemConfig = {
                         iconSrc: "./icons/material/inv_ore_copper_01.jpg",
                     },
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_ingot_02: {
@@ -48,6 +50,8 @@ export const itemConfig = {
                         iconSrc: "./icons/material/inv_ingot_02.jpg",
                     },
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_ore_tin_01: {
@@ -59,6 +63,8 @@ export const itemConfig = {
                         iconSrc: "./icons/material/inv_ore_tin_01.jpg",
                     },
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_ingot_05: {
@@ -70,6 +76,8 @@ export const itemConfig = {
                         iconSrc: "./icons/material/inv_ingot_05.jpg",
                     },
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_stone_16: {
@@ -81,6 +89,8 @@ export const itemConfig = {
                         iconSrc: "./icons/material/inv_stone_16.jpg",
                     },
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_ingot_01: {
@@ -92,6 +102,8 @@ export const itemConfig = {
                         iconSrc: "./icons/material/inv_ingot_01.jpg",
                     },
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_ore_iron_01: {
@@ -103,6 +115,8 @@ export const itemConfig = {
                         iconSrc: "./icons/material/inv_ore_iron_01.jpg",
                     },
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_ingot_iron: {
@@ -114,6 +128,8 @@ export const itemConfig = {
                         iconSrc: "./icons/material/inv_ingot_iron.jpg",
                     },
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_ingot_steel: {
@@ -125,6 +141,8 @@ export const itemConfig = {
                         iconSrc: "./icons/material/inv_ingot_steel.jpg",
                     },
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_ore_gold_01: {
@@ -136,6 +154,8 @@ export const itemConfig = {
                         iconSrc: "./icons/material/inv_ore_gold_01.jpg",
                     },
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_ingot_03: {
@@ -147,6 +167,8 @@ export const itemConfig = {
                         iconSrc: "./icons/material/inv_ingot_03.jpg",
                     },
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_ore_mithril_02: {
@@ -158,6 +180,8 @@ export const itemConfig = {
                         iconSrc: "./icons/material/inv_ore_mithril_02.jpg",
                     },
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_ingot_06: {
@@ -169,6 +193,8 @@ export const itemConfig = {
                         iconSrc: "./icons/material/inv_ingot_06.jpg",
                     },
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_ore_truesilver_01: {
@@ -180,6 +206,8 @@ export const itemConfig = {
                         iconSrc: "./icons/material/inv_ore_truesilver_01.jpg",
                     },
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_ingot_08: {
@@ -191,6 +219,8 @@ export const itemConfig = {
                         iconSrc: "./icons/material/inv_ingot_08.jpg",
                     },
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_ore_thorium_02: {
@@ -202,6 +232,8 @@ export const itemConfig = {
                         iconSrc: "./icons/material/inv_ore_thorium_02.jpg",
                     },
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_ingot_07: {
@@ -213,6 +245,8 @@ export const itemConfig = {
                         iconSrc: "./icons/material/inv_ingot_07.jpg",
                     },
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_ore_mithril_01: {
@@ -224,6 +258,8 @@ export const itemConfig = {
                         iconSrc: "./icons/material/inv_ore_mithril_01.jpg",
                     },
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_ingot_mithril: {
@@ -235,6 +271,8 @@ export const itemConfig = {
                         iconSrc: "./icons/material/inv_ingot_mithril.jpg",
                     },
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_misc_enchantedpearla: {
@@ -242,10 +280,12 @@ export const itemConfig = {
                     description: {
                         name: '神秘宝珠',
                         category: '材料',
-                        desc: '具有神秘力量的宝珠，能够重置装备的潜在属性',
+                        desc: '具有神秘力量的宝珠, 能够重置装备的潜在属性',
                         iconSrc: "./icons/item/inv_misc_enchantedpearla.jpg",
                     },
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_enchant_voidsphere: {
@@ -253,10 +293,12 @@ export const itemConfig = {
                     description: {
                         name: '虚空宝珠',
                         category: '材料',
-                        desc: '具有神秘力量的宝珠，能够重置装备的附加属性',
+                        desc: '具有神秘力量的宝珠, 能够重置装备的附加属性',
                         iconSrc: "./icons/item/inv_enchant_voidsphere.jpg",
                     },
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 9999
                 },
                 inv_misc_gem_diamond_05: {
@@ -264,10 +306,12 @@ export const itemConfig = {
                     description: {
                         name: '低级强化石',
                         category: '材料',
-                        desc: '强化装备的材料，能够提升装备基础属性，可用于强化装备1-5星',
+                        desc: '强化装备的材料, 能够提升装备基础属性, 可用于强化装备1-5星',
                         iconSrc: "./icons/item/inv_misc_gem_diamond_05.jpg",
                     },
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 9999
                 },
                 inv_misc_gem_diamond_04: {
@@ -275,10 +319,12 @@ export const itemConfig = {
                     description: {
                         name: '中级强化石',
                         category: '材料',
-                        desc: '强化装备的材料，能够提升装备基础属性，可用于强化装备6-10星',
+                        desc: '强化装备的材料, 能够提升装备基础属性, 可用于强化装备6-10星',
                         iconSrc: "./icons/item/inv_misc_gem_diamond_04.jpg",
                     },
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 9999
                 },
                 inv_misc_gem_diamond_03: {
@@ -286,10 +332,12 @@ export const itemConfig = {
                     description: {
                         name: '高级强化石',
                         category: '材料',
-                        desc: '强化装备的材料，能够提升装备基础属性，可用于强化装备11-15星',
+                        desc: '强化装备的材料, 能够提升装备基础属性, 可用于强化装备11-15星',
                         iconSrc: "./icons/item/inv_misc_gem_diamond_03.jpg",
                     },
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 9999
                 },
                 inv_misc_gem_diamond_02: {
@@ -297,10 +345,12 @@ export const itemConfig = {
                     description: {
                         name: '顶级强化石',
                         category: '材料',
-                        desc: '强化装备的材料，能够提升装备基础属性，可用于强化装备16-20星',
+                        desc: '强化装备的材料, 能够提升装备基础属性, 可用于强化装备16-20星',
                         iconSrc: "./icons/item/inv_misc_gem_diamond_02.jpg",
                     },
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 9999
                 },
                 inv_misc_gem_diamond_01: {
@@ -308,10 +358,12 @@ export const itemConfig = {
                     description: {
                         name: '终极强化石',
                         category: '材料',
-                        desc: '强化装备的材料，能够提升装备基础属性，可用于强化装备21-25星',
+                        desc: '强化装备的材料, 能够提升装备基础属性, 可用于强化装备21-25星',
                         iconSrc: "./icons/item/inv_misc_gem_diamond_01.jpg",
                     },
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 9999
                 },
                 dust2: {
@@ -319,10 +371,12 @@ export const itemConfig = {
                     description: {
                         name: '普通装备精华',
                         category: '材料',
-                        desc: '分解普通装备获得，可用于升级普通品质的装备，可消耗10个合成精良装备精华',
+                        desc: '分解普通装备获得, 可用于升级普通品质的装备, 可消耗10个合成精良装备精华',
                         iconSrc: "./icons/item/inv_enchanting_dust.jpg",
                     },
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     merge: true,
                     mergeCount: 10,
                     mergeTarget: 'dust3',
@@ -333,10 +387,12 @@ export const itemConfig = {
                     description: {
                         name: '精良装备精华',
                         category: '材料',
-                        desc: '分解精良装备获得，可用于升级精良品质的装备，可消耗10个合成完美装备精华',
+                        desc: '分解精良装备获得, 可用于升级精良品质的装备, 可消耗10个合成完美装备精华',
                         iconSrc: "./icons/item/inv_enchanting_70_arkhana.jpg",
                     },
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     merge: true,
                     mergeCount: 10,
                     mergeTarget: 'dust4',
@@ -347,10 +403,12 @@ export const itemConfig = {
                     description: {
                         name: '完美装备精华',
                         category: '材料',
-                        desc: '分解完美装备获得，可用于升级完美品质的装备，可消耗10个合成史诗装备精华',
+                        desc: '分解完美装备获得, 可用于升级完美品质的装备, 可消耗10个合成史诗装备精华',
                         iconSrc: "./icons/item/inv_misc_dust_infinite.jpg",
                     },
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     merge: true,
                     mergeCount: 10,
                     mergeTarget: 'dust5',
@@ -361,10 +419,12 @@ export const itemConfig = {
                     description: {
                         name: '史诗装备精华',
                         category: '材料',
-                        desc: '分解史诗装备获得，可用于升级史诗品质的装备，可消耗10个合成传奇装备精华',
+                        desc: '分解史诗装备获得, 可用于升级史诗品质的装备, 可消耗10个合成传奇装备精华',
                         iconSrc: "./icons/item/inv_enchanting_wod_dust3.jpg",
                     },
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     merge: true,
                     mergeCount: 10,
                     mergeTarget: 'dust6',
@@ -375,10 +435,12 @@ export const itemConfig = {
                     description: {
                         name: '传奇装备精华',
                         category: '材料',
-                        desc: '分解传奇装备获得，可用于升级传奇品质的装备',
+                        desc: '分解传奇装备获得, 可用于升级传奇品质的装备',
                         iconSrc: "./icons/item/inv_enchant_dustillusion.jpg",
                     },
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 1000
                 },
                 inv_potion_27: {
@@ -386,11 +448,13 @@ export const itemConfig = {
                     description: {
                         name: '屠魔药剂',
                         category: '消耗品',
-                        desc: '使用后获得【野怪杀手】buff，对对冒险区非精英、BOSS类怪物额外造成50%伤害，持续10分钟',
+                        desc: '使用后获得【野怪杀手】buff, 对对冒险区非精英、BOSS类怪物额外造成50%伤害, 持续10分钟',
                         iconSrc: "./icons/item/inv_potion_27.jpg",
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 5
                 }, 
                 inv_misc_note_06: {
@@ -398,11 +462,13 @@ export const itemConfig = {
                     description: {
                         name: '招募启事',
                         category: '消耗品',
-                        desc: '发布招募声明，吸引路人来申请公会',
+                        desc: '发布招募声明, 吸引路人来申请公会',
                         iconSrc: "./icons/item/inv_misc_note_06.jpg",
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 20
                 },
                 bTNMGExchange: {
@@ -416,6 +482,8 @@ export const itemConfig = {
                     autoUse: true,
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 20
                 },
                 inv_misc_coin_01: {
@@ -429,6 +497,8 @@ export const itemConfig = {
                     autoUse: true,
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 20
                 },
                 inv_misc_coin_02: {
@@ -442,6 +512,8 @@ export const itemConfig = {
                     autoUse: true,
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 20
                 },
                 random_equip_0: {
@@ -455,6 +527,8 @@ export const itemConfig = {
                     autoUse: true,
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 20
                 },
                 random_equip_1: {
@@ -468,6 +542,8 @@ export const itemConfig = {
                     autoUse: true,
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 20
                 },
                 random_equip_2: {
@@ -481,6 +557,8 @@ export const itemConfig = {
                     autoUse: true,
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 20
                 },
                 random_equip_3: {
@@ -494,6 +572,8 @@ export const itemConfig = {
                     autoUse: true,
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 20
                 },
                 random_equip_4: {
@@ -507,6 +587,8 @@ export const itemConfig = {
                     autoUse: true,
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 20
                 },
                 random_equip_5: {
@@ -520,6 +602,8 @@ export const itemConfig = {
                     autoUse: true,
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 20
                 },
                 random_equip_6: {
@@ -533,6 +617,8 @@ export const itemConfig = {
                     autoUse: true,
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 20
                 },
                 random_equip_7: {
@@ -546,6 +632,8 @@ export const itemConfig = {
                     autoUse: true,
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 20
                 },
                 random_equip_8: {
@@ -559,6 +647,8 @@ export const itemConfig = {
                     autoUse: true,
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 20
                 },
                 random_equip_9: {
@@ -572,6 +662,8 @@ export const itemConfig = {
                     autoUse: true,
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 20
                 },
                 random_equip_10: {
@@ -585,6 +677,8 @@ export const itemConfig = {
                     autoUse: true,
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 20
                 },
                 //'导师', '阿迦玛', '金牙', '霍格', '铁背龟', '熔岩元素', '咕噜咕拉', '塞瑞娜·血羽', '科多兽', '维斯迦尔', '安戈雷尔'
@@ -598,6 +692,8 @@ export const itemConfig = {
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 10
                 },
                 bossTicket1: {
@@ -610,6 +706,8 @@ export const itemConfig = {
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 10
                 },
                 bossTicket2: {
@@ -622,6 +720,8 @@ export const itemConfig = {
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 10
                 },
                 bossTicket3: {
@@ -634,6 +734,8 @@ export const itemConfig = {
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 10
                 },
                 bossTicket4: {
@@ -646,6 +748,8 @@ export const itemConfig = {
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 10
                 },
                 bossTicket5: {
@@ -658,6 +762,8 @@ export const itemConfig = {
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 10
                 },
                 bossTicket6: {
@@ -670,6 +776,8 @@ export const itemConfig = {
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 10
                 },
                 bossTicket7: {
@@ -682,6 +790,8 @@ export const itemConfig = {
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 10
                 },
                 bossTicket8: {
@@ -694,6 +804,8 @@ export const itemConfig = {
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 10
                 },
                 bossTicket9: {
@@ -706,6 +818,8 @@ export const itemConfig = {
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 10
                 },
                 bossTicket10: {
@@ -718,6 +832,8 @@ export const itemConfig = {
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 100,
                     maxStack: 10
                 },
                 //potion
@@ -726,11 +842,13 @@ export const itemConfig = {
                     description: {
                         name: '特效生命药水',
                         category: '消耗品',
-                        desc: '恢复100%生命值，战斗期间无法使用',
+                        desc: '恢复100%生命值, 战斗期间无法使用',
                         iconSrc: "./icons/potion/inv_alchemy_80_potion01red.jpg",
                     },
                     use: true,
                     stack: true,
+                    quantity: 20,
+                    cost: 200,
                     maxStack: 100
                 },
                 inv_alchemy_80_potion01blue: {
@@ -738,11 +856,13 @@ export const itemConfig = {
                     description: {
                         name: '特效法力药水',
                         category: '消耗品',
-                        desc: '恢复100%法力值，战斗期间无法使用',
+                        desc: '恢复100%法力值, 战斗期间无法使用',
                         iconSrc: "./icons/potion/inv_alchemy_80_potion01blue.jpg",
                     },
                     use: true,
                     stack: true,
+                    quantity: 20,
+                    cost: 200,
                     maxStack: 100
                 },
                 inv_potion_49: {
@@ -750,11 +870,13 @@ export const itemConfig = {
                     description: {
                         name: '初级治疗药水',
                         category: '消耗品',
-                        desc: '每秒恢复15点生命值，持续10秒',
+                        desc: '每秒恢复15点生命值, 持续10秒',
                         iconSrc: "./icons/potion/inv_potion_49.jpg",
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100,
                     cdgroup: 'hpPotion',
                     cd: 15
@@ -769,6 +891,8 @@ export const itemConfig = {
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100,
                     cdgroup: 'hpPotion',
                     cd: 15
@@ -778,11 +902,13 @@ export const itemConfig = {
                     description: {
                         name: '次级治疗药水',
                         category: '消耗品',
-                        desc: '每秒恢复150点生命值，持续10秒',
+                        desc: '每秒恢复150点生命值, 持续10秒',
                         iconSrc: "./icons/potion/inv_potion_51.jpg",
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_potion_52: {
@@ -795,6 +921,8 @@ export const itemConfig = {
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_potion_53: {
@@ -802,11 +930,13 @@ export const itemConfig = {
                     description: {
                         name: '治疗药水',
                         category: '消耗品',
-                        desc: '每秒恢复1500点生命值，持续10秒',
+                        desc: '每秒恢复1500点生命值, 持续10秒',
                         iconSrc: "./icons/potion/inv_potion_53.jpg",
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_potion_54: {
@@ -819,6 +949,8 @@ export const itemConfig = {
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_potion_160: {
@@ -826,11 +958,13 @@ export const itemConfig = {
                     description: {
                         name: '强效治疗药水',
                         category: '消耗品',
-                        desc: '每秒恢复1%最大生命值，持续100秒',
+                        desc: '每秒恢复1%最大生命值, 持续100秒',
                         iconSrc: "./icons/potion/inv_potion_160.jpg",
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_potion_55: {
@@ -838,11 +972,13 @@ export const itemConfig = {
                     description: {
                         name: '超级治疗药水',
                         category: '消耗品',
-                        desc: '每秒恢复5%最大生命值，持续100秒',
+                        desc: '每秒恢复5%最大生命值, 持续100秒',
                         iconSrc: "./icons/potion/inv_potion_55.jpg",
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_potion_131: {
@@ -855,6 +991,8 @@ export const itemConfig = {
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_potion_142: {
@@ -867,6 +1005,8 @@ export const itemConfig = {
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_potion_167: {
@@ -879,6 +1019,8 @@ export const itemConfig = {
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_potion_70: {
@@ -886,11 +1028,13 @@ export const itemConfig = {
                     description: {
                         name: '初级魔能药水',
                         category: '消耗品',
-                        desc: '每秒恢复15点魔法值，持续10秒',
+                        desc: '每秒恢复15点魔法值, 持续10秒',
                         iconSrc: "./icons/potion/inv_potion_70.jpg",
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100,
                     cdgroup: 'mpPotion',
                     cd: 15
@@ -905,6 +1049,8 @@ export const itemConfig = {
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_potion_72: {
@@ -912,11 +1058,13 @@ export const itemConfig = {
                     description: {
                         name: '次级魔能药水',
                         category: '消耗品',
-                        desc: '每秒恢复150点法力值，持续10秒',
+                        desc: '每秒恢复150点法力值, 持续10秒',
                         iconSrc: "./icons/potion/inv_potion_72.jpg",
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_potion_73: {
@@ -929,6 +1077,8 @@ export const itemConfig = {
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_potion_74: {
@@ -936,11 +1086,13 @@ export const itemConfig = {
                     description: {
                         name: '魔能药水',
                         category: '消耗品',
-                        desc: '每秒恢复1500点法力值，持续10秒',
+                        desc: '每秒恢复1500点法力值, 持续10秒',
                         iconSrc: "./icons/potion/inv_potion_74.jpg",
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_potion_75: {
@@ -953,6 +1105,8 @@ export const itemConfig = {
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_potion_163: {
@@ -960,11 +1114,13 @@ export const itemConfig = {
                     description: {
                         name: '强效魔能药水',
                         category: '消耗品',
-                        desc: '每秒恢复1%最大法力值，持续100秒',
+                        desc: '每秒恢复1%最大法力值, 持续100秒',
                         iconSrc: "./icons/potion/inv_potion_163.jpg",
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_potion_76: {
@@ -972,11 +1128,13 @@ export const itemConfig = {
                     description: {
                         name: '超级魔能药水',
                         category: '消耗品',
-                        desc: '每秒恢复5%最大法力值，持续100秒',
+                        desc: '每秒恢复5%最大法力值, 持续100秒',
                         iconSrc: "./icons/potion/inv_potion_76.jpg",
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_potion_137: {
@@ -989,6 +1147,8 @@ export const itemConfig = {
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_potion_148: {
@@ -1001,6 +1161,8 @@ export const itemConfig = {
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_potion_168: {
@@ -1013,6 +1175,8 @@ export const itemConfig = {
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_potion_42: {
@@ -1020,11 +1184,13 @@ export const itemConfig = {
                     description: {
                         name: '初级恢复药水',
                         category: '消耗品',
-                        desc: '每秒恢复15点生命值以及15点魔法值，持续10秒',
+                        desc: '每秒恢复15点生命值以及15点魔法值, 持续10秒',
                         iconSrc: "./icons/potion/inv_potion_42.jpg",
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_potion_43: {
@@ -1037,6 +1203,8 @@ export const itemConfig = {
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_potion_44: {
@@ -1044,11 +1212,13 @@ export const itemConfig = {
                     description: {
                         name: '次级恢复药水',
                         category: '消耗品',
-                        desc: '每秒恢复150点生命值以及150点魔法值，持续10秒',
+                        desc: '每秒恢复150点生命值以及150点魔法值, 持续10秒',
                         iconSrc: "./icons/potion/inv_potion_44.jpg",
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_potion_45: {
@@ -1061,6 +1231,8 @@ export const itemConfig = {
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_potion_46: {
@@ -1068,11 +1240,13 @@ export const itemConfig = {
                     description: {
                         name: '恢复药水',
                         category: '消耗品',
-                        desc: '每秒恢复1500点生命值以及1500点魔法值，持续10秒',
+                        desc: '每秒恢复1500点生命值以及1500点魔法值, 持续10秒',
                         iconSrc: "./icons/potion/inv_potion_46.jpg",
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_potion_47: {
@@ -1085,6 +1259,8 @@ export const itemConfig = {
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_potion_164: {
@@ -1092,11 +1268,13 @@ export const itemConfig = {
                     description: {
                         name: '强效恢复药水',
                         category: '消耗品',
-                        desc: '每秒恢复1%最大生命值，持续100秒',
+                        desc: '每秒恢复1%最大生命值, 持续100秒',
                         iconSrc: "./icons/potion/inv_potion_164.jpg",
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_potion_48: {
@@ -1104,11 +1282,13 @@ export const itemConfig = {
                     description: {
                         name: '超级恢复药水',
                         category: '消耗品',
-                        desc: '每秒恢复5%最大生命值，持续100秒',
+                        desc: '每秒恢复5%最大生命值, 持续100秒',
                         iconSrc: "./icons/potion/inv_potion_48.jpg",
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_potion_134: {
@@ -1121,6 +1301,8 @@ export const itemConfig = {
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
                 inv_potion_145: {
@@ -1133,6 +1315,8 @@ export const itemConfig = {
                     },
                     use: true,
                     stack: true,
+                    quantity: 1,
+                    cost: 99990000,
                     maxStack: 100
                 },
             }

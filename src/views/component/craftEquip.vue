@@ -234,7 +234,7 @@ export default {
                         this.increaseQuality();
                         break;
                     case 9:
-                        // 附加技能，待定
+                        // 附加技能, 待定
                         break;
                 }
             }
@@ -395,7 +395,7 @@ export default {
             element.classList.add('flipped');
             setTimeout(() => {
                 let classes = ['greyGlow', 'purpleGlow', 'goldGlow']
-                // 图片点左边会触发front，点右边会触发back
+                // 图片点左边会触发front, 点右边会触发back
                 element.childNodes[1].classList.add(classes[reward.quality]);
             }, 500);
         
@@ -675,7 +675,7 @@ export default {
             if(mainPots[3] != undefined)
                 extraBaseEntry.push({type: extraEntries[mainPots[3].type]});
 
-            // 添加装备额外属性，如果数量不足，用装备类型允许的额外属性随机补充
+            // 添加装备额外属性, 如果数量不足, 用装备类型允许的额外属性随机补充
             let type = newEquip.itemType;
             let mod = this.equipMod[type];
             let index = 0;

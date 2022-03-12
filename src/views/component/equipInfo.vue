@@ -345,7 +345,7 @@ export default {
             if(has < quantity) {
                 this.$store.commit("set_sys_info", {
                     type: 'dmged',
-                    msg: '材料不足，无法升级装备！'
+                    msg: '材料不足, 无法升级装备! '
                 });
                 return;
             }
@@ -353,7 +353,7 @@ export default {
             equip.lv = parseInt(equip.lv)+1;
             equip.baseEntry.forEach(entry => {
                 // let percent = (entry.base/(this.entryInfo[entry.type].base*(1+(equip.lv-1)**2*0.05))-1)*5;
-                // 主属性部分好像需要调整一下，fix不应该加，正常的需要加
+                // 主属性部分好像需要调整一下, fix不应该加, 正常的需要加
                 this.createBaseEntryValue(equip.quality.qualityCoefficient, entry, 0, equip.lv, equip.enhanceLv, mod);
             });
             equip.extraEntry.forEach(entry => {
@@ -361,7 +361,7 @@ export default {
             });
             this.$store.commit('set_player_attribute');
         },
-        // 主属性固定了，没百分比浮动
+        // 主属性固定了, 没百分比浮动
         // refine(equip, equip2) {
         //     let mod = this.equipMod[newEquip.itemType];
         //     for(let i=0; i<equip.baseEntry.length; i++) {

@@ -318,7 +318,7 @@ export default {
             if(this.useGrid[this.currentItemIndex].lvReq > this.playerLv) {
                 this.$store.commit("set_sys_info", {
                     type: 'warning',
-                    msg: '等级不足，无法使用！',
+                    msg: '等级不足, 无法使用!',
                 });
                 return false;
             }
@@ -342,7 +342,7 @@ export default {
             if(item.lvReq > this.playerLv) {
                 this.$store.commit("set_sys_info", {
                     type: 'warning',
-                    msg: '等级不足，无法使用！',
+                    msg: '等级不足, 无法使用!',
                 });
                 return false;
             }

@@ -28,7 +28,7 @@
         <a class="nav-link" :class="{active: displayPage=='guildMember' }" id="guildMember" @click="switchTab('guildMember')" v-show="playerLv >= 20">公会成员</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" :class="{active: displayPage=='shop' }" id="shop" @click="switchTab('shop')" v-show="guild.shop.lv > 10">商店</a>
+        <a class="nav-link" :class="{active: displayPage=='shop' }" id="shop" @click="switchTab('shop')" v-show="guild.shop.lv > 0">商店</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" :class="{active: displayPage=='talentTree' }" id="talentTree" @click="switchTab('talentTree')" v-show="playerLv >= 10">天赋</a>
@@ -277,7 +277,7 @@ export default {
 
 //     let itemInfo = this.findComponentDownward(this, 'itemInfo');
 //     let item ;
-//     let items = [
+//     let items = ['inv_misc_note_06',
 //      'inv_potion_49',
 // 'inv_potion_50',
 // 'inv_potion_51',
@@ -531,7 +531,7 @@ export default {
       if(!this.dungeonInfo.inBattle) {
         if(this.mapArr[k] && !this.mapArr[k].selected && this.$store.state.enermyAttribute.attribute.CURHP.value != 0) {
           this.$message({
-            message: '是否放弃当前正在挑战的副本？',
+            message: '是否放弃当前正在挑战的副本? ',
             title: '更换副本',
             confirmBtnText: '更换',
             onClose: () => {

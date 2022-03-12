@@ -7,7 +7,7 @@
 
 export const assist = {
   methods: {
-    // 由一个组件，向上找到最近的指定组件
+    // 由一个组件, 向上找到最近的指定组件
     findComponentUpward(context, componentName) {
       let parent = context.$parent;
       let name = parent.$options.name;
@@ -18,7 +18,7 @@ export const assist = {
       }
       return parent;
     },
-    // 由一个组件，向上找到所有的指定组件
+    // 由一个组件, 向上找到所有的指定组件
     findComponentsUpward(context, componentName) {
       let parents = [];
       const parent = context.$parent;
@@ -30,7 +30,7 @@ export const assist = {
         return [];
       }
     },
-    // 由一个组件，向下找到最近的指定组件
+    // 由一个组件, 向下找到最近的指定组件
     findComponentDownward(context, componentName) {
       const childrens = context.$children;
       let children = null;
@@ -50,7 +50,7 @@ export const assist = {
       }
       return children;
     },
-    // 由一个组件，向下找到所有指定的组件
+    // 由一个组件, 向下找到所有指定的组件
     findComponentsDownward(context, componentName) {
       return context.$children.reduce((components, child) => {
         if (child.$options.name === componentName) components.push(child);
@@ -60,7 +60,7 @@ export const assist = {
     },
 
 
-    // 由一个组件，找到指定组件的兄弟组件
+    // 由一个组件, 找到指定组件的兄弟组件
     findBrothersComponents(context, componentName, exceptMe = true) {
       let res = context.$parent.$children.filter(item => {
         return item.$options.name === componentName;

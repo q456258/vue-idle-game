@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import vueInstance from './main'
 Vue.use(Vuex)
 //灰、白、蓝、紫、橙、红
-//破旧，普通，精良，完美，史诗，传说
+//破旧, 普通, 精良, 完美, 史诗, 传说
 //a1a1a1,D9D9D9,00BBFF,BB00FF,FFBB00,FF0000
 let initial_shoe = {
         lv: 1,
@@ -127,7 +127,7 @@ export default new Vuex.Store({
         needStrengthenEquipment: {}, //设定当前需要强化的装备
         sysInfo: [{
             type: '',
-            msg: "欢迎你勇士，点击地图上的副本开始战斗。"
+            msg: "欢迎你勇士, 点击地图上的副本开始战斗。"
         }, {
             type: '',
             msg: "菜单栏可以刷新当前世界副本。"

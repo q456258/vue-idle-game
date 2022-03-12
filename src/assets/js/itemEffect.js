@@ -105,6 +105,8 @@ export const itemEffect = {
                     used = this.bossTicket(105);
                     break;
                 // 药剂
+                case 'inv_alchemy_80_potion01red':
+                case 'inv_alchemy_80_potion01blue':
                 case 'inv_potion_27':
                 case 'inv_potion_49':
                 case 'inv_potion_50':
@@ -184,6 +186,12 @@ export const itemEffect = {
                 case 'inv_potion_27':
                     used = this.inv_potion_27();
                     break;
+                case 'inv_alchemy_80_potion01red':
+                    used = !this.inBattle() && this.hpPotion(100, 0, 0, 'maxPercent', itemInfo.description.name);
+                    break;
+                case 'inv_alchemy_80_potion01blue':
+                    used = !this.inBattle() && this.mpPotion(100, 0, 0, 'maxPercent', itemInfo.description.name);
+                    break;
                 case 'inv_potion_49':
                     used = this.hpPotion(15, 1, 10, 'fix');
                     break;
@@ -251,37 +259,40 @@ export const itemEffect = {
                     used = this.mpPotion(100, 0, 0, 'maxPercent', itemInfo.description.name);
                     break;
                 case 'inv_potion_42':
-                    used = this.hpPotion(15, 1, 10, 'fix') && this.mpPotion(15, 1, 10, 'fix');
+                    used = this.hpPotion(15, 1, 10, 'fix') | this.mpPotion(15, 1, 10, 'fix');
                     break;
                 case 'inv_potion_43':
-                    used = this.hpPotion(100, 0, 0, 'fix', itemInfo.description.name) && this.mpPotion(100, 0, 0, 'fix', itemInfo.description.name);
+                    used = this.hpPotion(100, 0, 0, 'fix', itemInfo.description.name) | this.mpPotion(100, 0, 0, 'fix', itemInfo.description.name);
                     break;
                 case 'inv_potion_44':
-                    used = this.hpPotion(150, 1, 10, 'fix') && this.mpPotion(150, 1, 10, 'fix');
+                    used = this.hpPotion(150, 1, 10, 'fix') | this.mpPotion(150, 1, 10, 'fix');
                     break;
                 case 'inv_potion_45':
-                    used = this.hpPotion(1000, 0, 0, 'fix', itemInfo.description.name) && this.mpPotion(1000, 0, 0, 'fix', itemInfo.description.name);
+                    used = this.hpPotion(1000, 0, 0, 'fix', itemInfo.description.name) | this.mpPotion(1000, 0, 0, 'fix', itemInfo.description.name);
                     break;
                 case 'inv_potion_46':
-                    used = this.hpPotion(1500, 1, 10, 'fix') && this.mpPotion(1500, 1, 10, 'fix');
+                    used = this.hpPotion(1500, 1, 10, 'fix') | this.mpPotion(1500, 1, 10, 'fix');
                     break;
                 case 'inv_potion_47':
-                    used = this.hpPotion(10000, 0, 0, 'fix', itemInfo.description.name) && this.mpPotion(10000, 0, 0, 'fix', itemInfo.description.name);
+                    used = this.hpPotion(10000, 0, 0, 'fix', itemInfo.description.name) | this.mpPotion(10000, 0, 0, 'fix', itemInfo.description.name);
                     break;
                 case 'inv_potion_164':
-                    used = this.hpPotion(1, 1, 100, 'maxPercent') && this.mpPotion(1, 1, 100, 'maxPercent');
+                    used = this.hpPotion(1, 1, 100, 'maxPercent') | this.mpPotion(1, 1, 100, 'maxPercent');
                     break;
                 case 'inv_potion_48':
-                    used = this.hpPotion(5, 1, 100, 'maxPercent') && this.mpPotion(5, 1, 100, 'maxPercent');
+                    used = this.hpPotion(5, 1, 100, 'maxPercent') | this.mpPotion(5, 1, 100, 'maxPercent');
                     break;
                 case 'inv_potion_134':
-                    used = this.hpPotion(33, 0, 0, 'maxPercent', itemInfo.description.name) && this.mpPotion(33, 0, 0, 'maxPercent', itemInfo.description.name);
+                    used = this.hpPotion(33, 0, 0, 'maxPercent', itemInfo.description.name) | this.mpPotion(33, 0, 0, 'maxPercent', itemInfo.description.name);
                     break;
                 case 'inv_potion_145':
-                    used = this.hpPotion(75, 0, 0, 'maxPercent', itemInfo.description.name) && this.mpPotion(75, 0, 0, 'maxPercent', itemInfo.description.name);
+                    used = this.hpPotion(75, 0, 0, 'maxPercent', itemInfo.description.name) | this.mpPotion(75, 0, 0, 'maxPercent', itemInfo.description.name);
                     break;
             }
             return used;
+        },
+        inBattle() {
+            return this.$store.state.dungeonInfo.inBattle;
         },
         inv_potion_27() {
             let player = this.$store.state.playerAttribute;
@@ -319,7 +330,7 @@ export const itemEffect = {
         },
         instaHpPotion(value, sourceName) {
             let player = this.$store.state.playerAttribute;
-            this.hpChange(player, player, value, sourceName);
+            this.hpChange(player, player, {heal: value}, sourceName);
         },
         instaMpPotion(value, sourceName) {
             let player = this.$store.state.playerAttribute;
@@ -332,7 +343,7 @@ export const itemEffect = {
                 let newValue = value;
                 if(type == 'maxPercent')
                     newValue = Math.ceil(player.attribute.MAXHP.value*value/100);
-                this.hpChange(player, player, newValue);
+                this.hpChange(player, player, {heal: newValue});
                 duration -= gap;
                 if(duration < 0) {
                     clearInterval(timer);
