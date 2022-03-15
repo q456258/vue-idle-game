@@ -50,9 +50,7 @@
                         基础: {{attribute.HP.baseVal}}
                         <span v-if="attribute.HPP.value != 0">{{' +' + attribute.HPP.showValue}}</span>
                         <br>
-                        非战时: {{5+player.talent['ability_hunter_harass']*1+'%+'+attribute.STA.value*5}} /5秒
-                        <br>
-                        战时: {{attribute.STA.value}} /5秒
+                        恢复: {{attribute.STA.value}} /5秒
                     </p>
                     <p class="info">
                         * 魔法值
@@ -60,9 +58,7 @@
                         基础: {{attribute.MP.baseVal}}
                         <span v-if="attribute.MPP.value != 0">{{' +' + attribute.MPP.showValue}}</span>
                         <br>
-                        非战时: {{5+'%+'+attribute.SPI.value*5}} /5秒
-                        <br>
-                        战时: {{Math.floor(attribute.STA.value/5)}} /5秒
+                        恢复: {{attribute.SPI.value}} /5秒
                     </p>
                 </template>
             </cTooltip>
@@ -110,7 +106,7 @@
                             <br>
                             +3护甲
                             <br>
-                            +0.5格挡
+                            +1格挡
                         </p>
                         </template>
                 </cTooltip>
@@ -137,7 +133,7 @@
                         </p>
                         <p class="info">* 每点提升属性
                             <br>
-                            +3攻击
+                            +4攻击
                             <br>
                             +0.05%暴击率
                         </p>
@@ -168,7 +164,7 @@
                             <br>
                             +10生命值
                             <br>
-                            +5每五秒回血
+                            +1每五秒回血
                         </p>
                     </template>
                 </cTooltip>
@@ -195,7 +191,7 @@
                         </p>
                         <p class="info">* 每点提升属性
                             <br>
-                            +5法术伤害
+                            +4法术伤害
                             <br>
                             +0.1%法术暴击率
                         </p>

@@ -121,7 +121,7 @@ export const equipConfig = {
         'STR','AGI','INT', 'ALL', 'CRIT','CRITDMG','ATK', 'DEF', 'BLOCK','HP', 'MP', 
       ],
       helmet: {
-        baseEntry: ['DEF'],
+        fixEntry: ['DEF'],
         extraEntry: [
           'STR','AGI','INT','STA','SPI','ALL','ATK','AP','DEF','MR','BLOCK','HP','MP',
         ],
@@ -227,20 +227,9 @@ export const equipConfig = {
             },
           ]
         },
-        // unique: [{
-        //     description: {
-        //       name: '先代狂龙战士盔甲',
-        //       desc: '先代狂龙战士盔甲',
-        //       iconSrc: "./icons/a_a1.jpg",
-        //     },
-        //     entry: [
-        //       'DEF','BLOC', 'HP',
-        //     ]
-        //   },
-        // ],
       },
       weapon: {
-        baseEntry: [ 'ATK'],
+        fixEntry: [ 'ATK'],
         extraEntry: [
           'STR','AGI','INT','STA','SPI','ALL','ATK','AP','DEF','MR','BLOCK','HP','MP',
         ],
@@ -356,7 +345,7 @@ export const equipConfig = {
         },
       },
       armor: {
-        baseEntry: ['DEF'],
+        fixEntry: ['DEF'],
         extraEntry: [
           'STR','AGI','INT','STA','SPI','ALL','ATK','AP','DEF','MR','BLOCK','HP','MP',
         ],
@@ -464,7 +453,7 @@ export const equipConfig = {
         },
       },
       shoe: {
-        baseEntry: [],
+        fixEntry: [],
         extraEntry: [
           'STR','AGI','INT','STA','SPI','ALL','ATK','AP','DEF','MR','BLOCK','HP','MP',
         ],
@@ -572,7 +561,7 @@ export const equipConfig = {
         },
       },
       shoulder: {
-        baseEntry: ['DEF'],
+        fixEntry: ['DEF'],
         extraEntry: [
           'STR','AGI','INT','STA','SPI','ALL','ATK','AP','DEF','MR','BLOCK','HP','MP',
         ],
@@ -686,7 +675,7 @@ export const equipConfig = {
         },
       },      
       glove: {
-        baseEntry: [],
+        fixEntry: [],
         extraEntry: [
           'STR','AGI','INT','STA','SPI','ALL','ATK','AP','DEF','MR','BLOCK','HP','MP',
         ],
@@ -794,7 +783,7 @@ export const equipConfig = {
         },
       },  
       ring: {
-        baseEntry: [ 'HP'],
+        fixEntry: [ 'HP'],
         extraEntry: [
           'STR','AGI','INT','STA','SPI','ALL','ATK','AP','DEF','MR','BLOCK','HP','MP',
         ],
@@ -902,7 +891,7 @@ export const equipConfig = {
         },
       },
       cape: {
-        baseEntry: [],
+        fixEntry: [],
         extraEntry: [
           'STR','AGI','INT','STA','SPI','ALL','ATK','AP','DEF','MR','BLOCK','HP','MP',
         ],
@@ -1010,7 +999,7 @@ export const equipConfig = {
         },
       },
       bracer: {
-        baseEntry: [ 'DEF'],
+        fixEntry: [ 'DEF'],
         extraEntry: [
           'STR','AGI','INT','STA','SPI','ALL','ATK','AP','DEF','MR','BLOCK','HP','MP',
         ],
@@ -1118,7 +1107,7 @@ export const equipConfig = {
         },
       },
       belt: {
-        baseEntry: [ 'MP'],
+        fixEntry: [ 'MP'],
         extraEntry: [
           'STR','AGI','INT','STA','SPI','ALL','ATK','AP','DEF','MR','BLOCK','HP','MP',
         ],
@@ -1226,7 +1215,7 @@ export const equipConfig = {
         },
       },
       legging: {
-        baseEntry: [ 'DEF'],
+        fixEntry: [ 'DEF'],
         extraEntry: [
           'STR','AGI','INT','STA','SPI','ALL','ATK','AP','DEF','MR','BLOCK','HP','MP',
         ],
@@ -1334,7 +1323,7 @@ export const equipConfig = {
         },
       },
       necklace: {
-        baseEntry: [ 'MR'],
+        fixEntry: [ 'MR'],
         extraEntry: [
           'STR','AGI','INT','STA','SPI','ALL','ATK','AP','DEF','MR','BLOCK','HP','MP',
         ],
@@ -1440,6 +1429,30 @@ export const equipConfig = {
             },
           ]
         },
+      },
+      unique: {
+        inv_sword_05: {
+          itemType: 'weapon',
+          lv: 10, qualityIndex: 3, enhanceLv: 5,
+          description: {
+            name: '轻灵佩剑', desc: '导师的离别赠礼',
+            iconSrc: "./icons/weapon/inv_sword_05.jpg",
+          },
+          baseEntry: [
+            'AGI'
+          ]
+        },
+        inv_wand_06: {
+          itemType: 'weapon',
+          lv: 10, qualityIndex: 3, enhanceLv: 5,
+          description: {
+            name: '魔术法杖', desc: '导师的离别赠礼',
+            iconSrc: "./icons/weapon/inv_wand_06.jpg",
+          },
+          baseEntry: [
+            'INT'
+          ]
+        }
       },
     }
   },

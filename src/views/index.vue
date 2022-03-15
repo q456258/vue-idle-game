@@ -399,17 +399,25 @@ export default {
       let mapEvent = this.findComponentDownward(this, 'mapEvent'); 
       mapEvent.toggleBattle(type);
     },
-    createMaps() {        
+    createMaps() {    
       let itemInfo = this.findComponentDownward(this, 'itemInfo');
       let count = 5;
       let type = 'advanture';
       this.mapArr = this.generateDungeonByZone(count, this.monsterZone[this.selectedZone]);
-      for(let map in this.mapArr) {
-        this.mapArr[map].reward = [];
-        for(let type in this.mapArr[map].rewardType) {
-          this.mapArr[map].reward.push([JSON.parse(itemInfo.createItem(this.mapArr[map].rewardType[type][0], 1, this.mapArr[map].lv)), this.mapArr[map].rewardType[type][1]]);
-        }
-      }
+      // let equipInfo = this.findComponentDownward(this, 'equipInfo');   
+      // for(let map in this.mapArr) {
+      //   this.mapArr[map].reward = [];
+      //   for(let type in this.mapArr[map].rewardType) {
+      //     let rewardInfo = this.mapArr[map].rewardType[type];
+      //     if(rewardInfo[0] == 'unique_equip') {
+      //       let newEquip = JSON.parse(equipInfo.createUniqueEquipTemplate(rewardInfo[1]));
+      //       this.mapArr[map].reward.push([newEquip,rewardInfo[2]]);
+      //     }
+      //     else
+      //       this.mapArr[map].reward.push([JSON.parse(itemInfo.createItem(rewardInfo[0], 1, this.mapArr[map].lv)), rewardInfo[1]]);
+      //   }
+      // }
+      this.actualReward(this.mapArr);
 
       this.dungeonInfo[type].level = -1;
       this.dungeonInfo[type].reward = 'None';
@@ -419,16 +427,26 @@ export default {
       this.dungeonInfo.current = type;
     },
     addToMap(type='advanture', lv, count=1, monsterID) {
-      let itemInfo = this.findComponentDownward(this, 'itemInfo');
       let newMaps = this.generateDungeonByID(count, this.monsterZone[this.selectedZone], monsterID);
-      for(let map in newMaps) {
-        newMaps[map].reward = [];
-        for(let type in newMaps[map].rewardType) {
-          newMaps[map].reward.push([JSON.parse(itemInfo.createItem(newMaps[map].rewardType[type][0], 1, newMaps[map].lv)), newMaps[map].rewardType[type][1]]);
-        }
-      }
+      this.actualReward(newMaps);
       this.mapArr = this.mapArr.concat(newMaps);
 
+    },
+    actualReward(mapArr) {
+      let equipInfo = this.findComponentDownward(this, 'equipInfo');   
+      let itemInfo = this.findComponentDownward(this, 'itemInfo');
+      for(let map in mapArr) {
+        mapArr[map].reward = [];
+        for(let type in mapArr[map].rewardType) {
+          let rewardInfo = mapArr[map].rewardType[type];
+          if(rewardInfo[0] == 'unique_equip') {
+            let newEquip = JSON.parse(equipInfo.createUniqueEquipTemplate(rewardInfo[1]));
+            mapArr[map].reward.push([newEquip,rewardInfo[2]]);
+          }
+          else
+            mapArr[map].reward.push([JSON.parse(itemInfo.createItem(rewardInfo[0], 1, mapArr[map].lv)), rewardInfo[1]]);
+        }
+      }
     },
     showInfo(e, type, item, compare) {
       this.compare = compare;
@@ -594,20 +612,18 @@ export default {
       this.autoHealthRecovery = setInterval(() => {
         let mapEvent = this.findComponentDownward(this, 'mapEvent');  
         let player = this.$store.state.playerAttribute;
-        let recover = 0.05;
+        let recover = 0.10;
         let talent = 'ability_hunter_harass';
         if(this.playerTalent[talent] > 0) {
           recover += this.playerTalent[talent]*0.01;
         }
-        let amount = this.attribute.MAXHP.value*recover+this.attribute.STA.value*5;
+        let amount = this.attribute.MAXHP.value*recover+this.attribute.STA.value;
         if(this.dungeonInfo.inBattle) {
           amount = this.attribute.STA.value;
-          // this.hpChange(player, player, {heal: Math.ceil(amount)});
           this.set_player_hp(Math.ceil(amount), player);
           return;
         }
         else {
-          // this.hpChange(player, player, {heal: Math.ceil(amount)});
           this.set_player_hp(Math.ceil(amount), player);
         }
         if(this.attribute.CURHP.value == this.attribute.MAXHP.value && this.dungeonInfo.auto) {
@@ -619,9 +635,9 @@ export default {
       }, 5000);
       this.autoManRecovery = setInterval(() => {
         let player = this.$store.state.playerAttribute;
-        let amount = this.attribute.MAXMP.value*0.05+this.attribute.SPI.value;
+        let amount = this.attribute.MAXMP.value*0.10+this.attribute.SPI.value;
         if(this.dungeonInfo.inBattle) {
-          amount = this.attribute.SPI.value/5;
+          amount = this.attribute.SPI.value;
           this.mpChange(player, player, Math.ceil(amount));
           return;
         }

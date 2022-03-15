@@ -482,9 +482,9 @@ export default new Vuex.Store({
                 
             ];
             let advancedAttr = {
-                STR: { DEF: 3, BLOCK: 0.5}, 
-                AGI: { ATK: 3, CRIT: 0.05}, 
-                INT: { AP: 5, APCRIT: 0.1}, 
+                STR: { DEF: 3, BLOCK: 1}, 
+                AGI: { ATK: 4, CRIT: 0.05}, 
+                INT: { AP: 4, APCRIT: 0.1}, 
                 STA: { HP: 10}, 
                 SPI: { MP: 4}, 
                 ALL: { VERS: 1}

@@ -181,14 +181,13 @@ export const spellEffect = {
             this.applyApCrit(source, dmgs, spell);
             // 最终伤害
             this.applyBonusFinalDmg(source, target, spell, dmgs);
-            
             let talent = 'ability_warrior_punishingblow';
             if(source.lv > target.lv && source.talent[talent] > 0) {
-                this.set_ad_dmg(dmgs, dmgs.adDmg+source.talent[talent]*10);
+                this.set_ad_dmg(dmgs, this.get_dmg(dmgs, 'ad')+source.talent[talent]*10);
             }
             talent = 'ability_defend';
             if(target.talent[talent] > 0) {
-                this.set_ad_dmg(dmgs, dmgs.adDmg+source.talent[talent]*5);
+                this.set_ad_dmg(dmgs, this.get_dmg(dmgs, 'ad')-source.talent[talent]*5);
             }
             this.triggerOnHit(source, target);
             talent = 'ability_revendreth_druid';

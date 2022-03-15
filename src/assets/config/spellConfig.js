@@ -657,11 +657,11 @@ data() {
                 level: [{
                         des: '造成攻击力*2点伤害',
                         adDmg: { ATK: 2, },
-                        cost: { MP: 15000, },
+                        cost: { MP: 500, },
                     }, {
                         des: '造成攻击力*2.5点伤害',
                         adDmg: { ATK: 2.5, },
-                        cost: { MP: 50000, },
+                        cost: { MP: 1000, },
                     }
                 ],
                 proficient: {

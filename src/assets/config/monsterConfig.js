@@ -19,13 +19,13 @@ export const monsterConfig = {
             },
             monsterZone: [
                 {name:'晴风村', minLv:0, maxLv:10, imgSrc: './icons/maps/fairbreezeValley.jpg', 
-                    monsterList: [0,1,2,3,4,5,2000,1000], probability: [5000,10000,10000,1000,1000,50,100,100000]},
+                    monsterList: [0,1,2,3,4,5], probability: [5000,10000,10000,1000,1000,50]},
                 {name:'洛克莫丹', minLv:11, maxLv:20, imgSrc: './icons/maps/LochModan.jpg',
-                    monsterList: [11,12,13,14,15,2000], probability: [10000,10000,1000,1000,50,100]},
+                    monsterList: [11,12,13,14,15,1000,2000], probability: [10000,10000,1000,1000,50,100,100]},
                 {name:'艾尔文森林', minLv:21, maxLv:30, imgSrc: './icons/maps/ElwynnForest.jpg',
-                    monsterList: [21,22,23,24,25,2000], probability: [10000,10000,1000,1000,50,100]},
+                    monsterList: [21,22,23,24,25,1000,2000], probability: [10000,10000,1000,1000,50,100,100]},
                 {name:'西部荒野', minLv:31, maxLv:40, imgSrc: './icons/maps/Westfall.jpg',
-                    monsterList: [31,32,33,34,35,2000], probability: [10000,10000,1000,1000,50,100]},
+                    monsterList: [31,32,33,34,35,1000,2000], probability: [10000,10000,1000,1000,50,100,100]},
                 {name:'千针石林', minLv:41, maxLv:50, imgSrc: './icons/maps/ThousandNeedles.jpg',
                     monsterList: [11,12,13,14,15,2000], probability: [10000,10000,1000,1000,50,100]},
                 {name:'灼热峡谷', minLv:51, maxLv:60, imgSrc: './icons/maps/SearingGorge.jpg',
@@ -71,7 +71,7 @@ export const monsterConfig = {
                     name: '训练假人精英', type: 'elite', minLv: 1, maxLv: 5,
                     spellCycle: ['attack'], talent: {},
                     template:{  
-                        MAXHP: 3000, ATK: 20, DEF: 5, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 800, ATK: 20, DEF: 20, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
@@ -79,15 +79,15 @@ export const monsterConfig = {
                     name: '高级训练假人精英', type: 'elite', minLv: 6, maxLv: 10,
                     spellCycle: ['attack'], talent: {},
                     template:{  
-                        MAXHP: 5000, ATK: 30, DEF: 5, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 1200, ATK: 30, DEF: 30, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
                 5: {
                     name: '导师', type: 'boss', minLv: 10, maxLv: 10,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack', 'spell_frost_frostbolt02'], talent: {},
                     template:{  
-                        MAXHP: 20000, ATK: 500, DEF: 20, BLOCK: 20, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 4000, ATK: 75, DEF: 20, BLOCK: 20, AP: 75, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
@@ -111,7 +111,7 @@ export const monsterConfig = {
                     name: '杂斑野猪精英', type: 'elite', minLv: 11, maxLv: 15,
                     spellCycle: ['attack'], talent: {},
                     template:{  
-                        MAXHP: 7000, ATK: 100, DEF: 150, BLOCK: 40, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 1500, ATK: 65, DEF: 150, BLOCK: 10, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 20, CRITDMG: 250, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
@@ -119,16 +119,16 @@ export const monsterConfig = {
                     name: '癞皮山猪精英', type: 'elite', minLv: 16, maxLv: 20,
                     spellCycle: ['attack'], talent: {},
                     template:{  
-                        MAXHP: 9000, ATK: 120, DEF: 500, BLOCK: 50, AP: 0, APCRIT: 0, APCRITDMG: 200, 
-                        CRIT: 20, CRITDMG: 300, HEAL: 0, APPEN: 0, MR: 0,
+                        MAXHP: 2000, ATK: 80, DEF: 250, BLOCK: 20, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        CRIT: 20, CRITDMG: 250, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
                 15: {
-                    name: '阿迦玛', type: 'boss', minLv: 2, maxLv: 20,
+                    name: '阿迦玛', type: 'boss', minLv: 20, maxLv: 20,
                     spellCycle: ['attack'], talent: {},
                     template:{  
-                        MAXHP: 300000, ATK: 500, DEF: 1000, BLOCK: 100, AP: 0, APCRIT: 0, APCRITDMG: 200, 
-                        CRIT: 30, CRITDMG: 300, HEAL: 0, APPEN: 0, MR: 0,
+                        MAXHP: 5000, ATK: 100, DEF: 500, BLOCK: 50, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        CRIT: 25, CRITDMG: 250, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
                 21: {
@@ -517,20 +517,20 @@ export const monsterConfig = {
                 2: [['random_equip_0', 20], ['bTNMGExchange', 20]],
                 3: [['random_equip_3', 20], ['bossTicket0', 20], ['inv_misc_coin_01', 20]],
                 4: [['random_equip_3', 20], ['bossTicket0', 20], ['inv_misc_coin_01', 20]],
-                5: [['random_equip_6', 20]],
-                11: [['random_equip_0', 20], ['bTNMGExchange', 20], ['inv_misc_gem_diamond_05', 20], ['inv_misc_enchantedpearla', 1]],
-                12: [['random_equip_0', 20], ['bTNMGExchange', 20], ['inv_misc_gem_diamond_05', 20], ['inv_misc_enchantedpearla', 1]],
-                13: [['random_equip_3', 20], ['inv_misc_gem_diamond_04', 25], ['inv_misc_coin_01', 20], ['inv_misc_note_06', 20], ['bossTicket1', 20], ['inv_misc_enchantedpearla', 1]],
-                14: [['random_equip_3', 20], ['inv_misc_gem_diamond_04', 25], ['inv_misc_coin_01', 20], ['inv_misc_note_06', 20], ['bossTicket1', 20], ['inv_misc_enchantedpearla', 1]],
+                5: [['random_equip_6', 20], ['unique_equip', 'inv_sword_05', 100], ['unique_equip', 'inv_wand_06', 100]],
+                11: [['random_equip_0', 20], ['bTNMGExchange', 20], ['inv_misc_gem_diamond_05', 10], ['inv_misc_enchantedpearla', 1]],
+                12: [['random_equip_0', 20], ['bTNMGExchange', 20], ['inv_misc_gem_diamond_05', 15], ['inv_misc_enchantedpearla', 1]],
+                13: [['random_equip_3', 20], ['inv_misc_gem_diamond_04', 15], ['inv_misc_coin_01', 20], ['inv_misc_note_06', 20], ['bossTicket1', 10], ['inv_misc_enchantedpearla', 1]],
+                14: [['random_equip_3', 20], ['inv_misc_gem_diamond_04', 20], ['inv_misc_coin_01', 20], ['inv_misc_note_06', 20], ['bossTicket1', 20], ['inv_misc_enchantedpearla', 1]],
                 15: [['random_equip_6', 20], ['inv_misc_gem_diamond_03', 50], ['inv_misc_coin_02', 20], ['inv_misc_enchantedpearla', 1]],
                 21: [['random_equip_0', 20], ['bTNMGExchange', 20], ['inv_misc_gem_diamond_05', 20], ['inv_misc_enchantedpearla', 1]],
-                22: [['random_equip_0', 20], ['bTNMGExchange', 20], ['inv_misc_gem_diamond_05', 20], ['inv_misc_enchantedpearla', 1]],
-                23: [['random_equip_3', 20], ['inv_misc_gem_diamond_04', 25], ['inv_misc_coin_01', 20], ['inv_misc_note_06', 20], ['bossTicket2', 20], ['inv_misc_enchantedpearla', 1]],
+                22: [['random_equip_0', 20], ['bTNMGExchange', 20], ['inv_misc_gem_diamond_05', 25], ['inv_misc_enchantedpearla', 1]],
+                23: [['random_equip_3', 20], ['inv_misc_gem_diamond_04', 25], ['inv_misc_coin_01', 20], ['inv_misc_note_06', 20], ['bossTicket2', 10], ['inv_misc_enchantedpearla', 1]],
                 24: [['random_equip_3', 20], ['inv_misc_gem_diamond_04', 25], ['inv_misc_coin_01', 20], ['inv_misc_note_06', 20], ['bossTicket2', 20], ['inv_misc_enchantedpearla', 1]],
                 25: [['random_equip_6', 20], ['inv_misc_gem_diamond_03', 50], ['inv_misc_coin_02', 20], ['inv_misc_enchantedpearla', 1]],
-                31: [['random_equip_0', 20], ['bTNMGExchange', 20], ['inv_misc_gem_diamond_05', 20], ['inv_misc_enchantedpearla', 1]],
-                32: [['random_equip_0', 20], ['bTNMGExchange', 20], ['inv_misc_gem_diamond_05', 20], ['inv_misc_enchantedpearla', 1]],
-                33: [['random_equip_3', 20], ['inv_misc_gem_diamond_04', 25], ['inv_misc_coin_01', 20], ['inv_misc_note_06', 20], ['bossTicket3', 20], ['inv_misc_enchantedpearla', 1]],
+                31: [['random_equip_0', 20], ['bTNMGExchange', 20], ['inv_misc_gem_diamond_05', 25], ['inv_misc_enchantedpearla', 1]],
+                32: [['random_equip_0', 20], ['bTNMGExchange', 20], ['inv_misc_gem_diamond_05', 25], ['inv_misc_enchantedpearla', 1]],
+                33: [['random_equip_3', 20], ['inv_misc_gem_diamond_04', 25], ['inv_misc_coin_01', 20], ['inv_misc_note_06', 20], ['bossTicket3', 10], ['inv_misc_enchantedpearla', 1]],
                 34: [['random_equip_3', 20], ['inv_misc_gem_diamond_04', 25], ['inv_misc_coin_01', 20], ['inv_misc_note_06', 20], ['bossTicket3', 20], ['inv_misc_enchantedpearla', 1]],
                 35: [['random_equip_6', 20], ['inv_misc_gem_diamond_03', 50], ['inv_misc_coin_02', 20], ['inv_misc_enchantedpearla', 1]],
                 1000: [['bTNMGExchange', 100]],

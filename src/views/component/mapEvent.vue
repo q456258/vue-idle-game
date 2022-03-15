@@ -22,10 +22,7 @@
             <div class="detail">
                 <div class="reward">
                     <div v-for="(v, k) in selectedDungeon.reward" :key="k">
-                        <div class="grid" v-if="v[0]" @mouseover="showInfo($event,v[0].itemType,v[0],true)" @mouseleave="closeInfo">
-                            <!-- <div class="icon" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v[0].quality.color }">
-                                <img :src="v[0].description.iconSrc" alt="" /> 
-                            </div>-->
+                        <div class="grid" v-if="v[0]" @mouseover="showInfo($event,v[0].itemType,v[0],true)" @mouseleave="closeInfo(v[0].itemType)">
                             <div class="mediumIconContainer">
                                 <del :class="[{grey:v[0].quality.qualityLv==1, green:v[0].quality.qualityLv==3, blue:v[0].quality.qualityLv==4, purple:v[0].quality.qualityLv==5, orange:v[0].quality.qualityLv==6}, 'mediumIcon iconBorder']"></del>
                                 <img :src="v[0].description.iconSrc" alt="" />
@@ -34,7 +31,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div>奖励: {{selectedDungeon.reward}}</div> -->
             </div>
             <div class="action" v-if="!inBattle&&selectedDungeon.count!=0">
                 <span v-if="selectedDungeon.type=='gold' || selectedDungeon.type=='mine'" >
@@ -391,12 +387,19 @@ export default {
             }
         },
         reward() {
+            let equip = ['helmet', 'weapon', 'armor', 'shoe', 'shoulder', 'glove', 'ring', 'cape', 'bracer', 'belt', 'legging', 'necklace'];
             let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            let equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];   
+            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];   
             let rewardList = this.dungeonInfo.advanture.reward;
             for(let k=0; k<rewardList.length; k++) {
                 let random = Math.random()*100;
                 if(random <= rewardList[k][1]) {
-                    itemInfo.addItem(rewardList[k][0]);
+                    let type = rewardList[k][0].itemType;
+                    if(equip.indexOf(type) != -1)
+                        backpack.giveEquip(JSON.parse(equipInfo.finishUniqueEquip(rewardList[k][0])));
+                    else
+                        itemInfo.addItem(rewardList[k][0]);
                 }
             }
             // let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
@@ -477,9 +480,14 @@ export default {
             let index = this.findComponentUpward(this, 'index');
             index.showInfo($event, type, item, compare);
         },
-        closeInfo() {
+        closeInfo(type) {
             let index = this.findComponentUpward(this, 'index');
-            index.closeInfo('item');
+            let equip = ['helmet', 'weapon', 'armor', 'shoe', 'shoulder', 'glove', 'ring', 'cape', 'bracer', 'belt', 'legging', 'necklace'];
+
+            if(equip.indexOf(type) != -1)
+                index.closeInfo('eqiup');
+            else
+                index.closeInfo('item');
         },
     }
 }

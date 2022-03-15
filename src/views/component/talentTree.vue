@@ -427,7 +427,7 @@ $border-size: 50px;
             filter: grayscale(100%);
         }
     }
-    .grid > div:hover .talent-tip {
+    .talentGrid > div:hover .talent-tip {
         visibility: visible;
     }
     .progress {

@@ -131,6 +131,32 @@ export default {
             newEquip.potential = newEquip.lv >= 30 ? this.createPotential(newEquip) : [];
             return JSON.stringify(newEquip);
         },
+        createUniqueEquipTemplate(name) {
+            let template = this.unique[name];
+            let newEquip = {};
+            let baseEntry = [];
+            newEquip.itemType = template.itemType;
+            newEquip.lvReq = template.lvReq || template.lv || 1;
+            newEquip.lv = template.lv || 1;
+            newEquip.quality = template.qualityIndex > -1 ? this.quality[template.qualityIndex] : this.createQuality(qualitySet);
+            newEquip.maxEnhanceLv = (newEquip.quality.qualityLv-1)*5;
+            newEquip.enhanceLv = Math.min(template.enhanceLv || 0, newEquip.maxEnhanceLv);
+            for(let i=0; i<template.baseEntry.length; i++)
+                baseEntry.push({type:template.baseEntry[i]});
+            newEquip.baseEntry = this.createBaseEntry(newEquip, baseEntry);
+            newEquip.extraBaseEntry = [];
+            newEquip.extraEntry = [];
+            newEquip.potential = [];
+            newEquip.description = this.$deepCopy(this.unique[name].description);
+            newEquip.description.type = this.type[newEquip.itemType];
+            return JSON.stringify(newEquip);
+        },
+        finishUniqueEquip(equip) {
+            equip.extraBaseEntry = [];
+            equip.extraEntry = this.createExtraEntry(equip);
+            equip.potential = equip.lv >= 30 ? this.createPotential(equip) : [];
+            return JSON.stringify(equip);
+        },
         // createLv(Max) {
         //     return parseInt(Math.random() * (Max || 39)) + 1;
         // },
@@ -149,27 +175,28 @@ export default {
             }
             return this.quality[quality];
         },
-        createBaseEntry(newEquip) {
-            let baseEntry = [];
+        createBaseEntry(newEquip, baseEntry=[]) {
             let fixEntry = [];
             let type = newEquip.itemType;
             let mod = this.equipMod[type];
             let index = 0;
-            let options = ['STR','AGI','INT','STA','SPI'];
-            let count = Math.random()>0.5 ? 1 : 2;
-            let ran = Math.floor(Math.random()*options.length);
-            baseEntry.push({type:options[ran]});
-            if(count == 2) {
-                options[ran] = options[options.length-1];
-                options.pop();
-                ran = Math.floor(Math.random()*options.length);
+            if(baseEntry.length == 0) {
+                let options = ['STR','AGI','INT','STA','SPI'];
+                let count = Math.random()>0.5 ? 1 : 2;
+                let ran = Math.floor(Math.random()*options.length);
                 baseEntry.push({type:options[ran]});
+                if(count == 2) {
+                    options[ran] = options[options.length-1];
+                    options.pop();
+                    ran = Math.floor(Math.random()*options.length);
+                    baseEntry.push({type:options[ran]});
+                }
             }
-            for(let i in this[type].baseEntry) {
+            for(let i in this[type].fixEntry) {
                 if(type == 'weapon' && (baseEntry[0].type == 'INT' || baseEntry[0].type == 'SPI'))
                     fixEntry.push({type:'AP'});
                 else
-                    fixEntry.push({type: this[type].baseEntry[i]});
+                    fixEntry.push({type: this[type].fixEntry[i]});
             }
 
             this.createBaseEntryValue(newEquip.quality.qualityCoefficient, fixEntry, 0, newEquip.lv, newEquip.enhanceLv, mod);
@@ -177,7 +204,7 @@ export default {
             this.createBaseEntryValue(newEquip.quality.qualityCoefficient, baseEntry, bonus, newEquip.lv, newEquip.enhanceLv, mod);
 
             index = Math.min(newEquip.quality.qualityLv-1, this[type].type[baseEntry[0].type].length-1);
-            newEquip.description = this[type].type[baseEntry[0].type][index];
+            newEquip.description = this.$deepCopy(this[type].type[baseEntry[0].type][index]);
             newEquip.description.type = this.type[newEquip.itemType];
             
             return fixEntry.concat(baseEntry);
@@ -453,6 +480,7 @@ export default {
     padding-bottom: 0.5rem;
     margin: 0rem 1rem;
     text-align: left;
+    font-size: 12px;
 }
 .largeIconContainer {
     left: 7px;
