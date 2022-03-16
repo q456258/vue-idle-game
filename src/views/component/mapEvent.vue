@@ -400,9 +400,9 @@ export default {
                 if(random <= rewardList[k][1]) {
                     let type = rewardList[k][0].itemType;
                     if(equip.indexOf(type) != -1)
-                        backpack.giveEquip(JSON.parse(equipInfo.finishUniqueEquip(rewardList[k][0])));
+                        backpack.giveEquip(JSON.parse(equipInfo.finishUniqueEquip(rewardList[k][0])), false, true);
                     else
-                        itemInfo.addItem(rewardList[k][0]);
+                        itemInfo.addItem(rewardList[k][0], true);
                 }
             }
             // let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];

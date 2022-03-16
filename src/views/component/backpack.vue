@@ -284,14 +284,8 @@ export default {
             let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
             let quantity = Math.ceil(equip.lv/10);
             let item = itemInfo.createItem(dust[equip.quality.qualityLv-2], quantity);  
-            itemInfo.addItem(JSON.parse(item));  
+            itemInfo.addItem(JSON.parse(item), true);  
             this.grid[index] = {};
-            this.$store.commit("set_sys_info", {
-                type: 'reward',
-                msg: '分解装备获得物品: ',
-                item: JSON.parse(item),
-                quantity: quantity
-            });
         },
         disintegrateByEquip(equip) {
             if(equip.quality.qualityLv < 2)
@@ -301,13 +295,7 @@ export default {
             let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
             let quantity = Math.ceil(equip.lv/10);
             let item = itemInfo.createItem(dust[equip.quality.qualityLv-2], quantity);  
-            itemInfo.addItem(JSON.parse(item));  
-            this.$store.commit("set_sys_info", {
-                type: 'reward',
-                msg: '分解装备获得物品: ',
-                item: JSON.parse(item),
-                quantity: quantity
-            });
+            itemInfo.addItem(JSON.parse(item), true);  
             return true;
         },
         useItemByIndex(e, k) {
@@ -382,7 +370,14 @@ export default {
         throwItem(grid) {
             grid=='use' ? this.$set(this.useGrid, this.currentItemIndex, {}) : this.$set(this.etcGrid, this.currentItemIndex, {});
         },
-        giveEquip(equip, auto=true) {
+        giveEquip(equip, auto=true, msg=false) {
+            if(msg) {
+                this.$store.commit("set_sys_info", {
+                    type: 'reward',
+                    msg: '获得战利品',
+                    equip: equip
+                });
+            }
             if(auto && this.autoSell[equip.quality.qualityLv-1]) {
                 if(this.sellPrio || !this.disintegrateByEquip(equip))
                     this.sellEquipmentByEquip(equip);

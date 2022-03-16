@@ -105,11 +105,19 @@ export default {
             }
             return total;
         },
-        addItem(item) {
+        addItem(item, msg=false) {
             let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
             let grid = item.use ? backpack.useGrid : backpack.etcGrid;
             let name = item.type;
             let stack = this.findItem(name, true);
+            if(msg) {
+                this.$store.commit("set_sys_info", {
+                    type: 'reward',
+                    msg: '获得物品 ',
+                    item: item,
+                    quantity: item.quantity
+                });
+            }
             if(this.itemType[item.type].autoUse) {
                 for(let i=0; i<item.quantity; i++) {
                     let used = backpack.useItem(item);

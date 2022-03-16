@@ -294,7 +294,7 @@ export default {
             }
             // 给予奖励
             for(let k=0; k<this.rewardList.length; k++) {
-                itemInfo.addItem(this.rewardList[k][0]);
+                itemInfo.addItem(this.rewardList[k][0], true);
             }
         }
     }
