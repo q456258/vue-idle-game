@@ -418,7 +418,7 @@
                         <div class="item">
                             <span class="smallIconContainer">
                                 <del class="grey smallIcon iconBorder"></del>
-                                <img src="/icons/stat/critDmg.jpg" alt="" />
+                                <img src="/icons/stat/critdmg.jpg" alt="" />
                             </span>
                             <span>{{attribute.CRITDMG.showValue}}</span>
                         </div>
