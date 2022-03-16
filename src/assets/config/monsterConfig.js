@@ -63,7 +63,7 @@ export const monsterConfig = {
                     name: '高级训练假人', type: 'normal', minLv: 6, maxLv: 10,
                     spellCycle: ['attack'], talent: {},
                     template:{  
-                        MAXHP: 400, ATK: 25, DEF: 7, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 600, ATK: 30, DEF: 7, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
@@ -71,7 +71,7 @@ export const monsterConfig = {
                     name: '训练假人精英', type: 'elite', minLv: 1, maxLv: 5,
                     spellCycle: ['attack'], talent: {},
                     template:{  
-                        MAXHP: 800, ATK: 20, DEF: 20, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 1000, ATK: 25, DEF: 20, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
@@ -79,7 +79,7 @@ export const monsterConfig = {
                     name: '高级训练假人精英', type: 'elite', minLv: 6, maxLv: 10,
                     spellCycle: ['attack'], talent: {},
                     template:{  
-                        MAXHP: 1200, ATK: 30, DEF: 30, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 1500, ATK: 40, DEF: 30, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
@@ -95,7 +95,7 @@ export const monsterConfig = {
                     name: '杂斑野猪', type: 'normal', minLv: 11, maxLv: 15,
                     spellCycle: ['attack'], talent: {},
                     template:{  
-                        MAXHP: 500, ATK: 35, DEF: 50, BLOCK: 5, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 800, ATK: 35, DEF: 50, BLOCK: 5, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 20, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
@@ -103,7 +103,7 @@ export const monsterConfig = {
                     name: '癞皮山猪', type: 'normal', minLv: 16, maxLv: 20,
                     spellCycle: ['attack'], talent: {},
                     template:{  
-                        MAXHP: 700, ATK: 45, DEF: 70, BLOCK: 15, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 1000, ATK: 45, DEF: 70, BLOCK: 15, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 20, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 

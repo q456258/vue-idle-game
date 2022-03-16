@@ -77,7 +77,7 @@ let initial_shoe = {
             qualityLv: 1
         },
         description: {
-            name: "村里最好的铠甲",
+            name: "村里最好的衣服",
             desc: "",
             type: "铠甲",
             iconSrc: "./icons/armor/inv_shirt_05.jpg",
@@ -96,7 +96,7 @@ let initial_shoe = {
         lv: 1,
         lvReq: 1,
         itemType: 'shoulder',
-        maxEnhanceLv: 0,
+        maxEnhanceLv: 0, 
         enhanceLv: 0,
         quality: {
             color: "#a1a1a1",
