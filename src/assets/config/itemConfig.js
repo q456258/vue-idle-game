@@ -471,7 +471,7 @@ export const itemConfig = {
                     cost: 99990000,
                     maxStack: 20
                 },
-                bTNMGExchange: {
+                btnmgexchange: {
                     quality: 1,
                     description: {
                         name: '少量金币',

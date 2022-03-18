@@ -33,7 +33,7 @@
                 <p class="info">* 每10级增加一个公会成员上限</p>
             </template>
         </cTooltip>   
-        <cTooltip :placement="'bottom'" v-if="guild.guild.lv>0">
+        <!-- <cTooltip :placement="'bottom'" v-if="guild.guild.lv>0">
             <template v-slot:content>
                 <a id="trainBtn" class='glowBtn' @click="switchTab($event, 'train')">练功房 {{guild.train.lv}}</a>
             </template>
@@ -61,7 +61,7 @@
                 <p class="info">* 每一级提升1点训练效果</p>
                 <p class="info">* 等级上限为中级练功房等级</p>
             </template>
-        </cTooltip>
+        </cTooltip> -->
         <cTooltip :placement="'bottom'" v-if="guild.guild.lv>0">
             <template v-slot:content>
                 <a id="shopBtn" class='glowBtn' @click="switchTab($event, 'shop')">商店 {{guild.shop.lv}}</a>

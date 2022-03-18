@@ -284,14 +284,8 @@ export default {
             let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
             let quantity = Math.ceil(equip.lv/10);
             let item = itemInfo.createItem(dust[equip.quality.qualityLv-2], quantity);  
-            itemInfo.addItem(JSON.parse(item));  
+            itemInfo.addItem(JSON.parse(item), true);  
             this.grid[index] = {};
-            this.$store.commit("set_sys_info", {
-                type: 'reward',
-                msg: '分解装备获得物品: ',
-                item: JSON.parse(item),
-                quantity: quantity
-            });
         },
         disintegrateByEquip(equip) {
             if(equip.quality.qualityLv < 2)
@@ -301,13 +295,7 @@ export default {
             let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
             let quantity = Math.ceil(equip.lv/10);
             let item = itemInfo.createItem(dust[equip.quality.qualityLv-2], quantity);  
-            itemInfo.addItem(JSON.parse(item));  
-            this.$store.commit("set_sys_info", {
-                type: 'reward',
-                msg: '分解装备获得物品: ',
-                item: JSON.parse(item),
-                quantity: quantity
-            });
+            itemInfo.addItem(JSON.parse(item), true);  
             return true;
         },
         useItemByIndex(e, k) {
@@ -382,7 +370,14 @@ export default {
         throwItem(grid) {
             grid=='use' ? this.$set(this.useGrid, this.currentItemIndex, {}) : this.$set(this.etcGrid, this.currentItemIndex, {});
         },
-        giveEquip(equip, auto=true) {
+        giveEquip(equip, auto=true, msg=false) {
+            if(msg) {
+                this.$store.commit("set_sys_info", {
+                    type: 'reward',
+                    msg: '获得战利品',
+                    equip: equip
+                });
+            }
             if(auto && this.autoSell[equip.quality.qualityLv-1]) {
                 if(this.sellPrio || !this.disintegrateByEquip(equip))
                     this.sellEquipmentByEquip(equip);
@@ -434,7 +429,7 @@ export default {
             this.sortLocked = !this.sortLocked;
         },
         sort() {
-            let type = ['头盔', '肩膀', '武器', '盔甲', '鞋子', '饰品'];
+            let type = ['头盔', '肩膀', '武器', '盔甲', '鞋子', '手部', '戒指', '背部', '手腕', '腰带', '腿部', '项链'];
             this.grid.sort((a, b) => {
                 if(a == b)
                     return 0;
@@ -444,14 +439,16 @@ export default {
                     return 1;
                 if(Object.keys(b).length == 0)
                     return -1;
-                if(a.quality.qualityLv != b.quality.qualityLv)
-                    return a.quality.qualityLv - b.quality.qualityLv;
-                if(a.lv != b.lv)
-                    return a.lv - b.lv;
-                if(a.enhanceLv != b.enhanceLv)
-                    return a.enhanceLv - b.enhanceLv;
                 if(type.indexOf(a.description.type) != type.indexOf(b.description.type))
                     return type.indexOf(a.description.type) - type.indexOf(b.description.type);
+                if(a.rating != b.rating)
+                    return a.rating - b.rating;
+                // if(a.quality.qualityLv != b.quality.qualityLv)
+                //     return a.quality.qualityLv - b.quality.qualityLv;
+                // if(a.lv != b.lv)
+                //     return a.lv - b.lv;
+                // if(a.enhanceLv != b.enhanceLv)
+                //     return a.enhanceLv - b.enhanceLv;
             });
             this.$forceUpdate();
         },

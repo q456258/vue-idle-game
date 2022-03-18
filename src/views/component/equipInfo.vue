@@ -76,6 +76,9 @@
             <div class="desc">
                 {{equip.description.desc}}
             </div>
+            <div class="equipRating" v-if="equip.rating">
+                评分: {{equip.rating}}
+            </div>
         </div>
     </div>
 </template>
@@ -129,6 +132,7 @@ export default {
             newEquip.extraBaseEntry = [];
             newEquip.extraEntry = this.createExtraEntry(newEquip);
             newEquip.potential = newEquip.lv >= 30 ? this.createPotential(newEquip) : [];
+            newEquip.rating = this.rating(newEquip);
             return JSON.stringify(newEquip);
         },
         createUniqueEquipTemplate(name) {
@@ -155,6 +159,7 @@ export default {
             equip.extraBaseEntry = [];
             equip.extraEntry = this.createExtraEntry(equip);
             equip.potential = equip.lv >= 30 ? this.createPotential(equip) : [];
+            equip.rating = this.rating(equip);
             return JSON.stringify(equip);
         },
         // createLv(Max) {
@@ -306,12 +311,14 @@ export default {
                     entry.showVal = '+' + entry.value;
                 }
             });
+            equip.rating = this.rating(equip);
         },
         activePotential(equip) {
             let potentials = equip.potential;
             potentials.forEach(potential => {
                 potential.active = equip.enhanceLv>=potential.requirement ? true : false
             });
+            equip.rating = this.rating(equip);
         },
         forgeEntry(equip, key) {
             let extraEntry = [];
@@ -342,6 +349,7 @@ export default {
                 entry.name = this.entryInfo[entry.type].name;
             })
 
+            equip.rating = this.rating(equip);
             this.$set(equip.extraEntry, key, extraEntry[0]);
         },
         forgeAll(equip) {
@@ -386,6 +394,7 @@ export default {
             equip.extraEntry.forEach(entry => {
                 this.createExtraEntryValue(entry, entry.quality/100, equip.lv, mod);
             });
+            equip.rating = this.rating(equip);
             this.$store.commit('set_player_attribute');
         },
         // 主属性固定了, 没百分比浮动
@@ -403,6 +412,21 @@ export default {
             this.$set(equip.potential, 1, equip2.potential[1]);
             this.$set(equip.potential, 2, equip2.potential[2]);
         },
+        rating(equip) {
+            let rating = 0;
+            let lines = [].concat(equip.baseEntry, equip.extraBaseEntry, equip.extraEntry);
+            // 基础属性、额外基础属性、额外属性
+            for(let i=0; i<lines.length; i++) {
+                rating += (1/this.entryInfo[lines[i].type].base) * lines[i].value;
+            }
+            // 潜能
+            for(let i=0; i<equip.potential.length; i++) {
+                if((i<3 && equip.enhanceLv >= (i+1)*3) || (i>=3 && equip.enhanceLv >= i*5)) {
+                    rating += (1/this.entryInfo[equip.potential[i].type].base) * equip.potential[i].value;
+                }
+            }
+            return Math.round(rating*10);
+        }
     },
 
 };
@@ -481,6 +505,13 @@ export default {
     margin: 0rem 1rem;
     text-align: left;
     font-size: 12px;
+}
+.equipRating {
+    color: rgb(255, 255, 255);
+    padding-bottom: 0.5rem;
+    margin: 0rem 1rem;
+    text-align: right;
+    font-size: 10px;
 }
 .largeIconContainer {
     left: 7px;

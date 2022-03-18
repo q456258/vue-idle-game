@@ -17,14 +17,14 @@ export const itemEffect = {
                 return used;
             }
             switch(type) {
-                case 'bTNMGExchange':
-                    used = this.randomGold(666, lv);
+                case 'btnmgexchange':
+                    used = this.randomGold(6, lv);
                     break;
                 case 'inv_misc_coin_01':
-                    used = this.randomGold(6666, lv);
+                    used = this.randomGold(66, lv);
                     break;
                 case 'inv_misc_coin_02':
-                    used = this.randomGold(66666, lv);
+                    used = this.randomGold(666, lv);
                     break;
                 case 'inv_misc_note_06':
                     used = this.inv_misc_note_06();
@@ -166,12 +166,12 @@ export const itemEffect = {
             let itemLv = lv || this.$store.state.playerAttribute.lv;
             let equip = equipInfo.createEquip(-1, itemLv, 'random', qualitySet);  
             equip = JSON.parse(equip);
-            this.$store.commit("set_sys_info", {
-                type: 'reward',
-                msg: '获得战利品',
-                equip: equip
-            });
-            backpack.giveEquip(equip);
+            // this.$store.commit("set_sys_info", {
+            //     type: 'reward',
+            //     msg: '获得战利品',
+            //     equip: equip
+            // });
+            backpack.giveEquip(equip, true, true);
             return true;
         },
         bossTicket(monsterID) {
