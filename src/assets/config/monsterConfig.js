@@ -27,9 +27,9 @@ export const monsterConfig = {
                 {name:'西部荒野', minLv:31, maxLv:40, imgSrc: './icons/maps/Westfall.jpg',
                     monsterList: [31,32,33,34,35,1000,2000], probability: [10000,10000,1000,1000,50,100,100]},
                 {name:'千针石林', minLv:41, maxLv:50, imgSrc: './icons/maps/ThousandNeedles.jpg',
-                    monsterList: [11,12,13,14,15,2000], probability: [10000,10000,1000,1000,50,100]},
+                    monsterList: [41,42,43,44,45,2000], probability: [10000,10000,1000,1000,50,100]},
                 {name:'灼热峡谷', minLv:51, maxLv:60, imgSrc: './icons/maps/SearingGorge.jpg',
-                    monsterList: [11,12,13,14,15,2000], probability: [10000,10000,1000,1000,50,100]},
+                    monsterList: [51,52,53,54,55,2000], probability: [10000,10000,1000,1000,50,100]},
                 {name:'秘蓝岛', minLv:61, maxLv:70, imgSrc: './icons/maps/AzuremystIsle.jpg',
                     monsterList: [11,12,13,14,15,2000], probability: [10000,10000,1000,1000,50,100]},
                 {name:'贫瘠之地', minLv:71, maxLv:80, imgSrc: './icons/maps/TheBarrens.jpg',
@@ -45,7 +45,7 @@ export const monsterConfig = {
             monster: {
                 0: {
                     name: '小鸡', type: 'normal', minLv: 0, maxLv: 0,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: 'chicken.png',
                     template: {  
                         MAXHP: 150, ATK: 15, DEF: 0, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200,  
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -53,7 +53,7 @@ export const monsterConfig = {
                 }, 
                 1: {
                     name: '训练假人', type: 'normal', minLv: 1, maxLv: 5,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: 'trainingDummy1.png',
                     template:{  
                         MAXHP: 250, ATK: 17, DEF: 5, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -61,7 +61,7 @@ export const monsterConfig = {
                 }, 
                 2:{
                     name: '高级训练假人', type: 'normal', minLv: 6, maxLv: 10,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: 'trainingDummy1.png',
                     template:{  
                         MAXHP: 600, ATK: 30, DEF: 7, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -69,7 +69,7 @@ export const monsterConfig = {
                 }, 
                 3: {
                     name: '训练假人精英', type: 'elite', minLv: 1, maxLv: 5,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: 'trainingDummy2.png',
                     template:{  
                         MAXHP: 1000, ATK: 25, DEF: 20, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -77,7 +77,7 @@ export const monsterConfig = {
                 }, 
                 4: {
                     name: '高级训练假人精英', type: 'elite', minLv: 6, maxLv: 10,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: 'trainingDummy2.png',
                     template:{  
                         MAXHP: 1500, ATK: 40, DEF: 30, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -85,7 +85,7 @@ export const monsterConfig = {
                 }, 
                 5: {
                     name: '导师', type: 'boss', minLv: 10, maxLv: 10,
-                    spellCycle: ['attack', 'spell_frost_frostbolt02'], talent: {},
+                    spellCycle: ['attack', 'spell_frost_frostbolt02'], talent: {}, anime: '',
                     template:{  
                         MAXHP: 4000, ATK: 75, DEF: 20, BLOCK: 20, AP: 75, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -93,7 +93,7 @@ export const monsterConfig = {
                 }, 
                 11: {
                     name: '杂斑野猪', type: 'normal', minLv: 11, maxLv: 15,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: 'mottledBoar1.png',
                     template:{  
                         MAXHP: 800, ATK: 35, DEF: 50, BLOCK: 5, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 20, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -101,7 +101,7 @@ export const monsterConfig = {
                 }, 
                 12: {
                     name: '癞皮山猪', type: 'normal', minLv: 16, maxLv: 20,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: 'mottledBoar1.png',
                     template:{  
                         MAXHP: 1000, ATK: 45, DEF: 70, BLOCK: 15, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 20, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -109,7 +109,7 @@ export const monsterConfig = {
                 }, 
                 13: {
                     name: '杂斑野猪精英', type: 'elite', minLv: 11, maxLv: 15,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: 'mottledBoar2.png',
                     template:{  
                         MAXHP: 1500, ATK: 65, DEF: 150, BLOCK: 10, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 20, CRITDMG: 250, HEAL: 0, APPEN: 0, MR: 0,
@@ -117,7 +117,7 @@ export const monsterConfig = {
                 }, 
                 14: {
                     name: '癞皮山猪精英', type: 'elite', minLv: 16, maxLv: 20,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: 'mottledBoar2.png',
                     template:{  
                         MAXHP: 2000, ATK: 80, DEF: 250, BLOCK: 20, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 20, CRITDMG: 250, HEAL: 0, APPEN: 0, MR: 0,
@@ -125,7 +125,7 @@ export const monsterConfig = {
                 }, 
                 15: {
                     name: '阿迦玛', type: 'boss', minLv: 20, maxLv: 20,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template:{  
                         MAXHP: 5000, ATK: 100, DEF: 500, BLOCK: 50, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 25, CRITDMG: 250, HEAL: 0, APPEN: 0, MR: 0,
@@ -133,7 +133,7 @@ export const monsterConfig = {
                 }, 
                 21: {
                     name: '狗头人矿工', type: 'normal', minLv: 21, maxLv: 25,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: 'kobold1.png',
                     template:{  
                         MAXHP: 2000, ATK: 70, DEF: 200, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -141,7 +141,7 @@ export const monsterConfig = {
                 }, 
                 22: {
                     name: '狗头人地卜师', type: 'normal', minLv: 26, maxLv: 30,
-                    spellCycle: ['spell_frost_frostbolt02'], talent: {},
+                    spellCycle: ['spell_frost_frostbolt02'], talent: {}, anime: 'kobold2.png',
                     template:{  
                         MAXHP: 2000, ATK: 50, DEF: 100, BLOCK: 0, AP: 100, APCRIT: 100, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -149,7 +149,7 @@ export const monsterConfig = {
                 }, 
                 23: {
                     name: '狗头人矿工精英', type: 'elite', minLv: 21, maxLv: 25,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: 'kobold1.png',
                     template:{  
                         MAXHP: 70, ATK: 10, DEF: 5, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -157,7 +157,7 @@ export const monsterConfig = {
                 }, 
                 24: {
                     name: '狗头人地卜师精英', type: 'elite', minLv: 26, maxLv: 30,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: 'kobold2.png',
                     template:{  
                         MAXHP: 70, ATK: 10, DEF: 5, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -165,7 +165,7 @@ export const monsterConfig = {
                 }, 
                 25: {
                     name: '金牙', type: 'boss', minLv: 30, maxLv: 30,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template:{  
                         MAXHP: 70, ATK: 10, DEF: 5, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -173,7 +173,7 @@ export const monsterConfig = {
                 }, 
                 31: {
                     name: '河爪豺狼人', type: 'normal', minLv: 31, maxLv: 36,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template:{  
                         MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -181,7 +181,7 @@ export const monsterConfig = {
                 }, 
                 32: {
                     name: '黑爪豺狼人', type: 'normal', minLv: 36, maxLv: 40,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template:{  
                         MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -189,7 +189,7 @@ export const monsterConfig = {
                 }, 
                 33: {
                     name: '河爪豺狼人精英', type: 'elite', minLv: 31, maxLv: 36,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template:{  
                         MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -197,7 +197,7 @@ export const monsterConfig = {
                 }, 
                 34: {
                     name: '黑爪豺狼人精英', type: 'elite', minLv: 36, maxLv: 40,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template:{  
                         MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -205,7 +205,7 @@ export const monsterConfig = {
                 }, 
                 35: {
                     name: '霍格', type: 'boss', minLv: 40, maxLv: 40,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template:{  
                         MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -213,23 +213,31 @@ export const monsterConfig = {
                 }, 
                 41: {
                     name: '盐壳龟', type: 'normal', minLv: 41, maxLv: 46,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template:{  
-                        MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 8000, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
                 42: {
                     name: '钳嘴龟', type: 'normal', minLv: 46, maxLv: 50,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template:{  
-                        MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 8000, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
                 43: {
                     name: '盐壳龟精英', type: 'elite', minLv: 41, maxLv: 46,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
+                    template:{  
+                        MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
+                    }
+                }, 
+                44: {
+                    name: '钳嘴龟精英', type: 'elite', minLv: 41, maxLv: 46,
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template:{  
                         MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -237,7 +245,7 @@ export const monsterConfig = {
                 }, 
                 45: {
                     name: '铁背龟', type: 'boss', minLv: 50, maxLv: 50,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template:{  
                         MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -245,7 +253,7 @@ export const monsterConfig = {
                 }, 
                 51: {
                     name: '灼热元素', type: 'normal', minLv: 51, maxLv: 55,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template:{  
                         MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -253,7 +261,7 @@ export const monsterConfig = {
                 }, 
                 52: {
                     name: '熔岩元素', type: 'normal', minLv: 56, maxLv: 60,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template: {  
                         MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -261,7 +269,7 @@ export const monsterConfig = {
                 }, 
                 53: {
                     name: '灼热元素精英', type: 'elite', minLv: 51, maxLv: 55,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template:{  
                         MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -269,7 +277,7 @@ export const monsterConfig = {
                 }, 
                 54: {
                     name: '熔岩元素精英', type: 'elite', minLv: 56, maxLv: 60,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template: {  
                         MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -277,7 +285,7 @@ export const monsterConfig = {
                 }, 
                 55: {
                     name: '地狱元素', type: 'boss', minLv: 60, maxLv: 60,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template: {  
                         MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -285,7 +293,7 @@ export const monsterConfig = {
                 }, 
                 61: {
                     name: '愤怒的鱼人', type: 'normal', minLv: 61, maxLv: 65,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template: {  
                         MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -293,7 +301,7 @@ export const monsterConfig = {
                 }, 
                 62: {
                     name: '沙鳞鱼人', type: 'normal', minLv: 66, maxLv: 70,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template: {  
                         MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -301,7 +309,7 @@ export const monsterConfig = {
                 }, 
                 63: {
                     name: '愤怒的鱼人精英', type: 'elite', minLv: 61, maxLv: 65,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template: {  
                         MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -309,7 +317,7 @@ export const monsterConfig = {
                 }, 
                 64: {
                     name: '沙鳞鱼人精英', type: 'elite', minLv: 66, maxLv: 70,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template: {  
                         MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -317,7 +325,7 @@ export const monsterConfig = {
                 }, 
                 65: {
                     name: '咕噜咕拉', type: 'boss', minLv: 70, maxLv: 70,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template: {  
                         MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -325,7 +333,7 @@ export const monsterConfig = {
                 }, 
                 71: {
                     name: '巫翼鹰身人', type: 'normal', minLv: 71, maxLv: 75,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template: {  
                         MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -333,7 +341,7 @@ export const monsterConfig = {
                 }, 
                 72: {
                     name: '巫翼游荡者', type: 'normal', minLv: 76, maxLv: 80,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template: {  
                         MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -341,7 +349,7 @@ export const monsterConfig = {
                 }, 
                 73: {
                     name: '巫翼鹰身人精英', type: 'elite', minLv: 71, maxLv: 75,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template: {  
                         MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -349,7 +357,7 @@ export const monsterConfig = {
                 }, 
                 74: {
                     name: '巫翼游荡者精英', type: 'elite', minLv: 76, maxLv: 80,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template: {  
                         MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -357,7 +365,7 @@ export const monsterConfig = {
                 }, 
                 75: {
                     name: '塞瑞娜·血羽', type: 'boss', minLv: 80, maxLv: 80,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template: {  
                         MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -365,7 +373,7 @@ export const monsterConfig = {
                 }, 
                 81: {
                     name: '火蜥蜴', type: 'normal', minLv: 81, maxLv: 85,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template: {  
                         MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -373,7 +381,7 @@ export const monsterConfig = {
                 }, 
                 82: {
                     name: '雷霆蜥蜴', type: 'normal', minLv: 86, maxLv: 90,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template: {  
                         MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -381,7 +389,7 @@ export const monsterConfig = {
                 }, 
                 83: {
                     name: '火蜥蜴精英', type: 'elite', minLv: 81, maxLv: 85,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template: {  
                         MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -389,7 +397,7 @@ export const monsterConfig = {
                 }, 
                 84: {
                     name: '雷霆蜥蜴精英', type: 'elite', minLv: 86, maxLv: 90,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template: {  
                         MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -397,7 +405,7 @@ export const monsterConfig = {
                 }, 
                 85: {
                     name: '科多兽', type: 'boss', minLv: 90, maxLv: 90,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template: {  
                         MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -405,7 +413,7 @@ export const monsterConfig = {
                 }, 
                 91: {
                     name: '黑熊', type: 'normal', minLv: 91, maxLv: 95,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template: {  
                         MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -413,7 +421,7 @@ export const monsterConfig = {
                 }, 
                 92: {
                     name: '冰爪熊', type: 'normal', minLv: 96, maxLv: 100,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template: {  
                         MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -421,7 +429,7 @@ export const monsterConfig = {
                 }, 
                 93: {
                     name: '黑熊精英', type: 'elite', minLv: 91, maxLv: 95,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template: {  
                         MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -429,7 +437,7 @@ export const monsterConfig = {
                 }, 
                 94: {
                     name: '冰爪熊精英', type: 'elite', minLv: 96, maxLv: 100,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template: {  
                         MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -437,7 +445,7 @@ export const monsterConfig = {
                 }, 
                 95: {
                     name: '维斯迦尔', type: 'boss', minLv: 100, maxLv: 100,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template: {  
                         MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -445,7 +453,7 @@ export const monsterConfig = {
                 }, 
                 101: {
                     name: '滑壳龙虾人', type: 'normal', minLv: 101, maxLv: 105,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template: {  
                         MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -453,7 +461,7 @@ export const monsterConfig = {
                 }, 
                 102: {
                     name: '巨壳甲壳蟹', type: 'normal', minLv: 106, maxLv: 110,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template: {  
                         MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -461,7 +469,7 @@ export const monsterConfig = {
                 }, 
                 103: {
                     name: '滑壳龙虾人精英', type: 'elite', minLv: 101, maxLv: 105,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template: {  
                         MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -469,7 +477,7 @@ export const monsterConfig = {
                 }, 
                 104: {
                     name: '巨壳甲壳蟹精英', type: 'elite', minLv: 106, maxLv: 110,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template: {  
                         MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -477,7 +485,7 @@ export const monsterConfig = {
                 }, 
                 105: {
                     name: '安戈雷尔', type: 'boss', minLv: 110, maxLv: 110,
-                    spellCycle: ['attack'], talent: {},
+                    spellCycle: ['attack'], talent: {}, anime: '',
                     template: {  
                         MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
@@ -513,27 +521,37 @@ export const monsterConfig = {
             },
             monsterReward: {
                 0: [['random_equip_10', 50]],
-                1: [['random_equip_0', 20], ['btnmgexchange', 20]],
-                2: [['random_equip_0', 20], ['btnmgexchange', 20]],
+                1: [['random_equip_0', 20], ['racial_dwarf_findtreasure', 20]],
+                2: [['random_equip_0', 20], ['racial_dwarf_findtreasure', 20]],
                 3: [['random_equip_3', 20], ['bossTicket0', 20], ['inv_misc_coin_01', 20]],
                 4: [['random_equip_3', 20], ['bossTicket0', 20], ['inv_misc_coin_01', 20]],
                 5: [['random_equip_6', 20], ['unique_equip', 'inv_sword_05', 100], ['unique_equip', 'inv_wand_06', 100]],
-                11: [['random_equip_0', 20], ['btnmgexchange', 20], ['inv_misc_gem_diamond_05', 10], ['inv_misc_enchantedpearla', 1]],
-                12: [['random_equip_0', 20], ['btnmgexchange', 20], ['inv_misc_gem_diamond_05', 15], ['inv_misc_enchantedpearla', 1]],
+                11: [['random_equip_0', 20], ['racial_dwarf_findtreasure', 20], ['inv_misc_gem_diamond_05', 10], ['inv_misc_enchantedpearla', 1]],
+                12: [['random_equip_0', 20], ['racial_dwarf_findtreasure', 20], ['inv_misc_gem_diamond_05', 15], ['inv_misc_enchantedpearla', 1]],
                 13: [['random_equip_3', 20], ['inv_misc_gem_diamond_04', 15], ['inv_misc_coin_01', 20], ['inv_misc_note_06', 20], ['bossTicket1', 10], ['inv_misc_enchantedpearla', 1]],
                 14: [['random_equip_3', 20], ['inv_misc_gem_diamond_04', 20], ['inv_misc_coin_01', 20], ['inv_misc_note_06', 20], ['bossTicket1', 20], ['inv_misc_enchantedpearla', 1]],
                 15: [['random_equip_6', 20], ['inv_misc_gem_diamond_03', 50], ['inv_misc_coin_02', 20], ['inv_misc_enchantedpearla', 1]],
-                21: [['random_equip_0', 20], ['btnmgexchange', 20], ['inv_misc_gem_diamond_05', 20], ['inv_misc_enchantedpearla', 1]],
-                22: [['random_equip_0', 20], ['btnmgexchange', 20], ['inv_misc_gem_diamond_05', 25], ['inv_misc_enchantedpearla', 1]],
+                21: [['random_equip_0', 20], ['racial_dwarf_findtreasure', 20], ['inv_misc_gem_diamond_05', 20], ['inv_misc_enchantedpearla', 1]],
+                22: [['random_equip_0', 20], ['racial_dwarf_findtreasure', 20], ['inv_misc_gem_diamond_05', 25], ['inv_misc_enchantedpearla', 1]],
                 23: [['random_equip_3', 20], ['inv_misc_gem_diamond_04', 25], ['inv_misc_coin_01', 20], ['inv_misc_note_06', 20], ['bossTicket2', 10], ['inv_misc_enchantedpearla', 1]],
                 24: [['random_equip_3', 20], ['inv_misc_gem_diamond_04', 25], ['inv_misc_coin_01', 20], ['inv_misc_note_06', 20], ['bossTicket2', 20], ['inv_misc_enchantedpearla', 1]],
                 25: [['random_equip_6', 20], ['inv_misc_gem_diamond_03', 50], ['inv_misc_coin_02', 20], ['inv_misc_enchantedpearla', 1]],
-                31: [['random_equip_0', 20], ['btnmgexchange', 20], ['inv_misc_gem_diamond_05', 25], ['inv_misc_enchantedpearla', 1]],
-                32: [['random_equip_0', 20], ['btnmgexchange', 20], ['inv_misc_gem_diamond_05', 25], ['inv_misc_enchantedpearla', 1]],
+                31: [['random_equip_0', 20], ['racial_dwarf_findtreasure', 20], ['inv_misc_gem_diamond_05', 25], ['inv_misc_enchantedpearla', 1]],
+                32: [['random_equip_0', 20], ['racial_dwarf_findtreasure', 20], ['inv_misc_gem_diamond_05', 25], ['inv_misc_enchantedpearla', 1]],
                 33: [['random_equip_3', 20], ['inv_misc_gem_diamond_04', 25], ['inv_misc_coin_01', 20], ['inv_misc_note_06', 20], ['bossTicket3', 10], ['inv_misc_enchantedpearla', 1]],
                 34: [['random_equip_3', 20], ['inv_misc_gem_diamond_04', 25], ['inv_misc_coin_01', 20], ['inv_misc_note_06', 20], ['bossTicket3', 20], ['inv_misc_enchantedpearla', 1]],
                 35: [['random_equip_6', 20], ['inv_misc_gem_diamond_03', 50], ['inv_misc_coin_02', 20], ['inv_misc_enchantedpearla', 1]],
-                1000: [['btnmgexchange', 100]],
+                41: [['random_equip_0', 20], ['racial_dwarf_findtreasure', 20], ['inv_misc_gem_diamond_05', 25], ['inv_misc_enchantedpearla', 1]],
+                42: [['random_equip_0', 20], ['racial_dwarf_findtreasure', 20], ['inv_misc_gem_diamond_05', 25], ['inv_misc_enchantedpearla', 1]],
+                43: [['random_equip_3', 20], ['inv_misc_gem_diamond_04', 25], ['inv_misc_coin_01', 20], ['inv_misc_note_06', 20], ['bossTicket3', 10], ['inv_misc_enchantedpearla', 1]],
+                44: [['random_equip_3', 20], ['inv_misc_gem_diamond_04', 25], ['inv_misc_coin_01', 20], ['inv_misc_note_06', 20], ['bossTicket3', 20], ['inv_misc_enchantedpearla', 1]],
+                45: [['random_equip_6', 20], ['inv_misc_gem_diamond_03', 50], ['inv_misc_coin_02', 20], ['inv_misc_enchantedpearla', 1]],
+                51: [['random_equip_0', 20], ['racial_dwarf_findtreasure', 20], ['inv_misc_gem_diamond_05', 25], ['inv_misc_enchantedpearla', 1]],
+                52: [['random_equip_0', 20], ['racial_dwarf_findtreasure', 20], ['inv_misc_gem_diamond_05', 25], ['inv_misc_enchantedpearla', 1]],
+                53: [['random_equip_3', 20], ['inv_misc_gem_diamond_04', 25], ['inv_misc_coin_01', 20], ['inv_misc_note_06', 20], ['bossTicket3', 10], ['inv_misc_enchantedpearla', 1]],
+                54: [['random_equip_3', 20], ['inv_misc_gem_diamond_04', 25], ['inv_misc_coin_01', 20], ['inv_misc_note_06', 20], ['bossTicket3', 20], ['inv_misc_enchantedpearla', 1]],
+                55: [['random_equip_6', 20], ['inv_misc_gem_diamond_03', 50], ['inv_misc_coin_02', 20], ['inv_misc_enchantedpearla', 1]],
+                1000: [['racial_dwarf_findtreasure', 100]],
                 1001: [['inv_ore_copper_01', 100]],
                 1001: [['inv_ore_tin_01', 100]],
                 2000: [['random_equip_5', 100], ['inv_misc_gem_diamond_02', 40]],

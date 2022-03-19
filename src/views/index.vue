@@ -68,7 +68,7 @@
     </div>
     
     <div class="map">
-      <enermyInfo :enermy="enermyInfo"></enermyInfo>
+      <enemyInfo :enemy="enemyInfo"></enemyInfo>
       <div class="zoneSelect">    
         <div class="zoneAction">    
           <button id="advanture" class="btn btn-light btn-sm lvZone" @click="switchZone('advanture')">
@@ -117,7 +117,7 @@
           <p class="info">* 保存/加载游戏</p>
         </template>
       </cTooltip>
-      <!-- <cTooltip :placement="'top'">
+      <cTooltip :placement="'top'">
         <template v-slot:content>
           <div class="menu" @click="openMenuPanel('setting')">
             <img src="../assets/icons/menu/setting1.png" alt="">
@@ -126,7 +126,7 @@
         <template v-slot:tip>
           <p class="info">* 设置</p>
         </template>
-      </cTooltip> -->
+      </cTooltip>
     </div>
     <div class="displayEquip" :style='itemDialogStyle'>
       <equipInfo :equip="equip" v-show="showEquipInfo"></equipInfo>
@@ -173,7 +173,7 @@ import achievement from './component/achievement';
 import statistic from './component/statistic';
 import saveload from './component/saveload';
 import setting from './component/setting';
-import enermyInfo from './component/enermyInfo';
+import enemyInfo from './component/enemyInfo';
 import { assist } from '../assets/js/assist';
 import { dungeon } from '../assets/js/dungeon';
 import { buffAndTrigger } from '../assets/js/buffAndTrigger';
@@ -196,7 +196,7 @@ export default {
       enhanceEquip: {},
       dungeonInfo: {},
       dungeon: {},
-      enermyInfo: 'advanture',
+      enemyInfo: 'advanture',
       equipEnhancePanel: false,
       equipForgePanel: false,
       equipPotentialPanel: false,
@@ -210,7 +210,7 @@ export default {
     }
   },
   components: {cTooltip, equipInfo, compareEquip, itemInfo, mapEvent, assist, backpack, equipEnhance, equipForge, equipPotential, 
-              charInfo, guild, guildMember, shop, talentTree, faq, achievement, statistic, saveload, setting, enermyInfo, currency},
+              charInfo, guild, guildMember, shop, talentTree, faq, achievement, statistic, saveload, setting, enemyInfo, currency},
   mounted() {    
     //读取本地存档
     let saveload = this.findComponentDownward(this, 'saveload');  
@@ -247,7 +247,7 @@ export default {
     //初始生成地图
     this.createMaps();
     //测试·随机装备
-    // let equipLv = 1;
+    // let equipLv = 40;
     // let equipQuality = 3;
     // let equipInfo = this.findComponentDownward(this, 'equipInfo');   
     // let newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'helmet'));
@@ -391,7 +391,7 @@ export default {
         element.classList.replace('btn-light', 'btn-outline-light');
         element = document.getElementById(type);
         element.classList.replace('btn-outline-light', 'btn-light');
-        // this.$store.commit('set_enermy_hp', 0);
+        // this.$store.commit('set_enemy_hp', 0);
         this.dungeonInfo.current = type;
       }
     },
@@ -547,13 +547,13 @@ export default {
     },
     choseDungeon(e, k) {
       if(!this.dungeonInfo.inBattle) {
-        if(this.mapArr[k] && !this.mapArr[k].selected && this.$store.state.enermyAttribute.attribute.CURHP.value != 0) {
+        if(this.mapArr[k] && !this.mapArr[k].selected && this.$store.state.enemyAttribute.attribute.CURHP.value != 0) {
           this.$message({
             message: '是否放弃当前正在挑战的副本? ',
             title: '更换副本',
             confirmBtnText: '更换',
             onClose: () => {
-              this.set_enermy_hp('dead');
+              this.set_enemy_hp('dead');
               this.confirmDungeon(k);
             }
           });
@@ -585,7 +585,7 @@ export default {
       this.dungeon = {};
       if(this.$store.state.dungeonInfo.inBattle)
         mapEvent.toggleBattle();
-      this.set_enermy_hp('dead');
+      this.set_enemy_hp('dead');
       this.createMaps();
       this.resetTime = 1;
       element.disabled = true;

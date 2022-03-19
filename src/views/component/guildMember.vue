@@ -206,10 +206,10 @@ export default {
             this.applicantList.push(applicant);
         },
         generateMemberId() {
-            let id = Math.round(Math.random()*90071992547);
+            let id = Math.floor(Math.random()*90071992547);
             let attemp = 0;
             while(this.findTargetByID(id).id != undefined || attemp>=10) {
-                id = Math.round(Math.random()*90071992547);
+                id = Math.floor(Math.random()*90071992547);
                 attemp++;
             }
             if(attemp>=10)

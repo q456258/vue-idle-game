@@ -142,7 +142,7 @@ export default {
                 let index = this.findComponentUpward(this, 'index');
                 this.$store.state.dungeonInfo.auto = false;
                 this.$store.state.dungeonInfo.inBattle = false;
-                this.$store.state.enermyAttribute.attribute.CURHP.value = 0;
+                this.$store.state.enemyAttribute.attribute.CURHP.value = 0;
                 index.sysInfo = this.$store.state.sysInfo;
                 index.battleInfo = this.$store.state.battleInfo;
                 index.dungeonInfo = this.$store.state.dungeonInfo;

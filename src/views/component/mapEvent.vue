@@ -1,6 +1,8 @@
 <template>
     <div class='mapEvent scrollbar-morpheus-den scrollbar-square'>
         <minesweeper :difficulty="mineDifficulty" :rewardList="mineReward"></minesweeper>
+        <battleAnime v-show="inBattle"></battleAnime>
+        <!-- <battleAnime></battleAnime> -->
         <div class="dungeonInfo" v-if="dungeon.type">
             <a href="#" class="close" @click="close()"></a>
             <div class="title">
@@ -72,15 +74,17 @@ import { monsterConfig } from '@/assets/config/monsterConfig'
 import { spellConfig } from '@/assets/config/spellConfig'
 import { buffConfig } from '@/assets/config/buffConfig'
 import minesweeper from '../component/minesweeper';
+import battleAnime from '../component/battleAnime';
 export default {
     name: 'mapEvent',
     mixins: [assist, spellEffect, buffAndTrigger, monsterConfig, spellConfig, buffConfig],
-    components: {minesweeper},
+    components: {minesweeper, battleAnime},
     props: {
     },
     data() {
         return {
             battleTimer: "",
+            battleID: 1,
             selectedDungeon: {},
             reqExp: [],
             type: {normal: '普通', elite: '精英', boss: 'BOSS', chest: '宝藏', gold: '矿物', mine: '矿物', herb: '草药'},
@@ -113,7 +117,7 @@ export default {
             if(auto)
                 this.autoBattle(true);
             if(this.dungeonInfo.inBattle) 
-                this.setBattleStatus(false, false);
+                this.setBattleStatus(false, false, true);
             else {
                 this.startBattle(type);
             }
@@ -129,35 +133,61 @@ export default {
         },
         battle(type) {
             let playerAttribute = this.playerAttr,
-                enermyAttribute = this.$store.state.enermyAttribute,
+                enemyAttribute = this.$store.state.enemyAttribute,
                 dungeonInfo = this.dungeonInfo;
-            if(enermyAttribute.attribute.CURHP.value == 0) {
-                this.generateEnermy();
-                enermyAttribute = this.$store.state.enermyAttribute;
+            if(enemyAttribute.attribute.CURHP.value == 0) {
+                this.generateenemy();
+                enemyAttribute = this.$store.state.enemyAttribute;
             }
             if(dungeonInfo.inBattle)
                 return;
-            this.setBattleStatus(true);
-            this.battleTimer = setInterval(() => {
-                if(this.playerAction(playerAttribute, enermyAttribute) != false)
-                    this.enermyAction(enermyAttribute, playerAttribute);
-            }, 1000)
+            this.setBattleStatus(true, true);
+            let currentBattle = Math.floor(Math.random()*90071992547);
+            this.battleID = currentBattle;
+            setTimeout(() => {
+                if(!this.dungeonInfo.inBattle || this.battleID != currentBattle) {
+                    return;
+                }
+                if(this.playerAction(playerAttribute, enemyAttribute, currentBattle) != false) {
+                    setTimeout(() => {
+                        this.enemyAction(enemyAttribute, playerAttribute, currentBattle);
+                    }, 1000);
+                }
+                clearInterval(this.battleTimer);
+                this.battleTimer = setInterval(() => {
+                    if(!this.dungeonInfo.inBattle || this.battleID != currentBattle) {
+                        clearInterval(this.battleTimer);
+                        return;
+                    }
+                    if(this.playerAction(playerAttribute, enemyAttribute, currentBattle) != false) {
+                        setTimeout(() => {
+                            this.enemyAction(enemyAttribute, playerAttribute, currentBattle);
+                        }, 1000);
+                    }
+                }, 2000)
+            }, 1000);
         },
-        playerAction(source, target) {
+        playerAction(source, target, battleID) {
             let dungeonInfo = this.dungeonInfo;
-            this.onAttack(source, target);
-            if(source.attribute.CURHP.value == 0)
+            if(!dungeonInfo.inBattle || this.battleID != battleID)
                 return false;
+            this.onAttack(source, target);
+            if(source.attribute.CURHP.value == 0 || target.attribute.CURHP.value == 0) {
+                this.setBattleStatus(false, dungeonInfo.auto);
+                return false;
+            }
             this.callAction(source, target);
             if(target.attribute.CURHP.value == 0) {
-                this.enermySlain(this.monsterId[target.name], 1);
+                this.enemySlain(this.monsterId[target.name], 1);
                 this.reward();
-                this.setBattleStatus(false, dungeonInfo.auto);
-                if(dungeonInfo.current == 'normal')
-                    this.generateEnermy();
+                this.setBattleStatus(false, dungeonInfo.auto, true);
+                // if(dungeonInfo.current == 'normal')
+                //     this.generateenemy();
                 if(this.selectedDungeon.count == 0)
                     dungeonInfo.auto = false;
                 this.gainExp(target.lv);
+                if(dungeonInfo.auto && !this.$store.state.setting.waitFull)
+                    this.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
                 this.$store.commit("set_battle_info", {
                     type: 'win',
                     msg: '战斗结束, 你胜利了'
@@ -166,12 +196,18 @@ export default {
             } 
             return true;
         },
-        enermyAction(source, target) {
+        enemyAction(source, target, battleID) {
+            if(!this.dungeonInfo.inBattle || this.battleID != battleID)
+                return false;
+            this.onAttack(source, target);
+            if(source.attribute.CURHP.value == 0 || target.attribute.CURHP.value == 0) {
+                return false;
+            }
             this.callAction(source, target);
             if(target.attribute.CURHP.value == 0) {
                 let achievement = this.findBrothersComponents(this, 'achievement', false)[0];
                 achievement.set_statistic({death: 1});
-                this.set_enermy_hp('dead');
+                this.set_enemy_hp('dead');
                 this.setBattleStatus(false, false);
                 this.$store.commit("set_battle_info", {
                     type: 'lose',
@@ -271,12 +307,24 @@ export default {
             else
                 this.dungeonInfo.auto = auto;
         },
-        setBattleStatus(inBattle, auto=true) {
-            this.dungeonInfo.inBattle = inBattle;
-            if(!inBattle) {
-                clearInterval(this.battleTimer);
-                this.autoBattle(auto);
-                this.set_enermy_hp('dead');
+        setBattleStatus(inBattle, auto=true, immediate=false) {
+            if(immediate || inBattle) {
+                this.dungeonInfo.inBattle = inBattle;
+                if(!inBattle) {
+                    clearInterval(this.battleTimer);
+                    this.autoBattle(auto);
+                    this.set_enemy_hp('dead');
+                }
+            }
+            else {
+                setTimeout(() => {
+                    this.dungeonInfo.inBattle = inBattle;
+                    if(!inBattle) {
+                        clearInterval(this.battleTimer);
+                        this.autoBattle(auto);
+                        this.set_enemy_hp('dead');
+                    }
+                }, 1000);
             }
         },
         addToQueue(dungeon) {
@@ -308,54 +356,54 @@ export default {
                 return;
             this.reward();
         },
-        generateEnermy(type, level, monsterID) {
+        generateenemy(type, level, monsterID) {
             if(!this.reduceCount())
                 return;
-            let enermyAttribute = {};
+            let enemyAttribute = {};
             if(!type)
                 type = this.dungeonInfo[this.dungeonInfo.current].type;
             if(!level)
                 level = this.dungeonInfo[this.dungeonInfo.current].level;
             if(!monsterID)
                 monsterID = this.dungeonInfo[this.dungeonInfo.current].monsterID;
-            enermyAttribute.attribute = {};
-            enermyAttribute.spellCycle = this.$deepCopy(this.monster[monsterID].spellCycle);
-            enermyAttribute.talent = this.$deepCopy(this.monster[monsterID].talent);
-            enermyAttribute.curSpell = 0;
+            enemyAttribute.attribute = {};
+            enemyAttribute.spellCycle = this.$deepCopy(this.monster[monsterID].spellCycle);
+            enemyAttribute.talent = this.$deepCopy(this.monster[monsterID].talent);
+            enemyAttribute.curSpell = 0;
             for(let stat in this.monster[monsterID].template) {
-                enermyAttribute.attribute[stat] = { value: this.monster[monsterID].template[stat] };
+                enemyAttribute.attribute[stat] = { value: this.monster[monsterID].template[stat] };
             }
-            let attribute = enermyAttribute.attribute,
+            let attribute = enemyAttribute.attribute,
             val = 0.0,
             flexStats = ['MAXHP', 'ATK', 'AP', 'DEF', 'MR'],
             lvStats = ['BLOCK', 'HEAL', 'APPEN'],
             percentStats = ['CRIT', 'CRITDMG', 'APCRIT', 'APCRITDMG']; 
-            enermyAttribute.lv = level;
+            enemyAttribute.lv = level;
             let flexLv = level - this.monster[monsterID].minLv;
-            enermyAttribute.type = type;
-            enermyAttribute.name = this.dungeonInfo[this.dungeonInfo.current].monsterName;
-            // enermyAttribute.spell = {};
+            enemyAttribute.type = type;
+            enemyAttribute.name = this.dungeonInfo[this.dungeonInfo.current].monsterName;
+            // enemyAttribute.spell = {};
             flexStats.forEach(stat => {
-                let attr = enermyAttribute.attribute[stat];
-                // attribute.value = Math.round(attribute.value*(1+enermyAttribute.lv*0.15)*(1+Math.random()/10));
-                // attribute.value = Math.round(attribute.value*(1+enermyAttribute.lv*0.15));
-                // attribute.value = Math.round(attribute.value*(1.5+enermyAttribute.lv*(enermyAttribute.lv-1)*(enermyAttribute.lv/50)));
-                // attr.value = Math.round(attr.value*(2+enermyAttribute.lv*(enermyAttribute.lv/35)*(0.9+Math.random()*0.2)));
+                let attr = enemyAttribute.attribute[stat];
+                // attribute.value = Math.round(attribute.value*(1+enemyAttribute.lv*0.15)*(1+Math.random()/10));
+                // attribute.value = Math.round(attribute.value*(1+enemyAttribute.lv*0.15));
+                // attribute.value = Math.round(attribute.value*(1.5+enemyAttribute.lv*(enemyAttribute.lv-1)*(enemyAttribute.lv/50)));
+                // attr.value = Math.round(attr.value*(2+enemyAttribute.lv*(enemyAttribute.lv/35)*(0.9+Math.random()*0.2)));
                 attr.value = Math.round(attr.value*(1+flexLv*(flexLv/75))*(0.9+Math.random()*0.2));
                 attr.showValue = attr.value;
-                enermyAttribute.attribute[stat] = attr;
+                enemyAttribute.attribute[stat] = attr;
             });
             lvStats.forEach(stat => {
-                let attr = enermyAttribute.attribute[stat];
+                let attr = enemyAttribute.attribute[stat];
                 attr.value = Math.round(attr.value*(1+flexLv/10));
                 attr.showValue = attr.value;
-                enermyAttribute.attribute[stat] = attr;
+                enemyAttribute.attribute[stat] = attr;
             });
             percentStats.forEach(stat => {
-                let attr = enermyAttribute.attribute[stat];
-                // attribute.value = Math.round(attribute.value*(enermyAttribute.lv));
+                let attr = enemyAttribute.attribute[stat];
+                // attribute.value = Math.round(attribute.value*(enemyAttribute.lv));
                 attr.showValue = attr.value + '%';
-                enermyAttribute.attribute[stat] = attr;
+                enemyAttribute.attribute[stat] = attr;
             });
             attribute['CURHP'] = {
                 value: attribute['MAXHP'].value,
@@ -372,7 +420,10 @@ export default {
                 value: val,
                 showValue: val+'%'
             }
-            this.$store.commit('set_enermy_attribute', enermyAttribute);
+            
+            let enemyPos = document.getElementById("enemyAnime");
+            enemyPos.style.backgroundImage = "url(/icons/character/"+this.monster[monsterID].anime+")";
+            this.$store.commit('set_enemy_attribute', enemyAttribute);
         },
         onAttack(source, target) {
             this.TriggerOnAttack(source, target);
@@ -408,7 +459,7 @@ export default {
             // let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
             // itemInfo.addItem(item);
         },
-        enermySlain(id, qty){
+        enemySlain(id, qty){
             let talentTree = this.findBrothersComponents(this, 'talentTree', false)[0];
             talentTree.talentTrigger('spell_deathknight_bloodpresence');
             talentTree.talentTrigger('spell_deathknight_frostpresence');
@@ -501,7 +552,7 @@ export default {
 <style lang="scss" scope>
 .mapEvent {
     overflow-y: auto;
-    max-height: 20rem;
+    height: calc(100% - 20rem);
 }
 .dungeonInfo {
     position: relative;

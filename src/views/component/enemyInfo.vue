@@ -1,6 +1,6 @@
 <template>
-<div class="enermy">{{attr.name+" (Lv:"+attr.lv+")"}}
-    <hpmpBar :vpMin="0" :vpNow="attr.attribute.CURHP.value" :vpMax="attr.attribute.MAXHP.value" :target="enermy" :type="'hp'"></hpmpBar>
+<div class="enemy">{{attr.name+" (Lv:"+attr.lv+")"}}
+    <hpmpBar :vpMin="0" :vpNow="attr.attribute.CURHP.value" :vpMax="attr.attribute.MAXHP.value" :target="enemy" :type="'hp'"></hpmpBar>
     <!-- <div class="buffList">
         <span class="buff" v-for="(v, k) in attr.buff" :key="k">{{attr}}
             <img :title="buffType.statusBuff[k].desc" :src="buffType.statusBuff[k].iconSrc" alt="">
@@ -120,11 +120,11 @@ import cTooltip from '../uiComponent/tooltip';
 import hpmpBar from '../uiComponent/hpmpBar';
 import {buffConfig} from '@/assets/config/buffConfig';
 export default {
-    name: "enermyInfo",
+    name: "enemyInfo",
     mixins: [buffConfig],
     components: {cTooltip, hpmpBar},
     props: {
-        enermy: {
+        enemy: {
             type: String
         }
     },
@@ -138,7 +138,7 @@ export default {
     },
     computed: {
         attr() {
-            return this.$store.state.enermyAttribute;
+            return this.$store.state.enemyAttribute;
         },
     },
     methods: {      
@@ -147,7 +147,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.enermy {
+.enemy {
     margin: 1rem 2rem;
 }
 .buffList {

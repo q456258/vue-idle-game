@@ -17,7 +17,7 @@ export const itemEffect = {
                 return used;
             }
             switch(type) {
-                case 'btnmgexchange':
+                case 'racial_dwarf_findtreasure':
                     used = this.randomGold(6, lv);
                     break;
                 case 'inv_misc_coin_01':
