@@ -117,7 +117,7 @@ export default {
             if(auto)
                 this.autoBattle(true);
             if(this.dungeonInfo.inBattle) 
-                this.setBattleStatus(false, false);
+                this.setBattleStatus(false, false, true);
             else {
                 this.startBattle(type);
             }
@@ -141,7 +141,7 @@ export default {
             }
             if(dungeonInfo.inBattle)
                 return;
-            this.setBattleStatus(true);
+            this.setBattleStatus(true, true);
             let currentBattle = Math.floor(Math.random()*90071992547);
             this.battleID = currentBattle;
             setTimeout(() => {
@@ -180,12 +180,14 @@ export default {
             if(target.attribute.CURHP.value == 0) {
                 this.enemySlain(this.monsterId[target.name], 1);
                 this.reward();
-                this.setBattleStatus(false, dungeonInfo.auto);
-                if(dungeonInfo.current == 'normal')
-                    this.generateenemy();
+                this.setBattleStatus(false, dungeonInfo.auto, true);
+                // if(dungeonInfo.current == 'normal')
+                //     this.generateenemy();
                 if(this.selectedDungeon.count == 0)
                     dungeonInfo.auto = false;
                 this.gainExp(target.lv);
+                if(dungeonInfo.auto && !this.$store.state.setting.waitFull)
+                    this.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
                 this.$store.commit("set_battle_info", {
                     type: 'win',
                     msg: '战斗结束, 你胜利了'
@@ -199,7 +201,6 @@ export default {
                 return false;
             this.onAttack(source, target);
             if(source.attribute.CURHP.value == 0 || target.attribute.CURHP.value == 0) {
-                this.setBattleStatus(false, this.dungeonInfo.auto);
                 return false;
             }
             this.callAction(source, target);
@@ -306,18 +307,25 @@ export default {
             else
                 this.dungeonInfo.auto = auto;
         },
-        setBattleStatus(inBattle, auto=true) {
-            let gap = 1000;
-            if(inBattle)
-                gap = 1;
-            setTimeout(() => {
+        setBattleStatus(inBattle, auto=true, immediate=false) {
+            if(immediate || inBattle) {
                 this.dungeonInfo.inBattle = inBattle;
                 if(!inBattle) {
                     clearInterval(this.battleTimer);
                     this.autoBattle(auto);
                     this.set_enemy_hp('dead');
                 }
-            }, gap);
+            }
+            else {
+                setTimeout(() => {
+                    this.dungeonInfo.inBattle = inBattle;
+                    if(!inBattle) {
+                        clearInterval(this.battleTimer);
+                        this.autoBattle(auto);
+                        this.set_enemy_hp('dead');
+                    }
+                }, 1000);
+            }
         },
         addToQueue(dungeon) {
             let guild = this.findBrothersComponents(this, 'guild', false)[0];
@@ -544,7 +552,7 @@ export default {
 <style lang="scss" scope>
 .mapEvent {
     overflow-y: auto;
-    max-height: 20rem;
+    height: calc(100% - 20rem);
 }
 .dungeonInfo {
     position: relative;

@@ -13,12 +13,12 @@
                 </div>
                 <div class="settings">
                     <div class="item">
-                        <!-- <div class="label">
-                            后台模式
+                        <div class="label">
+                            连续战斗等待满血
                         </div>
-                        <label class="switch"><input v-model="slowTick" type="checkbox">
+                        <label class="switch"><input v-model="waitFull" type="checkbox">
                         <div class="slider"></div>
-                        </label> -->
+                        </label>
                     </div>
                 </div>
             </div>
@@ -39,21 +39,29 @@ export default {
     data() {
         return {
             dragging: false,
+            waitFull: false
         };
     },
     mounted() {
     },
     watch: {
+        waitFull() {
+            this.changeWaitFull();
+        }
     },
     computed: {
     },
     methods: {
         readSetting() {
+            this.waitFull = this.$store.state.setting.waitFull== undefined ? false : this.$store.state.setting.waitFull;
         },
         closeSetting() {
             let index = this.findComponentUpward(this, 'index');
             index.closeMenuPanel('setting');
-        }
+        },
+        changeWaitFull() {
+            this.$store.state.setting.waitFull = this.waitFull;
+        },
     }
 }
 </script>

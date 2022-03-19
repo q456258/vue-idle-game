@@ -117,7 +117,7 @@
           <p class="info">* 保存/加载游戏</p>
         </template>
       </cTooltip>
-      <!-- <cTooltip :placement="'top'">
+      <cTooltip :placement="'top'">
         <template v-slot:content>
           <div class="menu" @click="openMenuPanel('setting')">
             <img src="../assets/icons/menu/setting1.png" alt="">
@@ -126,7 +126,7 @@
         <template v-slot:tip>
           <p class="info">* 设置</p>
         </template>
-      </cTooltip> -->
+      </cTooltip>
     </div>
     <div class="displayEquip" :style='itemDialogStyle'>
       <equipInfo :equip="equip" v-show="showEquipInfo"></equipInfo>

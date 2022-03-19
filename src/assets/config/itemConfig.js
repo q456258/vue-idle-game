@@ -471,13 +471,13 @@ export const itemConfig = {
                     cost: 99990000,
                     maxStack: 20
                 },
-                btnmgexchange: {
+                racial_dwarf_findtreasure: {
                     quality: 1,
                     description: {
                         name: '少量金币',
                         category: '消耗品',
                         desc: '获得少量金币',
-                        iconSrc: "./icons/item/btnmgexchange.jpg",
+                        iconSrc: "./icons/item/racial_dwarf_findtreasure.jpg",
                     },
                     autoUse: true,
                     use: true,
