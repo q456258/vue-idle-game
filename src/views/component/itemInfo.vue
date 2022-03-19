@@ -110,7 +110,7 @@ export default {
             let grid = item.use ? backpack.useGrid : backpack.etcGrid;
             let name = item.type;
             let stack = this.findItem(name, true);
-            if(msg) {
+            if(msg && !this.itemType[item.type].autoUse) {
                 this.$store.commit("set_sys_info", {
                     type: 'reward',
                     msg: '获得物品 ',

@@ -344,12 +344,15 @@ export const buffAndTrigger = {
                 this.heal(source, source, this.get_dmg(dmgs, 'heal'), sourceName);
         },
         damage(source, target, dmgs, sourceName) {
+            let mapEvent = this.findBrothersComponents(this, 'mapEvent', false)[0];
+            let battleAnime = this.findComponentDownward(mapEvent, "battleAnime");
             this.weak(source, dmgs);
             this.void(target, dmgs);
             this.minionSlayer(source, target, dmgs);
             let totalDmg = this.get_dmg(dmgs, 'ad')+this.get_dmg(dmgs, 'ap');
             let dmgType = '伤害';
             let dmgText = ' 0 ';
+            battleAnime.displayText(target.type, "dmg", {adDmg: dmgs.adDmg, apDmg: dmgs.apDmg});
             if(this.get_dmg(dmgs, 'ad') > 0) {
                 if(this.get_dmg(dmgs, 'ap') > 0) {
                     dmgText = '<span style="color:#ffffff"> '+(this.get_dmg(dmgs, 'ad')+this.get_dmg(dmgs, 'ap'))
@@ -366,7 +369,7 @@ export const buffAndTrigger = {
             if(target.type == 'player')
                 this.set_player_hp(-1*totalDmg, source);
             else
-                this.set_enermy_hp(-1*totalDmg, source);
+                this.set_enemy_hp(-1*totalDmg, source);
             if(sourceName != undefined) {
                 if(target.type == source.type) {
                     this.$store.commit("set_battle_info", {
@@ -384,10 +387,13 @@ export const buffAndTrigger = {
         },
         heal(source, target, heal, sourceName) {
             // this.triggerOnHeal(source, target)
+            let mapEvent = this.findBrothersComponents(this, 'mapEvent', false)[0];
+            let battleAnime = this.findComponentDownward(mapEvent, "battleAnime");
+            battleAnime.displayText(target.type, "dmg", {heal: dmgs.heal});
             if(target.type == 'player')
                 this.set_player_hp(heal, source);
             else
-                this.set_enermy_hp(heal);
+                this.set_enemy_hp(heal);
             if(sourceName != undefined) {
                 if(target.type == source.type) {
                     this.$store.commit("set_battle_info", {
@@ -498,9 +504,9 @@ export const buffAndTrigger = {
             this.$store.commit('set_hp', {data, CURHP, MAXHP});
             CURHP.showValue = CURHP.value;
         },
-        set_enermy_hp(data) {
+        set_enemy_hp(data) {
             let source = this.player;
-            let target = this.$store.state.enermyAttribute;
+            let target = this.$store.state.enemyAttribute;
             let CURHP = target.attribute.CURHP,
                 MAXHP = target.attribute.MAXHP;
             if(data < 0)

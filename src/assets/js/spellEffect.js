@@ -6,7 +6,7 @@ export const spellEffect = {
     methods: {
         getSpell(source, target) {
             if(source.type != 'player') {
-                return this.getEnermySpell(source);
+                return this.getenemySpell(source);
             }
             let selectSpell = 'attack';
             let keys = Object.keys(source.spells).reverse();
@@ -23,7 +23,7 @@ export const spellEffect = {
             }
             return 'attack';
         },
-        getEnermySpell(source) {
+        getenemySpell(source) {
             let spellCycle = source.spellCycle;
             let curSpell = source.curSpell;
             let spell = spellCycle[curSpell];
@@ -43,6 +43,14 @@ export const spellEffect = {
             this.callSpell(source, target, spell);
             if(source.type == 'player')
                 this.useCost(spell);
+            let mapEvent = this.findBrothersComponents(this, 'mapEvent', false)[0];
+            let battleAnime = this.findComponentDownward(mapEvent, "battleAnime");
+            if(source.type == 'player')
+                battleAnime.playerMove();
+            else
+                battleAnime.enemyMove();
+            if(this.spell[spell].max > 0)
+                battleAnime.displayText(source.type, "spell", this.spell[spell].name);
         },
         callSpell(source, target, spell) {
             switch(spell) {
@@ -92,6 +100,9 @@ export const spellEffect = {
             for(let cost in this.spell[spell].level[spellLv].cost) {
                 if(cost == 'MP') {
                     if(attr['CURMP'].value < this.spell[spell].level[spellLv].cost['MP']) {
+                        let mapEvent = this.findBrothersComponents(this, 'mapEvent', false)[0];
+                        let battleAnime = this.findComponentDownward(mapEvent, "battleAnime");
+                        battleAnime.displayText("player", "failSpell", this.spell[spell].name);
                         this.$store.commit("set_battle_info", {
                             html: '<span style="color:#ff0000">【'+this.spell[spell].name+'】释放失败</span>'
                         })
@@ -341,7 +352,7 @@ export const spellEffect = {
             talent = 'ability_warrior_decisivestrike';
             if(source.talent[talent] > 0) {
                 let chance = source.talent[talent]*1;
-                effectList['stun'] = {stack: 1, chance: chance, target: 'enermy'};
+                effectList['stun'] = {stack: 1, chance: chance, target: 'enemy'};
             }
             this.applyDmg(source, target, spell, dmgs);
             this.applyEffect(source, target, effectList);
@@ -354,7 +365,7 @@ export const spellEffect = {
             let talent = 'warrior_talent_icon_stormbolt';
             if(source.talent[talent] > 0) {
                 let chance = source.talent[talent]*10;
-                effectList['stun'] = {stack: 1, chance: chance, target: 'enermy'};
+                effectList['stun'] = {stack: 1, chance: chance, target: 'enemy'};
             }
             // 无坚不摧之力
             talent = 'warrior_talent_icon_thunderstruck';
@@ -379,7 +390,7 @@ export const spellEffect = {
             // 处刑
             let talent = 'ability_deathknight_deathchain';
             if(target.type != 'BOSS' && source.talent[talent] > 0 && hp_percent < source.talent[talent]*5) {
-                this.set_enermy_hp('dead');
+                this.set_enemy_hp('dead');
             } else {
                 // 斩杀
                 talent = 'ability_blackhand_marked4death';
@@ -400,14 +411,14 @@ export const spellEffect = {
             talent = 'inv_shield_05';
             if(source.talent[talent] > 0) {
                 let chance = source.talent[talent]*10;
-                effectList['stun'] = {stack: 1, chance: chance, target: 'enermy'};
+                effectList['stun'] = {stack: 1, chance: chance, target: 'enemy'};
             }
             // 惩罚
             talent = 'ability_deathknight_sanguinfortitude';
             if(source.talent[talent] > 0) {
                 dmg.adDmg = dmg.adDmg*(1+0.5*source.talent[talent]);
                 let stack = source.talent[talent]*1;
-                effectList['weak'] = {stack: stack, chance: 100, target: 'enermy'};
+                effectList['weak'] = {stack: stack, chance: 100, target: 'enemy'};
             }
             
             this.applyDmg(source, target, spell, dmg);
@@ -416,7 +427,9 @@ export const spellEffect = {
         // 剑刃风暴
         ability_whirlwind(source, target, spell, count=8) {
             if(count>0) {
-                this.ability_whirlwind(source, target, spell, count-1);
+                setTimeout(() => {
+                    this.ability_whirlwind(source, target, spell, count-1);
+                }, 100);
             }
             let buffList = Object.assign(source.buff, source.timedBuff);
             for(let buff in buffList) {

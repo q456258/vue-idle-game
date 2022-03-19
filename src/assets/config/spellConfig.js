@@ -86,19 +86,19 @@ data() {
                     //     deathImmune: {stack: 2, chance: 100, target: 'self'} ,
                     //     void: {stack: 2, chance: 100, target: 'self'} ,
                     //     absorb: {stack: 2, chance: 100, target: 'self'} ,
-                    //     stun: {stack: 2, chance: 100, target: 'enermy'} ,
-                    //     bleed: {stack: 2, chance: 100, target: 'enermy'} ,
-                    //     poison: {stack: 2, chance: 100, target: 'enermy'} ,
-                    //     weak: {stack: 2, chance: 100, target: 'enermy'}
+                    //     stun: {stack: 2, chance: 100, target: 'enemy'} ,
+                    //     bleed: {stack: 2, chance: 100, target: 'enemy'} ,
+                    //     poison: {stack: 2, chance: 100, target: 'enemy'} ,
+                    //     weak: {stack: 2, chance: 100, target: 'enemy'}
                     //     },
                     //     desc: '20%对敌人附加一层眩晕效果'
                     // },
                     10: {
-                        effect: { stun: {stack: 1, chance: 10, target: 'enermy'} },
+                        effect: { stun: {stack: 1, chance: 10, target: 'enemy'} },
                         desc: '10%对敌人附加一层眩晕效果'
                     },
                     100: {
-                        effect: { stun: {stack: 1, chance: 20, target: 'enermy'} },
+                        effect: { stun: {stack: 1, chance: 20, target: 'enemy'} },
                         desc: '20%对敌人附加一层眩晕效果'
                     }
                 },
@@ -112,7 +112,7 @@ data() {
                 level: [{
                         des: '造成攻击力*0.5点伤害, 对低于80%的目标造成额外攻击力*0.75点伤害',
                         adDmg: { ATK: 0.5},
-                        cost: { MP: 600, },
+                        cost: { MP: 200, },
                     },
                 ],
                 tag: []
@@ -125,7 +125,7 @@ data() {
                 level: [{
                         des: '造成8次5000+攻击力*0.5点伤害, 移除所有负面状态效果',
                         adDmg: { FIX: 5000, ATK: 0.5},
-                        cost: { MP: 600, },
+                        cost: { MP: 500, },
                     },
                 ],
                 tag: []
@@ -174,26 +174,26 @@ data() {
                 iconSrc: "./icons/spell/ability_warrior_shieldbash.jpg",
                 quality: 1,
                 level: [{
-                        des: '造成攻击力*0.5+护甲*4点伤害',
-                        adDmg: { ATK: 0.5, DEF: 4 },
-                        cost: { MP: 500, },
+                        des: '造成攻击力*0.5+护甲*1点伤害',
+                        adDmg: { ATK: 0.5, DEF: 1 },
+                        cost: { MP: 50, },
                     }, {
-                        des: '造成攻击力*0.5+护甲*5点伤害',
-                        adDmg: { ATK: 0.5, DEF: 5 },
-                        cost: { MP: 1200, },
+                        des: '造成攻击力*0.5+护甲*1.5点伤害',
+                        adDmg: { ATK: 0.5, DEF: 1.5 },
+                        cost: { MP: 100, },
                     }, {
-                        des: '造成攻击力*0.5+护甲*6点伤害',
-                        adDmg: { ATK: 0.5, DEF: 6 },
-                        cost: { MP: 2500, },
+                        des: '造成攻击力*0.5+护甲*2点伤害',
+                        adDmg: { ATK: 0.5, DEF: 2 },
+                        cost: { MP: 150, },
                     }, {
-                        des: '造成攻击力*0.5+护甲*7点伤害',
-                        adDmg: { ATK: 0.5, DEF: 7 },
-                        cost: { MP: 5000, },
+                        des: '造成攻击力*0.5+护甲*2.5点伤害',
+                        adDmg: { ATK: 0.5, DEF: 2.5 },
+                        cost: { MP: 200, },
                     }
                 ],
                 proficient: {
                     10: {
-                        effect: { stun: {stack: 1, chance: 20, target: 'enermy'} },
+                        effect: { stun: {stack: 1, chance: 20, target: 'enemy'} },
                         desc: '20%对敌人附加一层眩晕效果'
                     },
                     50: {
@@ -201,7 +201,7 @@ data() {
                         desc: '20%获得一层格挡效果'
                     },
                     100: {
-                        effect: { stun: {stack: 1, chance: 40, target: 'enermy'} },
+                        effect: { stun: {stack: 1, chance: 40, target: 'enemy'} },
                         desc: '40%对敌人附加一层眩晕效果'
                     }
                 },
@@ -215,19 +215,19 @@ data() {
                 level: [{
                         des: '造成攻击*1+力量*3点伤害',
                         adDmg: { ATK:1, STR: 3 },
-                        cost: { MP: 500, },
+                        cost: { MP: 100, },
                     }, {
                         des: '造成攻击*1+力量*6点伤害',
                         adDmg: { ATK:1, STR: 6 },
-                        cost: { MP: 1500, },
+                        cost: { MP: 150, },
                     }, {
                         des: '造成攻击*1+力量*9点伤害',
                         adDmg: { ATK:1, STR: 9 },
-                        cost: { MP: 5000, },
+                        cost: { MP: 200, },
                     }, {
                         des: '造成攻击*1+力量*12点伤害',
                         adDmg: { ATK:1, STR: 12 },
-                        cost: { MP: 10000, },
+                        cost: { MP: 250, },
                     }
                 ],
                 proficient: {
@@ -250,15 +250,15 @@ data() {
                 level: [{
                         des: '造成攻击力*0.8+敏捷*10点伤害',
                         adDmg: { ATK:0.8, AGI: 10, },
-                        cost: { MP: 1750, },
+                        cost: { MP: 175, },
                     }, {
                         des: '造成攻击力*0.9+敏捷*12点伤害',
                         adDmg: { ATK:0.9, AGI: 12, },
-                        cost: { MP: 5000, },
+                        cost: { MP: 250, },
                     }, {
                         des: '造成攻击力*1+敏捷*15点伤害',
                         adDmg: { ATK:1, AGI: 15, },
-                        cost: { MP: 17500, },
+                        cost: { MP: 350, },
                     }
                 ],
                 proficient: {
@@ -279,23 +279,23 @@ data() {
                 iconSrc: "./icons/spell/spell_holy_renew.jpg",
                 quality: 1,
                 level: [{
-                        des: '恢复100000点生命值',
+                        des: '恢复1000点生命值',
                         adDmg: {},
                         ap: {},
-                        heal: { FIX: 100000 },
-                        cost: { MP: 1500, },
+                        heal: { FIX: 1000 },
+                        cost: { MP: 50, },
                     }, {
-                        des: '恢复300000点生命值',
+                        des: '恢复3000点生命值',
                         adDmg: {},
                         ap: {},
-                        heal: { FIX: 300000 },
-                        cost: { MP: 4000, },
+                        heal: { FIX: 3000 },
+                        cost: { MP: 75, },
                     }, {
-                        des: '恢复600000点生命值',
+                        des: '恢复6000点生命值',
                         adDmg: {},
                         ap: {},
-                        heal: { FIX: 600000 },
-                        cost: { MP: 9000, },
+                        heal: { FIX: 6000 },
+                        cost: { MP: 100, },
                     }
                 ],
                 proficient: {
@@ -345,13 +345,13 @@ data() {
                 level: [{
                         des: '造成攻击力*1点伤害, 30%获得一层穿透效果',
                         adDmg: { ATK: 1 },
-                        cost: { MP: 1000, },
+                        cost: { MP: 100, },
                         effect: { penetrate: {stack: 1, chance: 30, target: 'self'} },
                     }, {
                         des: '造成攻击力*1.2点伤害, 30%获得一层穿透效果',
                         adDmg: { ATK: 1.2 },
                         effect: { penetrate: {stack: 1, chance: 30, target: 'self'} },
-                        cost: { MP: 3000, },
+                        cost: { MP: 300, },
                     }
                 ],
                 proficient: {
@@ -372,29 +372,29 @@ data() {
                 iconSrc: "./icons/spell/spell_holy_holybolt.jpg",
                 quality: 2,
                 level: [{
-                        des: '恢复自身10000+10%最大生命值',
+                        des: '恢复自身1000+10%最大生命值',
                         adDmg: {},
                         ap: {},
-                        heal: { FIX: 10000, MAXHP: 0.1 },
-                        cost: { MP: 800, },
+                        heal: { FIX: 1000, MAXHP: 0.1 },
+                        cost: { MP: 100, },
                     }, {
-                        des: '恢复自身40000+12%最大生命值',
+                        des: '恢复自身2000+12%最大生命值',
                         adDmg: {},
                         ap: {},
-                        heal: { FIX: 50000, MAXHP: 0.12 },
-                        cost: { MP: 2500, },
+                        heal: { FIX: 2000, MAXHP: 0.12 },
+                        cost: { MP: 200, },
                     }, {
-                        des: '恢复自身80000+15%最大生命值',
+                        des: '恢复自身3000+15%最大生命值',
                         adDmg: {},
                         ap: {},
-                        heal: { FIX: 80000, MAXHP: 0.15 },
-                        cost: { MP: 7000, },
+                        heal: { FIX: 3000, MAXHP: 0.15 },
+                        cost: { MP: 300, },
                     }, {
-                        des: '恢复自身200000+17%最大生命值',
+                        des: '恢复自身4000+17%最大生命值',
                         adDmg: {},
                         ap: {},
-                        heal: { FIX: 200000, MAXHP: 0.17 },
-                        cost: { MP: 10000, },
+                        heal: { FIX: 4000, MAXHP: 0.17 },
+                        cost: { MP: 400, },
                     }
                 ],
                 proficient: {
@@ -415,26 +415,26 @@ data() {
                 iconSrc: "./icons/spell/spell_nature_lightning.jpg",
                 quality: 2,
                 level: [{
-                        des: '造成5000+智力*10点伤害。',
+                        des: '造成50+智力*10点伤害。',
                         adDmg: { FIX: 5000, INT: 10, },
-                        cost: { MP: 5000, },
+                        cost: { MP: 50, },
                     }, {
-                        des: '造成30000+智力*12点伤害。',
+                        des: '造成300+智力*12点伤害。',
                         adDmg: { FIX: 30000, INT: 12, },
-                        cost: { MP: 15000, },
+                        cost: { MP: 150, },
                     }, {
-                        des: '造成100000+智力*15点伤害。',
-                        adDmg: { FIX: 100000, INT: 15, },
-                        cost: { MP: 45000, },
+                        des: '造成1000+智力*15点伤害。',
+                        adDmg: { FIX: 1000, INT: 15, },
+                        cost: { MP: 450, },
                     }
                 ],
                 proficient: {
                     10: {
-                        effect: { stun: {stack: 1, chance: 10, target: 'enermy'} },
+                        effect: { stun: {stack: 1, chance: 10, target: 'enemy'} },
                         desc: '10%对敌人附加一层眩晕效果'
                     },
                     100: {
-                        effect: { stun: {stack: 1, chance: 20, target: 'enermy'} },
+                        effect: { stun: {stack: 1, chance: 20, target: 'enemy'} },
                         desc: '20%对敌人附加一层眩晕效果'
                     }
                 },
@@ -484,13 +484,13 @@ data() {
                         adDmg: {},
                         ap: {},
                         effect: { void: {stack: 2, chance: 100, target: 'self'} },
-                        cost: { MP: 1000, },
+                        cost: { MP: 400, },
                     }, {
                         des: '获得三层虚无效果',
                         adDmg: {},
                         ap: {},
                         effect: { void: {stack: 3, chance: 100, target: 'self'} },
-                        cost: { MP: 10000, },
+                        cost: { MP: 1000, },
                     }
                 ],
                 proficient: {
@@ -538,13 +538,13 @@ data() {
                         adDmg: {},
                         ap: {},
                         effect: { manasteal: {stack: 2, chance: 100, target: 'self'} },
-                        cost: { MP: 500, },
+                        cost: { MP: 50, },
                     }, {
                         des: '获得三层吸蓝效果',
                         adDmg: {},
                         ap: {},
                         effect: { manasteal: {stack: 3, chance: 100, target: 'self'} },
-                        cost: { MP: 1000, },
+                        cost: { MP: 100, },
                     }
                 ],
                 proficient: {
@@ -560,26 +560,26 @@ data() {
                         des: '造成攻击力*0.8点伤害, 50%对敌人附加一层虚弱效果',
                         adDmg: { ATK: 0.8},
                         ap: {},
-                        effect: { weak: {stack: 1, chance: 50, target: 'enermy'} },
-                        cost: { MP: 1000, },
+                        effect: { weak: {stack: 1, chance: 50, target: 'enemy'} },
+                        cost: { MP: 100, },
                     }, {
                         des: '造成攻击力*0.9点伤害, 50%对敌人附加一层虚弱效果',
                         adDmg: { ATK: 0.9},
                         ap: {},
-                        effect: { weak: {stack: 1, chance: 50, target: 'enermy'} },
-                        cost: { MP: 2000, },
+                        effect: { weak: {stack: 1, chance: 50, target: 'enemy'} },
+                        cost: { MP: 200, },
                     }, {
                         des: '造成攻击力*1点伤害, 50%对敌人附加一层虚弱效果',
                         adDmg: { ATK: 1},
                         ap: {},
-                        effect: { weak: {stack: 1, chance: 50, target: 'enermy'} },
-                        cost: { MP: 3000, },
+                        effect: { weak: {stack: 1, chance: 50, target: 'enemy'} },
+                        cost: { MP: 300, },
                     }, {
                         des: '造成攻击力*1.1点伤害, 50%对敌人附加一层虚弱效果',
                         adDmg: { ATK: 1.1},
                         ap: {},
-                        effect: { weak: {stack: 1, chance: 50, target: 'enermy'} },
-                        cost: { MP: 4000, },
+                        effect: { weak: {stack: 1, chance: 50, target: 'enemy'} },
+                        cost: { MP: 400, },
                     }
                 ],
                 proficient: {
@@ -657,11 +657,11 @@ data() {
                 level: [{
                         des: '造成攻击力*2点伤害',
                         adDmg: { ATK: 2, },
-                        cost: { MP: 500, },
+                        cost: { MP: 200, },
                     }, {
                         des: '造成攻击力*2.5点伤害',
                         adDmg: { ATK: 2.5, },
-                        cost: { MP: 1000, },
+                        cost: { MP: 400, },
                     }
                 ],
                 proficient: {
@@ -709,12 +709,12 @@ data() {
                         des: '造成当前生命值*10点伤害, 50%获得一层吸收效果',
                         adDmg: {CURHP: 10},
                         effect: { absorb: {stack: 1, chance: 50, target: 'self'}},
-                        cost: { MP: 10000, },
+                        cost: { MP: 500, },
                     }, {
                         des: '造成当前生命值*10点伤害, 50%获得一层吸收效果',
                         adDmg: {CURHP: 10},
                         effect: { absorb: {stack: 1, chance: 50, target: 'self'}},
-                        cost: { MP: 100000, },
+                        cost: { MP: 1000, },
                     }
                 ],
                 proficient: {
@@ -730,22 +730,22 @@ data() {
                         des: '造成攻击力*1+敏捷*3点伤害, 50%获得一层穿透效果',
                         adDmg: { ATK: 1, AGI: 3},
                         effect: { penetrate: {stack: 1, chance: 50, target: 'self'}},
-                        cost: { MP: 1000, },
+                        cost: { MP: 100, },
                     }, {
                         des: '造成攻击力*1.1+敏捷*5点伤害, 50%获得一层穿透效果',
                         adDmg: { ATK: 1.1, AGI: 5},
                         effect: { penetrate: {stack: 1, chance: 50, target: 'self'}},
-                        cost: { MP: 2500, },
+                        cost: { MP: 200, },
                     }, {
                         des: '造成攻击力*1.2+敏捷*7点伤害, 50%获得一层穿透效果',
                         adDmg: { ATK: 1.2, AGI: 7},
                         effect: { penetrate: {stack: 1, chance: 50, target: 'self'}},
-                        cost: { MP: 5000, },
+                        cost: { MP: 300, },
                     }, {
                         des: '造成攻击力*1.3+敏捷*9点伤害, 50%获得一层穿透效果',
                         adDmg: { ATK: 1.3, AGI: 9},
                         effect: { penetrate: {stack: 1, chance: 50, target: 'self'}},
-                        cost: { MP: 8000, },
+                        cost: { MP: 400, },
                     }
                 ],
                 proficient: {
@@ -771,21 +771,21 @@ data() {
                         ap: {},
                         effect: { void: {stack: 1, chance: 100, target: 'self'},
                                 charge: {stack: 1, chance: 100, target: 'self'} },
-                        cost: { MP: 5000, },
+                        cost: { MP: 50, },
                     }, {
                         des: '获得两层虚无效果和一层蓄力效果',
                         adDmg: {},
                         ap: {},
                         effect: { void: {stack: 2, chance: 100, target: 'self'},
                                 charge: {stack: 1, chance: 100, target: 'self'} },
-                        cost: { MP: 10000, },
+                        cost: { MP: 100, },
                     }, {
                         des: '获得三层虚无效果和一层蓄力效果',
                         adDmg: {},
                         ap: {},
                         effect: { void: {stack: 3, chance: 100, target: 'self'},
                                 charge: {stack: 1, chance: 100, target: 'self'} },
-                        cost: { MP: 15000, },
+                        cost: { MP: 150, },
                     }
                 ],
                 proficient: {
@@ -831,15 +831,15 @@ data() {
                 level: [{
                         des: '造成攻击力*1点伤害, 50%对敌人附加一层眩晕效果, 并获得一层吸血效果',
                         adDmg: {ATK: 1},
-                        effect: { stun: {stack: 1, chance: 50, target: 'enermy'},
+                        effect: { stun: {stack: 1, chance: 50, target: 'enemy'},
                                 lifesteal: {stack: 1, chance: 100, target: 'self'} },
-                        cost: { MP: 2000, },
+                        cost: { MP: 200, },
                     }, {
                         des: '造成攻击力*1.5点伤害, 50%对敌人附加一层眩晕效果, 并获得一层吸血效果',
                         adDmg: {ATK: 1.5},
-                        effect: { stun: {stack: 1, chance: 50, target: 'enermy'},
+                        effect: { stun: {stack: 1, chance: 50, target: 'enemy'},
                                 lifesteal: {stack: 1, chance: 100, target: 'self'} },
-                        cost: { MP: 5000, },
+                        cost: { MP: 500, },
                     }
                 ],
                 proficient: {

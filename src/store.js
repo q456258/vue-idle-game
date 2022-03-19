@@ -271,7 +271,7 @@ export default new Vuex.Store({
             legging: initial_legging,
             necklace: {}
         },
-        enermyAttribute: {
+        enemyAttribute: {
             name: "小鸡",
             lv: 0,
             attribute: {
@@ -612,8 +612,8 @@ export default new Vuex.Store({
             }
             CURMP.showValue = CURMP.value;
         },
-        set_enermy_attribute(state, data) {
-            this.state.enermyAttribute = data;
+        set_enemy_attribute(state, data) {
+            this.state.enemyAttribute = data;
         },
         set_hp(state, data) {
             let CURHP = data.CURHP,
