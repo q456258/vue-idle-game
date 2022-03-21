@@ -48,7 +48,7 @@ data() {
                 level: [{
                         des: '造成法伤*1点伤害',
                         apDmg: { AP: 1, },
-                        cost: { MP: 20 },
+                        cost: { MP: 10 },
                     }
                 ],
                 tag: ['法伤']

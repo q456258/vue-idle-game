@@ -86,10 +86,10 @@ export const equipConfig = {
         STA: { base: 2.5, name: '耐力' }, 
         SPI: { base: 2.5, name: '精神' }, 
         ALL: { base: 0.8, name: '全属性'},
-        ATK: { base: 16, name: '攻击' }, 
+        ATK: { base: 12, name: '攻击' }, 
         DEF: { base: 4, name: '护甲' }, 
         BLOCK: { base: 2, name: '格挡' }, 
-        AP: { base: 16, name: '法伤' }, 
+        AP: { base: 14, name: '法伤' }, 
         APCRIT: { base: 2, name: '法术暴击' }, 
         APCRITDMG: { base: 5, name: '法暴伤害' }, 
         APPEN: { base: 2, name: '法术穿透' }, 
@@ -127,11 +127,11 @@ export const equipConfig = {
         ],
         type: {
           STR: [{
-              name: '板甲头盔', desc: '',
-              iconSrc: "./icons/helmet/inv_helmet_03.jpg",
+              name: '皮帽', desc: '',
+              iconSrc: "./icons/helmet/inv_helmet_04.jpg",
             },{
-              name: '君王板甲头盔', desc: '',
-              iconSrc: "./icons/helmet/inv_helmet_22.jpg",
+              name: '皮帽', desc: '',
+              iconSrc: "./icons/helmet/inv_helmet_04.jpg",
             },{
               name: '熔铸头盔', desc: '',
               iconSrc: "./icons/helmet/inv_helmet_08.jpg",
@@ -147,11 +147,11 @@ export const equipConfig = {
             },
           ],
           AGI: [{
-              name: '血污头巾', desc: '',
-              iconSrc: "./icons/helmet/inv_helmet_39.jpg",
+              name: '皮帽', desc: '',
+              iconSrc: "./icons/helmet/inv_helmet_04.jpg",
             },{
-              name: '夜空兜帽', desc: '',
-              iconSrc: "./icons/helmet/inv_helmet_30.jpg",
+              name: '皮帽', desc: '',
+              iconSrc: "./icons/helmet/inv_helmet_04.jpg",
             },{
               name: '刺绣训鹰兜帽', desc: '',
               iconSrc: "./icons/helmet/inv_helmet_137.jpg",
@@ -167,14 +167,14 @@ export const equipConfig = {
             },
           ],
           INT: [{
-              name: '巫术师兜帽', desc: '',
-              iconSrc: "./icons/helmet/inv_helmet_31.jpg",
+              name: '皮帽', desc: '',
+              iconSrc: "./icons/helmet/inv_helmet_04.jpg",
             },{
-              name: '冰息兜帽', desc: '',
-              iconSrc: "./icons/helmet/inv_helmet_136.jpg",
+              name: '皮帽', desc: '',
+              iconSrc: "./icons/helmet/inv_helmet_04.jpg",
             },{
-              name: '碎魂者兜帽', desc: '',
-              iconSrc: "./icons/helmet/inv_helm_cloth_revendreth_d_01.jpg",
+              name: '希望炽翼', desc: '',
+              iconSrc: "./icons/helmet/inv_helm_plate_raidpaladin_k_01.jpg",
             },{
               name: '永冬之冠', desc: '',
               iconSrc: "./icons/helmet/inv_helm_eternalwinter_d_01.jpg",
@@ -187,14 +187,14 @@ export const equipConfig = {
             },
           ],
           STA: [{
-              name: '强化皮帽', desc: '',
-              iconSrc: "./icons/helmet/inv_helmet_15.jpg",
-            },{
-              name: '噬骨皮帽', desc: '',
+              name: '皮帽', desc: '',
               iconSrc: "./icons/helmet/inv_helmet_04.jpg",
             },{
-              name: '勇士重盔', desc: '',
-              iconSrc: "./icons/helmet/inv_helm_plate_legiondungeon_c_03.jpg",
+              name: '皮帽', desc: '',
+              iconSrc: "./icons/helmet/inv_helmet_04.jpg",
+            },{
+              name: '熔铸头盔', desc: '',
+              iconSrc: "./icons/helmet/inv_helmet_08.jpg",
             },{
               name: '灵枝头冠', desc: '',
               iconSrc: "./icons/helmet/inv_helmet_leather_raiddruid_j_01.jpg",
@@ -207,11 +207,11 @@ export const equipConfig = {
             },
           ],
           SPI: [{
-              name: '水晶饰冠', desc: '',
-              iconSrc: "./icons/helmet/inv_crown_01.jpg",
+              name: '皮帽', desc: '',
+              iconSrc: "./icons/helmet/inv_helmet_04.jpg",
             },{
-              name: '蔑凋假面', desc: '',
-              iconSrc: "./icons/helmet/inv_helm_drustmask_d_01.jpg",
+              name: '皮帽', desc: '',
+              iconSrc: "./icons/helmet/inv_helmet_04.jpg",
             },{
               name: '希望炽翼', desc: '',
               iconSrc: "./icons/helmet/inv_helm_plate_raidpaladin_k_01.jpg",
@@ -235,11 +235,11 @@ export const equipConfig = {
         ],
         type: {
           STR: [{
-            name: '斩冰斧', desc: '',
-            iconSrc: "./icons/weapon/inv_throwingaxe_06.jpg",
+              name: '木锤', desc: '',
+              iconSrc: "./icons/weapon/inv_hammer_16.jpg",
             },{
-              name: '斩首之斧', desc: '',
-              iconSrc: "./icons/weapon/inv_throwingaxe_02.jpg",
+              name: '铁锤', desc: '',
+              iconSrc: "./icons/weapon/inv_hammer_10.jpg",
             },{
               name: '燃烧战斧', desc: '',
               iconSrc: "./icons/weapon/inv_axe_02.jpg",
@@ -277,8 +277,8 @@ export const equipConfig = {
             
           ],
           INT: [{
-            name: '橡木作战法杖', desc: '',
-            iconSrc: "./icons/weapon/inv_staff_08.jpg",
+              name: '无光魔杖', desc: '',
+              iconSrc: "./icons/weapon/inv_wand_07.jpg",
             },{
               name: '奥金尼法杖', desc: '',
               iconSrc: "./icons/weapon/inv_staff_14.jpg",
@@ -297,10 +297,10 @@ export const equipConfig = {
             },
           ],
           STA: [{
-              name: '有坚不摧之力', desc: '',
+              name: '木锤', desc: '',
               iconSrc: "./icons/weapon/inv_hammer_16.jpg",
             },{
-              name: '痛苦使者', desc: '',
+              name: '铁锤', desc: '',
               iconSrc: "./icons/weapon/inv_hammer_10.jpg",
             },{
               name: '护暮大锤', desc: '',
@@ -317,28 +317,22 @@ export const equipConfig = {
             },
           ],
           SPI: [{
-              name: '无光魔杖',
-              desc: '',
+              name: '无光魔杖', desc: '',
               iconSrc: "./icons/weapon/inv_wand_07.jpg",
             },{
-              name: '翡翠之心',
-              desc: '',
-              iconSrc: "./icons/weapon/inv_wand_02.jpg",
+              name: '奥金尼法杖', desc: '',
+              iconSrc: "./icons/weapon/inv_staff_14.jpg",
             },{
-              name: '冰怒魔杖',
-              desc: '',
+              name: '冰怒魔杖', desc: '',
               iconSrc: "./icons/weapon/inv_wand_05.jpg",
             },{
-              name: '废土魔杖',
-              desc: '',
+              name: '废土魔杖', desc: '',
               iconSrc: "./icons/weapon/inv_wand_09.jpg",
             },{
-              name: '冰冷魔杖',
-              desc: '',
+              name: '冰冷魔杖', desc: '',
               iconSrc: "./icons/weapon/inv_wand_01.jpg",
             },{
-              name: '创世权杖',
-              desc: '',
+              name: '创世权杖', desc: '',
               iconSrc: "./icons/weapon/inv_wand_29.jpg",
             },
           ]
@@ -351,14 +345,14 @@ export const equipConfig = {
         ],
         type: {
           STR: [{
-              name: '柳环锁甲', desc: '',
-              iconSrc: "./icons/armor/inv_chest_chain_16.jpg",
+              name: '软皮外套', desc: '',
+              iconSrc: "./icons/armor/inv_chest_leather_03.jpg",
+            },{
+              name: '软皮外套', desc: '',
+              iconSrc: "./icons/armor/inv_chest_leather_03.jpg",
             },{
               name: '裂心胸铠', desc: '',
               iconSrc: "./icons/armor/inv_chest_plate08.jpg",
-            },{
-              name: '战争领主胸甲', desc: '',
-              iconSrc: "./icons/armor/inv_plate_warriorclass_d_01chest.jpg",
             },{
               name: '猩红胸甲', desc: '',
               iconSrc: "./icons/armor/inv_chest_plate_revendreth_d_01.jpg",
@@ -374,11 +368,11 @@ export const equipConfig = {
               name: '软皮外套', desc: '',
               iconSrc: "./icons/armor/inv_chest_leather_03.jpg",
             },{
+              name: '软皮外套', desc: '',
+              iconSrc: "./icons/armor/inv_chest_leather_03.jpg",
+            },{
               name: '翡翠胸甲', desc: '',
               iconSrc: "./icons/armor/inv_chest_plate07.jpg",
-            },{
-              name: '圣物束缚者', desc: '',
-              iconSrc: "./icons/armor/inv_chest_mail_oribosdungeon_c_01.jpg",
             },{
               name: '溪行者胸甲', desc: '',
               iconSrc: "./icons/armor/inv_chest_mail_draenordungeon_c_01.jpg",
@@ -391,14 +385,14 @@ export const equipConfig = {
             },
           ],
           INT: [{
-              name: '原始长袍', desc: '',
-              iconSrc: "./icons/armor/inv_misc_cape_14.jpg",
+              name: '软皮外套', desc: '',
+              iconSrc: "./icons/armor/inv_chest_leather_03.jpg",
+            },{
+              name: '软皮外套', desc: '',
+              iconSrc: "./icons/armor/inv_chest_leather_03.jpg",
             },{
               name: '牧师之袍', desc: '',
               iconSrc: "./icons/armor/inv_chest_cloth_42.jpg",
-            },{
-              name: '影月长袍', desc: '',
-              iconSrc: "./icons/armor/inv_chest_cloth_shadowmoonclan_b_01.jpg",
             },{
               name: '奥术烈焰法衣', desc: '',
               iconSrc: "./icons/armor/inv_chest_cloth_71.jpg",
@@ -411,14 +405,14 @@ export const equipConfig = {
             },
           ],
           STA: [{
-              name: '轻型锁甲', desc: '',
-              iconSrc: "./icons/armor/inv_chest_chain.jpg",
+              name: '软皮外套', desc: '',
+              iconSrc: "./icons/armor/inv_chest_leather_03.jpg",
             },{
-              name: '圣日胸甲', desc: '',
-              iconSrc: "./icons/armor/inv_chest_plate02.jpg",
+              name: '软皮外套', desc: '',
+              iconSrc: "./icons/armor/inv_chest_leather_03.jpg",
             },{
-              name: '巨兽胸铠', desc: '',
-              iconSrc: "./icons/armor/inv_chest_plate_23.jpg",
+              name: '裂心胸铠', desc: '',
+              iconSrc: "./icons/armor/inv_chest_plate08.jpg",
             },{
               name: '熔火巨人', desc: '',
               iconSrc: "./icons/armor/inv_chest_plate_raidwarrior_j_01.jpg",
@@ -431,14 +425,14 @@ export const equipConfig = {
             },
           ],
           SPI: [{
-              name: '初学者长袍', desc: '',
-              iconSrc: "./icons/armor/inv_chest_cloth_13.jpg",
+              name: '软皮外套', desc: '',
+              iconSrc: "./icons/armor/inv_chest_leather_03.jpg",
             },{
-              name: '紫罗兰长袍', desc: '',
-              iconSrc: "./icons/armor/inv_chest_cloth_38.jpg",
+              name: '软皮外套', desc: '',
+              iconSrc: "./icons/armor/inv_chest_leather_03.jpg",
             },{
-              name: '罪光裹衣', desc: '',
-              iconSrc: "./icons/armor/inv_robe_cloth_oribosdungeon_c_01.jpg",
+              name: '牧师之袍', desc: '',
+              iconSrc: "./icons/armor/inv_chest_cloth_42.jpg",
             },{
               name: '皎月祭司法袍', desc: '',
               iconSrc: "./icons/armor/inv_chest_cloth_warfrontsnightelf_d_01.jpg",
@@ -459,11 +453,11 @@ export const equipConfig = {
         ],
         type: {
           STR: [{
-              name: '板甲战靴', desc: '',
-              iconSrc: "./icons/shoe/inv_plate_boot_warfrontshorde_b_01.jpg",
+              name: '布鞋', desc: '',
+              iconSrc: "./icons/shoe/inv_boots_01.jpg",
             },{
-              name: '长城胄靴', desc: '',
-              iconSrc: "./icons/shoe/inv_boot_plate_panda_b_01gold.jpg",
+              name: '布鞋', desc: '',
+              iconSrc: "./icons/shoe/inv_boots_01.jpg",
             },{
               name: '前线战靴', desc: '',
               iconSrc: "./icons/shoe/inv_boots_plate_20v1.jpg",
@@ -479,14 +473,14 @@ export const equipConfig = {
             },
           ],
           AGI: [{
-              name: '便鞋', desc: '',
-              iconSrc: "./icons/shoe/inv_boots_05.jpg",
+              name: '布鞋', desc: '',
+              iconSrc: "./icons/shoe/inv_boots_01.jpg",
             },{
-              name: '斥候便鞋', desc: '',
-              iconSrc: "./icons/shoe/inv_boots_plate_08.jpg",
+              name: '布鞋', desc: '',
+              iconSrc: "./icons/shoe/inv_boots_01.jpg",
             },{
-              name: '考察队皮靴', desc: '',
-              iconSrc: "./icons/shoe/inv_leather_warfrontsalliance_b_01_boot.jpg",
+              name: '游荡者的软鞋', desc: '',
+              iconSrc: "./icons/shoe/inv_boot_cloth_raidwarlock_q_01.jpg",
             },{
               name: '踏火之靴', desc: '',
               iconSrc: "./icons/shoe/inv_boots_leather_02.jpg",
@@ -499,11 +493,11 @@ export const equipConfig = {
             },
           ],
           INT: [{
-              name: '焦灼之靴', desc: '',
-              iconSrc: "./icons/shoe/inv_boots_cloth_01.jpg",
+              name: '布鞋', desc: '',
+              iconSrc: "./icons/shoe/inv_boots_01.jpg",
             },{
-              name: '侏儒施法靴', desc: '',
-              iconSrc: "./icons/shoe/inv_boots_plate_raidwarrior_n_01.jpg",
+              name: '布鞋', desc: '',
+              iconSrc: "./icons/shoe/inv_boots_01.jpg",
             },{
               name: '枯法者软鞋', desc: '',
               iconSrc: "./icons/shoe/inv_boot_cloth_legionendgame_c_01.jpg",
@@ -519,14 +513,14 @@ export const equipConfig = {
             },
           ],
           STA: [{
-              name: '棕色皮靴', desc: '',
-              iconSrc: "./icons/shoe/inv_boots_wolf.jpg",
+              name: '布鞋', desc: '',
+              iconSrc: "./icons/shoe/inv_boots_01.jpg",
             },{
-              name: '血铸马靴', desc: '',
-              iconSrc: "./icons/shoe/inv_boots_02.jpg",
+              name: '布鞋', desc: '',
+              iconSrc: "./icons/shoe/inv_boots_01.jpg",
             },{
-              name: '威武战靴', desc: '',
-              iconSrc: "./icons/shoe/inv_boots_plate_15.jpg",
+              name: '前线战靴', desc: '',
+              iconSrc: "./icons/shoe/inv_boots_plate_20v1.jpg",
             },{
               name: '越狱者战靴', desc: '',
               iconSrc: "./icons/shoe/inv_boot_plate_legionendgame_c_01.jpg",
@@ -539,23 +533,23 @@ export const equipConfig = {
             },
           ],
           SPI: [{
-              name: '侍僧鞋', desc: '',
+              name: '布鞋', desc: '',
               iconSrc: "./icons/shoe/inv_boots_01.jpg",
             },{
-              name: '灰烬行者', desc: '',
-              iconSrc: "./icons/shoe/inv_boots_plate_raidwarrior_n_01.jpg",
+              name: '布鞋', desc: '',
+              iconSrc: "./icons/shoe/inv_boots_01.jpg",
             },{
-              name: '孤寂路途', desc: '',
-              iconSrc: "./icons/shoe/inv_boots_cloth_35.jpg",
+              name: '枯法者软鞋', desc: '',
+              iconSrc: "./icons/shoe/inv_boot_cloth_legionendgame_c_01.jpg",
             },{
               name: '不谐守魂者', desc: '',
-              iconSrc: "./icons/shoe/inv_boots_plate_raidwarrior_n_01.jpg",
+              iconSrc: "./icons/shoe/inv_boot_cloth_bastion_d_01.jpg",
             },{
               name: '魔古重靴', desc: '',
-              iconSrc: "./icons/shoe/inv_boots_plate_raidwarrior_n_01.jpg",
+              iconSrc: "./icons/shoe/inv_boots_plate_raidpaladin_k_01.jpg",
             },{
-              name: '亡霜布履', desc: '',
-              iconSrc: "./icons/shoe/inv_boots_cloth_25.jpg",
+              name: '魔石战靴', desc: '',
+              iconSrc: "./icons/shoe/inv_boot_plate_raiddeathknight_q_01.jpg",
             },
           ]
         },
@@ -567,17 +561,17 @@ export const equipConfig = {
         ],
         type: {
           STR: [{
-              name: '铭文皮肩甲', desc: '',
-              iconSrc: "./icons/shoulder/inv_shoulder_08.jpg",
+              name: '衬肩', desc: '',
+              iconSrc: "./icons/shoulder/inv_shoulder_09.jpg",
             },{
-              name: '重击肩铠', desc: '',
-              iconSrc: "./icons/shoulder/inv_shoulder_plate_garrosh_d_01.jpg",
+              name: '衬肩', desc: '',
+              iconSrc: "./icons/shoulder/inv_shoulder_09.jpg",
             },{
-              name: '焰鬼肩饰', desc: '',
-              iconSrc: "./icons/shoulder/inv_shoulder_plate_garrosh_d_01.jpg",
+              name: '皮甲肩铠', desc: '',
+              iconSrc: "./icons/shoulder/inv_shoulder_07.jpg",
             },{
-              name: '刀鳍护肩', desc: '',
-              iconSrc: "./icons/shoulder/inv_shoulder_plate_garrosh_d_01.jpg",
+              name: '角斗士护肩', desc: '',
+              iconSrc: "./icons/shoulder/inv_shoulder_plate_raidpaladin_j_01.jpg",
             },{
               name: '獠牙肩甲', desc: '',
               iconSrc: "./icons/shoulder/inv_shoulder_plate_garrosh_d_01.jpg",
@@ -587,11 +581,11 @@ export const equipConfig = {
             },
           ],
           AGI: [{
-              name: '蝙蝠护肩', desc: '',
-              iconSrc: "./icons/shoulder/inv_shoulder_136v1.jpg",
+              name: '衬肩', desc: '',
+              iconSrc: "./icons/shoulder/inv_shoulder_09.jpg",
             },{
-              name: '驭雷肩饰', desc: '',
-              iconSrc: "./icons/shoulder/inv_shoulder_77.jpg",
+              name: '衬肩', desc: '',
+              iconSrc: "./icons/shoulder/inv_shoulder_09.jpg",
             },{
               name: '灭法者护肩', desc: '',
               iconSrc: "./icons/shoulder/inv_shoulder_cloth_legionendgame_c_01.jpg",
@@ -607,34 +601,34 @@ export const equipConfig = {
             },
           ],
           INT: [{
-              name: '寒冬衬肩', desc: '',
-              iconSrc: "./icons/shoulder/inv_shoulder_18.jpg",
+              name: '衬肩', desc: '',
+              iconSrc: "./icons/shoulder/inv_shoulder_09.jpg",
             },{
-              name: '灵枝批肩', desc: '',
-              iconSrc: "./icons/shoulder/inv_shoulder_32.jpg",
+              name: '衬肩', desc: '',
+              iconSrc: "./icons/shoulder/inv_shoulder_09.jpg",
             },{
-              name: '瀑流护肩', desc: '',
-              iconSrc: "./icons/shoulder/inv_shoulder_cloth_legionquest100_b_01.jpg",
+              name: '月光护肩', desc: '',
+              iconSrc: "./icons/shoulder/inv_shoulder_02.jpg",
             },{
               name: '静谧之途护肩', desc: '',
               iconSrc: "./icons/shoulder/inv_shoulder_leather_raidmonk_l_01.jpg",
             },{
-              name: '魔力风暴护肩', desc: '',
-              iconSrc: "./icons/shoulder/inv_shoulder_cloth_raidmage_r_01.jpg",
+              name: '午夜使徒', desc: '',
+              iconSrc: "./icons/shoulder/inv_shoulder_plate_raiddeathknight_q_01.jpg",
             },{
               name: '伊梵雅丽的枝桠', desc: '',
               iconSrc: "./icons/shoulder/inv_shoulder_leather_raiddruid_q_01.jpg",
             },
           ],
           STA: [{
-              name: '雷象皮护肩', desc: '',
-              iconSrc: "./icons/shoulder/inv_shoulder_25.jpg",
+              name: '衬肩', desc: '',
+              iconSrc: "./icons/shoulder/inv_shoulder_09.jpg",
             },{
-              name: '碎天者肩甲', desc: '',
-              iconSrc: "./icons/shoulder/inv_shoulder_23.jpg",
+              name: '衬肩', desc: '',
+              iconSrc: "./icons/shoulder/inv_shoulder_09.jpg",
             },{
-              name: '霜风护肩', desc: '',
-              iconSrc: "./icons/shoulder/inv_shoulder_robe_raidmage_j_01.jpg",
+              name: '皮甲肩铠', desc: '',
+              iconSrc: "./icons/shoulder/inv_shoulder_07.jpg",
             },{
               name: '巨石肩垫', desc: '',
               iconSrc: "./icons/shoulder/inv_shoulder_51.jpg",
@@ -647,28 +641,22 @@ export const equipConfig = {
             },
           ],
           SPI: [{
-              name: '先知衬肩',
-              desc: '',
+              name: '衬肩', desc: '',
               iconSrc: "./icons/shoulder/inv_shoulder_09.jpg",
             },{
-              name: '盐石护肩',
-              desc: '',
-              iconSrc: "./icons/shoulder/inv_shoulder_05.jpg",
+              name: '衬肩', desc: '',
+              iconSrc: "./icons/shoulder/inv_shoulder_09.jpg",
             },{
-              name: '月光护肩',
-              desc: '',
+              name: '月光护肩', desc: '',
               iconSrc: "./icons/shoulder/inv_shoulder_02.jpg",
             },{
-              name: '野性魔法肩甲',
-              desc: '',
+              name: '野性魔法肩甲', desc: '',
               iconSrc: "./icons/shoulder/inv_shoulder_33.jpg",
             },{
-              name: '冥界衬肩',
-              desc: '',
+              name: '冥界衬肩', desc: '',
               iconSrc: "./icons/shoulder/inv_shoulder_97.jpg",
             },{
-              name: '元素之缚肩甲',
-              desc: '',
+              name: '元素之缚', desc: '',
               iconSrc: "./icons/shoulder/inv_shoulder_mail_raidshaman_q_01.jpg",
             }
           ]
@@ -681,14 +669,14 @@ export const equipConfig = {
         ],
         type: {
           STR: [{
-              name: '崇高护手', desc: '',
-              iconSrc: "./icons/glove/inv_gauntlets_29.jpg",
+              name: '皮手套', desc: '',
+              iconSrc: "./icons/glove/inv_gauntlets_05.jpg",
             },{
-              name: '利爪卫士手套', desc: '',
-              iconSrc: "./icons/glove/inv_gauntlets_30.jpg",
+              name: '皮手套', desc: '',
+              iconSrc: "./icons/glove/inv_gauntlets_05.jpg",
             },{
-              name: '石碑手铠', desc: '',
-              iconSrc: "./icons/glove/inv_gauntlets_plate_cataclysm_b_02.jpg",
+              name: '龙皮手套', desc: '',
+              iconSrc: "./icons/glove/inv_gauntlets_06.jpg",
             },{
               name: '巨神护手', desc: '',
               iconSrc: "./icons/glove/inv_gauntlets_03.jpg",
@@ -701,11 +689,11 @@ export const equipConfig = {
             },
           ],
           AGI: [{
-              name: '刺皮手套', desc: '',
-              iconSrc: "./icons/glove/inv_gauntlets_21.jpg",
+              name: '皮手套', desc: '',
+              iconSrc: "./icons/glove/inv_gauntlets_05.jpg",
             },{
-              name: '枯皮手套', desc: '',
-              iconSrc: "./icons/glove/inv_gauntlets_18.jpg",
+              name: '皮手套', desc: '',
+              iconSrc: "./icons/glove/inv_gauntlets_05.jpg",
             },{
               name: '迷雾行者之握', desc: '',
               iconSrc: "./icons/glove/inv_glove_leather_vrykulhunter_b_01.jpg",
@@ -721,14 +709,14 @@ export const equipConfig = {
             },
           ],
           INT: [{
-              name: '虚灵手套', desc: '',
-              iconSrc: "./icons/glove/inv_gauntlets_23.jpg",
+              name: '皮手套', desc: '',
+              iconSrc: "./icons/glove/inv_gauntlets_05.jpg",
             },{
-              name: '巨龙火焰手套', desc: '',
-              iconSrc: "./icons/glove/inv_gauntlets_25.jpg",
+              name: '皮手套', desc: '',
+              iconSrc: "./icons/glove/inv_gauntlets_05.jpg",
             },{
-              name: '钴线手套', desc: '',
-              iconSrc: "./icons/glove/inv_gauntlets_118.jpg",
+              name: '黑石萨满的手甲', desc: '',
+              iconSrc: "./icons/glove/inv_gauntlets_109.jpg",
             },{
               name: '溪语者手套', desc: '',
               iconSrc: "./icons/glove/inv_gauntlets_50.jpg",
@@ -741,10 +729,10 @@ export const equipConfig = {
             },
           ],
           STA: [{
-              name: '灼丝裹手', desc: '',
-              iconSrc: "./icons/glove/inv_gauntlets_27.jpg",
+              name: '皮手套', desc: '',
+              iconSrc: "./icons/glove/inv_gauntlets_05.jpg",
             },{
-              name: '春雨之握', desc: '',
+              name: '皮手套', desc: '',
               iconSrc: "./icons/glove/inv_gauntlets_05.jpg",
             },{
               name: '龙皮手套', desc: '',
@@ -761,11 +749,11 @@ export const equipConfig = {
             },
           ],
           SPI: [{
-              name: '贤者手套', desc: '',
-              iconSrc: "./icons/glove/inv_gauntlets_16.jpg",
+              name: '皮手套', desc: '',
+              iconSrc: "./icons/glove/inv_gauntlets_05.jpg",
             },{
-              name: '狂热盲信护手', desc: '',
-              iconSrc: "./icons/glove/inv_gauntlets_116v1.jpg",
+              name: '皮手套', desc: '',
+              iconSrc: "./icons/glove/inv_gauntlets_05.jpg",
             },{
               name: '黑石萨满的手甲', desc: '',
               iconSrc: "./icons/glove/inv_gauntlets_109.jpg",
@@ -897,14 +885,14 @@ export const equipConfig = {
         ],
         type: {
           STR: [{
-              name: '野火披风', desc: '',
-              iconSrc: "./icons/cape/inv_misc_cape_18.jpg",
-            },{
-              name: '石拳披风', desc: '',
+              name: '披风', desc: '',
               iconSrc: "./icons/cape/inv_misc_cape_22.jpg",
             },{
-              name: '蓝翼防御者披风', desc: '',
-              iconSrc: "./icons/cape/inv_cape_leather_legiondungeon_c_01.jpg",
+              name: '披风', desc: '',
+              iconSrc: "./icons/cape/inv_misc_cape_22.jpg",
+            },{
+              name: '蛇鳞披风', desc: '',
+              iconSrc: "./icons/cape/inv_misc_monsterscales_03.jpg",
             },{
               name: '铁龟披风', desc: '',
               iconSrc: "./icons/cape/inv_misc_cape_naxxramas_02.jpg",
@@ -917,11 +905,11 @@ export const equipConfig = {
             },
           ],
           AGI: [{
-              name: '降落伞披风', desc: '',
-              iconSrc: "./icons/cape/inv_misc_cape_11.jpg",
+              name: '披风', desc: '',
+              iconSrc: "./icons/cape/inv_misc_cape_22.jpg",
             },{
-              name: '斥候披风', desc: '',
-              iconSrc: "./icons/cape/inv_misc_cape_02.jpg",
+              name: '披风', desc: '',
+              iconSrc: "./icons/cape/inv_misc_cape_22.jpg",
             },{
               name: '金都大氅', desc: '',
               iconSrc: "./icons/cape/inv_cape_cloth_zandalarquest_b_01.jpg",
@@ -937,14 +925,14 @@ export const equipConfig = {
             },
           ],
           INT: [{
-              name: '夜纹斗篷', desc: '',
-              iconSrc: "./icons/cape/inv_misc_cape_20.jpg",
+              name: '披风', desc: '',
+              iconSrc: "./icons/cape/inv_misc_cape_22.jpg",
             },{
-              name: '羊绒披风', desc: '',
-              iconSrc: "./icons/cape/inv_misc_cape_03.jpg",
+              name: '披风', desc: '',
+              iconSrc: "./icons/cape/inv_misc_cape_22.jpg",
             },{
-              name: '丝匠披风', desc: '',
-              iconSrc: "./icons/cape/inv_cape_pandaria_b_02.jpg",
+              name: '精灵披风', desc: '',
+              iconSrc: "./icons/cape/inv_chest_cloth_14.jpg",
             },{
               name: '冬脉斗披', desc: '',
               iconSrc: "./icons/cape/inv_cape_chest_ardenweald_d_01.jpg",
@@ -957,14 +945,14 @@ export const equipConfig = {
             },
           ],
           STA: [{
-              name: '血纹披风', desc: '',
-              iconSrc: "./icons/cape/inv_misc_cape_08.jpg",
+              name: '披风', desc: '',
+              iconSrc: "./icons/cape/inv_misc_cape_22.jpg",
+            },{
+              name: '披风', desc: '',
+              iconSrc: "./icons/cape/inv_misc_cape_22.jpg",
             },{
               name: '蛇鳞披风', desc: '',
               iconSrc: "./icons/cape/inv_misc_monsterscales_03.jpg",
-            },{
-              name: '雷霆图腾披风', desc: '',
-              iconSrc: "./icons/cape/inv_cape_legionquest100_b_01.jpg",
             },{
               name: '碎魂者披风', desc: '',
               iconSrc: "./icons/cape/ivn_cape_legionquest100_b_04.jpg",
@@ -977,14 +965,14 @@ export const equipConfig = {
             },
           ],
           SPI: [{
-              name: '先知斗篷', desc: '',
-              iconSrc: "./icons/cape/inv_misc_cape_05.jpg",
+              name: '披风', desc: '',
+              iconSrc: "./icons/cape/inv_misc_cape_22.jpg",
+            },{
+              name: '披风', desc: '',
+              iconSrc: "./icons/cape/inv_misc_cape_22.jpg",
             },{
               name: '精灵披风', desc: '',
               iconSrc: "./icons/cape/inv_chest_cloth_14.jpg",
-            },{
-              name: '蜜风斗篷', desc: '',
-              iconSrc: "./icons/cape/inv_cape_pandaria_b_02.jpg",
             },{
               name: '月溪披风', desc: '',
               iconSrc: "./icons/cape/inv_misc_cape_cataclysm_caster_b_01.jpg",
@@ -1005,11 +993,11 @@ export const equipConfig = {
         ],
         type: {
           STR: [{
-              name: '天然护腕', desc: '',
-              iconSrc: "./icons/bracer/inv_bracer_08.jpg",
+              name: '护腕', desc: '',
+              iconSrc: "./icons/bracer/inv_bracer_03.jpg",
             },{
-              name: '力量护腕', desc: '',
-              iconSrc: "./icons/bracer/inv_bracer_19.jpg",
+              name: '护腕', desc: '',
+              iconSrc: "./icons/bracer/inv_bracer_03.jpg",
             },{
               name: '玉石臂铠', desc: '',
               iconSrc: "./icons/bracer/inv_bracer_79.jpg",
@@ -1025,11 +1013,11 @@ export const equipConfig = {
             },
           ],
           AGI: [{
-              name: '海盗护腕', desc: '',
-              iconSrc: "./icons/bracer/inv_bracer_12.jpg",
+              name: '护腕', desc: '',
+              iconSrc: "./icons/bracer/inv_bracer_03.jpg",
             },{
-              name: '影行护手', desc: '',
-              iconSrc: "./icons/bracer/inv_bracer_13.jpg",
+              name: '护腕', desc: '',
+              iconSrc: "./icons/bracer/inv_bracer_03.jpg",
             },{
               name: '锯齿黄蜂护腕', desc: '',
               iconSrc: "./icons/bracer/inv_bracer_leather_raidrogue_j_01.jpg",
@@ -1045,14 +1033,14 @@ export const equipConfig = {
             },
           ],
           INT: [{
-              name: '皮护腕', desc: '',
-              iconSrc: "./icons/bracer/inv_bracer_04.jpg",
+              name: '护腕', desc: '',
+              iconSrc: "./icons/bracer/inv_bracer_03.jpg",
             },{
-              name: '游牧护腕', desc: '',
-              iconSrc: "./icons/bracer/inv_bracer_05.jpg",
+              name: '护腕', desc: '',
+              iconSrc: "./icons/bracer/inv_bracer_03.jpg",
             },{
-              name: '灌魔丝纹护腕', desc: '',
-              iconSrc: "./icons/bracer/inv_bracer_cloth_legionendgame_c_01.jpg",
+              name: '相位转化护腕', desc: '',
+              iconSrc: "./icons/bracer/inv_bracer_40.jpg",
             },{
               name: '缚皮镣铐', desc: '',
               iconSrc: "./icons/bracer/inv_bracer_mail_raidhunter_j_01.jpg",
@@ -1060,19 +1048,19 @@ export const equipConfig = {
               name: '奥能元素护腕', desc: '',
               iconSrc: "./icons/bracer/inv_bracer_mail_nazjatarraidmythic_d_01.jpg",
             },{
-              name: '虚空浸没裹腕', desc: '',
-              iconSrc: "./icons/bracer/inv_bracer_cloth_nzothraid_d_01.jpg",
+              name: '傲慢末日', desc: '',
+              iconSrc: "./icons/bracer/inv_bracer_robe_raidmage_j_01.jpg",
             },
           ],
           STA: [{
-              name: '骨板护腕', desc: '',
-              iconSrc: "./icons/bracer/inv_bracer_14.jpg",
+              name: '护腕', desc: '',
+              iconSrc: "./icons/bracer/inv_bracer_03.jpg",
             },{
-              name: '重型护腕', desc: '',
-              iconSrc: "./icons/bracer/inv_bracer_16.jpg",
+              name: '护腕', desc: '',
+              iconSrc: "./icons/bracer/inv_bracer_03.jpg",
             },{
-              name: '骨褶护腕', desc: '',
-              iconSrc: "./icons/bracer/inv_bracer_plate_zandalarquest_b_01.jpg",
+              name: '玉石臂铠', desc: '',
+              iconSrc: "./icons/bracer/inv_bracer_79.jpg",
             },{
               name: '武器支承护腕', desc: '',
               iconSrc: "./icons/bracer/inv_bracer_plate_cataclysm_b_02.jpg",
@@ -1085,11 +1073,11 @@ export const equipConfig = {
             },
           ],
           SPI: [{
-              name: '旅者护腕', desc: '',
+              name: '护腕', desc: '',
               iconSrc: "./icons/bracer/inv_bracer_03.jpg",
             },{
-              name: '暮纹裹腕', desc: '',
-              iconSrc: "./icons/bracer/inv_bracer_11.jpg",
+              name: '护腕', desc: '',
+              iconSrc: "./icons/bracer/inv_bracer_03.jpg",
             },{
               name: '相位转化护腕', desc: '',
               iconSrc: "./icons/bracer/inv_bracer_40.jpg",
@@ -1113,10 +1101,10 @@ export const equipConfig = {
         ],
         type: {
           STR: [{
-              name: '力量腰带', desc: '',
-              iconSrc: "./icons/belt/inv_belt_09.jpg",
+              name: '腰带', desc: '',
+              iconSrc: "./icons/belt/inv_belt_01.jpg",
             },{
-              name: '君王板甲腰带', desc: '',
+              name: '腰带', desc: '',
               iconSrc: "./icons/belt/inv_belt_01.jpg",
             },{
               name: '硬化源质束带', desc: '',
@@ -1133,11 +1121,11 @@ export const equipConfig = {
             },
           ],
           AGI: [{
-              name: '迅猛龙皮腰带', desc: '',
-              iconSrc: "./icons/belt/inv_belt_02.jpg",
+              name: '腰带', desc: '',
+              iconSrc: "./icons/belt/inv_belt_01.jpg",
             },{
-              name: '碧火腰带', desc: '',
-              iconSrc: "./icons/belt/inv_belt_21.jpg",
+              name: '腰带', desc: '',
+              iconSrc: "./icons/belt/inv_belt_01.jpg",
             },{
               name: '神殿毁灭者腰带', desc: '',
               iconSrc: "./icons/belt/inv_belt_mail_legiondungeon_c_02.jpg",
@@ -1153,14 +1141,14 @@ export const equipConfig = {
             },
           ],
           INT: [{
-              name: '钴质腰带', desc: '',
-              iconSrc: "./icons/belt/inv_belt_31.jpg",
+              name: '腰带', desc: '',
+              iconSrc: "./icons/belt/inv_belt_01.jpg",
             },{
-              name: '永恒束腰', desc: '',
-              iconSrc: "./icons/belt/inv_belt_10.jpg",
+              name: '腰带', desc: '',
+              iconSrc: "./icons/belt/inv_belt_01.jpg",
             },{
-              name: '无惧束带', desc: '',
-              iconSrc: "./icons/belt/inv_belt_90.jpg",
+              name: '冬鳞护腰', desc: '',
+              iconSrc: "./icons/belt/inv_belt_86.jpg",
             },{
               name: '涌潮腰带', desc: '',
               iconSrc: "./icons/belt/inv_belt_mail_legionquest100_b_01.jpg",
@@ -1173,14 +1161,14 @@ export const equipConfig = {
             },
           ],
           STA: [{
-              name: '赎魂者腰带', desc: '',
-              iconSrc: "./icons/belt/inv_belt_23.jpg",
+              name: '腰带', desc: '',
+              iconSrc: "./icons/belt/inv_belt_01.jpg",
             },{
-              name: '光明使者腰带', desc: '',
-              iconSrc: "./icons/belt/inv_belt_27.jpg",
+              name: '腰带', desc: '',
+              iconSrc: "./icons/belt/inv_belt_01.jpg",
             },{
-              name: '风暴锻造束带', desc: '',
-              iconSrc: "./icons/belt/inv_belt_49b.jpg",
+              name: '硬化源质束带', desc: '',
+              iconSrc: "./icons/belt/inv_belt_plate_raidwarrior_i_01.jpg",
             },{
               name: '战争腰带', desc: '',
               iconSrc: "./icons/belt/inv_belt_plate_maldraxxus_d_01.jpg",
@@ -1193,11 +1181,11 @@ export const equipConfig = {
             },
           ],
           SPI: [{
-              name: '贤者腰带', desc: '',
-              iconSrc: "./icons/belt/inv_misc_bandana_01.jpg",
+              name: '腰带', desc: '',
+              iconSrc: "./icons/belt/inv_belt_01.jpg",
             },{
-              name: '银丝腰带', desc: '',
-              iconSrc: "./icons/belt/inv_belt_03.jpg",
+              name: '腰带', desc: '',
+              iconSrc: "./icons/belt/inv_belt_01.jpg",
             },{
               name: '冬鳞护腰', desc: '',
               iconSrc: "./icons/belt/inv_belt_86.jpg",
@@ -1221,14 +1209,14 @@ export const equipConfig = {
         ],
         type: {
           STR: [{
-              name: '钴质腿铠', desc: '',
-              iconSrc: "./icons/legging/inv_pants_plate_03.jpg",
+              name: '长裤', desc: '',
+              iconSrc: "./icons/legging/inv_pants_02.jpg",
+            },{
+              name: '长裤', desc: '',
+              iconSrc: "./icons/legging/inv_pants_02.jpg",
             },{
               name: '石片护腿', desc: '',
               iconSrc: "./icons/legging/inv_pants_plate_20.jpg",
-            },{
-              name: '骑士腿铠', desc: '',
-              iconSrc: "./icons/legging/inv_pants_cloth_27.jpg",
             },{
               name: '卫兵护腿', desc: '',
               iconSrc: "./icons/legging/inv_pants_mail_36.jpg",
@@ -1241,14 +1229,14 @@ export const equipConfig = {
             },
           ],
           AGI: [{
-              name: '斥候长裤', desc: '',
+              name: '长裤', desc: '',
+              iconSrc: "./icons/legging/inv_pants_02.jpg",
+            },{
+              name: '长裤', desc: '',
               iconSrc: "./icons/legging/inv_pants_02.jpg",
             },{
               name: '鬼狐护腿', desc: '',
               iconSrc: "./icons/legging/inv_pants_leather_panda_b_01dark.jpg",
-            },{
-              name: '狐林护腿', desc: '',
-              iconSrc: "./icons/legging/inv_pants_mail_panda_b_02blue.jpg",
             },{
               name: '怒爪护腿', desc: '',
               iconSrc: "./icons/legging/inv_pants_leather_40.jpg",
@@ -1261,14 +1249,14 @@ export const equipConfig = {
             },
           ],
           INT: [{
-              name: '君主护腿', desc: '',
-              iconSrc: "./icons/legging/inv_pants_13.jpg",
+              name: '长裤', desc: '',
+              iconSrc: "./icons/legging/inv_pants_02.jpg",
+            },{
+              name: '长裤', desc: '',
+              iconSrc: "./icons/legging/inv_pants_02.jpg",
             },{
               name: '雪山腿甲', desc: '',
               iconSrc: "./icons/legging/inv_pants_mail_37.jpg",
-            },{
-              name: '轻羽护腿', desc: '',
-              iconSrc: "./icons/legging/inv_pants_cloth_39.jpg",
             },{
               name: '白水绑腿', desc: '',
               iconSrc: "./icons/legging/inv_pant_mail_legionquest100_b_01.jpg",
@@ -1281,14 +1269,14 @@ export const equipConfig = {
             },
           ],
           STA: [{
-              name: '板甲绑腿', desc: '',
-              iconSrc: "./icons/legging/inv_pants_mail_05.jpg",
+              name: '长裤', desc: '',
+              iconSrc: "./icons/legging/inv_pants_02.jpg",
             },{
-              name: '火岩腿甲', desc: '',
-              iconSrc: "./icons/legging/inv_pants_mail_07.jpg",
+              name: '长裤', desc: '',
+              iconSrc: "./icons/legging/inv_pants_02.jpg",
             },{
-              name: '灰石腿甲', desc: '',
-              iconSrc: "./icons/legging/inv_pant_plate_legionendgame_c_01.jpg",
+              name: '石片护腿', desc: '',
+              iconSrc: "./icons/legging/inv_pants_plate_20.jpg",
             },{
               name: '汹涛护胫', desc: '',
               iconSrc: "./icons/legging/inv_pant_plate_nazjatar_c_01.jpg",
@@ -1301,14 +1289,14 @@ export const equipConfig = {
             },
           ],
           SPI: [{
-              name: '传教士长裤', desc: '',
-              iconSrc: "./icons/legging/inv_pants_08.jpg",
+              name: '长裤', desc: '',
+              iconSrc: "./icons/legging/inv_pants_02.jpg",
             },{
-              name: '预言者褶裙', desc: '',
-              iconSrc: "./icons/legging/inv_pants_cloth_12.jpg",
+              name: '长裤', desc: '',
+              iconSrc: "./icons/legging/inv_pants_02.jpg",
             },{
-              name: '招魂者腿甲', desc: '',
-              iconSrc: "./icons/legging/inv_pants_mail_40v2.jpg",
+              name: '雪山腿甲', desc: '',
+              iconSrc: "./icons/legging/inv_pants_mail_37.jpg",
             },{
               name: '静谧之途护腿', desc: '',
               iconSrc: "./icons/legging/inv_pant_leather_raidmonk_l_01.jpg",
@@ -1332,8 +1320,8 @@ export const equipConfig = {
               name: '勇气勋章', desc: '',
               iconSrc: "./icons/necklace/inv_jewelry_amulet_03.jpg",
             },{
-              name: '灼火项圈', desc: '',
-              iconSrc: "./icons/necklace/inv_misc_necklace_6_0_027.jpg",
+              name: '勇气勋章', desc: '',
+              iconSrc: "./icons/necklace/inv_jewelry_amulet_03.jpg",
             },{
               name: '珀光盒坠', desc: '',
               iconSrc: "./icons/necklace/inv_jewelry_necklace_56.jpg",
@@ -1349,11 +1337,11 @@ export const equipConfig = {
             },
           ],
           AGI: [{
-              name: '活木护符', desc: '',
-              iconSrc: "./icons/necklace/inv_jewelry_necklace_24.jpg",
+              name: '勇气勋章', desc: '',
+              iconSrc: "./icons/necklace/inv_jewelry_amulet_03.jpg",
             },{
-              name: '林木项链', desc: '',
-              iconSrc: "./icons/necklace/inv_jewelry_necklace_67.jpg",
+              name: '勇气勋章', desc: '',
+              iconSrc: "./icons/necklace/inv_jewelry_amulet_03.jpg",
             },{
               name: '春雨项圈', desc: '',
               iconSrc: "./icons/necklace/inv_jewelry_necklace_71.jpg",
@@ -1369,14 +1357,14 @@ export const equipConfig = {
             },
           ],
           INT: [{
-              name: '孔雀石坠饰', desc: '',
-              iconSrc: "./icons/necklace/inv_jewelry_necklace_01.jpg",
+              name: '勇气勋章', desc: '',
+              iconSrc: "./icons/necklace/inv_jewelry_amulet_03.jpg",
             },{
-              name: '雪羽坠链', desc: '',
-              iconSrc: "./icons/necklace/inv_jewelry_necklace_16.jpg",
+              name: '勇气勋章', desc: '',
+              iconSrc: "./icons/necklace/inv_jewelry_amulet_03.jpg",
             },{
-              name: '蓝翼吊坠', desc: '',
-              iconSrc: "./icons/necklace/inv_7_0raid_necklace_02a.jpg",
+              name: '苔原项链', desc: '',
+              iconSrc: "./icons/necklace/inv_jewelry_necklace_11.jpg",
             },{
               name: '风暴之翼项链', desc: '',
               iconSrc: "./icons/necklace/inv_7_0raid_necklace_10a.jpg",
@@ -1389,14 +1377,14 @@ export const equipConfig = {
             },
           ],
           STA: [{
-              name: '黑狼护符', desc: '',
-              iconSrc: "./icons/necklace/inv_misc_necklacea2.jpg",
+              name: '勇气勋章', desc: '',
+              iconSrc: "./icons/necklace/inv_jewelry_amulet_03.jpg",
             },{
-              name: '荆棘护符', desc: '',
-              iconSrc: "./icons/necklace/inv_jewelry_necklace_60.jpg",
+              name: '勇气勋章', desc: '',
+              iconSrc: "./icons/necklace/inv_jewelry_amulet_03.jpg",
             },{
-              name: '雷霆图腾项链', desc: '',
-              iconSrc: "./icons/necklace/inv_7_0raid_necklace_08a.jpg",
+              name: '珀光盒坠', desc: '',
+              iconSrc: "./icons/necklace/inv_jewelry_necklace_56.jpg",
             },{
               name: '战歌吊坠', desc: '',
               iconSrc: "./icons/necklace/inv_misc_necklace_6_0_021.jpg",
@@ -1409,11 +1397,11 @@ export const equipConfig = {
             },
           ],
           SPI: [{
-              name: '夜之石颈环', desc: '',
-              iconSrc: "./icons/necklace/inv_misc_stonenecklace.jpg",
+              name: '勇气勋章', desc: '',
+              iconSrc: "./icons/necklace/inv_jewelry_amulet_03.jpg",
             },{
-              name: '萨达拉的坠饰', desc: '',
-              iconSrc: "./icons/necklace/inv_jewelry_amulet_02.jpg",
+              name: '勇气勋章', desc: '',
+              iconSrc: "./icons/necklace/inv_jewelry_amulet_03.jpg",
             },{
               name: '苔原项链', desc: '',
               iconSrc: "./icons/necklace/inv_jewelry_necklace_11.jpg",
