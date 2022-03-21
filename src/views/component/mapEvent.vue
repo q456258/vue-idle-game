@@ -277,9 +277,9 @@ export default {
             this.reqExp[0] = 0;
             for(let i=1; i<200; i++) {
                 if(i<10)
-                    this.reqExp[i] = this.reqExp[i-1]+(50+i*20)
+                    this.reqExp[i] = this.reqExp[i-1]+(20+i*10)
                 else
-                    this.reqExp[i] = this.reqExp[i-1]+(150+i*50)
+                    this.reqExp[i] = this.reqExp[i-1]+(35+i*20)
             }
         },
         levelUp() {

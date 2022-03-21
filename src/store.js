@@ -95,7 +95,7 @@ let initial_shoe = {
     initial_legging = {
         lv: 1,
         lvReq: 1,
-        itemType: 'shoulder',
+        itemType: 'legging',
         maxEnhanceLv: 0, 
         enhanceLv: 0,
         quality: {
@@ -485,9 +485,9 @@ export default new Vuex.Store({
             let advancedAttr = {
                 STR: { DEF: 3, BLOCK: 1}, 
                 AGI: { ATK: 4, CRIT: 0.05}, 
-                INT: { AP: 4, APCRIT: 0.1}, 
-                STA: { HP: 10}, 
-                SPI: { MP: 4}, 
+                INT: { AP: 5, APCRIT: 0.1}, 
+                STA: { HP: 15}, 
+                SPI: { MP: 5}, 
                 ALL: { VERS: 1}
             };
             attributes.forEach(attr => {
