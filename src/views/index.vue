@@ -404,19 +404,6 @@ export default {
       let count = 5;
       let type = 'advanture';
       this.mapArr = this.generateDungeonByZone(count, this.monsterZone[this.selectedZone]);
-      // let equipInfo = this.findComponentDownward(this, 'equipInfo');   
-      // for(let map in this.mapArr) {
-      //   this.mapArr[map].reward = [];
-      //   for(let type in this.mapArr[map].rewardType) {
-      //     let rewardInfo = this.mapArr[map].rewardType[type];
-      //     if(rewardInfo[0] == 'unique_equip') {
-      //       let newEquip = JSON.parse(equipInfo.createUniqueEquipTemplate(rewardInfo[1]));
-      //       this.mapArr[map].reward.push([newEquip,rewardInfo[2]]);
-      //     }
-      //     else
-      //       this.mapArr[map].reward.push([JSON.parse(itemInfo.createItem(rewardInfo[0], 1, this.mapArr[map].lv)), rewardInfo[1]]);
-      //   }
-      // }
       this.actualReward(this.mapArr);
 
       this.dungeonInfo[type].level = -1;
