@@ -55,7 +55,7 @@ export const monsterConfig = {
                     name: '训练假人', type: 'normal', minLv: 1, maxLv: 5,
                     spellCycle: ['attack'], talent: {}, anime: 'trainingDummy1.png',
                     template:{  
-                        MAXHP: 200, ATK: 17, DEF: 5, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 200, ATK: 25, DEF: 5, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
@@ -63,7 +63,7 @@ export const monsterConfig = {
                     name: '高级训练假人', type: 'normal', minLv: 6, maxLv: 10,
                     spellCycle: ['attack'], talent: {}, anime: 'trainingDummy2.png',
                     template:{  
-                        MAXHP: 400, ATK: 30, DEF: 7, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 400, ATK: 40, DEF: 7, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
@@ -71,7 +71,7 @@ export const monsterConfig = {
                     name: '训练假人精英', type: 'elite', minLv: 1, maxLv: 5,
                     spellCycle: ['attack'], talent: {}, anime: 'trainingDummy1.png',
                     template:{  
-                        MAXHP: 1000, ATK: 25, DEF: 20, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 600, ATK: 40, DEF: 20, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
@@ -79,7 +79,7 @@ export const monsterConfig = {
                     name: '高级训练假人精英', type: 'elite', minLv: 6, maxLv: 10,
                     spellCycle: ['attack'], talent: {}, anime: 'trainingDummy2.png',
                     template:{  
-                        MAXHP: 1500, ATK: 40, DEF: 30, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 800, ATK: 80, DEF: 30, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
@@ -87,7 +87,7 @@ export const monsterConfig = {
                     name: '导师', type: 'boss', minLv: 10, maxLv: 10,
                     spellCycle: ['attack', 'spell_frost_frostbolt02'], talent: {}, anime: '',
                     template:{  
-                        MAXHP: 4000, ATK: 75, DEF: 20, BLOCK: 20, AP: 75, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 1500, ATK: 75, DEF: 40, BLOCK: 10, AP: 75, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
@@ -520,11 +520,11 @@ export const monsterConfig = {
                 },
             },
             monsterReward: {
-                0: [['random_equip_10', 50]],
-                1: [['racial_dwarf_findtreasure', 35], ['random_equip_0', 30, {type: ['weapon']}]],
-                2: [['racial_dwarf_findtreasure', 35], ['random_equip_0', 30]],
-                3: [['random_equip_1', 40], ['inv_misc_coin_01', 35], ['bossTicket0', 10]],
-                4: [['random_equip_1', 40], ['inv_misc_coin_01', 35], ['bossTicket0', 20]],
+                0: [['random_equip_limited_10', 50]],
+                1: [['racial_dwarf_findtreasure', 35], ['random_equip_limited_0', 30]],
+                2: [['racial_dwarf_findtreasure', 35], ['random_equip_limited_0', 30]],
+                3: [['random_equip_limited_1', 40], ['inv_misc_coin_01', 35], ['bossTicket0', 10]],
+                4: [['random_equip_limited_1', 40], ['inv_misc_coin_01', 35], ['bossTicket0', 20]],
                 5: [['random_equip_4', 50], ['unique_equip', 'inv_sword_05', 100], ['unique_equip', 'inv_wand_06', 100]],
                 11: [['racial_dwarf_findtreasure', 35], ['random_equip_1', 25], ['inv_misc_gem_diamond_05', 10], ['inv_misc_enchantedpearla', 1]],
                 12: [['racial_dwarf_findtreasure', 35], ['random_equip_1', 25], ['inv_misc_gem_diamond_05', 15], ['inv_misc_enchantedpearla', 1]],

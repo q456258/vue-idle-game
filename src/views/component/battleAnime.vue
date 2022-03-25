@@ -84,7 +84,7 @@ export default {
                 parentNode = document.getElementById("enemyText");
             let node = document.createElement("DIV");
             let textnode;
-            let duration = 2000;
+            let duration = 1900;
             node.classList.add("floatingText");
             switch(type) {
                 case 'dmg':

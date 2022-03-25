@@ -120,15 +120,20 @@ export default {
         player() { return this.$store.state.playerAttribute },
     },
     methods: {
-        createEquip(qualityIndex, lv, type, qualitySet) {
+        createEquip(qualityIndex, lv, type, qualitySet, optional={}) {
+            let baseEntry = [];
+            if(optional.baseEntry) {
+                for(let i=0; i<optional.baseEntry.length; i++)
+                    baseEntry.push({type:optional.baseEntry[i]});
+            }
             let newEquip = {};
-            newEquip.itemType = type != 'random' ? type : this.createType();
+            newEquip.itemType = type != 'random' ? type : this.createType(optional.types);
             newEquip.lvReq = lv || 1;
             newEquip.lv = lv || 1;
             newEquip.quality = qualityIndex > -1 ? this.quality[qualityIndex] : this.createQuality(qualitySet);
             newEquip.maxEnhanceLv = (newEquip.quality.qualityLv-1)*5;
             newEquip.enhanceLv = Math.min(0, newEquip.maxEnhanceLv);
-            newEquip.baseEntry = this.createBaseEntry(newEquip);
+            newEquip.baseEntry = this.createBaseEntry(newEquip, baseEntry, optional.baseOption);
             newEquip.extraBaseEntry = [];
             newEquip.extraEntry = this.createExtraEntry(newEquip);
             newEquip.potential = newEquip.lv >= 30 ? this.createPotential(newEquip) : [];
@@ -165,8 +170,12 @@ export default {
         // createLv(Max) {
         //     return parseInt(Math.random() * (Max || 39)) + 1;
         // },
-        createType() {
+        createType(types) {
             let random = Math.floor(Math.random()*this.typeName.length)
+            if(types) {
+                random = Math.floor(Math.random()*types.length)
+                return types[random];
+            }
             return this.typeName[random];
         },
         createQuality(qualitySet) {
@@ -180,17 +189,17 @@ export default {
             }
             return this.quality[quality];
         },
-        createBaseEntry(newEquip, baseEntry=[]) {
+        createBaseEntry(newEquip, baseEntry=[], option=['STR','AGI','INT','STA','SPI']) {
+            let options = this.$deepCopy(option);
             let fixEntry = [];
             let type = newEquip.itemType;
             let mod = this.equipMod[type];
             let index = 0;
-            if(baseEntry.length == 0) {
-                let options = ['STR','AGI','INT','STA','SPI'];
+            if(baseEntry.length < 2) {
                 let count = Math.random()>0.5 ? 1 : 2;
                 let ran = Math.floor(Math.random()*options.length);
                 baseEntry.push({type:options[ran]});
-                if(count == 2) {
+                if(count == 2 && baseEntry.length < 2) {
                     options[ran] = options[options.length-1];
                     options.pop();
                     ran = Math.floor(Math.random()*options.length);
@@ -215,6 +224,8 @@ export default {
             return fixEntry.concat(baseEntry);
         },
         createBaseEntryValue(qualityCoefficient, entry, bonus, lv, enhanceLv, mod=1) {
+            if(entry.length == 2 && entry[0].type == entry[1].type)
+                entry.pop();
             for(let i=0; i<entry.length; i++) {
                 let type = entry[i].type;
                 let ran = Math.round(Math.random()*bonus);

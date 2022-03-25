@@ -516,12 +516,57 @@ export const itemConfig = {
                     cost: 99990000,
                     maxStack: 20
                 },
+                random_equip_limited_0: {
+                    quality: 1,
+                    description: {
+                        name: '随机装备',
+                        category: '消耗品',
+                        desc: '必定获得一件【力量、敏捷、耐力】类型的垃圾装备',
+                        iconSrc: "./icons/item/inv_misc_questionmark.jpg",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
+                },
+                random_equip_limited_1: {
+                    quality: 1,
+                    description: {
+                        name: '随机装备',
+                        category: '消耗品',
+                        desc: '大概率获得一件【力量、敏捷、耐力】类型的垃圾装备',
+                        iconSrc: "./icons/item/inv_misc_questionmark.jpg",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
+                },
+                random_equip_limited_10: {
+                    quality: 1,
+                    description: {
+                        name: '随机装备',
+                        category: '消耗品',
+                        desc: '必定获得一件【力量、敏捷、耐力】类型的垃圾武器、防具',
+                        iconSrc: "./icons/item/inv_misc_questionmark.jpg",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
+                },
                 random_equip_0: {
                     quality: 1,
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '大概率获得一件垃圾装备',
+                        desc: '必定获得一件垃圾装备',
                         iconSrc: "./icons/item/inv_misc_questionmark.jpg",
                     },
                     autoUse: true,
@@ -657,21 +702,6 @@ export const itemConfig = {
                         name: '随机装备',
                         category: '消耗品',
                         desc: '大概率获得一件极品装备',
-                        iconSrc: "./icons/item/inv_misc_questionmark.jpg",
-                    },
-                    autoUse: true,
-                    use: true,
-                    stack: true,
-                    quantity: 1,
-                    cost: 99990000,
-                    maxStack: 20
-                },
-                random_equip_10: {
-                    quality: 1,
-                    description: {
-                        name: '随机装备',
-                        category: '消耗品',
-                        desc: '必定获得一件垃圾装备',
                         iconSrc: "./icons/item/inv_misc_questionmark.jpg",
                     },
                     autoUse: true,

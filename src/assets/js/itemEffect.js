@@ -29,6 +29,15 @@ export const itemEffect = {
                 case 'inv_misc_note_06':
                     used = this.inv_misc_note_06();
                     break;
+                case 'random_equip_limited_0':
+                    used = this.randomEquip(0, lv, {baseOption: ['STR', 'AGI', 'STA']});
+                    break;
+                case 'random_equip_limited_1':
+                    used = this.randomEquip(1, lv, {baseOption: ['STR', 'AGI', 'STA']});
+                    break;
+                case 'random_equip_limited_10':
+                    used = this.randomEquip(10, lv, {types: ['helmet', 'weapon', 'armor', 'shoe', 'legging'], baseOption: ['STR', 'AGI', 'STA']});
+                    break;
                 case 'random_equip_0':
                     used = this.randomEquip(0, lv);
                     break;
@@ -58,9 +67,6 @@ export const itemEffect = {
                     break;
                 case 'random_equip_9':
                     used = this.randomEquip(9, lv);
-                    break;
-                case 'random_equip_10':
-                    used = this.randomEquip(10, lv);
                     break;
                 // case 'inv_box_01':
                 //     used = this.inv_box_01();
@@ -160,11 +166,11 @@ export const itemEffect = {
             guild.getGold('', gold);
             return true;
         },
-        randomEquip(qualitySet, lv) {
+        randomEquip(qualitySet, lv, optional={}) {
             let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
             let equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
             let itemLv = lv || this.$store.state.playerAttribute.lv;
-            let equip = equipInfo.createEquip(-1, itemLv, 'random', qualitySet);  
+            let equip = equipInfo.createEquip(-1, itemLv, 'random', qualitySet, optional);  
             equip = JSON.parse(equip);
             // this.$store.commit("set_sys_info", {
             //     type: 'reward',

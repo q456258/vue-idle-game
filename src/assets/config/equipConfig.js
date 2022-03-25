@@ -1427,7 +1427,7 @@ export const equipConfig = {
             iconSrc: "./icons/weapon/inv_sword_05.jpg",
           },
           baseEntry: [
-            'AGI'
+            'AGI', 'AGI'
           ]
         },
         inv_wand_06: {
@@ -1438,7 +1438,7 @@ export const equipConfig = {
             iconSrc: "./icons/weapon/inv_wand_06.jpg",
           },
           baseEntry: [
-            'INT'
+            'INT', 'INT'
           ]
         }
       },
