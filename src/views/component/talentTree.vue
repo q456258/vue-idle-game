@@ -166,14 +166,14 @@ export default {
             }
         },
         checkPreReq(talentName, lv, ignore) {
-            let branch = talentName.indexOf('Branch') != -1;
+            let isBranch = talentName.indexOf('Branch') != -1;
             for(let name in this.preReqList) {
                 if(name == ignore)
                     continue;
                 if(this.playerTalent[name] > 0) {
                     for(let preReq in this.preReqList[name]) {
                         let check = this.preReqList[name][preReq];
-                        if(talentName == check[0] && ((!branch && lv < check[1]) || (branch && talentName == check[0] && lv-this.playerTalent[name] < check[1]))) {
+                        if(talentName == check[0] && ((!isBranch && lv < check[1]) || (isBranch && talentName == check[0] && lv < check[1]))) {
                             return false;
                         }
                     }
