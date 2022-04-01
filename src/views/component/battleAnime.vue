@@ -106,26 +106,23 @@ export default {
                     }
                     break;
                 case 'spell':
-                    duration = 1500;
-                    node.classList.add("spell");
-                    textnode = document.createTextNode("【"+text+"】");
-                    node.appendChild(textnode);
-                    if(target == 'player')
-                        node.style.left = "-35%";
-                    else
-                        node.style.right = "-35%";
-                    break;
                 case 'failSpell':
                     duration = 1500;
-                    node.classList.add("spell");
+                    node.classList.add("spellName");
                     textnode = document.createTextNode("【"+text+"】");
-                    node.style.textDecoration = "line-through";
-                    node.style.color = "#ff0000";
                     node.appendChild(textnode);
-                    if(target == 'player')
+                    if(target == 'player') {
+                        node.classList.add("playerSpellText");
                         node.style.left = "-35%";
-                    else
+                    }
+                    else {
+                        node.classList.add("enermySpellText");
                         node.style.right = "-35%";
+                    }
+                    if(type == 'failSpell') {
+                        node.style.textDecoration = "line-through";
+                        node.style.color = "#ff0000";
+                    }
                     break;
                 default:
                     textnode = document.createTextNode(text);
@@ -165,6 +162,11 @@ export default {
     background-image: url("/icons/character/player1.png");
     background-size: contain;
     background-repeat: no-repeat;
+    image-rendering: crisp-edges;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -o-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    -ms-interpolation-mode: nearest-neighbor;
 }
 #enemyAnime {
     position: relative;
@@ -176,6 +178,11 @@ export default {
     background-image: url("/icons/character/player1.png");
     background-size: contain;
     background-repeat: no-repeat;
+    image-rendering: crisp-edges;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -o-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    -ms-interpolation-mode: nearest-neighbor;
 }
 #playerHpBar {
     position: absolute;
@@ -223,13 +230,20 @@ export default {
     animation-timing-function: ease-out;
     animation: move 2000ms;
 }
-.spell {
+.floatingText.spellName {
     font-size: 15px;
-    top: -15%;
+    /* opacity: 0; */
     color: #cfcfcf;
-    will-change: opacity;
+}
+.playerSpellText {
+    will-change: transform, opacity;
     animation-timing-function: ease-out;
-    animation: move 1500ms;
+    animation: playerSpellMove 1300ms;
+}
+.enermySpellText {
+    will-change: transform, opacity;
+    animation-timing-function: ease-out;
+    animation: enermySpellMove 1300ms;
 }
 .innerFloatingText {
     margin-top: -15px;
@@ -243,6 +257,32 @@ export default {
     }
     100% {
         opacity: 0;
+        transform: none;
+    }
+}
+@keyframes playerSpellMove {
+    0% {
+        left: -50%;
+        text-decoration: none;
+        color: #ffffff;
+    }
+    25% {
+        left: -35%;
+    }
+    100% {
+        opacity: 1;
+        transform: none;
+    }
+}
+@keyframes enermySpellMove {
+    0% {
+        right: -50%;
+    }
+    25% {
+        right: -35%;
+    }
+    100% {
+        opacity: 1;
         transform: none;
     }
 }
