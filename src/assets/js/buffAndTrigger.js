@@ -352,8 +352,8 @@ export const buffAndTrigger = {
             let totalDmg = this.get_dmg(dmgs, 'ad')+this.get_dmg(dmgs, 'ap');
             let dmgType = '伤害';
             let dmgText = ' 0 ';
-            battleAnime.displayText(target.type, "dmg", {adDmg: dmgs.adDmg, apDmg: dmgs.apDmg});
             if(this.get_dmg(dmgs, 'ad') > 0) {
+                battleAnime.displayText(target.type, "dmg", {adDmg: dmgs.adDmg, apDmg: dmgs.apDmg});
                 if(this.get_dmg(dmgs, 'ap') > 0) {
                     dmgText = '<span style="color:#ffffff"> '+(this.get_dmg(dmgs, 'ad')+this.get_dmg(dmgs, 'ap'))
                         +'</span>(<span style="color:#ff0000">'+this.get_dmg(dmgs, 'ad')+'</span>+<span style="color:#2ab0ff">'+this.get_dmg(dmgs, 'ap')+'</span>) ';
@@ -362,6 +362,7 @@ export const buffAndTrigger = {
                     dmgText = '<span style="color:#ff0000">'+this.get_dmg(dmgs, 'ad')+'</span> ';
                 }
             } else if (this.get_dmg(dmgs, 'ap') > 0) {
+                battleAnime.displayText(target.type, "dmg", {apDmg: dmgs.apDmg});
                 dmgType = '魔法伤害';
                 dmgText = '<span style="color:#2ab0ff">'+this.get_dmg(dmgs, 'ap')+'</span> ';
             }

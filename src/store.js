@@ -201,8 +201,8 @@ export default new Vuex.Store({
         playerAttribute: {
             name: '无名',
             lv: 1,
+            talentLv: 1,
             type: 'player',
-            exp: {cur: 0, req: 50},
             healthRecoverySpeed: 1,
             attribute: {
                 CURHP: { baseVal: 0, value: 300, showbaseVal: 0},
@@ -483,11 +483,11 @@ export default new Vuex.Store({
                 
             ];
             let advancedAttr = {
-                STR: { DEF: 3, BLOCK: 1}, 
+                STR: { DEF: 3, BLOCK: 0.5}, 
                 AGI: { ATK: 4, CRIT: 0.05}, 
-                INT: { AP: 5, APCRIT: 0.1}, 
+                INT: { AP: 4, APCRIT: 0.1}, 
                 STA: { HP: 15}, 
-                SPI: { MP: 5}, 
+                SPI: { MP: 15}, 
                 ALL: { VERS: 1}
             };
             attributes.forEach(attr => {
@@ -578,8 +578,10 @@ export default new Vuex.Store({
             attribute['CURMP'].value = Math.floor(mpPercent*attribute['MP'].value);
             attribute['MAXMP'].showValue += attribute['MP'].value;
             attribute['CURMP'].showValue += playerAttribute.attribute['CURMP'].value;
+            // attribute['DEFRED'].value = 
+            //     Math.round((attribute['DEF'].value/(100+attribute['DEF'].value) + attribute['DEF'].value/(attribute['DEF'].value+3500))/2*10000)/100;
             attribute['DEFRED'].value = 
-                Math.round((attribute['DEF'].value/(100+attribute['DEF'].value) + attribute['DEF'].value/(attribute['DEF'].value+3500))/2*10000)/100;
+                Math.round((attribute['DEF'].value/(attribute['DEF'].value+5500))*10000)/100;
             // attribute['DEFRED'].value = Math.round(0.01 * attribute['DEF'].value / (1 + (0.0105 * attribute['DEF'].value))*1000000)/10000;
             // attribute['DEFRED'].value = Math.round(0.01 * attribute['DEF'].value / (1 + (0.01 * attribute['DEF'].value))*10000)/100;
             attribute['DEFRED'].showValue = attribute['DEFRED'].value+'%';

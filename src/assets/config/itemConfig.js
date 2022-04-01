@@ -516,12 +516,12 @@ export const itemConfig = {
                     cost: 99990000,
                     maxStack: 20
                 },
-                random_equip_limited_0: {
+                random_equip_normal_0: {
                     quality: 1,
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '必定获得一件【力量、敏捷、耐力】类型的垃圾装备',
+                        desc: '大概率获得一件【力量、敏捷、耐力】类型的垃圾武器、基础防具',
                         iconSrc: "./icons/item/inv_misc_questionmark.jpg",
                     },
                     autoUse: true,
@@ -531,12 +531,12 @@ export const itemConfig = {
                     cost: 99990000,
                     maxStack: 20
                 },
-                random_equip_limited_1: {
+                random_equip_normal_1: {
                     quality: 1,
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '大概率获得一件【力量、敏捷、耐力】类型的垃圾装备',
+                        desc: '有概率获得一件类型的普通武器、基础防具',
                         iconSrc: "./icons/item/inv_misc_questionmark.jpg",
                     },
                     autoUse: true,
@@ -546,12 +546,12 @@ export const itemConfig = {
                     cost: 99990000,
                     maxStack: 20
                 },
-                random_equip_limited_10: {
+                random_equip_normal_2: {
                     quality: 1,
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '必定获得一件【力量、敏捷、耐力】类型的垃圾武器、防具',
+                        desc: '极小概率获得一件优质武器、基础防具',
                         iconSrc: "./icons/item/inv_misc_questionmark.jpg",
                     },
                     autoUse: true,
@@ -561,12 +561,12 @@ export const itemConfig = {
                     cost: 99990000,
                     maxStack: 20
                 },
-                random_equip_0: {
+                random_equip_normal_10: {
                     quality: 1,
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '必定获得一件垃圾装备',
+                        desc: '必定获得一件【力量、敏捷、耐力】类型的垃圾武器、基础防具',
                         iconSrc: "./icons/item/inv_misc_questionmark.jpg",
                     },
                     autoUse: true,
@@ -576,12 +576,12 @@ export const itemConfig = {
                     cost: 99990000,
                     maxStack: 20
                 },
-                random_equip_1: {
+                random_equip_elite_1: {
                     quality: 1,
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '大概率获得一件垃圾装备',
+                        desc: '有概率获得一件【力量、敏捷、耐力】类型的垃圾武器、防具',
                         iconSrc: "./icons/item/inv_misc_questionmark.jpg",
                     },
                     autoUse: true,
@@ -591,12 +591,12 @@ export const itemConfig = {
                     cost: 99990000,
                     maxStack: 20
                 },
-                random_equip_2: {
-                    quality: 2,
+                random_equip_elite_3: {
+                    quality: 1,
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '大概率获得一件普通装备',
+                        desc: '小概率获得一件优质武器、防具',
                         iconSrc: "./icons/item/inv_misc_questionmark.jpg",
                     },
                     autoUse: true,
@@ -606,12 +606,12 @@ export const itemConfig = {
                     cost: 99990000,
                     maxStack: 20
                 },
-                random_equip_3: {
-                    quality: 2,
+                random_equip_elite_4: {
+                    quality: 1,
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '大概率获得一件普通装备',
+                        desc: '极小概率获得一件极品武器、防具',
                         iconSrc: "./icons/item/inv_misc_questionmark.jpg",
                     },
                     autoUse: true,
@@ -626,7 +626,7 @@ export const itemConfig = {
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '大概率获得一件良品装备',
+                        desc: '极小概率获得一件极品装备',
                         iconSrc: "./icons/item/inv_misc_questionmark.jpg",
                     },
                     autoUse: true,
@@ -641,7 +641,7 @@ export const itemConfig = {
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '大概率获得一件良品装备',
+                        desc: '极小概率获得一件神器',
                         iconSrc: "./icons/item/inv_misc_questionmark.jpg",
                     },
                     autoUse: true,
@@ -656,7 +656,7 @@ export const itemConfig = {
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '大概率获得一件优质装备',
+                        desc: '大概率获得一件优质装备, 极小概率获得一件神器',
                         iconSrc: "./icons/item/inv_misc_questionmark.jpg",
                     },
                     autoUse: true,

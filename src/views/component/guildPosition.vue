@@ -352,11 +352,6 @@ export default {
             // for(let type in types) 
             //     this.computeLv(types[type]);
         },
-        // computeLv(type) {
-        //     let target = this.guild[type];
-        //     while(target.exp >= this.lvExp[target.lv])
-        //         target.lv++;
-        // },
         selectEquip(type) {
             let guild = this.findComponentUpward(this, 'guild');
             let backpack = this.findBrothersComponents(guild, 'backpack', false)[0];

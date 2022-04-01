@@ -86,7 +86,6 @@ export default {
             battleTimer: "",
             battleID: 1,
             selectedDungeon: {},
-            reqExp: [],
             type: {normal: '普通', elite: '精英', boss: 'BOSS', chest: '宝藏', gold: '矿物', mine: '矿物', herb: '草药'},
             mineDifficulty: 0,
             mineReward: [],
@@ -104,7 +103,6 @@ export default {
         }
     },
     mounted() {
-        this.expReq();
     },
     computed: {
         auto() { return this.$store.state.dungeonInfo.auto;},
@@ -185,7 +183,9 @@ export default {
                 //     this.generateenemy();
                 if(this.selectedDungeon.count == 0)
                     dungeonInfo.auto = false;
-                this.gainExp(target.lv);
+                this.levelToTarget(target.lv);
+                if(target.type == 'elite' || target.type == 'boss')
+                    this.talentLevelToTarget(target.lv);
                 if(dungeonInfo.auto && !this.$store.state.setting.waitFull)
                     this.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
                 this.$store.commit("set_battle_info", {
@@ -224,69 +224,13 @@ export default {
                 return false;
             return true;
         },
-        gainExp(lv) {
-            let exp = 35+lv*5;
-            let tempExp = 0;
-            let playerLv = this.playerAttr.lv;
-            if(lv>playerLv) {
-                // 经验上限125%
-                tempExp = exp*(lv-playerLv)*1.05;
-                exp = Math.min(tempExp, exp*1.25);
-            }
-            else {
-                // 经验下限10%
-                tempExp = exp*(1-(playerLv-lv)*0.1);
-                exp = Math.max(tempExp, exp*0.1);
-            }
-            exp = Math.round(exp);
-            let curExp = this.playerAttr.exp.cur + exp;
-            let reqExp = this.reqExp[playerLv];
-            if(reqExp == undefined) {
-                this.expReq();
-                reqExp = this.reqExp[playerLv];
-            }
-            if(curExp > this.playerAttr.exp.req)
-                this.playerAttr.exp.req = this.reqExp[playerLv];
-            if(curExp >= reqExp) {
+        levelToTarget(target) {
+            while(this.playerAttr.lv < target)
                 this.levelUp();
-                curExp -= reqExp;
-            }
-            this.playerAttr.exp.cur = curExp;
-            if(exp > 0) {
-                let element = document.getElementById('expInfo');
-                let node = document.createElement('DIV');
-                let textnode = document.createTextNode("+"+exp+'exp');
-                node.appendChild(textnode);
-                element.appendChild(node); 
-                node.style.position = 'absolute';
-                node.style.width = '10rem';
-                node.style.color = '#aaf';
-                node.style.top = '2.5rem';
-                node.style.right = '3rem';
-                node.style.transition = '1s';
-                node.style.transitionTimingFunction = 'ease-out';
-                setTimeout(()=>{
-                    node.style.top = '1rem';
-                },1);
-                setTimeout(()=>{
-                    element.removeChild(node);
-                },800);
-            }
-        },
-        expReq() {
-            this.reqExp[0] = 0;
-            for(let i=1; i<200; i++) {
-                if(i<10)
-                    this.reqExp[i] = this.reqExp[i-1]+(20+i*10)
-                else
-                    this.reqExp[i] = this.reqExp[i-1]+(35+i*20)
-            }
         },
         levelUp() {
-            let playerLv = this.playerAttr.lv;
             this.playerAttr.lv += 1;
-            this.playerAttr.talentPoint += 1;
-            this.playerAttr.exp.req = this.reqExp[playerLv+1];
+            // this.playerAttr.talentPoint += 1;
             if(this.playerAttr.lv == 10) {
                 let element = document.getElementById('talentTree');
                 element.classList.add('glow');
@@ -294,12 +238,20 @@ export default {
             if(this.playerAttr.lv == 20) {
                 let element = document.getElementById('guild');
                 element.classList.add('glow');
-                guild = this.$store.state.guildAttribute;
+                let guild = this.$store.state.guildAttribute;
                 guild.guild.lv = 1;
                 guild.train.lv = 1;
                 guild.shop.lv = 1;
                 guild.smith.lv = 1;
             }
+        },
+        talentLevelToTarget(target) {
+            while(this.playerAttr.talentLv < target)
+                this.talentLevelUp();
+        },
+        talentLevelUp() {
+            this.playerAttr.talentLv += 1;
+            this.playerAttr.talentPoint += 1;
         },
         autoBattle(auto) {
             if(auto == undefined)
@@ -389,7 +341,7 @@ export default {
                 // attribute.value = Math.round(attribute.value*(1+enemyAttribute.lv*0.15));
                 // attribute.value = Math.round(attribute.value*(1.5+enemyAttribute.lv*(enemyAttribute.lv-1)*(enemyAttribute.lv/50)));
                 // attr.value = Math.round(attr.value*(2+enemyAttribute.lv*(enemyAttribute.lv/35)*(0.9+Math.random()*0.2)));
-                attr.value = Math.round(attr.value*(1+flexLv*(flexLv/75))*(0.9+Math.random()*0.2));
+                attr.value = Math.round(attr.value*(1+flexLv*(flexLv/75))*(0.95+Math.random()*0.1));
                 attr.showValue = attr.value;
                 enemyAttribute.attribute[stat] = attr;
             });

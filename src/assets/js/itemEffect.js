@@ -29,26 +29,26 @@ export const itemEffect = {
                 case 'inv_misc_note_06':
                     used = this.inv_misc_note_06();
                     break;
-                case 'random_equip_limited_0':
-                    used = this.randomEquip(0, lv, {baseOption: ['STR', 'AGI', 'STA']});
+                case 'random_equip_normal_0':
+                    used = this.randomEquip(0, lv, {types: ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove'], baseOption: ['STR', 'AGI', 'STA']});
                     break;
-                case 'random_equip_limited_1':
-                    used = this.randomEquip(1, lv, {baseOption: ['STR', 'AGI', 'STA']});
+                case 'random_equip_normal_1':
+                    used = this.randomEquip(1, lv, {types: ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove']});
                     break;
-                case 'random_equip_limited_10':
-                    used = this.randomEquip(10, lv, {types: ['helmet', 'weapon', 'armor', 'shoe', 'legging'], baseOption: ['STR', 'AGI', 'STA']});
+                case 'random_equip_normal_2':
+                    used = this.randomEquip(2, lv, {types: ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove']});
                     break;
-                case 'random_equip_0':
-                    used = this.randomEquip(0, lv);
+                case 'random_equip_normal_10':
+                    used = this.randomEquip(10, lv, {types: ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove'], baseOption: ['STR', 'AGI', 'STA']});
                     break;
-                case 'random_equip_1':
-                    used = this.randomEquip(1, lv);
+                case 'random_equip_elite_1':
+                    used = this.randomEquip(1, lv, {types: ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove', 'shoulder', 'cape', 'bracer', 'belt'], baseOption: ['STR', 'AGI', 'STA']});
                     break;
-                case 'random_equip_2':
-                    used = this.randomEquip(2, lv);
+                case 'random_equip_elite_3':
+                    used = this.randomEquip(3, lv, {types: ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove', 'shoulder', 'cape', 'bracer', 'belt']});
                     break;
-                case 'random_equip_3':
-                    used = this.randomEquip(3, lv);
+                case 'random_equip_elite_4':
+                    used = this.randomEquip(4, lv, {types: ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove', 'shoulder', 'cape', 'bracer', 'belt']});
                     break;
                 case 'random_equip_4':
                     used = this.randomEquip(4, lv);

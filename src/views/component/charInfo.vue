@@ -26,16 +26,6 @@
                     <p class="info">* 每通过一次试炼提升等级</p>
                 </template>
             </cTooltip>
-            <div class="exp">
-                <div class="progress" style="width:80%;">
-                    <div class="progress-bar" :style="{width:player.exp.cur/player.exp.req*100+'%'}">
-                    </div>
-                </div>
-                <div class="value">
-                    <span id="expInfo"></span>
-                    <span>{{player.exp.cur+'/'+player.exp.req}}</span>
-                </div>
-            </div>
             <cTooltip placement="bottom">
                 <template v-slot:content>
                     <div class="hpmp">
@@ -106,7 +96,7 @@
                             <br>
                             +3护甲
                             <br>
-                            +1格挡
+                            +0.5格挡
                         </p>
                         </template>
                 </cTooltip>
@@ -191,7 +181,7 @@
                         </p>
                         <p class="info">* 每点提升属性
                             <br>
-                            +5法术伤害
+                            +4法术伤害
                             <br>
                             +0.1%法术暴击率
                         </p>
@@ -220,7 +210,7 @@
                         </p>
                         <p class="info">* 每点提升属性
                             <br>
-                            +5魔法值
+                            +15魔法值
                             <br>
                             +1每五秒回蓝
                         </p>
@@ -244,11 +234,11 @@
                         </p>
                         <p class="info">* 每点提升属性
                             <br>
-                            +1力量
-                            +1敏捷
-                            +1耐力
-                            +1智力
-                            +1精神
+                            +1力量 <br>
+                            +1敏捷 <br>
+                            +1耐力 <br>
+                            +1智力 <br>
+                            +1精神 <br>
                             +1全能
                         </p>
                     </template>
@@ -542,7 +532,7 @@
                 
             </div>
         </div>
-        <div class="user-spell" v-show="playerLv >= 20">
+        <div class="user-spell" v-show="playerLv >= 10">
             <ul class="nav nav-tabs">
                 <li class="nav-item" v-for="(v, k) in dmgFilter" :key=k>
                     <a class="nav-link" :class="{active: dmgFilterSelected==v}" id="charInfo" @click="switchFilter(v)">{{v}}</a>
@@ -964,21 +954,6 @@ export default {
           flex: 1;
         }
     }
-    .exp {
-        .progress {
-            width: 80%;
-            margin: auto;
-            height: 1px;
-            .progress-bar {
-                background-color: orange;  
-            }
-        }
-        .value {
-            text-align: right;
-            font-size: 0.75rem;
-            margin-right: 2.3rem;
-        }
-    }
     .hpmp {
         cursor: pointer;
         // border: 2px solid #ccc;
@@ -1109,9 +1084,8 @@ export default {
                 }
                 .name {
                     font-size: 0.85rem;
-                    height: 1rem;
-                    margin-top: 0.5rem;
                     line-height: 1rem;
+                    text-align: left;
                 }
             }
         }

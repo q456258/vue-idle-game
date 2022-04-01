@@ -34,7 +34,7 @@ export const spellEffect = {
         getDefRed(armor) {
             let sign = armor>=0 ? 1 : -1;
             armor = Math.abs(armor);
-            return sign*Math.round((armor/(100+armor) + armor/(armor+3500))/2*1000000)/10000;
+            return sign*Math.round((armor/(armor+5500))*1000000)/10000;
         },
         callAction(source, target) {
             if(this.stun(source))
