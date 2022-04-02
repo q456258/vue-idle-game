@@ -98,13 +98,13 @@
     </div>
 </template>
 <script>
-import { assist } from '../../assets/js/assist';
+
 import {equipConfig} from '@/assets/config/equipConfig'
 export default {    
     name: 'craftEquip',
     props: {
     },
-    mixins: [assist, equipConfig],
+    mixins: [equipConfig],
     data() {
         return {
             addons: [],
@@ -169,14 +169,15 @@ export default {
         };
     },
     mounted() {
+        this.$store.globalComponent.craftEquip = this;
         this.initReward();
     },
     watch: {
     },
     computed: {
         itemQtys() {
-            let guild = this.findComponentUpward(this.findComponentUpward(this, 'guildPosition'), 'guild');
-            let itemInfo = this.findBrothersComponents(guild, 'itemInfo', false)[0];
+            let guild = this.$store.globalComponent["guild"];
+            let itemInfo = this.$store.globalComponent["itemInfo"];
             let itemQtys = [];
             for(let i=0; i<this.addonType.length; i++) {
                 itemQtys[i] = itemInfo.getItemQty(this.addonType[i].itemCode);
@@ -187,8 +188,8 @@ export default {
     methods: {
         applyAddon(event, index) {
             let count = 1;
-            let guild = this.findComponentUpward(this.findComponentUpward(this, 'guildPosition'), 'guild');
-            let itemInfo = this.findBrothersComponents(guild, 'itemInfo', false)[0];
+            let guild = this.$store.globalComponent["guild"];
+            let itemInfo = this.$store.globalComponent["itemInfo"];
             let itemQty = itemInfo.getItemQty(this.addonType[index].itemCode);
             let max = this.addonType[index].max;
             if(this.addons[index] == undefined)
@@ -284,7 +285,7 @@ export default {
             }
         },
         nextStep() {
-            let guildPosition = this.findComponentUpward(this, 'guildPosition');
+            let guildPosition = this.$store.globalComponent["guildPosition"];
             // none, wait, picking, picked, donePick, order, crafting
             switch(this.status) {
                 case 'wait':
@@ -639,9 +640,9 @@ export default {
             return true;
         },
         craftEquip() {
-            let guild = this.findComponentUpward(this.findComponentUpward(this, 'guildPosition'), 'guild');
-            let equipInfo = this.findBrothersComponents(guild, 'equipInfo', false)[0];
-            let backpack = this.findBrothersComponents(guild, 'backpack', false)[0];
+            let guild = this.$store.globalComponent["guild"];
+            let equipInfo = this.$store.globalComponent["equipInfo"];
+            let backpack = this.$store.globalComponent["backpack"];
              
             let fixEntry = [];
             let baseEntry = [];

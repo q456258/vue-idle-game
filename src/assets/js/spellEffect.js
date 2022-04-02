@@ -43,8 +43,7 @@ export const spellEffect = {
             this.callSpell(source, target, spell);
             if(source.type == 'player')
                 this.useCost(spell);
-            let mapEvent = this.findBrothersComponents(this, 'mapEvent', false)[0];
-            let battleAnime = this.findComponentDownward(mapEvent, "battleAnime");
+            let battleAnime = this.$store.globalComponent["battleAnime"];
             if(source.type == 'player')
                 battleAnime.playerMove();
             else
@@ -100,8 +99,7 @@ export const spellEffect = {
             for(let cost in this.spell[spell].level[spellLv].cost) {
                 if(cost == 'MP') {
                     if(attr['CURMP'].value < this.spell[spell].level[spellLv].cost['MP']) {
-                        let mapEvent = this.findBrothersComponents(this, 'mapEvent', false)[0];
-                        let battleAnime = this.findComponentDownward(mapEvent, "battleAnime");
+                        let battleAnime = this.$store.globalComponent["battleAnime"];
                         battleAnime.displayText("player", "failSpell", this.spell[spell].name);
                         this.$store.commit("set_battle_info", {
                             html: '<span style="color:#ff0000">【'+this.spell[spell].name+'】释放失败</span>'

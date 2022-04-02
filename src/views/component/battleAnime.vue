@@ -31,13 +31,12 @@
 
 <script>
 import hpmpBar from '../uiComponent/hpmpBar';
-import { assist } from '../../assets/js/assist';
 import draggable from '../uiComponent/draggable';
 export default {
     name: "battleAnime",
-    mixins: [assist],
     components: {hpmpBar, draggable},
     mounted() {
+        this.$store.globalComponent.battleAnime = this;
     },
     data() {
         return {

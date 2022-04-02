@@ -33,13 +33,12 @@
 </template>
 <script>
 import draggable from '../uiComponent/draggable';
-import { assist } from '../../assets/js/assist';
 import { Base64 } from 'js-base64';
 export default {    
     name: 'saveload',
     props: {
     },
-    mixins: [assist],
+    mixins: [],
     components: {draggable},
     data() {
         return {
@@ -49,6 +48,7 @@ export default {
         };
     },
     mounted() {
+        this.$store.globalComponent.saveload = this;
     },
     watch: {
     },
@@ -62,9 +62,8 @@ export default {
         }, 
         async saveGame(needInfo=false) {
             let data = {}
-            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
-            let guild = this.findBrothersComponents(this, 'guild', false)[0];
-            let guildPosition = this.findComponentDownward(guild, 'guildPosition');
+            let backpack = this.$store.globalComponent["backpack"];
+            let guildPosition = this.$store.globalComponent["guildPosition"];
             this.$store.state.exitTime = Date.now();
             data = {
                 state: this.$store.state,
@@ -113,11 +112,9 @@ export default {
                     data.state.guildAttribute.smith = {lv: 0}
                 }
                 this.$store.replaceState(data.state);
-                let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
-                let mapEvent = this.findBrothersComponents(this, 'mapEvent', false)[0];
-                let setting = this.findBrothersComponents(this, 'setting', false)[0];
-                let guild = this.findBrothersComponents(this, 'guild', false)[0];
-                let guildPosition = this.findComponentDownward(guild, 'guildPosition');
+                let backpack = this.$store.globalComponent["backpack"];
+                let setting = this.$store.globalComponent["setting"];
+                let guildPosition = this.$store.globalComponent["guildPosition"];
 
                 guildPosition.init();
                 backpack.grid = data.backpackEquipment;
@@ -139,7 +136,7 @@ export default {
 
                 setting.readSetting();
                 
-                let index = this.findComponentUpward(this, 'index');
+                let index = this.$store.globalComponent["index"];
                 this.$store.state.dungeonInfo.auto = false;
                 this.$store.state.dungeonInfo.inBattle = false;
                 this.$store.state.enemyAttribute.attribute.CURHP.value = 0;
@@ -149,11 +146,11 @@ export default {
                 index.createMaps();
                 // index.switchZone('advanture');
 
-                // let guild = this.findComponentDownward(index, 'guild');
+                // let guild = this.$store.globalComponent["guild"];
                 // guild.getAllCost();
                 if(data.state.exitTime != 0) {
                     let awayTime = Date.now()-data.state.exitTime;
-                    let achievement = this.findBrothersComponents(this, 'achievement', false)[0];
+                    let achievement = this.$store.globalComponent["achievement"];
                     achievement.set_statistic({awayTime: awayTime});
                     // this.$store.commit("set_statistic", {awayTime: awayTime});
                     // this.awayReward(awayTime);
@@ -175,9 +172,9 @@ export default {
                 return;
             if(minute > 288)
                 minute = 288;
-            let guild = this.findBrothersComponents(this, 'guild', false)[0];
-            let equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
-            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            let guild = this.$store.globalComponent["guild"];
+            let equipInfo = this.$store.globalComponent["equipInfo"];
+            let backpack = this.$store.globalComponent["backpack"];
             let crystal = 0;
             let gold = 0;
             let lv = this.$store.state.playerAttribute.lv;
@@ -201,7 +198,7 @@ export default {
             guild.getCrystal('外出游荡时累积', crystal);
         },
         closeSaveload() {
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent["index"];
             index.closeMenuPanel('save');
         }
     }

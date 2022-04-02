@@ -56,17 +56,20 @@
 </draggable>
 </template>
 <script>
-import { assist } from '../../assets/js/assist';
+
 import draggable from '../uiComponent/draggable'
 export default {
     name: "equipEnhance",
-    mixins: [assist, ],
+    mixins: [],
     components: {draggable},
     data() {
         return {
             material: '',
             imgSrc: ''
         };
+    },
+    mounted() {
+        this.$store.globalComponent.equipEnhance = this;
     },
     props: {
         equip: {
@@ -93,8 +96,8 @@ export default {
             return this.itemQty < this.cost;
         },
         item() {
-            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            let itemInfo = this.$store.globalComponent["itemInfo"];
+            let backpack = this.$store.globalComponent["backpack"];
             let item = itemInfo.findItem(this.material);
             if(item == -1)
                 return {quantity: 0};
@@ -102,7 +105,7 @@ export default {
                 return item.use ? backpack.useGrid[item] : backpack.etcGrid[item];
         },
         itemQty() {
-            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            let itemInfo = this.$store.globalComponent["itemInfo"];
             let qty = itemInfo.getItemQty(this.material);
             return qty;
         }
@@ -112,15 +115,15 @@ export default {
             if(this.warning) {
                 return;
             }
-            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
-            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            let backpack = this.$store.globalComponent["backpack"];
+            let itemInfo = this.$store.globalComponent["itemInfo"];
             itemInfo.removeItemByItem(this.item, this.cost);
 
             // backpack.lockEquipment(true);
             this.equip.locked = true;
             backpack.$forceUpdate();
             this.equip.enhanceLv = this.equip.enhanceLv + 1;
-            let equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
+            let equipInfo = this.$store.globalComponent["equipInfo"];
             equipInfo.enhanceBaseEntryValue(this.equip);
             equipInfo.activePotential(this.equip);
             this.setMaterial();
@@ -134,7 +137,7 @@ export default {
             this.imgSrc = names[index];
         },
         closeInfo() {
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent["index"];
             index.closeInfo('enhance');
         }
     }

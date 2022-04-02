@@ -1,8 +1,7 @@
-import { assist } from '@/assets/js/assist';
 import { itemConfig } from '@/assets/config/itemConfig';
 import { buffAndTrigger } from '@/assets/js/buffAndTrigger';
 export const itemEffect = {
-    mixins: [assist, itemConfig, buffAndTrigger],
+    mixins: [itemConfig, buffAndTrigger],
     data() {
         return {
         }
@@ -156,19 +155,19 @@ export const itemEffect = {
         },
         //招募声明
         inv_misc_note_06() {
-            let guildMember = this.findBrothersComponents(this, 'guildMember', false)[0];
+            let guildMember = this.$store.globalComponent["guildMember"];
             guildMember.generateApplicant();
             return true;
         },
         randomGold(max, lv) {
-            let guild = this.findBrothersComponents(this, 'guild', false)[0];
+            let guild = this.$store.globalComponent["guild"];
             let gold = Math.round(max*Math.random()*(1+lv*0.1))
             guild.getGold('', gold);
             return true;
         },
         randomEquip(qualitySet, lv, optional={}) {
-            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
-            let equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
+            let backpack = this.$store.globalComponent["backpack"];
+            let equipInfo = this.$store.globalComponent["equipInfo"];
             let itemLv = lv || this.$store.state.playerAttribute.lv;
             let equip = equipInfo.createEquip(-1, itemLv, 'random', qualitySet, optional);  
             equip = JSON.parse(equip);
@@ -181,7 +180,7 @@ export const itemEffect = {
             return true;
         },
         bossTicket(monsterID) {
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent.index;
             index.addToMap('boss', (monsterID+5)*2, 1, monsterID);
             return true;
         },
@@ -302,7 +301,7 @@ export const itemEffect = {
         },
         inv_potion_27() {
             let player = this.$store.state.playerAttribute;
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent["index"];
             index.buffApply(player, player, 'minionSlayer', 600);
             return true;
         },

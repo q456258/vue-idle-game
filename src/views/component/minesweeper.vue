@@ -36,10 +36,9 @@
 </div>
 </template>
 <script>
-import { assist } from '../../assets/js/assist';
 export default {    
     name: 'minesweeper',
-    mixins: [assist],
+    mixins: [],
     components: {},
     props: {
         difficulty: {
@@ -63,7 +62,7 @@ export default {
         };
     },
     mounted() {
-        // this.init()
+        this.$store.globalComponent.minesweeper = this;
     },
     watch: {
     },
@@ -280,8 +279,7 @@ export default {
             }
             if(rewardCount <= 0)
                 return;
-            let mapEvent = this.findComponentUpward(this, 'mapEvent');
-            let itemInfo = this.findBrothersComponents(mapEvent, 'itemInfo', false)[0];
+            let itemInfo = this.$store.globalComponent["itemInfo"];
             // 添加数量
             while(rewardCount > 0) {
                 for(let k=0; k<this.rewardList.length; k++) {

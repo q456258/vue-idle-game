@@ -56,7 +56,7 @@
 </div>
 </template>
 <script>
-import { assist } from '../../assets/js/assist';
+
 import { talentConfig } from '../../assets/config/talentConfig';
 import { buffAndTrigger } from '../../assets/js/buffAndTrigger';
 import draggable from '../uiComponent/draggable';
@@ -64,7 +64,7 @@ export default {
     name: 'talentTree',
     props: {
     },
-    mixins: [assist, talentConfig, buffAndTrigger],
+    mixins: [talentConfig, buffAndTrigger],
     components: {draggable},
     data() {
         return {
@@ -81,6 +81,7 @@ export default {
         }
     },
     mounted() {
+        this.$store.globalComponent.talentTree = this;
         this.setGrid('generalBranch');
         this.setGrid('warriorBranch');
         this.setGrid('mageBranch');
@@ -214,7 +215,7 @@ export default {
         },
         learnSpell(spellName) {
             let spellList = this.$store.state.playerAttribute.spells;
-            let charInfo = this.findBrothersComponents(this, 'charInfo', false)[0];
+            let charInfo = this.$store.globalComponent["charInfo"];
             if(spellList[spellName] != undefined) {
                 spellList[spellName].lv = this.playerTalent[spellName];
                 if(this.playerTalent[spellName] == 0)

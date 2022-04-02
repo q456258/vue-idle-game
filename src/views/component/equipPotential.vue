@@ -39,16 +39,19 @@
 </draggable>
 </template>
 <script>
-import { assist } from '../../assets/js/assist';
+
 import draggable from '../uiComponent/draggable'
 export default {
     name: "equipPotential",
-    mixins: [assist, ],
+    mixins: [],
     components: {draggable},
     data() {
         return {
             has: 0
         };
+    },
+    mounted() {
+        this.$store.globalComponent.equipPotential = this;
     },
     props: {
         equip: {
@@ -65,8 +68,8 @@ export default {
             return this.has < 1;
         },
         item() {
-            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            let itemInfo = this.$store.globalComponent["itemInfo"];
+            let backpack = this.$store.globalComponent["backpack"];
             // 神秘宝珠
             let item = itemInfo.findItem('inv_misc_enchantedpearla');
             if(item == -1)
@@ -75,7 +78,7 @@ export default {
                 return item.use ? backpack.useGrid[item] : backpack.etcGrid[item];
         },
         itemQty() {
-            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            let itemInfo = this.$store.globalComponent["itemInfo"];
             // 神秘宝珠
             let qty = itemInfo.getItemQty('inv_misc_enchantedpearla');
             return qty;
@@ -83,11 +86,11 @@ export default {
     },
     methods: {
         washPotential() {
-            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            let itemInfo = this.$store.globalComponent["itemInfo"];
             itemInfo.removeItemByItem(this.item, 1);
 
             let tags = document.getElementsByClassName('tag');
-            let equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
+            let equipInfo = this.$store.globalComponent["equipInfo"];
             this.equip.potential = equipInfo.createPotential(this.equip);
             for(let i=0; i<tags.length; i++) {
                 setTimeout(()=>{
@@ -110,7 +113,7 @@ export default {
             }
         },
         closeInfo() {
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent["index"];
             index.closeInfo('potential');
         }
     }

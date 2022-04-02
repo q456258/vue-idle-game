@@ -110,16 +110,17 @@
 </template>
 <script>
 import {guildConfig} from '@/assets/config/guildConfig'
-import { assist } from '../../assets/js/assist';
+
 import currency from '../uiComponent/currency';
 import cTooltip from '../uiComponent/tooltip';
 import guildPosition from '../component/guildPosition';
 import countdown from '../uiComponent/countdown';
 export default {
     name: "guild",
-    mixins: [assist, guildConfig],
+    mixins: [guildConfig],
     components: {cTooltip, guildPosition, countdown, currency},
     mounted() {
+        this.$store.globalComponent.guild = this;
     },
     data() {
         return {
@@ -133,7 +134,7 @@ export default {
     },
     methods: {      
         switchTab(e, type){
-            let guildPosition = this.findComponentDownward(this, 'guildPosition');
+            let guildPosition = this.$store.globalComponent["guildPosition"];
             let active = document.getElementById(guildPosition.displayPage+'Btn');
             active.classList.remove('btnActive');
             guildPosition.displayPage = type;
@@ -151,7 +152,7 @@ export default {
                     gold: gold
                 });
             }
-            let achievement = this.findBrothersComponents(this, 'achievement', false)[0];
+            let achievement = this.$store.globalComponent["achievement"];
             achievement.set_statistic({cumulatedGold: gold});
             // this.$store.commit("set_statistic", {cumulatedGold: gold});
         },
@@ -164,7 +165,7 @@ export default {
                     msg: text+'获得'+crystal+'水晶'
                 });
             }
-            let achievement = this.findBrothersComponents(this, 'achievement', false)[0];
+            let achievement = this.$store.globalComponent["achievement"];
             achievement.set_statistic({cumulatedCrystal: crystal});
             // this.$store.commit("set_statistic", {cumulatedCrystal: crystal});
         },

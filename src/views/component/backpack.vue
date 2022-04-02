@@ -123,13 +123,13 @@
 </draggable>
 </template>
 <script>
-import { assist } from '../../assets/js/assist';
+
 import { itemConfig } from '../../assets/config/itemConfig';
 import { itemEffect } from '../../assets/js/itemEffect';
 import draggable from '../uiComponent/draggable';
 export default {
     name: 'backpack',
-    mixins: [assist, itemConfig, itemEffect],
+    mixins: [itemConfig, itemEffect],
     components: {draggable},
     data() {
         return {
@@ -154,6 +154,9 @@ export default {
             leftClickEnabled: false
         }
     },  
+    mounted () {
+        this.$store.globalComponent.backpack = this;
+    },
     watch: {
         visible(value) {
             if (value) {
@@ -236,19 +239,19 @@ export default {
             }
         },    
         equipEnhance() {
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent["index"];
             index.closeInfo();
             index.enhanceEquip = this.grid[this.currentItemIndex];
             index.equipEnhancePanel = true;
         },
         equipForge() {
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent["index"];
             index.closeInfo();
             index.enhanceEquip = this.grid[this.currentItemIndex];
             index.equipForgePanel = true;
         },
         equipPotential() {
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent["index"];
             index.closeInfo();
             index.enhanceEquip = this.grid[this.currentItemIndex];
             index.equipPotentialPanel = true;
@@ -265,14 +268,14 @@ export default {
             cost *= (1+equip.lv/2)*(1+equip.enhanceLv*equip.quality.qualityCoefficient+equip.quality.extraEntryNum*2);
             cost = Math.round(cost);
             this.grid[index] = {};
-            let guild = this.findBrothersComponents(this, 'guild', false)[0];
+            let guild = this.$store.globalComponent["guild"];
             guild.getGold('出售装备', cost);
         },
         sellEquipmentByEquip(equip) {
             let cost = 8+4*Math.random();
             cost *= (1+equip.lv/2)*(1+equip.enhanceLv*equip.quality.qualityCoefficient+equip.quality.extraEntryNum*2);
             cost = Math.round(cost);
-            let guild = this.findBrothersComponents(this, 'guild', false)[0];
+            let guild = this.$store.globalComponent["guild"];
             guild.getGold('出售装备', cost);
         },
         disintegrate(index) {
@@ -281,7 +284,7 @@ export default {
             let equip = this.grid[index];
             let dust = ['dust2', 'dust3', 'dust4', 'dust5', 'dust6'];
 
-            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            let itemInfo = this.$store.globalComponent["itemInfo"];
             let quantity = Math.ceil(equip.lv/10);
             let item = itemInfo.createItem(dust[equip.quality.qualityLv-2], quantity);  
             itemInfo.addItem(JSON.parse(item), true);  
@@ -292,7 +295,7 @@ export default {
                 return false;
             let dust = ['dust2', 'dust3', 'dust4', 'dust5', 'dust6'];
 
-            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            let itemInfo = this.$store.globalComponent["itemInfo"];
             let quantity = Math.ceil(equip.lv/10);
             let item = itemInfo.createItem(dust[equip.quality.qualityLv-2], quantity);  
             itemInfo.addItem(JSON.parse(item), true);  
@@ -310,7 +313,7 @@ export default {
                 });
                 return false;
             }
-            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            let itemInfo = this.$store.globalComponent["itemInfo"];
             let success = this.callItemEffect(this.useGrid[this.currentItemIndex].type);
             if(success)
                 itemInfo.removeItemByIndex(this.currentItemIndex, 1, 'use');
@@ -350,7 +353,7 @@ export default {
                 return;
             if(quantity < mergeCount*count)
                 return;
-            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            let itemInfo = this.$store.globalComponent["itemInfo"];
             itemInfo.removeItemByIndex(this.currentItemIndex, mergeCount*count, grid);
             let newItem = itemInfo.createItem(result, count);
             itemInfo.addItem(JSON.parse(newItem));
@@ -455,15 +458,15 @@ export default {
         showInfo($event, type, item, compare) {
             if(this.dragging)
                 return;
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent["index"];
             index.showInfo($event, type, item, compare);
         },
         closeInfo(type) {
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent["index"];
             index.closeInfo(type);
         },
         closeBackpack() {
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent["index"];
             index.openMenuPanel('backpack');
         },
         openMenu(k, e) {
@@ -543,8 +546,8 @@ export default {
         },
         selectForSmith(e, k) {
             if(this.leftClickEnabled) {
-                let guild = this.findBrothersComponents(this, 'guild', false)[0];
-                let guildPosition = this.findComponentDownward(guild, 'guildPosition');  
+                let guild = this.$store.globalComponent["guild"];
+                let guildPosition = this.$store.globalComponent["guildPosition"];  
                 guildPosition.selectedEquip(this.grid[k]);
                 this.$set(this.grid, k, {});
                 this.leftClickEnabled = false;

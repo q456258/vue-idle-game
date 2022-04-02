@@ -1,18 +1,18 @@
 <template>
 </template>
 <script>
-import { assist } from '../../assets/js/assist';
+
 export default {    
     name: 'achievement',
     props: {
     },
-    mixins: [assist],
     components: {},
     data() {
         return {
         };
     },
     mounted() {
+        this.$store.globalComponent.achievement = this;
     },
     watch: {
     },
@@ -24,7 +24,7 @@ export default {
             //     let time = this.$store.state.statistic.gameTime;
             //     let hourGap = this.timeGap('hour', time, time+data.gameTime);
             //     if(hourGap == 1) {
-            //         let guildMember = this.findBrothersComponents(this, 'guildMember', false)[0];
+            //         let guildMember = this.$store.globalComponent["guildMember"];
             //         guildMember.levelupAll();
             //     }
 

@@ -124,7 +124,6 @@ let initial_shoe = {
 
 export default new Vuex.Store({
     state: {
-        needStrengthenEquipment: {}, //设定当前需要强化的装备
         sysInfo: [{
             type: '',
             msg: "欢迎你勇士, 点击地图上的副本开始战斗。"

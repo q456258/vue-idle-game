@@ -35,14 +35,16 @@
 </template>
 <script>
 import {itemConfig} from '@/assets/config/itemConfig'
-import { assist } from '../../assets/js/assist';
 export default {
     name: "itemInfo",
-    mixins: [itemConfig, assist],
+    mixins: [itemConfig],
     data() {
         return {
             newItem: {},
         };
+    },
+    mounted() {
+        this.$store.globalComponent.itemInfo = this;
     },
     props: {
         item: {
@@ -80,7 +82,7 @@ export default {
             return this.quality[quality];
         },
         findItem(name, checkStack=false) {        
-            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            let backpack = this.$store.globalComponent["backpack"];
             let grid = this.itemType[name].use ? backpack.useGrid: backpack.etcGrid;
             for (let i = 0; i < grid.length; i++) {
                 let item = grid[i];
@@ -94,7 +96,7 @@ export default {
             return -1;
         },
         getItemQty(code) {            
-            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            let backpack = this.$store.globalComponent["backpack"];
             let grid = this.itemType[code].use ? backpack.useGrid: backpack.etcGrid;
             let total = 0;
             for (let i = 0; i < grid.length; i++) {
@@ -106,7 +108,7 @@ export default {
             return total;
         },
         addItem(item, msg=false) {
-            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            let backpack = this.$store.globalComponent["backpack"];
             let grid = item.use ? backpack.useGrid : backpack.etcGrid;
             let name = item.type;
             let stack = this.findItem(name, true);
@@ -153,7 +155,7 @@ export default {
             }
         },
         removeItemByIndex(index, quantity, type='use') {
-            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            let backpack = this.$store.globalComponent["backpack"];
             let grid = type=='use' ? backpack.useGrid : backpack.etcGrid;
             let temp = grid[index];
             if(grid[index].quantity <= quantity) {
@@ -164,7 +166,7 @@ export default {
                 grid[index].quantity -= quantity;
         },
         removeItemByItem(item, quantity) {
-            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            let backpack = this.$store.globalComponent["backpack"];
             let grid = item.use ? backpack.useGrid : backpack.etcGrid;
             let name = item.type;
             let stack = this.findItem(name);

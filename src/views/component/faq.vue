@@ -378,6 +378,7 @@ export default {
         };
     },
     mounted() {
+        this.$store.globalComponent.faq = this;
     },
     watch: {
     },

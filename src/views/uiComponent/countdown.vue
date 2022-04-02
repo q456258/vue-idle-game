@@ -62,12 +62,12 @@
 </div>
 </template>
 <script>
-import { assist } from '../../assets/js/assist';
+
 import {equipConfig} from '@/assets/config/equipConfig'
 import trainStat from '../component/trainStat';
 export default {
     name:"countdown",
-    mixins: [assist, equipConfig],
+    mixins: [equipConfig],
     components: {trainStat},
     props: {
         tier: {
@@ -122,8 +122,8 @@ export default {
                 break;
         }
         this.memberID = memberID;
-        let guild = this.findComponentUpward(this, 'guild');
-        let guildMember = this.findBrothersComponents(guild, 'guildMember', false)[0];
+        let guild = this.$store.globalComponent["guild"];
+        let guildMember = this.$store.globalComponent["guildMember"];
         this.member = guildMember.findTargetByID(memberID);
         
         this.countdownTimer = this.timer;
@@ -185,7 +185,7 @@ export default {
                 if(this.timeRemain == 0) {
                     this.training = false;
                     clearInterval(this.countdownTimer);
-                    let index = this.findComponentUpward(this, 'index');
+                    let index = this.$store.globalComponent["index"];
                     if(index.displayPage != 'guild') {
                         let element = document.getElementById('guild');
                         element.classList.add('glow');
@@ -202,7 +202,7 @@ export default {
                 if(this.timeRemain == 0) {
                     this.training = false;
                     clearInterval(this.countdownTimer);
-                    let index = this.findComponentUpward(this, 'index');
+                    let index = this.$store.globalComponent["index"];
                     if(index.displayPage != 'guild') {
                         let element = document.getElementById('guild');
                         element.classList.add('glow');
@@ -218,8 +218,8 @@ export default {
             clearInterval(this.countdownTimer);
         },
         collect() {
-            let guild = this.findComponentUpward(this, 'guild');
-            let guildMember = this.findBrothersComponents(guild, 'guildMember', false)[0];
+            let guild = this.$store.globalComponent["guild"];
+            let guildMember = this.$store.globalComponent["guildMember"];
             this.train.finishTime = 0;
             let element = this.$refs['text'];
             let count = 120;
@@ -283,8 +283,8 @@ export default {
         },
         setTrainMember(e) {
             let value = e.target.value;
-            let guild = this.findComponentUpward(this, 'guild');
-            let guildMember = this.findBrothersComponents(guild, 'guildMember', false)[0];
+            let guild = this.$store.globalComponent["guild"];
+            let guildMember = this.$store.globalComponent["guildMember"];
             this.memberID = value;
             this.member = guildMember.findTargetByID(value);
             switch(this.tier) {
@@ -337,8 +337,8 @@ export default {
             let max = (this.member.talent[type]+50)*this.entryInfo[type].base*this.member.lv;
             if(this.member.stat[type]+value > max) {
                 value = max - this.member.stat[type];
-                let guild = this.findComponentUpward(this, 'guild');
-                let guildMember = this.findBrothersComponents(guild, 'guildMember', false)[0];
+                let guild = this.$store.globalComponent["guild"];
+                let guildMember = this.$store.globalComponent["guildMember"];
                 guildMember.levelUp(this.member);
             }
             return value;

@@ -174,12 +174,11 @@ import statistic from './component/statistic';
 import saveload from './component/saveload';
 import setting from './component/setting';
 import enemyInfo from './component/enemyInfo';
-import { assist } from '../assets/js/assist';
 import { dungeon } from '../assets/js/dungeon';
 import { buffAndTrigger } from '../assets/js/buffAndTrigger';
 export default {
   name: 'index',
-  mixins: [assist, dungeon, buffAndTrigger],
+  mixins: [dungeon, buffAndTrigger],
   data() {
     return {
       showEquipInfo: false,
@@ -209,24 +208,27 @@ export default {
       selectedZone: 0
     }
   },
-  components: {cTooltip, equipInfo, compareEquip, itemInfo, mapEvent, assist, backpack, equipEnhance, equipForge, equipPotential, 
+  components: {cTooltip, equipInfo, compareEquip, itemInfo, mapEvent, backpack, equipEnhance, equipForge, equipPotential, 
               charInfo, guild, guildMember, shop, talentTree, faq, achievement, statistic, saveload, setting, enemyInfo, currency},
+  created() {
+    this.$store.globalComponent = {};
+  },
   mounted() {    
+    this.$store.globalComponent.index = this;
     //读取本地存档
-    let saveload = this.findComponentDownward(this, 'saveload');  
+    let saveload =  this.$store.globalComponent['saveload'];  
     let sd = localStorage.getItem('_sd');
     saveload.loadGame(sd);
     // 启用buff中心计时器
     this.buffTimer();
     
-    let achievement = this.findComponentDownward(this, 'achievement');  
+    let achievement =  this.$store.globalComponent['achievement'];  
     achievement.set_statistic({gameStartDate: Date.now()});
 
-    let guild = this.findComponentDownward(this, 'guild');  
-    let guildPosition = this.findComponentDownward(guild, 'guildPosition');   
+    let guildPosition =  this.$store.globalComponent['guildPosition'];   
     guildPosition.init();
 
-    let talentTree = this.findComponentDownward(this, 'talentTree');  
+    let talentTree =  this.$store.globalComponent['talentTree'];  
     talentTree.init();
     
     // this.$store.commit("set_statistic", {gameStartDate: Date.now()});
@@ -240,7 +242,7 @@ export default {
 
     // 自动保存
     setInterval(() => {
-      let saveload = this.findComponentDownward(this, 'saveload');  
+      let saveload = this.$store.globalComponent["saveload"];  
       saveload.saveGame(true);
     }, 5 * 60 * 1000)
 
@@ -252,7 +254,7 @@ export default {
     // // let optional = {baseOption: ['STR', 'AGI', 'STA']};
     // let optional = {};
     // let qualitySet = 0;
-    // let equipInfo = this.findComponentDownward(this, 'equipInfo');   
+    // let equipInfo = this.$store.globalComponent["equipInfo"];;   
     // let newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'helmet', qualitySet, optional));
     // this.$store.commit('set_player_helmet', this.$deepCopy(newEquip));
     // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'weapon', qualitySet, optional));
@@ -279,7 +281,7 @@ export default {
     // this.$store.commit('set_player_necklace', this.$deepCopy(newEquip));
 
             // this.$store.state.playerAttribute.lv = 50;
-//     let itemInfo = this.findComponentDownward(this, 'itemInfo');
+//     let itemInfo = this.$store.globalComponent["itemInfo"];;
 //     let item ;
 //     let items = ['inv_misc_note_06',
 //      'inv_potion_49',
@@ -320,7 +322,7 @@ export default {
 //     }
 
     this.$store.commit('set_player_attribute');
-    let shop = this.findComponentDownward(this, 'shop');  
+    let shop = this.$store.globalComponent["shop"];  
     shop.setEquipShopItem();
   },
   computed: {
@@ -386,7 +388,7 @@ export default {
           this.dungeon.selected = false;
           this.dungeon = {};
         }
-        let mapEvent = this.findComponentDownward(this, 'mapEvent'); 
+        let mapEvent = this.$store.globalComponent["mapEvent"];
         if(this.$store.state.dungeonInfo.inBattle) {
             mapEvent.toggleBattle();
         }
@@ -400,11 +402,11 @@ export default {
       }
     },
     toggleBattle(type) {
-      let mapEvent = this.findComponentDownward(this, 'mapEvent'); 
+      let mapEvent = this.$store.globalComponent["mapEvent"];
       mapEvent.toggleBattle(type);
     },
     createMaps() {    
-      let itemInfo = this.findComponentDownward(this, 'itemInfo');
+      let itemInfo = this.$store.globalComponent["itemInfo"];;
       let count = 5;
       let type = 'advanture';
       this.mapArr = this.generateDungeonByZone(count, this.monsterZone[this.selectedZone]);
@@ -424,8 +426,8 @@ export default {
 
     },
     actualReward(mapArr) {
-      let equipInfo = this.findComponentDownward(this, 'equipInfo');   
-      let itemInfo = this.findComponentDownward(this, 'itemInfo');
+      let equipInfo = this.$store.globalComponent["equipInfo"];;   
+      let itemInfo = this.$store.globalComponent["itemInfo"];;
       for(let map in mapArr) {
         mapArr[map].reward = [];
         for(let type in mapArr[map].rewardType) {
@@ -554,7 +556,7 @@ export default {
       }
     },
     confirmDungeon(k) {
-      let mapEvent = this.findComponentDownward(this, 'mapEvent'); 
+      let mapEvent = this.$store.globalComponent["mapEvent"];
       mapEvent.displayDungeon = true;
       if(this.dungeon)
         this.dungeon.selected = false;
@@ -569,7 +571,7 @@ export default {
     },
     resetMap(forceReset=false) {
       let element = document.getElementById('resetMap');
-      let mapEvent = this.findComponentDownward(this, 'mapEvent'); 
+      let mapEvent = this.$store.globalComponent["mapEvent"];
       if(!forceReset && this.resetTime > 0) {
         return;
       }
@@ -601,7 +603,7 @@ export default {
       clearInterval(this.autoHealthRecovery);
       clearInterval(this.autoManRecovery);
       this.autoHealthRecovery = setInterval(() => {
-        let mapEvent = this.findComponentDownward(this, 'mapEvent');  
+        let mapEvent = this.$store.globalComponent["mapEvent"];
         let player = this.$store.state.playerAttribute;
         let recover = 0.10;
         let talent = 'ability_hunter_harass';
@@ -637,7 +639,7 @@ export default {
       }, 5000);
     },
     openMenuPanel(type) {
-      let saveload = this.findComponentDownward(this, 'saveload');  
+      let saveload = this.$store.globalComponent["saveload"];  
       switch(type) {
         case 'backpack':
           this.showBackpack = !this.showBackpack;
@@ -652,7 +654,7 @@ export default {
       }
     },
     closeMenuPanel(type) {
-      let saveload = this.findComponentDownward(this, 'saveload');  
+      let saveload = this.$store.globalComponent["saveload"];  
       switch(type) {
         case 'backpack':
           this.showBackpack = false;

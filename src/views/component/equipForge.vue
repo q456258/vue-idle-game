@@ -50,11 +50,11 @@
 </draggable>
 </template>
 <script>
-import { assist } from '../../assets/js/assist';
+
 import draggable from '../uiComponent/draggable'
 export default {
     name: "equipForge",
-    mixins: [assist, ],
+    mixins: [],
     components: {draggable},
     data() {
         return {
@@ -68,6 +68,7 @@ export default {
         }
     },
     mounted() {
+        this.$store.globalComponent.equipForge = this;
     },
     watch: {
         equip() {
@@ -79,8 +80,8 @@ export default {
             return this.itemQty < this.cost;
         },
         item() {
-            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            let itemInfo = this.$store.globalComponent["itemInfo"];
+            let backpack = this.$store.globalComponent["backpack"];
             // 虚空宝珠
             let item = itemInfo.findItem('inv_enchant_voidsphere');
             if(item == -1)
@@ -89,7 +90,7 @@ export default {
                 return item.use ? backpack.useGrid[item] : backpack.etcGrid[item];
         },
         itemQty() {
-            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            let itemInfo = this.$store.globalComponent["itemInfo"];
             // 虚空宝珠
             let qty = itemInfo.getItemQty('inv_enchant_voidsphere');
             return qty;
@@ -100,8 +101,8 @@ export default {
             if(this.warning) {
                 return;
             }
-            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-            let equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
+            let itemInfo = this.$store.globalComponent["itemInfo"];
+            let equipInfo = this.$store.globalComponent["equipInfo"];
             itemInfo.removeItemByItem(this.item, this.cost);
             // equipInfo.forgeAll(this.equip);
             let allLocked = true;
@@ -122,7 +123,7 @@ export default {
             if(entry.locked) {
                 return;
             }
-            let equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
+            let equipInfo = this.$store.globalComponent["equipInfo"];
             equipInfo.forgeEntry(this.equip, key);
             this.$store.commit('set_player_attribute');
         },
@@ -160,7 +161,7 @@ export default {
             },900);
         },
         closeInfo() {
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent["index"];
             index.closeInfo('forge');
         },
     }

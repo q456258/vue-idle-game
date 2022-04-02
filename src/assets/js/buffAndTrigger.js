@@ -35,7 +35,7 @@ export const buffAndTrigger = {
         // 启用中心计时器, 按时间减少buff时间
         buffTimer(time){
             this.centralTimer = setInterval(() => {
-                let achievement = this.findComponentDownward(this, 'achievement');  
+                let achievement = this.$store.globalComponent["achievement"];  
                 achievement.set_statistic({gameTime: 1000});
                 let now = Date.now();
                 let playerBuff = this.player.buff;
@@ -322,7 +322,7 @@ export const buffAndTrigger = {
         // 死亡后触发, source为击杀者
         triggerAfterKilled(source, target) {
             if(target.type == 'player' && this.$store.state.statistic.death%50 == 0 && this.$store.state.statistic.death > 0) {
-                let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+                let itemInfo = this.$store.globalComponent["itemInfo"];
                 let item = itemInfo.createItem('inv_potion_27', 1);  
                 itemInfo.addItem(JSON.parse(item));
             }
@@ -344,8 +344,7 @@ export const buffAndTrigger = {
                 this.heal(source, source, this.get_dmg(dmgs, 'heal'), sourceName);
         },
         damage(source, target, dmgs, sourceName) {
-            let mapEvent = this.findBrothersComponents(this, 'mapEvent', false)[0];
-            let battleAnime = this.findComponentDownward(mapEvent, "battleAnime");
+            let battleAnime = this.$store.globalComponent["battleAnime"];
             this.weak(source, dmgs);
             this.void(target, dmgs);
             this.minionSlayer(source, target, dmgs);
@@ -388,8 +387,7 @@ export const buffAndTrigger = {
         },
         heal(source, target, heal, sourceName) {
             // this.triggerOnHeal(source, target)
-            let mapEvent = this.findBrothersComponents(this, 'mapEvent', false)[0];
-            let battleAnime = this.findComponentDownward(mapEvent, "battleAnime");
+            let battleAnime = this.$store.globalComponent["battleAnime"];
             battleAnime.displayText(target.type, "dmg", {heal: dmgs.heal});
             if(target.type == 'player')
                 this.set_player_hp(heal, source);

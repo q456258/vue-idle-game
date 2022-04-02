@@ -56,12 +56,12 @@
 	</div>
 </template>
 <script>
-import { assist } from '../../assets/js/assist';
+
 import { monsterConfig } from '@/assets/config/monsterConfig'
 import currency from '../uiComponent/currency';
 export default {
     name:"statistic",
-    mixins: [assist, monsterConfig],
+    mixins: [monsterConfig],
     components: {currency},
     props: {
     },
@@ -70,6 +70,7 @@ export default {
         }
     },
     mounted () {
+        this.$store.globalComponent.statistic = this;
     },
     watch: {
     },

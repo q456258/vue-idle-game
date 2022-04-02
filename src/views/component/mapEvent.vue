@@ -67,7 +67,7 @@
 </template>
 <script>
 
-import { assist } from '../../assets/js/assist';
+
 import { spellEffect } from '../../assets/js/spellEffect';
 import { buffAndTrigger } from '../../assets/js/buffAndTrigger';
 import { monsterConfig } from '@/assets/config/monsterConfig'
@@ -77,7 +77,7 @@ import minesweeper from '../component/minesweeper';
 import battleAnime from '../component/battleAnime';
 export default {
     name: 'mapEvent',
-    mixins: [assist, spellEffect, buffAndTrigger, monsterConfig, spellConfig, buffConfig],
+    mixins: [spellEffect, buffAndTrigger, monsterConfig, spellConfig, buffConfig],
     components: {minesweeper, battleAnime},
     props: {
     },
@@ -103,6 +103,7 @@ export default {
         }
     },
     mounted() {
+        this.$store.globalComponent.mapEvent = this;
     },
     computed: {
         auto() { return this.$store.state.dungeonInfo.auto;},
@@ -205,7 +206,7 @@ export default {
             }
             this.callAction(source, target);
             if(target.attribute.CURHP.value == 0) {
-                let achievement = this.findBrothersComponents(this, 'achievement', false)[0];
+                let achievement = this.$store.globalComponent["achievement"];
                 achievement.set_statistic({death: 1});
                 this.set_enemy_hp('dead');
                 this.setBattleStatus(false, false);
@@ -280,8 +281,8 @@ export default {
             }
         },
         addToQueue(dungeon) {
-            let guild = this.findBrothersComponents(this, 'guild', false)[0];
-            let guildPosition = this.findComponentDownward(guild, 'guildPosition');
+            let guild = this.$store.globalComponent["guild"];
+            let guildPosition = this.$store.globalComponent["guildPosition"];
             let newDungeon = this.$deepCopy(dungeon);
             newDungeon.progress = [0, this.monster[newDungeon.monsterID].template.MAXHP];
             this.reduceCount(999999);
@@ -300,7 +301,7 @@ export default {
                 return;
             this.mineDifficulty = Math.floor(Math.random()*3);
             this.mineReward = this.$deepCopy(this.selectedDungeon.reward);
-            let minesweeper = this.findComponentDownward(this, 'minesweeper');
+            let minesweeper = this.$store.globalComponent["minesweeper"];
             minesweeper.reset();
         },
         chest() {
@@ -394,9 +395,9 @@ export default {
         },
         reward() {
             let equip = ['helmet', 'weapon', 'armor', 'shoe', 'shoulder', 'glove', 'ring', 'cape', 'bracer', 'belt', 'legging', 'necklace'];
-            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-            let equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];   
-            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];   
+            let itemInfo = this.$store.globalComponent["itemInfo"];
+            let equipInfo = this.$store.globalComponent["equipInfo"];   
+            let backpack = this.$store.globalComponent["backpack"];   
             let rewardList = this.dungeonInfo.advanture.reward;
             for(let k=0; k<rewardList.length; k++) {
                 let random = Math.random()*100;
@@ -408,16 +409,16 @@ export default {
                         itemInfo.addItem(rewardList[k][0], true);
                 }
             }
-            // let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            // let itemInfo = this.$store.globalComponent["itemInfo"];
             // itemInfo.addItem(item);
         },
         enemySlain(id, qty){
-            let talentTree = this.findBrothersComponents(this, 'talentTree', false)[0];
+            let talentTree = this.$store.globalComponent["talentTree"];
             talentTree.talentTrigger('spell_deathknight_bloodpresence');
             talentTree.talentTrigger('spell_deathknight_frostpresence');
             let slain = {slain: {}};
             slain['slain'][id] = qty;
-            let achievement = this.findBrothersComponents(this, 'achievement', false)[0];
+            let achievement = this.$store.globalComponent["achievement"];
             achievement.set_statistic(slain);
             // this.$store.commit("set_statistic", slain);
         },
@@ -476,18 +477,18 @@ export default {
             return attribute;
         },
         close() {
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent["index"];
             if(index.dungeon) {
                 index.dungeon.selected = false;
                 index.dungeon = {};
             }
         },
         showInfo($event, type, item, compare) {
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent["index"];
             index.showInfo($event, type, item, compare);
         },
         closeInfo(type) {
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent["index"];
             let equip = ['helmet', 'weapon', 'armor', 'shoe', 'shoulder', 'glove', 'ring', 'cape', 'bracer', 'belt', 'legging', 'necklace'];
 
             if(equip.indexOf(type) != -1)

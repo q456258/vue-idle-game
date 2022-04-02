@@ -72,12 +72,12 @@
 	</div>
 </template>
 <script>
-import { assist } from '../../assets/js/assist';
+
 import currency from '../uiComponent/currency';
 import { itemConfig } from '../../assets/config/itemConfig';
 export default {
     name:"shop",
-    mixins: [assist, itemConfig],
+    mixins: [itemConfig],
     components: {currency},
     props: {
     },
@@ -94,6 +94,7 @@ export default {
         }
     },
     mounted () {
+        this.$store.globalComponent.shop = this;
         this.setEquipShopItem();
         this.equipTimer = setInterval(() => {
             this.equipTimerRemain -= 1;
@@ -115,13 +116,13 @@ export default {
     },
     methods: {
         buyCrystal() {
-            let guild = this.findBrothersComponents(this, 'guild', false)[0];
+            let guild = this.$store.globalComponent["guild"];
             this.$store.state.guildAttribute.gold -= this.buyCrystalGold;
             // this.$store.state.guildAttribute.crystal += parseInt(this.buyCrystalAmt);
             guild.getCrystal('外出游荡时累积', this.buyCrystalAmt);
         },
         sellCrystal() {
-            let guild = this.findBrothersComponents(this, 'guild', false)[0];
+            let guild = this.$store.globalComponent["guild"];
             guild.getGold('', this.sellCrystalGold, false, false);
             // this.$store.state.guildAttribute.gold += this.sellCrystalGold;
             this.$store.state.guildAttribute.crystal -= this.sellCrystalAmt;
@@ -147,7 +148,7 @@ export default {
             }
         },
         setEquipShopItem() {
-            let equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
+            let equipInfo = this.$store.globalComponent["equipInfo"];
             for(let i=0; i<6; i++) {
                 let equip = JSON.parse(equipInfo.createEquip(-1, this.playerLv, 'random', 5));
                 let cost = 100+100*Math.random();
@@ -217,7 +218,7 @@ export default {
             if(this.playerGold < this.equipCost[index])
                 return
             this.$store.state.guildAttribute.gold -= this.equipCost[index];
-            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            let backpack = this.$store.globalComponent["backpack"];
             backpack.giveEquip(this.equipShop[index], false);
             this.$set(this.equipShop, index, {});
         },
@@ -226,16 +227,16 @@ export default {
             if(this.playerGold < this.itemType[itemName].cost)
                 return
             this.$store.state.guildAttribute.gold -= this.itemType[itemName].cost;
-            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            let itemInfo = this.$store.globalComponent["itemInfo"];
             let item = itemInfo.createItem(itemName, this.itemType[itemName].quantity);
             itemInfo.addItem(JSON.parse(item));
         },
         showInfo($event, type, item, compare) {
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent["index"];
             index.showInfo($event, type, item, compare);
         },
         closeInfo(type) {
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent["index"];
             index.closeInfo(type);
         },
     }

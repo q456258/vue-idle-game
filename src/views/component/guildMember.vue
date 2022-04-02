@@ -129,13 +129,13 @@
  </div>
 </template>
 <script>
-import { assist } from '../../assets/js/assist';
+
 import { nameGenerator } from '../../assets/js/nameGenerator';
 import { guildMemberConfig } from '@/assets/config/guildMemberConfig'
 import { equipConfig } from '@/assets/config/equipConfig'
 export default {
     name:"guildMember",
-    mixins: [assist, nameGenerator, guildMemberConfig, equipConfig],
+    mixins: [nameGenerator, guildMemberConfig, equipConfig],
     components: {},
     props: {
     },
@@ -168,6 +168,7 @@ export default {
         }
     },
     mounted () {
+        this.$store.globalComponent.guildMember = this;
         this.resetPlayerStat();
     },
     watch: {
@@ -184,8 +185,8 @@ export default {
             return max;
         },
         applicantList() {
-            var guild = this.findBrothersComponents(this, 'guild', false)[0];
-            var guildPosition = this.findComponentDownward(guild, 'guildPosition');
+            var guild = this.$store.globalComponent["guild"];
+            var guildPosition = this.$store.globalComponent["guildPosition"];
             return guildPosition.applicantList;
         }
     },
@@ -365,8 +366,8 @@ export default {
         },
         
         allCancel() {
-            var guild = this.findBrothersComponents(this, 'guild', false)[0];
-            var guildPosition = this.findComponentDownward(guild, 'guildPosition');
+            var guild = this.$store.globalComponent["guild"];
+            var guildPosition = this.$store.globalComponent["guildPosition"];
             var members = this.guild.member;
             for(let index in members) {
                 let member = members[index];
@@ -376,8 +377,8 @@ export default {
             }
         },
         autoAssign() {
-            var guild = this.findBrothersComponents(this, 'guild', false)[0];
-            var guildPosition = this.findComponentDownward(guild, 'guildPosition');
+            var guild = this.$store.globalComponent["guild"];
+            var guildPosition = this.$store.globalComponent["guildPosition"];
             var members = this.guild.member;
             members.sort((a, b) => {
                 return (b.stat['efficiency']-a.stat['efficiency']);
@@ -409,9 +410,9 @@ export default {
             }
         },
         assignPosition(k) {
-            var index = this.findComponentUpward(this, 'index');
-            var guild = this.findBrothersComponents(this, 'guild', false)[0];
-            var guildPosition = this.findComponentDownward(guild, 'guildPosition');
+            var index = this.$store.globalComponent["index"];
+            var guild = this.$store.globalComponent["guild"];
+            var guildPosition = this.$store.globalComponent["guildPosition"];
             guildPosition.assignPosition(this.positionType, this.positionIndex, this.guild.member[k])
             this.positionType = 'None';
             index.displayPage = 'guild';
@@ -421,8 +422,8 @@ export default {
             let member = this.guild.member[k];
             for(let type in member.stat)
                 this.playerGainStat(type, -1*Math.round(member.stat[type]*0.1));
-            var guild = this.findBrothersComponents(this, 'guild', false)[0];
-            var guildPosition = this.findComponentDownward(guild, 'guildPosition');
+            var guild = this.$store.globalComponent["guild"];
+            var guildPosition = this.$store.globalComponent["guildPosition"];
             guildPosition.cancelPosition(this.guild.member[k].job, guildPosition.findTarget(this.guild.member[k]));
             for(let index in member.skill) {
                 let skill = member.skill[index];

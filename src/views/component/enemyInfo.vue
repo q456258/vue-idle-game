@@ -133,6 +133,7 @@ export default {
         };
     },
     mounted() {
+        this.$store.globalComponent.enemyInfo = this;
     },
     watch: {
     },

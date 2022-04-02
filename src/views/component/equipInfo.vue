@@ -84,11 +84,10 @@
 </template>
 <script>
 import {equipConfig} from '@/assets/config/equipConfig'
-import { assist } from '../../assets/js/assist';
 import {itemConfig} from '@/assets/config/itemConfig'
 export default {
     name: "equipInfo",
-    mixins: [equipConfig, itemConfig, assist],
+    mixins: [equipConfig, itemConfig],
     data() {
         return {
             newEquip: {},
@@ -110,6 +109,9 @@ export default {
                 'STRP','AGIP','INTP','ALLP','CRIT','CRITDMG','ATKP','DEFP','MRP','HPP','MPP'
             ],
         };
+    },
+    mounted() {
+        this.$store.globalComponent.equipInfo = this;
     },
     props: {
         equip: {
@@ -382,7 +384,7 @@ export default {
         },
         levelUpEquip(equip) {
             let dust = ['dust2', 'dust3', 'dust4', 'dust5', 'dust6'];
-            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            let itemInfo = this.$store.globalComponent["itemInfo"];
             let quantity = Math.ceil(equip.lv/10);
             let itemCode = dust[equip.quality.qualityLv-2];
             let item = itemInfo.findItem(itemCode);  

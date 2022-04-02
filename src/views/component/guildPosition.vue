@@ -247,7 +247,7 @@
     
 </template>
 <script>
-import { assist } from '../../assets/js/assist';
+
 import {guildConfig} from '@/assets/config/guildConfig'
 import {guildMemberConfig} from '@/assets/config/guildMemberConfig'
 import cTooltip from '../uiComponent/tooltip';
@@ -255,9 +255,10 @@ import countdown from '../uiComponent/countdown';
 import craftEquip from '../component/craftEquip';
 export default {
     name: "guildPosition",
-    mixins: [assist, guildConfig, guildMemberConfig],
+    mixins: [guildConfig, guildMemberConfig],
     components: {cTooltip, countdown, craftEquip},
     mounted() {
+        this.$store.globalComponent.guildPosition = this;
     },
     data() {
         return {
@@ -353,17 +354,17 @@ export default {
             //     this.computeLv(types[type]);
         },
         selectEquip(type) {
-            let guild = this.findComponentUpward(this, 'guild');
-            let backpack = this.findBrothersComponents(guild, 'backpack', false)[0];
-            let index = this.findComponentUpward(guild, 'index');
+            let guild = this.$store.globalComponent["guild"];
+            let backpack = this.$store.globalComponent["backpack"];
+            let index = this.$store.globalComponent["index"];
             this.selectFor = type;
             backpack.leftClickEnabled = true;
             index.closeMenuPanel('backpack');
             index.openMenuPanel('backpack');
         },
         selectedEquip(equip) {
-            let guild = this.findComponentUpward(this, 'guild');
-            let backpack = this.findBrothersComponents(guild, 'backpack', false)[0];
+            let guild = this.$store.globalComponent["guild"];
+            let backpack = this.$store.globalComponent["backpack"];
             switch(this.selectFor){
                 case "smith_main":
                     if(this.smith_main.lv)
@@ -406,7 +407,7 @@ export default {
         },
         start(type) {
             this.inProgress[type] = true;
-            let craftEquip = this.findComponentDownward(this, 'craftEquip');
+            let craftEquip = this.$store.globalComponent["craftEquip"];
             switch(type) {
                 case 'smith':
                     craftEquip.statusChange('wait');
@@ -424,7 +425,7 @@ export default {
             }
         },
         stop(type) {
-            let craftEquip = this.findComponentDownward(this, 'craftEquip');
+            let craftEquip = this.$store.globalComponent["craftEquip"];
             this.progress[type].current = 0;
             clearInterval(this.timerList[type]);
             this.inProgress[type] = false;
@@ -435,7 +436,7 @@ export default {
             }
         },
         startShop() {
-            let guild = this.findComponentUpward(this, 'guild');
+            let guild = this.$store.globalComponent["guild"];
             this.timerList['shop'] = setInterval(() => {
                 this.progress['shop'].current += this.totalEfficiency['shop'];
                 if(this.progress['shop'].current >= this.progress['shop'].max) {
@@ -458,7 +459,7 @@ export default {
             }, 1000);
         },
         startSmith() {
-            let craftEquip = this.findComponentDownward(this, 'craftEquip');
+            let craftEquip = this.$store.globalComponent["craftEquip"];
             this.timerList['smith'] = setInterval(() => {
                 let amount = this.totalEfficiency['smith'];
                 this.progress['smith'].current += amount;
@@ -494,19 +495,17 @@ export default {
             }, 1*1000);
         },
         startBar() {
-            var guild = this.findComponentUpward(this, 'guild');
-            var guildMember = this.findBrothersComponents(guild, 'guildMember', false)[0];
+            var guildMember = this.$store.globalComponent["guildMember"];
             this.timerList['bar'] = setInterval(() => {
                 if(this.applicantList.length > 4) {
                     guildMember.reject(Math.floor(Math.random()*this.applicantList.length));
                 } 
                 guildMember.generateApplicant();
-            }, 30*60*1000);
+            }, 1*1*1000);
         },
         smith() {
-            let guild = this.findComponentUpward(this, 'guild');
-            let equipInfo = this.findBrothersComponents(guild, 'equipInfo', false)[0];
-            let backpack = this.findBrothersComponents(guild, 'backpack', false)[0];
+            let equipInfo = this.$store.globalComponent["equipInfo"];
+            let backpack = this.$store.globalComponent["backpack"];
             // 此处需改动qualitySet参数
             let equip = equipInfo.createEquip(-1, this.player.lv, 'random', 1);  
             equip = JSON.parse(equip);
@@ -518,9 +517,8 @@ export default {
             backpack.giveEquip(equip);
         },
         refine() {
-            let guild = this.findComponentUpward(this, 'guild');
-            let equipInfo = this.findBrothersComponents(guild, 'equipInfo', false)[0];
-            let backpack = this.findBrothersComponents(guild, 'backpack', false)[0];
+            let equipInfo = this.$store.globalComponent["equipInfo"];
+            let backpack = this.$store.globalComponent["backpack"];
             this.$store.commit("set_sys_info", {
                 type: 'reward',
                 msg: '消耗装备',
@@ -537,9 +535,8 @@ export default {
             this.smith_sub = {};
         },
         melt() {
-            let guild = this.findComponentUpward(this, 'guild');
-            let equipInfo = this.findBrothersComponents(guild, 'equipInfo', false)[0];
-            let backpack = this.findBrothersComponents(guild, 'backpack', false)[0];
+            let equipInfo = this.$store.globalComponent["equipInfo"];
+            let backpack = this.$store.globalComponent["backpack"];
             this.$store.commit("set_sys_info", {
                 type: 'reward',
                 msg: '消耗装备',
@@ -575,8 +572,7 @@ export default {
             }
             if(rewardCount <= 0)
                 return;
-            let guild = this.findComponentUpward(this, 'guild');
-            let itemInfo = this.findBrothersComponents(guild, 'itemInfo', false)[0];
+            let itemInfo = this.$store.globalComponent["itemInfo"];
             // 添加数量
             while(rewardCount > 0) {
                 for(let k=0; k<rewardList.length; k++) {
@@ -619,9 +615,8 @@ export default {
             target.job = type;
         },
         setPosition(type, k) {
-            var guild = this.findComponentUpward(this, 'guild');
-            var index = this.findComponentUpward(this, 'index');
-            var guildMember = this.findBrothersComponents(guild, 'guildMember', false)[0];
+            var index = this.$store.globalComponent["index"];
+            var guildMember = this.$store.globalComponent["guildMember"];
             index.displayPage = 'guildMember';
             guildMember.positionType = type;
             guildMember.positionIndex = k;
@@ -639,19 +634,16 @@ export default {
                 this.building[type].splice(index, 1);
         },
         recruit(k) {
-            var guild = this.findComponentUpward(this, 'guild');
-            var guildMember = this.findBrothersComponents(guild, 'guildMember', false)[0];
+            var guildMember = this.$store.globalComponent["guildMember"];
             guildMember.recruit(k);
         },
         reject(k) {
-            var guild = this.findComponentUpward(this, 'guild');
-            var guildMember = this.findBrothersComponents(guild, 'guildMember', false)[0];
+            var guildMember = this.$store.globalComponent["guildMember"];
             guildMember.reject(k);
         },
         setMineMember(e, index) {
             let value = e.target.value;
-            let guild = this.findComponentUpward(this, 'guild');
-            let guildMember = this.findBrothersComponents(guild, 'guildMember', false)[0];
+            let guildMember = this.$store.globalComponent["guildMember"];
             this.memberID = value;
             let member = guildMember.findTargetByID(value);
             for(let i=0; i<this.mineQueue.length; i++) {
@@ -664,13 +656,11 @@ export default {
             this.mineQueue.splice(index, 1);
         },
         showInfo($event, type, item, compare) {
-            let guild = this.findComponentUpward(this, 'guild');
-            let index = this.findComponentUpward(guild, 'index');
+            let index = this.$store.globalComponent["index"];
             index.showInfo($event, type, item, compare);
         },
         closeInfo(type='equip') {
-            let guild = this.findComponentUpward(this, 'guild');
-            let index = this.findComponentUpward(guild, 'index');
+            let index = this.$store.globalComponent["index"];
             index.closeInfo(type);
         },
     }

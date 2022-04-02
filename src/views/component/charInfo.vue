@@ -593,7 +593,7 @@
 import cTooltip from '../uiComponent/tooltip';
 import hpmpBar from '../uiComponent/hpmpBar';
 import currency from '../uiComponent/currency';
-import { assist } from '../../assets/js/assist';
+
 import { buffAndTrigger } from '../../assets/js/buffAndTrigger';
 import {itemConfig} from '@/assets/config/itemConfig';
 import {spellConfig} from '@/assets/config/spellConfig';
@@ -603,7 +603,7 @@ import Saveload from './saveload.vue';
 
 export default {
     name: "charInfo",
-    mixins: [assist, buffAndTrigger, itemConfig, spellConfig, equipConfig, buffConfig],
+    mixins: [buffAndTrigger, itemConfig, spellConfig, equipConfig, buffConfig],
     components: {cTooltip, hpmpBar, Saveload, currency},
     data() {
         return {
@@ -616,6 +616,9 @@ export default {
             dmgFilter: ['所有', '力量', '敏捷', '智力', '生命', '魔法', '攻击', '护甲', '恢复', 'BUFF', 'DEBUFF'],
             dmgFilterSelected: '所有'
         };
+    },
+    mounted() {
+        this.$store.globalComponent.charInfo = this;
     },
     props: {
     },
@@ -691,7 +694,7 @@ export default {
             return true;
         },
         unEquip() {
-            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            let backpack = this.$store.globalComponent["backpack"];
             for (let i = 0; i < backpack.grid.length; i++) {
                 if (Object.keys(backpack.grid[i]).length < 3) {
                     this.$set(backpack.grid, i, this.currentEquip);
@@ -746,21 +749,21 @@ export default {
             }
         },
         equipEnhance() {
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent["index"];
             index.closeInfo();
             index.enhanceEquip = this.currentEquip;
             index.equipEnhancePanel = true;
         },
         equipForge() {
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent["index"];
             index.closeInfo();
             index.enhanceEquip = this.currentEquip;
             index.equipForgePanel = true;
         },
         equipLevelUp() {
             let dust = ['dust2', 'dust3', 'dust4', 'dust5', 'dust6'];
-            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-            let equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
+            let itemInfo = this.$store.globalComponent["itemInfo"];
+            let equipInfo = this.$store.globalComponent["equipInfo"];
             let quantity = Math.ceil(this.currentEquip.lv/10);
             let itemCode = dust[this.currentEquip.quality.qualityLv-2];
             let itemName = this.itemType[itemCode].description.name;
@@ -778,11 +781,11 @@ export default {
             this.dmgFilterSelected = filter;
         },
         showInfo($event, type, item, compare) {
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent["index"];
             index.showInfo($event, type, item, compare);
         },
         closeInfo() {
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent["index"];
             index.closeInfo('equip');
         },
         openMenu(equip, e) {
