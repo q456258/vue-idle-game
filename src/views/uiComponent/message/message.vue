@@ -1,6 +1,6 @@
 <template>
     <div class="confirm" v-if="visible">
-        <h1>{{ title }}</h1>
+        <h1></h1>
         <p>{{ message }}</p>
         <button @click="handleClick()" @keydown.enter="handleClick()">{{confirmBtnText}}</button>
         <button @click="close()" @keydown.enter="close()">{{closeBtnText}}</button>
@@ -20,7 +20,6 @@ export default {
             verticalOffset: 0,
             closeBtnText:'取消',
             confirmBtnText:'确认',
-            title:'提示'
         }
     },
     computed: {
@@ -55,7 +54,6 @@ export default {
 body {
     background: #467fae;
     font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', 'Helvetica', 'Arial', 'Lucida Grande', sans-serif;
-    z-index: 9;
 }
 // @keyframes fade {
 //     from {
@@ -71,18 +69,19 @@ body {
     position: absolute;
     top: 40%;
     left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80%;
-    min-width: 280px;
-    max-width: 420px;
-    height: auto;
-    background: #3a3a3a;
-    color: #EFEFEF;
+    border: 2px solid #49474577;
     border-radius: 10px;
+    background-color: #0000009f;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    min-width: 280px;
+    max-width: 400px;
+    height: auto;
+    color: #EFEFEF;
     padding: 0;
     margin: 0;
     border-top: 1px solid rgb(88, 88, 88);
-    box-shadow: inset 0 0 5px 1px rgb(155, 155, 155);
+    z-index: 20;
 }
 .confirm h1 {
     text-align: center;
@@ -118,7 +117,7 @@ body {
 }
 .confirm button:hover {
     // font-weight: bold;
-    background: #303030;
+    background: #000000;
     color: #B4B4B4;
 }
 .confirm button:active {
