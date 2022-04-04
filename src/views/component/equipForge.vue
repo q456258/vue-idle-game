@@ -83,7 +83,7 @@ export default {
             let itemInfo = this.$store.globalComponent["itemInfo"];
             let backpack = this.$store.globalComponent["backpack"];
             // 虚空宝珠
-            let item = itemInfo.findItem('inv_enchant_voidsphere');
+            let item = itemInfo.findItemIndex('inv_enchant_voidsphere');
             if(item == -1)
                 return {quantity: 0};
             else

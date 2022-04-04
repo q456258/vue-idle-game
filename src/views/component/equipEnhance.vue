@@ -98,7 +98,7 @@ export default {
         item() {
             let itemInfo = this.$store.globalComponent["itemInfo"];
             let backpack = this.$store.globalComponent["backpack"];
-            let item = itemInfo.findItem(this.material);
+            let item = itemInfo.findItemIndex(this.material);
             if(item == -1)
                 return {quantity: 0};
             else

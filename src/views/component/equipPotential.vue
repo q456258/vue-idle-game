@@ -71,7 +71,7 @@ export default {
             let itemInfo = this.$store.globalComponent["itemInfo"];
             let backpack = this.$store.globalComponent["backpack"];
             // 神秘宝珠
-            let item = itemInfo.findItem('inv_misc_enchantedpearla');
+            let item = itemInfo.findItemIndex('inv_misc_enchantedpearla');
             if(item == -1)
                 return {quantity: 0};
             else

@@ -123,9 +123,10 @@ export default {
             quest.target = this.questList[questId].target;
             quest.reward = this.setQuestReward(questId);
             quest.reqs = this.setQuestRequirement(questId);
-            quest.status = "未完成";
+            quest.status = '';
 
             this.$store.state.quests[questId] = quest;
+            this.checkStatus(questId);
         },
         setQuestReward(questId) {
             let equipInfo = this.$store.globalComponent.equipInfo;
@@ -152,21 +153,22 @@ export default {
             let itemInfo = this.$store.globalComponent.itemInfo;
             for(let i in reqs) {
                 let reqInfo = {};
+                reqInfo.reqType = reqs[i][0];
                 reqInfo.type = reqs[i][1];
-                reqInfo.current = 0;
                 reqInfo.target = reqs[i][2];
-                if(reqs[i][0] == 'slain') {
+                reqInfo.current = 0;
+                if(reqInfo.reqType == 'slain') {
                     reqInfo.name = this.monster[reqInfo.type].name;
-                    if(this.questTrack[reqs[i][0]][reqInfo.type] == undefined)
-                        this.questTrack[reqs[i][0]][reqInfo.type] = []
-                    this.questTrack[reqs[i][0]][reqInfo.type].push(questId);
+                    if(this.questTrack[reqInfo.reqType][reqInfo.type] == undefined)
+                        this.questTrack[reqInfo.reqType][reqInfo.type] = []
+                    this.questTrack[reqInfo.reqType][reqInfo.type].push(questId);
                 }
-                else if(reqs[i][0] == 'collect') {
+                else if(reqInfo.reqType == 'collect') {
                     reqInfo.name = this.itemType[reqInfo.type].description.name;
                     reqInfo.current = itemInfo.getItemQty(reqInfo.type);
-                    if(this.questTrack[reqs[i][0]][reqInfo.type] == undefined)
-                        this.questTrack[reqs[i][0]][reqInfo.type] = []
-                    this.questTrack[reqs[i][0]][reqInfo.type].push(questId);
+                    if(this.questTrack[reqInfo.reqType][reqInfo.type] == undefined)
+                        this.questTrack[reqInfo.reqType][reqInfo.type] = []
+                    this.questTrack[reqInfo.reqType][reqInfo.type].push(questId);
                 }
                 reqList.push(reqInfo);
             }
@@ -216,6 +218,7 @@ export default {
             this.selectedQuest = id;
         },
         submitQuest() {
+            this.removeQuestItem();
             this.reward();
             this.removeQuest();
         },
@@ -227,6 +230,15 @@ export default {
                     this.removeQuest();
                 }
             });
+        },
+        removeQuestItem() {
+            let itemInfo = this.$store.globalComponent["itemInfo"];
+            let reqs = this.$store.state.quests[this.selectedQuest].reqs;
+            for(let i in reqs) {
+                if(reqs[i].reqType == 'collect') {
+                    itemInfo.removeItemByCode(reqs[i].type, reqs[i].target);
+                }
+            }
         },
         removeQuest() {
             delete this.$store.state.quests[this.selectedQuest];

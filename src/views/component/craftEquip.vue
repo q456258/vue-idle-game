@@ -204,7 +204,7 @@ export default {
             }
             else
                 return false;
-            itemInfo.removeItemByIndex(itemInfo.findItem(this.addonType[index].itemCode), count, 'etc');
+            itemInfo.removeItemByIndex(itemInfo.findItemIndex(this.addonType[index].itemCode), count, 'etc');
             for(let i=0; i<count; i++) {
                 switch(this.addonType[index].type) { 
                     case 0:

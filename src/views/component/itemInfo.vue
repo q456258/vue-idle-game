@@ -81,6 +81,20 @@ export default {
                 return this.quality[5];
             return this.quality[quality];
         },
+        findItemIndex(name, checkStack=false) {        
+            let backpack = this.$store.globalComponent["backpack"];
+            let grid = this.itemType[name].use ? backpack.useGrid: backpack.etcGrid;
+            for (let i = 0; i < grid.length; i++) {
+                let item = grid[i];
+                if(Object.keys(item).length > 2 && item.type == name) {
+                    if(!checkStack)
+                        return i;
+                    else if(item.quantity < this.itemType[item.type].maxStack)
+                        return i;
+                }
+            }
+            return -1;
+        },
         findItem(name, checkStack=false) {        
             let backpack = this.$store.globalComponent["backpack"];
             let grid = this.itemType[name].use ? backpack.useGrid: backpack.etcGrid;
@@ -111,7 +125,7 @@ export default {
             let backpack = this.$store.globalComponent["backpack"];
             let grid = item.use ? backpack.useGrid : backpack.etcGrid;
             let name = item.type;
-            let stack = this.findItem(name, true);
+            let stack = this.findItemIndex(name, true);
             if(msg && !this.itemType[item.type].autoUse) {
                 this.$store.commit("set_sys_info", {
                     type: 'reward',
@@ -156,30 +170,38 @@ export default {
                 return 0;
             }
         },
+        removeItemByCode(code, quantity) {
+            let index = this.findItemIndex(code);
+            let type = this.itemType[code].use ? 'use': 'etc';
+            this.removeItemByIndex(index, quantity, type);
+        },
         removeItemByIndex(index, quantity, type='use') {
             let backpack = this.$store.globalComponent["backpack"];
+            let quest = this.$store.globalComponent["quest"];
             let grid = type=='use' ? backpack.useGrid : backpack.etcGrid;
             let temp = grid[index];
             if(grid[index].quantity <= quantity) {
                 this.$set(grid, index, {});
                 this.removeItemByItem(temp, quantity-temp.quantity);
             }
-            else
+            else {
                 grid[index].quantity -= quantity;
+                quest.trackProgress('collect', grid[index].type, quantity);
+            }
         },
         removeItemByItem(item, quantity) {
             let backpack = this.$store.globalComponent["backpack"];
+            let quest = this.$store.globalComponent["quest"];
             let grid = item.use ? backpack.useGrid : backpack.etcGrid;
             let name = item.type;
-            let stack = this.findItem(name);
-            let quest = this.$store.globalComponent["quest"];
-            if(stack != -1) {
-                if(grid[stack].quantity <= quantity) {
-                    this.$set(grid, stack, {});
+            let index = this.findItemIndex(name);
+            if(index != -1) {
+                if(grid[index].quantity <= quantity) {
+                    this.$set(grid, index, {});
                     this.removeItemByItem(item, quantity-item.quantity);
                 }
                 else
-                    grid[stack].quantity -= quantity;
+                    grid[index].quantity -= quantity;
             }
             quest.trackProgress('collect', item.type, item.quantity);
         }

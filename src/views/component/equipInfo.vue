@@ -387,7 +387,7 @@ export default {
             let itemInfo = this.$store.globalComponent["itemInfo"];
             let quantity = Math.ceil(equip.lv/10);
             let itemCode = dust[equip.quality.qualityLv-2];
-            let item = itemInfo.findItem(itemCode);  
+            let item = itemInfo.findItemIndex(itemCode);  
             let has = itemInfo.getItemQty(itemCode);
             let mod = this.equipMod[newEquip.itemType];
             if(has < quantity) {
