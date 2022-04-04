@@ -131,7 +131,7 @@ export default {
                 for (let i = 0; i < grid.length; i++) {
                     if (Object.keys(grid[i]).length < 3) {
                         this.$set(grid, i, this.$deepCopy(item));
-                        return;
+                        break;
                     }
                 }
             }
@@ -140,6 +140,8 @@ export default {
                 if(remain > 0)
                     this.addItem(item);
             }
+            let quest = this.$store.globalComponent["quest"];
+            quest.trackProgress('collect', item.type, item.quantity);
         },
         stackItem(item, item2) {
             let max = this.itemType[item.type].maxStack;
@@ -170,6 +172,7 @@ export default {
             let grid = item.use ? backpack.useGrid : backpack.etcGrid;
             let name = item.type;
             let stack = this.findItem(name);
+            let quest = this.$store.globalComponent["quest"];
             if(stack != -1) {
                 if(grid[stack].quantity <= quantity) {
                     this.$set(grid, stack, {});
@@ -178,6 +181,7 @@ export default {
                 else
                     grid[stack].quantity -= quantity;
             }
+            quest.trackProgress('collect', item.type, item.quantity);
         }
     },
 

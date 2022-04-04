@@ -29,6 +29,15 @@ export default {
             //     }
 
             // }
+            
+            if(data.slain != undefined) {
+                let quest = this.$store.globalComponent["quest"];
+                for(let id in data.slain) {
+                    if(data.slain[id] != undefined)
+                        quest.trackProgress('slain', id, data.slain[id]);
+                }
+
+            }
             this.$store.commit("set_statistic", data);
         },
         timeGap(type, time, time2) {

@@ -399,6 +399,7 @@ export default {
             let equipInfo = this.$store.globalComponent["equipInfo"];   
             let backpack = this.$store.globalComponent["backpack"];   
             let rewardList = this.dungeonInfo.advanture.reward;
+
             for(let k=0; k<rewardList.length; k++) {
                 let random = Math.random()*100;
                 if(random <= rewardList[k][1]) {
@@ -409,8 +410,6 @@ export default {
                         itemInfo.addItem(rewardList[k][0], true);
                 }
             }
-            // let itemInfo = this.$store.globalComponent["itemInfo"];
-            // itemInfo.addItem(item);
         },
         enemySlain(id, qty){
             let talentTree = this.$store.globalComponent["talentTree"];

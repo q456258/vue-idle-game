@@ -371,7 +371,14 @@ export default {
             this.mergeItem(e, grid, this.currentItemIndex, count);
         },
         throwItem(grid) {
-            grid=='use' ? this.$set(this.useGrid, this.currentItemIndex, {}) : this.$set(this.etcGrid, this.currentItemIndex, {});
+            let itemInfo = this.$store.globalComponent["itemInfo"];
+            if(grid == 'use') {
+                itemInfo.removeItemByIndex(this.currentItemIndex, this.useGrid[this.currentItemIndex].quantity, 'use');
+            }
+            else {
+                itemInfo.removeItemByIndex(this.currentItemIndex, this.etcGrid[this.currentItemIndex].quantity, 'etc');
+            }
+            // grid=='use' ? this.$set(this.useGrid, this.currentItemIndex, {}) : this.$set(this.etcGrid, this.currentItemIndex, {});
         },
         giveEquip(equip, auto=true, msg=false) {
             if(msg) {
@@ -546,7 +553,6 @@ export default {
         },
         selectForSmith(e, k) {
             if(this.leftClickEnabled) {
-                let guild = this.$store.globalComponent["guild"];
                 let guildPosition = this.$store.globalComponent["guildPosition"];  
                 guildPosition.selectedEquip(this.grid[k]);
                 this.$set(this.grid, k, {});
@@ -695,32 +701,6 @@ export default {
             opacity: 0.7;
             background-image: linear-gradient(-270deg, rgba(167, 160, 160, 0) 0%, #ffffff93 40%, #ffffff93 60%, rgba(255,255,255,0.00) 100%);
         }
-    }
-    .close {
-        position: absolute;
-        right: 10px;
-        top: 5px;
-        width: 32px;
-        height: 32px;
-        opacity: 0.7;
-        z-index: 6;
-    }
-    .close:hover {
-        opacity: 1;
-    }
-    .close:before, .close:after {
-        position: absolute;
-        left: 15px;
-        content: ' ';
-        height: 33px;
-        width: 2px;
-        background-color: rgb(255, 255, 255);
-    }
-    .close:before {
-        transform: rotate(45deg);
-    }
-    .close:after {
-        transform: rotate(-45deg);
     }
     .nav {
         // background-color: #ccc;

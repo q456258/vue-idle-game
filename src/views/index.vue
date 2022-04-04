@@ -109,6 +109,16 @@
       </cTooltip>
       <cTooltip :placement="'top'">
         <template v-slot:content>
+          <div class="menu" @click="openMenuPanel('quest')">
+            <img src="../assets/icons/menu/quest.png" alt="">
+          </div>
+        </template>
+        <template v-slot:tip>
+          <p class="info">* 任务</p>
+        </template>
+      </cTooltip>
+      <cTooltip :placement="'top'">
+        <template v-slot:content>
           <div class="menu" @click="openMenuPanel('save')">
             <img src="../assets/icons/menu/save1.png" alt="">
           </div>
@@ -139,6 +149,7 @@
     <equipPotential :equip="enhanceEquip" v-show="equipPotentialPanel"></equipPotential>    
     <saveload v-show="savePanel"></saveload>
     <setting v-show="settingPanel"></setting>
+    <quest v-show="questPanel"></quest>
 
     <charInfo id="charInfo" v-show="displayPage=='charInfo'"></charInfo>
     <guild id="guild" v-show="displayPage=='guild'"></guild>
@@ -173,6 +184,7 @@ import achievement from './component/achievement';
 import statistic from './component/statistic';
 import saveload from './component/saveload';
 import setting from './component/setting';
+import quest from './component/quest';
 import enemyInfo from './component/enemyInfo';
 import { dungeon } from '../assets/js/dungeon';
 import { buffAndTrigger } from '../assets/js/buffAndTrigger';
@@ -201,6 +213,7 @@ export default {
       equipPotentialPanel: false,
       savePanel: false,
       settingPanel: false,
+      questPanel: false,
       displayPage: 'charInfo',
       saveDateString: '',
       resetTimer: 0,
@@ -209,7 +222,7 @@ export default {
     }
   },
   components: {cTooltip, equipInfo, compareEquip, itemInfo, mapEvent, backpack, equipEnhance, equipForge, equipPotential, 
-              charInfo, guild, guildMember, shop, talentTree, faq, achievement, statistic, saveload, setting, enemyInfo, currency},
+              charInfo, guild, guildMember, shop, talentTree, faq, achievement, statistic, saveload, setting, quest, enemyInfo, currency},
   created() {
     this.$store.globalComponent = {};
   },
@@ -230,6 +243,9 @@ export default {
 
     let talentTree =  this.$store.globalComponent['talentTree'];  
     talentTree.init();
+
+    let quest =  this.$store.globalComponent['quest'];  
+    quest.init();
     
     // this.$store.commit("set_statistic", {gameStartDate: Date.now()});
     //初始系统、战斗信息
@@ -320,6 +336,9 @@ export default {
 //       item = itemInfo.createItem(items[i], 20);  
 //       itemInfo.addItem(JSON.parse(item));
 //     }
+    // quest.assignQuest(0);
+    // quest.assignQuest(1);
+    // quest.assignQuest(2);
 
     this.$store.commit('set_player_attribute');
     let shop = this.$store.globalComponent["shop"];  
@@ -543,7 +562,6 @@ export default {
         if(this.mapArr[k] && !this.mapArr[k].selected && this.$store.state.enemyAttribute.attribute.CURHP.value != 0) {
           this.$message({
             message: '是否放弃当前正在挑战的副本? ',
-            title: '更换副本',
             confirmBtnText: '更换',
             onClose: () => {
               this.set_enemy_hp('dead');
@@ -651,6 +669,9 @@ export default {
         case 'setting':
           this.settingPanel = !this.settingPanel;
           break;
+        case 'quest':
+          this.questPanel = !this.questPanel;
+          break;
       }
     },
     closeMenuPanel(type) {
@@ -665,6 +686,9 @@ export default {
           break;
         case 'setting':
           this.settingPanel = false;
+          break;
+        case 'quest':
+          this.questPanel = false;
           break;
       }
     },

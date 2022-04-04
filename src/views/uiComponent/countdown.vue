@@ -283,7 +283,6 @@ export default {
         },
         setTrainMember(e) {
             let value = e.target.value;
-            let guild = this.$store.globalComponent["guild"];
             let guildMember = this.$store.globalComponent["guildMember"];
             this.memberID = value;
             this.member = guildMember.findTargetByID(value);

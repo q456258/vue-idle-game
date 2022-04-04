@@ -173,7 +173,6 @@ export default {
             if(msg) {
                 this.$message({
                     message: '有个传说装备没买, 考虑考虑?',
-                    title: '奸商的友善提醒',
                     confirmBtnText: '传说装备? 狗都不买',
                     onClose: () => {
                         this.freeRefreshCount -= 1;
@@ -201,7 +200,6 @@ export default {
             if(msg) {
                 this.$message({
                     message: '有个传说装备没买, 考虑考虑?',
-                    title: '奸商的友善提醒',
                     confirmBtnText: '传说装备? 狗都不买',
                     onClose: () => {
                         this.$store.state.guildAttribute.gold -= cost;

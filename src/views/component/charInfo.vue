@@ -770,7 +770,6 @@ export default {
             let has = itemInfo.getItemQty(itemCode);
             this.$message({
                 message: '消耗材料'+itemName+"*"+quantity+",目前拥有数量: "+has,
-                title: '升级装备',
                 confirmBtnText: '升级',
                 onClose: () => {
                     equipInfo.levelUpEquip(this.currentEquip);
