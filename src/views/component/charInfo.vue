@@ -679,10 +679,13 @@ export default {
             this.checkValidity(name);
         },
         confirmName() {
-            let alert = document.getElementById("nameAlert");
             let name = document.getElementById("name").value;
-            if(this.checkValidity(name))
+            if(this.checkValidity(name)) {
                 this.player.name = name;
+                let quest = this.$store.globalComponent["quest"];
+                quest.assignQuest(0);
+                quest.assignQuest(1);
+            }
         },
         checkValidity(name) {
             let alert = document.getElementById("nameAlert");

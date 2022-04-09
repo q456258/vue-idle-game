@@ -74,7 +74,7 @@
           <button id="advanture" class="btn btn-light btn-sm lvZone" @click="switchZone('advanture')">
             冒险区
           </button>    
-          <button class="btn btn-outline-light btn-sm" id="resetMap" v-show="dungeonInfo.current=='advanture'" @click="resetMap()">
+          <button class="btn btn-outline-light btn-sm" id="resetMap" v-show="dungeonInfo.current=='advanture'" @click="resetMapClick()">
             重置地图<span v-if="resetTime>0">({{resetTime}})</span>
           </button>   
           <select v-model="selectedZone" @change="setSelectedZone($event)" class="btn btn-light">
@@ -586,6 +586,11 @@ export default {
       dungeon.type = this.dungeon.type;
       dungeon.monsterID = this.dungeon.monsterID;
       dungeon.monsterName = this.dungeon.monsterName;
+    },
+    resetMapClick() {
+      this.resetMap();
+      let quest = this.$store.globalComponent["quest"];
+      quest.trackProgress('event', 1, 1);
     },
     resetMap(forceReset=false) {
       let element = document.getElementById('resetMap');

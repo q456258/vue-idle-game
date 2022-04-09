@@ -11,11 +11,18 @@
     <template slot="main" >
         <div id="questWrapper">
             <div id="questList">
-                <div :class="[{questSelected: v.id==selectedQuest}, 'quests']" v-for="(v, k) in quests" :key="k" @click="selectQuest(v.id)">
-                    <a class="questHover"></a>
-                    <span class="questName">({{v.lv}}){{v.name}}
+                <div class="questCateg" v-for="(v, k) in questCateg" :key="k" @click="expandQuestCateg($event)">
+                    <span class="questCategName " v-if="k!='forceUpdate'">
+                        <span class="questButton">&nbsp;-&nbsp;</span>&nbsp;{{questCategory[k]}}
                     </span>
-                    <span class="questStatus" v-show="v.status=='完成'">(完成)</span>
+                    <span>
+                        <div :class="[{questSelected: val==selectedQuest}, 'quests']" v-for="(val, key) in questCateg[k].list" :key="key" @click="selectQuest(val)">
+                            <a class="questHover"></a>
+                            <span class="questName">（{{quests[val].lv}}）{{quests[val].name}}
+                            </span>
+                            <span class="questStatus" v-show="quests[val].status=='完成'">(完成)</span>
+                        </div>
+                    </span>
                 </div>
             </div>
             <div id="questDetail">
@@ -35,7 +42,7 @@
                     <div class="questDetailField">
                         <div class="questDetailTitle">奖励</div>
                         <div class="questDetailContent">
-                            <div v-for="(v, k) in quests[selectedQuest].reward" :key="k">
+                            <div v-for="(v, k) in quests[selectedQuest].rewardItem" :key="k">
                                 <div class="grid" v-if="v[0]" @mouseover="showInfo($event,v[0].itemType,v[0],true)" @mouseleave="closeInfo(v[0].itemType)">
                                     <div class="mediumIconContainer">
                                         <del :class="[{grey:v[0].quality.qualityLv==1, green:v[0].quality.qualityLv==3, blue:v[0].quality.qualityLv==4, purple:v[0].quality.qualityLv==5, orange:v[0].quality.qualityLv==6}, 'mediumIcon iconBorder']"></del>
@@ -44,13 +51,21 @@
                                     <div class="quantity">{{v[0].quantity}}</div>
                                 </div>
                             </div>
+                            <div class="reward" v-for="(v, k) in quests[selectedQuest].reward" :key="k">
+                                <div v-if="v[0]=='gold'"><currency :amount="v[1]"></currency></div>
+                                <div v-else>{{rewardType[v[0]]+': '+v[1]}}</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div id="questFooter">
-                <div class="questButton" v-if="selectedQuest>=0" @click="submitQuest()">提交</div>
-                <div class="questButton" v-if="selectedQuest>=0" @click="forfeitQuest()">放弃</div>
+                <div class="questFooterField">
+                    <div class="questButton" v-if="selectedQuest>=0 && quests[selectedQuest].status=='完成'" @click="submitQuest()">提交</div>
+                </div>
+                <div class="questFooterField">
+                    <div class="questButton forfeit" v-if="selectedQuest>=0 && questList[selectedQuest].forfeit" @click="forfeitQuest()">放弃</div>
+                </div>
             </div>
         </div>
     </template>
@@ -58,18 +73,20 @@
 </template>
 <script>
 import draggable from '../uiComponent/draggable';
+import currency from '../uiComponent/currency';
 import { questConfig } from '@/assets/config/questConfig';
 import { monsterConfig } from '@/assets/config/monsterConfig';
 import { itemConfig } from '@/assets/config/itemConfig';
 export default {
     name:"quest",
     mixins: [questConfig, monsterConfig, itemConfig],
-    components: {draggable},
+    components: {draggable, currency},
     props: {
     },
     data () {
         return {
             selectedQuest: -1,
+            rewardType: {gold: '金币'},
             questTrack: {
                 slain: {},
                 collect: {},
@@ -84,7 +101,8 @@ export default {
     watch: {
     },
     computed: {
-        quests() { return this.$store.state.quests; }
+        quests() { return this.$store.state.quests; },
+        questCateg() { return this.$store.state.questCateg; }
     },
     methods: {
         init() {
@@ -93,18 +111,16 @@ export default {
         resetTracker() {
             let quests = this.$store.state.quests;
             for(let questId in quests) {
-                let reqs = this.questList[questId].reqs;
+                let reqs = quests[questId].reqs;
                 for(let i in reqs) {
-                    if(this.questTrack[reqs[i][0]][reqs[i][1]] == undefined)
-                        this.questTrack[reqs[i][0]][reqs[i][1]] = []
-                    this.questTrack[reqs[i][0]][reqs[i][1]].push(questId);
+                    if(this.questTrack[reqs[i].reqType][reqs[i].type] == undefined)
+                        this.questTrack[reqs[i].reqType][reqs[i].type] = []
+                    this.questTrack[reqs[i].reqType][reqs[i].type].push(questId);
                 }
             }
         },
         assignQuest(questId) {
-            if(this.$store.state.quests == undefined)
-                this.$store.state.quests = {};
-            if(this.$store.state.quests[questId] != undefined) {
+            if(this.quests[questId] != undefined) {
                 this.$store.commit("set_sys_info", {
                     type: '',
                     msg: '任务重复接取!',
@@ -122,19 +138,35 @@ export default {
             quest.desc = this.questList[questId].desc;
             quest.target = this.questList[questId].target;
             quest.reward = this.setQuestReward(questId);
+            quest.rewardItem = this.setQuestRewardItem(questId);
             quest.reqs = this.setQuestRequirement(questId);
+            quest.successor = this.questList[questId].successor;
             quest.status = '';
 
-            this.$store.state.quests[questId] = quest;
+            let category = this.questList[questId].category;
+            if(this.questCateg[category] == undefined)
+                this.questCateg[category] = {list: [], expand: true};
+            this.questCateg[category].list.push(questId);
+
+            this.$set(this.questCateg, 'forceUpdate', 1);
+            this.$set(this.quests, questId, quest);
             this.checkStatus(questId);
         },
         setQuestReward(questId) {
+            let reward = [];
+            for(let type in this.questList[questId].reward) {
+                let rewardInfo = this.questList[questId].reward[type];
+                reward.push([rewardInfo[0], rewardInfo[1]]);
+            }
+            return reward;
+        },
+        setQuestRewardItem(questId) {
             let equipInfo = this.$store.globalComponent.equipInfo;
             let itemInfo = this.$store.globalComponent.itemInfo;
             let reward = [];
             let lv = this.questList[questId].lv;
-            for(let type in this.questList[questId].rewardType) {
-                let rewardInfo = this.questList[questId].rewardType[type];
+            for(let type in this.questList[questId].rewardItem) {
+                let rewardInfo = this.questList[questId].rewardItem[type];
                 let ran = Math.random()*100;
                 if(rewardInfo[0] == 'unique_equip') {
                     if(ran < rewardInfo[2]) {
@@ -142,8 +174,8 @@ export default {
                         reward.push([newEquip]);
                     }
                 }
-                else if(ran < rewardInfo[1])
-                    reward.push([JSON.parse(itemInfo.createItem(rewardInfo[0], 1, lv))]);
+                else if(ran < rewardInfo[2])
+                    reward.push([JSON.parse(itemInfo.createItem(rewardInfo[0], rewardInfo[1], lv))]);
             }
             return reward;
         },
@@ -157,19 +189,20 @@ export default {
                 reqInfo.type = reqs[i][1];
                 reqInfo.target = reqs[i][2];
                 reqInfo.current = 0;
+                reqInfo.name = '';
                 if(reqInfo.reqType == 'slain') {
                     reqInfo.name = this.monster[reqInfo.type].name;
-                    if(this.questTrack[reqInfo.reqType][reqInfo.type] == undefined)
-                        this.questTrack[reqInfo.reqType][reqInfo.type] = []
-                    this.questTrack[reqInfo.reqType][reqInfo.type].push(questId);
                 }
                 else if(reqInfo.reqType == 'collect') {
                     reqInfo.name = this.itemType[reqInfo.type].description.name;
                     reqInfo.current = itemInfo.getItemQty(reqInfo.type);
-                    if(this.questTrack[reqInfo.reqType][reqInfo.type] == undefined)
-                        this.questTrack[reqInfo.reqType][reqInfo.type] = []
-                    this.questTrack[reqInfo.reqType][reqInfo.type].push(questId);
                 }
+                else if(reqInfo.reqType == 'event') {
+                    reqInfo.name = this.eventId[reqInfo.type];
+                }
+                if(this.questTrack[reqInfo.reqType][reqInfo.type] == undefined)
+                    this.questTrack[reqInfo.reqType][reqInfo.type] = []
+                this.questTrack[reqInfo.reqType][reqInfo.type].push(questId);
                 reqList.push(reqInfo);
             }
             return reqList;
@@ -178,6 +211,15 @@ export default {
             let track = this.questTrack[type];
             for(let i in track[key]) {
                 this.increaseProgress(type, track[key][i], key, quantity);
+            }
+        },
+        removeFromTrack(questId) {
+            let reqs = this.quests[questId].reqs;
+            for(let i in reqs) {
+                let type = this.questTrack[reqs[i].reqType][reqs[i].type];
+                type.splice(type.indexOf(questId), 1);
+                if(type.length == 0)
+                    delete this.questTrack[reqs[i].reqType][reqs[i].type];
             }
         },
         increaseProgress(type, questId, key, quantity) {
@@ -214,12 +256,27 @@ export default {
             let quest = this.quests[questId];
             quest.status = status;
         },
+        expandQuestCateg(e) {
+            console.log(e.target.firstChild.firstChild.innerHTML)
+            if(e.target.lastChild.style["display"] == 'none'){
+                e.target.lastChild.style.display = 'block';
+                e.target.firstChild.firstChild.innerHTML = '&nbsp;-&nbsp;';
+            }
+            else {
+                e.target.lastChild.style.display = 'none';
+                e.target.firstChild.firstChild.innerHTML = '&nbsp;+&nbsp;';
+            }
+                
+            // e.target.lastChild.classList.toggle("expand");
+        },
         selectQuest(id) {
             this.selectedQuest = id;
         },
         submitQuest() {
             this.removeQuestItem();
             this.reward();
+            this.successorQuest();
+            this.removeFromTrack(this.selectedQuest);
             this.removeQuest();
         },
         forfeitQuest() {
@@ -249,13 +306,28 @@ export default {
             let itemInfo = this.$store.globalComponent["itemInfo"];
             let equipInfo = this.$store.globalComponent["equipInfo"];   
             let backpack = this.$store.globalComponent["backpack"];   
-            let rewardList = this.$store.state.quests[this.selectedQuest].reward;
+            let guild = this.$store.globalComponent["guild"];
+            let rewardList = this.$store.state.quests[this.selectedQuest].rewardItem;
             for(let k=0; k<rewardList.length; k++) {
                 let type = rewardList[k][0].itemType;
                 if(equip.indexOf(type) != -1)
                     backpack.giveEquip(JSON.parse(equipInfo.finishUniqueEquip(rewardList[k][0])), false, true);
                 else
                     itemInfo.addItem(rewardList[k][0], true);
+            }
+            rewardList = this.$store.state.quests[this.selectedQuest].reward;
+            for(let k=0; k<rewardList.length; k++) {
+                switch(rewardList[k][0]) {
+                    case 'gold':
+                        guild.getGold('任务奖励', rewardList[k][1]);
+                        break;
+                }
+            }
+        },
+        successorQuest() {
+            let successor = this.questList[this.selectedQuest].successor;
+            for(let i in successor) {
+                this.assignQuest(successor[i]);
             }
         },
         closeQuest() {
@@ -345,15 +417,29 @@ export default {
 	height: 30px;
     display: flex;
 }
+.questCateg {
+    text-align: left;
+    .questCategName {
+        pointer-events: none;
+        .questButton {
+            width: 10px;
+        }
+    }
+}
 .quests {
     position: relative;
+    height: 25px;
     font-size: 15px;
     line-height: 25px;
+    padding-left: 10px;
+    display: block;
 }
 .questName {
     position: relative;
-    margin-left: 10px;
+    left: 5px;
     float: left;
+    display: flex;
+    pointer-events: none;
 }
 .questStatus {
     float: right;
@@ -373,14 +459,17 @@ export default {
     box-shadow: inset 0 0 10px rgba(123, 255, 139, 0.651);
     background-image: linear-gradient(-270deg, rgba(167, 160, 160, 0) 0%, #59b94c85 40%, #87cf6b69 60%, rgba(255,255,255,0.00) 100%);
 }
+.questFooterField {
+    display: flex;
+    width: 50%;
+}
 .questButton {
     width: 50px;
     height: 25px;
-    border: 1px solid #494745;
+    border: 1px solid #1d1d1d;
     border-radius: 5px;
-    background-image: linear-gradient(180deg, rgb(82, 0, 0) 0%, #910000 40%, #910000 60%, rgb(82, 0, 0) 100%);
-    background-color: #a80000;
-    box-shadow: inset 0 0 10px rgb(0, 0, 0);
+    background-image: linear-gradient(180deg, rgb(39, 0, 0) 0%, #5a0000 30%, #5a0000 70%, rgb(39, 0, 0) 100%);
+    box-shadow: inset 0 0 5px rgb(0, 0, 0);
     color: rgb(192, 163, 0);
     font-size: 15px;
     margin: auto 0 auto 0;
@@ -390,10 +479,15 @@ export default {
     text-align: left;
 }
 .questDetailTitle {
-    font-size: 25px;
-    
+    font-size: 22px;
 }
-// .questDetailContent {
-// 
-// }
+.questDetailContent {
+    display:flex;
+    flex-wrap: wrap;
+    .reward {
+        width: 100%;
+        // color: white;
+        // text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
+    }
+}
 </style>

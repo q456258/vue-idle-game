@@ -180,33 +180,23 @@
     }
     .menus {
         position: absolute;
-        bottom: 0.5rem;
+        bottom: 7px;
         background: rgba($color: #fff, $alpha: 0.4);
-        left: 0.5rem;
-        width: 10rem;
-        padding: 0.1rem;
-        border-top-right-radius: 0.1rem;
+        left: 7px;
+        width: 200px;
+        padding: 2px;
         display: flex;
         z-index: 10;
         & > div {
-                display: flex;
-                align-items: center;
-                flex-direction: column;
-                cursor: pointer;
-                margin: 0 0.2rem;
-                justify-content: left;
-            span {
-                color: #fff;
-                font-size: 0.3rem;
-                line-height: 0.3rem;
-                padding: 0.1rem 0;
-                font-weight: bold;
-                text-shadow: 1px 1px 3px rgb(0, 0, 0);
-            }
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            cursor: pointer;
+            justify-content: left;
         }
         .menu {
-            height: 3rem;
-            width: 3rem;
+            height: 42px;
+            width: 42px;
             img {
                 width: 100%;
                 height: 100%;
@@ -553,5 +543,13 @@
     }
     .close:after {
         transform: rotate(-45deg);
+    }
+    .smallClose {
+        width: 15px;
+        height: 15px;
+    }
+    .smallClose:before, .smallClose:after {
+        left: 7px;
+        height: 15px;
     }
 }

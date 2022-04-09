@@ -171,8 +171,9 @@ export default new Vuex.Store({
                 memberID: 0
             }
         },
+        questCateg: {
+        },
         quests: {
-
         },
         dungeonInfo: {
             auto: false,

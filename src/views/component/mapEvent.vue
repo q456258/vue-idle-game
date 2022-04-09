@@ -4,7 +4,7 @@
         <battleAnime v-show="inBattle"></battleAnime>
         <!-- <battleAnime></battleAnime> -->
         <div class="dungeonInfo" v-if="dungeon.type">
-            <a href="#" class="close" @click="close()"></a>
+            <a href="#" class="smallClose close" @click="close()"></a>
             <div class="title">
                 信息
             </div>
@@ -536,32 +536,6 @@ export default {
 .reward {
     display: flex;
     flex-wrap: wrap;
-}
-.close {
-    position: absolute;
-    right: 10px;
-    top: 5px;
-    width: 15px;
-    height: 15px;
-    opacity: 0.7;
-    z-index: 6;
-}
-.close:hover {
-    opacity: 1;
-}
-.close:before, .close:after {
-    position: absolute;
-    left: 7px;
-    content: ' ';
-    height: 15px;
-    width: 2px;
-    background-color: rgb(255, 255, 255);
-}
-.close:before {
-    transform: rotate(45deg);
-}
-.close:after {
-    transform: rotate(-45deg);
 }
 
 </style>

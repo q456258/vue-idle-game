@@ -525,7 +525,7 @@ export const monsterConfig = {
                 2: [['racial_dwarf_findtreasure', 35], ['random_equip_normal_0', 100]],
                 3: [['random_equip_elite_1', 100], ['inv_misc_coin_01', 35], ['bossTicket0', 10]],
                 4: [['random_equip_elite_1', 100], ['inv_misc_coin_01', 35], ['bossTicket0', 20]],
-                5: [['random_equip_4', 100], ['unique_equip', 'inv_sword_05', 100], ['unique_equip', 'inv_wand_06', 100]],
+                5: [['random_equip_4', 100]],
                 11: [['racial_dwarf_findtreasure', 35], ['random_equip_normal_1', 100], ['inv_misc_gem_diamond_05', 10], ['inv_misc_enchantedpearla', 1]],
                 12: [['racial_dwarf_findtreasure', 35], ['random_equip_normal_1', 100], ['inv_misc_gem_diamond_05', 15], ['inv_misc_enchantedpearla', 1]],
                 13: [['random_equip_elite_3', 100], ['inv_misc_gem_diamond_04', 15], ['inv_misc_coin_01', 35], ['inv_misc_note_06', 20], ['bossTicket1', 10], ['inv_misc_enchantedpearla', 1]],
