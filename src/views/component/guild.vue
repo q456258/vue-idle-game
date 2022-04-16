@@ -161,6 +161,15 @@ export default {
             achievement.set_statistic({cumulatedCrystal: crystal});
             // this.$store.commit("set_statistic", {cumulatedCrystal: crystal});
         },
+        useGold(gold) {
+            if(isNaN(gold)) {
+                console.log("扣除异常数额金币");
+                console.trace();
+                return;
+            }
+            gold = parseInt(gold);
+            this.guild.gold -= gold;
+        },
     }
 }
 </script>

@@ -48,7 +48,7 @@
                 <div class="grid" v-for="(v, k) in equipShop" :key="k">
                     <div @mouseover="showInfo($event,v.itemType,v,true)" @mouseleave="closeInfo('equip')">
                         <div class="mediumIconContainer" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v.quality.color }">
-                            <del :class="[{grey:v.quality.qualityLv==1, green:v.quality.qualityLv==3, blue:v.quality.qualityLv==4, purple:v.quality.qualityLv==5, orange:v.quality.qualityLv==5}, 'mediumIcon iconBorder']"></del>
+                            <del :class="[{grey:v.quality.qualityLv==1, green:v.quality.qualityLv==3, blue:v.quality.qualityLv==4, purple:v.quality.qualityLv==5, orange:v.quality.qualityLv==6}, 'mediumIcon iconBorder']"></del>
                             <img :src="v.description.iconSrc" alt="" />
                         </div>
                     </div>
@@ -117,7 +117,7 @@ export default {
     methods: {
         buyCrystal() {
             let guild = this.$store.globalComponent["guild"];
-            this.$store.state.guildAttribute.gold -= this.buyCrystalGold;
+            guild.useGold(this.buyCrystalGold);
             // this.$store.state.guildAttribute.crystal += parseInt(this.buyCrystalAmt);
             guild.getCrystal('外出游荡时累积', this.buyCrystalAmt);
         },
@@ -189,6 +189,7 @@ export default {
             if(this.playerGold < cost)
                 return
             let msg = false;
+            let guild = this.$store.globalComponent["guild"];
             for(let index in this.equipShop) {
                 if(Object.keys(this.equipShop[index]).length == 0)
                     continue;
@@ -202,20 +203,21 @@ export default {
                     message: '有个传说装备没买, 考虑考虑?',
                     confirmBtnText: '传说装备? 狗都不买',
                     onClose: () => {
-                        this.$store.state.guildAttribute.gold -= cost;
+                        guild.useGold(cost);
                         this.setEquipShopItem();
                     }
                 });
             }
             else {
-                this.$store.state.guildAttribute.gold -= cost;
+                guild.useGold(cost);
                 this.setEquipShopItem();
             }
         },
         buyEquip(index) {
             if(this.playerGold < this.equipCost[index])
                 return
-            this.$store.state.guildAttribute.gold -= this.equipCost[index];
+            let guild = this.$store.globalComponent["guild"];
+            guild.useGold(this.equipCost[index]);
             let backpack = this.$store.globalComponent["backpack"];
             backpack.giveEquip(this.equipShop[index], false);
             this.$set(this.equipShop, index, {});
@@ -224,7 +226,8 @@ export default {
             let itemName = this.generalShop[index];
             if(this.playerGold < this.itemType[itemName].cost)
                 return
-            this.$store.state.guildAttribute.gold -= this.itemType[itemName].cost;
+            let guild = this.$store.globalComponent["guild"];
+            guild.useGold(this.itemType[itemName].cost);
             let itemInfo = this.$store.globalComponent["itemInfo"];
             let item = itemInfo.createItem(itemName, this.itemType[itemName].quantity);
             itemInfo.addItem(JSON.parse(item));
