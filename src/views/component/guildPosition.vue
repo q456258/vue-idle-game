@@ -176,73 +176,6 @@
             </table>
         </div>
     </div>
-    <div class="building" v-show="displayPage=='bar'" :set="type='bar'">
-        <!-- <div class="buildInfo">
-            {{guild[type].lv+'级 (效率: '+totalEfficiency[type]+'/秒)'}}
-        </div> -->
-        <div class="member">
-            成员{{building[type].length}}/{{maxMember[type]}}
-            <div class="btn btn-outline-success" v-if="building[type].length<maxMember[type]" @click="setPosition('bar', -1)">添加</div>
-            <div class="list">
-                <div class="grid" v-for="(v, k) in building[type]" :key="k">
-                    <div class="info">
-                        <div class="name">
-                            {{v.name}}
-                            <br>
-                            {{race[v.race].name+' '+v.lv}}级
-                        </div>
-                    </div>
-                    <div class="action">
-                        <div class="button kick btn btn-outline-warning" @click="setPosition('bar', k)">更换</div>
-                        <div class="button kick btn btn-outline-danger" @click="cancelPosition('bar', k)">取消</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="action">
-            
-        </div>
-        <div class="applicant scrollbar-morpheus-den">
-            <div class="list">
-                <div class="grid" v-for="(v, k) in applicantList" :key="k">
-                    <div class="info">
-                        <div class="icon"><img :src="v.iconSrc"></div>
-                        <div class="name">
-                            {{v.name}}
-                            <br>
-                            {{race[v.race].name+' '+v.lv}}级
-                        </div>
-                    </div>
-                    <div class="svg-pentagon">
-                        <div class="statList">
-                            <div :class="'stat ' +type" v-for="(value, type) in v.talent" :key="type">{{guildStat[type].name}}
-                            </div>
-                        </div>
-                        <svg id="J-svg-pentagon"  width="120" height="120">
-                            <g transform="translate(10, 15)">
-                                <polygon class="pentagon pentagon-5" points="-50 0.00 -2.45 -34.55 -20.61 -90.45 -79.39 -90.45 -97.55 -34.55"/>
-                                <polygon class="pentagon pentagon-4" points="-50 -10.00 -11.96 -37.64 -26.49 -82.36 -73.51 -82.36 -88.04 -37.64"/>
-                                <polygon class="pentagon pentagon-3" points="-50 -20.00 -21.47 -40.73 -32.37 -74.27 -67.63 -74.27 -78.53 -40.73"/>
-                                <polygon class="pentagon pentagon-2" points="-50 -30.00 -30.98 -43.82 -38.24 -66.18 -61.76 -66.18 -69.02 -43.82"/>
-                                <polygon class="pentagon pentagon-1" points="-50 -40.00 -40.49 -46.91 -44.12 -58.09 -55.88 -58.09 -59.51 -46.91"/>
-                                <polygon class="pentagon pentagonAbility" :points="v.points" />
-                            </g>
-                        </svg>
-                    </div>
-                    <div class="skillList">
-                        <div class="skill" v-for="(id, index) in v.skill" :key="index">
-                            <span class="skillName">{{guildSkill[id].name}}</span>
-                            <span class="skillDesc">({{guildSkill[id].desc}})</span>
-                        </div>
-                    </div>
-                    <div class="action">
-                        <div class="button specialButton accept" @click="recruit(k)">招募</div>
-                        <div class="button specialButton reject" @click="reject(k)">婉拒</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
     
 </template>
@@ -272,7 +205,6 @@ export default {
                 train3: [],
                 mine: [],
                 herb: [],
-                bar: [],
             }, 
             maxMember: {
                 shop: 1,
@@ -282,13 +214,12 @@ export default {
                 train3: 2,
                 mine: 2,
                 herb: 2,
-                bar: 2,
             },
             totalEfficiency: {
                 shop: 1, smith: 1, train: 1, train2: 1, train3: 1,
             },
             timerList: {
-                shop: 0, smith: 0, train: 0, train2: 0, train3: 0, mine: 0, bar: 0,
+                shop: 0, smith: 0, train: 0, train2: 0, train3: 0, mine: 0
             },
             progress: {
                 shop: { current: 0, max: 1000 },
@@ -345,7 +276,6 @@ export default {
                 clearInterval(this.timerList[timer]);
             this.start('shop');
             this.start('mine');
-            this.start('bar');
             // this.start('smith');
             // this.smith_main = this.player.shoulder;
             // this.smith_sub = this.player.weapon;
@@ -419,9 +349,6 @@ export default {
                 case 'mine':
                     this.startMine();
                     break;
-                case 'bar':
-                    this.startBar();
-                    break;
             }
         },
         stop(type) {
@@ -493,15 +420,6 @@ export default {
                     }
                 }
             }, 1*1000);
-        },
-        startBar() {
-            var guildMember = this.$store.globalComponent["guildMember"];
-            this.timerList['bar'] = setInterval(() => {
-                if(this.applicantList.length > 4) {
-                    guildMember.reject(Math.floor(Math.random()*this.applicantList.length));
-                } 
-                guildMember.generateApplicant();
-            }, 1*1*1000);
         },
         smith() {
             let equipInfo = this.$store.globalComponent["equipInfo"];

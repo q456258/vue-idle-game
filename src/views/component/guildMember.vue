@@ -159,7 +159,7 @@ export default {
             // applicantList: [],
             positionList: [['None','空闲'], ['trainManager','练功房管理'], ['train2Manager','中级练功房管理'], ['train3Manager','高级练功房管理']],
             positionType: 'None',
-            typeName: {shop:'商店', smith:'铁匠铺', train:'练功房', train2:'中级练功房', train3:'高级练功房', mine: '矿场', herb: '药园', bar: '酒馆'},
+            typeName: {shop:'商店', smith:'铁匠铺', train:'练功房', train2:'中级练功房', train3:'高级练功房', mine: '矿场', herb: '药园'},
             viewType: 'list',
             size: 'maximize',
             sortKey: 'name',
@@ -422,7 +422,6 @@ export default {
             let member = this.guild.member[k];
             for(let type in member.stat)
                 this.playerGainStat(type, -1*Math.round(member.stat[type]*0.1));
-            var guild = this.$store.globalComponent["guild"];
             var guildPosition = this.$store.globalComponent["guildPosition"];
             guildPosition.cancelPosition(this.guild.member[k].job, guildPosition.findTarget(this.guild.member[k]));
             for(let index in member.skill) {

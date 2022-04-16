@@ -26,9 +26,9 @@ export const itemEffect = {
                 case 'inv_misc_coin_02':
                     used = this.randomGold(666, lv);
                     break;
-                case 'inv_misc_note_06':
-                    used = this.inv_misc_note_06();
-                    break;
+                // case 'inv_misc_note_06':
+                //     used = this.inv_misc_note_06();
+                //     break;
                 case 'random_equip_normal_0':
                     equipOption.types = ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove'];
                     equipOption.baseOption = ['STR', 'AGI', 'STA'];
@@ -173,11 +173,11 @@ export const itemEffect = {
             return used;
         },
         //招募声明
-        inv_misc_note_06() {
-            let guildMember = this.$store.globalComponent["guildMember"];
-            guildMember.generateApplicant();
-            return true;
-        },
+        // inv_misc_note_06() {
+        //     let guildMember = this.$store.globalComponent["guildMember"];
+        //     guildMember.generateApplicant();
+        //     return true;
+        // },
         randomGold(max, lv) {
             let guild = this.$store.globalComponent["guild"];
             let gold = Math.round(max*Math.random()*(1+lv*0.1))
