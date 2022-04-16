@@ -561,6 +561,36 @@ export const itemConfig = {
                     cost: 99990000,
                     maxStack: 20
                 },
+                random_equip_normal_3: {
+                    quality: 1,
+                    description: {
+                        name: '随机装备',
+                        category: '消耗品',
+                        desc: '小概率获得一件优质武器、基础防具',
+                        iconSrc: "./icons/item/inv_misc_questionmark.jpg",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
+                },
+                random_equip_normal_4: {
+                    quality: 1,
+                    description: {
+                        name: '随机装备',
+                        category: '消耗品',
+                        desc: '极小概率获得一件极品武器、防具',
+                        iconSrc: "./icons/item/inv_misc_questionmark.jpg",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
+                },
                 random_equip_normal_10: {
                     quality: 1,
                     description: {

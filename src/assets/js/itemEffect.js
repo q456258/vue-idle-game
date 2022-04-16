@@ -7,10 +7,11 @@ export const itemEffect = {
         }
     },
     methods: {
-        callItemEffect(type, lv) {
+        callItemEffect(type, lv, options={}) {
             let itemInfo = this.itemType[type];
             let used = false;
-            let info = {};
+            let toBackpack = options.toBackpack;
+            let equipOption = options.equipOption != undefined ? options.equipOption : {};
             let cd = this.$store.state.playerAttribute.globalCD[itemInfo.cdgroup];
             if(cd != undefined && cd > Date.now()) {
                 return used;
@@ -29,43 +30,61 @@ export const itemEffect = {
                     used = this.inv_misc_note_06();
                     break;
                 case 'random_equip_normal_0':
-                    used = this.randomEquip(0, lv, {types: ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove'], baseOption: ['STR', 'AGI', 'STA']});
+                    equipOption.types = ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove'];
+                    equipOption.baseOption = ['STR', 'AGI', 'STA'];
+                    used = this.randomEquip(0, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_normal_1':
-                    used = this.randomEquip(1, lv, {types: ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove']});
+                    equipOption.types = ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove'];
+                    used = this.randomEquip(1, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_normal_2':
-                    used = this.randomEquip(2, lv, {types: ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove']});
+                    equipOption.types = ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove'];
+                    used = this.randomEquip(2, lv, equipOption, toBackpack);
+                    break;
+                case 'random_equip_normal_3':
+                    equipOption.types = ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove'];
+                    used = this.randomEquip(3, lv, equipOption, toBackpack);
+                    break;
+                case 'random_equip_normal_4':
+                    equipOption.types = ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove'];
+                    used = this.randomEquip(4, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_normal_10':
-                    used = this.randomEquip(10, lv, {types: ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove'], baseOption: ['STR', 'AGI', 'STA']});
+                    equipOption.types = ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove'];
+                    equipOption.baseOption = ['STR', 'AGI', 'STA'];
+                    used = this.randomEquip(10, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_elite_1':
-                    used = this.randomEquip(1, lv, {types: ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove', 'shoulder', 'cape', 'bracer', 'belt'], baseOption: ['STR', 'AGI', 'STA']});
+                    equipOption.types = ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove', 'shoulder', 'cape', 'bracer', 'belt'];
+                    equipOption.baseOption = ['STR', 'AGI', 'STA'];
+                    used = this.randomEquip(1, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_elite_3':
-                    used = this.randomEquip(3, lv, {types: ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove', 'shoulder', 'cape', 'bracer', 'belt']});
+                    equipOption.types = ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove', 'shoulder', 'cape', 'bracer', 'belt'];
+                    used = this.randomEquip(3, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_elite_4':
-                    used = this.randomEquip(4, lv, {types: ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove', 'shoulder', 'cape', 'bracer', 'belt']});
+                    equipOption.types = ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove', 'shoulder', 'cape', 'bracer', 'belt'];
+                    used = this.randomEquip(4, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_4':
-                    used = this.randomEquip(4, lv);
+                    used = this.randomEquip(4, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_5':
-                    used = this.randomEquip(5, lv);
+                    used = this.randomEquip(5, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_6':
-                    used = this.randomEquip(6, lv);
+                    used = this.randomEquip(6, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_7':
-                    used = this.randomEquip(7, lv);
+                    used = this.randomEquip(7, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_8':
-                    used = this.randomEquip(8, lv);
+                    used = this.randomEquip(8, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_9':
-                    used = this.randomEquip(9, lv);
+                    used = this.randomEquip(9, lv, equipOption, toBackpack);
                     break;
                 // case 'inv_box_01':
                 //     used = this.inv_box_01();
@@ -165,7 +184,7 @@ export const itemEffect = {
             guild.getGold('', gold);
             return true;
         },
-        randomEquip(qualitySet, lv, optional={}) {
+        randomEquip(qualitySet, lv, optional={}, toBackpack) {
             let backpack = this.$store.globalComponent["backpack"];
             let equipInfo = this.$store.globalComponent["equipInfo"];
             let itemLv = lv || this.$store.state.playerAttribute.lv;
@@ -176,6 +195,8 @@ export const itemEffect = {
             //     msg: '获得战利品',
             //     equip: equip
             // });
+            if(!toBackpack)
+                return equip;
             backpack.giveEquip(equip, true, true);
             return true;
         },
