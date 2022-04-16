@@ -8,13 +8,13 @@
             <feColorMatrix type="matrix" values="0.1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 0"></feColorMatrix>
         </filter>
         <filter id="blueBorder">
-            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0.44 0 0 0 0 0 0.87 0 0 0 0 0 1 0"></feColorMatrix>
+            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0.44 0 0 0 0 0 0.87 0.4 0 0 0 0 1 0"></feColorMatrix>
         </filter>
         <filter id="purpleBorder">
-            <feColorMatrix type="matrix" values="0.4 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0"></feColorMatrix>
+            <feColorMatrix type="matrix" values="0.4 0 0 0 0.25 0 0 0 0 0 0 0 1 0.25 0 0 0 0 1 0"></feColorMatrix>
         </filter>
         <filter id="orangeBorder">
-            <feColorMatrix type="matrix" values="1 0 0 0 0 0 0.4 0 0 0 0 0 0 0 0 0 0 0 1 0"></feColorMatrix>
+            <feColorMatrix type="matrix" values="1 0 0 0 0.25 0 0.4 0 0 0 0 0 0 0 0 0 0 0 1 0"></feColorMatrix>
         </filter>
     </svg>
     <ul class="nav nav-tabs">
@@ -336,9 +336,9 @@ export default {
 //       item = itemInfo.createItem(items[i], 20);  
 //       itemInfo.addItem(JSON.parse(item));
 //     }
-    // quest.assignQuest(0);
-    // quest.assignQuest(1);
-    // quest.assignQuest(2);
+    // for(let i in quest.questList) {
+    //   quest.assignQuest(i);
+    // }
 
     this.$store.commit('set_player_attribute');
     let shop = this.$store.globalComponent["shop"];  
