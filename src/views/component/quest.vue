@@ -10,10 +10,10 @@
     </template>
     <template slot="main" >
         <div id="questWrapper">
-            <div id="questList">
+            <div id="questList" class="scrollbar-morpheus-den">
                 <div class="questCateg" v-for="(v, k) in questCateg" :key="k" @click="expandQuestCateg($event)">
                     <span class="questCategName " v-if="k!='forceUpdate'">
-                        <span class="questButton">&nbsp;-&nbsp;</span>&nbsp;{{questCategory[k]}}
+                        <span class="questButton">&nbsp;&minus;&nbsp;</span>&nbsp;{{questCategory[k]}}
                     </span>
                     <span>
                         <div :class="[{questSelected: val==selectedQuest}, 'quests']" v-for="(val, key) in questCateg[k].list" :key="key" @click="selectQuest(val)">
@@ -86,7 +86,7 @@ export default {
     data () {
         return {
             selectedQuest: -1,
-            rewardType: {gold: '金币'},
+            rewardType: {gold: '金币', guild_reputation: '公会声望'},
             questTrack: {
                 slain: {},
                 collect: {},
@@ -135,6 +135,7 @@ export default {
             quest.id = questId;
             quest.lv = this.questList[questId].lv;
             quest.name = this.questList[questId].name;
+            quest.category = this.questList[questId].category;
             quest.desc = this.questList[questId].desc;
             quest.target = this.questList[questId].target;
             quest.reward = this.setQuestReward(questId);
@@ -142,7 +143,6 @@ export default {
             quest.reqs = this.setQuestRequirement(questId);
             quest.successor = this.questList[questId].successor;
             quest.status = '';
-
             let category = this.questList[questId].category;
             if(this.questCateg[category] == undefined)
                 this.questCateg[category] = {list: [], expand: true};
@@ -163,6 +163,7 @@ export default {
         setQuestRewardItem(questId) {
             let equipInfo = this.$store.globalComponent.equipInfo;
             let itemInfo = this.$store.globalComponent.itemInfo;
+            let backpack = this.$store.globalComponent.backpack;
             let reward = [];
             let lv = this.questList[questId].lv;
             for(let type in this.questList[questId].rewardItem) {
@@ -173,6 +174,9 @@ export default {
                         let newEquip = JSON.parse(equipInfo.createUniqueEquipTemplate(rewardInfo[1]));
                         reward.push([newEquip]);
                     }
+                }
+                else if(rewardInfo[0].indexOf('random_equip') != -1) {
+                    reward.push([backpack.callItemEffect(rewardInfo[0], lv, {toBackpack: false, equipOption: rewardInfo[3]})]);
                 }
                 else if(ran < rewardInfo[2])
                     reward.push([JSON.parse(itemInfo.createItem(rewardInfo[0], rewardInfo[1], lv))]);
@@ -212,6 +216,13 @@ export default {
             for(let i in track[key]) {
                 this.increaseProgress(type, track[key][i], key, quantity);
             }
+        },
+        removeFromCateg(questId) {
+            let quest = this.quests[questId];
+            let list = this.questCateg[quest.category].list;
+            list.splice(list.indexOf(questId), 1);
+            if(list.length == 0)
+                delete this.questCateg[quest.category];
         },
         removeFromTrack(questId) {
             let reqs = this.quests[questId].reqs;
@@ -257,10 +268,11 @@ export default {
             quest.status = status;
         },
         expandQuestCateg(e) {
-            console.log(e.target.firstChild.firstChild.innerHTML)
+            if(!e.target.classList.contains("questCateg"))
+                return;
             if(e.target.lastChild.style["display"] == 'none'){
                 e.target.lastChild.style.display = 'block';
-                e.target.firstChild.firstChild.innerHTML = '&nbsp;-&nbsp;';
+                e.target.firstChild.firstChild.innerHTML = '&nbsp;&minus;&nbsp;';
             }
             else {
                 e.target.lastChild.style.display = 'none';
@@ -276,6 +288,7 @@ export default {
             this.removeQuestItem();
             this.reward();
             this.successorQuest();
+            this.removeFromCateg(this.selectedQuest);
             this.removeFromTrack(this.selectedQuest);
             this.removeQuest();
         },
@@ -402,6 +415,7 @@ export default {
 	// width: 254px;
 	width: 392px;
 	height: 529px;
+    overflow: auto;
 }
 #questDetail {
     background-color: #000000;

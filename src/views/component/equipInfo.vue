@@ -122,7 +122,7 @@ export default {
         player() { return this.$store.state.playerAttribute },
     },
     methods: {
-        createEquip(qualityIndex, lv, type, qualitySet, optional={}) {
+        createEquip(qualityIndex, lvReq, type, qualitySet, optional={}) {
             let baseEntry = [];
             if(optional.baseEntry) {
                 for(let i=0; i<optional.baseEntry.length; i++)
@@ -130,8 +130,8 @@ export default {
             }
             let newEquip = {};
             newEquip.itemType = type != 'random' ? type : this.createType(optional.types);
-            newEquip.lvReq = lv || 1;
-            newEquip.lv = lv || 1;
+            newEquip.lvReq = lvReq || 1;
+            newEquip.lv = optional.lv || lvReq || 1;
             newEquip.quality = qualityIndex > -1 ? this.quality[qualityIndex] : this.createQuality(qualitySet);
             newEquip.maxEnhanceLv = (newEquip.quality.qualityLv-1)*5;
             newEquip.enhanceLv = Math.min(0, newEquip.maxEnhanceLv);
