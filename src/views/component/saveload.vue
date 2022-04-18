@@ -173,15 +173,10 @@ export default {
             if(minute > 288)
                 minute = 288;
             let guild = this.$store.globalComponent["guild"];
-            let equipInfo = this.$store.globalComponent["equipInfo"];
-            let backpack = this.$store.globalComponent["backpack"];
-            let crystal = 0;
             let gold = 0;
             let lv = this.$store.state.playerAttribute.lv;
-            for(let i=0; i<Math.floor(minute/5); i++) {
-                gold += Math.round((100+lv**2)*(2+2*Math.random()))
-                if(i%5 == 0)
-                    crystal += Math.round((1+lv*2)*(1+Math.random()));
+            // for(let i=0; i<Math.floor(minute/5); i++) {
+            //     gold += Math.round((100+lv**2)*(2+2*Math.random()))
             //     if(Math.random() < 1/24) {
             // // 此处需改动qualitySet参数
             //         let equip = equipInfo.createEquip(-1, lv, 'random', 1);  
@@ -193,9 +188,8 @@ export default {
             //         });
             //         backpack.giveEquip(equip);
             //     }
-            }
-            guild.getGold('外出游荡时累积', gold);
-            guild.getCrystal('外出游荡时累积', crystal);
+            // }
+            // guild.getGold('外出游荡时累积', gold);
         },
         closeSaveload() {
             let index = this.$store.globalComponent["index"];

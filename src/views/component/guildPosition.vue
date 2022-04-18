@@ -4,7 +4,18 @@
         <div class="buildInfo">
             {{guild.guild.lv+"级"}}
         </div>
+        <div class="buildingUpgradeContainer">
+            <div class="buildingUpgrade" v-for="(v, k) in upgradeCost" :key="k">
+                <div>{{guild[k].lv}}级{{typeName[k]}}
+                    <br>
+                    费用： <currency :amount="upgradeCost[k][guild[k].lv]"></currency><span v-if="!upgradeCost[k][guild[k].lv]">已满级</span>
+                    <br>
+                    <button class="btn btn-secondary" v-if="upgradeCost[k][guild[k].lv]" @click="upgradeBuilding(k)" :disabled="guild.gold<upgradeCost[k][guild[k].lv]">升级</button>
+                </div>
+            </div>
+        </div>
     </div>
+    <!-- 
     <div class="building" v-show="displayPage=='train'" :set="type='train'">
         <div class="buildInfo">
             {{guild[type].lv+"级"}}
@@ -12,12 +23,13 @@
         <div class="training">
             <div class="trainingProgressbars">
                 <countdown ref="countdown" :tier="0" :timer="$store.state.train.train1.timer" :level="guild.train.lv" v-if="guild.train.lv>0"></countdown>
-                <!-- <countdown :tier="1" :timer="$store.state.train.train2.timer" :level="guild.train2.lv" v-if="guild.train.lv>0"></countdown> -->
-                <!-- <countdown :tier="1" :timer="$store.state.train.train2.timer" :level="guild.train2.lv" v-if="guild.train2.lv>0"></countdown> -->
-                <!-- <countdown :tier="2" :timer="$store.state.train.train3.timer" :level="guild.train3.lv" v-if="guild.train3.lv>0"></countdown> -->
+                <countdown :tier="1" :timer="$store.state.train.train2.timer" :level="guild.train2.lv" v-if="guild.train.lv>0"></countdown>
+                <countdown :tier="1" :timer="$store.state.train.train2.timer" :level="guild.train2.lv" v-if="guild.train2.lv>0"></countdown>
+                <countdown :tier="2" :timer="$store.state.train.train3.timer" :level="guild.train3.lv" v-if="guild.train3.lv>0"></countdown>
             </div>
         </div>
-    </div>
+    </div> 
+    -->
     <div class="building" v-show="displayPage=='shop'" :set="type='shop'">
         <div class="buildInfo">
             {{guild[type].lv+'级 (效率: '+totalEfficiency[type]+'/秒)'}}
@@ -186,17 +198,24 @@ import {guildMemberConfig} from '@/assets/config/guildMemberConfig'
 import cTooltip from '../uiComponent/tooltip';
 import countdown from '../uiComponent/countdown';
 import craftEquip from '../component/craftEquip';
+import currency from '../uiComponent/currency';
 export default {
     name: "guildPosition",
     mixins: [guildConfig, guildMemberConfig],
-    components: {cTooltip, countdown, craftEquip},
+    components: {cTooltip, countdown, craftEquip, currency},
     mounted() {
         this.$store.globalComponent.guildPosition = this;
     },
     data() {
         return {
             types: ['shop','smith','train','train2','train3'],
-            typeName: {shop:'商店', smith:'铁匠铺', train:'练功房', train2:'中级练功房', train3:'高级练功房'},
+            typeName: {shop:'商店', smith:'铁匠铺', train:'练功房', train2:'中级练功房', train3:'高级练功房', mine: '矿场', herb: '药园'},
+            upgradeCost: {
+                shop: [100,1000,10000],
+                smith: [100,1000,10000],
+                mine: [100,1000,10000],
+                herb: [100,1000,10000],
+            }, 
             building: {
                 shop: [],
                 smith: [],
@@ -235,7 +254,7 @@ export default {
             selectOption: {
                 shop: [{name: '1级贸易', value: 'shop1', lv: 0}, {name: '2级贸易', value: 'shop2', lv: 15}, {name: '3级贸易', value: 'shop3', lv: 30}, 
                         {name: '4级贸易', value: 'shop4', lv: 45}],
-                smith: [{name: '打造', value: 'smith', lv: 0},{name: '精炼', value: 'refine', lv: 15}, {name: '熔炼', value: 'melt', lv: 30}],
+                smith: [{name: '打造', value: 'smith', lv: 1},{name: '精炼', value: 'refine', lv: 2}, {name: '熔炼', value: 'melt', lv: 3}],
                 train: [{name: '生命训练', value: 'HP', lv: 0}, {name: '魔法训练', value: 'MP', lv: 0}, {name: '攻击训练', value: 'ATK', lv: 0},
                         {name: '防御训练', value: 'DEF', lv: 0}],
                 train2: [{name: '元素训练', value: 'SUNDER', lv: 0}, {name: '格挡训练', value: 'BLOCK', lv: 0}],
@@ -283,8 +302,13 @@ export default {
             // for(let type in types) 
             //     this.computeLv(types[type]);
         },
-        selectEquip(type) {
+        upgradeBuilding(type) {
             let guild = this.$store.globalComponent["guild"];
+            let cost = this.upgradeCost[type][this.guild[type].lv];
+            guild.useGold(cost);
+            this.guild[type].lv += 1;
+        },
+        selectEquip(type) {
             let backpack = this.$store.globalComponent["backpack"];
             let index = this.$store.globalComponent["index"];
             this.selectFor = type;
@@ -293,7 +317,6 @@ export default {
             index.openMenuPanel('backpack');
         },
         selectedEquip(equip) {
-            let guild = this.$store.globalComponent["guild"];
             let backpack = this.$store.globalComponent["backpack"];
             switch(this.selectFor){
                 case "smith_main":
@@ -608,6 +631,18 @@ export default {
     .buildInfo {
         width: 100%;
         margin: 0.2rem 0.2rem;
+    }
+    .buildingUpgradeContainer {
+        position: relative;
+        display: flex;
+        width: 100%;
+        .buildingUpgrade {
+            width: 45%;
+            border: 1px solid rgba(255, 255, 255, 0.404);
+            border-radius: 7px;
+            margin: 5px;
+            padding: 5px;
+        }
     }
     .progress {
 	    position: relative;

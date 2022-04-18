@@ -9,9 +9,6 @@
                 <div>
                     累积获得金币: <currency :amount=statistic.cumulatedGold></currency>
                 </div>
-                <div>
-                    累积获得水晶: {{statistic.cumulatedCrystal}}
-                </div>
             </div>
         </div>
         <div class="time">

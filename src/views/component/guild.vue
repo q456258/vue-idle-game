@@ -22,7 +22,6 @@
 <div class="guild">
     <div id="resource">
         金币:<currency :amount="guild.gold"></currency> <br>
-        水晶:{{guild.crystal}} <br>
     </div>
     <div id="building">     
         <cTooltip :placement="'bottom'">
@@ -101,15 +100,13 @@
 </div>
 </template>
 <script>
-import {guildConfig} from '@/assets/config/guildConfig'
-
 import currency from '../uiComponent/currency';
 import cTooltip from '../uiComponent/tooltip';
 import guildPosition from '../component/guildPosition';
 import countdown from '../uiComponent/countdown';
 export default {
     name: "guild",
-    mixins: [guildConfig],
+    mixins: [],
     components: {cTooltip, guildPosition, countdown, currency},
     mounted() {
         this.$store.globalComponent.guild = this;
@@ -147,19 +144,6 @@ export default {
             let achievement = this.$store.globalComponent["achievement"];
             achievement.set_statistic({cumulatedGold: gold});
             // this.$store.commit("set_statistic", {cumulatedGold: gold});
-        },
-        getCrystal(text, crystal, showText=true) {
-            crystal = parseInt(crystal);
-            this.guild.crystal += crystal;
-            if(showText) {
-                this.$store.commit("set_sys_info", {
-                    type: 'reward',
-                    msg: text+'获得'+crystal+'水晶'
-                });
-            }
-            let achievement = this.$store.globalComponent["achievement"];
-            achievement.set_statistic({cumulatedCrystal: crystal});
-            // this.$store.commit("set_statistic", {cumulatedCrystal: crystal});
         },
         useGold(gold) {
             if(isNaN(gold)) {
