@@ -86,7 +86,7 @@ export default {
     data () {
         return {
             selectedQuest: -1,
-            rewardType: {gold: '金币', guild_reputation: '公会声望'},
+            rewardType: {gold: '金币', guildReputation: '公会名望'},
             questTrack: {
                 slain: {},
                 collect: {},
@@ -333,6 +333,9 @@ export default {
                 switch(rewardList[k][0]) {
                     case 'gold':
                         guild.getGold('任务奖励', rewardList[k][1]);
+                        break;
+                    case 'guildReputation':
+                        guild.getReputation('任务奖励', rewardList[k][1]);
                         break;
                 }
             }

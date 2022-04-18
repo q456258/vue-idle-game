@@ -480,7 +480,6 @@
             top: -0.6rem;
             right: -0.8rem;
             width: 2rem;
-            height: 0.5rem;
             font-size: 0.8rem;
             line-height: 0;
             text-align: right;
@@ -551,5 +550,13 @@
     .smallClose:before, .smallClose:after {
         left: 7px;
         height: 15px;
+    }
+    .guildReputationIcon {
+        background-image: url(/icons/other/inv_misc_covenant_renown.jpg);
+        display: inline-block;
+        height: 15px;
+        width: 15px;
+        background-size: contain;
+        margin-top: -4px;
     }
 }

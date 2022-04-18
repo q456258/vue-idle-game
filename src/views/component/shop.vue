@@ -5,7 +5,7 @@
             金币: <currency :amount="playerGold"></currency> <br>
         </div>
         <div class="shops scrollbar-morpheus-den">
-                杂货店
+            杂货店
             <div class="wrapper">
                 <div class="grid" v-for="(v, k) in guildShop.generalShop[guild.shop.lv]" :key="k">
                     <div @mouseover="showInfo($event,itemType[v].itemType,itemType[v],true)" @mouseleave="closeInfo('item')">
@@ -13,6 +13,7 @@
                             <del :class="[{grey:itemType[v].quality==1, green:itemType[v].quality==3, blue:itemType[v].quality==4, purple:itemType[v].quality==5, orange:itemType[v].quality==5}, 'mediumIcon iconBorder']"></del>
                             <img :src="itemType[v].description.iconSrc" alt="" />
                         </div>
+                        <div class="quantity">{{itemType[v].quantity}}</div>
                     </div>       
                     <button type="button" class="btn btn-outline-warning buy" :disabled="playerGold<itemType[v].cost" @click="buyItem(v)">购买</button>
                     <span class="itemName">
@@ -22,8 +23,27 @@
                 </div>
             </div>
         </div>
+        <div class="shops scrollbar-morpheus-den" v-if="guild['shop'].lv>1">
+            名望商店
+            <div class="wrapper">
+                <div class="grid" v-for="(v, k) in guildShop.reputationShop[guild.shop.lv]" :key="k">
+                    <div @mouseover="showInfo($event,itemType[v[0]].itemType,itemType[v[0]],true)" @mouseleave="closeInfo('item')">
+                        <div class="mediumIconContainer">
+                            <del :class="[{grey:itemType[v[0]].quality==1, green:itemType[v[0]].quality==3, blue:itemType[v[0]].quality==4, purple:itemType[v[0]].quality==5, orange:itemType[v[0]].quality==5}, 'mediumIcon iconBorder']"></del>
+                            <img :src="itemType[v[0]].description.iconSrc" alt="" />
+                        </div>
+                        <div class="quantity">{{itemType[v[0]].quantity}}</div>
+                    </div>       
+                    <button type="button" class="btn btn-outline-warning buy" :disabled="guildReputation<v[1]" @click="buyReputationItem(v[0], v[1], 'guildReputation')">购买</button>
+                    <span class="itemName">
+                        {{itemType[v[0]].description.name}}
+                    </span>      
+                    <span :style="{color:guildReputation<v[1].cost?'#f00':''}">{{v[1]}}<img class="guildReputationIcon"></span>
+                </div>
+            </div>
+        </div>
         <div class="shops" v-if="guild['shop'].lv>2">
-                奸商
+            黑市
             <div class="wrapper">
                 <div class="grid" v-for="(v, k) in equipShop" :key="k">
                     <div @mouseover="showInfo($event,v.itemType,v,true)" @mouseleave="closeInfo('equip')">
@@ -90,6 +110,8 @@ export default {
         guild() { return this.$store.state.guildAttribute; },
         playerLv() { return this.$store.state.playerAttribute.lv; },
         playerGold() { return this.$store.state.guildAttribute.gold; },
+        guildReputation() { return this.$store.state.guildAttribute.reputation; },
+        
     },
     methods: {
         setEquipShopItem() {
@@ -172,6 +194,21 @@ export default {
                 return
             let guild = this.$store.globalComponent["guild"];
             guild.useGold(this.itemType[itemName].cost);
+            let itemInfo = this.$store.globalComponent["itemInfo"];
+            let item = itemInfo.createItem(itemName, this.itemType[itemName].quantity);
+            itemInfo.addItem(JSON.parse(item));
+        },
+        buyReputationItem(itemName, cost, reputationType) {
+            let current;
+            switch(reputationType) {
+                case 'guildReputation':
+                    current = this.guild.reputation;
+                    break;
+            }
+            if(current < cost)
+                return
+            let guild = this.$store.globalComponent["guild"];
+            guild.useReputation(cost, reputationType);
             let itemInfo = this.$store.globalComponent["itemInfo"];
             let item = itemInfo.createItem(itemName, this.itemType[itemName].quantity);
             itemInfo.addItem(JSON.parse(item));

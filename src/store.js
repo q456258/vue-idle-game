@@ -189,6 +189,7 @@ export default new Vuex.Store({
         },
         guildAttribute: {
             gold: 0,
+            reputation: 0,
             guild: {lv: 0},
             train: {lv: 0},
             train2: {lv: 0},
@@ -354,6 +355,7 @@ export default new Vuex.Store({
             gameTime: 0,
             awayTime: 0,
             cumulatedGold: 0,
+            cumulatedReputation: 0
         },
         exitTime: 0
     },

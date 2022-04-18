@@ -908,7 +908,7 @@ export const itemConfig = {
                     use: true,
                     stack: true,
                     quantity: 20,
-                    cost: 200,
+                    cost: 100,
                     maxStack: 100
                 },
                 inv_alchemy_80_potion01blue: {
@@ -922,7 +922,7 @@ export const itemConfig = {
                     use: true,
                     stack: true,
                     quantity: 20,
-                    cost: 200,
+                    cost: 100,
                     maxStack: 100
                 },
                 inv_potion_49: {
@@ -935,8 +935,8 @@ export const itemConfig = {
                     },
                     use: true,
                     stack: true,
-                    quantity: 1,
-                    cost: 99990000,
+                    quantity: 5,
+                    cost: 200,
                     maxStack: 100,
                     cdgroup: 'hpPotion',
                     cd: 15
@@ -951,8 +951,8 @@ export const itemConfig = {
                     },
                     use: true,
                     stack: true,
-                    quantity: 1,
-                    cost: 99990000,
+                    quantity: 5,
+                    cost: 250,
                     maxStack: 100,
                     cdgroup: 'hpPotion',
                     cd: 15
@@ -967,9 +967,11 @@ export const itemConfig = {
                     },
                     use: true,
                     stack: true,
-                    quantity: 1,
-                    cost: 99990000,
-                    maxStack: 100
+                    quantity: 5,
+                    cost: 1000,
+                    maxStack: 100,
+                    cdgroup: 'hpPotion',
+                    cd: 15
                 },
                 inv_potion_52: {
                     quality: 3,
@@ -981,9 +983,11 @@ export const itemConfig = {
                     },
                     use: true,
                     stack: true,
-                    quantity: 1,
-                    cost: 99990000,
-                    maxStack: 100
+                    quantity: 5,
+                    cost: 1300,
+                    maxStack: 100,
+                    cdgroup: 'hpPotion',
+                    cd: 15
                 },
                 inv_potion_53: {
                     quality: 4,
@@ -995,9 +999,11 @@ export const itemConfig = {
                     },
                     use: true,
                     stack: true,
-                    quantity: 1,
-                    cost: 99990000,
-                    maxStack: 100
+                    quantity: 5,
+                    cost: 1300,
+                    maxStack: 100,
+                    cdgroup: 'hpPotion',
+                    cd: 15
                 },
                 inv_potion_54: {
                     quality: 4,
@@ -1011,7 +1017,9 @@ export const itemConfig = {
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'hpPotion',
+                    cd: 15
                 },
                 inv_potion_160: {
                     quality: 3,
@@ -1025,7 +1033,9 @@ export const itemConfig = {
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'hpPotion',
+                    cd: 15
                 },
                 inv_potion_55: {
                     quality: 4,
@@ -1039,7 +1049,9 @@ export const itemConfig = {
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'hpPotion',
+                    cd: 15
                 },
                 inv_potion_131: {
                     quality: 3,
@@ -1053,7 +1065,9 @@ export const itemConfig = {
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'hpPotion',
+                    cd: 15
                 },
                 inv_potion_142: {
                     quality: 4,
@@ -1067,7 +1081,9 @@ export const itemConfig = {
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'hpPotion',
+                    cd: 15
                 },
                 inv_potion_167: {
                     quality: 5,
@@ -1081,7 +1097,9 @@ export const itemConfig = {
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'hpPotion',
+                    cd: 15
                 },
                 inv_potion_70: {
                     quality: 2,
@@ -1093,8 +1111,8 @@ export const itemConfig = {
                     },
                     use: true,
                     stack: true,
-                    quantity: 1,
-                    cost: 99990000,
+                    quantity: 5,
+                    cost: 200,
                     maxStack: 100,
                     cdgroup: 'mpPotion',
                     cd: 15
@@ -1109,9 +1127,11 @@ export const itemConfig = {
                     },
                     use: true,
                     stack: true,
-                    quantity: 1,
-                    cost: 99990000,
-                    maxStack: 100
+                    quantity: 5,
+                    cost: 250,
+                    maxStack: 100,
+                    cdgroup: 'mpPotion',
+                    cd: 15
                 },
                 inv_potion_72: {
                     quality: 3,
@@ -1123,9 +1143,11 @@ export const itemConfig = {
                     },
                     use: true,
                     stack: true,
-                    quantity: 1,
-                    cost: 99990000,
-                    maxStack: 100
+                    quantity: 5,
+                    cost: 1000,
+                    maxStack: 100,
+                    cdgroup: 'mpPotion',
+                    cd: 15
                 },
                 inv_potion_73: {
                     quality: 3,
@@ -1137,9 +1159,11 @@ export const itemConfig = {
                     },
                     use: true,
                     stack: true,
-                    quantity: 1,
-                    cost: 99990000,
-                    maxStack: 100
+                    quantity: 5,
+                    cost: 1300,
+                    maxStack: 100,
+                    cdgroup: 'mpPotion',
+                    cd: 15
                 },
                 inv_potion_74: {
                     quality: 4,
@@ -1153,7 +1177,9 @@ export const itemConfig = {
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'mpPotion',
+                    cd: 15
                 },
                 inv_potion_75: {
                     quality: 4,
@@ -1167,7 +1193,9 @@ export const itemConfig = {
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'mpPotion',
+                    cd: 15
                 },
                 inv_potion_163: {
                     quality: 3,
@@ -1181,7 +1209,9 @@ export const itemConfig = {
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'mpPotion',
+                    cd: 15
                 },
                 inv_potion_76: {
                     quality: 4,
@@ -1195,7 +1225,9 @@ export const itemConfig = {
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'mpPotion',
+                    cd: 15
                 },
                 inv_potion_137: {
                     quality: 3,
@@ -1209,7 +1241,9 @@ export const itemConfig = {
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'mpPotion',
+                    cd: 15
                 },
                 inv_potion_148: {
                     quality: 4,
@@ -1223,7 +1257,9 @@ export const itemConfig = {
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'mpPotion',
+                    cd: 15
                 },
                 inv_potion_168: {
                     quality: 5,
@@ -1237,7 +1273,9 @@ export const itemConfig = {
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'mpPotion',
+                    cd: 15
                 },
                 inv_potion_42: {
                     quality: 2,
@@ -1251,7 +1289,9 @@ export const itemConfig = {
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'hpmpPotion',
+                    cd: 15
                 },
                 inv_potion_43: {
                     quality: 2,
@@ -1265,7 +1305,9 @@ export const itemConfig = {
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'hpmpPotion',
+                    cd: 15
                 },
                 inv_potion_44: {
                     quality: 3,
@@ -1279,7 +1321,9 @@ export const itemConfig = {
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'hpmpPotion',
+                    cd: 15
                 },
                 inv_potion_45: {
                     quality: 3,
@@ -1293,7 +1337,9 @@ export const itemConfig = {
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'hpmpPotion',
+                    cd: 15
                 },
                 inv_potion_46: {
                     quality: 4,
@@ -1307,7 +1353,9 @@ export const itemConfig = {
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'hpmpPotion',
+                    cd: 15
                 },
                 inv_potion_47: {
                     quality: 4,
@@ -1321,35 +1369,41 @@ export const itemConfig = {
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'hpmpPotion',
+                    cd: 15
                 },
                 inv_potion_164: {
                     quality: 3,
                     description: {
                         name: '强效恢复药水',
                         category: '消耗品',
-                        desc: '每秒恢复1%最大生命值, 持续100秒',
+                        desc: '每秒恢复1%最大生命值以及魔法值, 持续100秒',
                         iconSrc: "./icons/potion/inv_potion_164.jpg",
                     },
                     use: true,
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'hpmpPotion',
+                    cd: 15
                 },
                 inv_potion_48: {
                     quality: 4,
                     description: {
                         name: '超级恢复药水',
                         category: '消耗品',
-                        desc: '每秒恢复5%最大生命值, 持续100秒',
+                        desc: '每秒恢复5%最大生命值以及魔法值, 持续100秒',
                         iconSrc: "./icons/potion/inv_potion_48.jpg",
                     },
                     use: true,
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'hpmpPotion',
+                    cd: 15
                 },
                 inv_potion_134: {
                     quality: 4,
@@ -1363,7 +1417,9 @@ export const itemConfig = {
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'hpmpPotion',
+                    cd: 15
                 },
                 inv_potion_145: {
                     quality: 5,
@@ -1377,7 +1433,9 @@ export const itemConfig = {
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'hpmpPotion',
+                    cd: 15
                 },
             }
         }

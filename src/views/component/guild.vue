@@ -129,30 +129,64 @@ export default {
             guildPosition.displayPage = type;
             e.target.classList.add('btnActive');
         },    
-        getGold(text, gold, showText=true, bonus=true) {
-            gold = parseInt(gold);
+        getGold(text, amount, showText=true, bonus=true) {
+            if(isNaN(amount)) {
+                console.log("获得异常数额金币");
+                console.trace();
+                return;
+            }
+            amount = parseInt(amount);
             if(bonus)
-                gold = Math.round(gold*(1+this.guild.shop.lv*0.005));
-            this.guild.gold += gold;
+                amount = Math.round(amount*(1+this.guild.shop.lv*0.005));
+            this.guild.gold += amount;
             if(showText) {
                 this.$store.commit("set_sys_info", {
                     type: 'reward',
                     msg: text+'获得',
-                    gold: gold
+                    gold: amount
                 });
             }
             let achievement = this.$store.globalComponent["achievement"];
-            achievement.set_statistic({cumulatedGold: gold});
-            // this.$store.commit("set_statistic", {cumulatedGold: gold});
+            achievement.set_statistic({cumulatedGold: amount});
         },
-        useGold(gold) {
-            if(isNaN(gold)) {
+        getReputation(text, amount, showText=true) {
+            if(isNaN(amount)) {
+                console.log("获得异常数名望");
+                console.trace();
+                return;
+            }
+            amount = parseInt(amount);
+            this.guild.reputation += amount;
+            if(showText) {
+                this.$store.commit("set_sys_info", {
+                    type: 'reward',
+                    msg: text+'获得'+amount+'公会名望'
+                });
+            }
+            let achievement = this.$store.globalComponent["achievement"];
+            achievement.set_statistic({cumulatedReputation: amount});
+        },
+        useGold(amount) {
+            if(isNaN(amount)) {
                 console.log("扣除异常数额金币");
                 console.trace();
                 return;
             }
-            gold = parseInt(gold);
-            this.guild.gold -= gold;
+            amount = parseInt(amount);
+            this.guild.gold -= amount;
+        },
+        useReputation(amount, reputationType) {
+            if(isNaN(amount)) {
+                console.log("扣除异常数额金币");
+                console.trace();
+                return;
+            }
+            amount = parseInt(amount);
+            switch(reputationType) {
+                case 'guildReputation':
+                    this.guild.reputation -= amount;
+                    break;
+            }
         },
     }
 }
