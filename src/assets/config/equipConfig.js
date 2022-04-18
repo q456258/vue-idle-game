@@ -571,7 +571,7 @@ export const equipConfig = {
               iconSrc: "./icons/shoulder/inv_shoulder_07.jpg",
             },{
               name: '角斗士护肩', desc: '',
-              iconSrc: "./icons/shoulder/inv_shoulder_plate_raidpaladin_j_01.jpg",
+              iconSrc: "./icons/shoulder/inv_shoulder_54.jpg",
             },{
               name: '獠牙肩甲', desc: '',
               iconSrc: "./icons/shoulder/inv_shoulder_plate_garrosh_d_01.jpg",
