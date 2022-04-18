@@ -288,12 +288,12 @@ export default {
                 let ran = Math.random();
                 let value = ran>0.5 ? entry.base*1 : entry.base*1.5;
                 
-                if(extraEntry[index] == 'CRITDMG') {
-                    value = Math.floor(entry.base+newEquip.lv*newEquip.lv/200);
-                    value = ran>0.5 ? value*1 : value*1.5;
-                }
+                // if(extraEntry[index] == 'CRITDMG') {
+                //     value = Math.floor(entry.base+newEquip.lv*newEquip.lv/200);
+                //     value = ran>0.5 ? value*1 : value*1.5;
+                // }
                 if(percent.indexOf(extraEntry[index]) == -1)
-                    value = value * (0.6+newEquip.lv*0.4);
+                    value = value * (1.6+newEquip.lv*0.08);
                 value = Math.round(value);
 
                 potentials.push({
