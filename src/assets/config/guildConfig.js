@@ -1,62 +1,15 @@
 export const guildConfig = {
     data() {
-      return{
-        cost: {
-            guild: {
-                base: {
-                    gold: 100
-                },
-                cost: {
-                    gold: 100
-                }
-            },
-            train: {
-                base: {
-                    gold: 100,
-                    crystal: 2
-                },
-                cost: {
-                    gold: 100,
-                    crystal: 2
-                }
-            },
-            train2: {
-                base: {
-                    gold: 1000,
-                    crystal: 5
-                },
-                cost: {
-                    gold: 1000,
-                    crystal: 5
-                }
-            },
-            train3: {
-                base: {
-                    gold: 5000,
-                    crystal: 15
-                },
-                cost: {
-                    gold: 5000,
-                    crystal: 15
-                }
-            },
-            shop: {
-                base: {
-                    gold: 100,
-                },
-                cost: {
-                    gold: 100,
-                }
-            },
-            smith: {
-                base: {
-                    gold: 500,
-                },
-                cost: {
-                    gold: 500,
-                }
-            },
-        },
-      }
+        return {
+            guildShop: {
+                generalShop: [
+                    [],
+                    ['inv_alchemy_80_potion01red', 'inv_alchemy_80_potion01blue'],
+                    ['inv_alchemy_80_potion01red', 'inv_alchemy_80_potion01blue', 'inv_potion_49', 'inv_potion_70', 'inv_potion_50', 'inv_potion_71'],
+                    ['inv_alchemy_80_potion01red', 'inv_alchemy_80_potion01blue', 'inv_potion_49', 'inv_potion_70', 'inv_potion_50', 'inv_potion_71', 
+                    'inv_potion_51', 'inv_potion_72', 'inv_potion_52', 'inv_potion_73'],
+                ],            
+            }
+        }
     },
   }
