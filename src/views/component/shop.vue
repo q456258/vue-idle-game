@@ -3,6 +3,7 @@
 	<div class="container">
         <div class="resource">
             金币: <currency :amount="playerGold"></currency> <br>
+            公会名望：{{guildReputation}}<img class="guildReputationIcon">
         </div>
         <div class="shops scrollbar-morpheus-den">
             杂货店

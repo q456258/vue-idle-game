@@ -199,6 +199,7 @@ export default new Vuex.Store({
             mine: {lv: 0},
             herb: {lv: 0},
             bar: {lv: 0},
+            questBoard: {lv: 0},
             member: []
         },
         playerAttribute: {

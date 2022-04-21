@@ -6,7 +6,7 @@
         </div>
         <div class="buildingUpgradeContainer">
             <div class="buildingUpgrade" v-for="(v, k) in upgradeCost" :key="k">
-                <div>{{guild[k].lv}}级{{typeName[k]}}
+                <div>{{guild[k].lv}}级{{guildBuildingName[k]}}
                     <br>
                     费用： <currency :amount="upgradeCost[k][guild[k].lv]"></currency><span v-if="!upgradeCost[k][guild[k].lv]">已满级</span>
                     <br>
@@ -30,6 +30,41 @@
         </div>
     </div> 
     -->
+    <div class="building" v-show="displayPage=='questBoard'">
+        <div class="buildInfo">
+            {{guild.questBoard.lv+"级"}}
+            <div class="refreshQuest btn btn-secondary" @click="generateGuildQuest()"></div>
+        </div>
+        <div class="questBoardContainer">
+            <div class="questContainer" v-for="(v1, k1) in guildAvailableQuest" :key="k1">
+                <div class="questDetailField">
+                    <div class="questDetailTitle">{{"("+v1.lv+")"+v1.name}}</div>
+                    <br>
+                    <div v-for="(v, k) in v1.reqs" :key="k">
+                        {{v.current+"/"+v.target+" "+v.name}}
+                    </div>
+                </div>
+                <div class="questDetailField">
+                    <div class="questDetailTitle">奖励</div>
+                    <div class="questDetailContent">
+                        <div class="reward" v-for="(v, k) in v1.rewardItem" :key="k">
+                            <div v-if="v[0]" @mouseover="showInfo($event,v[0].itemType,v[0],true)" @mouseleave="closeInfo(v[0].itemType)">
+                                <div class="smallIconContainer">
+                                    <del :class="[{grey:v[0].quality.qualityLv==1, green:v[0].quality.qualityLv==3, blue:v[0].quality.qualityLv==4, purple:v[0].quality.qualityLv==5, orange:v[0].quality.qualityLv==6}, 'smallIcon iconBorder']"></del>
+                                    <img :src="v[0].description.iconSrc" alt="" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="reward" v-for="(v, k) in v1.reward" :key="k+'a'">
+                            <div v-if="v[0]=='gold'"><currency :amount="v[1]"></currency></div>
+                            <div v-else>{{rewardType[v[0]]+': '+v[1]}}</div>
+                        </div>
+                        <div class="acceptQuest btn btn-secondary" @click="acceptQuest(k1, v1)">领取</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="building" v-show="displayPage=='shop'" :set="type='shop'">
         <div class="buildInfo">
             {{guild[type].lv+'级 (效率: '+totalEfficiency[type]+'/秒)'}}
@@ -192,7 +227,7 @@
     
 </template>
 <script>
-
+import { questConfig } from '@/assets/config/questConfig';
 import {guildConfig} from '@/assets/config/guildConfig'
 import {guildMemberConfig} from '@/assets/config/guildMemberConfig'
 import cTooltip from '../uiComponent/tooltip';
@@ -201,21 +236,13 @@ import craftEquip from '../component/craftEquip';
 import currency from '../uiComponent/currency';
 export default {
     name: "guildPosition",
-    mixins: [guildConfig, guildMemberConfig],
+    mixins: [guildConfig, guildMemberConfig, questConfig],
     components: {cTooltip, countdown, craftEquip, currency},
     mounted() {
         this.$store.globalComponent.guildPosition = this;
     },
     data() {
         return {
-            types: ['shop','smith','train','train2','train3'],
-            typeName: {shop:'商店', smith:'铁匠铺', train:'练功房', train2:'中级练功房', train3:'高级练功房', mine: '矿场', herb: '药园'},
-            upgradeCost: {
-                shop: [100,1000,10000],
-                smith: [100,1000,10000],
-                mine: [100,1000,10000],
-                herb: [100,1000,10000],
-            }, 
             building: {
                 shop: [],
                 smith: [],
@@ -274,6 +301,7 @@ export default {
             mineQueue: [],
             memberID: 0,
             applicantList: [],
+            guildAvailableQuest: [],
         };
     },
     props: {
@@ -301,12 +329,40 @@ export default {
             let types = ['guild','shop','smith','train','train2','train3'];
             // for(let type in types) 
             //     this.computeLv(types[type]);
+            this.generateGuildQuest();
         },
         upgradeBuilding(type) {
             let guild = this.$store.globalComponent["guild"];
             let cost = this.upgradeCost[type][this.guild[type].lv];
             guild.useGold(cost);
             this.guild[type].lv += 1;
+        },
+        generateGuildQuest() {
+            let quest = this.$store.globalComponent["quest"];
+            let list = [];
+            this.guildAvailableQuest = [];
+            for(let l=0; l<6; l++) {
+                if(this.player.lv*10 < l*10 || l>=this.questBoardList.length)
+                    break;
+                for(let j=0; j<this.guild['questBoard'].lv; j++) {
+                    for(let k in this.questBoardList[l][j]) {
+                        list.push(this.questBoardList[l][j][k]);
+                    }
+                }
+            }
+            for(let i=0; i<6; i++) {
+                let index = Math.floor(Math.random()*list.length);
+                let questId = list[index];
+                let newQuest = quest.generateQuest(questId);
+                this.guildAvailableQuest.push(newQuest);
+                list[index], list[list.length-1] = list[list.length-1] , list[index];
+                list.pop();
+            }
+        },
+        acceptQuest(index, questInfo) {
+            let quest = this.$store.globalComponent["quest"];
+            quest.assignQuest(questInfo.id, questInfo);
+            this.guildAvailableQuest.splice(index, 1);
         },
         selectEquip(type) {
             let backpack = this.$store.globalComponent["backpack"];
@@ -715,6 +771,40 @@ export default {
                 height: 30px;
             }
         }
+    }
+}
+.refreshQuest{
+    background-image: url("/icons/ui/refresh.png");
+    background-size: cover;
+    width: 25px;
+    height: 25px;
+    float: right;
+}
+.questBoardContainer {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    .questContainer {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 1px;
+        padding: 2px;
+        height: auto;
+        width: 32%;
+        border: 1px solid #48463f;
+        border-radius: 0.3rem;
+    }
+    .questDetailField {
+        position: relative;
+        width: 100%;
+    }
+    .questDetailTitle {
+        font-size: 15px;
+    }
+    .acceptQuest {
+        position: absolute;
+        right: 0;
+        bottom: 0;
     }
 }
 .queue {

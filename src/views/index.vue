@@ -238,14 +238,14 @@ export default {
     let achievement =  this.$store.globalComponent['achievement'];  
     achievement.set_statistic({gameStartDate: Date.now()});
 
-    let guildPosition =  this.$store.globalComponent['guildPosition'];   
-    guildPosition.init();
-
     let talentTree =  this.$store.globalComponent['talentTree'];  
     talentTree.init();
 
     let quest =  this.$store.globalComponent['quest'];  
     quest.init();
+
+    let guildPosition =  this.$store.globalComponent['guildPosition'];   
+    guildPosition.init();
     
     // this.$store.commit("set_statistic", {gameStartDate: Date.now()});
     //初始系统、战斗信息

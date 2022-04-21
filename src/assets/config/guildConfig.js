@@ -15,7 +15,15 @@ export const guildConfig = {
                     [['inv_misc_gem_diamond_05', 5], ['inv_misc_gem_diamond_04', 15],],
                     [['inv_misc_gem_diamond_05', 5], ['inv_misc_gem_diamond_04', 15], ['inv_misc_gem_diamond_03', 30]],
                 ],        
-            }
+            },
+            guildBuildingName: {questBoard:'任务榜', shop:'商店', smith:'铁匠铺', train:'练功房', train2:'中级练功房', train3:'高级练功房', mine: '矿场', herb: '药园'},
+            upgradeCost: {
+                questBoard: [100,1000,10000],
+                shop: [100,1000,10000],
+                smith: [100,1000,10000],
+                mine: [100,1000,10000],
+                herb: [100,1000,10000],
+            }, 
         }
     },
   }

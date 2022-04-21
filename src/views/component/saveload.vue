@@ -99,18 +99,8 @@ export default {
             try {
                 let data = JSON.parse(Base64.decode(Base64.decode(loadData)));
 
-                if(data.state.guildAttribute.member == undefined) {
-                    data.state.guildAttribute.member = []
-                }
-                if(data.state.guildAttribute.guild.lv == undefined) {
-                    data.state.guildAttribute.member = []
-                    data.state.guildAttribute.guild = {lv: 0}
-                    data.state.guildAttribute.train = {lv: 0}
-                    data.state.guildAttribute.train2 = {lv: 0,}
-                    data.state.guildAttribute.train3 = {lv: 0}
-                    data.state.guildAttribute.shop = {lv: 0}
-                    data.state.guildAttribute.smith = {lv: 0}
-                }
+                // data.state.guildAttribute.questBoard = {lv:1};
+                
                 this.$store.replaceState(data.state);
                 let backpack = this.$store.globalComponent["backpack"];
                 let setting = this.$store.globalComponent["setting"];

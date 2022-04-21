@@ -51,7 +51,7 @@
                                     <div class="quantity">{{v[0].quantity}}</div>
                                 </div>
                             </div>
-                            <div class="reward" v-for="(v, k) in quests[selectedQuest].reward" :key="k">
+                            <div class="reward" v-for="(v, k) in quests[selectedQuest].reward" :key="k+'a'">
                                 <div v-if="v[0]=='gold'"><currency :amount="v[1]"></currency></div>
                                 <div v-else>{{rewardType[v[0]]+': '+v[1]}}</div>
                             </div>
@@ -86,7 +86,6 @@ export default {
     data () {
         return {
             selectedQuest: -1,
-            rewardType: {gold: '金币', guildReputation: '公会名望'},
             questTrack: {
                 slain: {},
                 collect: {},
@@ -119,7 +118,7 @@ export default {
                 }
             }
         },
-        assignQuest(questId) {
+        assignQuest(questId, questInfo={}) {
             if(this.quests[questId] != undefined) {
                 this.$store.commit("set_sys_info", {
                     type: '',
@@ -131,6 +130,18 @@ export default {
                 type: 'win',
                 msg: '新任务: '+this.questList[questId].name,
             });
+            if(questInfo.questId == undefined)
+                questInfo = this.generateQuest(questId);
+            let category = this.questList[questId].category;
+            if(this.questCateg[category] == undefined)
+                this.questCateg[category] = {list: [], expand: true};
+            this.questCateg[category].list.push(questId);
+
+            this.$set(this.questCateg, 'forceUpdate', 1);
+            this.$set(this.quests, questId, questInfo);
+            this.checkStatus(questId);
+        },
+        generateQuest(questId) {
             let quest = {};
             quest.id = questId;
             quest.lv = this.questList[questId].lv;
@@ -143,14 +154,7 @@ export default {
             quest.reqs = this.setQuestRequirement(questId);
             quest.successor = this.questList[questId].successor;
             quest.status = '';
-            let category = this.questList[questId].category;
-            if(this.questCateg[category] == undefined)
-                this.questCateg[category] = {list: [], expand: true};
-            this.questCateg[category].list.push(questId);
-
-            this.$set(this.questCateg, 'forceUpdate', 1);
-            this.$set(this.quests, questId, quest);
-            this.checkStatus(questId);
+            return quest;
         },
         setQuestReward(questId) {
             let reward = [];
