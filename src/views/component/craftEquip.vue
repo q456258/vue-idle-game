@@ -10,7 +10,7 @@
         <button class="btn btn-success" :disabled="status=='picked'" @click="nextStep" v-if="status!='crafting' & status!='done'">下一步</button>
         <button class="btn btn-success" @click="craftEquip" v-if="status=='done'">提取装备</button>
         <div class="addonGrid"  v-if="status=='wait'">
-            <div class="icon" :style="{'box-shadow': 'inset 0 0 7px 2px #fff'}"  style="cursor:pointer" @click="applyAddon($event, k)" v-for="(v, k) in addonType" :key="k">
+            <div class="icon" style="cursor:pointer" @click="applyAddon($event, k)" v-for="(v, k) in addonType" :key="k">
                 <img :src="v.icon" alt="" />
                 <a class="clickBorder"></a>
                 <div class="quantity">
@@ -901,66 +901,6 @@ $tertiary: #ced6d5;
 .flipped {
     transform: rotateY(180deg);
 }
-.addonGrid {
-    display: flex;
-    flex-direction: row;
-    left: 0;
-    right: 0;
-    justify-content: center;
-    .icon {
-        position: relative;
-        width: 40px;
-        height: 40px;
-        margin: 1px;
-        img {
-            width: 100%;
-            height: 100%;
-            border-radius: 1rem;
-        }
-        .quantity {
-            position: relative;
-            top: -0.6rem;
-            right: -0.8rem;
-            width: 2rem;
-            height: 0.5rem;
-            font-size: 0.8rem;
-            line-height: 0;
-            text-align: right;
-            text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
-        }
-        .addonTips {    
-            visibility: hidden;
-            border-radius: 8px;
-            background: #111;
-            position: absolute;
-            z-index: 3;
-            top: 50px;
-            left: -130px;
-            width: 300px;
-            padding: 10px;
-            box-shadow: 0 6px 11px #000000;
-            border: 1px solid #333;
-            .desc {
-                text-align: left;
-            }
-            .preReq {
-                text-align: left;
-                margin-top: 1rem;
-                .detail {
-                    margin-left: 2rem;
-                }
-            }
-            .footnote {
-                margin-top: 1rem;
-                color: #ccc;
-                font-size: 0.8rem;
-            }
-        }
-    }
-    .icon:hover .addonTips {
-        visibility: visible;
-    }
-}
 .clickBorder {
     width: 40px;
     height: 40px;
@@ -969,9 +909,8 @@ $tertiary: #ced6d5;
     position: absolute;
     top: 0px;
     z-index: 20;
-    background: url(/icons/ui/glowBorder40.png) no-repeat 62px 0;
     &:hover{
-        background-position: 0 0;
+        box-shadow: inset 0 0 10px rgb(0, 102, 255);
     }
 }
 .greyGlow {

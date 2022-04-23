@@ -304,9 +304,9 @@ export const itemConfig = {
                 inv_misc_gem_diamond_05: {
                     quality: 1,
                     description: {
-                        name: '低级强化石',
+                        name: '杂色强化石碎片',
                         category: '材料',
-                        desc: '强化装备的材料, 能够提升装备基础属性, 可用于强化装备1-5星',
+                        desc: '强化装备的材料, 能够提升装备基础属性, 提升1点强化进度',
                         iconSrc: "./icons/item/inv_misc_gem_diamond_05.jpg",
                     },
                     stack: true,
@@ -317,52 +317,52 @@ export const itemConfig = {
                 inv_misc_gem_diamond_04: {
                     quality: 2,
                     description: {
-                        name: '中级强化石',
+                        name: '杂色强化石',
                         category: '材料',
-                        desc: '强化装备的材料, 能够提升装备基础属性, 可用于强化装备6-10星',
+                        desc: '强化装备的材料, 能够提升装备基础属性, 提升5点强化进度',
                         iconSrc: "./icons/item/inv_misc_gem_diamond_04.jpg",
                     },
                     stack: true,
-                    quantity: 1,
+                    quantity: 2,
                     cost: 99990000,
                     maxStack: 9999
                 },
                 inv_misc_gem_diamond_03: {
                     quality: 3,
                     description: {
-                        name: '高级强化石',
+                        name: '纯净强化石碎片',
                         category: '材料',
-                        desc: '强化装备的材料, 能够提升装备基础属性, 可用于强化装备11-15星',
+                        desc: '强化装备的材料, 能够提升装备基础属性, 提升10点强化进度',
                         iconSrc: "./icons/item/inv_misc_gem_diamond_03.jpg",
                     },
                     stack: true,
-                    quantity: 1,
+                    quantity: 3,
                     cost: 99990000,
                     maxStack: 9999
                 },
                 inv_misc_gem_diamond_02: {
                     quality: 4,
                     description: {
-                        name: '顶级强化石',
+                        name: '纯净强化石',
                         category: '材料',
-                        desc: '强化装备的材料, 能够提升装备基础属性, 可用于强化装备16-20星',
+                        desc: '强化装备的材料, 能够提升装备基础属性, 提升25点强化进度',
                         iconSrc: "./icons/item/inv_misc_gem_diamond_02.jpg",
                     },
                     stack: true,
-                    quantity: 1,
+                    quantity: 4,
                     cost: 99990000,
                     maxStack: 9999
                 },
                 inv_misc_gem_diamond_01: {
                     quality: 5,
                     description: {
-                        name: '终极强化石',
+                        name: '无暇强化石',
                         category: '材料',
-                        desc: '强化装备的材料, 能够提升装备基础属性, 可用于强化装备21-25星',
+                        desc: '强化装备的材料, 能够提升装备基础属性, 提升100点强化进度',
                         iconSrc: "./icons/item/inv_misc_gem_diamond_01.jpg",
                     },
                     stack: true,
-                    quantity: 1,
+                    quantity: 5,
                     cost: 99990000,
                     maxStack: 9999
                 },

@@ -11,9 +11,9 @@ export const guildConfig = {
                 ],      
                 reputationShop: [
                     [],
-                    [['inv_misc_gem_diamond_05', 5]],
-                    [['inv_misc_gem_diamond_05', 5], ['inv_misc_gem_diamond_04', 15],],
-                    [['inv_misc_gem_diamond_05', 5], ['inv_misc_gem_diamond_04', 15], ['inv_misc_gem_diamond_03', 30]],
+                    [['inv_misc_gem_diamond_05', 3]],
+                    [['inv_misc_gem_diamond_05', 3], ['inv_misc_gem_diamond_04', 15],],
+                    [['inv_misc_gem_diamond_05', 3], ['inv_misc_gem_diamond_04', 15], ['inv_misc_gem_diamond_03', 30]],
                 ],        
             },
             guildBuildingName: {questBoard:'任务榜', shop:'商店', smith:'铁匠铺', train:'练功房', train2:'中级练功房', train3:'高级练功房', mine: '矿场', herb: '药园'},
