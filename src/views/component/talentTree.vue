@@ -141,6 +141,7 @@ export default {
             if(val > 0) {
                 this.playerTalent[branch] += val;
                 this.playerTalent[target.type] += val;
+                this.playerTalent['generalBranch'] = Math.max(this.playerTalent['generalBranch'], this.playerTalent[branch]);
                 this.player.talentPoint -= val;
                 this.setStatus(branch);
                 this.talentChange(target);
@@ -159,8 +160,13 @@ export default {
             if(!check)
                 return;
             if(val < 0) {
+                let branches = Object.keys(this.playerTalent).filter(key=>(key!='generalBranch'&&key.indexOf('Branch')!=-1));
                 this.playerTalent[branch] += val;
                 this.playerTalent[target.type] += val;
+                this.playerTalent['generalBranch'] = 0;
+                for(let i in branches) {
+                    this.playerTalent['generalBranch'] = Math.max(this.playerTalent['generalBranch'], this.playerTalent[branches[i]]);
+                }
                 this.player.talentPoint -= val;
                 this.setStatus(branch);
                 this.talentChange(target);
