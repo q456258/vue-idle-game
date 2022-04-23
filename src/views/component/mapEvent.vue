@@ -252,7 +252,8 @@ export default {
         },
         talentLevelUp() {
             this.playerAttr.talentLv += 1;
-            this.playerAttr.talentPoint += 1;
+            if(this.playerAttr.talentLv >= 10)
+                this.playerAttr.talentPoint += 1;
         },
         autoBattle(auto) {
             if(auto == undefined)
