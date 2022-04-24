@@ -134,7 +134,6 @@ export default {
             let max = this.req[this.equip.enhanceLv];
             for(let i=this.gemType.length-1; i>=0; i--) {
                 let count = Math.min(this.applied[i], Math.ceil((max-cur)/this.value[i]));
-                console.log(count)
                 if(count > 0) {
                     this.applied[i] -= count;
                     cur += this.value[i]*count;

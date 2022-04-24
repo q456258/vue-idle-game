@@ -410,7 +410,6 @@ export const buffAndTrigger = {
             }
         },
         shield(source, target, shield, sourceName) {
-            console.log(target.attribute)
             if(target.attribute.SHIELD.value == undefined)
                 target.attribute.SHIELD.value = shield;
             else 
@@ -419,7 +418,6 @@ export const buffAndTrigger = {
         dmgShield(source, target, dmgs, sourceName) {
             if(target.attribute.SHIELD.value == undefined)
                 return;
-                // console.log(dmgs)
             let block = Math.min(target.attribute.SHIELD.value, this.get_dmg(dmgs, 'ad'));
             target.attribute.SHIELD.value -= block;
             this.set_ad_dmg(dmgs, this.get_dmg(dmgs, 'ad')-block);
