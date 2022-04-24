@@ -262,6 +262,7 @@ export default {
                 this.dungeonInfo.auto = auto;
         },
         setBattleStatus(inBattle, auto=true, immediate=false) {
+            this.playerAttr.attribute.SHIELD =  { baseVal: 0, value: 0, showbaseVal: 0};
             if(immediate || inBattle) {
                 this.dungeonInfo.inBattle = inBattle;
                 if(!inBattle) {
@@ -362,6 +363,10 @@ export default {
             attribute['CURHP'] = {
                 value: attribute['MAXHP'].value,
                 showValue: attribute['MAXHP'].value
+            }
+            attribute['SHIELD'] = {
+                value: 0,
+                showValue: 0
             }
             // if(type=='elite') {
             //     attribute = this.eliteStat(attribute);

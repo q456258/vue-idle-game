@@ -6,7 +6,7 @@
     <template slot="main" >
         <div id="battleAnimeWrapper">
             <div id="playerHpBar">
-                <hpmpBar :vpMin="0" :vpNow="attribute.CURHP.value" :vpMax="attribute.MAXHP.value" :target="'player'" :type="'hp'"></hpmpBar>
+                <hpmpBar :vpMin="0" :vpNow="attribute.CURHP.value" :vpMax="attribute.MAXHP.value" :shield="attribute.SHIELD.value" :target="'player'" :type="'hp'"></hpmpBar>
                 <hpmpBar :vpMin="0" :vpNow="attribute.CURMP.value" :vpMax="attribute.MAXMP.value" :target="'player'" :type="'mp'"></hpmpBar>
             </div>
             <div class="playerInitPos">
@@ -16,7 +16,7 @@
             <div id="playerText" class="playerInitPos" @click="simulate">
             </div>
             <div id="enemyHpBar">
-                <hpmpBar :vpMin="0" :vpNow="enemyAttr.attribute.CURHP.value" :vpMax="enemyAttr.attribute.MAXHP.value" :target="'enemy'" :type="'hp'"></hpmpBar>
+                <hpmpBar :vpMin="0" :vpNow="enemyAttr.attribute.CURHP.value" :vpMax="enemyAttr.attribute.MAXHP.value" :shield="enemyAttr.attribute.SHIELD.value" :target="'enemy'" :type="'hp'"></hpmpBar>
             </div>
             <div class="enemyInitPos">
                 <div id="enemyAnime">

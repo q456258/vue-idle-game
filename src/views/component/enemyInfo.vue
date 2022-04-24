@@ -1,6 +1,6 @@
 <template>
 <div class="enemy">{{attr.name+" (Lv:"+attr.lv+")"}}
-    <hpmpBar :vpMin="0" :vpNow="attr.attribute.CURHP.value" :vpMax="attr.attribute.MAXHP.value" :target="enemy" :type="'hp'"></hpmpBar>
+    <hpmpBar :vpMin="0" :vpNow="attr.attribute.CURHP.value" :vpMax="attr.attribute.MAXHP.value" :shield="attr.attribute.SHIELD.value" :target="enemy" :type="'hp'"></hpmpBar>
     <!-- <div class="buffList">
         <span class="buff" v-for="(v, k) in attr.buff" :key="k">{{attr}}
             <img :title="buffType.statusBuff[k].desc" :src="buffType.statusBuff[k].iconSrc" alt="">
@@ -138,9 +138,7 @@ export default {
     watch: {
     },
     computed: {
-        attr() {
-            return this.$store.state.enemyAttribute;
-        },
+        attr() { return this.$store.state.enemyAttribute; },
     },
     methods: {      
 

@@ -348,6 +348,7 @@ export const buffAndTrigger = {
             this.weak(source, dmgs);
             this.void(target, dmgs);
             this.minionSlayer(source, target, dmgs);
+            this.dmgShield(source, target, dmgs, sourceName);
             let totalDmg = this.get_dmg(dmgs, 'ad')+this.get_dmg(dmgs, 'ap');
             let dmgType = '伤害';
             let dmgText = ' 0 ';
@@ -407,6 +408,25 @@ export const buffAndTrigger = {
                     })
                 }
             }
+        },
+        shield(source, target, shield, sourceName) {
+            console.log(target.attribute)
+            if(target.attribute.SHIELD.value == undefined)
+                target.attribute.SHIELD.value = shield;
+            else 
+                target.attribute.SHIELD.value += shield;
+        },
+        dmgShield(source, target, dmgs, sourceName) {
+            if(target.attribute.SHIELD.value == undefined)
+                return;
+                // console.log(dmgs)
+            let block = Math.min(target.attribute.SHIELD.value, this.get_dmg(dmgs, 'ad'));
+            target.attribute.SHIELD.value -= block;
+            this.set_ad_dmg(dmgs, this.get_dmg(dmgs, 'ad')-block);
+            
+            block = Math.min(target.attribute.SHIELD.value, this.get_dmg(dmgs, 'ap'));
+            target.attribute.SHIELD.value -= block;
+            this.set_ap_dmg(dmgs, this.get_dmg(dmgs, 'ap')-block);
         },
         mpChange(source, target, value, sourceName) {
             if(value > 0) {
@@ -482,7 +502,7 @@ export const buffAndTrigger = {
             // dead/full 等, 跳过乱七八糟的判断
             if(isNaN(data)) {
                 this.$store.commit('set_hp', {data, CURHP, MAXHP});
-                if(source != undefined) {
+                if(source != undefined && data=='dead') {
                     let slainBy = {};
                     slainBy[source.name] = 1;
                     this.$store.commit('set_statistic', {slainBy: slainBy});
@@ -508,11 +528,15 @@ export const buffAndTrigger = {
             let target = this.$store.state.enemyAttribute;
             let CURHP = target.attribute.CURHP,
                 MAXHP = target.attribute.MAXHP;
+            if(isNaN(data)) {
+                this.$store.commit('set_hp', {data, CURHP, MAXHP});
+                return;
+            }
             if(data < 0)
                 this.triggerOnHurt(source, target, data);
             if(-1*data >= CURHP.value)
                 data = this.triggerBeforeKilled(source, target, data);
-            if(-1*data >= CURHP.value)
+            if(-1*data >= CURHP.value) 
                 this.triggerAfterKilled(source, target);
             this.$store.commit('set_hp', {data, CURHP, MAXHP});
             CURHP.showValue = CURHP.value;

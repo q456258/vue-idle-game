@@ -213,6 +213,7 @@ export default new Vuex.Store({
                 MAXHP: { baseVal: 0, value: 300, showbaseVal: 0},
                 CURMP: { baseVal: 0, value: 50, showbaseVal: 0},
                 MAXMP: { baseVal: 0, value: 50, showbaseVal: 0},
+                SHIELD: { baseVal: 0, value: 0, showbaseVal: 0},
                 HP: { baseVal: 0, value: 0, showbaseVal: 0},
                 MP: { baseVal: 0, value: 0, showbaseVal: 0},
                 STR: { baseVal: 0, value: 0, showbaseVal: 0},
@@ -280,7 +281,8 @@ export default new Vuex.Store({
             lv: 0,
             attribute: {
                 CURHP: { value: 0, showValue: 0, },
-                MAXHP: { value: 0, showValue: 0, },                
+                MAXHP: { value: 0, showValue: 0, },   
+                SHIELD: { value: 0, showValue: 0, },   
                 ATK: { value: 0, showValue: 0, },
                 DEF: { value: 0, showValue: 0, },
                 DEFRED: { value: 0, showValue: 0, },
@@ -300,6 +302,7 @@ export default new Vuex.Store({
             MAXHP: 0,
             CURMP: 0,
             MAXMP: 0,
+            SHIELD: 0,
             HP: 200,
             MP: 100,
             STR: 0,
@@ -471,7 +474,7 @@ export default new Vuex.Store({
                     mpPercent = playerAttribute.attribute.CURMP.value/playerAttribute.attribute.MAXMP.value;
             let attribute = {};
             let attributes = [
-                'MAXHP','CURHP','MAXMP','CURMP','STR','AGI','INT','STA','SPI','ALL','CRIT','CRITDMG','ATK','DEF','DEFRED','BLOCK','AP','APCRIT','APCRITDMG','APPEN','MR','HASTE','HEAL','VERS','VERSBONUS','HP','MP',
+                'MAXHP','CURHP','MAXMP','SHIELD','CURMP','STR','AGI','INT','STA','SPI','ALL','CRIT','CRITDMG','ATK','DEF','DEFRED','BLOCK','AP','APCRIT','APCRITDMG','APPEN','MR','HASTE','HEAL','VERS','VERSBONUS','HP','MP',
                 'STRP','AGIP','INTP','STAP','SPIP','ALLP','ATKP','DEFP','BLOCKP','APP','APPENP','MRP','HPP','MPP',
             ];
             let advancedAttributes = ['STR','AGI','INT','STA','SPI','ALL','STRP','AGIP','INTP','STAP','SPIP','ALLP',];
