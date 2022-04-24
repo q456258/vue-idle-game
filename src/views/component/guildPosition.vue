@@ -344,13 +344,15 @@ export default {
             for(let l=0; l<6; l++) {
                 if(this.player.lv <= (l+1)*10 || l>=this.questBoardList.length)
                     break;
+                console.log(l)
                 for(let j=0; j<this.guild['questBoard'].lv; j++) {
                     for(let k in this.questBoardList[l][j]) {
                         list.push(this.questBoardList[l][j][k]);
                     }
                 }
             }
-            for(let i=0; i<6; i++) {
+            let len = Math.min(list.lengh, 6);
+            for(let i=0; i<len; i++) {
                 let index = Math.floor(Math.random()*list.length);
                 let questId = list[index];
                 let newQuest = quest.generateQuest(questId);
