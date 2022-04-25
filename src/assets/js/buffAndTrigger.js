@@ -389,7 +389,7 @@ export const buffAndTrigger = {
         heal(source, target, heal, sourceName) {
             // this.triggerOnHeal(source, target)
             let battleAnime = this.$store.globalComponent["battleAnime"];
-            battleAnime.displayText(target.type, "dmg", {heal: dmgs.heal});
+            battleAnime.displayText(target.type, "dmg", {heal: heal});
             if(target.type == 'player')
                 this.set_player_hp(heal, source);
             else

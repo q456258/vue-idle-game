@@ -897,6 +897,34 @@ export const itemConfig = {
                     maxStack: 10
                 },
                 //potion
+                inv_misc_food_73cinnamonroll: {
+                    quality: 1,
+                    description: {
+                        name: '面包',
+                        category: '消耗品',
+                        desc: '恢复100%生命值, 战斗期间无法使用',
+                        iconSrc: "./icons/spell/mage/inv_misc_food_73cinnamonroll.jpg",
+                    },
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 1,
+                    maxStack: 100
+                },
+                inv_misc_gem_sapphire_02: {
+                    quality: 1,
+                    description: {
+                        name: '法力宝石',
+                        category: '消耗品',
+                        desc: '恢复100%法力值, 战斗期间无法使用',
+                        iconSrc: "./icons/spell/mage/inv_misc_gem_sapphire_02.jpg",
+                    },
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 1,
+                    maxStack: 100
+                },
                 inv_alchemy_80_potion01red: {
                     quality: 1,
                     description: {

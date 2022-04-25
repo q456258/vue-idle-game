@@ -973,6 +973,30 @@ data() {
                 },
                 tag: ['BUFF']
             },
+            inv_misc_food_73cinnamonroll: {
+                name: '造餐术',
+                max: 20,
+                iconSrc: "./icons/spell/mage/inv_misc_food_73cinnamonroll.jpg",
+                quality: 1,
+                level: [{
+                        des: '制造三个面包，用来立即回复100%的生命值，战斗期间无法使用',
+                        cost: { MP: 20, },
+                    },
+                ],
+                tag: []
+            },
+            inv_misc_gem_sapphire_02: {
+                name: '制造法力宝石',
+                max: 20,
+                iconSrc: "./icons/spell/mage/inv_misc_gem_sapphire_02.jpg",
+                quality: 1,
+                level: [{
+                        des: '制造三颗法力宝石，用来立即回复100%的魔法值，战斗期间无法使用',
+                        cost: { MP: 20, },
+                    },
+                ],
+                tag: []
+            },
         },
     }
 },

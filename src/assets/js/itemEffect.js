@@ -129,6 +129,8 @@ export const itemEffect = {
                     used = this.bossTicket(105);
                     break;
                 // 药剂
+                case 'inv_misc_food_73cinnamonroll':
+                case 'inv_misc_gem_sapphire_02':
                 case 'inv_alchemy_80_potion01red':
                 case 'inv_alchemy_80_potion01blue':
                 case 'inv_potion_27':
@@ -213,9 +215,11 @@ export const itemEffect = {
                     used = this.inv_potion_27();
                     break;
                 case 'inv_alchemy_80_potion01red':
+                case 'inv_misc_food_73cinnamonroll':
                     used = !this.inBattle() && this.hpPotion(100, 0, 0, 'maxPercent', itemInfo.description.name);
                     break;
                 case 'inv_alchemy_80_potion01blue':
+                case 'inv_misc_gem_sapphire_02':
                     used = !this.inBattle() && this.mpPotion(100, 0, 0, 'maxPercent', itemInfo.description.name);
                     break;
                 case 'inv_potion_49':

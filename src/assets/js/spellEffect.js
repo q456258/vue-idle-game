@@ -76,6 +76,12 @@ export const spellEffect = {
                 case 'spell_warlock_soulburn':
                     this.spell_warlock_soulburn(source, target, spell);
                     break;
+                case 'inv_misc_food_73cinnamonroll':
+                    this.inv_misc_food_73cinnamonroll(source, target, spell);
+                    break;
+                case 'inv_misc_gem_sapphire_02':
+                    this.inv_misc_gem_sapphire_02(source, target, spell);
+                    break;
                 default:
                     this.generalSpell(source, target, spell);
                     break;
@@ -477,6 +483,18 @@ export const spellEffect = {
             
             this.applyDmg(source, target, spell, dmg);
             this.applyEffect(source, target, effectList);
+        },
+        // 造餐术
+        inv_misc_food_73cinnamonroll(source, target, spell) {
+            let itemInfo = this.$store.globalComponent["itemInfo"];
+            let item = itemInfo.createItem('inv_misc_food_73cinnamonroll', 3);  
+            itemInfo.addItem(JSON.parse(item));
+        },
+        // 制造法力宝石
+        inv_misc_gem_sapphire_02(source, target, spell) {
+            let itemInfo = this.$store.globalComponent["itemInfo"];
+            let item = itemInfo.createItem('inv_misc_gem_sapphire_02', 3);  
+            itemInfo.addItem(JSON.parse(item));
         },
     }
 }

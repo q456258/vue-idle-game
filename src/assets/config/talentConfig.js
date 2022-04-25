@@ -126,7 +126,7 @@ export const talentConfig = {
                     maxLv: 9,
                     position: [2, 0],
                 },
-                MR: {
+                BLOCK: {
                     name: '格挡',
                     desc: ['',
                         '提升2%格挡',
@@ -789,7 +789,7 @@ export const talentConfig = {
                 inv_misc_food_73cinnamonroll:{
                     name: '【技能】造餐术',
                     desc: ['',
-                        '制造一个面包，用来立即回复10%的生命值，最多可使用3次。'
+                        '制造三个面包，用来立即回复100%的生命值，战斗期间无法使用'
                     ],
                     type: 'inv_misc_food_73cinnamonroll',
                     iconSrc: './icons/spell/mage/inv_misc_food_73cinnamonroll.jpg',
@@ -799,7 +799,7 @@ export const talentConfig = {
                 inv_misc_gem_sapphire_02:{
                     name: '【技能】制造法力宝石',
                     desc: ['',
-                        '制造一颗法力宝石，用来立即回复10%的法力值，最多可使用3次。'
+                        '制造三颗法力宝石，用来立即回复100%的魔法值，战斗期间无法使用'
                     ],
                     type: 'inv_misc_gem_sapphire_02',
                     iconSrc: './icons/spell/mage/inv_misc_gem_sapphire_02.jpg',
