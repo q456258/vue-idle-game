@@ -344,7 +344,6 @@ export default {
             for(let l=0; l<6; l++) {
                 if(this.player.lv <= (l+1)*10 || l>=this.questBoardList.length)
                     break;
-                console.log(l)
                 for(let j=0; j<this.guild['questBoard'].lv; j++) {
                     for(let k in this.questBoardList[l][j]) {
                         list.push(this.questBoardList[l][j][k]);
