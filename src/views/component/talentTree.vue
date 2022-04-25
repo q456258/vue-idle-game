@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-<draggable :left_limit="-500" :right_limit="1" :top_bot="false">
+        <draggable :left_limit="-750" :right_limit="1" :top_bot="false">
     <template slot="header">
 <!-- <div class="container"> -->
     <div>剩余天赋点: {{player.talentPoint}}
@@ -144,6 +144,7 @@ export default {
                 this.playerTalent['generalBranch'] = Math.max(this.playerTalent['generalBranch'], this.playerTalent[branch]);
                 this.player.talentPoint -= val;
                 this.setStatus(branch);
+                this.setStatus('generalBranch');
                 this.talentChange(target);
             }
         },
@@ -169,6 +170,7 @@ export default {
                 }
                 this.player.talentPoint -= val;
                 this.setStatus(branch);
+                this.setStatus('generalBranch');
                 this.talentChange(target);
             }
         },

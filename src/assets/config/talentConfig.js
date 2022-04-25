@@ -22,7 +22,6 @@ export const talentConfig = {
                 spell_nature_thunderclap: [['warriorBranch', 5]],
                 spell_holy_crusaderstrike: [['warriorBranch', 5], ['spell_nature_thunderclap', 3]],
                 ability_paladin_swiftretribution: [['warriorBranch', 5], ['spell_nature_thunderclap', 1], ['spell_holy_crusaderstrike', 1]],
-                ability_warrior_intensifyrage: [['warriorBranch', 5]],
                 ability_warrior_shieldbash: [['warriorBranch', 10]],
                 inv_shield_05: [['warriorBranch', 10], ['ability_warrior_shieldbash', 1]],
                 ability_defend: [['warriorBranch', 10]],
@@ -38,8 +37,9 @@ export const talentConfig = {
                 ability_deathknight_deathchain: [['warriorBranch', 30], ['inv_sword_48', 1], ['ability_blackhand_marked4death', 4]],
                 ability_warrior_decisivestrike: [['warriorBranch', 30]],
                 ability_warrior_colossussmash: [['warriorBranch', 30], ['ability_warrior_shatteringthrow', 1]],
-                classicon_warrior: [['warriorBranch', 35]],
                 warrior_talent_icon_thunderstruck: [['warriorBranch', 35], ['spell_nature_thunderclap', 1], ['warrior_talent_icon_stormbolt', 1]],
+                classicon_warrior: [['warriorBranch', 35]],
+                ability_warrior_intensifyrage: [['warriorBranch', 35]],
                 ability_whirlwind: [['warriorBranch', 40]],
                 sunder_buff: [['warriorBranch', 40]],
                 ability_racial_avatar: [['warriorBranch', 45]],
@@ -50,6 +50,11 @@ export const talentConfig = {
                 ability_hunter_harass: [],
                 // // mage
                 spell_frost_frostbolt02: [],
+                ability_mage_timewarp: [],
+                spell_frost_iceshock: [],
+                inv_misc_gem_sapphire_02: [],
+                inv_misc_food_73cinnamonroll: [],
+                spell_nature_starfall: [],
                 // spell_fire_flamebolt: [['warriorBranch', 5]],
                 // spell_nature_starfall: [['warriorBranch', 30]],
                 // spell_arcane_starfire: [['warriorBranch', 35], ['spell_arcane_starfire', 3]],
@@ -461,7 +466,7 @@ export const talentConfig = {
                     type: 'ability_warrior_intensifyrage',
                     iconSrc: "./icons/spell/ability_warrior_intensifyrage.jpg",
                     maxLv: 1,
-                    position: [1, 2],
+                    position: [3, 7],
                 },
                 ability_warrior_shieldbash: {
                     name: '盾击',
@@ -544,10 +549,10 @@ export const talentConfig = {
                 ability_blackhand_marked4death: {
                     name: '斩杀',
                     desc: ['',
-                        '屠杀对低于50%的目标造成额外攻击力*1点伤害',
-                        '屠杀对低于50%的目标造成额外攻击力*1.1点伤害',
-                        '屠杀对低于50%的目标造成额外攻击力*1.2点伤害',
-                        '屠杀对低于50%的目标造成额外攻击力*1.3点伤害',
+                        '屠杀对低于50%的目标额外造成攻击力*1点伤害',
+                        '屠杀对低于50%的目标额外造成攻击力*1.1点伤害',
+                        '屠杀对低于50%的目标额外造成攻击力*1.2点伤害',
+                        '屠杀对低于50%的目标额外造成攻击力*1.3点伤害',
                     ],
                     type: 'ability_blackhand_marked4death',
                     iconSrc: "./icons/spell/ability_blackhand_marked4death.jpg",
@@ -658,7 +663,8 @@ export const talentConfig = {
                 },
                 ability_whirlwind: {
                     name: '剑刃风暴',
-                    desc: [''],
+                    desc: ['',
+                        '造成8次100+攻击力*0.5点伤害, 移除所有负面状态效果'],
                     type: 'ability_whirlwind',
                     iconSrc: "./icons/spell/ability_whirlwind.jpg",
                     maxLv: 1,
@@ -745,13 +751,328 @@ export const talentConfig = {
                 spell_frost_frostbolt02: {
                     name: '【技能】寒冰箭',
                     desc: ['',
-                        '代替普通攻击, 造成法伤*1点魔法伤害, 消耗20点魔法值'
+                        '代替普通攻击, 造成法术强度*1点魔法术强度害, 消耗20点魔法值'
                     ],
                     type: 'spell_frost_frostbolt02',
-                    iconSrc: "./icons/spell/spell_frost_frostbolt02.jpg",
+                    iconSrc: "./icons/spell/mage/spell_frost_frostbolt02.jpg",
                     maxLv: 1,
                     position: [0, 0]
                 },
+                spell_arcane_studentofmagic:{
+                    name: '魔力源泉',
+                    desc: ['',
+                        '非战斗状态每五秒恢复11%最大魔法值(初始10%)',
+                        '非战斗状态每五秒恢复12%最大魔法值(初始10%)',
+                        '非战斗状态每五秒恢复13%最大魔法值(初始10%)',
+                        '非战斗状态每五秒恢复14%最大魔法值(初始10%)',
+                        '非战斗状态每五秒恢复15%最大魔法值(初始10%)',
+                    ],
+                    type: 'spell_arcane_studentofmagic',
+                    iconSrc: './icons/spell/mage/spell_arcane_studentofmagic.jpg',
+                    maxLv: 5,
+                    position: [2, 0]
+                },
+                spell_shadow_manaburn:{
+                    name: '奥数专注',
+                    desc: ['',
+                        '释放任意技能后有2%获得一层奥数专注，使下一个技能不消耗任何魔法值',
+                        '释放任意技能后有4%获得一层奥数专注，使下一个技能不消耗任何魔法值',
+                        '释放任意技能后有6%获得一层奥数专注，使下一个技能不消耗任何魔法值',
+                        '释放任意技能后有8%获得一层奥数专注，使下一个技能不消耗任何魔法值',
+                        '释放任意技能后有10%获得一层奥数专注，使下一个技能不消耗任何魔法值',
+                    ],
+                    type: 'spell_shadow_manaburn',
+                    iconSrc: './icons/spell/mage/spell_shadow_manaburn.jpg',
+                    maxLv: 5,
+                    position: [4, 0]
+                },
+                inv_misc_food_73cinnamonroll:{
+                    name: '【技能】造餐术',
+                    desc: ['',
+                        '制造一个面包，用来立即回复10%的生命值，最多可使用3次。'
+                    ],
+                    type: 'inv_misc_food_73cinnamonroll',
+                    iconSrc: './icons/spell/mage/inv_misc_food_73cinnamonroll.jpg',
+                    maxLv: 1,
+                    position: [0, 1]
+                },
+                inv_misc_gem_sapphire_02:{
+                    name: '【技能】制造法力宝石',
+                    desc: ['',
+                        '制造一颗法力宝石，用来立即回复10%的法力值，最多可使用3次。'
+                    ],
+                    type: 'inv_misc_gem_sapphire_02',
+                    iconSrc: './icons/spell/mage/inv_misc_gem_sapphire_02.jpg',
+                    maxLv: 1,
+                    position: [1, 1]
+                },
+                spell_fire_flamebolt:{
+                    name: '【技能】火球术',
+                    desc: ['',
+                        '投出一枚火球，造成法术强度*1.1点魔法伤害',
+                        '投出一枚火球，造成法术强度*1.15点魔法伤害',
+                        '投出一枚火球，造成法术强度*1.2点魔法伤害',
+                        '投出一枚火球，造成法术强度*1.25点魔法伤害',
+                    ],
+                    type: 'spell_fire_flamebolt',
+                    iconSrc: './icons/spell/mage/spell_fire_flamebolt.jpg',
+                    maxLv: 4,
+                    position: [2, 1],
+                },
+                ability_socererking_arcanefortification:{
+                    name: '启发',
+                    desc: ['',
+                        '魔法值大于或等于70%时技能魔法伤害提升1%，低于70%时魔法值消耗降低1%',
+                        '魔法值大于或等于70%时技能魔法伤害提升2%，低于70%时魔法值消耗降低2%',
+                        '魔法值大于或等于70%时技能魔法伤害提升3%，低于70%时魔法值消耗降低3%',
+                        '魔法值大于或等于70%时技能魔法伤害提升4%，低于70%时魔法值消耗降低4%',
+                        '魔法值大于或等于70%时技能魔法伤害提升5%，低于70%时魔法值消耗降低5%',
+                    ],
+                    type: 'ability_socererking_arcanefortification',
+                    iconSrc: './icons/spell/mage/ability_socererking_arcanefortification.jpg',
+                    maxLv: 5,
+                    position: [4, 1]
+                },
+                spell_frost_icestorm:{
+                    name: '【技能】暴风雪',
+                    desc: ['',
+                        '目标区域骤然落下寒冰碎片，每秒对目标造成法术强度*0.15点魔法伤害，持续8秒',
+                        '目标区域骤然落下寒冰碎片，每秒对目标造成法术强度*0.17点魔法伤害，持续8秒',
+                        '目标区域骤然落下寒冰碎片，每秒对目标造成法术强度*0.19点魔法伤害，持续8秒',
+                        '目标区域骤然落下寒冰碎片，每秒对目标造成法术强度*0.21点魔法伤害，持续8秒',
+                    ],
+                    type: 'spell_frost_icestorm',
+                    iconSrc: './icons/spell/mage/spell_frost_icestorm.jpg',
+                    maxLv: 4,
+                    position: [0, 2]
+                },
+                spell_fire_soulburn:{
+                    name: '【技能】灼烧',
+                    desc: ['',
+                        '造成法术强度*0.25点魔法伤害，并附加1层灼伤效果',
+                        '造成法术强度*0.25点魔法伤害，并附加2层灼伤效果',
+                        '造成法术强度*0.25点魔法伤害，并附加3层灼伤效果',
+                    ],
+                    type: 'spell_fire_soulburn',
+                    iconSrc: './icons/spell/mage/spell_fire_soulburn.jpg',
+                    maxLv: 3,
+                    position: [3, 2]
+                },
+                ability_warlock_burningembersblue:{
+                    name: '【技能】冰风暴',
+                    desc: ['',
+                        '释放寒冰风暴，每0.33秒对目标造成法术强度*0.08点魔法伤害，持续5秒',
+                        '释放寒冰风暴，每0.33秒对目标造成法术强度*0.09点魔法伤害，持续5秒',
+                        '释放寒冰风暴，每0.33秒对目标造成法术强度*0.1点魔法伤害，持续5秒',
+                    ],
+                    type: 'ability_warlock_burningembersblue',
+                    iconSrc: './icons/spell/mage/ability_warlock_burningembersblue.jpg',
+                    maxLv: 3,
+                    position: [0, 3]
+                },
+                spell_fire_fireball02:{
+                    name: '【技能】炎爆术',
+                    desc: ['',
+                        '发射一颗巨大的烈焰巨石，造成法术强度*2点魔法伤害',
+                        '发射一颗巨大的烈焰巨石，造成法术强度*2.5点魔法伤害',
+                        '发射一颗巨大的烈焰巨石，造成法术强度*3点魔法伤害',
+                    ],
+                    type: 'spell_fire_fireball02',
+                    iconSrc: './icons/spell/mage/spell_fire_fireball02.jpg',
+                    maxLv: 3,
+                    position: [2, 3],
+                    down2: true
+                },
+                spell_fire_fire:{
+                    name: '纵火者',
+                    desc: ['',
+                        '火球术和炎爆术对当前生命值大于90%的目标必定暴击',
+                    ],
+                    type: 'spell_fire_fire',
+                    iconSrc: './icons/spell/mage/spell_fire_fire.jpg',
+                    maxLv: 1,
+                    position: [3, 3],
+                    right: true
+                },
+                ability_mage_arcanebarrage:{
+                    name: '【技能】奥术弹幕',
+                    desc: ['',
+                        '向敌方目标发射1-5发奥术能量箭矢，每发造成法术强度*0.4点魔法伤害。每层奥术充能使伤害提高25%',
+                        '向敌方目标发射1-5发奥术能量箭矢，每发造成法术强度*0.43点魔法伤害。每层奥术充能使伤害提高25%',
+                        '向敌方目标发射1-5发奥术能量箭矢，每发造成法术强度*0.46点魔法伤害。每层奥术充能使伤害提高25%',
+                    ],
+                    type: 'ability_mage_arcanebarrage',
+                    iconSrc: './icons/spell/mage/ability_mage_arcanebarrage.jpg',
+                    maxLv: 3,
+                    position: [4, 3]
+                },
+                spell_ice_lament:{
+                    name: '【技能】寒冰护体',
+                    desc: ['',
+                        '为你施加寒冰护盾，吸收0.2*最大生命值*(1+全能*0.1)点伤害',
+                        '为你施加寒冰护盾，吸收0.25*最大生命值*(1+全能*0.1)点伤害',
+                        '为你施加寒冰护盾，吸收0.3*最大生命值*(1+全能*0.1)点伤害'
+                    ],
+                    type: 'spell_ice_lament',
+                    iconSrc: './icons/spell/mage/spell_ice_lament.jpg',
+                    maxLv: 3,
+                    position: [0, 4]
+                },
+                spell_shadow_detectlesserinvisibility:{
+                    name: '【技能】法力护盾',
+                    desc: ['',
+                        '制造一个护盾，使用魔法值抵消受到的伤害，每点魔法值可抵消一点伤害，持续10秒'
+                    ],
+                    type: 'spell_shadow_detectlesserinvisibility',
+                    iconSrc: './icons/spell/mage/spell_shadow_detectlesserinvisibility.jpg',
+                    maxLv: 1,
+                    position: [1, 4]
+                },
+                spell_arcane_blast:{
+                    name: '【技能】奥术冲击',
+                    desc: ['',
+                        '用能量冲击目标，造成法术强度*0.75点魔法伤害。每层奥术充能使伤害提高60%，消耗的法力提高100%，增加3点充能',
+                        '用能量冲击目标，造成法术强度*0.8点魔法伤害。每层奥术充能使伤害提高60%，消耗的法力提高100%，增加3点充能',
+                        '用能量冲击目标，造成法术强度*0.85点魔法伤害。每层奥术充能使伤害提高60%，消耗的法力提高100%，增加3点充能',
+                    ],
+                    type: 'spell_arcane_blast',
+                    iconSrc: './icons/spell/mage/spell_arcane_blast.jpg',
+                    maxLv: 3,
+                    position: [4, 4]
+                },
+                spell_fire_selfdestruct:{
+                    name: '烈焰风暴',
+                    desc: ['',
+                        '对目标造成目标当前生命值*0.1点魔法伤害，并附加2层灼伤效果',
+                        '对目标造成目标当前生命值*0.12点魔法伤害，并附加2层灼伤效果',
+                        '对目标造成目标当前生命值*0.15点魔法伤害，并附加2层灼伤效果',
+                    ],
+                    type: 'spell_fire_selfdestruct',
+                    iconSrc: './icons/spell/mage/spell_fire_selfdestruct.jpg',
+                    maxLv: 3,
+                    position: [2, 5]
+                },
+                spell_nature_starfall:{
+                    name: '【技能】奥术飞弹',
+                    desc: ['',
+                        '向敌人射出五波奥术飞弹，每发造成法术强度*0.2点魔法伤害。每层奥数充能额外发射一波奥术飞弹',
+                        '向敌人射出五波奥术飞弹，每发造成法术强度*0.21点魔法伤害。每层奥数充能额外发射一波奥术飞弹',
+                        '向敌人射出五波奥术飞弹，每发造成法术强度*0.22点魔法伤害。每层奥数充能额外发射一波奥术飞弹',
+                    ],
+                    type: 'spell_nature_starfall',
+                    iconSrc: './icons/spell/mage/spell_nature_starfall.jpg',
+                    maxLv: 3,
+                    position: [4, 5]
+                },
+                spell_frost_coldhearted:{
+                    name: '【技能】冰冷血脉',
+                    desc: ['',
+                        '加快你的施法速度，使你的急速提高30，持续20秒'
+                    ],
+                    type: 'spell_frost_coldhearted',
+                    iconSrc: './icons/spell/mage/spell_frost_coldhearted.jpg',
+                    maxLv: 1,
+                    position: [0, 6]
+                },
+                spell_fire_incinerate:{
+                    name: '点燃',
+                    desc: ['',
+                        '你的火球术、灼烧、炎爆术和烈焰风暴会额外附加一层灼伤效果，使目标每秒受到当前生命值*0.01点魔法伤害，持续10秒'
+                    ],
+                    type: 'spell_fire_incinerate',
+                    iconSrc: './icons/spell/mage/spell_fire_incinerate.jpg',
+                    maxLv: 1,
+                    position: [2, 6]
+                },
+                spell_arcane_arcane01: {
+                    name: '奥术充能',
+                    desc: ['',
+                        '释放任意法师技能有20%获得一层奥术充能，最多累计2层',
+                        '释放任意法师技能有40%获得一层奥术充能，最多累计3层',
+                        '释放任意法师技能有60%获得一层奥术充能，最多累计4层',
+                        '释放任意法师技能有80%获得一层奥术充能，最多累计5层',
+                        '释放任意法师技能有100%获得一层奥术充能，最多累计6层',
+                    ],
+                    type: 'spell_arcane_arcane01',
+                    iconSrc: "./icons/spell/mage/spell_arcane_arcane01.jpg",
+                    maxLv: 5,
+                    position: [4, 6]
+                },
+                spell_arcane_invocation:{
+                    name: '三之准则',
+                    desc: ['',
+                        '释放奥数弹幕、奥数飞弹、奥数冲击时，如果拥有三层或以上奥术充能，恢复6%最大魔法值',
+                        '释放奥数弹幕、奥数飞弹、奥数冲击时，如果拥有三层或以上奥术充能，恢复9%最大魔法值',
+                        '释放奥数弹幕、奥数飞弹、奥数冲击时，如果拥有三层或以上奥术充能，恢复12%最大魔法值',
+                    ],
+                    type: 'spell_arcane_invocation',
+                    iconSrc: './icons/spell/mage/spell_arcane_invocation.jpg',
+                    maxLv: 3,
+                    position: [4, 7],
+                    down: true
+                },
+                spell_frost_wizardmark:{
+                    name: '【技能】急速冷却',
+                    desc: ['',
+                        '将暴风雪、寒冰护体、冰霜新星、冰锥术和寒冰屏障完全充能'
+                    ],
+                    type: 'spell_frost_wizardmark',
+                    iconSrc: './icons/spell/mage/spell_frost_wizardmark.jpg',
+                    maxLv: 1,
+                    position: [0, 7]
+                },
+                spell_frost_iceshock:{
+                    name: '【技能】法术反制',
+                    desc: ['',
+                        '为目标附加三层沉默，使其无法释放技能'
+                    ],
+                    type: 'spell_frost_iceshock',
+                    iconSrc: './icons/spell/mage/spell_frost_iceshock.jpg',
+                    maxLv: 1,
+                    position: [1, 7]
+                },
+                spell_mage_icenova:{
+                    name: '【技能】大法师之触',
+                    desc: ['',
+                        '对你当前的目标施加大法师之触，在8秒后目标将受到期间受到的伤害总量*0.25点魔法伤害'
+                    ],
+                    type: 'spell_mage_icenova',
+                    iconSrc: './icons/spell/mage/spell_mage_icenova.jpg',
+                    maxLv: 1,
+                    position: [0, 8]
+                },
+                spell_nature_purge:{
+                    name: '【技能】唤醒',
+                    desc: ['',
+                        '恢复法力回复速度*30点魔法值',
+                        '恢复法力回复速度*40点魔法值',
+                        '恢复法力回复速度*50点魔法值',
+                    ],
+                    type: 'spell_nature_purge',
+                    iconSrc: './icons/spell/mage/spell_nature_purge.jpg',
+                    maxLv: 3,
+                    position: [3, 8]
+                },
+                spell_fire_sealoffire:{
+                    name: '【技能】燃烧',
+                    desc: ['',
+                        '将自身包裹在烈焰之中，短时间内使你的法术爆击几率提高100%，持续10秒'
+                    ],
+                    type: 'spell_fire_sealoffire',
+                    iconSrc: './icons/spell/mage/spell_fire_sealoffire.jpg',
+                    maxLv: 1,
+                    position: [2, 9]
+                },
+                ability_mage_timewarp:{
+                    name: '【技能】时间扭曲',
+                    desc: ['',
+                        '将所有其他技能完全充能'
+                    ],
+                    type: 'ability_mage_timewarp',
+                    iconSrc: './icons/spell/mage/ability_mage_timewarp.jpg',
+                    maxLv: 1,
+                    position: [2, 10]
+                },                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
             },
             // archived:{
             //     //mage

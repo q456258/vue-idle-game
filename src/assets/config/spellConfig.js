@@ -43,7 +43,7 @@ data() {
             spell_frost_frostbolt02: {
                 name: '寒冰箭',
                 max: 0,
-                iconSrc: "./icons/spell/spell_frost_frostbolt02.jpg",
+                iconSrc: "./icons/spell/mage/spell_frost_frostbolt02.jpg",
                 quality: 1,
                 level: [{
                         des: '造成法伤*1点伤害',
@@ -123,8 +123,8 @@ data() {
                 iconSrc: "./icons/spell/ability_whirlwind.jpg",
                 quality: 1,
                 level: [{
-                        des: '造成8次5000+攻击力*0.5点伤害, 移除所有负面状态效果',
-                        adDmg: { FIX: 5000, ATK: 0.5},
+                        des: '造成8次100+攻击力*0.5点伤害, 移除所有负面状态效果',
+                        adDmg: { FIX: 100, ATK: 0.5},
                         cost: { MP: 500, },
                     },
                 ],
