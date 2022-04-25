@@ -651,7 +651,12 @@ export default {
       }, 5000);
       this.autoManRecovery = setInterval(() => {
         let player = this.$store.state.playerAttribute;
-        let amount = this.attribute.MAXMP.value*0.10+this.attribute.SPI.value;
+        let recover = 0.10;
+        let talent = 'spell_arcane_studentofmagic';
+        if(this.playerTalent[talent] > 0) {
+          recover += this.playerTalent[talent]*0.01;
+        }
+        let amount = this.attribute.MAXMP.value*recover+this.attribute.SPI.value;
         if(this.dungeonInfo.inBattle) {
           amount = this.attribute.SPI.value;
           this.mpChange(player, player, Math.ceil(amount));
