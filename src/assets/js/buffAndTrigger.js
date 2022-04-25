@@ -339,7 +339,8 @@ export const buffAndTrigger = {
         },
         hpChange(source, target, dmgs, sourceName) {
             this.absorb(target, dmgs);
-            this.damage(source, target, dmgs, sourceName);
+            if(dmgs.adDmg || dmgs.apDmg)
+                this.damage(source, target, dmgs, sourceName);
             if(!isNaN(dmgs.heal))
                 this.heal(source, source, this.get_dmg(dmgs, 'heal'), sourceName);
         },
