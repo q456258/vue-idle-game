@@ -181,7 +181,7 @@
                         </p>
                         <p class="info">* 每点提升属性
                             <br>
-                            +4法术伤害
+                            +4法术强度
                             <br>
                             +0.1%法术暴击率
                         </p>
@@ -343,7 +343,7 @@
                         </div>
                     </template>
                     <template v-slot:tip>
-                        <p class="info">* 法术伤害
+                        <p class="info">* 法术强度
                             <br>
                             基础: {{attribute.AP.baseVal }}
                             <span v-if="attribute.APP.value != 0">{{' +' + attribute.APP.showValue}}</span>
