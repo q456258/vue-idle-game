@@ -1,10 +1,11 @@
 <template>
     <div class="container">
+        <div>剩余天赋点: {{player.talentPoint}}
+            <div class="refresh btn btn-secondary" @click="resetTalent()"></div>
+        </div>
         <draggable :left_limit="-750" :right_limit="1" :top_bot="false">
     <template slot="header">
 <!-- <div class="container"> -->
-    <div>剩余天赋点: {{player.talentPoint}}
-    </div>
     <div class="talentTree scrollbar-morpheus-den" >
         <div class="power" v-for="(grid, i) in talents" :key="i">
             <div class="progress">
@@ -101,6 +102,21 @@ export default {
             this.setStatus('generalBranch');
             this.setStatus('warriorBranch');
             this.setStatus('mageBranch');
+        },
+        resetTalent() {
+            let total = this.player.talentPoint;
+            let branches = Object.keys(this.playerTalent).filter(k=>(k!='generalBranch'&&k.indexOf('Branch')!=-1));
+            for(let i in branches) {
+                total += this.playerTalent[branches[i]];
+            }
+            this.player.talentPoint = total;
+            for(let i in this.playerTalent) {
+                this.playerTalent[i] = 0;
+            }
+            for(let i in branches) {
+                this.setStatus(branches[i]);
+            }
+            this.setStatus('generalBranch');
         },
         setGrid(branch) {
             for(let talent in this[branch]) {

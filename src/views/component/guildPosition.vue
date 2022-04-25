@@ -33,7 +33,7 @@
     <div class="building" v-show="displayPage=='questBoard'">
         <div class="buildInfo">
             {{guild.questBoard.lv+"级"}}
-            <div class="refreshQuest btn btn-secondary" @click="generateGuildQuest()"></div>
+            <div class="refresh btn btn-secondary" @click="generateGuildQuest()"></div>
         </div>
         <div class="questBoardContainer">
             <div class="questContainer" v-for="(v1, k1) in guildAvailableQuest" :key="k1">
@@ -774,13 +774,6 @@ export default {
             }
         }
     }
-}
-.refreshQuest{
-    background-image: url("/icons/ui/refresh.png");
-    background-size: cover;
-    width: 25px;
-    height: 25px;
-    float: right;
 }
 .questBoardContainer {
     display: flex;

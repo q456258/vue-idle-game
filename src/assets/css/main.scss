@@ -619,4 +619,11 @@
             visibility: visible;
         }
     }
+    .refresh{
+        background-image: url("/icons/ui/refresh.png");
+        background-size: cover;
+        width: 25px;
+        height: 25px;
+        float: right;
+    }
 }
