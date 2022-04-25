@@ -58,6 +58,12 @@ data() {
                     iconSrc: "./icons/buff/deathImmune.jpg",
                     desc: "死亡免疫: 免疫一次会造成角色死亡的伤害"
                 },
+                focus: {
+                    cleanse: true,
+                    stacked: true,
+                    iconSrc: "./icons/spell/mage/spell_shadow_manaburn.jpg",
+                    desc: "专注: 下一个技能不消耗任何魔法值"
+                },
                 void: {
                     cleanse: true,
                     stacked: true,

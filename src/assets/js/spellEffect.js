@@ -86,7 +86,16 @@ export const spellEffect = {
                     this.generalSpell(source, target, spell);
                     break;
             }
-            
+            if(this.spell[spell].max > 0) {
+                // 奥术专注
+                let talent = 'spell_shadow_manaburn';
+                if(source.talent[talent] > 0) {
+                    let chance = source.talent[talent]*2;
+                    let effectList = {};
+                    effectList['focus'] = {stack: 1, chance: chance, target: 'self'};
+                    this.applyEffect(source, target, effectList);
+                }
+            }
         },
         generalSpell(source, target, spell) {
             let dmgs = this.getSpellDmg(spell, source);
@@ -103,7 +112,7 @@ export const spellEffect = {
                 return true;
             }
             for(let cost in this.spell[spell].level[spellLv].cost) {
-                if(cost == 'MP') {
+                if(cost == 'MP' && this.playerAttr.buff.focus < 0) {
                     if(attr['CURMP'].value < this.spell[spell].level[spellLv].cost['MP']) {
                         let battleAnime = this.$store.globalComponent["battleAnime"];
                         battleAnime.displayText("player", "failSpell", this.spell[spell].name);
@@ -132,6 +141,8 @@ export const spellEffect = {
                         this.hpChange(this.playerAttr, this.playerAttr, -1*costs.cost[cost]*attr[cost].value);
                         break;
                     case 'MP':
+                        if(this.buffReduce(this.playerAttr, this.playerAttr, 'focus'))
+                            break;
                         if(this.playerAttr.talent[talent] > 0)
                             this.hpChange(this.playerAttr, this.playerAttr, -1*costs.cost[cost]);
                         else
@@ -139,6 +150,8 @@ export const spellEffect = {
                         break;
                     case 'CURMP':
                     case 'MAXMP':
+                        if(this.buffReduce(this.playerAttr, this.playerAttr, 'focus'))
+                            break;
                         if(this.playerAttr.talent[talent] > 0)
                             this.hpChange(this.playerAttr, this.playerAttr, -1*costs.cost[cost]*attr[cost].value);
                         else

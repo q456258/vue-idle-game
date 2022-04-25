@@ -51,7 +51,7 @@ export const buffAndTrigger = {
         },
         // 添加buff
         buffApply(source, target, type, stack=1){
-            let buffer = ['sunder', 'penetrate', 'lifesteal', 'manasteal','charge','deathImmune','void','absorb','hell'];
+            let buffer = ['sunder', 'penetrate', 'lifesteal', 'manasteal','charge','deathImmune','void','absorb','hell','focus'];
             let timed = ['minionSlayer'];
             if(target.buff == undefined)
                 target.buff = {};
