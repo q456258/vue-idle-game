@@ -105,7 +105,7 @@ export default {
         },
         resetTalent() {
             let total = this.player.talentPoint;
-            let branches = Object.keys(this.playerTalent).filter(k=>(k.indexOf('Branch')==-1));
+            let branches = Object.keys(this.playerTalent).filter(k=>(k.indexOf('Branch')==-1&&this.playerTalent[k]>0));
             for(let i in branches) {
                 total += this.playerTalent[branches[i]];
             }
@@ -115,6 +115,7 @@ export default {
             }
             for(let i in branches) {
                 this.setStatus(branches[i]);
+                this.talentChange(branches[i]);
             }
             this.setStatus('generalBranch');
         },
@@ -187,7 +188,7 @@ export default {
                 this.player.talentPoint -= val;
                 this.setStatus(branch);
                 this.setStatus('generalBranch');
-                this.talentChange(target);
+                this.talentChange(target.type);
             }
         },
         checkPreReq(talentName, lv, ignore) {
@@ -207,7 +208,7 @@ export default {
             return true;
         },
         talentChange(talent) {
-            switch(talent.type) {
+            switch(talent) {
                 case 'ATK':
                 case 'SUNDER':
                 case 'DEF':
@@ -233,7 +234,9 @@ export default {
                 case 'ability_revendreth_paladin':
                 // 法师
                 case 'spell_frost_frostbolt02':
-                    this.learnSpell(talent.type);
+                case 'inv_misc_food_73cinnamonroll':
+                case 'inv_misc_gem_sapphire_02':
+                    this.learnSpell(talent);
                     break;
             }
         },
