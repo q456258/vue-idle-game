@@ -105,7 +105,7 @@ export default {
         },
         resetTalent() {
             let total = this.player.talentPoint;
-            let branches = Object.keys(this.playerTalent).filter(k=>(k!='generalBranch'&&k.indexOf('Branch')!=-1));
+            let branches = Object.keys(this.playerTalent).filter(k=>(k.indexOf('Branch')==-1));
             for(let i in branches) {
                 total += this.playerTalent[branches[i]];
             }
