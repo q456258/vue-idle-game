@@ -1,6 +1,11 @@
 export const buffConfig = {
 data() {
     return {
+        buffCateg: {
+            buffer: ['sunder', 'penetrate', 'lifesteal', 'manasteal','charge','deathImmune','void','absorb','hell','focus'],
+            timed: ['minionSlayer'],
+            onTick: ['burn']
+        },
         buffType: {
             buff: {
                 ATK: {
@@ -117,6 +122,12 @@ data() {
                     stacked: true,
                     iconSrc: "./icons/spell/inv_misc_shadowegg.jpg",
                     desc: "炼狱: 每次行动减少一层, 结束时生命值低于50%直接死亡"
+                },
+                burn: {
+                    cleanse: true,
+                    stacked: true,
+                    iconSrc: './icons/spell/mage/spell_fire_fire.jpg',
+                    desc: "灼伤: 每秒受到0.5%最大生命值点魔法伤害"
                 },
                 bleed: {
                     cleanse: true,

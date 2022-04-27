@@ -1,4 +1,6 @@
+import { buffConfig } from '@/assets/config/buffConfig';
 export const buffAndTrigger = {
+    mixins: [buffConfig],
     data() {
         return {
             centralTimer: 0,
@@ -7,7 +9,8 @@ export const buffAndTrigger = {
     mounted() {
     },
     computed: {
-        player() {return this.$store.state.playerAttribute; }
+        player() {return this.$store.state.playerAttribute; },
+        enemy() {return this.$store.state.enemyAttribute; }
 
     },
     methods: {
@@ -47,19 +50,27 @@ export const buffAndTrigger = {
                     if(diff > 0)
                         this.buffReduce(this.player, this.player, buff, diff);
                 }
+                let enemyBuff = this.enemy.buff;
+                for(let buff in this.enemy.timedBuff) {
+                    let curStack = (this.enemy.timedBuff[buff] - now)/60000;
+                    if(curStack < 0)
+                        this.buffRemoved(this.enemy, this.enemy, buff);
+                    let diff = Math.floor(enemyBuff[buff] - curStack);
+                    if(diff > 0)
+                        this.buffReduce(this.enemy, this.enemy, buff, diff);
+                }
             }, 1000);
         },
         // 添加buff
         buffApply(source, target, type, stack=1){
-            let buffer = ['sunder', 'penetrate', 'lifesteal', 'manasteal','charge','deathImmune','void','absorb','hell','focus'];
-            let timed = ['minionSlayer'];
             if(target.buff == undefined)
                 target.buff = {};
             if(target.timedBuff == undefined)
                 target.timedBuff = {};
-            if(timed.indexOf(type) != -1) {
-                if(target.timedBuff[type] == undefined)
+            if(this.buffCateg.timed.indexOf(type) != -1) {
+                if(target.timedBuff[type] == undefined) {
                     target.timedBuff[type] = Date.now()+stack*1000;
+                }
                 else
                     target.timedBuff[type] += stack*1000;
                 if(target.buff[type])
@@ -67,7 +78,9 @@ export const buffAndTrigger = {
                 else
                     stack = Math.ceil((target.timedBuff[type]-Date.now())/60000);
             }
-            if(buffer.indexOf(type) == -1) {
+            if(this.buffCateg.onTick.indexOf(type) != -1 && target.buff[type] == undefined)
+                this.buffOnTick(source, target, type);
+            if(this.buffCateg.buffer.indexOf(type) == -1) {
                 if(target.buff[type] == undefined) {
                     this.$set(target.buff, type, stack)
                 }
@@ -115,8 +128,24 @@ export const buffAndTrigger = {
             return false;
         },
         // 按时间触发buff
-        buffOnTick() {
-
+        buffOnTick(source, target, type) {
+            let gap = 1000;
+            switch(type) {
+                case 'burn':
+                    gap = 1000;
+                    break;
+            }
+            let timer = setInterval(() => {
+                if(!this.buffReduce(target, target, type, 1)) {
+                    clearInterval(timer);
+                    return;
+                }
+                switch(type) {
+                    case 'burn':
+                        this.burn(source, target);
+                        break;
+                }
+            }, gap);
         },
         // 返回新护甲值
         sunder(source, armor) {
@@ -279,6 +308,12 @@ export const buffAndTrigger = {
                 this.set_ad_dmg(dmgs, this.get_dmg(dmgs, 'ad')*0.5);
             }
         },    
+        // 灼伤
+        burn(source, target) {
+            let burnDmg = target.attribute.MAXHP.value * 0.005;
+            let dmgs = {apDmg: Math.round(burnDmg)};
+            this.damage(source, target, dmgs, 'burn');
+        },
         // 攻击起手触发, source为攻击发起者
         TriggerOnAttack(source, target) {
             this.buffReduce(source, source, 'hell');
