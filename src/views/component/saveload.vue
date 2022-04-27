@@ -34,11 +34,12 @@
 <script>
 import draggable from '../uiComponent/draggable';
 import { Base64 } from 'js-base64';
+import { buffConfig } from '@/assets/config/buffConfig';
 export default {    
     name: 'saveload',
     props: {
     },
-    mixins: [],
+    mixins: [buffConfig],
     components: {draggable},
     data() {
         return {
@@ -82,6 +83,10 @@ export default {
                     smith_sub: guildPosition.smith_sub,
                 }
             }
+            // 移除部分debuff
+            for(let i in this.buffCateg.onTick)
+                delete data.state.playerAttribute.buff[this.buffCateg.onTick[i]];
+
             let saveData = Base64.encode(Base64.encode(JSON.stringify(data)));
             localStorage.setItem('_sd', saveData);
 
