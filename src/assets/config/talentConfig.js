@@ -941,7 +941,7 @@ export const talentConfig = {
                     position: [4, 4]
                 },
                 spell_fire_selfdestruct:{
-                    name: '烈焰风暴',
+                    name: '【技能】烈焰风暴',
                     desc: ['',
                         '对目标造成目标当前生命值*0.1点魔法伤害，并附加2层灼伤效果',
                         '对目标造成目标当前生命值*0.12点魔法伤害，并附加2层灼伤效果',

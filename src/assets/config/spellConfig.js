@@ -143,31 +143,6 @@ data() {
                 ],
                 tag: []
             },
-            spell_fire_flamebolt: {
-                name: '火球术',
-                max: 10,
-                iconSrc: "./icons/spell/spell_fire_flamebolt.jpg",
-                quality: 1,
-                level: [{
-                        des: '造成5000+智力*5点伤害',
-                        adDmg: { FIX: 5000, INT: 5, },
-                        cost: { MP: 600, },
-                    }, {
-                        des: '造成30000+智力*5点伤害',
-                        adDmg: { FIX: 30000, INT: 5, },
-                        cost: { MP: 3000, },
-                    }, {
-                        des: '造成100000+智力*5点伤害',
-                        adDmg: { FIX: 100000, INT: 5, },
-                        cost: { MP: 10000, },
-                    }, {
-                        des: '造成300000+智力*5点伤害',
-                        adDmg: { FIX: 300000, INT: 5, },
-                        cost: { MP: 30000, },
-                    }
-                ],
-                tag: ['智力']
-            },
             ability_warrior_shieldbash: {
                 name: '盾击',
                 max: 15,
@@ -997,7 +972,366 @@ data() {
                 ],
                 tag: []
             },
-        },
+            spell_fire_flamebolt: {
+                name: '火球术',
+                max: 10,
+                iconSrc: "./icons/spell/mage/spell_fire_flamebolt.jpg",
+                quality: 1,
+                level: [{
+                        des: '投出一枚火球，造成法术强度*1.1点魔法伤害',
+                        adDmg: { AP: 1.1, },
+                        cost: { MP: 40, },
+                    }, {
+                        des: '投出一枚火球，造成法术强度*1.15点魔法伤害',
+                        adDmg: { AP: 1.15, },
+                        cost: { MP: 60, },
+                    }, {
+                        des: '投出一枚火球，造成法术强度*1.2点魔法伤害',
+                        adDmg: { AP: 1.2, },
+                        cost: { MP: 80, },
+                    }, {
+                        des: '投出一枚火球，造成法术强度*1.25点魔法伤害',
+                        adDmg: { AP: 1.25, },
+                        cost: { MP: 100, },
+                    }
+                ],
+                tag: ['法术强度']
+            },
+            spell_fire_flamebolt: {
+                name: '火球术',
+                max: 10,
+                iconSrc: "./icons/spell/mage/spell_fire_flamebolt.jpg",
+                quality: 1,
+                level: [{
+                        des: '投出一枚火球，造成法术强度*1.1点魔法伤害',
+                        adDmg: { AP: 1.1, },
+                        cost: { MP: 40, },
+                    }, {
+                        des: '投出一枚火球，造成法术强度*1.15点魔法伤害',
+                        adDmg: { AP: 1.15, },
+                        cost: { MP: 60, },
+                    }, {
+                        des: '投出一枚火球，造成法术强度*1.2点魔法伤害',
+                        adDmg: { AP: 1.2, },
+                        cost: { MP: 80, },
+                    }, {
+                        des: '投出一枚火球，造成法术强度*1.25点魔法伤害',
+                        adDmg: { AP: 1.25, },
+                        cost: { MP: 100, },
+                    }
+                ],
+                tag: ['法术强度']
+            },
+            spell_frost_icestorm: {
+                name: '暴风雪',
+                max: 25,
+                iconSrc: "./icons/spell/mage/spell_frost_icestorm.jpg",
+                quality: 1,
+                level: [{
+                        des: '目标区域骤然落下寒冰碎片，每秒对目标造成法术强度*0.15点魔法伤害，持续8秒',
+                        adDmg: { AP: 0.15, },
+                        cost: { MP: 50, },
+                    }, {
+                        des: '目标区域骤然落下寒冰碎片，每秒对目标造成法术强度*0.17点魔法伤害，持续8秒',
+                        adDmg: { AP: 0.17, },
+                        cost: { MP: 75, },
+                    }, {
+                        des: '目标区域骤然落下寒冰碎片，每秒对目标造成法术强度*0.19点魔法伤害，持续8秒',
+                        adDmg: { AP: 0.19, },
+                        cost: { MP: 100, },
+                    }, {
+                        des: '目标区域骤然落下寒冰碎片，每秒对目标造成法术强度*0.21点魔法伤害，持续8秒',
+                        adDmg: { AP: 0.21, },
+                        cost: { MP: 125, },
+                    }
+                ],
+                tag: ['法术强度']
+            },
+            spell_fire_soulburn: {
+                name: '灼伤',
+                max: 20,
+                iconSrc: "./icons/spell/mage/spell_fire_soulburn.jpg",
+                quality: 1,
+                level: [{
+                        des: '造成法术强度*0.25点魔法伤害，并附加1层灼伤效果',
+                        ap: { AP: 0.25 },
+                        effect: {burn: {stack: 1, chance: 100, target: 'enemy'},},
+                        cost: { MP: 25, },
+                    }, {
+                        des: '造成法术强度*0.25点魔法伤害，并附加1层灼伤效果',
+                        ap: { AP: 0.25 },
+                        effect: {burn: {stack: 2, chance: 100, target: 'enemy'},},
+                        cost: { MP: 25, },
+                    }, {
+                        des: '造成法术强度*0.25点魔法伤害，并附加1层灼伤效果',
+                        ap: { AP: 0.25 },
+                        effect: {burn: {stack: 3, chance: 100, target: 'enemy'},},
+                        cost: { MP: 25, },
+                    }
+                ],
+                proficient: {
+                },
+                tag: ['DEBUFF']
+            },
+            ability_warlock_burningembersblue: {
+                name: '冰风暴',
+                max: 50,
+                iconSrc: "./icons/spell/mage/ability_warlock_burningembersblue.jpg",
+                quality: 1,
+                level: [{
+                        des: '释放寒冰风暴，每0.33秒对目标造成法术强度*0.08点魔法伤害，持续5秒',
+                        ap: { AP: 0.08, },
+                        cost: { MP: 50, },
+                    }, {
+                        des: '释放寒冰风暴，每0.33秒对目标造成法术强度*0.09点魔法伤害，持续5秒',
+                        ap: { AP: 0.09, },
+                        cost: { MP: 75, },
+                    }, {
+                        des: '释放寒冰风暴，每0.33秒对目标造成法术强度*0.10点魔法伤害，持续5秒',
+                        ap: { AP: 0.10, },
+                        cost: { MP: 100, },
+                    }
+                ],
+                tag: ['法术强度']
+            },
+            spell_fire_fireball02: {
+                name: '炎爆术',
+                max: 50,
+                iconSrc: "./icons/spell/mage/spell_fire_fireball02.jpg",
+                quality: 1,
+                level: [{
+                        des: '发射一颗巨大的烈焰巨石，造成法术强度*2点魔法伤害',
+                        ap: { AP: 0.08, },
+                        cost: { MP: 50, },
+                    }, {
+                        des: '发射一颗巨大的烈焰巨石，造成法术强度*2.5点魔法伤害',
+                        ap: { AP: 0.09, },
+                        cost: { MP: 75, },
+                    }, {
+                        des: '发射一颗巨大的烈焰巨石，造成法术强度*3点魔法伤害',
+                        ap: { AP: 0.10, },
+                        cost: { MP: 100, },
+                    }
+                ],
+                tag: ['法术强度']
+            },
+            ability_mage_arcanebarrage: {
+                name: '奥术弹幕',
+                max: 50,
+                iconSrc: "./icons/spell/mage/ability_mage_arcanebarrage.jpg",
+                quality: 1,
+                level: [{
+                        des: '向敌方目标发射1-5发奥术能量箭矢，每发造成法术强度*0.4点魔法伤害。每层奥术充能使伤害提高25%',
+                        ap: { AP: 0.4, },
+                        cost: { MP: 50, },
+                    }, {
+                        des: '向敌方目标发射1-5发奥术能量箭矢，每发造成法术强度*0.43点魔法伤害。每层奥术充能使伤害提高25%',
+                        ap: { AP: 0.43, },
+                        cost: { MP: 75, },
+                    }, {
+                        des: '向敌方目标发射1-5发奥术能量箭矢，每发造成法术强度*0.46点魔法伤害。每层奥术充能使伤害提高25%',
+                        ap: { AP: 0.46, },
+                        cost: { MP: 100, },
+                    }
+                ],
+                tag: ['法术强度']
+            },
+            ability_mage_arcanebarrage: {
+                name: '奥术弹幕',
+                max: 50,
+                iconSrc: "./icons/spell/mage/ability_mage_arcanebarrage.jpg",
+                quality: 1,
+                level: [{
+                        des: '向敌方目标发射1-5发奥术能量箭矢，每发造成法术强度*0.4点魔法伤害。每层奥术充能使伤害提高25%',
+                        ap: { AP: 0.4, },
+                        cost: { MP: 50, },
+                    }, {
+                        des: '向敌方目标发射1-5发奥术能量箭矢，每发造成法术强度*0.43点魔法伤害。每层奥术充能使伤害提高25%',
+                        ap: { AP: 0.43, },
+                        cost: { MP: 75, },
+                    }, {
+                        des: '向敌方目标发射1-5发奥术能量箭矢，每发造成法术强度*0.46点魔法伤害。每层奥术充能使伤害提高25%',
+                        ap: { AP: 0.46, },
+                        cost: { MP: 100, },
+                    }
+                ],
+                tag: ['法术强度']
+            },
+            spell_ice_lament: {
+                name: '寒冰护体',
+                max: 50,
+                iconSrc: "./icons/spell/mage/spell_ice_lament.jpg",
+                quality: 1,
+                level: [{
+                        des: '为你施加寒冰护盾，吸收0.2*最大生命值*(1+全能*0.1)点伤害',
+                        cost: { MP: 40, },
+                    }, {
+                        des: '为你施加寒冰护盾，吸收0.25*最大生命值*(1+全能*0.1)点伤害',
+                        cost: { MP: 60, },
+                    }, {
+                        des: '为你施加寒冰护盾，吸收0.3*最大生命值*(1+全能*0.1)点伤害',
+                        cost: { MP: 80, },
+                    }
+                ],
+                tag: []
+            },
+            spell_arcane_blast: {
+                name: '奥术冲击',
+                max: 50,
+                iconSrc: "./icons/spell/mage/spell_arcane_blast.jpg",
+                quality: 1,
+                level: [{
+                        des: '用能量冲击目标，造成法术强度*0.75点魔法伤害。每层奥术充能使伤害提高60%，消耗的法力提高100%，增加3点充能',
+                        ap: { AP: 0.75, },
+                        cost: { MP: 40, },
+                    }, {
+                        des: '用能量冲击目标，造成法术强度*0.8点魔法伤害。每层奥术充能使伤害提高60%，消耗的法力提高100%，增加3点充能',
+                        ap: { AP: 0.8, },
+                        cost: { MP: 50, },
+                    }, {
+                        des: '用能量冲击目标，造成法术强度*0.85点魔法伤害。每层奥术充能使伤害提高60%，消耗的法力提高100%，增加3点充能',
+                        ap: { AP: 0.85, },
+                        cost: { MP: 60, },
+                    }
+                ],
+                tag: ['法术强度']
+            },
+            spell_fire_selfdestruct: {
+                name: '烈焰风暴',
+                max: 50,
+                iconSrc: "./icons/spell/mage/spell_fire_selfdestruct.jpg",
+                quality: 1,
+                level: [{
+                        des: '对目标造成目标当前生命值*0.1点魔法伤害，并附加2层灼伤效果',
+                        ap: { CURHP: 0.1, },
+                        effect: {burn: {stack: 2, chance: 100, target: 'enemy'},},
+                        cost: { MP: 40, },
+                    }, {
+                        des: '对目标造成目标当前生命值*0.12点魔法伤害，并附加2层灼伤效果',
+                        ap: { CURHP: 0.12, },
+                        effect: {burn: {stack: 2, chance: 100, target: 'enemy'},},
+                        cost: { MP: 50, },
+                    }, {
+                        des: '对目标造成目标当前生命值*0.15点魔法伤害，并附加2层灼伤效果',
+                        ap: { CURHP: 0.15, },
+                        effect: {burn: {stack: 2, chance: 100, target: 'enemy'},},
+                        cost: { MP: 60, },
+                    }
+                ],
+                tag: ['法术强度']
+            },
+            spell_nature_starfall: {
+                name: '奥术飞弹',
+                max: 50,
+                iconSrc: "./icons/spell/mage/spell_nature_starfall.jpg",
+                quality: 1,
+                level: [{
+                        des: '向敌人射出五波奥术飞弹，每发造成法术强度*0.2点魔法伤害。每层奥术充能额外发射一波奥术飞弹',
+                        ap: { AP: 0.2, },
+                        cost: { MP: 40, },
+                    }, {
+                        des: '向敌人射出五波奥术飞弹，每发造成法术强度*0.21点魔法伤害。每层奥术充能额外发射一波奥术飞弹',
+                        ap: { AP: 0.21, },
+                        cost: { MP: 50, },
+                    }, {
+                        des: '向敌人射出五波奥术飞弹，每发造成法术强度*0.22点魔法伤害。每层奥术充能额外发射一波奥术飞弹',
+                        ap: { AP: 0.22, },
+                        cost: { MP: 60, },
+                    }
+                ],
+                tag: ['法术强度']
+            },
+            spell_frost_coldhearted: {
+                name: '冰冷血脉',
+                max: 50,
+                iconSrc: "./icons/spell/mage/spell_frost_coldhearted.jpg",
+                quality: 1,
+                level: [{
+                        des: '加快你的施法速度，使你的急速提高30，持续20秒',
+                        cost: { MP: 100, },
+                    }
+                ],
+                tag: []
+            },
+            spell_frost_wizardmark: {
+                name: '急速冷却',
+                max: 75,
+                iconSrc: "./icons/spell/mage/spell_frost_wizardmark.jpg",
+                quality: 1,
+                level: [{
+                        des: '将暴风雪、寒冰护体、冰霜新星、冰锥术和寒冰屏障完全充能',
+                        cost: { MP: 100, },
+                    }
+                ],
+                tag: []
+            },
+            spell_frost_iceshock: {
+                name: '法术反制',
+                max: 30,
+                iconSrc: "./icons/spell/mage/spell_frost_iceshock.jpg",
+                quality: 1,
+                level: [{
+                        des: '为目标附加三层沉默，使其无法释放技能',
+                        cost: { MP: 50, },
+                    }
+                ],
+                tag: []
+            },
+            spell_mage_icenova: {
+                name: '大法师之触',
+                max: 100,
+                iconSrc: "./icons/spell/mage/spell_mage_icenova.jpg",
+                quality: 1,
+                level: [{
+                        des: '对你当前的目标施加大法师之触，在8秒后目标将受到期间受到的伤害总量*0.25点魔法伤害',
+                        cost: { MP: 200, },
+                    }
+                ],
+                tag: []
+            },
+            spell_nature_purge: {
+                name: '唤醒',
+                max: 30,
+                iconSrc: "./icons/spell/mage/spell_nature_purge.jpg",
+                quality: 1,
+                level: [{
+                        des: '恢复法力回复速度*30点魔法值',
+                        cost: { },
+                    },{
+                        des: '恢复法力回复速度*40点魔法值',
+                        cost: {  },
+                    },{
+                        des: '恢复法力回复速度*50点魔法值',
+                        cost: {  },
+                    }
+                ],
+                tag: []
+            },
+            spell_fire_sealoffire: {
+                name: '燃烧',
+                max: 120,
+                iconSrc: "./icons/spell/mage/spell_fire_sealoffire.jpg",
+                quality: 1,
+                level: [{
+                        des: '将自身包裹在烈焰之中，短时间内使你的法术爆击几率提高100%，持续10秒',
+                        cost: { MP: 200, },
+                    }
+                ],
+                tag: []
+            },
+            ability_mage_timewarp: {
+                name: '时间扭曲',
+                max: 150,
+                iconSrc: "./icons/spell/mage/spell_fire_sealoffire.jpg",
+                quality: 1,
+                level: [{
+                        des: '将所有其他技能完全充能',
+                        cost: { MP: 500, },
+                    }
+                ],
+                tag: []
+            },              
+        }
     }
 },
 }
