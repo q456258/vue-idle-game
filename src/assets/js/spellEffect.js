@@ -130,32 +130,42 @@ export const spellEffect = {
             let attr = this.playerAttr.attribute;
             let spellLv = this.playerAttr.spells[spell].lv-1;
             let costs = this.spell[spell].level[spellLv];
-            let talent = 'ability_warrior_intensifyrage';
+            let talent;
             for(let cost in costs.cost) {
+                let actualCost = costs.cost[cost];
                 switch(cost) {
                     case 'HP':
-                        this.hpChange(this.playerAttr, this.playerAttr, -1*costs.cost[cost]);
+                        this.hpChange(this.playerAttr, this.playerAttr, -1*actualCost);
                         break;
                     case 'CURHP':
                     case 'MAXHP':
-                        this.hpChange(this.playerAttr, this.playerAttr, -1*costs.cost[cost]*attr[cost].value);
+                        this.hpChange(this.playerAttr, this.playerAttr, -1*actualCost*attr[cost].value);
                         break;
                     case 'MP':
                         if(this.buffReduce(this.playerAttr, this.playerAttr, 'focus'))
                             break;
+                        talent = 'ability_socererking_arcanefortification';
                         if(this.playerAttr.talent[talent] > 0)
-                            this.hpChange(this.playerAttr, this.playerAttr, -1*costs.cost[cost]);
+                            actualCost *= (1-this.playerAttr.talent[talent]*0.01);
+                        console.log(actualCost)
+                        talent = 'ability_warrior_intensifyrage';
+                        if(this.playerAttr.talent[talent] > 0)
+                            this.hpChange(this.playerAttr, this.playerAttr, -1*actualCost);
                         else
-                            this.mpChange(this.playerAttr, this.playerAttr, -1*costs.cost[cost]);
+                            this.mpChange(this.playerAttr, this.playerAttr, -1*actualCost);
                         break;
                     case 'CURMP':
                     case 'MAXMP':
                         if(this.buffReduce(this.playerAttr, this.playerAttr, 'focus'))
                             break;
+                        talent = 'ability_socererking_arcanefortification';
                         if(this.playerAttr.talent[talent] > 0)
-                            this.hpChange(this.playerAttr, this.playerAttr, -1*costs.cost[cost]*attr[cost].value);
+                            actualCost *= (1-this.playerAttr.talent[talent]*0.01);
+                        talent = 'ability_warrior_intensifyrage';
+                        if(this.playerAttr.talent[talent] > 0)
+                            this.hpChange(this.playerAttr, this.playerAttr, -1*actualCost*attr[cost].value);
                         else
-                            this.mpChange(this.playerAttr, this.playerAttr, -1*costs.cost[cost]*attr[cost].value);
+                            this.mpChange(this.playerAttr, this.playerAttr, -1*actualCost*attr[cost].value);
                         break;
                 }
             }
