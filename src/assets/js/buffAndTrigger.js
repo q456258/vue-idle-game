@@ -4,6 +4,8 @@ export const buffAndTrigger = {
     data() {
         return {
             centralTimer: 0,
+            playerTimers: [],
+            enemyTimers: []
         }
     },
     mounted() {
@@ -137,6 +139,7 @@ export const buffAndTrigger = {
             }
             let timer = setInterval(() => {
                 if(!this.buffReduce(target, target, type, 1)) {
+                    this.removeFromTimerList(target.type, timer);
                     clearInterval(timer);
                     return;
                 }
@@ -146,6 +149,31 @@ export const buffAndTrigger = {
                         break;
                 }
             }, gap);
+            this.addToTimerList(target.type, timer);
+        },
+        addToTimerList(type, timer) {
+            if(type == 'player')
+                this.playerTimers.push(timer);
+            else
+                this.enemyTimers.push(timer);
+        },
+        removeFromTimerList(type, timer) {
+            if(type == 'player')
+                this.playerTimers.splice(this.playerTimers.indexOf(timer), 1);
+            else
+                this.enemyTimers.splice(this.enemyTimers.indexOf(timer), 1);
+        },
+        clearTickTimers(type) {
+            if(type == 'player') {
+                for(let i in this.playerTimers)
+                    clearInterval(this.playerTimers[i]);
+                this.playerTimers = []
+            }
+            else {
+                for(let i in this.enemyTimers)
+                    clearInterval(this.enemyTimers[i]);
+                this.enemyTimers = []
+            }
         },
         // 返回新护甲值
         sunder(source, armor) {
@@ -536,11 +564,14 @@ export const buffAndTrigger = {
             // dead/full 等, 跳过乱七八糟的判断
             if(isNaN(data)) {
                 this.$store.commit('set_hp', {data, CURHP, MAXHP});
-                if(source != undefined && data=='dead') {
-                    let slainBy = {};
-                    slainBy[source.name] = 1;
-                    this.$store.commit('set_statistic', {slainBy: slainBy});
-                    this.triggerAfterKilled(source, target);
+                if(data == 'dead') {
+                    this.clearTickTimers(target.type);
+                    if(source != undefined) {
+                        let slainBy = {};
+                        slainBy[source.name] = 1;
+                        this.$store.commit('set_statistic', {slainBy: slainBy});
+                        this.triggerAfterKilled(source, target);
+                    }
                 }
                 return;
             }
@@ -549,6 +580,7 @@ export const buffAndTrigger = {
             if(-1*data >= CURHP.value)
                 data = this.triggerBeforeKilled(source, target, data);
             if(-1*data >= CURHP.value) {
+                this.clearTickTimers(target.type);
                 let slainBy = {};
                 slainBy[source.name] = 1;
                 this.$store.commit('set_statistic', {slainBy: slainBy});
@@ -563,6 +595,8 @@ export const buffAndTrigger = {
             let CURHP = target.attribute.CURHP,
                 MAXHP = target.attribute.MAXHP;
             if(isNaN(data)) {
+                if(data == 'dead')
+                    this.clearTickTimers(target.type);
                 this.$store.commit('set_hp', {data, CURHP, MAXHP});
                 return;
             }
@@ -570,8 +604,10 @@ export const buffAndTrigger = {
                 this.triggerOnHurt(source, target, data);
             if(-1*data >= CURHP.value)
                 data = this.triggerBeforeKilled(source, target, data);
-            if(-1*data >= CURHP.value) 
+            if(-1*data >= CURHP.value)  {
+                this.clearTickTimers(target.type);
                 this.triggerAfterKilled(source, target);
+            }
             this.$store.commit('set_hp', {data, CURHP, MAXHP});
             CURHP.showValue = CURHP.value;
         },    

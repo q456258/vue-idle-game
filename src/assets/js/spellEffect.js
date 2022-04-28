@@ -147,7 +147,6 @@ export const spellEffect = {
                         talent = 'ability_socererking_arcanefortification';
                         if(this.playerAttr.talent[talent] > 0)
                             actualCost *= (1-this.playerAttr.talent[talent]*0.01);
-                        console.log(actualCost)
                         talent = 'ability_warrior_intensifyrage';
                         if(this.playerAttr.talent[talent] > 0)
                             this.hpChange(this.playerAttr, this.playerAttr, -1*actualCost);
@@ -381,6 +380,7 @@ export const spellEffect = {
                 let chance = source.talent[talent]*1;
                 effectList['stun'] = {stack: 1, chance: chance, target: 'enemy'};
             }
+            effectList['burn'] = {stack: 3, chance: 100, target: 'enemy'};
             this.applyDmg(source, target, spell, dmgs);
             this.applyEffect(source, target, effectList);
         },
