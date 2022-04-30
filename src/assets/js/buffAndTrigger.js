@@ -5,7 +5,7 @@ export const buffAndTrigger = {
         return {
             centralTimer: 0,
             playerTimers: [],
-            enemyTimers: []
+            enemyTimers: [],
         }
     },
     mounted() {
@@ -84,22 +84,28 @@ export const buffAndTrigger = {
                 this.buffOnTick(source, target, type);
             if(this.buffCateg.buffer.indexOf(type) == -1) {
                 if(target.buff[type] == undefined) {
-                    this.$set(target.buff, type, stack)
+                    this.setBuff(source, target, type, stack);
                 }
                 else {
-                    this.$set(target.buff, type, target.buff[type]+stack)
+                    this.setBuff(source, target, type, target.buff[type]+stack);
                 }
             }
             else {
                 setTimeout(() => {
                     if(target.buff[type] == undefined) {
-                        this.$set(target.buff, type, stack)
+                        this.setBuff(source, target, type, stack);
                     }
                     else {
-                        this.$set(target.buff, type, target.buff[type]+stack)
+                        this.setBuff(source, target, type, target.buff[type]+stack);
                     }
                 }, 10);
             }
+        },
+        setBuff(source, target, type, stack) {
+            let talent = 'spell_arcane_arcane01'
+            if(type == 'arcCharge')
+                stack = Math.min(stack, source.talent[talent]);
+            this.$set(target.buff, type, stack);
         },
         // 移除buff
         buffRemoved(source, target, type){
@@ -140,7 +146,6 @@ export const buffAndTrigger = {
             let timer = setInterval(() => {
                 if(!this.buffReduce(target, target, type, 1)) {
                     this.removeFromTimerList(target.type, timer);
-                    clearInterval(timer);
                     return;
                 }
                 switch(type) {
@@ -162,6 +167,7 @@ export const buffAndTrigger = {
                 this.playerTimers.splice(this.playerTimers.indexOf(timer), 1);
             else
                 this.enemyTimers.splice(this.enemyTimers.indexOf(timer), 1);
+            clearInterval(timer);
         },
         clearTickTimers(type) {
             if(type == 'player') {
@@ -340,7 +346,7 @@ export const buffAndTrigger = {
         burn(source, target) {
             let burnDmg = target.attribute.MAXHP.value * 0.005;
             let dmgs = {apDmg: Math.round(burnDmg)};
-            this.damage(source, target, dmgs, 'burn');
+            this.damage(source, target, dmgs, '灼伤');
         },
         // 攻击起手触发, source为攻击发起者
         TriggerOnAttack(source, target) {
@@ -402,7 +408,7 @@ export const buffAndTrigger = {
         },
         hpChange(source, target, dmgs, sourceName) {
             this.absorb(target, dmgs);
-            if(dmgs.adDmg || dmgs.apDmg)
+            if(dmgs.adDmg != undefined || dmgs.apDmg != undefined)
                 this.damage(source, target, dmgs, sourceName);
             if(!isNaN(dmgs.heal))
                 this.heal(source, source, this.get_dmg(dmgs, 'heal'), sourceName);
@@ -416,16 +422,16 @@ export const buffAndTrigger = {
             let totalDmg = this.get_dmg(dmgs, 'ad')+this.get_dmg(dmgs, 'ap');
             let dmgType = '伤害';
             let dmgText = ' 0 ';
-            if(this.get_dmg(dmgs, 'ad') > 0) {
+            if(dmgs.adDmg != undefined) {
                 battleAnime.displayText(target.type, "dmg", {adDmg: dmgs.adDmg, apDmg: dmgs.apDmg});
-                if(this.get_dmg(dmgs, 'ap') > 0) {
+                if(dmgs.apDmg != undefined) {
                     dmgText = '<span style="color:#ffffff"> '+(this.get_dmg(dmgs, 'ad')+this.get_dmg(dmgs, 'ap'))
                         +'</span>(<span style="color:#ff0000">'+this.get_dmg(dmgs, 'ad')+'</span>+<span style="color:#2ab0ff">'+this.get_dmg(dmgs, 'ap')+'</span>) ';
                 } else {
                     dmgType = '物理伤害';
                     dmgText = '<span style="color:#ff0000">'+this.get_dmg(dmgs, 'ad')+'</span> ';
                 }
-            } else if (this.get_dmg(dmgs, 'ap') > 0) {
+            } else if (dmgs.apDmg != undefined) {
                 battleAnime.displayText(target.type, "dmg", {apDmg: dmgs.apDmg});
                 dmgType = '魔法伤害';
                 dmgText = '<span style="color:#2ab0ff">'+this.get_dmg(dmgs, 'ap')+'</span> ';
