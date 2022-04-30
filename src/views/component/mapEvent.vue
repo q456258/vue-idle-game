@@ -69,7 +69,6 @@
 
 
 import { spellEffect } from '../../assets/js/spellEffect';
-import { buffAndTrigger } from '../../assets/js/buffAndTrigger';
 import { monsterConfig } from '@/assets/config/monsterConfig'
 import { spellConfig } from '@/assets/config/spellConfig'
 import { buffConfig } from '@/assets/config/buffConfig'
@@ -77,7 +76,7 @@ import minesweeper from '../component/minesweeper';
 import battleAnime from '../component/battleAnime';
 export default {
     name: 'mapEvent',
-    mixins: [spellEffect, buffAndTrigger, monsterConfig, spellConfig, buffConfig],
+    mixins: [spellEffect, monsterConfig, spellConfig, buffConfig],
     components: {minesweeper, battleAnime},
     props: {
     },
@@ -198,6 +197,7 @@ export default {
             return true;
         },
         enemyAction(source, target, battleID) {
+            let index = this.$store.globalComponent["index"];
             if(!this.dungeonInfo.inBattle || this.battleID != battleID)
                 return false;
             this.onAttack(source, target);
@@ -208,7 +208,7 @@ export default {
             if(target.attribute.CURHP.value == 0) {
                 let achievement = this.$store.globalComponent["achievement"];
                 achievement.set_statistic({death: 1});
-                this.set_enemy_hp('dead');
+                index.set_enemy_hp('dead');
                 this.setBattleStatus(false, false);
                 this.$store.commit("set_battle_info", {
                     type: 'lose',
@@ -262,13 +262,14 @@ export default {
                 this.dungeonInfo.auto = auto;
         },
         setBattleStatus(inBattle, auto=true, immediate=false) {
+            let index = this.$store.globalComponent["index"];
             this.playerAttr.attribute.SHIELD =  { baseVal: 0, value: 0, showbaseVal: 0};
             if(immediate || inBattle) {
                 this.dungeonInfo.inBattle = inBattle;
                 if(!inBattle) {
                     clearInterval(this.battleTimer);
                     this.autoBattle(auto);
-                    this.set_enemy_hp('dead');
+                    index.set_enemy_hp('dead');
                 }
             }
             else {
@@ -277,7 +278,7 @@ export default {
                     if(!inBattle) {
                         clearInterval(this.battleTimer);
                         this.autoBattle(auto);
-                        this.set_enemy_hp('dead');
+                        index.set_enemy_hp('dead');
                     }
                 }, 1000);
             }
@@ -385,7 +386,8 @@ export default {
             this.$store.commit('set_enemy_attribute', enemyAttribute);
         },
         onAttack(source, target) {
-            this.TriggerOnAttack(source, target);
+            let index = this.$store.globalComponent["index"];
+            index.TriggerOnAttack(source, target);
             if(source.type == 'player') {
                 let spellList = this.playerAttr.spells;
                 let haste = this.playerAttr.attribute.HASTE.value;

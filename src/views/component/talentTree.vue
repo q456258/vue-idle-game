@@ -59,13 +59,12 @@
 <script>
 
 import { talentConfig } from '../../assets/config/talentConfig';
-import { buffAndTrigger } from '../../assets/js/buffAndTrigger';
 import draggable from '../uiComponent/draggable';
 export default {    
     name: 'talentTree',
     props: {
     },
-    mixins: [talentConfig, buffAndTrigger],
+    mixins: [talentConfig],
     components: {draggable},
     data() {
         return {
@@ -162,7 +161,7 @@ export default {
                 this.player.talentPoint -= val;
                 this.setStatus(branch);
                 this.setStatus('generalBranch');
-                this.talentChange(target);
+                this.talentChange(target.type);
             }
         },
         rightClick(e, k, branch, val=-1) {
@@ -236,6 +235,24 @@ export default {
                 case 'spell_frost_frostbolt02':
                 case 'inv_misc_food_73cinnamonroll':
                 case 'inv_misc_gem_sapphire_02':
+                case 'spell_fire_flamebolt':
+                case 'spell_frost_icestorm':
+                case 'spell_fire_soulburn':
+                case 'ability_warlock_burningembersblue':
+                case 'spell_fire_fireball02':
+                case 'ability_mage_arcanebarrage':
+                case 'ability_mage_arcanebarrage':
+                case 'spell_ice_lament':
+                case 'spell_arcane_blast':
+                case 'spell_fire_selfdestruct':
+                case 'spell_nature_starfall':
+                case 'spell_frost_coldhearted':
+                case 'spell_frost_wizardmark':
+                case 'spell_frost_iceshock':
+                case 'spell_mage_icenova':
+                case 'spell_nature_purge':
+                case 'spell_fire_sealoffire':
+                case 'ability_mage_timewarp':
                     this.learnSpell(talent);
                     break;
             }
@@ -257,14 +274,15 @@ export default {
             charInfo.dmgFilterSelected = temp;
         },
         talentTrigger(type) {
+            let index = this.$store.globalComponent["index"];
             let lv = this.playerTalent[type];
             let attr = this.player.attribute;
             switch(type) {
                 case 'spell_deathknight_bloodpresence':
-                    this.hpChange(this.player, this.player, Math.ceil((attr.MAXHP.value-attr.CURHP.value)*lv*0.05));
+                    index.hpChange(this.player, this.player, Math.ceil((attr.MAXHP.value-attr.CURHP.value)*lv*0.05));
                     break;
                 case 'spell_deathknight_frostpresence':
-                    this.mpChange(this.player, this.player, Math.ceil((attr.MAXMP.value-attr.CURMP.value)*lv*0.05));
+                    index.mpChange(this.player, this.player, Math.ceil((attr.MAXMP.value-attr.CURMP.value)*lv*0.05));
                     break;
             }
         }

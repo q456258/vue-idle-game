@@ -1,7 +1,6 @@
 import { itemConfig } from '@/assets/config/itemConfig';
-import { buffAndTrigger } from '@/assets/js/buffAndTrigger';
 export const itemEffect = {
-    mixins: [itemConfig, buffAndTrigger],
+    mixins: [itemConfig],
     data() {
         return {
         }
@@ -359,21 +358,24 @@ export const itemEffect = {
             return true;
         },
         instaHpPotion(value, sourceName) {
+            let index = this.$store.globalComponent["index"];
             let player = this.$store.state.playerAttribute;
-            this.hpChange(player, player, {heal: value}, sourceName);
+            index.hpChange(player, player, {heal: value}, sourceName);
         },
         instaMpPotion(value, sourceName) {
+            let index = this.$store.globalComponent["index"];
             let player = this.$store.state.playerAttribute;
-            this.mpChange(player, player, value, sourceName);
+            index.mpChange(player, player, value, sourceName);
         },
         durationHpPotion(value, gap, duration, type) {
+            let index = this.$store.globalComponent["index"];
             let player = this.$store.state.playerAttribute;
             let timer;
             timer = setInterval(() => {
                 let newValue = value;
                 if(type == 'maxPercent')
                     newValue = Math.ceil(player.attribute.MAXHP.value*value/100);
-                this.hpChange(player, player, {heal: newValue});
+                    index.hpChange(player, player, {heal: newValue});
                 duration -= gap;
                 if(duration < 0) {
                     clearInterval(timer);
@@ -381,13 +383,14 @@ export const itemEffect = {
             }, gap*1000);
         },
         durationMpPotion(value, gap, duration, type) {
+            let index = this.$store.globalComponent["index"];
             let player = this.$store.state.playerAttribute;
             let timer;
             timer = setInterval(() => {
                 let newValue = value;
                 if(type == 'maxPercent')
                     newValue = Math.ceil(player.attribute.MAXMP.value*value/100);
-                this.mpChange(player, player, newValue);
+                index.mpChange(player, player, newValue);
                 duration -= gap;
                 if(duration < 0) {
                     clearInterval(timer);

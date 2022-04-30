@@ -594,7 +594,6 @@ import cTooltip from '../uiComponent/tooltip';
 import hpmpBar from '../uiComponent/hpmpBar';
 import currency from '../uiComponent/currency';
 
-import { buffAndTrigger } from '../../assets/js/buffAndTrigger';
 import {itemConfig} from '@/assets/config/itemConfig';
 import {spellConfig} from '@/assets/config/spellConfig';
 import {equipConfig} from '@/assets/config/equipConfig';
@@ -603,7 +602,7 @@ import Saveload from './saveload.vue';
 
 export default {
     name: "charInfo",
-    mixins: [buffAndTrigger, itemConfig, spellConfig, equipConfig, buffConfig],
+    mixins: [itemConfig, spellConfig, equipConfig, buffConfig],
     components: {cTooltip, hpmpBar, Saveload, currency},
     data() {
         return {
