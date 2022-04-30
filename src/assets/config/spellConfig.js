@@ -1150,6 +1150,18 @@ data() {
                 ],
                 tag: []
             },
+            spell_shadow_detectlesserinvisibility: {
+                name: '法力护盾',
+                max: 20,
+                iconSrc: "./icons/spell/mage/spell_shadow_detectlesserinvisibility.jpg",
+                quality: 1,
+                level: [{
+                        des: '制造一个护盾，使用魔法值抵消受到的伤害，每点魔法值可抵消一点伤害，持续10秒',
+                        cost: { MP: 40, },
+                    }
+                ],
+                tag: []
+            },
             spell_arcane_blast: {
                 name: '奥术冲击',
                 max: 50,

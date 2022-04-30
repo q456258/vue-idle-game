@@ -253,6 +253,8 @@ export default {
                 case 'spell_nature_purge':
                 case 'spell_fire_sealoffire':
                 case 'ability_mage_timewarp':
+                case 'spell_ice_lament':
+                case 'spell_shadow_detectlesserinvisibility':
                     this.learnSpell(talent);
                     break;
             }

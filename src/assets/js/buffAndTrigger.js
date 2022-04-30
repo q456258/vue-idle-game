@@ -480,6 +480,7 @@ export const buffAndTrigger = {
             }
         },
         shield(source, target, shield, sourceName) {
+            shield = Math.round(shield);
             if(target.attribute.SHIELD.value == undefined)
                 target.attribute.SHIELD.value = shield;
             else 

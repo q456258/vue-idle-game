@@ -78,10 +78,10 @@ export const spellEffect = {
                     this.spell_warlock_soulburn(source, target, spell);
                     break;
                 case 'inv_misc_food_73cinnamonroll':
-                    this.inv_misc_food_73cinnamonroll(source, target, spell);
+                    this.inv_misc_food_73cinnamonroll(source, source, spell);
                     break;
                 case 'inv_misc_gem_sapphire_02':
-                    this.inv_misc_gem_sapphire_02(source, target, spell);
+                    this.inv_misc_gem_sapphire_02(source, source, spell);
                     break;
                 case 'spell_frost_icestorm':
                     this.spell_frost_icestorm(source, target, spell);
@@ -89,6 +89,13 @@ export const spellEffect = {
                 case 'ability_warlock_burningembersblue':
                     this.ability_warlock_burningembersblue(source, target, spell);
                     break;
+                case 'spell_ice_lament':
+                    this.spell_ice_lament(source, source, spell);
+                    break;
+                case 'spell_shadow_detectlesserinvisibility':
+                    this.spell_shadow_detectlesserinvisibility(source, source, spell);
+                    break;
+                    
                 default:
                     this.generalSpell(source, target, spell);
                     break;
@@ -224,6 +231,10 @@ export const spellEffect = {
         applyDmg(source, target, spell, dmgs) {
             let index = this.$store.globalComponent["index"];
             let spellInfo = this.spell[spell];
+            
+            if(target.buff['manaShield'] != undefined) {
+                this.manaShield(source, target, dmgs);
+            }
             // 物理
             this.applyAdReducedDmg(source, target, dmgs);
             this.applyCrit(source, dmgs, spell);
@@ -588,5 +599,33 @@ export const spellEffect = {
             this.applyDmg(source, target, spell, dmg);
             this.applyEffect(source, target, effectList);
         },
+        // 寒冰护体
+        spell_ice_lament(source, target, spell) {
+            let index = this.$store.globalComponent["index"];
+            let shield = source.attribute.MAXHP.value*(0.15+source.spells[spell].lv*0.05)*(1+source.attribute.VERS.value*0.1);
+            index.shield(source, target, shield, spell);
+        },
+        // 法力护盾
+        spell_shadow_detectlesserinvisibility(source, target, spell) {
+            let effectList = {};
+            effectList['manaShield'] = {stack: 10, chance: 100, target: 'self'};
+            this.applyEffect(source, target, effectList);
+        },
+        manaShield(source, target, dmgs) {
+            console.log(dmgs)
+            let index = this.$store.globalComponent["index"];
+            let curMana = target.attribute.CURMP.value;
+            let manaCost = 0;
+            let min = Math.min(index.get_dmg(dmgs, 'ad'), curMana);
+            index.set_ad_dmg(dmgs, index.get_dmg(dmgs, 'ad')-min);
+            manaCost -= min;
+            curMana -= min;
+
+            min = Math.min(index.get_dmg(dmgs, 'ap'), curMana);
+            index.set_ap_dmg(dmgs, index.get_dmg(dmgs, 'ap')-min);
+            manaCost -= min;
+
+            index.mpChange(target, target, manaCost);
+        }
     }
 }

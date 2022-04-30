@@ -3,7 +3,7 @@ data() {
     return {
         buffCateg: {
             buffer: ['sunder', 'penetrate', 'lifesteal', 'manasteal','charge','deathImmune','void','absorb','hell','focus','arcCharge'],
-            timed: ['minionSlayer'],
+            timed: ['minionSlayer', 'manaShield'],
             onTick: ['burn']
         },
         buffType: {
@@ -73,8 +73,13 @@ data() {
                     cleanse: false,
                     stacked: true,
                     iconSrc: "./icons/spell/mage/spell_arcane_arcane01.jpg",
-                    desc: "奥术充能: 加强奥术技能",
-                    max: 0
+                    desc: "奥术充能: 加强奥术技能"
+                },
+                manaShield: {
+                    cleanse: false,
+                    stacked: false,
+                    iconSrc: "./icons/spell/mage/spell_shadow_detectlesserinvisibility.jpg",
+                    desc: "法力护盾: 使用魔法值抵消受到的伤害，每点魔法值可抵消一点伤害"
                 },
                 void: {
                     cleanse: true,
