@@ -317,7 +317,7 @@ export default new Vuex.Store({
             BLOCK: 0,
             AP: 0,
             APCRIT: 0,
-            APCRITDMG: 0,
+            APCRITDMG: 150,
             APPEN: 0,
             MR: 0,
             HASTE: 0,
