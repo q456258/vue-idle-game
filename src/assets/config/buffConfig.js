@@ -2,7 +2,7 @@ export const buffConfig = {
 data() {
     return {
         buffCateg: {
-            buffer: ['sunder', 'penetrate', 'lifesteal', 'manasteal','charge','deathImmune','void','absorb','hell','focus'],
+            buffer: ['sunder', 'penetrate', 'lifesteal', 'manasteal','charge','deathImmune','void','absorb','hell','focus','arcCharge'],
             timed: ['minionSlayer'],
             onTick: ['burn']
         },
@@ -68,6 +68,13 @@ data() {
                     stacked: true,
                     iconSrc: "./icons/spell/mage/spell_shadow_manaburn.jpg",
                     desc: "专注: 下一个技能不消耗任何魔法值"
+                },
+                arcCharge: {
+                    cleanse: false,
+                    stacked: true,
+                    iconSrc: "./icons/spell/mage/spell_arcane_arcane01.jpg",
+                    desc: "奥术充能: 加强奥术技能",
+                    max: 0
                 },
                 void: {
                     cleanse: true,
