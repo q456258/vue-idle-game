@@ -53,7 +53,7 @@ data() {
                 ],
                 tag: ['法伤']
             },
-            spell_nature_thunderclap: {
+            spell_nature_thunderclapDmg: {
                 name: '雷霆一击',
                 max: 10,
                 iconSrc: "./icons/spell/spell_nature_thunderclap.jpg",
@@ -119,7 +119,7 @@ data() {
             },
             ability_whirlwind: {
                 name: '剑刃风暴',
-                max: 10,
+                max: 100,
                 iconSrc: "./icons/spell/ability_whirlwind.jpg",
                 quality: 1,
                 level: [{
@@ -256,19 +256,19 @@ data() {
                 level: [{
                         des: '恢复1000点生命值',
                         adDmg: {},
-                        ap: {},
+                        apDmg: {},
                         heal: { FIX: 1000 },
                         cost: { MP: 50, },
                     }, {
                         des: '恢复3000点生命值',
                         adDmg: {},
-                        ap: {},
+                        apDmg: {},
                         heal: { FIX: 3000 },
                         cost: { MP: 75, },
                     }, {
                         des: '恢复6000点生命值',
                         adDmg: {},
-                        ap: {},
+                        apDmg: {},
                         heal: { FIX: 6000 },
                         cost: { MP: 100, },
                     }
@@ -349,25 +349,25 @@ data() {
                 level: [{
                         des: '恢复自身1000+10%最大生命值',
                         adDmg: {},
-                        ap: {},
+                        apDmg: {},
                         heal: { FIX: 1000, MAXHP: 0.1 },
                         cost: { MP: 100, },
                     }, {
                         des: '恢复自身2000+12%最大生命值',
                         adDmg: {},
-                        ap: {},
+                        apDmg: {},
                         heal: { FIX: 2000, MAXHP: 0.12 },
                         cost: { MP: 200, },
                     }, {
                         des: '恢复自身3000+15%最大生命值',
                         adDmg: {},
-                        ap: {},
+                        apDmg: {},
                         heal: { FIX: 3000, MAXHP: 0.15 },
                         cost: { MP: 300, },
                     }, {
                         des: '恢复自身4000+17%最大生命值',
                         adDmg: {},
-                        ap: {},
+                        apDmg: {},
                         heal: { FIX: 4000, MAXHP: 0.17 },
                         cost: { MP: 400, },
                     }
@@ -423,17 +423,17 @@ data() {
             //     level: [{
             //             des: '造成元素伤害*2点元素伤害',
             //             adDmg: {},
-            //             ap: { AP: 2 },
+            //             apDmg: { AP: 2 },
             //             cost: { MP: 4000, },
             //         }, {
             //             des: '造成元素伤害*2.5点元素伤害',
             //             adDmg: {},
-            //             ap: { AP: 2.5 },
+            //             apDmg: { AP: 2.5 },
             //             cost: { MP: 10000, },
             //         }, {
             //             des: '造成元素伤害*3点元素伤害',
             //             adDmg: {},
-            //             ap: { AP: 3 },
+            //             apDmg: { AP: 3 },
             //             cost: { MP: 30000, },
             //         }
             //     ],
@@ -457,13 +457,13 @@ data() {
                 level: [{
                         des: '获得两层虚无效果',
                         adDmg: {},
-                        ap: {},
+                        apDmg: {},
                         effect: { void: {stack: 2, chance: 100, target: 'self'} },
                         cost: { MP: 400, },
                     }, {
                         des: '获得三层虚无效果',
                         adDmg: {},
-                        ap: {},
+                        apDmg: {},
                         effect: { void: {stack: 3, chance: 100, target: 'self'} },
                         cost: { MP: 1000, },
                     }
@@ -480,13 +480,13 @@ data() {
                 level: [{
                         des: '恢复最大魔法值*0.5点生命值, 100%获得一层蓄力效果',
                         adDmg: {},
-                        ap: {},
+                        apDmg: {},
                         heal: { MAXMP: 0.5 },
                         cost: { MP: 0, },
                     }, {
                         des: '恢复最大魔法值*0.7点生命值, 100%获得一层蓄力效果',
                         adDmg: {},
-                        ap: {},
+                        apDmg: {},
                         heal: { MAXMP: 0.7 },
                         cost: { MP: 0, },
                     }
@@ -511,13 +511,13 @@ data() {
                 level: [{
                         des: '获得两层吸蓝效果',
                         adDmg: {},
-                        ap: {},
+                        apDmg: {},
                         effect: { manasteal: {stack: 2, chance: 100, target: 'self'} },
                         cost: { MP: 50, },
                     }, {
                         des: '获得三层吸蓝效果',
                         adDmg: {},
-                        ap: {},
+                        apDmg: {},
                         effect: { manasteal: {stack: 3, chance: 100, target: 'self'} },
                         cost: { MP: 100, },
                     }
@@ -534,25 +534,25 @@ data() {
                 level: [{
                         des: '造成攻击力*0.8点伤害, 50%对敌人附加一层虚弱效果',
                         adDmg: { ATK: 0.8},
-                        ap: {},
+                        apDmg: {},
                         effect: { weak: {stack: 1, chance: 50, target: 'enemy'} },
                         cost: { MP: 100, },
                     }, {
                         des: '造成攻击力*0.9点伤害, 50%对敌人附加一层虚弱效果',
                         adDmg: { ATK: 0.9},
-                        ap: {},
+                        apDmg: {},
                         effect: { weak: {stack: 1, chance: 50, target: 'enemy'} },
                         cost: { MP: 200, },
                     }, {
                         des: '造成攻击力*1点伤害, 50%对敌人附加一层虚弱效果',
                         adDmg: { ATK: 1},
-                        ap: {},
+                        apDmg: {},
                         effect: { weak: {stack: 1, chance: 50, target: 'enemy'} },
                         cost: { MP: 300, },
                     }, {
                         des: '造成攻击力*1.1点伤害, 50%对敌人附加一层虚弱效果',
                         adDmg: { ATK: 1.1},
-                        ap: {},
+                        apDmg: {},
                         effect: { weak: {stack: 1, chance: 50, target: 'enemy'} },
                         cost: { MP: 400, },
                     }
@@ -569,21 +569,21 @@ data() {
                 level: [{
                         des: '获得一层吸蓝效果和一层蓄力效果',
                         adDmg: {},
-                        ap: {},
+                        apDmg: {},
                         effect: { manasteal: {stack: 1, chance: 100, target: 'self'},
                                 charge: {stack: 1, chance: 100, target: 'self'} },
                         cost: { MP: 0, },
                     }, {
                         des: '获得两层吸蓝效果和一层蓄力效果',
                         adDmg: {},
-                        ap: {},
+                        apDmg: {},
                         effect: { manasteal: {stack: 2, chance: 100, target: 'self'},
                                 charge: {stack: 1, chance: 100, target: 'self'} },
                         cost: { MP: 0, },
                     }, {
                         des: '获得两层吸蓝效果和两层蓄力效果',
                         adDmg: {},
-                        ap: {},
+                        apDmg: {},
                         effect: { manasteal: {stack: 2, chance: 100, target: 'self'},
                                 charge: {stack: 2, chance: 100, target: 'self'} },
                         cost: { MP: 0, },
@@ -659,7 +659,7 @@ data() {
             //     level: [{
             //             des: '造成10*元素伤害点元素伤害',
             //             adDmg: {},
-            //             ap: {AP: 10},
+            //             apDmg: {AP: 10},
             //             cost: { MAXHP: 1, },
             //         }
             //     ],
@@ -743,21 +743,21 @@ data() {
                 level: [{
                         des: '获得一层虚无效果和一层蓄力效果',
                         adDmg: {},
-                        ap: {},
+                        apDmg: {},
                         effect: { void: {stack: 1, chance: 100, target: 'self'},
                                 charge: {stack: 1, chance: 100, target: 'self'} },
                         cost: { MP: 50, },
                     }, {
                         des: '获得两层虚无效果和一层蓄力效果',
                         adDmg: {},
-                        ap: {},
+                        apDmg: {},
                         effect: { void: {stack: 2, chance: 100, target: 'self'},
                                 charge: {stack: 1, chance: 100, target: 'self'} },
                         cost: { MP: 100, },
                     }, {
                         des: '获得三层虚无效果和一层蓄力效果',
                         adDmg: {},
-                        ap: {},
+                        apDmg: {},
                         effect: { void: {stack: 3, chance: 100, target: 'self'},
                                 charge: {stack: 1, chance: 100, target: 'self'} },
                         cost: { MP: 150, },
@@ -775,13 +775,13 @@ data() {
                 level: [{
                         des: '恢复自身所有生命值',
                         adDmg: {},
-                        ap: {},
+                        apDmg: {},
                         heal: { MAXHP: 1 },
                         cost: { CURMP: 1, },
                     }, {
                         des: '恢复自身所有生命值',
                         adDmg: {},
-                        ap: {},
+                        apDmg: {},
                         heal: { MAXHP: 1 },
                         cost: { CURMP: 0.9, },
                     }
@@ -860,7 +860,7 @@ data() {
                 level: [{
                         des: '获得一层破甲、穿透、吸血、蓄力',
                         adDmg: {},
-                        ap: {},
+                        apDmg: {},
                         effect: {sunder: {stack: 1, chance: 100, target: 'self'},
                                 penetrate: {stack: 1, chance: 100, target: 'self'} ,
                                 lifesteal: {stack: 1, chance: 100, target: 'self'} ,
@@ -869,7 +869,7 @@ data() {
                     }, {
                         des: '获得两层破甲、穿透、吸血、蓄力',
                         adDmg: {},
-                        ap: {},
+                        apDmg: {},
                         effect: {sunder: {stack: 2, chance: 100, target: 'self'},
                                 penetrate: {stack: 2, chance: 100, target: 'self'} ,
                                 lifesteal: {stack: 2, chance: 100, target: 'self'} ,
@@ -923,7 +923,7 @@ data() {
                 level: [{
                         des: '获得一层吸血、吸蓝、蓄力、死亡免疫、虚无、吸收',
                         adDmg: {},
-                        ap: {},
+                        apDmg: {},
                         effect: {lifesteal: {stack: 1, chance: 100, target: 'self'},
                                 manasteal: {stack: 1, chance: 100, target: 'self'} ,
                                 charge: {stack: 1, chance: 100, target: 'self'} ,
@@ -934,7 +934,7 @@ data() {
                     }, {
                         des: '获得一层吸血、吸蓝、蓄力、死亡免疫、虚无、吸收',
                         adDmg: {},
-                        ap: {},
+                        apDmg: {},
                         effect: {lifesteal: {stack: 1, chance: 100, target: 'self'},
                                 manasteal: {stack: 1, chance: 100, target: 'self'} ,
                                 charge: {stack: 1, chance: 100, target: 'self'} ,
@@ -979,44 +979,19 @@ data() {
                 quality: 1,
                 level: [{
                         des: '投出一枚火球，造成法术强度*1.1点魔法伤害',
-                        adDmg: { AP: 1.1, },
+                        apDmg: { AP: 1.1, },
                         cost: { MP: 40, },
                     }, {
                         des: '投出一枚火球，造成法术强度*1.15点魔法伤害',
-                        adDmg: { AP: 1.15, },
+                        apDmg: { AP: 1.15, },
                         cost: { MP: 60, },
                     }, {
                         des: '投出一枚火球，造成法术强度*1.2点魔法伤害',
-                        adDmg: { AP: 1.2, },
+                        apDmg: { AP: 1.2, },
                         cost: { MP: 80, },
                     }, {
                         des: '投出一枚火球，造成法术强度*1.25点魔法伤害',
-                        adDmg: { AP: 1.25, },
-                        cost: { MP: 100, },
-                    }
-                ],
-                tag: ['法术强度']
-            },
-            spell_fire_flamebolt: {
-                name: '火球术',
-                max: 10,
-                iconSrc: "./icons/spell/mage/spell_fire_flamebolt.jpg",
-                quality: 1,
-                level: [{
-                        des: '投出一枚火球，造成法术强度*1.1点魔法伤害',
-                        adDmg: { AP: 1.1, },
-                        cost: { MP: 40, },
-                    }, {
-                        des: '投出一枚火球，造成法术强度*1.15点魔法伤害',
-                        adDmg: { AP: 1.15, },
-                        cost: { MP: 60, },
-                    }, {
-                        des: '投出一枚火球，造成法术强度*1.2点魔法伤害',
-                        adDmg: { AP: 1.2, },
-                        cost: { MP: 80, },
-                    }, {
-                        des: '投出一枚火球，造成法术强度*1.25点魔法伤害',
-                        adDmg: { AP: 1.25, },
+                        apDmg: { AP: 1.25, },
                         cost: { MP: 100, },
                     }
                 ],
@@ -1029,19 +1004,19 @@ data() {
                 quality: 1,
                 level: [{
                         des: '目标区域骤然落下寒冰碎片，每秒对目标造成法术强度*0.15点魔法伤害，持续8秒',
-                        adDmg: { AP: 0.15, },
+                        apDmg: { AP: 0.15, },
                         cost: { MP: 50, },
                     }, {
                         des: '目标区域骤然落下寒冰碎片，每秒对目标造成法术强度*0.17点魔法伤害，持续8秒',
-                        adDmg: { AP: 0.17, },
+                        apDmg: { AP: 0.17, },
                         cost: { MP: 75, },
                     }, {
                         des: '目标区域骤然落下寒冰碎片，每秒对目标造成法术强度*0.19点魔法伤害，持续8秒',
-                        adDmg: { AP: 0.19, },
+                        apDmg: { AP: 0.19, },
                         cost: { MP: 100, },
                     }, {
                         des: '目标区域骤然落下寒冰碎片，每秒对目标造成法术强度*0.21点魔法伤害，持续8秒',
-                        adDmg: { AP: 0.21, },
+                        apDmg: { AP: 0.21, },
                         cost: { MP: 125, },
                     }
                 ],
@@ -1053,19 +1028,19 @@ data() {
                 iconSrc: "./icons/spell/mage/spell_fire_soulburn.jpg",
                 quality: 1,
                 level: [{
-                        des: '造成法术强度*0.25点魔法伤害，并附加1层灼伤效果',
-                        ap: { AP: 0.25 },
-                        effect: {burn: {stack: 1, chance: 100, target: 'enemy'},},
-                        cost: { MP: 25, },
-                    }, {
-                        des: '造成法术强度*0.25点魔法伤害，并附加1层灼伤效果',
-                        ap: { AP: 0.25 },
-                        effect: {burn: {stack: 2, chance: 100, target: 'enemy'},},
-                        cost: { MP: 25, },
-                    }, {
-                        des: '造成法术强度*0.25点魔法伤害，并附加1层灼伤效果',
-                        ap: { AP: 0.25 },
+                        des: '造成法术强度*0.25点魔法伤害，并附加3层灼伤效果',
+                        apDmg: { AP: 0.25 },
                         effect: {burn: {stack: 3, chance: 100, target: 'enemy'},},
+                        cost: { MP: 25, },
+                    }, {
+                        des: '造成法术强度*0.25点魔法伤害，并附加6层灼伤效果',
+                        apDmg: { AP: 0.25 },
+                        effect: {burn: {stack: 6, chance: 100, target: 'enemy'},},
+                        cost: { MP: 25, },
+                    }, {
+                        des: '造成法术强度*0.25点魔法伤害，并附加9层灼伤效果',
+                        apDmg: { AP: 0.25 },
+                        effect: {burn: {stack: 9, chance: 100, target: 'enemy'},},
                         cost: { MP: 25, },
                     }
                 ],
@@ -1080,15 +1055,15 @@ data() {
                 quality: 1,
                 level: [{
                         des: '释放寒冰风暴，每0.33秒对目标造成法术强度*0.08点魔法伤害，持续5秒',
-                        ap: { AP: 0.08, },
+                        apDmg: { AP: 0.08, },
                         cost: { MP: 50, },
                     }, {
                         des: '释放寒冰风暴，每0.33秒对目标造成法术强度*0.09点魔法伤害，持续5秒',
-                        ap: { AP: 0.09, },
+                        apDmg: { AP: 0.09, },
                         cost: { MP: 75, },
                     }, {
                         des: '释放寒冰风暴，每0.33秒对目标造成法术强度*0.10点魔法伤害，持续5秒',
-                        ap: { AP: 0.10, },
+                        apDmg: { AP: 0.10, },
                         cost: { MP: 100, },
                     }
                 ],
@@ -1101,15 +1076,36 @@ data() {
                 quality: 1,
                 level: [{
                         des: '发射一颗巨大的烈焰巨石，造成法术强度*2点魔法伤害',
-                        ap: { AP: 0.08, },
-                        cost: { MP: 50, },
+                        apDmg: { AP: 2, },
+                        cost: { MP: 200, },
                     }, {
                         des: '发射一颗巨大的烈焰巨石，造成法术强度*2.5点魔法伤害',
-                        ap: { AP: 0.09, },
-                        cost: { MP: 75, },
+                        apDmg: { AP: 2.5, },
+                        cost: { MP: 300, },
                     }, {
                         des: '发射一颗巨大的烈焰巨石，造成法术强度*3点魔法伤害',
-                        ap: { AP: 0.10, },
+                        apDmg: { AP: 3, },
+                        cost: { MP: 400, },
+                    }
+                ],
+                tag: ['法术强度']
+            },
+            ability_mage_arcanebarrage: {
+                name: '奥术弹幕',
+                max: 50,
+                iconSrc: "./icons/spell/mage/ability_mage_arcanebarrage.jpg",
+                quality: 1,
+                level: [{
+                        des: '向敌方目标发射1-5发奥术能量箭矢，每发造成法术强度*0.4点魔法伤害。每层奥术充能使伤害提高25%',
+                        apDmg: { AP: 0.4, },
+                        cost: { MP: 50, },
+                    }, {
+                        des: '向敌方目标发射1-5发奥术能量箭矢，每发造成法术强度*0.43点魔法伤害。每层奥术充能使伤害提高25%',
+                        apDmg: { AP: 0.43, },
+                        cost: { MP: 75, },
+                    }, {
+                        des: '向敌方目标发射1-5发奥术能量箭矢，每发造成法术强度*0.46点魔法伤害。每层奥术充能使伤害提高25%',
+                        apDmg: { AP: 0.46, },
                         cost: { MP: 100, },
                     }
                 ],
@@ -1122,36 +1118,15 @@ data() {
                 quality: 1,
                 level: [{
                         des: '向敌方目标发射1-5发奥术能量箭矢，每发造成法术强度*0.4点魔法伤害。每层奥术充能使伤害提高25%',
-                        ap: { AP: 0.4, },
+                        apDmg: { AP: 0.4, },
                         cost: { MP: 50, },
                     }, {
                         des: '向敌方目标发射1-5发奥术能量箭矢，每发造成法术强度*0.43点魔法伤害。每层奥术充能使伤害提高25%',
-                        ap: { AP: 0.43, },
+                        apDmg: { AP: 0.43, },
                         cost: { MP: 75, },
                     }, {
                         des: '向敌方目标发射1-5发奥术能量箭矢，每发造成法术强度*0.46点魔法伤害。每层奥术充能使伤害提高25%',
-                        ap: { AP: 0.46, },
-                        cost: { MP: 100, },
-                    }
-                ],
-                tag: ['法术强度']
-            },
-            ability_mage_arcanebarrage: {
-                name: '奥术弹幕',
-                max: 50,
-                iconSrc: "./icons/spell/mage/ability_mage_arcanebarrage.jpg",
-                quality: 1,
-                level: [{
-                        des: '向敌方目标发射1-5发奥术能量箭矢，每发造成法术强度*0.4点魔法伤害。每层奥术充能使伤害提高25%',
-                        ap: { AP: 0.4, },
-                        cost: { MP: 50, },
-                    }, {
-                        des: '向敌方目标发射1-5发奥术能量箭矢，每发造成法术强度*0.43点魔法伤害。每层奥术充能使伤害提高25%',
-                        ap: { AP: 0.43, },
-                        cost: { MP: 75, },
-                    }, {
-                        des: '向敌方目标发射1-5发奥术能量箭矢，每发造成法术强度*0.46点魔法伤害。每层奥术充能使伤害提高25%',
-                        ap: { AP: 0.46, },
+                        apDmg: { AP: 0.46, },
                         cost: { MP: 100, },
                     }
                 ],
@@ -1182,15 +1157,15 @@ data() {
                 quality: 1,
                 level: [{
                         des: '用能量冲击目标，造成法术强度*0.75点魔法伤害。每层奥术充能使伤害提高60%，消耗的法力提高100%，增加3点充能',
-                        ap: { AP: 0.75, },
+                        apDmg: { AP: 0.75, },
                         cost: { MP: 40, },
                     }, {
                         des: '用能量冲击目标，造成法术强度*0.8点魔法伤害。每层奥术充能使伤害提高60%，消耗的法力提高100%，增加3点充能',
-                        ap: { AP: 0.8, },
+                        apDmg: { AP: 0.8, },
                         cost: { MP: 50, },
                     }, {
                         des: '用能量冲击目标，造成法术强度*0.85点魔法伤害。每层奥术充能使伤害提高60%，消耗的法力提高100%，增加3点充能',
-                        ap: { AP: 0.85, },
+                        apDmg: { AP: 0.85, },
                         cost: { MP: 60, },
                     }
                 ],
@@ -1203,17 +1178,17 @@ data() {
                 quality: 1,
                 level: [{
                         des: '对目标造成目标当前生命值*0.1点魔法伤害，并附加2层灼伤效果',
-                        ap: { CURHP: 0.1, },
+                        apDmg: { CURHP: 0.1, },
                         effect: {burn: {stack: 2, chance: 100, target: 'enemy'},},
                         cost: { MP: 40, },
                     }, {
                         des: '对目标造成目标当前生命值*0.12点魔法伤害，并附加2层灼伤效果',
-                        ap: { CURHP: 0.12, },
+                        apDmg: { CURHP: 0.12, },
                         effect: {burn: {stack: 2, chance: 100, target: 'enemy'},},
                         cost: { MP: 50, },
                     }, {
                         des: '对目标造成目标当前生命值*0.15点魔法伤害，并附加2层灼伤效果',
-                        ap: { CURHP: 0.15, },
+                        apDmg: { CURHP: 0.15, },
                         effect: {burn: {stack: 2, chance: 100, target: 'enemy'},},
                         cost: { MP: 60, },
                     }
@@ -1227,15 +1202,15 @@ data() {
                 quality: 1,
                 level: [{
                         des: '向敌人射出五波奥术飞弹，每发造成法术强度*0.2点魔法伤害。每层奥术充能额外发射一波奥术飞弹',
-                        ap: { AP: 0.2, },
+                        apDmg: { AP: 0.2, },
                         cost: { MP: 40, },
                     }, {
                         des: '向敌人射出五波奥术飞弹，每发造成法术强度*0.21点魔法伤害。每层奥术充能额外发射一波奥术飞弹',
-                        ap: { AP: 0.21, },
+                        apDmg: { AP: 0.21, },
                         cost: { MP: 50, },
                     }, {
                         des: '向敌人射出五波奥术飞弹，每发造成法术强度*0.22点魔法伤害。每层奥术充能额外发射一波奥术飞弹',
-                        ap: { AP: 0.22, },
+                        apDmg: { AP: 0.22, },
                         cost: { MP: 60, },
                     }
                 ],
@@ -1322,7 +1297,7 @@ data() {
             ability_mage_timewarp: {
                 name: '时间扭曲',
                 max: 150,
-                iconSrc: "./icons/spell/mage/spell_fire_sealoffire.jpg",
+                iconSrc: "./icons/spell/mage/ability_mage_timewarp.jpg",
                 quality: 1,
                 level: [{
                         des: '将所有其他技能完全充能',
