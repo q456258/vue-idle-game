@@ -258,6 +258,7 @@ export default new Vuex.Store({
                 attack: {lv: 1, proficient: 0, progress: 0}
             },
             buff: {},
+            tempStat: [],
             talent: {
                 generalBranch: 0
             },
@@ -427,7 +428,8 @@ export default new Vuex.Store({
                 legging = playerAttribute.legging,
                 necklace = playerAttribute.necklace,
                 entries = [],
-                potentials = [];
+                potentials = [],
+                tempStat = playerAttribute.tempStat;
             if(data != undefined && data.simulate == true) {
                 switch (data.equip.itemType) {
                     case 'helmet':
@@ -471,7 +473,7 @@ export default new Vuex.Store({
                 }
             }
             let hpPercent = playerAttribute.attribute.CURHP.value/playerAttribute.attribute.MAXHP.value,
-                    mpPercent = playerAttribute.attribute.CURMP.value/playerAttribute.attribute.MAXMP.value;
+                mpPercent = playerAttribute.attribute.CURMP.value/playerAttribute.attribute.MAXMP.value;
             let attribute = {};
             let attributes = [
                 'MAXHP','CURHP','MAXMP','SHIELD','CURMP','STR','AGI','INT','STA','SPI','ALL','CRIT','CRITDMG','ATK','DEF','DEFRED','BLOCK','AP','APCRIT','APCRITDMG','APPEN','MR','HASTE','HEAL','VERS','VERSBONUS','HP','MP',
@@ -562,6 +564,11 @@ export default new Vuex.Store({
                     attribute[attr].baseVal += Math.round(advancedAttr[adv][attr]*attribute[adv].value*100)/100;
                 }
             }
+
+            // buff附加的属性，不享受任何加成
+            tempStat.map(stat => {
+                attribute[stat.type].value += stat.value;
+            });
             
             normalAttributes.forEach(attr => {
                 if(hasPercent.indexOf(attr) > -1)

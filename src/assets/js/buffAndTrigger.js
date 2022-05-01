@@ -52,6 +52,12 @@ export const buffAndTrigger = {
                     if(diff > 0)
                         this.buffReduce(this.player, this.player, buff, diff);
                 }
+                playerBuff = this.player.tempStat;
+                for(let i=playerBuff.length-1; i>=0; i--) {
+                    if(playerBuff[i].expire < now) {
+                        this.statBuffRemove(this.player, this.player, playerBuff[i].type, playerBuff[i].value, i);
+                    }
+                }
                 let enemyBuff = this.enemy.buff;
                 for(let buff in this.enemy.timedBuff) {
                     let curStack = (this.enemy.timedBuff[buff] - now)/60000;
@@ -60,6 +66,12 @@ export const buffAndTrigger = {
                     let diff = Math.floor(enemyBuff[buff] - curStack);
                     if(diff > 0)
                         this.buffReduce(this.enemy, this.enemy, buff, diff);
+                }
+                enemyBuff = this.enemy.tempStat;
+                for(let i=enemyBuff.length-1; i>=0; i--) {
+                    if(enemyBuff[i].expire < now) {
+                        this.statBuffRemove(this.enemy, this.enemy, enemyBuff[i].type, enemyBuff[i].value, i);
+                    }
                 }
             }, 1000);
         },
@@ -101,6 +113,21 @@ export const buffAndTrigger = {
                 }, 10);
             }
         },
+        // 添加buff
+        statBuffApply(source, target, type, value, stack=1){
+            let percent = [
+                'STRP','AGIP','INTP','STAP','SPIP','ALLP','CRIT','CRITDMG','APCRIT','APCRITDMG','ATKP','DEFP','BLOCKP','APP','APPENP','MRP','HPP','MPP'
+            ];
+            let buff = {type: type, value: value, expire: Date.now()+stack*1000};
+            target.tempStat.push(buff);
+            target.attribute[type].value += value;
+            target.attribute[type].showValue = target.attribute[type].value;
+
+            if(percent.indexOf(type) > -1)
+                target.attribute[type].showValue = target.attribute[type].value + '%';
+            else
+                target.attribute[type].showValue = target.attribute[type].value;
+        },
         setBuff(source, target, type, stack) {
             let talent = 'spell_arcane_arcane01'
             if(type == 'arcCharge')
@@ -121,6 +148,19 @@ export const buffAndTrigger = {
             }
             this.$delete(target.buff, type)
             this.$delete(target.timedBuff, type)
+        },
+        statBuffRemove(source, target, type, value, index){
+            let percent = [
+                'STRP','AGIP','INTP','STAP','SPIP','ALLP','CRIT','CRITDMG','APCRIT','APCRITDMG','ATKP','DEFP','BLOCKP','APP','APPENP','MRP','HPP','MPP'
+            ];
+            target.attribute[type].value -= value;
+            target.attribute[type].showValue = target.attribute[type].value;
+            target.tempStat.splice(index, 1);
+
+            if(percent.indexOf(type) > -1)
+                target.attribute[type].showValue = target.attribute[type].value + '%';
+            else
+                target.attribute[type].showValue = target.attribute[type].value;
         },
         // 减少buff层数
         buffReduce(source, target, type, stack=1){
