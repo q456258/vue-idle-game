@@ -1209,8 +1209,7 @@ data() {
             },
             spell_nature_starfall: {
                 name: '奥术飞弹',
-                // max: 50,
-                max: 10,
+                max: 50,
                 iconSrc: "./icons/spell/mage/spell_nature_starfall.jpg",
                 quality: 1,
                 level: [{
@@ -1243,11 +1242,12 @@ data() {
             },
             spell_frost_wizardmark: {
                 name: '急速冷却',
-                max: 75,
+                // max: 75,
+                max: 10,
                 iconSrc: "./icons/spell/mage/spell_frost_wizardmark.jpg",
                 quality: 1,
                 level: [{
-                        des: '将暴风雪、寒冰护体、冰霜新星、冰锥术和寒冰屏障完全充能',
+                        des: '将暴风雪、冰风暴、寒冰护体和冰冷血脉完全充能',
                         cost: { MP: 100, },
                     }
                 ],

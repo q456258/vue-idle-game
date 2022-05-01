@@ -149,6 +149,12 @@ export const spellEffect = {
                 case 'spell_nature_starfall':
                     this.spell_nature_starfall(source, target, spell);
                     break;
+                case 'spell_frost_coldhearted':
+                    this.spell_frost_coldhearted(source, source, spell);
+                    break;
+                case 'spell_frost_wizardmark':
+                    this.spell_frost_wizardmark(source, source, spell);
+                    break;
                 default:
                     this.generalSpell(source, target, spell);
                     break;
@@ -174,7 +180,7 @@ export const spellEffect = {
             let dmgs = this.getSpellDmg(spell, source);
             this.getSpellHeal(spell, source, dmgs);
             let effectList = this.getSpellEffect(source, spell);
-            console.log(dmgs)
+            
             this.applyDmg(source, target, spell, dmgs);
             this.applyEffect(source, target, effectList);
         },
@@ -710,7 +716,6 @@ export const spellEffect = {
             let talent = 'spell_arcane_invocation';
             if(source.talent[talent] > 0 && arcCharge >= 3) {
                 let manaRec = source.attribute['MAXMP'].value*(0.03+0.03*source.talent[talent]);
-                console.log(manaRec)
                 index.mpChange(source, source, manaRec);
             }
             arcCharge = Math.min(arcCharge, Math.floor(source.attribute['CURMP'].value / this.spell[spell].level[spellLv].cost['MP']));
@@ -755,5 +760,17 @@ export const spellEffect = {
             this.applyDmg(source, target, spell, dmg);
             this.applyEffect(source, target, effectList);
         },
+        // 冰冷血脉 
+        spell_frost_coldhearted(source, target, spell) {
+            let index = this.$store.globalComponent["index"];
+            index.statBuffApply(source, target, 'HASTE', 30, 20);
+        },
+        // 急速冷却
+        spell_frost_wizardmark(source, target, spell) {
+            this.setSpellProgress(source, target, 'full', 'spell_frost_icestorm', 0);
+            this.setSpellProgress(source, target, 'full', 'ability_warlock_burningembersblue', 0);
+            this.setSpellProgress(source, target, 'full', 'spell_ice_lament', 0);
+            this.setSpellProgress(source, target, 'full', 'spell_frost_coldhearted', 0);
+        }
     }
 }

@@ -992,7 +992,7 @@ export const talentConfig = {
                 spell_frost_wizardmark:{
                     name: '【技能】急速冷却',
                     desc: ['',
-                        '将暴风雪、寒冰护体、冰霜新星、冰锥术和寒冰屏障完全充能'
+                        '将暴风雪、冰风暴、寒冰护体和冰冷血脉完全充能'
                     ],
                     type: 'spell_frost_wizardmark',
                     iconSrc: './icons/spell/mage/spell_frost_wizardmark.jpg',
