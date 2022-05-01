@@ -297,6 +297,7 @@ export default new Vuex.Store({
                 CRIT: { value: 0, showValue: 0, },
                 CRITDMG: { value: 0, showValue: 0, },
             },
+            tempStat: {}
         },             
         baseAttribute: {
             CURHP: 0,

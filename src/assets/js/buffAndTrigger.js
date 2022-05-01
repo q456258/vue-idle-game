@@ -114,19 +114,27 @@ export const buffAndTrigger = {
             }
         },
         // 添加buff
-        statBuffApply(source, target, type, value, stack=1){
+        statBuffApply(source, target, type, value, stack=1) {
+            let attr = target.attribute;
             let percent = [
                 'STRP','AGIP','INTP','STAP','SPIP','ALLP','CRIT','CRITDMG','APCRIT','APCRITDMG','ATKP','DEFP','BLOCKP','APP','APPENP','MRP','HPP','MPP'
             ];
             let buff = {type: type, value: value, expire: Date.now()+stack*1000};
             target.tempStat.push(buff);
-            target.attribute[type].value += value;
-            target.attribute[type].showValue = target.attribute[type].value;
+            attr[type].value += value;
+            attr[type].showValue = attr[type].value;
 
             if(percent.indexOf(type) > -1)
-                target.attribute[type].showValue = target.attribute[type].value + '%';
+                attr[type].showValue = attr[type].value + '%';
             else
-                target.attribute[type].showValue = target.attribute[type].value;
+                attr[type].showValue = attr[type].value;
+            if(type == 'DEF') {
+                attr['DEFRED'].value = Math.round((attr['DEF'].value/(attr['DEF'].value+5500))*10000)/100;
+                attr['DEFRED'].showValue = attr['DEFRED'].value+'%';
+            } else if(type == 'VERS') {
+                attr['VERSBONUS'].value = Math.round(attr['VERS'].value*4)/100;
+                attr['VERSBONUS'].showValue = attr['VERSBONUS'].value+'%';
+            }
         },
         setBuff(source, target, type, stack) {
             let talent = 'spell_arcane_arcane01'
@@ -150,17 +158,25 @@ export const buffAndTrigger = {
             this.$delete(target.timedBuff, type)
         },
         statBuffRemove(source, target, type, value, index){
+            let attr = target.attribute;
             let percent = [
                 'STRP','AGIP','INTP','STAP','SPIP','ALLP','CRIT','CRITDMG','APCRIT','APCRITDMG','ATKP','DEFP','BLOCKP','APP','APPENP','MRP','HPP','MPP'
             ];
-            target.attribute[type].value -= value;
-            target.attribute[type].showValue = target.attribute[type].value;
+            attr[type].value -= value;
+            attr[type].showValue = attr[type].value;
             target.tempStat.splice(index, 1);
 
             if(percent.indexOf(type) > -1)
-                target.attribute[type].showValue = target.attribute[type].value + '%';
+                attr[type].showValue = attr[type].value + '%';
             else
-                target.attribute[type].showValue = target.attribute[type].value;
+                attr[type].showValue = attr[type].value;
+            if(type == 'DEF') {
+                attr['DEFRED'].value = Math.round((attr['DEF'].value/(attr['DEF'].value+5500))*10000)/100;
+                attr['DEFRED'].showValue = attr['DEFRED'].value+'%';
+            } else if(type == 'VERS') {
+                attr['VERSBONUS'].value = Math.round(attr['VERS'].value*4)/100;
+                attr['VERSBONUS'].showValue = attr['VERSBONUS'].value+'%';
+            }
         },
         // 减少buff层数
         buffReduce(source, target, type, stack=1){
