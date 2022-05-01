@@ -323,6 +323,8 @@ export default {
             if(!monsterID)
                 monsterID = this.dungeonInfo[this.dungeonInfo.current].monsterID;
             enemyAttribute.attribute = {};
+            enemyAttribute.buff = {};
+            enemyAttribute.timedBuff = {};
             enemyAttribute.spellCycle = this.$deepCopy(this.monster[monsterID].spellCycle);
             enemyAttribute.talent = this.$deepCopy(this.monster[monsterID].talent);
             enemyAttribute.curSpell = 0;
@@ -389,16 +391,7 @@ export default {
             let index = this.$store.globalComponent["index"];
             index.TriggerOnAttack(source, target);
             if(source.type == 'player') {
-                let spellList = this.playerAttr.spells;
-                let haste = this.playerAttr.attribute.HASTE.value;
-                let progress = 1+Math.floor(haste/100);
-                if(Math.random()*100 < haste%100) 
-                    progress += 1;
-                for(let spell in spellList) {
-                    if(spellList[spell].progress < this.spell[spell].max) {
-                        spellList[spell].progress += progress;
-                    }
-                }
+                this.setSpellProgress(source, source, 'add', 'all', 1);
             }
         },
         reward() {

@@ -916,32 +916,6 @@ export const talentConfig = {
                     maxLv: 1,
                     position: [1, 4]
                 },
-                spell_arcane_arcane01: {
-                    name: '奥术充能',
-                    desc: ['',
-                        '释放任意法师技能有20%获得一层奥术充能，最多累计1层',
-                        '释放任意法师技能有40%获得一层奥术充能，最多累计2层',
-                        '释放任意法师技能有60%获得一层奥术充能，最多累计3层',
-                        '释放任意法师技能有80%获得一层奥术充能，最多累计4层',
-                        '释放任意法师技能有100%获得一层奥术充能，最多累计5层',
-                    ],
-                    type: 'spell_arcane_arcane01',
-                    iconSrc: "./icons/spell/mage/spell_arcane_arcane01.jpg",
-                    maxLv: 5,
-                    position: [3, 4]
-                },
-                ability_mage_arcanebarrage:{
-                    name: '【技能】奥术弹幕',
-                    desc: ['',
-                        '向敌方目标发射1-5发奥术能量箭矢，每发造成法术强度*0.4点魔法伤害。每层奥术充能使伤害提高25%',
-                        '向敌方目标发射1-5发奥术能量箭矢，每发造成法术强度*0.43点魔法伤害。每层奥术充能使伤害提高25%',
-                        '向敌方目标发射1-5发奥术能量箭矢，每发造成法术强度*0.46点魔法伤害。每层奥术充能使伤害提高25%',
-                    ],
-                    type: 'ability_mage_arcanebarrage',
-                    iconSrc: './icons/spell/mage/ability_mage_arcanebarrage.jpg',
-                    maxLv: 3,
-                    position: [4, 4]
-                },
                 spell_fire_selfdestruct:{
                     name: '【技能】烈焰风暴',
                     desc: ['',
@@ -954,28 +928,29 @@ export const talentConfig = {
                     maxLv: 3,
                     position: [2, 5]
                 },
-                spell_arcane_invocation:{
-                    name: '三之准则',
+                spell_arcane_arcane01: {
+                    name: '奥术充能',
                     desc: ['',
-                        '释放奥术弹幕、奥术飞弹、奥术冲击时，如果拥有三层或以上奥术充能，恢复6%最大魔法值',
-                        '释放奥术弹幕、奥术飞弹、奥术冲击时，如果拥有三层或以上奥术充能，恢复9%最大魔法值',
-                        '释放奥术弹幕、奥术飞弹、奥术冲击时，如果拥有三层或以上奥术充能，恢复12%最大魔法值',
+                        '释放任意法师技能有20%获得一层奥术充能，最多累计1层',
+                        '释放任意法师技能有40%获得一层奥术充能，最多累计2层',
+                        '释放任意法师技能有60%获得一层奥术充能，最多累计3层',
+                        '释放任意法师技能有80%获得一层奥术充能，最多累计4层',
+                        '释放任意法师技能有100%获得一层奥术充能，最多累计5层',
                     ],
-                    type: 'spell_arcane_invocation',
-                    iconSrc: './icons/spell/mage/spell_arcane_invocation.jpg',
-                    maxLv: 3,
-                    position: [3, 5],
-                    down: true
+                    type: 'spell_arcane_arcane01',
+                    iconSrc: "./icons/spell/mage/spell_arcane_arcane01.jpg",
+                    maxLv: 5,
+                    position: [3, 5]
                 },
-                spell_arcane_blast:{
-                    name: '【技能】奥术冲击',
+                ability_mage_arcanebarrage:{
+                    name: '【技能】奥术弹幕',
                     desc: ['',
-                        '用能量冲击目标，造成法术强度*0.75点魔法伤害。每层奥术充能使伤害提高60%，消耗的法力提高100%，增加3点充能',
-                        '用能量冲击目标，造成法术强度*0.8点魔法伤害。每层奥术充能使伤害提高60%，消耗的法力提高100%，增加3点充能',
-                        '用能量冲击目标，造成法术强度*0.85点魔法伤害。每层奥术充能使伤害提高60%，消耗的法力提高100%，增加3点充能',
+                        '向敌方目标发射1-5发奥术能量箭矢，每发造成智力*1.6点魔法伤害。每层奥术充能使伤害提高25%',
+                        '向敌方目标发射1-5发奥术能量箭矢，每发造成智力*1.7点魔法伤害。每层奥术充能使伤害提高25%',
+                        '向敌方目标发射1-5发奥术能量箭矢，每发造成智力*1.8点魔法伤害。每层奥术充能使伤害提高25%',
                     ],
-                    type: 'spell_arcane_blast',
-                    iconSrc: './icons/spell/mage/spell_arcane_blast.jpg',
+                    type: 'ability_mage_arcanebarrage',
+                    iconSrc: './icons/spell/mage/ability_mage_arcanebarrage.jpg',
                     maxLv: 3,
                     position: [4, 5]
                 },
@@ -989,25 +964,28 @@ export const talentConfig = {
                     maxLv: 1,
                     position: [0, 6]
                 },
-                spell_fire_incinerate:{
-                    name: '点燃',
+                spell_arcane_invocation:{
+                    name: '三之准则',
                     desc: ['',
-                        '你的火球术、灼烧、炎爆术和烈焰风暴会额外附加一层灼伤效果，使目标每秒受到当前生命值*0.01点魔法伤害，持续10秒'
+                        '释放奥术弹幕、奥术飞弹、奥术冲击时，如果拥有三层或以上奥术充能，恢复6%最大魔法值',
+                        '释放奥术弹幕、奥术飞弹、奥术冲击时，如果拥有三层或以上奥术充能，恢复9%最大魔法值',
+                        '释放奥术弹幕、奥术飞弹、奥术冲击时，如果拥有三层或以上奥术充能，恢复12%最大魔法值',
                     ],
-                    type: 'spell_fire_incinerate',
-                    iconSrc: './icons/spell/mage/spell_fire_incinerate.jpg',
-                    maxLv: 1,
-                    position: [2, 6]
+                    type: 'spell_arcane_invocation',
+                    iconSrc: './icons/spell/mage/spell_arcane_invocation.jpg',
+                    maxLv: 3,
+                    position: [3, 6],
+                    down: true
                 },
-                spell_nature_starfall:{
-                    name: '【技能】奥术飞弹',
+                spell_arcane_blast:{
+                    name: '【技能】奥术冲击',
                     desc: ['',
-                        '向敌人射出五波奥术飞弹，每发造成法术强度*0.2点魔法伤害。每层奥术充能额外发射一波奥术飞弹',
-                        '向敌人射出五波奥术飞弹，每发造成法术强度*0.21点魔法伤害。每层奥术充能额外发射一波奥术飞弹',
-                        '向敌人射出五波奥术飞弹，每发造成法术强度*0.22点魔法伤害。每层奥术充能额外发射一波奥术飞弹',
+                        '用能量冲击目标，造成智力*3.5点魔法伤害。每层奥术充能使伤害提高60%，消耗的法力提高100%，增加3点充能',
+                        '用能量冲击目标，造成智力*3.75点魔法伤害。每层奥术充能使伤害提高60%，消耗的法力提高100%，增加3点充能',
+                        '用能量冲击目标，造成智力*4点魔法伤害。每层奥术充能使伤害提高60%，消耗的法力提高100%，增加3点充能',
                     ],
-                    type: 'spell_nature_starfall',
-                    iconSrc: './icons/spell/mage/spell_nature_starfall.jpg',
+                    type: 'spell_arcane_blast',
+                    iconSrc: './icons/spell/mage/spell_arcane_blast.jpg',
                     maxLv: 3,
                     position: [4, 6]
                 },
@@ -1030,6 +1008,28 @@ export const talentConfig = {
                     iconSrc: './icons/spell/mage/spell_frost_iceshock.jpg',
                     maxLv: 1,
                     position: [1, 7]
+                },
+                spell_fire_incinerate:{
+                    name: '点燃',
+                    desc: ['',
+                        '你的火球术、灼烧、炎爆术和烈焰风暴会额外附加一层灼伤效果，使目标每秒受到当前生命值*0.01点魔法伤害，持续1秒'
+                    ],
+                    type: 'spell_fire_incinerate',
+                    iconSrc: './icons/spell/mage/spell_fire_incinerate.jpg',
+                    maxLv: 1,
+                    position: [2, 7]
+                },
+                spell_nature_starfall:{
+                    name: '【技能】奥术飞弹',
+                    desc: ['',
+                        '向敌人射出五波奥术飞弹，每发造成智力*1点魔法伤害。每层奥术充能额外发射一波奥术飞弹',
+                        '向敌人射出五波奥术飞弹，每发造成智力*1.05点魔法伤害。每层奥术充能额外发射一波奥术飞弹',
+                        '向敌人射出五波奥术飞弹，每发造成智力*1.1点魔法伤害。每层奥术充能额外发射一波奥术飞弹',
+                    ],
+                    type: 'spell_nature_starfall',
+                    iconSrc: './icons/spell/mage/spell_nature_starfall.jpg',
+                    maxLv: 3,
+                    position: [4, 7]
                 },
                 spell_mage_icenova:{
                     name: '【技能】大法师之触',

@@ -30,6 +30,51 @@ export const spellEffect = {
             source.curSpell = (curSpell+1)%spellCycle.length;
             return spell;
         },
+        setSpellProgress(source, target, type, spell, count) {
+            let haste = target.attribute.HASTE.value;
+            let progress = 0;
+            let newVal = 0;
+            let spellList = target.spells;
+            if(spell == 'all') {
+                if(type == 'add') {
+                    progress = count+Math.floor(haste/100);
+                    if(Math.random()*100 < haste%100) 
+                        progress += 1;
+                    for(let spell in spellList) {
+                        newVal = spellList[spell].progress + progress;
+                        spellList[spell].progress = newVal < this.spell[spell].max ? newVal : this.spell[spell].max;
+                    }
+                } else if(type == 'minus') {
+                    for(let spell in spellList) {
+                        newVal = spellList[spell].progress - count;
+                        spellList[spell].progress = newVal > 0 ? newVal : 0;
+                    }
+                } else if(type == 'clear') {
+                    for(let spell in spellList)
+                        spellList[spell].progress = 0;
+                } else if(type == 'full') {
+                    for(let spell in spellList)
+                        spellList[spell].progress = this.spell[spell].max;
+                }
+            } else {
+                if(spellList[spell] == undefined)
+                    return;
+                if(type == 'add') {
+                    progress = count+Math.floor(haste/100);
+                    if(Math.random()*100 < haste%100) 
+                        progress += 1;
+                    newVal = spellList[spell].progress + progress;
+                    spellList[spell].progress = newVal < this.spell[spell].max ? newVal : this.spell[spell].max;
+                } else if(type == 'minus') {
+                    newVal = spellList[spell].progress - count;
+                    spellList[spell].progress = newVal < this.spell[spell].max ? newVal : this.spell[spell].max;
+                } else if(type == 'clear') {
+                    spellList[spell].progress = 0;
+                } else if(type == 'full') {
+                    spellList[spell].progress = this.spell[spell].max;
+                }
+            }
+        },
         // 计算护甲减免百分比
         getDefRed(armor) {
             let sign = armor>=0 ? 1 : -1;
@@ -95,7 +140,15 @@ export const spellEffect = {
                 case 'spell_shadow_detectlesserinvisibility':
                     this.spell_shadow_detectlesserinvisibility(source, source, spell);
                     break;
-                    
+                case 'ability_mage_arcanebarrage':
+                    this.ability_mage_arcanebarrage(source, target, spell);
+                    break;
+                case 'spell_arcane_blast':
+                    this.spell_arcane_blast(source, target, spell);
+                    break;
+                case 'spell_nature_starfall':
+                    this.spell_nature_starfall(source, target, spell);
+                    break;
                 default:
                     this.generalSpell(source, target, spell);
                     break;
@@ -121,6 +174,7 @@ export const spellEffect = {
             let dmgs = this.getSpellDmg(spell, source);
             this.getSpellHeal(spell, source, dmgs);
             let effectList = this.getSpellEffect(source, spell);
+            console.log(dmgs)
             this.applyDmg(source, target, spell, dmgs);
             this.applyEffect(source, target, effectList);
         },
@@ -433,13 +487,13 @@ export const spellEffect = {
             talent = 'warrior_talent_icon_thunderstruck';
             if(source.talent[talent] > 0) {
                 dmg.adDmg = dmg.adDmg*1.3;
-                source.spells[spell].progress += 3;
+                this.setSpellProgress(source, source, 'add', spell, 3);
             }
             // 十字军之力
             talent = 'ability_paladin_swiftretribution';
             if(source.talent[talent] > 0) {
                 let stack = source.talent[talent]*1;
-                source.spells['spell_holy_crusaderstrike'].progress += stack;
+                this.setSpellProgress(source, source, 'add', 'spell_holy_crusaderstrike', stack);
             }
             
             this.applyDmg(source, target, spell, dmg);
@@ -612,7 +666,6 @@ export const spellEffect = {
             this.applyEffect(source, target, effectList);
         },
         manaShield(source, target, dmgs) {
-            console.log(dmgs)
             let index = this.$store.globalComponent["index"];
             let curMana = target.attribute.CURMP.value;
             let manaCost = 0;
@@ -626,6 +679,81 @@ export const spellEffect = {
             manaCost -= min;
 
             index.mpChange(target, target, manaCost);
-        }
+        },
+        // 奥术弹幕
+        ability_mage_arcanebarrage(source, target, spell) {
+            let index = this.$store.globalComponent["index"];
+            let count = Math.floor(Math.random()*5)+1;
+            let arcCharge = source.buff['arcCharge'] || 0;
+            // 三之准则
+            let talent = 'spell_arcane_invocation';
+            if(source.talent[talent] > 0 && arcCharge >= 3) {
+                let manaRec = source.attribute['MAXMP'].value*(0.03+0.03*source.talent[talent]);
+                index.mpChange(source, source, manaRec);
+            }
+            index.buffReduce(source, source, 'arcCharge', arcCharge);
+            let timer = setInterval(() => {
+                if(count-- <= 0) {
+                    index.removeFromTimerList(target.type, timer);
+                    return;
+                }
+                this.arcaneGeneralSpell(source, target, spell, arcCharge);
+            }, 100);
+            index.addToTimerList(target.type, timer);
+        },
+        // 奥术冲击
+        spell_arcane_blast(source, target, spell) {
+            let index = this.$store.globalComponent["index"];
+            let spellLv = source.spells[spell].lv-1;
+            let arcCharge = source.buff['arcCharge'] || 0;
+            // 三之准则
+            let talent = 'spell_arcane_invocation';
+            if(source.talent[talent] > 0 && arcCharge >= 3) {
+                let manaRec = source.attribute['MAXMP'].value*(0.03+0.03*source.talent[talent]);
+                console.log(manaRec)
+                index.mpChange(source, source, manaRec);
+            }
+            arcCharge = Math.min(arcCharge, Math.floor(source.attribute['CURMP'].value / this.spell[spell].level[spellLv].cost['MP']));
+            index.buffReduce(source, source, 'arcCharge', arcCharge);
+            this.setSpellProgress(source, source, 'add', 'spell_arcane_blast', arcCharge*3);
+            this.arcaneGeneralSpell(source, target, spell, arcCharge);
+        },
+        // 奥术飞弹
+        spell_nature_starfall(source, target, spell) {
+            let index = this.$store.globalComponent["index"];
+            let arcCharge = source.buff['arcCharge'] || 0;
+            let count = 5+arcCharge;
+            // 三之准则
+            let talent = 'spell_arcane_invocation';
+            if(source.talent[talent] > 0 && arcCharge >= 3) {
+                let manaRec = source.attribute['MAXMP'].value*(0.03+0.03*source.talent[talent]);
+                index.mpChange(source, source, manaRec);
+            }
+            index.buffReduce(source, source, 'arcCharge', arcCharge);
+            let timer = setInterval(() => {
+                if(count-- <= 0) {
+                    index.removeFromTimerList(target.type, timer);
+                    return;
+                }
+                this.arcaneGeneralSpell(source, target, spell, arcCharge);
+            }, 100);
+            index.addToTimerList(target.type, timer);
+        },
+        arcaneGeneralSpell(source, target, spell, arcCharge) {
+            let index = this.$store.globalComponent["index"];
+            let dmg = this.getSpellDmg(spell, source);
+            let effectList = this.getSpellEffect(source, spell);
+            switch(spell) {
+                case 'ability_mage_arcanebarrage':
+                    index.set_ap_dmg(dmg, index.get_dmg(dmg, 'ap')*(1+arcCharge*0.25));
+                    break;
+                case 'spell_arcane_blast':
+                    index.set_ap_dmg(dmg, index.get_dmg(dmg, 'ap')*(1+arcCharge*0.6));
+                    break;
+            }
+
+            this.applyDmg(source, target, spell, dmg);
+            this.applyEffect(source, target, effectList);
+        },
     }
 }
