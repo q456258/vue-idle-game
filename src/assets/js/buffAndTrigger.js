@@ -145,8 +145,9 @@ export const buffAndTrigger = {
         buffRemoved(source, target, type){
             let attr = this.player.attribute;
             if(type == 'icenova') {
-                let dmgs = {apDmg: target.buffCounter['icenova']*0.25};
+                let dmgs = {apDmg: target.buffCounter[type]*0.25};
                 this.damage(source, target, dmgs, '大法师之触');
+                delete target.buffCounter[type];
             }
             if(type == 'hell') {
                 if(attr.CURHP.value < attr.MAXHP.value*0.5) {
@@ -478,6 +479,8 @@ export const buffAndTrigger = {
             this.void(target, dmgs);
             this.minionSlayer(source, target, dmgs);
             this.dmgShield(source, target, dmgs, sourceName);
+            for(let dmgType in dmgs)
+                dmgs[dmgType] = Math.round(dmgs[dmgType]);
             let totalDmg = this.get_dmg(dmgs, 'ad')+this.get_dmg(dmgs, 'ap');
             let dmgType = '伤害';
             let dmgText = ' 0 ';
