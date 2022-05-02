@@ -3,7 +3,7 @@ data() {
     return {
         buffCateg: {
             buffer: ['sunder', 'penetrate', 'lifesteal', 'manasteal','charge','deathImmune','void','absorb','hell','focus','arcCharge'],
-            timed: ['minionSlayer', 'manaShield'],
+            timed: ['minionSlayer', 'manaShield', 'silence'],
             onTick: ['burn']
         },
         buffType: {
@@ -158,6 +158,12 @@ data() {
                     stacked: true,
                     iconSrc: "./icons/buff/weak.jpg",
                     desc: "虚弱: 每一层使造成的伤害降低3%, 上限30%"
+                },
+                silence: {
+                    cleanse: true,
+                    stacked: true,
+                    iconSrc: "./icons/buff/silence.jpg",
+                    desc: "沉默: 无法使用普通攻击以外的技能"
                 },
                 // 需要图标
                 // vulnerable: {

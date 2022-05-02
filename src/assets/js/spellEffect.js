@@ -5,9 +5,11 @@ export const spellEffect = {
     },
     methods: {
         getSpell(source, target) {
-            if(source.type != 'player') {
+            if(source.buff['silence'] != undefined)
+                return 'attack';
+            if(source.type != 'player')
                 return this.getenemySpell(source);
-            }
+
             let selectSpell = 'attack';
             let keys = Object.keys(source.spells).reverse();
             for(let i in keys) {
@@ -434,6 +436,8 @@ export const spellEffect = {
             }
         },
         applyBlock(source, target, dmgs, spell) {
+            if(dmgs.adDmg == undefined)
+                return;
             let index = this.$store.globalComponent["index"];
             let attr = target.attribute;
             let value = attr['BLOCK'].value;
@@ -771,6 +775,11 @@ export const spellEffect = {
             this.setSpellProgress(source, target, 'full', 'ability_warlock_burningembersblue', 0);
             this.setSpellProgress(source, target, 'full', 'spell_ice_lament', 0);
             this.setSpellProgress(source, target, 'full', 'spell_frost_coldhearted', 0);
-        }
+        },
+        // // 法术反制
+        // spell_frost_iceshock(source, target, spell) {
+        //     let index = this.$store.globalComponent["index"];
+        //     index.buffApply(source, target, 'silence', 5);
+        // },
     }
 }
