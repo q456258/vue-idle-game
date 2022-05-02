@@ -258,6 +258,8 @@ export default new Vuex.Store({
                 attack: {lv: 1, proficient: 0, progress: 0}
             },
             buff: {},
+            timedBuff: {},
+            buffCounter: {},
             tempStat: [],
             talent: {
                 generalBranch: 0

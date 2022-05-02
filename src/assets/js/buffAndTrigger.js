@@ -6,6 +6,7 @@ export const buffAndTrigger = {
             centralTimer: 0,
             playerTimers: [],
             enemyTimers: [],
+            buffCounter: {}
         }
     },
     mounted() {
@@ -77,10 +78,6 @@ export const buffAndTrigger = {
         },
         // 添加buff
         buffApply(source, target, type, stack=1){
-            if(target.buff == undefined)
-                target.buff = {};
-            if(target.timedBuff == undefined)
-                target.timedBuff = {};
             if(this.buffCateg.timed.indexOf(type) != -1) {
                 if(target.timedBuff[type] == undefined) {
                     target.timedBuff[type] = Date.now()+stack*1000;
@@ -94,6 +91,8 @@ export const buffAndTrigger = {
             }
             if(this.buffCateg.onTick.indexOf(type) != -1 && target.buff[type] == undefined)
                 this.buffOnTick(source, target, type);
+            if(this.buffCateg.counter.indexOf(type) != -1)
+                target.buffCounter[type] = 0;
             if(this.buffCateg.buffer.indexOf(type) == -1) {
                 if(target.buff[type] == undefined) {
                     this.setBuff(source, target, type, stack);
@@ -144,8 +143,12 @@ export const buffAndTrigger = {
         },
         // 移除buff
         buffRemoved(source, target, type){
+            let attr = this.player.attribute;
+            if(type == 'icenova') {
+                let dmgs = {apDmg: target.buffCounter['icenova']*0.25};
+                this.damage(source, target, dmgs, '大法师之触');
+            }
             if(type == 'hell') {
-                let attr = this.player.attribute;
                 if(attr.CURHP.value < attr.MAXHP.value*0.5) {
                     this.set_player_hp('dead', source);
                     this.$store.commit("set_battle_info", {
@@ -478,6 +481,9 @@ export const buffAndTrigger = {
             let totalDmg = this.get_dmg(dmgs, 'ad')+this.get_dmg(dmgs, 'ap');
             let dmgType = '伤害';
             let dmgText = ' 0 ';
+            
+            if(target.buff['icenova'] != undefined)
+                target.buffCounter['icenova'] += totalDmg;
             if(dmgs.adDmg != undefined) {
                 battleAnime.displayText(target.type, "dmg", {adDmg: dmgs.adDmg, apDmg: dmgs.apDmg});
                 if(dmgs.apDmg != undefined) {

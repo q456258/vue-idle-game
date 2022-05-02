@@ -1259,20 +1259,23 @@ data() {
                 iconSrc: "./icons/spell/mage/spell_frost_iceshock.jpg",
                 quality: 1,
                 level: [{
-                        des: '为目标附加三层沉默，使其无法释放技能',
+                        des: '为目标附加沉默，使其五秒内无法释放技能',
                         cost: { MP: 50, },
+                        effect: {silence: {stack: 5, chance: 100, target: 'enemy'},},
                     }
                 ],
                 tag: []
             },
             spell_mage_icenova: {
                 name: '大法师之触',
-                max: 100,
+                // max: 100,
+                max: 10,
                 iconSrc: "./icons/spell/mage/spell_mage_icenova.jpg",
                 quality: 1,
                 level: [{
                         des: '对你当前的目标施加大法师之触，在8秒后目标将受到期间受到的伤害总量*0.25点魔法伤害',
                         cost: { MP: 200, },
+                        effect: {icenova: {stack: 8, chance: 100, target: 'enemy'},},
                     }
                 ],
                 tag: []

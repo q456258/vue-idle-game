@@ -3,8 +3,9 @@ data() {
     return {
         buffCateg: {
             buffer: ['sunder', 'penetrate', 'lifesteal', 'manasteal','charge','deathImmune','void','absorb','hell','focus','arcCharge'],
-            timed: ['minionSlayer', 'manaShield', 'silence'],
-            onTick: ['burn']
+            timed: ['minionSlayer', 'manaShield', 'silence', 'icenova'],
+            onTick: ['burn'],
+            counter: ['icenova']
         },
         buffType: {
             buff: {
@@ -165,6 +166,13 @@ data() {
                     iconSrc: "./icons/buff/silence.jpg",
                     desc: "沉默: 无法使用普通攻击以外的技能"
                 },
+                icenova: {
+                    cleanse: true,
+                    stacked: false,
+                    iconSrc: "./icons/spell/mage/spell_mage_icenova.jpg",
+                    desc: "大法师之触: buff结束时造成buff持续期间受到伤害*0.25点魔法伤害"
+                },
+                
                 // 需要图标
                 // vulnerable: {
                 //     cleanse: true,

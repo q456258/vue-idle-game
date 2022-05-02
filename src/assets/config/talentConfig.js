@@ -1002,7 +1002,7 @@ export const talentConfig = {
                 spell_frost_iceshock:{
                     name: '【技能】法术反制',
                     desc: ['',
-                        '为目标附加三层沉默，使其无法释放技能'
+                        '为目标附加沉默，使其五秒内无法释放技能'
                     ],
                     type: 'spell_frost_iceshock',
                     iconSrc: './icons/spell/mage/spell_frost_iceshock.jpg',

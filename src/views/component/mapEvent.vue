@@ -324,6 +324,7 @@ export default {
                 monsterID = this.dungeonInfo[this.dungeonInfo.current].monsterID;
             enemyAttribute.attribute = {};
             enemyAttribute.buff = {};
+            enemyAttribute.buffCounter = {};
             enemyAttribute.tempStat = {};
             enemyAttribute.timedBuff = {};
             enemyAttribute.spellCycle = this.$deepCopy(this.monster[monsterID].spellCycle);
