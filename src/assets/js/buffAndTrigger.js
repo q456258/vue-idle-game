@@ -166,7 +166,8 @@ export const buffAndTrigger = {
             let percent = [
                 'STRP','AGIP','INTP','STAP','SPIP','ALLP','CRIT','CRITDMG','APCRIT','APCRITDMG','ATKP','DEFP','BLOCKP','APP','APPENP','MRP','HPP','MPP'
             ];
-            attr[type].value -= value;
+            // 容易出现浮点错误
+            attr[type].value = Math.round((attr[type].value-value)*100)/100;
             attr[type].showValue = attr[type].value;
             target.tempStat.splice(index, 1);
 

@@ -157,6 +157,15 @@ export const spellEffect = {
                 case 'spell_frost_wizardmark':
                     this.spell_frost_wizardmark(source, source, spell);
                     break;
+                case 'spell_nature_purge':
+                    this.spell_nature_purge(source, source, spell);
+                    break;
+                case 'spell_fire_sealoffire':
+                    this.spell_fire_sealoffire(source, source, spell);
+                    break;
+                case 'ability_mage_timewarp':
+                    this.ability_mage_timewarp(source, source, spell);
+                    break;
                 default:
                     this.generalSpell(source, target, spell);
                     break;
@@ -194,7 +203,8 @@ export const spellEffect = {
                 return true;
             }
             for(let cost in this.spell[spell].level[spellLv].cost) {
-                if(cost == 'MP' && this.playerAttr.buff.focus < 0) {
+                console.log(this.playerAttr.buff.focus)
+                if(cost == 'MP' && !(this.playerAttr.buff.focus > 0)) {
                     if(attr['CURMP'].value < this.spell[spell].level[spellLv].cost['MP']) {
                         let battleAnime = this.$store.globalComponent["battleAnime"];
                         battleAnime.displayText("player", "failSpell", this.spell[spell].name);
@@ -776,10 +786,22 @@ export const spellEffect = {
             this.setSpellProgress(source, target, 'full', 'spell_ice_lament', 0);
             this.setSpellProgress(source, target, 'full', 'spell_frost_coldhearted', 0);
         },
-        // // 法术反制
-        // spell_frost_iceshock(source, target, spell) {
-        //     let index = this.$store.globalComponent["index"];
-        //     index.buffApply(source, target, 'silence', 5);
-        // },
+        // 唤醒
+        spell_nature_purge(source, target, spell) {
+            let index = this.$store.globalComponent["index"];
+            let spellLv = source.spells[spell].lv-1;
+            let manaRec = source.attribute['SPI'].value*(20+10*spellLv);
+            index.mpChange(source, target, manaRec);
+        },
+        // 燃烧
+        spell_fire_sealoffire(source, target, spell) {
+            let index = this.$store.globalComponent["index"];
+            index.statBuffApply(source, target, 'APCRIT', 100, 10);
+        },
+        // 时间扭曲
+        ability_mage_timewarp(source, target, spell) {
+            this.setSpellProgress(source, target, 'full', 'all', 0);
+            source.spells[spell].progress = 0;
+        },
     }
 }

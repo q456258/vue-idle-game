@@ -1044,9 +1044,9 @@ export const talentConfig = {
                 spell_nature_purge:{
                     name: '【技能】唤醒',
                     desc: ['',
-                        '恢复法力回复速度*30点魔法值',
-                        '恢复法力回复速度*40点魔法值',
-                        '恢复法力回复速度*50点魔法值',
+                        '恢复精神*30点魔法值',
+                        '恢复精神*40点魔法值',
+                        '恢复精神*50点魔法值',
                     ],
                     type: 'spell_nature_purge',
                     iconSrc: './icons/spell/mage/spell_nature_purge.jpg',

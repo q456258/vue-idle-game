@@ -1268,8 +1268,7 @@ data() {
             },
             spell_mage_icenova: {
                 name: '大法师之触',
-                // max: 100,
-                max: 10,
+                max: 100,
                 iconSrc: "./icons/spell/mage/spell_mage_icenova.jpg",
                 quality: 1,
                 level: [{
@@ -1286,13 +1285,13 @@ data() {
                 iconSrc: "./icons/spell/mage/spell_nature_purge.jpg",
                 quality: 1,
                 level: [{
-                        des: '恢复法力回复速度*30点魔法值',
+                        des: '恢复精神*30点魔法值',
                         cost: { },
                     },{
-                        des: '恢复法力回复速度*40点魔法值',
+                        des: '恢复精神*40点魔法值',
                         cost: {  },
                     },{
-                        des: '恢复法力回复速度*50点魔法值',
+                        des: '恢复精神*50点魔法值',
                         cost: {  },
                     }
                 ],
