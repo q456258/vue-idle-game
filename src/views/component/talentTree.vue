@@ -3,7 +3,7 @@
         <div>剩余天赋点: {{player.talentPoint}}
             <div class="refresh btn btn-secondary" @click="resetTalent()"></div>
         </div>
-        <draggable :left_limit="-750" :right_limit="1" :top_bot="false">
+        <draggable :left_limit="-1100" :right_limit="1" :top_bot="false">
     <template slot="header">
 <!-- <div class="container"> -->
     <div class="talentTree scrollbar-morpheus-den" >
@@ -71,7 +71,8 @@ export default {
             talents: {
                 generalBranch: [],
                 warriorBranch: [],
-                mageBranch: []
+                mageBranch: [],
+                priestBranch: []
             }
         };
     },
@@ -85,6 +86,7 @@ export default {
         this.setGrid('generalBranch');
         this.setGrid('warriorBranch');
         this.setGrid('mageBranch');
+        this.setGrid('priestBranch');
     },
     watch: {
     },
@@ -92,7 +94,7 @@ export default {
         playerTalent() { return this.$store.state.playerAttribute.talent },
         player() { return this.$store.state.playerAttribute },
         branchInfo() {
-            let types = Object.assign(this.generalBranch, this.warriorBranch, this.mageBranch);
+            let types = Object.assign(this.generalBranch, this.warriorBranch, this.mageBranch,  this.priestBranch);
             return types;
          },
     },
@@ -101,6 +103,7 @@ export default {
             this.setStatus('generalBranch');
             this.setStatus('warriorBranch');
             this.setStatus('mageBranch');
+            this.setGrid('priestBranch');
         },
         resetTalent() {
             let total = this.player.talentPoint;

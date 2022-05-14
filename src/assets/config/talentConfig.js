@@ -1072,40 +1072,333 @@ export const talentConfig = {
                     iconSrc: './icons/spell/mage/ability_mage_timewarp.jpg',
                     maxLv: 1,
                     position: [2, 10]
-                },                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                },                    
             },
+            priestBranch: {
+                priestBranch: {
+                    name: '牧师系',
+                    desc: [''],
+                    type: 'priestBranch',
+                    iconSrc: "./icons/accessory/inv_jewelry_necklace_17.jpg",
+                    maxLv: 100,
+                    position: [-1, -1]
+                },
+                ability_pvp_innerrenewal:{
+                    name: '恢复信仰',
+                    desc: ['',
+                        '所有的治疗量提高1%',
+                        '所有的治疗量提高2%',
+                        '所有的治疗量提高3%',
+                        '所有的治疗量提高4%',
+                        '所有的治疗量提高5%'
+                    ],
+                    type: 'ability_pvp_innerrenewal',
+                    iconSrc: './icons/spell/priest/ability_pvp_innerrenewal.jpg',
+                    maxLv: 5,
+                    position: [2, 0]
+                },
+                spell_arcane_mindmastery:{
+                    name: '启迪',
+                    desc: ['',
+                        '你的法力恢复速度提高10%',
+                        '你的法力恢复速度提高20%',
+                        '你的法力恢复速度提高30%',
+                        '你的法力恢复速度提高40%',
+                        '你的法力恢复速度提高50%'
+                    ],
+                    type: 'spell_arcane_mindmastery',
+                    iconSrc: './icons/spell/priest/spell_arcane_mindmastery.jpg',
+                    maxLv: 5,
+                    position: [4, 0]
+                },    
+                spell_holy_renew:{
+                    name: '【技能】恢复',
+                    desc: ['',
+                        '满怀对圣光的信仰，每秒恢复法术强度*0.1点生命值，持续20秒',
+                        '满怀对圣光的信仰，每秒恢复法术强度*0.12点生命值，持续20秒',
+                        '满怀对圣光的信仰，每秒恢复法术强度*0.14点生命值，持续20秒',
+                        '满怀对圣光的信仰，每秒恢复法术强度*0.16点生命值，持续20秒'
+                    ],
+                    type: 'spell_holy_renew',
+                    iconSrc: './icons/spell/priest/spell_holy_renew.jpg',
+                    maxLv: 4,
+                    position: [0, 1]
+                },
+                spell_holy_divineillumination:{
+                    name: '福音',
+                    desc: ['',
+                        '恢复效果的持续时间延长4秒',
+                        '恢复效果的持续时间延长7秒',
+                        '恢复效果的持续时间延长10秒'
+                    ],
+                    type: 'spell_holy_divineillumination',
+                    iconSrc: './icons/spell/priest/spell_holy_divineillumination.jpg',
+                    maxLv: 3,
+                    position: [1, 1],
+                    right: true
+                },
+                spell_holy_resurrection:{
+                    name: '复活术',
+                    desc: ['',
+                        '死亡后立刻恢复15%生命值',
+                        '死亡后立刻恢复30%生命值',
+                        '死亡后立刻恢复45%生命值',
+                        '死亡后立刻恢复60%生命值',
+                        '死亡后立刻恢复75%生命值'
+                    ],
+                    type: 'spell_holy_resurrection',
+                    iconSrc: './icons/spell/priest/spell_holy_resurrection.jpg',
+                    maxLv: 5,
+                    position: [4, 1]
+                },
+                spell_holy_flashheal:{
+                    name: '【技能】快速治疗',
+                    desc: ['',
+                        '恢复自身法术强度*1.5点生命值',
+                        '恢复自身法术强度*1.75点生命值',
+                        '恢复自身法术强度*2点生命值',
+                        '恢复自身法术强度*2.25点生命值'
+                    ],
+                    type: 'spell_holy_flashheal',
+                    iconSrc: './icons/spell/priest/spell_holy_flashheal.jpg',
+                    maxLv: 4,
+                    position: [0, 2]
+                },
+                spell_holy_innerfire:{
+                    name: '【技能】心灵之火',
+                    desc: ['',
+                        '提升10%攻击力和50护甲，持续30秒',
+                        '提升12%攻击力和75护甲，持续30秒',
+                        '提升14%攻击力和100护甲，持续30秒',
+                    ],
+                    type: 'spell_holy_innerfire',
+                    iconSrc: './icons/spell/priest/spell_holy_innerfire.jpg',
+                    maxLv: 3,
+                    position: [2, 2]
+                },
+                spell_holy_testoffaith:{
+                    name: '【技能】绝望祷言',
+                    desc: ['',
+                        '使最大生命值提高25%，持续10 sec。同时立即为你恢复同样数量的生命值'
+                    ],
+                    type: 'spell_holy_testoffaith',
+                    iconSrc: './icons/spell/priest/spell_holy_testoffaith.jpg',
+                    maxLv: 1,
+                    position: [0, 3],
+                    down: true
+                },
+                spell_shadow_unholyfrenzy:{
+                    name: '【技能】心灵震爆',
+                    desc: ['',
+                        '冲击目标的意识，造成智力*4.5点魔法伤害',
+                        '冲击目标的意识，造成智力*5点魔法伤害',
+                        '冲击目标的意识，造成智力*5.5点魔法伤害',
+                        '冲击目标的意识，造成智力*6点魔法伤害'
+                    ],
+                    type: 'spell_shadow_unholyfrenzy',
+                    iconSrc: './icons/spell/priest/spell_shadow_unholyfrenzy.jpg',
+                    maxLv: 4,
+                    position: [1, 3]
+                },
+                spell_shadow_mindshear:{
+                    name: '精神灼伤',
+                    desc: ['',
+                        '心灵震爆有20%附带一层虚弱效果',
+                        '心灵震爆有30%附带一层虚弱效果',
+                        '心灵震爆有40%附带一层虚弱效果',
+                        '心灵震爆有50%附带一层虚弱效果',
+                    ],
+                    type: 'spell_shadow_mindshear',
+                    iconSrc: './icons/spell/priest/spell_shadow_mindshear.jpg',
+                    maxLv: 4,
+                    position: [2, 3],
+                    right: true
+                },
+                spell_holy_powerwordshield:{
+                    name: '【技能】真言术：盾',
+                    desc: ['',
+                        '施加一个护盾，吸收法术强度*1.75*(1+全能*0.1)点伤害',
+                        '施加一个护盾，吸收法术强度*2*(1+全能*0.1)点伤害',
+                        '施加一个护盾，吸收法术强度*2.25*(1+全能*0.1)点伤害',
+                    ],
+                    type: 'spell_holy_powerwordshield',
+                    iconSrc: './icons/spell/priest/spell_holy_powerwordshield.jpg',
+                    maxLv: 3,
+                    position: [0, 4]
+                },
+                spell_shadow_shadowmend:{
+                    name: '【技能】暗影愈合',
+                    desc: ['',
+                        '为其恢复法术强度*3.2点生命值，此后该目标将每秒受到法术强度*0.16点伤害，直到脱离战斗为止'
+                    ],
+                    type: 'spell_shadow_shadowmend',
+                    iconSrc: './icons/spell/priest/spell_shadow_shadowmend.jpg',
+                    maxLv: 1,
+                    position: [2, 4]
+                },
+                spell_shadow_shadowwordpain:{
+                    name: '【技能】暗言术：痛',
+                    desc: ['',
+                        '黑暗的咒语，造成法术强度*0.5点魔法伤害，并每秒造成法术强度*0.1点魔法伤害, 持续12秒',
+                        '黑暗的咒语，造成法术强度*0.5点魔法伤害，并每秒造成法术强度*0.12点魔法伤害, 持续12秒',
+                        '黑暗的咒语，造成法术强度*0.5点魔法伤害，并每秒造成法术强度*0.14点魔法伤害, 持续12秒',
+                        '黑暗的咒语，造成法术强度*0.5点魔法伤害，并每秒造成法术强度*0.16点魔法伤害, 持续12秒',
+                    ],
+                    type: 'spell_shadow_shadowwordpain',
+                    iconSrc: './icons/spell/priest/spell_shadow_shadowwordpain.jpg',
+                    maxLv: 4,
+                    position: [4, 3]
+                },
+                spell_holy_dispelmagic:{
+                    name: '【技能】纯净术',
+                    desc: ['',
+                        '驱散敌方目标所有增益魔法效果'
+                    ],
+                    type: 'spell_holy_dispelmagic',
+                    iconSrc: './icons/spell/priest/spell_holy_dispelmagic.jpg',
+                    maxLv: 1,
+                    position: [3, 5]
+                },
+                spell_holy_wordfortitude:{
+                    name: '【技能】真言术：韧',
+                    desc: ['',
+                        '注入活力，使耐力提高5%，持续1小时'
+                    ],
+                    type: 'spell_holy_wordfortitude',
+                    iconSrc: './icons/spell/priest/spell_holy_wordfortitude.jpg',
+                    maxLv: 1,
+                    position: [0, 6]
+                },
+                spell_holy_holysmite:{
+                    name: '【技能】惩击',
+                    desc: ['',
+                        '惩击一个敌人，造成法术强度*0.8点神圣伤害'
+                    ],
+                    type: 'spell_holy_holysmite',
+                    iconSrc: './icons/spell/priest/spell_holy_holysmite.jpg',
+                    maxLv: 1,
+                    position: [1, 6]
+                },
+                spell_shadow_misery:{
+                    name: '忍辱负重',
+                    desc: ['',
+                        '暗影愈合目标改为自身，持续伤害转为治疗'
+                    ],
+                    type: 'spell_shadow_misery',
+                    iconSrc: './icons/spell/priest/spell_shadow_misery.jpg',
+                    maxLv: 1,
+                    position: [2, 6],
+                    down2: true
+                },
+                spell_arcane_massdispel:{
+                    name: '驱散',
+                    desc: ['',
+                        '使纯净术驱散敌方目标所有增益魔法效果以及增益属性效果'
+                    ],
+                    type: 'spell_arcane_massdispel',
+                    iconSrc: './icons/spell/priest/spell_arcane_massdispel.jpg',
+                    maxLv: 1,
+                    position: [3, 6],
+                    down: true
+                },
+                spell_shadow_demonicfortitude:{
+                    name: '【技能】暗言术：灭',
+                    desc: ['',
+                        '黑暗的咒语，对目标造成法术强度*0.85点点魔法伤害, 对生命值低于50%的目标所造成的伤害提高250%。如果目标没有被暗言术：灭消灭，则施法者会受到等量的伤害'
+                    ], 
+                    type: 'spell_shadow_demonicfortitude',
+                    iconSrc: './icons/spell/priest/spell_shadow_demonicfortitude.jpg',
+                    maxLv: 1,
+                    position: [4, 6]
+                },
+                spell_holy_powerwordbarrier:{
+                    name: '【技能】真言术：障',
+                    desc: ['',
+                        '召唤一道神圣的屏障，降低受到的所有伤害25%。持续10秒'
+                    ],
+                    type: 'spell_holy_powerwordbarrier',
+                    iconSrc: './icons/spell/priest/spell_holy_powerwordbarrier.jpg',
+                    maxLv: 1,
+                    position: [0, 7]
+                },
+                ability_priest_silence:{
+                    name: '【技能】沉默',
+                    desc: ['',
+                        '施加3层沉默，使目标无法使用任何技能',
+                        '施加4层沉默，使目标无法使用任何技能',
+                        '施加5层沉默，使目标无法使用任何技能'
+                    ],
+                    type: 'ability_priest_silence',
+                    iconSrc: './icons/spell/priest/ability_priest_silence.jpg',
+                    maxLv: 3,
+                    position: [1, 7]
+                },
+                ability_shaman_astralshift:{
+                    name: '灵魂护壳',
+                    desc: ['',
+                        '溢出的治疗效果将会转换为护盾，数值相当于治疗量的80%'
+                    ],
+                    type: 'ability_shaman_astralshift',
+                    iconSrc: './icons/spell/priest/ability_shaman_astralshift.jpg',
+                    maxLv: 1,
+                    position: [4, 7]
+                },
+                ability_priest_flashoflight:{
+                    name: '【技能】真言术：慰',
+                    desc: ['',
+                        '以天堂之力攻击一名敌人，造成法术强度*0.8的魔法伤害，同时为你恢复1%的最大法力值'
+                    ],
+                    type: 'ability_priest_flashoflight',
+                    iconSrc: './icons/spell/priest/ability_priest_flashoflight.jpg',
+                    maxLv: 1,
+                    position: [0, 8]
+                },
+                spell_nature_nullifydisease:{
+                    name: '【技能】魔法夺取',
+                    desc: ['',
+                        '夺取敌方目标身上的1个增益魔法效果。'
+                    ],
+                    type: 'spell_nature_nullifydisease',
+                    iconSrc: './icons/spell/priest/spell_nature_nullifydisease.jpg',
+                    maxLv: 3,
+                    position: [3, 8]
+                },
+                spell_holy_hopeandgrace:{
+                    name: '优雅',
+                    desc: ['',
+                        '受到负面状态影响时有2%将其无视',
+                        '受到负面状态影响时有4%将其无视',
+                        '受到负面状态影响时有6%将其无视',
+                    ],
+                    type: 'spell_holy_hopeandgrace',
+                    iconSrc: './icons/spell/priest/spell_holy_hopeandgrace.jpg',
+                    maxLv: 3,
+                    position: [0, 9]
+                },
+                spell_holy_divineprotection:{
+                    name: '护盾戒律',
+                    desc: ['',
+                        '对生命值低于35%以下的目标进行治疗后，提升20%法术强度以及治疗效果，持续10秒',
+                        '对生命值低于35%以下的目标进行治疗后，提升30%法术强度以及治疗效果，持续10秒',
+                        '对生命值低于35%以下的目标进行治疗后，提升40%法术强度以及治疗效果，持续10秒'
+                    ],
+                    type: 'spell_holy_divineprotection',
+                    iconSrc: './icons/spell/priest/spell_holy_divineprotection.jpg',
+                    maxLv: 3,
+                    position: [2, 9]
+                },
+                spell_holy_persuitofjustice:{
+                    name: '【技能】圣言术：静',
+                    desc: ['',
+                        '施展神迹，恢复最大生命值*1点生命值，溢出值将转为护盾'
+                    ],
+                    type: 'spell_holy_persuitofjustice',
+                    iconSrc: './icons/spell/priest/spell_holy_persuitofjustice.jpg',
+                    maxLv: 1,
+                    position: [2, 10]
+                },
+            }
             // archived:{
-            //     //mage
-            //     spell_fire_flamebolt: {
-            //         name: '火球术',
-            //         desc: ['',
-            //             '造成5000+智力*5点伤害',
-            //             '造成30000+智力*5点伤害',
-            //             '造成100000+智力*5点伤害',
-            //             '造成300000+智力*5点伤害',
-            //         ],
-            //         type: 'spell_fire_flamebolt',
-            //         iconSrc: "./icons/spell/spell_fire_flamebolt.jpg",
-            //         maxLv: 4,
-            //         position: [4, 1],
-            //     },
-                // spell_nature_starfall: {
-                //     name: '【技能】月火术',
-                //     desc: [''],
-                //     type: 'spell_nature_starfall',
-                //     iconSrc: "./icons/spell/spell_nature_starfall.jpg",
-                //     maxLv: 3,
-                //     position: [1, 6]
-                // },
-                // spell_arcane_starfire: {
-                //     name: '【技能】星火术',
-                //     desc: [''],
-                //     type: 'spell_arcane_starfire',
-                //     iconSrc: "./icons/spell/spell_arcane_starfire.jpg",
-                //     maxLv: 3,
-                //     position: [1, 7],
-                //     down: true
-                // },
                 // ability_druid_starfall: {
                 //     name: '【技能】无尽之星',
                 //     desc: [''],
