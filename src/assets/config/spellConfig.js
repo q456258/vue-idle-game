@@ -1049,7 +1049,7 @@ data() {
             spell_holy_renew: {
                 name: '恢复',
                 max: 20,
-                iconSrc: "./icons/spell/mage/spell_holy_renew.jpg",
+                iconSrc: "./icons/spell/priest/spell_holy_renew.jpg",
                 quality: 1,
                 level: [{
                         des: '满怀对圣光的信仰，每秒恢复法术强度*0.1点生命值，持续20秒',
@@ -1074,7 +1074,7 @@ data() {
             spell_holy_flashheal: {
                 name: '快速治疗',
                 max: 50,
-                iconSrc: "./icons/spell/mage/spell_holy_flashheal.jpg",
+                iconSrc: "./icons/spell/priest/spell_holy_flashheal.jpg",
                 quality: 1,
                 level: [{
                         des: '恢复自身法术强度*1.5点生命值',
@@ -1099,7 +1099,7 @@ data() {
             spell_holy_innerfire: {
                 name: '心灵之火',
                 max: 35,
-                iconSrc: "./icons/spell/mage/spell_holy_innerfire.jpg",
+                iconSrc: "./icons/spell/priest/spell_holy_innerfire.jpg",
                 quality: 1,
                 level: [{
                         des: '提升10%攻击力和50护甲，持续30秒',
@@ -1117,7 +1117,7 @@ data() {
             spell_holy_testoffaith: {
                 name: '绝望祷言',
                 max: 70,
-                iconSrc: "./icons/spell/mage/spell_holy_testoffaith.jpg",
+                iconSrc: "./icons/spell/priest/spell_holy_testoffaith.jpg",
                 quality: 1,
                 level: [{
                         des: '使最大生命值提高25%，持续10 sec。同时立即为你恢复同样数量的生命值',
@@ -1129,7 +1129,7 @@ data() {
             spell_shadow_unholyfrenzy: {
                 name: '心灵震爆',
                 max: 70,
-                iconSrc: "./icons/spell/mage/spell_shadow_unholyfrenzy.jpg",
+                iconSrc: "./icons/spell/priest/spell_shadow_unholyfrenzy.jpg",
                 quality: 1,
                 level: [{
                         des: '冲击目标的意识，造成智力*4.5点魔法伤害',
@@ -1154,7 +1154,7 @@ data() {
             spell_holy_powerwordshield: {
                 name: '真言术：盾',
                 max: 40,
-                iconSrc: "./icons/spell/mage/spell_holy_powerwordshield.jpg",
+                iconSrc: "./icons/spell/priest/spell_holy_powerwordshield.jpg",
                 quality: 1,
                 level: [{
                         des: '施加一个护盾，吸收法术强度*1.75*(1+全能*0.1)点伤害',
@@ -1172,7 +1172,7 @@ data() {
             spell_shadow_shadowmend: {
                 name: '暗影愈合',
                 max: 75,
-                iconSrc: "./icons/spell/mage/spell_shadow_shadowmend.jpg",
+                iconSrc: "./icons/spell/priest/spell_shadow_shadowmend.jpg",
                 quality: 1,
                 level: [{
                         des: '为其恢复法术强度*3.2点生命值，此后该目标将每秒受到法术强度*0.16点伤害，直到脱离战斗为止',
@@ -1185,7 +1185,7 @@ data() {
             spell_shadow_shadowwordpain: {
                 name: '暗言术：痛',
                 max: 70,
-                iconSrc: "./icons/spell/mage/spell_shadow_shadowwordpain.jpg",
+                iconSrc: "./icons/spell/priest/spell_shadow_shadowwordpain.jpg",
                 quality: 1,
                 level: [{
                         des: '黑暗的咒语，造成法术强度*0.5点魔法伤害，并每秒造成法术强度*0.1点魔法伤害, 持续12秒',
@@ -1210,7 +1210,7 @@ data() {
             spell_holy_dispelmagic: {
                 name: '纯净术',
                 max: 80,
-                iconSrc: "./icons/spell/mage/spell_holy_dispelmagic.jpg",
+                iconSrc: "./icons/spell/priest/spell_holy_dispelmagic.jpg",
                 quality: 1,
                 level: [{
                         des: '驱散敌方目标所有增益魔法效果',
@@ -1222,7 +1222,7 @@ data() {
             spell_holy_wordfortitude: {
                 name: '真言术：韧',
                 max: 10,
-                iconSrc: "./icons/spell/mage/spell_holy_wordfortitude.jpg",
+                iconSrc: "./icons/spell/priest/spell_holy_wordfortitude.jpg",
                 quality: 1,
                 level: [{
                         des: '注入活力，使耐力提高5%，持续1小时',
@@ -1234,7 +1234,7 @@ data() {
             spell_holy_holysmite: {
                 name: '惩击',
                 max: 30,
-                iconSrc: "./icons/spell/mage/spell_holy_holysmite.jpg",
+                iconSrc: "./icons/spell/priest/spell_holy_holysmite.jpg",
                 quality: 1,
                 level: [{
                         des: '惩击一个敌人，造成法术强度*0.8点神圣伤害',
@@ -1247,7 +1247,7 @@ data() {
             spell_shadow_demonicfortitude: {
                 name: '暗言术：灭',
                 max: 60,
-                iconSrc: "./icons/spell/mage/spell_shadow_demonicfortitude.jpg",
+                iconSrc: "./icons/spell/priest/spell_shadow_demonicfortitude.jpg",
                 quality: 1,
                 level: [{
                         des: '黑暗的咒语，对目标造成法术强度*0.85点点魔法伤害, 对生命值低于50%的目标所造成的伤害提高250%。如果目标没有被暗言术：灭消灭，则施法者会受到等量的伤害',
@@ -1260,7 +1260,7 @@ data() {
             spell_holy_powerwordbarrier: {
                 name: '真言术：障',
                 max: 60,
-                iconSrc: "./icons/spell/mage/spell_holy_powerwordbarrier.jpg",
+                iconSrc: "./icons/spell/priest/spell_holy_powerwordbarrier.jpg",
                 quality: 1,
                 level: [{
                         des: '召唤一道神圣的屏障，降低受到的所有伤害25%。持续10秒',
@@ -1272,7 +1272,7 @@ data() {
             ability_priest_silence: {
                 name: '沉默',
                 max: 20,
-                iconSrc: "./icons/spell/mage/ability_priest_silence.jpg",
+                iconSrc: "./icons/spell/priest/ability_priest_silence.jpg",
                 quality: 1,
                 level: [{
                         des: '施加3层沉默，使目标无法使用任何技能',
@@ -1293,7 +1293,7 @@ data() {
             ability_priest_flashoflight: {
                 name: '真言术：慰',
                 max: 40,
-                iconSrc: "./icons/spell/mage/ability_priest_flashoflight.jpg",
+                iconSrc: "./icons/spell/priest/ability_priest_flashoflight.jpg",
                 quality: 1,
                 level: [{
                         des: '以天堂之力攻击一名敌人，造成法术强度*0.8的魔法伤害，同时为你恢复5%的最大法力值',
@@ -1310,7 +1310,7 @@ data() {
             spell_nature_nullifydisease: {
                 name: '魔法夺取',
                 max: 40,
-                iconSrc: "./icons/spell/mage/spell_nature_nullifydisease.jpg",
+                iconSrc: "./icons/spell/priest/spell_nature_nullifydisease.jpg",
                 quality: 1,
                 level: [{
                         des: '夺取敌方目标身上的1个增益魔法效果',
@@ -1322,7 +1322,7 @@ data() {
             spell_holy_persuitofjustice: {
                 name: '圣言术：静',
                 max: 150,
-                iconSrc: "./icons/spell/mage/spell_holy_persuitofjustice.jpg",
+                iconSrc: "./icons/spell/priest/spell_holy_persuitofjustice.jpg",
                 quality: 1,
                 level: [{
                         des: '施展神迹，恢复最大生命值*1点生命值，溢出值将转为护盾',

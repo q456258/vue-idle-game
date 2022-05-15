@@ -166,6 +166,9 @@ export const spellEffect = {
                 case 'ability_mage_timewarp':
                     this.ability_mage_timewarp(source, source, spell);
                     break;
+                case 'spell_holy_renew':
+                    this.spell_holy_renew(source, source, spell);
+                    break;
                 default:
                     this.generalSpell(source, target, spell);
                     break;
@@ -203,7 +206,6 @@ export const spellEffect = {
                 return true;
             }
             for(let cost in this.spell[spell].level[spellLv].cost) {
-                console.log(this.playerAttr.buff.focus)
                 if(cost == 'MP' && !(this.playerAttr.buff.focus > 0)) {
                     if(attr['CURMP'].value < this.spell[spell].level[spellLv].cost['MP']) {
                         let battleAnime = this.$store.globalComponent["battleAnime"];
@@ -285,6 +287,7 @@ export const spellEffect = {
             return dmg;
         },
         getSpellHeal(spell, source, dmgs) {
+            let index = this.$store.globalComponent["index"];
             let spellLv = source.spells == undefined ? 0 : source.spells[spell].lv-1;
             let heals = this.spell[spell].level[spellLv];
             if(!heals.heal)
@@ -296,7 +299,7 @@ export const spellEffect = {
             }
             heal = this.applySpellHealBonus(spell, source, heal);
             heal = Math.round(heal);
-            this.set_heal(dmgs, heal);
+            index.set_heal(dmgs, heal);
         },
         applySpellHealBonus(spell, source, heal) {
             if(heal <= 0)
@@ -646,11 +649,9 @@ export const spellEffect = {
             let count = 0;
             this.spell_frost_icestorm_dmg(source, target, spell);
             let timer = setInterval(() => {
-                if(count++ >= 7) {
-                    index.removeFromTimerList(target.type, timer);
-                    return;
-                }
                 this.spell_frost_icestorm_dmg(source, target, spell);
+                if(++count >= 7)
+                    index.removeFromTimerList(target.type, timer);
             }, 1000);
             index.addToTimerList(target.type, timer);
         },
@@ -667,11 +668,9 @@ export const spellEffect = {
             let count = 0;
             this.ability_warlock_burningembersblue_dmg(source, target, spell);
             let timer = setInterval(() => {
-                if(count++ >= 14) {
-                    index.removeFromTimerList(target.type, timer);
-                    return;
-                }
                 this.ability_warlock_burningembersblue_dmg(source, target, spell);
+                if(++count >= 14)
+                    index.removeFromTimerList(target.type, timer);
             }, 333);
             index.addToTimerList(target.type, timer);
         },
@@ -722,11 +721,9 @@ export const spellEffect = {
             }
             index.buffReduce(source, source, 'arcCharge', arcCharge);
             let timer = setInterval(() => {
-                if(count-- <= 0) {
-                    index.removeFromTimerList(target.type, timer);
-                    return;
-                }
                 this.arcaneGeneralSpell(source, target, spell, arcCharge);
+                if(--count <= 0)
+                    index.removeFromTimerList(target.type, timer);
             }, 100);
             index.addToTimerList(target.type, timer);
         },
@@ -759,11 +756,9 @@ export const spellEffect = {
             }
             index.buffReduce(source, source, 'arcCharge', arcCharge);
             let timer = setInterval(() => {
-                if(count-- <= 0) {
-                    index.removeFromTimerList(target.type, timer);
-                    return;
-                }
                 this.arcaneGeneralSpell(source, target, spell, arcCharge);
+                if(--count <= 0)
+                    index.removeFromTimerList(target.type, timer);
             }, 100);
             index.addToTimerList(target.type, timer);
         },
@@ -811,6 +806,24 @@ export const spellEffect = {
         ability_mage_timewarp(source, target, spell) {
             this.setSpellProgress(source, target, 'full', 'all', 0);
             source.spells[spell].progress = 0;
+        },
+        // 恢复
+        spell_holy_renew(source, target, spell) {
+            let index = this.$store.globalComponent["index"];
+            let count = 20;
+            // 福音
+            let talent = 'spell_holy_divineillumination';
+            if(source.talent[talent] > 0) {
+                count += (1+3*source.talent[talent]);
+            }
+            let dmgs = this.getSpellDmg(spell, source);
+            this.getSpellHeal(spell, source, dmgs);
+            let timer = setInterval(() => {
+                this.applyDmg(source, target, spell, dmgs);
+                if(--count <= 0)
+                    index.removeFromTimerList(target.type, timer);
+            }, 1000);
+            index.addToTimerList(target.type, timer);
         },
     }
 }

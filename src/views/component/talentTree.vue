@@ -258,6 +258,24 @@ export default {
                 case 'ability_mage_timewarp':
                 case 'spell_ice_lament':
                 case 'spell_shadow_detectlesserinvisibility':
+                // 牧师
+                case 'spell_holy_renew':
+                case 'spell_holy_flashheal':
+                case 'spell_holy_innerfire':
+                case 'spell_holy_testoffaith':
+                case 'spell_shadow_unholyfrenzy':
+                case 'spell_holy_powerwordshield':
+                case 'spell_shadow_shadowmend':
+                case 'spell_shadow_shadowwordpain':
+                case 'spell_holy_dispelmagic':
+                case 'spell_holy_wordfortitude':
+                case 'spell_holy_holysmite':
+                case 'spell_shadow_demonicfortitude':
+                case 'spell_holy_powerwordbarrier':
+                case 'ability_priest_silence':
+                case 'ability_priest_flashoflight':
+                case 'spell_nature_nullifydisease':
+                case 'spell_holy_persuitofjustice':
                     this.learnSpell(talent);
                     break;
             }

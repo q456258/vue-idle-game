@@ -1103,11 +1103,11 @@ export const talentConfig = {
                 ability_pvp_innerrenewal:{
                     name: '恢复信仰',
                     desc: ['',
-                        '所有的治疗量提高1%',
-                        '所有的治疗量提高2%',
-                        '所有的治疗量提高3%',
-                        '所有的治疗量提高4%',
-                        '所有的治疗量提高5%'
+                        '所有技能治疗量提高1%',
+                        '所有技能治疗量提高2%',
+                        '所有技能治疗量提高3%',
+                        '所有技能治疗量提高4%',
+                        '所有技能治疗量提高5%'
                     ],
                     type: 'ability_pvp_innerrenewal',
                     iconSrc: './icons/spell/priest/ability_pvp_innerrenewal.jpg',

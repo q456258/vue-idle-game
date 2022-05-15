@@ -456,15 +456,25 @@ export const buffAndTrigger = {
                 let item = itemInfo.createItem('inv_potion_27', 1);  
                 itemInfo.addItem(JSON.parse(item));
             }
+            // 生命残留
             let talent = 'spell_shadow_bloodboil';
             if(source.talent[talent] > 0) {
                 let recover = Math.min(target.attribute.MAXHP.value*0.01, source.attribute.MAXHP.value*source.talent[talent]*0.01);
-                this.hpChange(source, source, recover);
+                this.hpChange(source, source, {heal: recover});
             }
+            // 法力残留
             talent = 'inv_elemental_mote_mana';
             if(source.talent[talent] > 0) {
                 let recover = Math.min(target.attribute.MAXHP.value*0.0025, source.attribute.MAXMP.value*source.talent[talent]*0.01);
                 this.mpChange(source, source, recover);
+            }
+            // 复活术
+            talent = 'spell_holy_resurrection';
+            if(target.talent[talent] > 0) {
+                let recover = target.attribute.MAXHP.value*0.15*target.talent[talent];
+                setTimeout(() => {
+                    this.hpChange(target, target, {heal: recover});
+                }, 1000);
             }
         },
         hpChange(source, target, dmgs, sourceName) {
@@ -652,14 +662,14 @@ export const buffAndTrigger = {
                 this.triggerOnHurt(source, target, data);
             if(-1*data >= CURHP.value)
                 data = this.triggerBeforeKilled(source, target, data);
-            if(-1*data >= CURHP.value) {
+            this.$store.commit('set_hp', {data, CURHP, MAXHP});
+            if(CURHP.value <= 0) {
                 this.clearTickTimers(target.type);
                 let slainBy = {};
                 slainBy[source.name] = 1;
                 this.$store.commit('set_statistic', {slainBy: slainBy});
                 this.triggerAfterKilled(source, target);
             }
-            this.$store.commit('set_hp', {data, CURHP, MAXHP});
             CURHP.showValue = CURHP.value;
         },
         set_enemy_hp(data) {
@@ -677,11 +687,11 @@ export const buffAndTrigger = {
                 this.triggerOnHurt(source, target, data);
             if(-1*data >= CURHP.value)
                 data = this.triggerBeforeKilled(source, target, data);
-            if(-1*data >= CURHP.value)  {
+            this.$store.commit('set_hp', {data, CURHP, MAXHP});
+            if(CURHP.value <= 0)  {
                 this.clearTickTimers(target.type);
                 this.triggerAfterKilled(source, target);
             }
-            this.$store.commit('set_hp', {data, CURHP, MAXHP});
             CURHP.showValue = CURHP.value;
         },    
     }
