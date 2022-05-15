@@ -1132,6 +1132,7 @@ export default {
                 top: 2rem;
                 width: 30rem;
                 text-align: left;
+                font-size: 10.5px;
             }
             .spellProgress {
                 position: absolute;
