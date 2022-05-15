@@ -287,7 +287,6 @@ export const spellEffect = {
         getSpellHeal(spell, source, dmgs) {
             let spellLv = source.spells == undefined ? 0 : source.spells[spell].lv-1;
             let heals = this.spell[spell].level[spellLv];
-            let healBonus = source.attribute['HEAL'].value;
             if(!heals.heal)
                 return 0;
             let heal = heals.heal['FIX'] == undefined ? 0 : heals.heal['FIX'];
@@ -295,10 +294,20 @@ export const spellEffect = {
                 if(source.attribute[attr] != undefined)
                     heal += source.attribute[attr].value*heals.heal[attr];
             }
-            if(heal > 0)
-                heal += healBonus;
+            heal = this.applySpellHealBonus(spell, source, heal);
             heal = Math.round(heal);
             this.set_heal(dmgs, heal);
+        },
+        applySpellHealBonus(spell, source, heal) {
+            if(heal <= 0)
+                return heal;
+            let healBonus = source.attribute['HEAL'].value;
+                heal += healBonus;
+            let talent = 'ability_pvp_innerrenewal';
+            if(source.talent[talent] > 0) {
+                heal *= (1+source.talent[talent]*0.01);
+            }
+            return heal;
         },
         applyDmg(source, target, spell, dmgs) {
             let index = this.$store.globalComponent["index"];

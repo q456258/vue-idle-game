@@ -653,17 +653,18 @@ export default {
         let player = this.$store.state.playerAttribute;
         let recover = 0.10;
         let talent = 'spell_arcane_studentofmagic';
+        let amount = this.attribute.SPI.value;
+        if(!this.dungeonInfo.inBattle) {
+          if(this.playerTalent[talent] > 0) {
+            recover += this.playerTalent[talent]*0.01;
+          }
+          amount += this.attribute.MAXMP.value*recover;
+        }
+        talent = 'spell_arcane_mindmastery';
         if(this.playerTalent[talent] > 0) {
-          recover += this.playerTalent[talent]*0.01;
+          amount *= (1+this.playerTalent[talent]*0.1);
         }
-        let amount = this.attribute.MAXMP.value*recover+this.attribute.SPI.value;
-        if(this.dungeonInfo.inBattle) {
-          amount = this.attribute.SPI.value;
-          this.mpChange(player, player, Math.ceil(amount));
-          return;
-        }
-        else
-          this.mpChange(player, player, Math.ceil(amount));
+        this.mpChange(player, player, Math.ceil(amount));
       }, 5000);
     },
     openMenuPanel(type) {

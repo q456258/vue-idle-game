@@ -1363,11 +1363,12 @@ export const talentConfig = {
                 ability_priest_flashoflight:{
                     name: '【技能】真言术：慰',
                     desc: ['',
-                        '以天堂之力攻击一名敌人，造成法术强度*0.8的魔法伤害，同时为你恢复1%的最大法力值'
+                        '以天堂之力攻击一名敌人，造成法术强度*0.8的魔法伤害，同时为你恢复5%的最大法力值',
+                        '以天堂之力攻击一名敌人，造成法术强度*0.8的魔法伤害，同时为你恢复10%的最大法力值',
                     ],
                     type: 'ability_priest_flashoflight',
                     iconSrc: './icons/spell/priest/ability_priest_flashoflight.jpg',
-                    maxLv: 1,
+                    maxLv: 2,
                     position: [0, 8]
                 },
                 spell_nature_nullifydisease:{
