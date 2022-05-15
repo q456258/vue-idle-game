@@ -92,13 +92,18 @@ export default {
                         if(isNaN(text[i]))
                             continue;
                         let span = document.createElement("DIV");
-                        if(i == "adDmg")
+                        if(i == "adDmg") {
                             span.style.color = "#ff0000";
-                        if(i == "apDmg")
+                            textnode = document.createTextNode("-"+text[i]);
+                        }
+                        if(i == "apDmg") {
                             span.style.color = "#2ab0ff";
-                        if(i == "heal")
+                            textnode = document.createTextNode("-"+text[i]);
+                        }
+                        if(i == "heal") {
                             span.style.color = "#00ff00";
-                        textnode = document.createTextNode("-"+text[i]);
+                            textnode = document.createTextNode(text[i]);
+                        }
                         span.classList.add("innerFloatingText");
                         span.appendChild(textnode);
                         node.appendChild(span);
