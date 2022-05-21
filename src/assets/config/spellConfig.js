@@ -961,6 +961,9 @@ data() {
                 quality: 1,
                 level: [{
                         des: '加快你的施法速度，使你的急速提高30，持续20秒',
+                        statBuff: [
+                            {type: 'HASTE', valType: 'FIX', value: 30, stack:20, chance: 100, target: 'self'},
+                        ],
                         cost: { MP: 100, },
                     }
                 ],
@@ -1029,6 +1032,9 @@ data() {
                 quality: 1,
                 level: [{
                         des: '将自身包裹在烈焰之中，短时间内使你的法术爆击几率提高100%，持续10秒',
+                        statBuff: [
+                            {type: 'APCRIT', valType: 'FIX', value: 101, stack:10, chance: 100, target: 'self'},
+                        ],
                         cost: { MP: 200, },
                     }
                 ],
@@ -1103,12 +1109,24 @@ data() {
                 quality: 1,
                 level: [{
                         des: '提升10%攻击力和50护甲，持续30秒',
+                        statBuff: [
+                            {type: 'ATK', valType: 'ATK', value: 0.1, stack:30, chance: 100, target: 'self'},
+                            {type: 'DEF', valType: 'FIX', value: 50, stack:30, chance: 100, target: 'self'},
+                        ],
                         cost: { MP: 20, },
                     }, {
                         des: '提升12%攻击力和75护甲，持续30秒',
+                        statBuff: [
+                            {type: 'ATK', valType: 'ATK', value: 0.12, stack:30, chance: 100, target: 'self'},
+                            {type: 'DEF', valType: 'FIX', value: 75, stack:30, chance: 100, target: 'self'},
+                        ],
                         cost: { MP: 30, },
                     }, {
                         des: '提升14%攻击力和100护甲，持续30秒',
+                        statBuff: [
+                            {type: 'ATK', valType: 'ATK', value: 0.14, stack:30, chance: 100, target: 'self'},
+                            {type: 'DEF', valType: 'FIX', value: 100, stack:30, chance: 100, target: 'self'},
+                        ],
                         cost: { MP: 40, },
                     }
                 ],
@@ -1121,6 +1139,10 @@ data() {
                 quality: 1,
                 level: [{
                         des: '使最大生命值提高25%，持续10 sec。同时立即为你恢复同样数量的生命值',
+                        heal: { MAXHP: 0.25, },
+                        statBuff: [
+                            {type: 'MAXHP', valType: 'MAXHP', value: 0.25, stack:30, chance: 100, target: 'self'},
+                        ],
                         cost: { MP: 200, },
                     }
                 ],
@@ -1157,13 +1179,13 @@ data() {
                 iconSrc: "./icons/spell/priest/spell_holy_powerwordshield.jpg",
                 quality: 1,
                 level: [{
-                        des: '施加一个护盾，吸收法术强度*1.75*(1+全能*0.1)点伤害',
+                        des: '施加一个护盾，吸收法术强度*1*(1+全能*0.1)点伤害',
                         cost: { MP: 50, },
                     }, {
-                        des: '施加一个护盾，吸收法术强度*2*(1+全能*0.1)点伤害',
+                        des: '施加一个护盾，吸收法术强度*1.25*(1+全能*0.1)点伤害',
                         cost: { MP: 60, },
                     }, {
-                        des: '施加一个护盾，吸收法术强度*2.25*(1+全能*0.1)点伤害',
+                        des: '施加一个护盾，吸收法术强度*1.5*(1+全能*0.1)点伤害',
                         cost: { MP: 70, },
                     }
                 ],

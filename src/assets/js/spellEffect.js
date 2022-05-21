@@ -151,23 +151,32 @@ export const spellEffect = {
                 case 'spell_nature_starfall':
                     this.spell_nature_starfall(source, target, spell);
                     break;
-                case 'spell_frost_coldhearted':
-                    this.spell_frost_coldhearted(source, source, spell);
-                    break;
                 case 'spell_frost_wizardmark':
                     this.spell_frost_wizardmark(source, source, spell);
                     break;
                 case 'spell_nature_purge':
                     this.spell_nature_purge(source, source, spell);
                     break;
-                case 'spell_fire_sealoffire':
-                    this.spell_fire_sealoffire(source, source, spell);
-                    break;
                 case 'ability_mage_timewarp':
                     this.ability_mage_timewarp(source, source, spell);
                     break;
                 case 'spell_holy_renew':
                     this.spell_holy_renew(source, source, spell);
+                    break;
+                case 'spell_holy_testoffaith':
+                    this.spell_holy_testoffaith(source, source, spell);
+                    break;
+                case 'spell_shadow_unholyfrenzy':
+                    this.spell_shadow_unholyfrenzy(source, target, spell);
+                    break;
+                case 'spell_holy_powerwordshield':
+                    this.spell_holy_powerwordshield(source, source, spell);
+                    break;
+                case 'spell_shadow_shadowwordpain':
+                    this.spell_shadow_shadowwordpain(source, target, spell);
+                    break;
+                case 'spell_shadow_shadowmend':
+                    this.spell_shadow_shadowmend(source, target, spell);
                     break;
                 default:
                     this.generalSpell(source, target, spell);
@@ -194,9 +203,11 @@ export const spellEffect = {
             let dmgs = this.getSpellDmg(spell, source);
             this.getSpellHeal(spell, source, dmgs);
             let effectList = this.getSpellEffect(source, spell);
+            let statBuffList = this.getStatBuff(source, spell);
             
             this.applyDmg(source, target, spell, dmgs);
             this.applyEffect(source, target, effectList);
+            this.applyStatBuff(source, target, statBuffList);
         },
         checkCost(spell) {
             let attr = this.playerAttr.attribute;
@@ -282,6 +293,14 @@ export const spellEffect = {
                 for(let attr in dmgs.apDmg) {
                     if(source.attribute[attr] != undefined)
                         dmg.apDmg += source.attribute[attr].value*dmgs.apDmg[attr];
+                }
+            }
+            // 神圣
+            if(dmgs.trueDmg) {
+                dmg.trueDmg = dmgs.trueDmg['FIX'] == undefined ? 0 : dmgs.trueDmg['FIX'];
+                for(let attr in dmgs.trueDmg) {
+                    if(source.attribute[attr] != undefined)
+                        dmg.trueDmg += source.attribute[attr].value*dmgs.trueDmg[attr];
                 }
             }
             return dmg;
@@ -474,6 +493,15 @@ export const spellEffect = {
             }
             return effectList;
         },
+        getStatBuff(source, spellName) {
+            let spellLv = source.spells == undefined ? 0 : source.spells[spellName].lv-1;
+            let statBuff = this.spell[spellName].level[spellLv].statBuff;
+            let statBuffList = [];
+            for(let buff in statBuff) {
+                statBuffList.push(statBuff[buff]);
+            }
+            return statBuffList;
+        },
         applyEffect(source, target, effectList) {
             let index = this.$store.globalComponent["index"];
             for(let eff in effectList) {
@@ -482,6 +510,18 @@ export const spellEffect = {
                         index.buffApply(source, source, eff, effectList[eff].stack);
                     else
                         index.buffApply(source, target, eff, effectList[eff].stack);
+                }
+            }
+        },
+        applyStatBuff(source, target, statBuffList) {
+            let index = this.$store.globalComponent["index"];
+            for(let i in statBuffList) {
+                if(Math.random()*100 < statBuffList[i].chance) {
+                    let value = statBuffList[i].valType == 'FIX' ? statBuffList[i].value : source.attribute[statBuffList[i].valType].value*statBuffList[i].value;
+                    if(statBuffList[i].target == 'self')
+                        index.statBuffApply(source, source, statBuffList[i].type, value, statBuffList[i].stack);
+                    else
+                        index.statBuffApply(source, target, statBuffList[i].type, value, statBuffList[i].stack);
                 }
             }
         },
@@ -778,11 +818,6 @@ export const spellEffect = {
             this.applyDmg(source, target, spell, dmg);
             this.applyEffect(source, target, effectList);
         },
-        // 冰冷血脉 
-        spell_frost_coldhearted(source, target, spell) {
-            let index = this.$store.globalComponent["index"];
-            index.statBuffApply(source, target, 'HASTE', 30, 20);
-        },
         // 急速冷却
         spell_frost_wizardmark(source, target, spell) {
             this.setSpellProgress(source, target, 'full', 'spell_frost_icestorm', 0);
@@ -796,11 +831,6 @@ export const spellEffect = {
             let spellLv = source.spells[spell].lv-1;
             let manaRec = source.attribute['SPI'].value*(20+10*spellLv);
             index.mpChange(source, target, manaRec);
-        },
-        // 燃烧
-        spell_fire_sealoffire(source, target, spell) {
-            let index = this.$store.globalComponent["index"];
-            index.statBuffApply(source, target, 'APCRIT', 100, 10);
         },
         // 时间扭曲
         ability_mage_timewarp(source, target, spell) {
@@ -823,6 +853,80 @@ export const spellEffect = {
                 if(--count <= 0)
                     index.removeFromTimerList(target.type, timer);
             }, 1000);
+            index.addToTimerList(target.type, timer);
+        },
+        // 绝望祷言
+        spell_holy_testoffaith(source, target, spell) {
+            let dmgs = this.getSpellDmg(spell, source);
+            this.getSpellHeal(spell, source, dmgs);
+            let statBuffList = this.getStatBuff(source, spell);
+            
+            this.applyStatBuff(source, target, statBuffList);
+            this.applyDmg(source, target, spell, dmgs);
+        },
+        // 心灵震爆
+        spell_shadow_unholyfrenzy(source, target, spell) {
+            let dmgs = this.getSpellDmg(spell, source);
+            this.getSpellHeal(spell, source, dmgs);
+            let effectList = this.getSpellEffect(source, spell);
+            let statBuffList = this.getStatBuff(source, spell);
+            // 精神灼伤
+            let talent = 'spell_shadow_mindshear';
+            if(source.talent[talent] > 0) {
+                let chance = source.talent[talent]*10+10;
+                effectList['weak'] = {stack: 1, chance: chance, target: 'enemy'};
+            }
+            
+            this.applyDmg(source, target, spell, dmgs);
+            this.applyEffect(source, target, effectList);
+            this.applyStatBuff(source, target, statBuffList);
+        },
+        // 真言术：盾
+        spell_holy_powerwordshield(source, target, spell) {
+            let index = this.$store.globalComponent["index"];
+            let shield = source.attribute.AP.value*(0.75+source.spells[spell].lv*0.25)*(1+source.attribute.VERS.value*0.1);
+            index.shield(source, target, shield, spell);
+        },
+        // 暗言术：痛
+        spell_shadow_shadowwordpain(source, target, spell) {
+            let index = this.$store.globalComponent["index"];
+            let dmgs = this.getSpellDmg(spell, source);
+            this.applyDmg(source, target, spell, dmgs);
+
+            let count = 12;
+            let dotDmg = {apDmg: source.attribute.AP.value*(0.08+source.spells[spell].lv*0.02)};
+            let timer = setInterval(() => {
+                this.applyDmg(source, target, spell, dotDmg);
+                if(--count <= 0)
+                    index.removeFromTimerList(target.type, timer);
+            }, 1000);
+            index.addToTimerList(target.type, timer);
+        },
+        // 暗影愈合
+        spell_shadow_shadowmend(source, target, spell) {
+            let index = this.$store.globalComponent["index"];
+            let dmgs = this.getSpellDmg(spell, source);
+            this.getSpellHeal(spell, source, dmgs);
+            let timer;
+            //忍辱负重
+            let talent = 'spell_shadow_misery';
+            if(source.talent[talent] > 0) {
+                index.set_ap_dmg(dmgs, dmgs.heal);
+                delete dmgs.heal;
+                let dotHeal = {heal: source.attribute.AP.value*0.16};
+                timer = setInterval(() => {
+                    this.applyDmg(source, target, spell, dotHeal);
+                }, 1000);
+                this.applyDmg(source, source, spell, dmgs);
+            } else {
+                dmgs.enemyHeal = dmgs.heal;
+                delete dmgs.heal;
+                let dotDmg = {apDmg: source.attribute.AP.value*0.16};
+                timer = setInterval(() => {
+                    this.applyDmg(source, target, spell, dotDmg);
+                }, 1000);
+                this.applyDmg(source, target, spell, dmgs);
+            }
             index.addToTimerList(target.type, timer);
         },
     }

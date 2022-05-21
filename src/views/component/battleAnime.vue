@@ -100,6 +100,10 @@ export default {
                             span.style.color = "#2ab0ff";
                             textnode = document.createTextNode("-"+text[i]);
                         }
+                        if(i == "trueDmg") {
+                            span.style.color = "#ffffff";
+                            textnode = document.createTextNode("-"+text[i]);
+                        }
                         if(i == "heal") {
                             span.style.color = "#00ff00";
                             textnode = document.createTextNode(text[i]);

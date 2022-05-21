@@ -1231,12 +1231,25 @@ export const talentConfig = {
                     position: [2, 3],
                     right: true
                 },
+                spell_shadow_shadowwordpain:{
+                    name: '【技能】暗言术：痛',
+                    desc: ['',
+                        '黑暗的咒语，造成法术强度*0.5点魔法伤害，并每秒造成法术强度*0.1点魔法伤害, 持续12秒',
+                        '黑暗的咒语，造成法术强度*0.5点魔法伤害，并每秒造成法术强度*0.12点魔法伤害, 持续12秒',
+                        '黑暗的咒语，造成法术强度*0.5点魔法伤害，并每秒造成法术强度*0.14点魔法伤害, 持续12秒',
+                        '黑暗的咒语，造成法术强度*0.5点魔法伤害，并每秒造成法术强度*0.16点魔法伤害, 持续12秒',
+                    ],
+                    type: 'spell_shadow_shadowwordpain',
+                    iconSrc: './icons/spell/priest/spell_shadow_shadowwordpain.jpg',
+                    maxLv: 4,
+                    position: [4, 3]
+                },
                 spell_holy_powerwordshield:{
                     name: '【技能】真言术：盾',
                     desc: ['',
-                        '施加一个护盾，吸收法术强度*1.75*(1+全能*0.1)点伤害',
-                        '施加一个护盾，吸收法术强度*2*(1+全能*0.1)点伤害',
-                        '施加一个护盾，吸收法术强度*2.25*(1+全能*0.1)点伤害',
+                        '施加一个护盾，吸收法术强度*1*(1+全能*0.1)点伤害',
+                        '施加一个护盾，吸收法术强度*1.25*(1+全能*0.1)点伤害',
+                        '施加一个护盾，吸收法术强度*1.5*(1+全能*0.1)点伤害',
                     ],
                     type: 'spell_holy_powerwordshield',
                     iconSrc: './icons/spell/priest/spell_holy_powerwordshield.jpg',
@@ -1252,19 +1265,6 @@ export const talentConfig = {
                     iconSrc: './icons/spell/priest/spell_shadow_shadowmend.jpg',
                     maxLv: 1,
                     position: [2, 4]
-                },
-                spell_shadow_shadowwordpain:{
-                    name: '【技能】暗言术：痛',
-                    desc: ['',
-                        '黑暗的咒语，造成法术强度*0.5点魔法伤害，并每秒造成法术强度*0.1点魔法伤害, 持续12秒',
-                        '黑暗的咒语，造成法术强度*0.5点魔法伤害，并每秒造成法术强度*0.12点魔法伤害, 持续12秒',
-                        '黑暗的咒语，造成法术强度*0.5点魔法伤害，并每秒造成法术强度*0.14点魔法伤害, 持续12秒',
-                        '黑暗的咒语，造成法术强度*0.5点魔法伤害，并每秒造成法术强度*0.16点魔法伤害, 持续12秒',
-                    ],
-                    type: 'spell_shadow_shadowwordpain',
-                    iconSrc: './icons/spell/priest/spell_shadow_shadowwordpain.jpg',
-                    maxLv: 4,
-                    position: [4, 3]
                 },
                 spell_holy_dispelmagic:{
                     name: '【技能】纯净术',
@@ -1299,7 +1299,7 @@ export const talentConfig = {
                 spell_shadow_misery:{
                     name: '忍辱负重',
                     desc: ['',
-                        '暗影愈合目标改为自身，持续伤害转为治疗'
+                        '暗影愈合目标改为自身，治疗转为伤害，持续伤害转为治疗'
                     ],
                     type: 'spell_shadow_misery',
                     iconSrc: './icons/spell/priest/spell_shadow_misery.jpg',

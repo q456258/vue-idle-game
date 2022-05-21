@@ -114,6 +114,11 @@ export const buffAndTrigger = {
         },
         // 添加buff
         statBuffApply(source, target, type, value, stack=1) {
+            if(isNaN(value)) {
+                console.trace();
+                console.log("属性buff传入无效数字");
+            }
+            value = Math.round(value);
             let attr = target.attribute;
             let percent = [
                 'STRP','AGIP','INTP','STAP','SPIP','ALLP','CRIT','CRITDMG','APCRIT','APCRITDMG','ATKP','DEFP','BLOCKP','APP','APPENP','MRP','HPP','MPP'
@@ -181,6 +186,9 @@ export const buffAndTrigger = {
             } else if(type == 'VERS') {
                 attr['VERSBONUS'].value = Math.round(attr['VERS'].value*4)/100;
                 attr['VERSBONUS'].showValue = attr['VERSBONUS'].value+'%';
+            } else if(type == 'MAXHP') {
+                attr['CURHP'].value = Math.min(attr['CURHP'].value, attr['MAXHP'].value);
+                attr['CURHP'].showValue = attr['CURHP'].value;
             }
         },
         // 减少buff层数
@@ -483,6 +491,8 @@ export const buffAndTrigger = {
                 this.damage(source, target, dmgs, sourceName);
             if(!isNaN(dmgs.heal))
                 this.heal(source, source, this.get_dmg(dmgs, 'heal'), sourceName);
+            if(!isNaN(dmgs.enemyHeal))
+                this.heal(source, target, this.get_dmg(dmgs, 'enemyHeal'), sourceName);
         },
         damage(source, target, dmgs, sourceName) {
             let battleAnime = this.$store.globalComponent["battleAnime"];
@@ -492,27 +502,43 @@ export const buffAndTrigger = {
             this.dmgShield(source, target, dmgs, sourceName);
             for(let dmgType in dmgs)
                 dmgs[dmgType] = Math.round(dmgs[dmgType]);
-            let totalDmg = this.get_dmg(dmgs, 'ad')+this.get_dmg(dmgs, 'ap');
+            let totalDmg = this.get_dmg(dmgs, 'ad')+this.get_dmg(dmgs, 'ap')+this.get_dmg(dmgs, 'true');
             let dmgType = '伤害';
             let dmgText = ' 0 ';
+            let dmgTypeCount = dmgs.adDmg == undefined ? 0 : 1;
+            dmgs.apDmg == undefined ? 0 : dmgTypeCount++;
+            dmgs.trueDmg == undefined ? 0 : dmgTypeCount++;
             
             if(target.buff['icenova'] != undefined)
                 target.buffCounter['icenova'] += totalDmg;
-            if(dmgs.adDmg != undefined) {
-                battleAnime.displayText(target.type, "dmg", {adDmg: dmgs.adDmg, apDmg: dmgs.apDmg});
+
+            battleAnime.displayText(target.type, "dmg", {adDmg: dmgs.adDmg, apDmg: dmgs.apDmg, trueDmg: dmgs.trueDmg});
+            if(dmgTypeCount > 1) {
+                dmgText = '<span style="color:#ffffff"> '+totalDmg +'</span>(';
+                if(dmgs.adDmg != undefined)
+                    dmgText += '<span style="color:#ff0000">'+this.get_dmg(dmgs, 'ad')+'</span>';
                 if(dmgs.apDmg != undefined) {
-                    dmgText = '<span style="color:#ffffff"> '+(this.get_dmg(dmgs, 'ad')+this.get_dmg(dmgs, 'ap'))
-                        +'</span>(<span style="color:#ff0000">'+this.get_dmg(dmgs, 'ad')+'</span>+<span style="color:#2ab0ff">'+this.get_dmg(dmgs, 'ap')+'</span>) ';
-                } else {
-                    dmgType = '物理伤害';
-                    dmgText = '<span style="color:#ff0000">'+this.get_dmg(dmgs, 'ad')+'</span> ';
+                    if(dmgs.adDmg != undefined)
+                        dmgText += '+';
+                    dmgText += '<span style="color:#2ab0ff">'+this.get_dmg(dmgs, 'ap')+'</span>';
                 }
+                if(dmgs.trueDmg != undefined) {
+                    if(dmgs.adDmg != undefined || dmgs.apDmg != undefined)
+                        dmgText += '+';
+                    dmgText += '<span style="color:#ffffff">'+this.get_dmg(dmgs, 'true')+'</span>';
+                }
+                dmgText += ')';
+            } else if (dmgs.adDmg != undefined) {
+                dmgType = '物理伤害';
+                dmgText = '<span style="color:#ff0000">'+this.get_dmg(dmgs, 'ad')+'</span> ';
             } else if (dmgs.apDmg != undefined) {
-                battleAnime.displayText(target.type, "dmg", {apDmg: dmgs.apDmg});
                 dmgType = '魔法伤害';
                 dmgText = '<span style="color:#2ab0ff">'+this.get_dmg(dmgs, 'ap')+'</span> ';
+            } else if (dmgs.trueDmg != undefined) {
+                dmgType = '神圣伤害';
+                dmgText = '<span style="color:#ffffff">'+this.get_dmg(dmgs, 'true')+'</span> ';
             }
-            // let totalDmg = this.get_dmg(dmgs, 'ad')+this.get_dmg(dmgs, 'ap');
+
             if(target.type == 'player')
                 this.set_player_hp(-1*totalDmg, source);
             else
@@ -521,7 +547,7 @@ export const buffAndTrigger = {
                 if(target.type == source.type) {
                     this.$store.commit("set_battle_info", {
                         source: source.type,
-                        html: source.name+'使用<span style="color:#888888">【'+sourceName+'】</span>对 自己 造成了<span style="color:#ff0000">' + dmgText+ '</span>点'+dmgType
+                        html: source.name+' 使用<span style="color:#888888">【'+sourceName+'】</span>对 自己 造成了<span style="color:#ff0000">' + dmgText+ '</span>点'+dmgType
                     })
                 }
                 else {
@@ -596,8 +622,14 @@ export const buffAndTrigger = {
                 case 'ap':
                     dmg = dmgs.apDmg;
                     break;
+                case 'true':
+                    dmg = dmgs.trueDmg;
+                    break;
                 case 'heal':
                     dmg = dmgs.heal;
+                    break;
+                case 'enemyHeal':
+                    dmg = dmgs.enemyHeal;
                     break;
                 default:
                     console.log("获取伤害类型错误");

@@ -325,7 +325,7 @@ export default {
             enemyAttribute.attribute = {};
             enemyAttribute.buff = {};
             enemyAttribute.buffCounter = {};
-            enemyAttribute.tempStat = {};
+            enemyAttribute.tempStat = [];
             enemyAttribute.timedBuff = {};
             enemyAttribute.spellCycle = this.$deepCopy(this.monster[monsterID].spellCycle);
             enemyAttribute.talent = this.$deepCopy(this.monster[monsterID].talent);
