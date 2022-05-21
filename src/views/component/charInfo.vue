@@ -996,9 +996,10 @@ export default {
             }
             .buffText {
                 position: absolute;
-                font-size: 0.9rem;
-                top: 0.6rem;
-                left: 1rem; 
+                text-align: right;
+                font-size: 11px;
+                top: 10px;
+                right: 0px;
                 text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
             }
         }

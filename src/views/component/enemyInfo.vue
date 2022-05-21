@@ -8,12 +8,28 @@
         </span>
     </div> -->
     <div class="buffList">
-        <span class="buff" v-for="(v, k) in attr.buff" :key="k">
+        <div class="buff">
+            <span class="buffHolder" v-for="(v, k) in attr.buff" :key="k">
+                <span v-if="v>0 && buffType.statusBuff[k]!=undefined">
+                    <img :title="buffType.statusBuff[k].desc" :src="buffType.statusBuff[k].iconSrc" alt="">
+                    <span class="buffText">{{v}}</span>
+                </span>
+            </span>
+        </div>
+        <div class="debuff">
+            <span class="buffHolder" v-for="(v, k) in attr.buff" :key="k">
+                <span v-if="v>0 && buffType.statusDebuff[k]!=undefined">
+                    <img :title="buffType.statusDebuff[k].desc" :src="buffType.statusDebuff[k].iconSrc" alt="">
+                    <span class="buffText">{{v}}</span>
+                </span>
+            </span>
+        </div>
+        <!-- <span class="buff" v-for="(v, k) in attr.buff" :key="k">
             <span v-if="v>0">
                 <img :title="buffType.statusDebuff[k].desc" :src="buffType.statusDebuff[k].iconSrc" alt="">
                 <span class="buffText">{{v}}</span>
             </span>
-        </span>
+        </span> -->
     </div>
     <div class="other">
         <div class="item">
@@ -150,25 +166,57 @@ export default {
     margin: 1rem 2rem;
 }
 .buffList {
-    margin: 0.1rem 0rem 0 0rem;
-    width: 30.5rem;
-    height: 1.5rem;
+    width: 500px;
+    height: 25px;
     display: flex;
-    flex-direction: row-reverse;
-    .buff{
+    flex-direction: row;
+    .buff {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        width: 215px;
+    }
+    .debuff {
+        position: relative;
+        display: flex;
+        flex-direction: row-reverse;
+        width: 215px;
+    }
+    .buffHolder {
         position: relative;
         img {
             height: 1.7rem;
         }
         .buffText {
             position: absolute;
-            font-size: 0.9rem;
-            top: 0.6rem;
-            left: 1rem; 
+            text-align: right;
+            font-size: 11px;
+            top: 10px;
+            right: 0px;
             text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
         }
     }
 }
+// .buffList {
+//     margin: 0.1rem 0rem 0 0rem;
+//     width: 30.5rem;
+//     height: 1.5rem;
+//     display: flex;
+//     flex-direction: row-reverse;
+//     .buff{
+//         position: relative;
+//         img {
+//             height: 1.7rem;
+//         }
+//         .buffText {
+//             position: absolute;
+//             font-size: 0.9rem;
+//             top: 0.6rem;
+//             left: 1rem; 
+//             text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
+//         }
+//     }
+// }
 .other {
     width: 100%;
     flex: 1;
