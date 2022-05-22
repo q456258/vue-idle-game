@@ -3,7 +3,7 @@ data() {
     return {
         buffCateg: {
             buffer: ['sunder', 'penetrate', 'lifesteal', 'manasteal','charge','deathImmune','void','absorb','hell','focus','arcCharge'],
-            timed: ['minionSlayer', 'manaShield', 'silence', 'icenova'],
+            timed: ['minionSlayer', 'spell_holy_wordfortitude', 'manaShield', 'silence', 'icenova', 'spell_holy_powerwordbarrier'],
             onTick: ['burn'],
             counter: ['icenova']
         },
@@ -116,6 +116,16 @@ data() {
                     timed: true,
                     iconSrc: "./icons/item/inv_potion_27.jpg",
                     desc: "野怪杀手【分钟】: 对冒险区非精英、BOSS类怪物额外造成50%伤害"
+                },
+                spell_holy_wordfortitude: {
+                    timed: true,
+                    iconSrc: "./icons/spell/priest/spell_holy_wordfortitude.jpg",
+                    desc: "真言术：韧【分钟】: 提升5%耐力"
+                },
+                spell_holy_powerwordbarrier: {
+                    timed: true,
+                    iconSrc: "./icons/spell/priest/spell_holy_powerwordbarrier.jpg",
+                    desc: "真言术：障: 受到的最终伤害降低25%"
                 },
                 avatar: {
                     timed: true,

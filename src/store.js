@@ -542,6 +542,11 @@ export default new Vuex.Store({
             attribute['INTP'].baseVal += attribute['ALLP'].baseVal;
             attribute['STAP'].baseVal += attribute['ALLP'].baseVal;
             attribute['SPIP'].baseVal += attribute['ALLP'].baseVal;
+
+            // 真言术·韧
+            if(playerAttribute.buff['spell_holy_wordfortitude'] != undefined)
+                attribute['STAP'].baseVal += 5;
+
             hasPercent.forEach(attr => {
                 if(playerAttribute.talent[attr])
                     attribute[attr+'P'].baseVal += playerAttribute.talent[attr]*2;

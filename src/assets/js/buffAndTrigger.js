@@ -78,6 +78,16 @@ export const buffAndTrigger = {
         },
         // 添加buff
         buffApply(source, target, type, stack=1){
+            if(type == 'spell_holy_wordfortitude')
+                this.$store.commit('set_player_attribute');
+            // 优雅
+            let talent = 'spell_holy_hopeandgrace';
+            if(target.talent[talent] > 0 && this.buffType.statusDebuff[type] != undefined) {
+                let ran = Math.random()*100;
+                if(ran < target.talent[talent]*2) {
+                    return;
+                }
+            }
             if(this.buffCateg.timed.indexOf(type) != -1) {
                 if(target.timedBuff[type] == undefined) {
                     target.timedBuff[type] = Date.now()+stack*1000;
@@ -148,6 +158,8 @@ export const buffAndTrigger = {
         },
         // 移除buff
         buffRemoved(source, target, type){
+            if(type == 'spell_holy_wordfortitude')
+                this.$store.commit('set_player_attribute');
             let attr = this.player.attribute;
             if(type == 'icenova') {
                 let dmgs = {apDmg: target.buffCounter[type]*0.25};
@@ -487,7 +499,7 @@ export const buffAndTrigger = {
         },
         hpChange(source, target, dmgs, sourceName) {
             this.absorb(target, dmgs);
-            if(dmgs.adDmg != undefined || dmgs.apDmg != undefined)
+            if(dmgs.adDmg != undefined || dmgs.apDmg != undefined || dmgs.trueDmg != undefined)
                 this.damage(source, target, dmgs, sourceName);
             if(!isNaN(dmgs.heal))
                 this.heal(source, source, this.get_dmg(dmgs, 'heal'), sourceName);
@@ -503,6 +515,7 @@ export const buffAndTrigger = {
             for(let dmgType in dmgs)
                 dmgs[dmgType] = Math.round(dmgs[dmgType]);
             let totalDmg = this.get_dmg(dmgs, 'ad')+this.get_dmg(dmgs, 'ap')+this.get_dmg(dmgs, 'true');
+
             let dmgType = '伤害';
             let dmgText = ' 0 ';
             let dmgTypeCount = dmgs.adDmg == undefined ? 0 : 1;
@@ -559,6 +572,17 @@ export const buffAndTrigger = {
             }
         },
         heal(source, target, heal, sourceName) {
+            // 灵魂护壳
+            let talent = 'ability_shaman_astralshift';
+            if(target.talent[talent] > 0 || sourceName == '圣言术：静') {
+                let shield = heal-(target.attribute.MAXHP.value-target.attribute.CURHP.value);
+                if(shield > 0) {
+                    if(sourceName != '圣言术：静')
+                        shield = shield*0.8
+                    heal -= shield;
+                    this.shield(source, target, shield, sourceName);
+                }
+            }
             // this.triggerOnHeal(source, target)
             let battleAnime = this.$store.globalComponent["battleAnime"];
             battleAnime.displayText(target.type, "dmg", {heal: heal});
@@ -600,6 +624,7 @@ export const buffAndTrigger = {
             this.set_ap_dmg(dmgs, this.get_dmg(dmgs, 'ap')-block);
         },
         mpChange(source, target, value, sourceName) {
+            value = Math.round(value);
             if(value > 0) {
                 this.mpRecover(source, target, value, sourceName);
             }

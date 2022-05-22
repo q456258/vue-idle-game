@@ -1331,7 +1331,7 @@ export const talentConfig = {
                 spell_holy_powerwordbarrier:{
                     name: '【技能】真言术：障',
                     desc: ['',
-                        '召唤一道神圣的屏障，降低受到的所有伤害25%。持续10秒'
+                        '召唤一道神圣的屏障，受到的最终伤害降低25%。持续10秒'
                     ],
                     type: 'spell_holy_powerwordbarrier',
                     iconSrc: './icons/spell/priest/spell_holy_powerwordbarrier.jpg',
@@ -1374,7 +1374,9 @@ export const talentConfig = {
                 spell_nature_nullifydisease:{
                     name: '【技能】魔法夺取',
                     desc: ['',
-                        '夺取敌方目标身上的1个增益魔法效果。'
+                        '夺取敌方目标身上的2个增益魔法效果',
+                        '夺取敌方目标身上的3个增益魔法效果',
+                        '夺取敌方目标身上的4个增益魔法效果'
                     ],
                     type: 'spell_nature_nullifydisease',
                     iconSrc: './icons/spell/priest/spell_nature_nullifydisease.jpg',
@@ -1396,9 +1398,9 @@ export const talentConfig = {
                 spell_holy_divineprotection:{
                     name: '护盾戒律',
                     desc: ['',
-                        '对生命值低于35%以下的目标进行治疗后，提升20%法术强度以及治疗效果，持续10秒',
-                        '对生命值低于35%以下的目标进行治疗后，提升30%法术强度以及治疗效果，持续10秒',
-                        '对生命值低于35%以下的目标进行治疗后，提升40%法术强度以及治疗效果，持续10秒'
+                        '对生命值低于20%以下的目标使用治疗技能，提升5%法术强度以及治疗效果，持续10秒',
+                        '对生命值低于35%以下的目标使用治疗技能，提升5%法术强度以及治疗效果，持续10秒',
+                        '对生命值低于50%以下的目标使用治疗技能，提升5%法术强度以及治疗效果，持续10秒'
                     ],
                     type: 'spell_holy_divineprotection',
                     iconSrc: './icons/spell/priest/spell_holy_divineprotection.jpg',

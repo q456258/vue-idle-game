@@ -1248,6 +1248,7 @@ data() {
                 quality: 1,
                 level: [{
                         des: '注入活力，使耐力提高5%，持续1小时',
+                        effect: {spell_holy_wordfortitude: {stack: 3600, chance: 100, target: 'self'},},
                         cost: { MP: 150, },
                     }
                 ],
@@ -1272,7 +1273,7 @@ data() {
                 iconSrc: "./icons/spell/priest/spell_shadow_demonicfortitude.jpg",
                 quality: 1,
                 level: [{
-                        des: '黑暗的咒语，对目标造成法术强度*0.85点点魔法伤害, 对生命值低于50%的目标所造成的伤害提高250%。如果目标没有被暗言术：灭消灭，则施法者会受到等量的伤害',
+                        des: '黑暗的咒语，对目标造成法术强度*0.85点魔法伤害, 对生命值低于50%的目标所造成的伤害提高250%。如果目标没有被暗言术：灭消灭，则施法者会受到等量的伤害',
                         apDmg: { AP: 0.85 },
                         cost: { MP: 100, },
                     }
@@ -1286,6 +1287,7 @@ data() {
                 quality: 1,
                 level: [{
                         des: '召唤一道神圣的屏障，降低受到的所有伤害25%。持续10秒',
+                        effect: {spell_holy_powerwordbarrier: {stack: 10, chance: 100, target: 'self'},},
                         cost: { MP: 100, },
                     }
                 ],
@@ -1335,7 +1337,13 @@ data() {
                 iconSrc: "./icons/spell/priest/spell_nature_nullifydisease.jpg",
                 quality: 1,
                 level: [{
-                        des: '夺取敌方目标身上的1个增益魔法效果',
+                        des: '夺取敌方目标身上的2个增益魔法效果',
+                        cost: { MP: 150, },
+                    }, {
+                        des: '夺取敌方目标身上的3个增益魔法效果',
+                        cost: { MP: 150, },
+                    }, {
+                        des: '夺取敌方目标身上的4个增益魔法效果',
                         cost: { MP: 150, },
                     }
                 ],

@@ -178,6 +178,18 @@ export const spellEffect = {
                 case 'spell_shadow_shadowmend':
                     this.spell_shadow_shadowmend(source, target, spell);
                     break;
+                case 'spell_holy_dispelmagic':
+                    this.spell_holy_dispelmagic(source, target, spell);
+                    break;
+                case 'spell_shadow_demonicfortitude':
+                    this.spell_shadow_demonicfortitude(source, target, spell);
+                    break;
+                case 'ability_priest_flashoflight':
+                    this.ability_priest_flashoflight(source, target, spell);
+                    break;
+                case 'spell_nature_nullifydisease':
+                    this.spell_nature_nullifydisease(source, target, spell);
+                    break;
                 default:
                     this.generalSpell(source, target, spell);
                     break;
@@ -201,10 +213,10 @@ export const spellEffect = {
         },
         generalSpell(source, target, spell) {
             let dmgs = this.getSpellDmg(spell, source);
-            this.getSpellHeal(spell, source, dmgs);
+            this.getSpellHeal(spell, source, target, dmgs);
             let effectList = this.getSpellEffect(source, spell);
             let statBuffList = this.getStatBuff(source, spell);
-            
+
             this.applyDmg(source, target, spell, dmgs);
             this.applyEffect(source, target, effectList);
             this.applyStatBuff(source, target, statBuffList);
@@ -305,7 +317,7 @@ export const spellEffect = {
             }
             return dmg;
         },
-        getSpellHeal(spell, source, dmgs) {
+        getSpellHeal(spell, source, target, dmgs) {
             let index = this.$store.globalComponent["index"];
             let spellLv = source.spells == undefined ? 0 : source.spells[spell].lv-1;
             let heals = this.spell[spell].level[spellLv];
@@ -319,6 +331,12 @@ export const spellEffect = {
             heal = this.applySpellHealBonus(spell, source, heal);
             heal = Math.round(heal);
             index.set_heal(dmgs, heal);
+            // 护盾戒律
+            let talent = 'spell_holy_divineprotection';
+            if(source.talent[talent] > 0 && index.get_dmg(dmgs, 'heal') > 0 && target.attribute.CURHP.value<(target.attribute.MAXHP.value*(0.05+0.15*source.talent[talent]))) {
+                index.statBuffApply(source, source, 'AP', source.attribute.AP.value*0.05, 10);
+                index.statBuffApply(source, source, 'HEAL', source.attribute.HEAL.value*0.05, 10);
+            }
         },
         applySpellHealBonus(spell, source, heal) {
             if(heal <= 0)
@@ -400,6 +418,8 @@ export const spellEffect = {
                 if(this.$store.state.statistic.slainBy[target.name] != undefined)
                     bonus += source.talent[talent]*0.02;
             }
+            if(target.buff['spell_holy_powerwordbarrier'] != undefined)
+                bonus -= 0.25;
             if(source.attribute.VERSBONUS != undefined)
                 bonus += source.attribute.VERSBONUS.value/100;
             if(target.attribute.VERSBONUS != undefined)
@@ -847,7 +867,7 @@ export const spellEffect = {
                 count += (1+3*source.talent[talent]);
             }
             let dmgs = this.getSpellDmg(spell, source);
-            this.getSpellHeal(spell, source, dmgs);
+            this.getSpellHeal(spell, source, target, dmgs);
             let timer = setInterval(() => {
                 this.applyDmg(source, target, spell, dmgs);
                 if(--count <= 0)
@@ -858,7 +878,7 @@ export const spellEffect = {
         // 绝望祷言
         spell_holy_testoffaith(source, target, spell) {
             let dmgs = this.getSpellDmg(spell, source);
-            this.getSpellHeal(spell, source, dmgs);
+            this.getSpellHeal(spell, source, target, dmgs);
             let statBuffList = this.getStatBuff(source, spell);
             
             this.applyStatBuff(source, target, statBuffList);
@@ -867,7 +887,7 @@ export const spellEffect = {
         // 心灵震爆
         spell_shadow_unholyfrenzy(source, target, spell) {
             let dmgs = this.getSpellDmg(spell, source);
-            this.getSpellHeal(spell, source, dmgs);
+            this.getSpellHeal(spell, source, target, dmgs);
             let effectList = this.getSpellEffect(source, spell);
             let statBuffList = this.getStatBuff(source, spell);
             // 精神灼伤
@@ -906,9 +926,9 @@ export const spellEffect = {
         spell_shadow_shadowmend(source, target, spell) {
             let index = this.$store.globalComponent["index"];
             let dmgs = this.getSpellDmg(spell, source);
-            this.getSpellHeal(spell, source, dmgs);
+            this.getSpellHeal(spell, source, target, dmgs);
             let timer;
-            //忍辱负重
+            // 忍辱负重
             let talent = 'spell_shadow_misery';
             if(source.talent[talent] > 0) {
                 index.set_ap_dmg(dmgs, dmgs.heal);
@@ -928,6 +948,61 @@ export const spellEffect = {
                 this.applyDmg(source, target, spell, dmgs);
             }
             index.addToTimerList(target.type, timer);
+        },
+        // 纯净术
+        spell_holy_dispelmagic(source, target, spell) {
+            let index = this.$store.globalComponent["index"];
+            for(let buff in target.buff) {
+                if(index.buffType.statusBuff[buff] != undefined) {
+                    index.buffRemoved(source, target, buff);
+                }
+            }
+            // 驱散
+            let talent = 'spell_arcane_massdispel';
+            if(source.talent[talent] > 0) {
+                let enemyBuff = target.tempStat;
+                for(let i=enemyBuff.length-1; i>=0; i--)
+                    index.statBuffRemove(source, target, enemyBuff[i].type, enemyBuff[i].value, i);
+            }
+        },
+        // 暗言术·灭
+        spell_shadow_demonicfortitude(source, target, spell) {
+            let index = this.$store.globalComponent["index"];
+            let dmgs = this.getSpellDmg(spell, source);
+
+            if(target.attribute.CURHP.value < target.attribute.MAXHP.value*0.5)
+                index.set_ap_dmg(dmgs, index.get_dmg(dmgs, 'ap')*2.5);
+
+            this.applyDmg(source, target, spell, dmgs);
+            if(target.attribute.CURHP.value > 0) {
+                this.applyDmg(source, source, spell, dmgs);
+            }
+        },
+        // 真言术：慰
+        ability_priest_flashoflight(source, target, spell) {
+            let index = this.$store.globalComponent["index"];
+            let dmgs = this.getSpellDmg(spell, source);
+            let manaRec = source.attribute['MAXMP'].value*(0.05*source.spells[spell].lv);
+
+            index.mpChange(source, source, manaRec);
+            this.applyDmg(source, target, spell, dmgs);
+        },
+        // 魔法夺取
+        spell_nature_nullifydisease(source, target, spell) {
+            let index = this.$store.globalComponent["index"];
+            for(let i=0; i<source.spells[spell].lv+1; i++) {
+                let buffList = [];
+                for(let buff in target.buff) {
+                    if(index.buffType.statusBuff[buff] != undefined) {
+                        buffList.push(buff);
+                    }
+                }
+                if(buffList.length > 0) {
+                    let ran = Math.floor(Math.random()*buffList.length);
+                    index.buffReduce(source, target, buffList[ran], 1);
+                    index.buffApply(source, source, buffList[ran], 1);
+                }
+            }
         },
     }
 }
