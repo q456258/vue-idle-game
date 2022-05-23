@@ -156,6 +156,16 @@ export const buffAndTrigger = {
                 stack = Math.min(stack, source.talent[talent]);
             this.$set(target.buff, type, stack);
         },
+        // 战斗结束移除buff
+        clearTurnbaseBuff(target){
+            for(let buff in target.buff) {
+                if(this.buffType.statusBuff[buff] && this.buffType.statusBuff[buff].turnbased) {
+                    this.buffRemoved(target, target, buff);
+                } else if(this.buffType.statusDebuff[buff] && this.buffType.statusDebuff[buff].turnbased) {
+                    this.buffRemoved(target, target, buff);
+                }
+            }
+        },
         // 移除buff
         buffRemoved(source, target, type){
             if(type == 'spell_holy_wordfortitude')
@@ -611,6 +621,9 @@ export const buffAndTrigger = {
                 target.attribute.SHIELD.value = shield;
             else 
                 target.attribute.SHIELD.value += shield;
+        },
+        clearShield(target) {
+            target.attribute.SHIELD =  { baseVal: 0, value: 0, showbaseVal: 0};
         },
         dmgShield(source, target, dmgs, sourceName) {
             if(target.attribute.SHIELD.value == undefined)

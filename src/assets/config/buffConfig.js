@@ -32,73 +32,85 @@ data() {
                     cleanse: true,
                     stacked: true,
                     iconSrc: "./icons/stat/sunder.jpg",
-                    desc: "破甲: 下一次攻击无视目标25%护甲"
+                    desc: "破甲: 下一次攻击无视目标25%护甲",
+                    turnbased: true
                 },
                 penetrate: {
                     cleanse: true,
                     stacked: true,
                     iconSrc: "./icons/buff/penetrate.jpg",
-                    desc: "穿透: 下一次攻击伤害的10%无视护甲"
+                    desc: "穿透: 下一次攻击伤害的10%无视护甲",
+                    turnbased: true
                 },
                 lifesteal: {
                     cleanse: true,
                     stacked: true,
                     iconSrc: "./icons/buff/lifesteal.jpg",
-                    desc: "吸血: 下一次攻击恢复攻击造成的伤害的50%点生命值"
+                    desc: "吸血: 下一次攻击恢复攻击造成的伤害的50%点生命值",
+                    turnbased: true
                 },
                 manasteal: {
                     cleanse: true,
                     stacked: true,
                     iconSrc: "./icons/buff/manasteal.jpg",
-                    desc: "吸蓝: 下一次攻击恢复攻击造成的伤害的10%点魔法值"
+                    desc: "吸蓝: 下一次攻击恢复攻击造成的伤害的10%点魔法值",
+                    turnbased: true
                 },
                 charge: {
                     cleanse: true,
                     stacked: true,
                     iconSrc: "./icons/buff/charge.jpg",
-                    desc: "蓄力: 下一次攻击的伤害提升50%"
+                    desc: "蓄力: 下一次攻击的伤害提升50%",
+                    turnbased: true
                 },
                 deathImmune: {
                     cleanse: true,
                     stacked: true,
                     iconSrc: "./icons/buff/deathImmune.jpg",
-                    desc: "死亡免疫: 免疫一次会造成角色死亡的伤害"
+                    desc: "死亡免疫: 免疫一次会造成角色死亡的伤害",
+                    turnbased: true
                 },
                 focus: {
                     cleanse: true,
                     stacked: true,
                     iconSrc: "./icons/spell/mage/spell_shadow_manaburn.jpg",
-                    desc: "专注: 下一个技能不消耗任何魔法值"
+                    desc: "专注: 下一个技能不消耗任何魔法值",
+                    turnbased: true
                 },
                 arcCharge: {
                     cleanse: false,
                     stacked: true,
                     iconSrc: "./icons/spell/mage/spell_arcane_arcane01.jpg",
-                    desc: "奥术充能: 加强奥术技能"
+                    desc: "奥术充能: 加强奥术技能",
+                    turnbased: true
                 },
                 manaShield: {
                     cleanse: false,
                     stacked: false,
                     iconSrc: "./icons/spell/mage/spell_shadow_detectlesserinvisibility.jpg",
-                    desc: "法力护盾: 使用魔法值抵消受到的伤害，每点魔法值可抵消一点伤害"
+                    desc: "法力护盾: 使用魔法值抵消受到的伤害，每点魔法值可抵消一点伤害",
+                    turnbased: true
                 },
                 void: {
                     cleanse: true,
                     stacked: true,
                     iconSrc: "./icons/buff/void.jpg",
-                    desc: "虚无: 免疫一次伤害"
+                    desc: "虚无: 免疫一次伤害",
+                    turnbased: true
                 },
                 absorb: {
                     cleanse: true,
                     stacked: true,
                     iconSrc: "./icons/buff/absorb.jpg",
-                    desc: "吸收: 将下一次受到的伤害转为等量生命值"
+                    desc: "吸收: 将下一次受到的伤害转为等量生命值",
+                    turnbased: true
                 },
                 block: {
                     cleanse: true,
                     stacked: true,
                     iconSrc: "./icons/buff/absorb.jpg",
-                    desc: "格挡: 免疫下一次受到的攻击伤害"
+                    desc: "格挡: 免疫下一次受到的攻击伤害",
+                    turnbased: true
                 },
                 // elementAffinity: {
                 //     cleanse: true,
@@ -130,7 +142,7 @@ data() {
                 avatar: {
                     timed: true,
                     iconSrc: "./icons/spell/ability_racial_avatar.jpg",
-                    desc: "天神下凡【分钟】: 对冒险区非精英、BOSS类怪物额外造成50%伤害"
+                    desc: "天神下凡【分钟】: 最终伤害提升20%"
                 }
             },
             statusDebuff: {
@@ -138,7 +150,8 @@ data() {
                     cleanse: true,
                     stacked: true,
                     iconSrc: "./icons/buff/stun.jpg",
-                    desc: "眩晕: 跳过一次攻击回合"
+                    desc: "眩晕: 跳过一次攻击回合",
+                    turnbased: true
                 },
                 hell: {
                     cleanse: true,
@@ -168,13 +181,15 @@ data() {
                     cleanse: true,
                     stacked: true,
                     iconSrc: "./icons/buff/weak.jpg",
-                    desc: "虚弱: 每一层使造成的伤害降低3%, 上限30%"
+                    desc: "虚弱: 每一层使造成的伤害降低3%, 上限30%",
+                    turnbased: true
                 },
                 silence: {
                     cleanse: true,
                     stacked: true,
                     iconSrc: "./icons/buff/silence.jpg",
-                    desc: "沉默: 无法使用普通攻击以外的技能"
+                    desc: "沉默: 无法使用普通攻击以外的技能",
+                    turnbased: true
                 },
                 icenova: {
                     cleanse: true,

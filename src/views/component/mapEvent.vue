@@ -263,7 +263,8 @@ export default {
         },
         setBattleStatus(inBattle, auto=true, immediate=false) {
             let index = this.$store.globalComponent["index"];
-            this.playerAttr.attribute.SHIELD =  { baseVal: 0, value: 0, showbaseVal: 0};
+            index.clearShield(this.playerAttr);
+            index.clearTurnbaseBuff(this.playerAttr);
             if(immediate || inBattle) {
                 this.dungeonInfo.inBattle = inBattle;
                 if(!inBattle) {
