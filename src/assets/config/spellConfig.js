@@ -53,7 +53,7 @@ data() {
                 ],
                 tag: ['法伤']
             },
-            spell_nature_thunderclapDmg: {
+            spell_nature_thunderclap: {
                 name: '雷霆一击',
                 max: 10,
                 iconSrc: "./icons/spell/spell_nature_thunderclap.jpg",
@@ -1362,6 +1362,88 @@ data() {
                 ],
                 tag: []
             }, 
+            // 怪物专用技能
+            spell_magic_polymorphpig: {
+                name: '愤怒之气', max: 100, iconSrc: "", quality: 1,
+                level: [{
+                        des: '提升20%攻击力，20%暴击率，持续20秒',
+                        statBuff: [
+                            {type: 'ATK', valType: 'ATK', value: 0.2, stack:20, chance: 100, target: 'self'},
+                            {type: 'CRIT', valType: 'FIX', value: 20, stack:20, chance: 100, target: 'self'},
+                        ],
+                        cost: { MP: 20, },
+                    }
+                ],
+                tag: []
+            },  
+            ability_hunter_pet_boar: {
+                name: '头槌', max: 100, iconSrc: "", quality: 1,
+                level: [{
+                        des: '向一名敌人冲锋，造成攻击力*1.2点伤害，有20%眩晕目标',
+                        adDmg: { ATK: 1.2 },
+                        effect: {stun: {stack: 1, chance: 20, target: 'enemy'},},
+                        cost: { MP: 20, },
+                    }
+                ],
+                tag: []
+            },    
+            ability_druid_berserk: {
+                name: '狂暴', max: 100, iconSrc: "", quality: 1,
+                level: [{
+                        des: '提升50%攻击力，50%暴击率，持续6秒',
+                        statBuff: [
+                            {type: 'ATK', valType: 'ATK', value: 0.5, stack:6, chance: 100, target: 'self'},
+                            {type: 'CRIT', valType: 'FIX', value: 50, stack:6, chance: 100, target: 'self'},
+                        ],
+                        cost: { MP: 20, },
+                    }
+                ],
+                tag: []
+            },  
+            spell_shadow_vampiricaura: {
+                name: '穿刺护甲', max: 100, iconSrc: "", quality: 1,
+                level: [{
+                        des: '造成攻击力*0.8点伤害，使敌人的护甲降低50%，持续10秒',
+                        adDmg: { ATK: 0.8 },
+                        statBuff: [
+                            {type: 'DEF', valType: 'DEF', value: -0.5, stack:10, chance: 100, target: 'enemy', valSource: 'enemy'},
+                        ],
+                        cost: { MP: 20, },
+                    }
+                ],
+                tag: []
+            },  
+            poison_arrow: {
+                name: '毒箭', max: 20, iconSrc: "", quality: 1,
+                level: [{
+                        des: '附加20层中毒效果',
+                        effect: {poison: {stack: 20, chance: 100, target: 'enemy'},},
+                        cost: { MP: 25, },
+                    }
+                ],
+                tag: ['DEBUFF']
+            }, 
+            fireflask: {
+                name: '火焰瓶', max: 20, iconSrc: "", quality: 1,
+                level: [{
+                        des: '附加10层灼伤效果',
+                        effect: {burn: {stack: 10, chance: 100, target: 'enemy'},},
+                        cost: { MP: 25, },
+                    }
+                ],
+                tag: ['DEBUFF']
+            }, 
+            headbutt: {
+                name: '头槌', max: 100, iconSrc: "", quality: 1,
+                level: [{
+                        des: '打击目标头部，造成99点物理伤害，有95%眩晕目标两回合',
+                        adDmg: { FIX: 99 },
+                        effect: {stun: {stack: 2, chance: 95, target: 'enemy'},},
+                        cost: { MP: 20, },
+                    }
+                ],
+                tag: []
+            },    
         }
     }
 },

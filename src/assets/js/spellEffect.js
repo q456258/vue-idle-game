@@ -538,6 +538,9 @@ export const spellEffect = {
             for(let i in statBuffList) {
                 if(Math.random()*100 < statBuffList[i].chance) {
                     let value = statBuffList[i].valType == 'FIX' ? statBuffList[i].value : source.attribute[statBuffList[i].valType].value*statBuffList[i].value;
+                    if(statBuffList[i].valSource != undefined)
+                        value = statBuffList[i].valType == 'FIX' ? statBuffList[i].value : target.attribute[statBuffList[i].valType].value*statBuffList[i].value;
+
                     if(statBuffList[i].target == 'self')
                         index.statBuffApply(source, source, statBuffList[i].type, value, statBuffList[i].stack);
                     else
