@@ -1,5 +1,5 @@
 <template>
-<draggable style="position:absolute; top:0; width:500px">
+<draggable :left_limit="-750" :right_limit="600" :top_limit="-200" :bot_limit="400" style="position:absolute; top:0; width:500px">
     <template slot="header">
         <div class="battleAnimeHeader"></div>
     </template>
@@ -40,6 +40,8 @@ export default {
     },
     data() {
         return {
+            playerLastDmg: 0,
+            enemyLastDmg: 0,
         };
     },
     props: {
@@ -77,17 +79,34 @@ export default {
         },
         displayText(target, type, text) {
             let parentNode;
-            if(target == 'player')
-                parentNode = document.getElementById("playerText");
-            else
-                parentNode = document.getElementById("enemyText");
+            let isNew = true;
             let node = document.createElement("DIV");
+            if(target == 'player') {
+                parentNode = document.getElementById("playerText");
+                if(type == 'dmg' && Date.now()-this.playerLastDmg < 900) {
+                    node = parentNode.lastChild;
+                    isNew = false;
+                }
+            }
+            else {
+                parentNode = document.getElementById("enemyText");
+                if(type == 'dmg' && Date.now()-this.enemyLastDmg < 900) {
+                    node = parentNode.lastChild;
+                    isNew = false;
+                }
+            }
             let textnode;
             let duration = 1900;
             node.classList.add("floatingText");
             switch(type) {
                 case 'dmg':
                     node.classList.add("dmg");
+                    if(isNew) {
+                        if(target == 'player')
+                            this.playerLastDmg = Date.now();
+                        else
+                            this.enemyLastDmg = Date.now();
+                    }
                     for(let i in text) {
                         if(isNaN(text[i]))
                             continue;
@@ -138,9 +157,11 @@ export default {
                     break;
             }
             parentNode.appendChild(node); 
-            setTimeout(() => {
-                parentNode.removeChild(node);
-            }, duration);
+            if(isNew) {
+                setTimeout(() => {
+                    parentNode.removeChild(node);
+                }, duration);
+            }
         }
     }   
 }
