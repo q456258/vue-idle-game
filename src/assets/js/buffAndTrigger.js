@@ -166,6 +166,11 @@ export const buffAndTrigger = {
                 }
             }
         },
+        clearAllBuff(target) {
+            for(let buff in target.buff) {
+                this.buffRemoved(target, target, buff);
+            }
+        },
         // 移除buff
         buffRemoved(source, target, type){
             if(type == 'spell_holy_wordfortitude')
@@ -230,6 +235,7 @@ export const buffAndTrigger = {
         buffOnTick(source, target, type) {
             let gap = 1000;
             switch(type) {
+                case 'poison':
                 case 'burn':
                     gap = 1000;
                     break;
@@ -240,6 +246,9 @@ export const buffAndTrigger = {
                     return;
                 }
                 switch(type) {
+                    case 'poison':
+                        this.poison(source, target);
+                        break;
                     case 'burn':
                         this.burn(source, target);
                         break;
@@ -438,6 +447,12 @@ export const buffAndTrigger = {
             let burnDmg = target.attribute.MAXHP.value * 0.005;
             let dmgs = {apDmg: Math.round(burnDmg)};
             this.damage(source, target, dmgs, '灼伤');
+        },
+        // 中毒
+        poison(source, target) {
+            let dmg = (target.buff['poison'] || 0)+1;
+            let dmgs = {apDmg: Math.round(dmg)};
+            this.damage(source, target, dmgs, '中毒');
         },
         // 攻击起手触发, source为攻击发起者
         TriggerOnAttack(source, target) {
@@ -735,6 +750,7 @@ export const buffAndTrigger = {
             this.$store.commit('set_hp', {data, CURHP, MAXHP});
             if(CURHP.value <= 0) {
                 this.clearTickTimers(target.type);
+                this.clearAllBuff(target);
                 let slainBy = {};
                 slainBy[source.name] = 1;
                 this.$store.commit('set_statistic', {slainBy: slainBy});

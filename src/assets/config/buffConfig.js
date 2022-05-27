@@ -4,7 +4,7 @@ data() {
         buffCateg: {
             buffer: ['sunder', 'penetrate', 'lifesteal', 'manasteal','charge','deathImmune','void','absorb','hell','focus','arcCharge'],
             timed: ['minionSlayer', 'spell_holy_wordfortitude', 'manaShield', 'silence', 'icenova', 'spell_holy_powerwordbarrier'],
-            onTick: ['burn'],
+            onTick: ['burn', 'poison'],
             counter: ['icenova']
         },
         buffType: {
@@ -165,17 +165,17 @@ data() {
                     iconSrc: './icons/spell/mage/spell_fire_fire.jpg',
                     desc: "灼伤: 每秒受到0.5%最大生命值点魔法伤害"
                 },
-                bleed: {
-                    cleanse: true,
-                    stacked: true,
-                    iconSrc: "./icons/buff/bleed.jpg",
-                    desc: "流血: "
-                },
+                // bleed: {
+                //     cleanse: true,
+                //     stacked: true,
+                //     iconSrc: "./icons/buff/bleed.jpg",
+                //     desc: "流血: "
+                // },
                 poison: {
                     cleanse: true,
                     stacked: true,
                     iconSrc: "./icons/buff/poison.jpg",
-                    desc: "中毒: "
+                    desc: "中毒: 每秒受到中毒层数点魔法伤害"
                 },
                 weak: {
                     cleanse: true,
