@@ -174,83 +174,85 @@ export const monsterConfig = {
                     }
                 }, 
                 31: {
-                    name: '河爪豺狼人', type: 'normal', minLv: 31, maxLv: 36,
+                    name: '河爪豺狼人', type: 'normal', minLv: 31, maxLv: 35,
                     spellCycle: ['attack'], talent: {}, anime: 'riverpawGnoll.png',
                     template:{  
-                        MAXHP: 400, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
-                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
+                        MAXHP: 1500, ATK: 200, DEF: 200, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        CRIT: 50, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 40,
                     }
                 }, 
                 32: {
                     name: '黑爪豺狼人', type: 'normal', minLv: 36, maxLv: 40,
                     spellCycle: ['attack'], talent: {}, anime: 'mudsnoutGnoll.png',
                     template:{  
-                        MAXHP: 400, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
-                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
+                        MAXHP: 2000, ATK: 230, DEF: 200, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        CRIT: 50, CRITDMG: 250, HEAL: 0, APPEN: 0, MR: 40,
                     }
                 }, 
                 33: {
-                    name: '河爪豺狼人精英', type: 'elite', minLv: 31, maxLv: 36,
-                    spellCycle: ['attack'], talent: {}, anime: 'riverpawGnoll.png',
+                    name: '河爪豺狼人精英', type: 'elite', minLv: 31, maxLv: 35,
+                    spellCycle: ['attack','spell_frost_frostward','attack','attack'], talent: {}, anime: 'riverpawGnoll.png',
                     template:{  
-                        MAXHP: 400, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
-                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
+                        MAXHP: 1800, ATK: 200, DEF: 200, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        CRIT: 50, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 40,
                     }
                 }, 
                 34: {
                     name: '黑爪豺狼人精英', type: 'elite', minLv: 36, maxLv: 40,
-                    spellCycle: ['attack'], talent: {}, anime: 'mudsnoutGnoll.png',
+                    spellCycle: ['attack','attack','attack','attack','ability_ghoulfrenzy'], talent: {}, anime: 'mudsnoutGnoll.png',
                     template:{  
-                        MAXHP: 400, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
-                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
+                        MAXHP: 2400, ATK: 230, DEF: 200, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        CRIT: 50, CRITDMG: 250, HEAL: 0, APPEN: 0, MR: 40,
                     }
                 }, 
                 35: {
                     name: '霍格', type: 'boss', minLv: 40, maxLv: 40,
-                    spellCycle: ['attack'], talent: {}, anime: 'hogger',
+                    spellCycle: ['spell_frost_frostward','inv_misc_food_meat_raw_04','attack','attack','ability_ghoulfrenzy','attack','attack'], talent: {}, anime: 'hogger.png',
                     template:{  
-                        MAXHP: 400, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
-                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
-                    }
+                        MAXHP: 3000, ATK: 230, DEF: 200, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        CRIT: 50, CRITDMG: 250, HEAL: 0, APPEN: 0, MR: 40,
+                    } 
                 }, 
                 41: {
-                    name: '盐壳龟', type: 'normal', minLv: 41, maxLv: 46,
+                    name: '盐壳龟', type: 'normal', minLv: 41, maxLv: 45,
                     spellCycle: ['attack'], talent: {}, anime: 'sparkleshell.png',
                     template:{  
-                        MAXHP: 4000, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
-                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
+                        MAXHP: 4000, ATK: 300, DEF: 5000, BLOCK: 50, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 70,
                     }
                 }, 
                 42: {
                     name: '钳嘴龟', type: 'normal', minLv: 46, maxLv: 50,
                     spellCycle: ['attack'], talent: {}, anime: 'snapjaw.png',
                     template:{  
-                        MAXHP: 4000, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
-                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
+                        MAXHP: 4500, ATK: 400, DEF: 2000, BLOCK: 30, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 35,
                     }
                 }, 
                 43: {
-                    name: '盐壳龟精英', type: 'elite', minLv: 41, maxLv: 46,
-                    spellCycle: ['attack'], talent: {}, anime: 'sparkleshell.png',
+                    name: '盐壳龟精英', type: 'elite', minLv: 41, maxLv: 45,
+                    spellCycle: ['attack','attack','attack','ability_vehicle_shellshieldgenerator','attack','attack'], talent: {}, anime: 'sparkleshell.png',
                     template:{  
-                        MAXHP: 4000, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
-                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
+                        MAXHP: 5000, ATK: 300, DEF: 5000, BLOCK: 50, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 70,
                     }
                 }, 
                 44: {
-                    name: '钳嘴龟精英', type: 'elite', minLv: 41, maxLv: 46,
-                    spellCycle: ['attack'], talent: {}, anime: 'snapjaw.png',
+                    name: '钳嘴龟精英', type: 'elite', minLv: 46, maxLv: 50,
+                    spellCycle: ['attack','attack','ability_creature_disease_01','attack','ability_creature_disease_01'], talent: {}, anime: 'snapjaw.png',
                     template:{  
-                        MAXHP: 4000, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
-                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
+                        MAXHP: 5500, ATK: 400, DEF: 2000, BLOCK: 30, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 35,
                     }
                 }, 
                 45: {
                     name: '铁背龟', type: 'boss', minLv: 50, maxLv: 50,
-                    spellCycle: ['attack'], talent: {}, anime: 'ironback.png',
+                    spellCycle: ['spell_nature_skinofearth','attack','ability_creature_disease_01','attack','ability_vehicle_shellshieldgenerator',
+                        'attack','ability_creature_disease_01','attack','ability_vehicle_shellshieldgenerator'
+                        ], talent: {}, anime: 'ironback.png',
                     template:{  
-                        MAXHP: 4000, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
-                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
+                        MAXHP: 7500, ATK: 650, DEF: 5000, BLOCK: 50, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 100,
                     }
                 }, 
                 51: {
@@ -545,13 +547,13 @@ export const monsterConfig = {
                 35: [['random_equip_6', 100], ['inv_misc_gem_diamond_03', 50], ['inv_misc_coin_02', 20], ['inv_misc_enchantedpearla', 1]],
                 41: [['racial_dwarf_findtreasure', 35], ['random_equip_normal_2', 100], ['inv_misc_gem_diamond_05', 25], ['inv_misc_enchantedpearla', 1]],
                 42: [['racial_dwarf_findtreasure', 35], ['random_equip_normal_2', 100], ['inv_misc_gem_diamond_05', 25], ['inv_misc_enchantedpearla', 1]],
-                43: [['random_equip_elite_4', 100], ['inv_misc_coin_01', 35], ['inv_misc_gem_diamond_04', 25], ['bossTicket3', 10], ['inv_misc_enchantedpearla', 1]],
-                44: [['random_equip_elite_4', 100], ['inv_misc_coin_01', 35], ['inv_misc_gem_diamond_04', 25], ['bossTicket3', 20], ['inv_misc_enchantedpearla', 1]],
+                43: [['random_equip_elite_4', 100], ['inv_misc_coin_01', 35], ['inv_misc_gem_diamond_04', 25], ['bossTicket4', 10], ['inv_misc_enchantedpearla', 1]],
+                44: [['random_equip_elite_4', 100], ['inv_misc_coin_01', 35], ['inv_misc_gem_diamond_04', 25], ['bossTicket4', 20], ['inv_misc_enchantedpearla', 1]],
                 45: [['random_equip_6', 100], ['inv_misc_gem_diamond_03', 50], ['inv_misc_coin_02', 20], ['inv_misc_enchantedpearla', 1]],
                 51: [['racial_dwarf_findtreasure', 35], ['random_equip_normal_2', 100], ['inv_misc_gem_diamond_05', 25], ['inv_misc_enchantedpearla', 1]],
                 52: [['racial_dwarf_findtreasure', 35], ['random_equip_normal_2', 100], ['inv_misc_gem_diamond_05', 25], ['inv_misc_enchantedpearla', 1]],
-                53: [['random_equip_elite_4', 100], ['inv_misc_coin_01', 35], ['inv_misc_gem_diamond_04', 25], ['bossTicket3', 10], ['inv_misc_enchantedpearla', 1]],
-                54: [['random_equip_elite_4', 100], ['inv_misc_coin_01', 35], ['inv_misc_gem_diamond_04', 25], ['bossTicket3', 20], ['inv_misc_enchantedpearla', 1]],
+                53: [['random_equip_elite_4', 100], ['inv_misc_coin_01', 35], ['inv_misc_gem_diamond_04', 25], ['bossTicket5', 10], ['inv_misc_enchantedpearla', 1]],
+                54: [['random_equip_elite_4', 100], ['inv_misc_coin_01', 35], ['inv_misc_gem_diamond_04', 25], ['bossTicket5', 20], ['inv_misc_enchantedpearla', 1]],
                 55: [['random_equip_6', 100], ['inv_misc_gem_diamond_03', 50], ['inv_misc_coin_02', 20], ['inv_misc_enchantedpearla', 1]],
                 1000: [['racial_dwarf_findtreasure', 100]],
                 1001: [['inv_ore_copper_01', 100]],
