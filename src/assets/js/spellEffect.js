@@ -190,6 +190,15 @@ export const spellEffect = {
                 case 'spell_nature_nullifydisease':
                     this.spell_nature_nullifydisease(source, target, spell);
                     break;
+                case 'spell_frost_frostward':
+                    this.spell_frost_frostward(source, target, spell);
+                    break;
+                case 'ability_ghoulfrenzy':
+                    this.ability_ghoulfrenzy(source, target, spell);
+                    break;
+                case 'inv_misc_food_meat_raw_04':
+                    this.inv_misc_food_meat_raw_04(source, source, spell);
+                    break;
                 default:
                     this.generalSpell(source, target, spell);
                     break;
@@ -349,7 +358,8 @@ export const spellEffect = {
             }
             return heal;
         },
-        applyDmg(source, target, spell, dmgs) {
+        applyDmg(source, target, spell, oldDmg) {
+            let dmgs = this.$deepCopy(oldDmg);
             let index = this.$store.globalComponent["index"];
             let spellInfo = this.spell[spell];
             
@@ -1006,6 +1016,44 @@ export const spellEffect = {
                     index.buffApply(source, source, buffList[ran], 1);
                 }
             }
+        },
+        // 河爪烙印
+        spell_frost_frostward(source, target, spell) {
+            let index = this.$store.globalComponent["index"];
+            let dmg = this.getSpellDmg(spell, source);
+            let count = 0;
+            let timer = setInterval(() => {
+                this.applyDmg(source, target, spell, dmg);
+                if(++count >= 4)
+                    index.removeFromTimerList(target.type, timer);
+            }, 1000);
+            index.addToTimerList(target.type, timer);
+        },
+        // 痛击
+        ability_ghoulfrenzy(source, target, spell) {
+            let index = this.$store.globalComponent["index"];
+            let count = Math.floor(Math.random()*4)+1;
+            let timer = setInterval(() => {
+                let dmg = this.getSpellDmg(spell, source);
+                index.set_ad_dmg(dmg, index.get_dmg(dmg, 'ad')*(0.5+Math.random()*0.5))
+                this.applyDmg(source, target, spell, dmg);
+                if(--count <= 0)
+                    index.removeFromTimerList(target.type, timer);
+            }, 100);
+            index.addToTimerList(target.type, timer);
+        },
+        // 恢复（霍格）
+        inv_misc_food_meat_raw_04(source, target, spell) {
+            let index = this.$store.globalComponent["index"];
+            let count = 4;
+            let dmgs = this.getSpellDmg(spell, source);
+            this.getSpellHeal(spell, source, target, dmgs);
+            let timer = setInterval(() => {
+                this.applyDmg(source, target, spell, dmgs);
+                if(--count <= 0)
+                    index.removeFromTimerList(target.type, timer);
+            }, 3000);
+            index.addToTimerList(target.type, timer);
         },
     }
 }

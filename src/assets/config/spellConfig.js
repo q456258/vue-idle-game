@@ -1443,7 +1443,37 @@ data() {
                     }
                 ],
                 tag: []
-            },    
+            }, 
+            spell_frost_frostward: {
+                name: '河爪烙印', max: 100, iconSrc: "", quality: 1,
+                level: [{
+                        des: '每秒对目标造成攻击力*0.5点魔法伤害，持续10秒',
+                        apDmg: { ATK: 0.5 },
+                        cost: { MP: 20, },
+                    }
+                ],
+                tag: []
+            }, 
+            ability_ghoulfrenzy: {
+                name: '痛击', max: 100, iconSrc: "", quality: 1,
+                level: [{
+                        des: '对目标连续造成1-4次普通攻击，每次造成攻击力*0.5到攻击力*1点物理伤害',
+                        adDmg: { ATK: 1.25 },
+                        cost: { MP: 20, },
+                    }
+                ],
+                tag: []
+            }, 
+            inv_misc_food_meat_raw_04: {
+                name: '恢复', max: 100, iconSrc: "", quality: 1,
+                level: [{
+                        des: '每3秒恢复5%最大生命值，持续12秒',
+                        heal: { MAXHP: 0.05 },
+                        cost: { MP: 20, },
+                    }
+                ],
+                tag: []
+            }, 
         }
     }
 },
