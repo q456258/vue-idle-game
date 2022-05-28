@@ -106,6 +106,7 @@ export const spellEffect = {
                 case 'attack':
                     this.attack(source, target, spell);
                     break;
+                //战士
                 case 'spell_nature_thunderclap':
                     this.spell_nature_thunderclap(source, target, spell);
                     break;
@@ -121,9 +122,10 @@ export const spellEffect = {
                 case 'ability_racial_avatar':
                     this.ability_racial_avatar(source, target, spell);
                     break;
-                case 'spell_warlock_soulburn':
-                    this.spell_warlock_soulburn(source, target, spell);
-                    break;
+                // case 'spell_warlock_soulburn':
+                //     this.spell_warlock_soulburn(source, target, spell);
+                //     break;
+                //法师
                 case 'inv_misc_food_73cinnamonroll':
                     this.inv_misc_food_73cinnamonroll(source, source, spell);
                     break;
@@ -160,6 +162,7 @@ export const spellEffect = {
                 case 'ability_mage_timewarp':
                     this.ability_mage_timewarp(source, source, spell);
                     break;
+                // 牧师
                 case 'spell_holy_renew':
                     this.spell_holy_renew(source, source, spell);
                     break;
@@ -190,6 +193,7 @@ export const spellEffect = {
                 case 'spell_nature_nullifydisease':
                     this.spell_nature_nullifydisease(source, target, spell);
                     break;
+                // 野怪
                 case 'spell_frost_frostward':
                     this.spell_frost_frostward(source, target, spell);
                     break;
@@ -198,6 +202,9 @@ export const spellEffect = {
                     break;
                 case 'inv_misc_food_meat_raw_04':
                     this.inv_misc_food_meat_raw_04(source, source, spell);
+                    break;
+                case 'ability_vehicle_shellshieldgenerator':
+                    this.ability_vehicle_shellshieldgenerator(source, source, spell);
                     break;
                 default:
                     this.generalSpell(source, target, spell);
@@ -430,6 +437,8 @@ export const spellEffect = {
             }
             if(target.buff['spell_holy_powerwordbarrier'] != undefined)
                 bonus -= 0.25;
+            if(target.buff['spell_nature_skinofearth'] != undefined)
+                bonus -= 0.10;
             if(source.attribute.VERSBONUS != undefined)
                 bonus += source.attribute.VERSBONUS.value/100;
             if(target.attribute.VERSBONUS != undefined)
@@ -1054,6 +1063,12 @@ export const spellEffect = {
                     index.removeFromTimerList(target.type, timer);
             }, 3000);
             index.addToTimerList(target.type, timer);
+        },
+        // 防护之壳(盐壳龟)
+        ability_vehicle_shellshieldgenerator(source, target, spell) {
+            let index = this.$store.globalComponent["index"];
+            let shield = source.attribute.DEF.value*0.1;
+            index.shield(source, target, shield, spell);
         },
     }
 }

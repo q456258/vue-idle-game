@@ -843,16 +843,16 @@ data() {
                 iconSrc: "./icons/spell/mage/ability_mage_arcanebarrage.jpg",
                 quality: 1,
                 level: [{
-                        des: '向敌方目标发射1-5发奥术能量箭矢，每发造成智力*1.6点魔法伤害。每层奥术充能使伤害提高25%',
-                        apDmg: { INT: 1.6, },
+                        des: '向敌方目标发射1-5发奥术能量箭矢，每发造成智力*0.8点魔法伤害。每层奥术充能使伤害提高25%',
+                        apDmg: { INT: 0.8, },
                         cost: { MP: 50, },
                     }, {
-                        des: '向敌方目标发射1-5发奥术能量箭矢，每发造成智力*1.7点魔法伤害。每层奥术充能使伤害提高25%',
-                        apDmg: { INT: 1.7, },
+                        des: '向敌方目标发射1-5发奥术能量箭矢，每发造成智力*0.85点魔法伤害。每层奥术充能使伤害提高25%',
+                        apDmg: { INT: 0.85, },
                         cost: { MP: 75, },
                     }, {
-                        des: '向敌方目标发射1-5发奥术能量箭矢，每发造成智力*1.8点魔法伤害。每层奥术充能使伤害提高25%',
-                        apDmg: { INT: 1.8, },
+                        des: '向敌方目标发射1-5发奥术能量箭矢，每发造成智力*0.9点魔法伤害。每层奥术充能使伤害提高25%',
+                        apDmg: { INT: 0.9, },
                         cost: { MP: 100, },
                     }
                 ],
@@ -894,16 +894,16 @@ data() {
                 iconSrc: "./icons/spell/mage/spell_arcane_blast.jpg",
                 quality: 1,
                 level: [{
-                        des: '用能量冲击目标，造成智力*3.5点魔法伤害。每层奥术充能使伤害提高60%，消耗的法力提高100%，增加3点充能',
-                        apDmg: { INT: 3.5, },
+                        des: '用能量冲击目标，造成智力*1.7点魔法伤害。每层奥术充能使伤害提高60%，消耗的法力提高100%，增加3点充能',
+                        apDmg: { INT: 1.7, },
                         cost: { MP: 40, },
                     }, {
-                        des: '用能量冲击目标，造成智力*3.75点魔法伤害。每层奥术充能使伤害提高60%，消耗的法力提高100%，增加3点充能',
-                        apDmg: { INT: 3.75, },
+                        des: '用能量冲击目标，造成智力*1.85点魔法伤害。每层奥术充能使伤害提高60%，消耗的法力提高100%，增加3点充能',
+                        apDmg: { INT: 1.85, },
                         cost: { MP: 50, },
                     }, {
-                        des: '用能量冲击目标，造成智力*4点魔法伤害。每层奥术充能使伤害提高60%，消耗的法力提高100%，增加3点充能',
-                        apDmg: { INT: 4, },
+                        des: '用能量冲击目标，造成智力*2点魔法伤害。每层奥术充能使伤害提高60%，消耗的法力提高100%，增加3点充能',
+                        apDmg: { INT: 2, },
                         cost: { MP: 60, },
                     }
                 ],
@@ -939,16 +939,16 @@ data() {
                 iconSrc: "./icons/spell/mage/spell_nature_starfall.jpg",
                 quality: 1,
                 level: [{
-                        des: '向敌人射出五波奥术飞弹，每发造成智力*1点魔法伤害。每层奥术充能额外发射一波奥术飞弹',
-                        apDmg: { INT: 1, },
+                        des: '向敌人射出五波奥术飞弹，每发造成智力*0.5点魔法伤害。每层奥术充能额外发射一波奥术飞弹',
+                        apDmg: { INT: 0.5, },
                         cost: { MP: 40, },
                     }, {
-                        des: '向敌人射出五波奥术飞弹，每发造成智力*1.05点魔法伤害。每层奥术充能额外发射一波奥术飞弹',
-                        apDmg: { INT: 1.05, },
+                        des: '向敌人射出五波奥术飞弹，每发造成智力*0.55点魔法伤害。每层奥术充能额外发射一波奥术飞弹',
+                        apDmg: { INT: 0.55, },
                         cost: { MP: 50, },
                     }, {
-                        des: '向敌人射出五波奥术飞弹，每发造成智力*1.1点魔法伤害。每层奥术充能额外发射一波奥术飞弹',
-                        apDmg: { INT: 1.1, },
+                        des: '向敌人射出五波奥术飞弹，每发造成智力*0.6点魔法伤害。每层奥术充能额外发射一波奥术飞弹',
+                        apDmg: { INT: 0.6, },
                         cost: { MP: 60, },
                     }
                 ],
@@ -1154,20 +1154,20 @@ data() {
                 iconSrc: "./icons/spell/priest/spell_shadow_unholyfrenzy.jpg",
                 quality: 1,
                 level: [{
-                        des: '冲击目标的意识，造成智力*4.5点魔法伤害',
-                        apDmg: { INT: 4.5, },
+                        des: '冲击目标的意识，造成智力*2.25点魔法伤害',
+                        apDmg: { INT: 2.25, },
                         cost: { MP: 70, },
                     }, {
-                        des: '冲击目标的意识，造成智力*5点魔法伤害',
-                        apDmg: { INT: 5, },
+                        des: '冲击目标的意识，造成智力*2.5点魔法伤害',
+                        apDmg: { INT: 2.5, },
                         cost: { MP: 80, },
                     }, {
-                        des: '冲击目标的意识，造成智力*5.5点魔法伤害',
-                        apDmg: { INT: 5.5, },
+                        des: '冲击目标的意识，造成智力*2.75点魔法伤害',
+                        apDmg: { INT: 2.75, },
                         cost: { MP: 90, },
                     }, {
-                        des: '冲击目标的意识，造成智力*6点魔法伤害',
-                        apDmg: { INT: 6, },
+                        des: '冲击目标的意识，造成智力*3点魔法伤害',
+                        apDmg: { INT: 3, },
                         cost: { MP: 100, },
                     }
                 ],
@@ -1469,6 +1469,36 @@ data() {
                 level: [{
                         des: '每3秒恢复5%最大生命值，持续12秒',
                         heal: { MAXHP: 0.05 },
+                        cost: { MP: 20, },
+                    }
+                ],
+                tag: []
+            }, 
+            ability_vehicle_shellshieldgenerator: {
+                name: '防护之壳', max: 100, iconSrc: "", quality: 1,
+                level: [{
+                        des: '获得护甲*0.1点护盾',
+                        cost: { MP: 20, },
+                    }
+                ],
+                tag: []
+            }, 
+            ability_creature_disease_01: {
+                name: '血盆大口', max: 100, iconSrc: "", quality: 1,
+                level: [{
+                        des: '造成当前生命值*0.15点物理伤害，并有50%附带四层疾病，使目标治疗效果降低50%',
+                        adDmg: { CURHP: 0.15 },
+                        effect: {plague: {stack: 4, chance: 50, target: 'enemy'},},
+                        cost: { MP: 20, },
+                    }
+                ],
+                tag: []
+            }, 
+            spell_nature_skinofearth: {
+                name: '硬化', max: 100, iconSrc: "", quality: 1,
+                level: [{
+                        des: '受到的最终伤害降低10%，持续15秒',
+                        effect: {spell_nature_skinofearth: {stack: 15, chance: 100, target: 'self'},},
                         cost: { MP: 20, },
                     }
                 ],
