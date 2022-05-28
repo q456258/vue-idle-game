@@ -3,7 +3,8 @@ data() {
     return {
         buffCateg: {
             buffer: ['sunder', 'penetrate', 'lifesteal', 'manasteal','charge','deathImmune','void','absorb','hell','focus','arcCharge'],
-            timed: ['minionSlayer', 'spell_holy_wordfortitude', 'manaShield', 'silence', 'icenova', 'spell_holy_powerwordbarrier'],
+            timed: ['minionSlayer','spell_holy_wordfortitude','manaShield','silence','icenova','plague','spell_holy_powerwordbarrier',
+                'spell_nature_skinofearth'],
             onTick: ['burn', 'poison'],
             counter: ['icenova']
         },
@@ -139,6 +140,11 @@ data() {
                     iconSrc: "./icons/spell/priest/spell_holy_powerwordbarrier.jpg",
                     desc: "真言术：障: 受到的最终伤害降低25%"
                 },
+                spell_nature_skinofearth: {
+                    timed: true,
+                    iconSrc: "./icons/spell/priest/spell_nature_skinofearth.jpg",
+                    desc: "硬化: 受到的最终伤害降低10%"
+                },
                 avatar: {
                     timed: true,
                     iconSrc: "./icons/spell/ability_racial_avatar.jpg",
@@ -176,6 +182,12 @@ data() {
                     stacked: true,
                     iconSrc: "./icons/buff/poison.jpg",
                     desc: "中毒: 每秒受到中毒层数点魔法伤害"
+                },
+                plague: {
+                    cleanse: true,
+                    stacked: true,
+                    iconSrc: "./icons/buff/plague.jpg",
+                    desc: "疾病：受到的治疗效果降低50%"
                 },
                 weak: {
                     cleanse: true,

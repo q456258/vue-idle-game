@@ -597,6 +597,8 @@ export const buffAndTrigger = {
             }
         },
         heal(source, target, heal, sourceName) {
+            if(target.buff['plague'] != undefined)
+                heal = Math.round(heal/2);
             // 灵魂护壳
             let talent = 'ability_shaman_astralshift';
             if(target.talent[talent] > 0 || sourceName == '圣言术：静') {
