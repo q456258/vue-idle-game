@@ -256,43 +256,46 @@ export const monsterConfig = {
                     }
                 }, 
                 51: {
-                    name: '水元素', type: 'normal', minLv: 51, maxLv: 55,
-                    spellCycle: ['spell_frost_frostbolt02'], talent: {}, anime: 'waterEle.png',
+                    name: '火元素', type: 'normal', minLv: 51, maxLv: 55,
+                    spellCycle: ['spell_frost_frostbolt02'], talent: {}, anime: 'infernoEle.png',
                     template:{  
-                        MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
-                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
+                        MAXHP: 7000, ATK: 10, DEF: 10, BLOCK: 0, AP: 800, APCRIT: 0, APCRITDMG: 200, 
+                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 150,
                     }
                 }, 
                 52: {
                     name: '石元素', type: 'normal', minLv: 56, maxLv: 60,
                     spellCycle: ['attack'], talent: {}, anime: 'rockEle.png',
                     template: {  
-                        MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 7000, ATK: 1200, DEF: 2000, BLOCK: 100, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
                 53: {
-                    name: '水元素精英', type: 'elite', minLv: 51, maxLv: 55,
-                    spellCycle: ['spell_frost_frostbolt02'], talent: {}, anime: 'waterEle.png',
+                    name: '火元素精英', type: 'elite', minLv: 51, maxLv: 55,
+                    spellCycle: ['spell_fire_flameblades','spell_frost_frostbolt02','spell_frost_frostbolt02'], talent: {}, anime: 'infernoEle.png',
                     template:{  
-                        MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
-                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
+                        MAXHP: 8000, ATK: 10, DEF: 10, BLOCK: 0, AP: 1000, APCRIT: 0, APCRITDMG: 200, 
+                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 150,
                     }
                 }, 
                 54: {
                     name: '石元素精英', type: 'elite', minLv: 56, maxLv: 60,
-                    spellCycle: ['attack'], talent: {}, anime: 'rockEle.png',
+                    spellCycle: ['inv_spiritshard_01','attack','attack','attack','attack'], talent: {}, anime: 'rockEle.png',
                     template: {  
-                        MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 8000, ATK: 1200, DEF: 2000, BLOCK: 100, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
                 55: {
                     name: '熔岩元素', type: 'boss', minLv: 60, maxLv: 60,
-                    spellCycle: ['attack'], talent: {}, anime: 'magmaEle.png',
+                    spellCycle: ['sha_spell_fire_bluehellfire_nightmare','spell_fire_immolation','sha_spell_fire_bluehellfire_nightmare',
+                        'sha_spell_fire_bluehellfire_nightmare','sha_spell_fire_bluehellfire_nightmare','spell_fire_immolation',
+                        'sha_spell_fire_bluehellfire_nightmare'
+                    ], talent: {}, anime: 'magmaEle.png',
                     template: {  
-                        MAXHP: 800, ATK: 120, DEF: 10, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
-                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
+                        MAXHP: 10000, ATK: 1500, DEF: 5000, BLOCK: 200, AP: 1, APCRIT: 0, APCRITDMG: 200, 
+                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 200,
                     }
                 }, 
                 61: {

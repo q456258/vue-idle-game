@@ -2,7 +2,8 @@ export const buffConfig = {
 data() {
     return {
         buffCateg: {
-            buffer: ['sunder', 'penetrate', 'lifesteal', 'manasteal','charge','deathImmune','void','absorb','hell','focus','arcCharge'],
+            buffer: ['sunder', 'penetrate', 'lifesteal', 'manasteal','charge','deathImmune','void','absorb','hell','focus','arcCharge',
+                'inv_spiritshard_01'],
             timed: ['minionSlayer','spell_holy_wordfortitude','manaShield','silence','icenova','plague','spell_holy_powerwordbarrier',
                 'spell_nature_skinofearth'],
             onTick: ['burn', 'poison'],
@@ -142,7 +143,7 @@ data() {
                 },
                 spell_nature_skinofearth: {
                     timed: true,
-                    iconSrc: "./icons/spell/priest/spell_nature_skinofearth.jpg",
+                    iconSrc: "./icons/buff/spell_nature_skinofearth.jpg",
                     desc: "硬化: 受到的最终伤害降低10%"
                 },
                 avatar: {
@@ -193,7 +194,7 @@ data() {
                     cleanse: true,
                     stacked: true,
                     iconSrc: "./icons/buff/weak.jpg",
-                    desc: "虚弱: 每一层使造成的伤害降低3%, 上限30%",
+                    desc: "虚弱: 造成的伤害降低50%",
                     turnbased: true
                 },
                 silence: {
@@ -209,14 +210,25 @@ data() {
                     iconSrc: "./icons/spell/mage/spell_mage_icenova.jpg",
                     desc: "大法师之触: buff结束时造成buff持续期间受到伤害*0.25点魔法伤害"
                 },
-                
-                // 需要图标
-                // vulnerable: {
-                //     cleanse: true,
-                //     stacked: true,
-                //     iconSrc: "./icons/spell/weak.jpg",
-                //     desc: "易伤: 受到的伤害提升20%"
-                // }
+                vulnerable: {
+                    cleanse: true,
+                    stacked: true,
+                    iconSrc: "./icons/buff/vulnerable.jpg",
+                    desc: "易伤: 受到的伤害提升30%"
+                },
+                inv_spiritshard_01: {
+                    cleanse: false,
+                    stacked: true,
+                    iconSrc: "./icons/buff/inv_spiritshard_01.jpg",
+                    desc: "石肤: 护甲被破坏后获得3层易伤"
+                }, 
+                sha_spell_fire_bluehellfire_nightmare: {
+                    cleanse: true,
+                    stacked: true,
+                    iconSrc: "./icons/buff/sha_spell_fire_bluehellfire_nightmare.jpg",
+                    desc: "碎裂心智: 每一层使受到碎裂心智的伤害提升5%",
+                    turnbased: true
+                },
             },
         },
     }

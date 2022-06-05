@@ -206,6 +206,19 @@ export const spellEffect = {
                 case 'ability_vehicle_shellshieldgenerator':
                     this.ability_vehicle_shellshieldgenerator(source, source, spell);
                     break;
+                case 'spell_fire_flameblades':
+                    this.spell_fire_flameblades(source, target, spell);
+                    break;
+                case 'inv_spiritshard_01':
+                    this.inv_spiritshard_01(source, source, spell);
+                    break;
+                case 'spell_fire_immolation':
+                    this.spell_fire_immolation(source, source, spell);
+                    break;
+                case 'sha_spell_fire_bluehellfire_nightmare':
+                    this.sha_spell_fire_bluehellfire_nightmare(source, target, spell);
+                    break;
+                    
                 default:
                     this.generalSpell(source, target, spell);
                     break;
@@ -1069,6 +1082,50 @@ export const spellEffect = {
             let index = this.$store.globalComponent["index"];
             let shield = source.attribute.DEF.value*0.1;
             index.shield(source, target, shield, spell);
+        },
+        // 熔岩之弧（火元素）
+        spell_fire_flameblades(source, target, spell) {
+            let index = this.$store.globalComponent["index"];
+            let count = 3;
+            let dmgs = this.getSpellDmg(spell, source);
+            let effectList = this.getSpellEffect(source, spell);
+
+            this.applyDmg(source, target, spell, dmgs);
+            this.applyEffect(source, target, effectList);
+
+            let timer = setInterval(() => {
+                this.applyDmg(source, target, spell, 200);
+                if(--count <= 0)
+                    index.removeFromTimerList(target.type, timer);
+            }, 2000);
+            index.addToTimerList(target.type, timer);
+        },
+        // 石肤(石元素)
+        inv_spiritshard_01(source, target, spell) {
+            let index = this.$store.globalComponent["index"];
+            let shield = source.attribute.MAXHP.value*0.3;
+            let effectList = this.getSpellEffect(source, spell);
+            this.applyEffect(source, target, effectList);
+            index.shield(source, target, shield, spell);
+        },
+        // 火焰护盾(熔岩元素)
+        spell_fire_immolation(source, target, spell) {
+            let index = this.$store.globalComponent["index"];
+            let shield = source.attribute.MAXHP.value*0.3;
+            let effectList = this.getSpellEffect(source, spell);
+            this.applyEffect(source, target, effectList);
+            index.shield(source, target, shield, spell);
+        },
+        // 碎裂心智(熔岩元素)
+        sha_spell_fire_bluehellfire_nightmare(source, target, spell) {
+            let index = this.$store.globalComponent["index"];
+            let dmgs = this.getSpellDmg(spell, source);
+            let effectList = this.getSpellEffect(source, spell);
+            let stack = target.buff['sha_spell_fire_bluehellfire_nightmare'] ? target.buff['sha_spell_fire_bluehellfire_nightmare'] : 0;
+
+            index.set_ap_dmg(dmgs, index.get_dmg(dmgs, 'ap')*(1+stack*0.05));
+            this.applyDmg(source, target, spell, dmgs);
+            this.applyEffect(source, target, effectList);
         },
     }
 }

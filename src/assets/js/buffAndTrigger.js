@@ -440,6 +440,16 @@ export const buffAndTrigger = {
                 return;
             if(this.buffReduce(source, source, 'weak')) {
                 this.set_ad_dmg(dmgs, this.get_dmg(dmgs, 'ad')*0.5);
+                this.set_ap_dmg(dmgs, this.get_dmg(dmgs, 'ap')*0.5);
+            }
+        },    
+        // vulnerable
+        vulnerable(target, dmgs) {
+            if(this.get_dmg(dmgs, 'ad') == 0 && this.get_dmg(dmgs, 'ap') == 0)
+                return;
+            if(this.buffReduce(target, target, 'vulnerable')) {
+                this.set_ad_dmg(dmgs, this.get_dmg(dmgs, 'ad')*1.3);
+                this.set_ap_dmg(dmgs, this.get_dmg(dmgs, 'ap')*1.3);
             }
         },    
         // 灼伤
@@ -472,6 +482,13 @@ export const buffAndTrigger = {
         },
         // 回血触发
         triggerOnHeal(source, target) {
+        },
+        // 破盾触发
+        triggerOnShieldBreak(source, target) {
+            if(target.buff['inv_spiritshard_01'] != undefined) {
+                this.buffApply(target, target, 'vulnerable', 3);
+                this.buffRemoved(source, target, 'inv_spiritshard_01');
+            }
         },
         // 临死前触发, target为被杀者
         triggerBeforeKilled(source, target, dmg) {
@@ -533,7 +550,10 @@ export const buffAndTrigger = {
         },
         damage(source, target, dmgs, sourceName) {
             let battleAnime = this.$store.globalComponent["battleAnime"];
+            if(target.buff['spell_fire_immolation'] != undefined && this.get_dmg(dmgs, 'ad') > 0)
+                this.damage(target, source, {apDmg: 150});
             this.weak(source, dmgs);
+            this.vulnerable(target, dmgs);
             this.void(target, dmgs);
             this.minionSlayer(source, target, dmgs);
             this.dmgShield(source, target, dmgs, sourceName);
@@ -549,6 +569,7 @@ export const buffAndTrigger = {
             
             if(target.buff['icenova'] != undefined)
                 target.buffCounter['icenova'] += totalDmg;
+    
 
             battleAnime.displayText(target.type, "dmg", {adDmg: dmgs.adDmg, apDmg: dmgs.apDmg, trueDmg: dmgs.trueDmg});
             if(dmgTypeCount > 1) {
@@ -639,9 +660,6 @@ export const buffAndTrigger = {
             else 
                 target.attribute.SHIELD.value += shield;
         },
-        clearShield(target) {
-            target.attribute.SHIELD =  { baseVal: 0, value: 0, showbaseVal: 0};
-        },
         dmgShield(source, target, dmgs, sourceName) {
             if(target.attribute.SHIELD.value == undefined)
                 return;
@@ -652,6 +670,13 @@ export const buffAndTrigger = {
             block = Math.min(target.attribute.SHIELD.value, this.get_dmg(dmgs, 'ap'));
             target.attribute.SHIELD.value -= block;
             this.set_ap_dmg(dmgs, this.get_dmg(dmgs, 'ap')-block);
+            target.attribute.SHIELD.value = Math.round(target.attribute.SHIELD.value);
+
+            if(target.attribute.SHIELD.value <= 0)
+                this.triggerOnShieldBreak(source, target);
+        },
+        clearShield(target) {
+            target.attribute.SHIELD =  { baseVal: 0, value: 0, showbaseVal: 0};
         },
         mpChange(source, target, value, sourceName) {
             value = Math.round(value);

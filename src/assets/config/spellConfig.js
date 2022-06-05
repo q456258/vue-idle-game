@@ -1504,6 +1504,48 @@ data() {
                 ],
                 tag: []
             }, 
+            spell_fire_flameblades: {
+                name: '熔岩之弧', max: 100, iconSrc: "", quality: 1,
+                level: [{
+                        des: '造成1000点魔法伤害并有50%附带5层灼伤，在接下来六秒内每两秒造成200点魔法伤害',
+                        apDmg: { FIX: 1000 },
+                        effect: {burn: {stack: 5, chance: 50, target: 'enemy'},},
+                        cost: { MP: 20, },
+                    }
+                ],
+                tag: []
+            }, 
+            inv_spiritshard_01: {
+                name: '石肤', max: 100, iconSrc: "", quality: 1,
+                level: [{
+                        des: '获得最大生命值*0.3点护盾，护甲被破坏后获得5层易伤',
+                        effect: {inv_spiritshard_01: {stack: 1, chance: 100, target: 'self'},},
+                        cost: { MP: 20, },
+                    }
+                ],
+                tag: []
+            }, 
+            spell_fire_immolation: {
+                name: '火焰护盾', max: 100, iconSrc: "", quality: 1,
+                level: [{
+                        des: '获得最大生命值*0.3点护盾，护甲持续期间，受到物理伤害时对伤害来源造成150点魔法伤害',
+                        effect: {spell_fire_immolation: {stack: 1, chance: 100, target: 'self'},},
+                        cost: { MP: 20, },
+                    }
+                ],
+                tag: []
+            }, 
+            sha_spell_fire_bluehellfire_nightmare: {
+                name: '碎裂心智', max: 100, iconSrc: "", quality: 1,
+                level: [{
+                        des: '造成1000点魔法伤害，并附加一层碎裂心智，目标每有一层碎裂心智，受到碎裂心智的伤害提升5%',
+                        apDmg: { FIX: 1000 },
+                        effect: {sha_spell_fire_bluehellfire_nightmare: {stack: 1, chance: 100, target: 'enemy'},},
+                        cost: { MP: 20, },
+                    }
+                ],
+                tag: []
+            }, 
         }
     }
 },
