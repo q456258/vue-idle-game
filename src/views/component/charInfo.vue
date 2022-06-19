@@ -544,6 +544,8 @@
                 </option>
             </select>
             <div class="container scrollbar-morpheus-den">
+                <!-- 技能移除再添加后，进度条无法正常显示进度，添加一个强制刷新 -->
+                <span v-show="false">{{forceRender}} </span>
                 <div class="spell" v-for="(v, k) in filteredSpell" :key="k" :set="curLv=spell[v].level[spells[v].lv-1]">
                     <span class="largeIconContainer spellIcon">
                         <del :class="[{grey:spell[v].quality==1, green:spell[v].quality==3, blue:spell[v].quality==4, purple:spell[v].quality==5, orange:spell[v].quality==6}, 'largeIcon iconBorder']"></del>
@@ -606,6 +608,7 @@ export default {
     components: {cTooltip, hpmpBar, Saveload, currency},
     data() {
         return {
+            forceRender: 0,
             visible: false,
             currentEquip: {},
             top: 0,

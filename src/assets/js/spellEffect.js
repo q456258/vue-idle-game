@@ -76,6 +76,8 @@ export const spellEffect = {
                     spellList[spell].progress = this.spell[spell].max;
                 }
             }
+            let charInfo = this.$store.globalComponent["charInfo"];
+            charInfo.forceRender = Math.random();
         },
         // 计算护甲减免百分比
         getDefRed(armor) {
