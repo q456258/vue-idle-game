@@ -174,7 +174,7 @@ export default {
                 let rewardInfo = this.questList[questId].rewardItem[type];
                 let ran = Math.random()*100;
                 if(rewardInfo[0] == 'unique_equip') {
-                    if(ran < rewardInfo[2]) {
+                    if(ran < rewardInfo[3]) {
                         let newEquip = JSON.parse(equipInfo.createUniqueEquipTemplate(rewardInfo[1]));
                         reward.push([newEquip]);
                     }
