@@ -173,7 +173,7 @@ export default {
 }
 #battleAnimeWrapper {
     position: absolute;
-    width: 500px;
+    width: 535px;
     height: 300px;
     top: 0px;
     z-index: 1;

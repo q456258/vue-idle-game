@@ -33,9 +33,9 @@
                 <p class="info">* 每10级增加一个公会成员上限</p>
             </template>
         </cTooltip>   
-        <cTooltip :placement="'bottom'" v-if="guild.guild.lv>0">
+        <cTooltip :placement="'bottom'" v-if="guild.questBoard.lv>0">
             <template v-slot:content>
-                <a id="questBoardBtn" class='glowBtn' @click="switchTab($event, 'questBoard')">任务板 {{guild.smith.lv}}</a>
+                <a id="questBoardBtn" class='glowBtn' @click="switchTab($event, 'questBoard')">任务板 {{guild.questBoard.lv}}</a>
             </template>
             <template v-slot:tip>
             </template>
@@ -69,7 +69,7 @@
                 <p class="info">* 等级上限为中级练功房等级</p>
             </template>
         </cTooltip> -->
-        <cTooltip :placement="'bottom'" v-if="guild.guild.lv>0">
+        <cTooltip :placement="'bottom'" v-if="guild.shop.lv>0">
             <template v-slot:content>
                 <a id="shopBtn" class='glowBtn' @click="switchTab($event, 'shop')">商店 {{guild.shop.lv}}</a>
             </template>
@@ -78,7 +78,7 @@
                 <p class="info">* 每一级提升0.5%金币收入</p>
             </template>
         </cTooltip>
-        <cTooltip :placement="'bottom'" v-if="guild.guild.lv>0">
+        <cTooltip :placement="'bottom'" v-if="guild.smith.lv>0">
             <template v-slot:content>
                 <a id="smithBtn" class='glowBtn' @click="switchTab($event, 'smith')">铁匠铺 {{guild.smith.lv}}</a>
             </template>
@@ -87,22 +87,20 @@
                 <p class="info">* 每一级提升1%强化成功率</p>
             </template>
         </cTooltip>
-        <cTooltip :placement="'bottom'" v-if="guild.guild.lv>0">
+        <!-- <cTooltip :placement="'bottom'" v-if="guild.mine.lv>0">
             <template v-slot:content>
-                <a id="mineBtn" class='glowBtn' @click="switchTab($event, 'mine')">矿场 {{guild.smith.lv}}</a>
-                <!-- <a id="mineBtn" class='glowBtn' @click="switchTab($event, 'mine')">矿场 {{guild.mine.lv}}</a> -->
+                <a id="mineBtn" class='glowBtn' @click="switchTab($event, 'mine')">矿场 {{guild.mine.lv}}</a>
             </template>
             <template v-slot:tip>
             </template> 
         </cTooltip>
-        <cTooltip :placement="'bottom'" v-if="guild.guild.lv>0">
+        <cTooltip :placement="'bottom'" v-if="guild.herb.lv>0">
             <template v-slot:content>
-                <a id="herbBtn" class='glowBtn' @click="switchTab($event, 'herb')">药园 {{guild.smith.lv}}</a>
-                <!-- <a id="herbBtn" class='glowBtn' @click="switchTab($event, 'herb')">药园 {{guild.herb.lv}}</a> -->
+                <a id="herbBtn" class='glowBtn' @click="switchTab($event, 'herb')">药园 {{guild.herb.lv}}</a>
             </template>
             <template v-slot:tip>
             </template>
-        </cTooltip>
+        </cTooltip> -->
     </div>
     <guildPosition></guildPosition>
 </div>
