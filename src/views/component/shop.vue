@@ -24,7 +24,7 @@
                 </div>
             </div>
         </div>
-        <div class="shops scrollbar-morpheus-den" v-if="guild['shop'].lv>1">
+        <div class="shops scrollbar-morpheus-den">
             名望商店
             <div class="wrapper">
                 <div class="grid" v-for="(v, k) in guildShop.reputationShop[guild.shop.lv]" :key="k">
@@ -46,18 +46,20 @@
         <div class="shops" v-if="guild['shop'].lv>2">
             黑市
             <div class="wrapper">
-                <div class="grid" v-for="(v, k) in equipShop" :key="k">
-                    <div @mouseover="showInfo($event,v.itemType,v,true)" @mouseleave="closeInfo('equip')">
-                        <div class="mediumIconContainer" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v.quality.color }">
-                            <del :class="[{grey:v.quality.qualityLv==1, green:v.quality.qualityLv==3, blue:v.quality.qualityLv==4, purple:v.quality.qualityLv==5, orange:v.quality.qualityLv==6}, 'mediumIcon iconBorder']"></del>
-                            <img :src="v.description.iconSrc" alt="" />
+                <div v-for="(v, k) in equipShop" :key="k">
+                    <span class="grid" v-if="v.itemType!=undefined">
+                        <div @mouseover="showInfo($event,v.itemType,v,true)" @mouseleave="closeInfo('equip')">
+                            <div class="mediumIconContainer" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v.quality.color }">
+                                <del :class="[{grey:v.quality.qualityLv==1, green:v.quality.qualityLv==3, blue:v.quality.qualityLv==4, purple:v.quality.qualityLv==5, orange:v.quality.qualityLv==6}, 'mediumIcon iconBorder']"></del>
+                                <img :src="v.description.iconSrc" alt="" />
+                            </div>
                         </div>
-                    </div>
-                    <button type="button" class="btn btn-outline-warning buy" :disabled="playerGold<equipCost[k]" @click="buyEquip(k)">购买</button>
-                    <span class="itemName" :style="{color:v.quality.color}">
-                        {{v.description.name}}
-                    </span>          
-                    <span :style="{color:playerGold<equipCost[k]?'#f00':''}"><currency :amount="equipCost[k]"></currency></span>
+                        <button type="button" class="btn btn-outline-warning buy" :disabled="playerGold<equipCost[k]" @click="buyEquip(k)">购买</button>
+                        <span class="itemName" :style="{color:v.quality.color}">
+                            {{v.description.name}}
+                        </span>          
+                        <span :style="{color:playerGold<equipCost[k]?'#f00':''}"><currency :amount="equipCost[k]"></currency></span>
+                    </span>
                 </div>
                 <span class="equipTimer">
                     <button type="button" class="btn btn-outline-warning"  v-if="freeRefreshCount>0" @click="freeRefresh()">免费刷新({{freeRefreshCount}})</button>
