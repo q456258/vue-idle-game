@@ -59,12 +59,12 @@
         </div>
         <ul v-show="visible && displayPage=='equip'" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
             <li @click="equip()">装备</li>
-            <li @click="equipEnhance()" v-if="guild.smith.lv>0">强化</li>
-            <li @click="equipForge()" v-if="guild.smith.lv>=10">重铸</li>
-            <li @click="equipPotential()" v-if="guild.smith.lv>=20">洗炼</li>
+            <li @click="equipEnhance()" v-if="guild.smith.lv>1">强化</li>
+            <li @click="equipForge()" v-if="guild.smith.lv>=2">重铸</li>
+            <li @click="equipPotential()" v-if="guild.smith.lv>=4">洗炼</li>
             <li @click="lockEquipment(true)" v-if="!currentItem.locked">锁定</li>
             <li @click="lockEquipment(false)" v-if="currentItem.locked">解锁</li>
-            <li @click="disintegrate()" v-if="guild.smith.lv>=30 && !currentItem.locked">分解</li>
+            <!-- <li @click="disintegrate()" v-if="guild.smith.lv>=30 && !currentItem.locked">分解</li> -->
             <li @click="sellEquipment()" v-if="!currentItem.locked">出售</li>
         </ul>
         <ul v-show="visible && displayPage=='use'" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
@@ -185,6 +185,8 @@ export default {
             if(this.playerLv < this.currentItem.lv) {
                 return;
             }
+            let quest = this.$store.globalComponent["quest"];
+            quest.trackProgress('event', 2, 1);
             switch (this.currentItem.itemType) {
                 case 'helmet':
                     this.grid[this.currentItemIndex] = this.$store.state.playerAttribute.helmet;
@@ -264,16 +266,16 @@ export default {
             if(index == undefined)
                 index = this.currentItemIndex;
             let equip = this.grid[index];
-            let cost = 8+4*Math.random();
-            cost *= (1+equip.lv/2)*(1+equip.enhanceLv*equip.quality.qualityCoefficient+equip.quality.extraEntryNum*2);
+            let cost = 2+1*Math.random();
+            cost *= (1+equip.lv/3)*(1+equip.enhanceLv*equip.quality.qualityCoefficient+equip.quality.extraEntryNum*2);
             cost = Math.round(cost);
             this.grid[index] = {};
             let guild = this.$store.globalComponent["guild"];
             guild.getGold('出售装备', cost);
         },
         sellEquipmentByEquip(equip) {
-            let cost = 8+4*Math.random();
-            cost *= (1+equip.lv/2)*(1+equip.enhanceLv*equip.quality.qualityCoefficient+equip.quality.extraEntryNum*2);
+            let cost = 2+1*Math.random();
+            cost *= (1+equip.lv/3)*(1+equip.enhanceLv*equip.quality.qualityCoefficient+equip.quality.extraEntryNum*2);
             cost = Math.round(cost);
             let guild = this.$store.globalComponent["guild"];
             guild.getGold('出售装备', cost);

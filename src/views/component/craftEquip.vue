@@ -87,8 +87,6 @@
                             <div :class="[{greyQuality:v.quality==0,purpleQuality:v.quality==1,goldQuality:v.quality==2},'reward']"  v-for="(v, k) in rewards" :key="k">
                                 <img class="smallIcon" :src="v.icon" alt="" /> 
                                 <div class="rewardDesc">{{v.desc}}</div>
-                                <div :class="[{'fail':!v.success},'progress craftProgress']" :style="{width:v.cur/v.max*100+'%'}">{{forceupdate}}
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -114,10 +112,10 @@ export default {
                 {type: 2, name: "银锭", desc: "提升最终装备品质", icon: "/icons/material/inv_ingot_01.jpg", itemCode: 'inv_ingot_01', max: 10},
                 {type: 3, name: "铁锭", desc: "赋予随机3个选项额外'降低装备等级'奖励", icon: "/icons/material/inv_ingot_iron.jpg", itemCode: 'inv_ingot_iron', max: 10},
                 {type: 4, name: "钢锭", desc: "赋予随机3个选项额外'提升装备等级'奖励", icon: "/icons/material/inv_ingot_steel.jpg", itemCode: 'inv_ingot_steel', max: -1},
-                {type: 5, name: "金锭", desc: "赋予随机3个选项额外'降低装备品质'奖励", icon: "/icons/material/inv_ingot_03.jpg", itemCode: 'inv_ingot_03', max: 10},
-                {type: 6, name: "秘银锭", desc: "随机提升3个选项的品质", icon: "/icons/material/inv_ingot_06.jpg", itemCode: 'inv_ingot_06', max: 10},
+                {type: 5, name: "金锭", desc: "随机提升3个选项的品质", icon: "/icons/material/inv_ingot_03.jpg", itemCode: 'inv_ingot_03', max: 10},
+                {type: 6, name: "秘银锭", desc: "重置所有选项品质", icon: "/icons/material/inv_ingot_06.jpg", itemCode: 'inv_ingot_06', max: 10},
                 // {type: 7, name: "真银锭", desc: "待定", icon: "/icons/material/inv_ingot_08.jpg", itemCode: 'inv_ingot_08', max: 10},
-                {type: 8, name: "瑟银锭", desc: "赋予随机3个选项额外'降低装备品质'奖励", icon: "/icons/material/inv_ingot_07.jpg", itemCode: 'inv_ingot_07', max: 10},
+                {type: 8, name: "瑟银锭", desc: "随机提升3个选项的品质", icon: "/icons/material/inv_ingot_07.jpg", itemCode: 'inv_ingot_07', max: 10},
                 // {type: 9, name: "黑铁锭", desc: "赋予随机3个选项额外'附加技能'奖励", icon: "/icons/material/inv_ingot_mithril.jpg", itemCode: 'inv_ingot_mithril', max: 10},
             ],
             rewardType: [
@@ -165,7 +163,6 @@ export default {
             // none, wait, picking, picked, donePick, order, crafting, done
             status: 'none',
             remain: 0,
-            forceupdate: 1
         };
     },
     mounted() {
@@ -176,7 +173,6 @@ export default {
     },
     computed: {
         itemQtys() {
-            let guild = this.$store.globalComponent["guild"];
             let itemInfo = this.$store.globalComponent["itemInfo"];
             let itemQtys = [];
             for(let i=0; i<this.addonType.length; i++) {
@@ -188,7 +184,6 @@ export default {
     methods: {
         applyAddon(event, index) {
             let count = 1;
-            let guild = this.$store.globalComponent["guild"];
             let itemInfo = this.$store.globalComponent["itemInfo"];
             let itemQty = itemInfo.getItemQty(this.addonType[index].itemCode);
             let max = this.addonType[index].max;
@@ -439,6 +434,10 @@ export default {
                     list[3].classList.add('craft_active');
                     break;
                 case 'done':
+                    for(let index in this.rewards) {
+                        let reward = this.rewards[index];
+                        this.craftReward(reward);
+                    }
                     progressBar.style.width = length;
                     list[3].classList.replace('craft_active', 'craft_done');
                     break;
@@ -527,27 +526,6 @@ export default {
                 temp = this.rewards[rewardID];
                 this.$set(this.forfeitRewards, this.forfeitRewards.length, temp);
                 this.$delete(this.rewards, rewardID);
-            }
-        },
-        increaseProgress(amount) {
-            for(let index in this.rewards) {
-                let reward = this.rewards[index];
-                if(reward.cur < reward.max) {
-                    let diff = reward.max-reward.cur;
-                    if(diff>=amount) {
-                        if(diff==amount)
-                            this.craftReward(reward);
-                        reward.cur += amount;
-                        this.forceupdate += 1;
-                        break;
-                    }
-                    else {
-                        this.craftReward(reward);
-                        this.forceupdate = 0;
-                        reward.cur += diff;
-                        this.increaseProgress(amount-diff);
-                    }
-                }
             }
         },
         craftReward(reward) {
@@ -710,11 +688,11 @@ export default {
             newEquip.description.type = this.type[type];
 
             // 装备类型自带主潜能
-            if(this[type].baseEntry.length > 0) {
+            if(this[type].fixEntry.length > 0) {
                 if(type == 'weapon' && (baseEntry[0].type == 'INT' || baseEntry[0].type == 'SPI'))
                     fixEntry.push({type:'AP'});
                 else
-                    fixEntry.push({type:this[type].baseEntry[0]});
+                    fixEntry.push({type:this[type].fixEntry[0]});
                 equipInfo.createBaseEntryValue(newEquip.quality.qualityCoefficient, fixEntry, 0, newEquip.lv, newEquip.enhanceLv, mod);
                 baseEntry = fixEntry.concat(baseEntry);
             }
@@ -732,7 +710,6 @@ export default {
             newEquip.baseEntry = baseEntry;
             newEquip.extraBaseEntry = extraBaseEntry;
             newEquip.extraEntry = extraEntry;
-
             backpack.giveEquip(newEquip);
             this.forfeit();
         }

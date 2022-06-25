@@ -16,7 +16,7 @@
                 <span class="enhanceLv">
                     强化等级: {{equip.enhanceLv}}
                     <small v-if="enhanceable">{{currentProgress+'/'+req[equip.enhanceLv]}} </small>
-                    <div v-if="enhanceable" style="color:#c00;">强化等级已达到上限</div>
+                    <div v-if="!enhanceable" style="color:#c00;">强化等级已达到上限</div>
                     <div v-else>
                         <div class="progress">
                             <div class="progress-bar" :style="{width:currentProgress/req[equip.enhanceLv]*100+'%'}">
