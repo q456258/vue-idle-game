@@ -33,7 +33,10 @@
     <div class="building" v-show="displayPage=='questBoard'">
         <div class="buildInfo">
             {{guild.questBoard.lv+"级"}}
-            <div class="refresh btn btn-secondary" @click="generateGuildQuest()"></div>
+            <div class="questRefresh">
+                <div class="refresh btn btn-secondary" @click="refreshGuildQuest()"></div>
+                <currency :amount="questRefreshCost"></currency>
+            </div>
         </div>
         <div class="questBoardContainer">
             <div class="questContainer" v-for="(v1, k1) in guildAvailableQuest" :key="k1">
@@ -157,7 +160,7 @@
                     副材料: <a v-if="smith_sub.lv" :style="{color:smith_sub.quality.color}" @mouseover="showInfo($event,smith_sub.itemType,smith_sub)" @mouseleave="closeInfo('equip')">{{smith_sub.description.name}}</a>
                     <div class="btn btn-outline-light" @click="selectEquip('smith_sub')">+</div>
                 </span>
-                &nbsp;<div class="btn btn-success" @click="start('smith')">开始</div>
+                &nbsp;<div class="btn btn-success" @click="start('smith')"><currency :amount="smithCost"></currency></div>
             </div>
             <div style="display:flex" v-else>
                 &nbsp;<div class="btn btn-danger" @click="stop('smith')">停止</div>
@@ -281,7 +284,7 @@ export default {
             selectOption: {
                 shop: [{name: '1级贸易', value: 'shop1', lv: 0}, {name: '2级贸易', value: 'shop2', lv: 15}, {name: '3级贸易', value: 'shop3', lv: 30}, 
                         {name: '4级贸易', value: 'shop4', lv: 45}],
-                smith: [{name: '打造', value: 'smith', lv: 1},{name: '精炼', value: 'refine', lv: 2}, {name: '熔炼', value: 'melt', lv: 3}],
+                smith: [{name: '打造', value: 'smith', lv: 3},{name: '精炼', value: 'refine', lv: 5}, {name: '熔炼', value: 'melt', lv: 6}],
                 train: [{name: '生命训练', value: 'HP', lv: 0}, {name: '魔法训练', value: 'MP', lv: 0}, {name: '攻击训练', value: 'ATK', lv: 0},
                         {name: '防御训练', value: 'DEF', lv: 0}],
                 train2: [{name: '元素训练', value: 'SUNDER', lv: 0}, {name: '格挡训练', value: 'BLOCK', lv: 0}],
@@ -307,8 +310,11 @@ export default {
     props: {
     },
     computed: {
-        guild() {return this.$store.state.guildAttribute;},
-        player() {return this.$store.state.playerAttribute;},
+        guild() { return this.$store.state.guildAttribute; },
+        player() { return this.$store.state.playerAttribute; },
+        playerGold() { return this.$store.state.guildAttribute.gold; },
+        questRefreshCost() { return 100*Math.pow(10, this.guild.questBoard.lv); },
+        smithCost() { return 100*Math.pow(5, this.guild.smith.lv); },
     },
     methods: {    
         init() {
@@ -337,12 +343,19 @@ export default {
             guild.useGold(cost);
             this.guild[type].lv += 1;
         },
+        refreshGuildQuest() {
+            if(this.playerGold < this.questRefreshCost)
+                return;
+            let guild = this.$store.globalComponent["guild"];
+            guild.useGold(this.questRefreshCost);
+            this.generateGuildQuest();
+        },
         generateGuildQuest() {
             let quest = this.$store.globalComponent["quest"];
             let list = [];
             this.guildAvailableQuest = [];
-            for(let l=0; l<6; l++) {
-                if(this.player.lv <= (l+1)*10 || l>=this.questBoardList.length)
+            for(let l=0; l<this.questBoardList.length; l++) {
+                if(this.player.lv <= (l+1)*10)
                     break;
                 for(let j=0; j<this.guild['questBoard'].lv; j++) {
                     for(let k in this.questBoardList[l][j]) {
@@ -350,7 +363,7 @@ export default {
                     }
                 }
             }
-            let len = Math.min(list.lengh, 6);
+            let len = Math.min(list.length, 6);
             for(let i=0; i<len; i++) {
                 let index = Math.floor(Math.random()*list.length);
                 let questId = list[index];
@@ -420,8 +433,13 @@ export default {
             let craftEquip = this.$store.globalComponent["craftEquip"];
             switch(type) {
                 case 'smith':
+                    if(this.playerGold < this.smithCost) {
+                        this.inProgress[type] = false;
+                        break;
+                    }
+                    let guild = this.$store.globalComponent["guild"];
+                    guild.useGold(this.smithCost);
                     craftEquip.statusChange('wait');
-                    // this.startSmith();
                     break;
                 case 'shop':
                     this.startShop();
@@ -467,28 +485,19 @@ export default {
         },
         startSmith() {
             let craftEquip = this.$store.globalComponent["craftEquip"];
-            this.timerList['smith'] = setInterval(() => {
-                let amount = this.totalEfficiency['smith'];
-                this.progress['smith'].current += amount;
-                craftEquip.increaseProgress(amount);
-                if(this.progress['smith'].current >= this.progress['smith'].max) {
-                    this.progress['smith'].current = 0;
-                    clearInterval(this.timerList['smith']);
-                    this.inProgress['smith'] = false;
-                    switch(this.selectedType['smith']) {
-                        case 'smith':
-                            craftEquip.statusChange('done');
-                            // craftEquip.craftEquip();
-                            break;
-                        case 'refine':
-                            this.refine();
-                            break;
-                        case 'melt':
-                            this.melt();
-                            break;
-                    } 
-                }
-            }, 1000);
+            this.inProgress['smith'] = false;
+            switch(this.selectedType['smith']) {
+                case 'smith':
+                    craftEquip.statusChange('done');
+                    // craftEquip.craftEquip();
+                    break;
+                case 'refine':
+                    this.refine();
+                    break;
+                case 'melt':
+                    this.melt();
+                    break;
+            } 
         },
         startMine() {
             this.timerList['mine'] = setInterval(() => {
@@ -800,6 +809,9 @@ export default {
         right: 0;
         bottom: 0;
     }
+}
+.questRefresh {
+    float: right;
 }
 .queue {
     width: 100%;
