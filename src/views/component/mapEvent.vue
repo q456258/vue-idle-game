@@ -184,8 +184,6 @@ export default {
                 if(this.selectedDungeon.count == 0)
                     dungeonInfo.auto = false;
                 this.levelToTarget(target.lv);
-                if(target.type == 'elite' || target.type == 'boss')
-                    this.talentLevelToTarget(target.lv);
                 if(dungeonInfo.auto && !this.$store.state.setting.waitFull)
                     this.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
                 this.$store.commit("set_battle_info", {
@@ -226,6 +224,7 @@ export default {
             return true;
         },
         levelToTarget(target) {
+            this.talentLevelToTarget(target);
             while(this.playerAttr.lv < target)
                 this.levelUp();
         },
@@ -252,7 +251,7 @@ export default {
         },
         talentLevelUp() {
             this.playerAttr.talentLv += 1;
-            if(this.playerAttr.talentLv >= 10)
+            if(this.playerAttr.talentLv > 10)
                 this.playerAttr.talentPoint += 1;
         },
         autoBattle(auto) {
@@ -403,7 +402,6 @@ export default {
             let equipInfo = this.$store.globalComponent["equipInfo"];   
             let backpack = this.$store.globalComponent["backpack"];   
             let rewardList = this.dungeonInfo.advanture.reward;
-
             for(let k=0; k<rewardList.length; k++) {
                 let random = Math.random()*100;
                 if(random <= rewardList[k][1]) {
