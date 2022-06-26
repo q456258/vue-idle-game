@@ -9,10 +9,14 @@ export const itemEffect = {
         callItemEffect(type, lv, options={}) {
             let itemInfo = this.itemType[type];
             let used = false;
-            let toBackpack = options.toBackpack;
+            let toBackpack = options.toBackpack != undefined ? options.toBackpack : true;
             let equipOption = options.equipOption != undefined ? options.equipOption : {};
             let cd = this.$store.state.playerAttribute.globalCD[itemInfo.cdgroup];
             if(cd != undefined && cd > Date.now()) {
+                this.$store.commit("set_sys_info", {
+                    msg: '物品冷却中, 剩余: '+Math.round((cd-Date.now())/1000)+'秒',
+                    type: 'dmged'
+                });
                 return used;
             }
             switch(type) {
@@ -222,22 +226,22 @@ export const itemEffect = {
                     used = !this.inBattle() && this.mpPotion(100, 0, 0, 'maxPercent', itemInfo.description.name);
                     break;
                 case 'inv_potion_49':
-                    used = this.hpPotion(15, 1, 10, 'fix');
+                    used = this.hpPotion(25, 1, 10, 'fix');
                     break;
                 case 'inv_potion_50':
-                    used = this.hpPotion(100, 0, 0, 'fix', itemInfo.description.name);
+                    used = this.hpPotion(200, 0, 0, 'fix', itemInfo.description.name);
                     break;
                 case 'inv_potion_51':
-                    used = this.hpPotion(150, 1, 10, 'fix');
+                    used = this.hpPotion(100, 1, 10, 'fix');
                     break;
                 case 'inv_potion_52':
-                    used = this.hpPotion(1000, 0, 0, 'fix', itemInfo.description.name);
+                    used = this.hpPotion(800, 0, 0, 'fix', itemInfo.description.name);
                     break;
                 case 'inv_potion_53':
-                    used = this.hpPotion(1500, 1, 10, 'fix');
+                    used = this.hpPotion(500, 1, 10, 'fix');
                     break;
                 case 'inv_potion_54':
-                    used = this.hpPotion(10000, 0, 0, 'fix', itemInfo.description.name);
+                    used = this.hpPotion(4500, 0, 0, 'fix', itemInfo.description.name);
                     break;
                 case 'inv_potion_160':
                     used = this.hpPotion(1, 1, 100, 'maxPercent');
@@ -258,19 +262,19 @@ export const itemEffect = {
                     used = this.mpPotion(15, 1, 10, 'fix');
                     break;
                 case 'inv_potion_71':
-                    used = this.mpPotion(100, 0, 0, 'fix', itemInfo.description.name);
+                    used = this.mpPotion(125, 0, 0, 'fix', itemInfo.description.name);
                     break;
                 case 'inv_potion_72':
-                    used = this.mpPotion(150, 1, 10, 'fix');
+                    used = this.mpPotion(50, 1, 10, 'fix');
                     break;
                 case 'inv_potion_73':
-                    used = this.mpPotion(1000, 0, 0, 'fix', itemInfo.description.name);
+                    used = this.mpPotion(400, 0, 0, 'fix', itemInfo.description.name);
                     break;
                 case 'inv_potion_74':
-                    used = this.mpPotion(1500, 1, 10, 'fix');
+                    used = this.mpPotion(200, 1, 10, 'fix');
                     break;
                 case 'inv_potion_75':
-                    used = this.mpPotion(10000, 0, 0, 'fix', itemInfo.description.name);
+                    used = this.mpPotion(1750, 0, 0, 'fix', itemInfo.description.name);
                     break;
                 case 'inv_potion_163':
                     used = this.mpPotion(1, 1, 100, 'maxPercent');
