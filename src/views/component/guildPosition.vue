@@ -84,7 +84,7 @@
         </div> -->
     </div>
     <div class="building" v-show="displayPage=='smith'" :set="type='smith'">
-        <div class="action">
+        <div class="action" v-if="guild.smith.lv>=3">
             <div style="display:flex" v-if="!inProgress[type]">
                 <select v-model="selectedType[type]" @change="setSelectedType($event, type)" class="btn btn-light">
                     <option :value="option.value" v-for="(option, index) in selectOption[type]" :key="index" :disabled="guild[type].lv<option.lv">

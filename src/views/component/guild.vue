@@ -25,94 +25,31 @@
         公会名望: {{guild.reputation}}<img class="guildReputationIcon">
     </div>
     <div id="building">     
-        <cTooltip :placement="'bottom'">
-            <template v-slot:content>
-                <a id="guildBtn" class='glowBtn btnActive' @click="switchTab($event, 'guild')">公会 {{guild.guild.lv}}</a>
-            </template>
-            <template v-slot:tip>
-                <p class="info">* 每10级增加一个公会成员上限</p>
-            </template>
-        </cTooltip>   
-        <cTooltip :placement="'bottom'" v-if="guild.questBoard.lv>0">
-            <template v-slot:content>
-                <a id="questBoardBtn" class='glowBtn' @click="switchTab($event, 'questBoard')">任务板 {{guild.questBoard.lv}}</a>
-            </template>
-            <template v-slot:tip>
-            </template>
-        </cTooltip>
-        <!-- <cTooltip :placement="'bottom'" v-if="guild.guild.lv>0">
-            <template v-slot:content>
-                <a id="trainBtn" class='glowBtn' @click="switchTab($event, 'train')">练功房 {{guild.train.lv}}</a>
-            </template>
-            <template v-slot:tip>
-                <p class="info">* 消耗水晶提升能力的场所</p>
-                <p class="info">* 每一级提升1点训练效果</p>
-            </template>
-        </cTooltip>
-        <cTooltip :placement="'bottom'" v-if="guild.guild.lv>0 && guild.train.lv>=15">
-            <template v-slot:content>
-                <a id="train2Btn" class='glowBtn' @click="switchTab($event, 'train2')">中级练功房 {{guild.train2.lv}}</a>
-            </template>
-            <template v-slot:tip>
-                <p class="info">* 消耗水晶提升能力的场所</p>
-                <p class="info">* 每一级提升1点训练效果</p>
-                <p class="info">* 等级上限为练功房等级</p>
-            </template>
-        </cTooltip>
-        <cTooltip :placement="'bottom'" v-if="guild.guild.lv>0 && guild.train2.lv>=15">
-            <template v-slot:content>
-                <a id="train3Btn" class='glowBtn' @click="switchTab($event, 'train3')">高级练功房 {{guild.train3.lv}}</a>
-            </template>
-            <template v-slot:tip>
-                <p class="info">* 消耗水晶提升能力的场所</p>
-                <p class="info">* 每一级提升1点训练效果</p>
-                <p class="info">* 等级上限为中级练功房等级</p>
-            </template>
-        </cTooltip> -->
-        <cTooltip :placement="'bottom'" v-if="guild.shop.lv>0">
-            <template v-slot:content>
-                <a id="shopBtn" class='glowBtn' @click="switchTab($event, 'shop')">商店 {{guild.shop.lv}}</a>
-            </template>
-            <template v-slot:tip>
-                <p class="info">* 出售日常用品</p>
-                <p class="info">* 每一级提升0.5%金币收入</p>
-            </template>
-        </cTooltip>
-        <cTooltip :placement="'bottom'" v-if="guild.smith.lv>0">
-            <template v-slot:content>
-                <a id="smithBtn" class='glowBtn' @click="switchTab($event, 'smith')">铁匠铺 {{guild.smith.lv}}</a>
-            </template>
-            <template v-slot:tip>
-                <p class="info">* 提供强化、锻造等服务</p>
-                <p class="info">* 每一级提升1%强化成功率</p>
-            </template>
-        </cTooltip>
-        <!-- <cTooltip :placement="'bottom'" v-if="guild.mine.lv>0">
-            <template v-slot:content>
-                <a id="mineBtn" class='glowBtn' @click="switchTab($event, 'mine')">矿场 {{guild.mine.lv}}</a>
-            </template>
-            <template v-slot:tip>
-            </template> 
-        </cTooltip>
-        <cTooltip :placement="'bottom'" v-if="guild.herb.lv>0">
-            <template v-slot:content>
-                <a id="herbBtn" class='glowBtn' @click="switchTab($event, 'herb')">药园 {{guild.herb.lv}}</a>
-            </template>
-            <template v-slot:tip>
-            </template>
-        </cTooltip> -->
+        <div v-for="(v, k) in guildBuildingDesc" :key="k">
+            <cTooltip :placement="'bottom'" v-if="guild[k].lv>0">
+                <template v-slot:content>
+                    <a :id="k+'Btn'" class='glowBtn' @click="switchTab($event, k)">{{guildBuildingName[k]+" "+guild[k].lv}}</a>
+                </template>
+                <template v-slot:tip>
+                    <div v-for="(v2, k2) in guildBuildingDesc[k]" :key="k2">
+                        <span v-if="guildBuildingDesc[k][k2]!=''" :style="{color:guild[k].lv<k2?'#888':''}">{{k2+"级: "+guildBuildingDesc[k][k2]}}</span>
+                    </div>
+                </template>
+            </cTooltip>
+        </div>
     </div>
     <guildPosition></guildPosition>
 </div>
 </template>
 <script>
+import {guildConfig} from '@/assets/config/guildConfig'
 import currency from '../uiComponent/currency';
 import cTooltip from '../uiComponent/tooltip';
 import guildPosition from '../component/guildPosition';
 import countdown from '../uiComponent/countdown';
 export default {
     name: "guild",
-    mixins: [],
+    mixins: [guildConfig],
     components: {cTooltip, guildPosition, countdown, currency},
     mounted() {
         this.$store.globalComponent.guild = this;
@@ -142,8 +79,6 @@ export default {
                 return;
             }
             amount = parseInt(amount);
-            if(bonus)
-                amount = Math.round(amount*(1+this.guild.shop.lv*0.005));
             this.guild.gold += amount;
             if(showText) {
                 this.$store.commit("set_sys_info", {
