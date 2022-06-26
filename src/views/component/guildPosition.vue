@@ -69,7 +69,7 @@
         </div>
     </div>
     <div class="building" v-show="displayPage=='shop'" :set="type='shop'">
-        <div class="action">
+        <!-- <div class="action">
             <div v-if="!inProgress[type]">
                 <select v-model="selectedType[type]" @change="setSelectedType($event, type)" class="btn btn-light">
                     <option :value="option.value" v-for="(option, index) in selectOption[type]" :key="index" :disabled="guild[type].lv<option.lv">
@@ -81,7 +81,7 @@
             <div v-else>
                 &nbsp;<div class="btn btn-danger" @click="stop('shop')">停止</div>
             </div>
-        </div>
+        </div> -->
     </div>
     <div class="building" v-show="displayPage=='smith'" :set="type='smith'">
         <div class="action">
