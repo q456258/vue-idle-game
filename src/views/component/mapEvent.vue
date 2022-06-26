@@ -240,7 +240,6 @@ export default {
                 element.classList.add('glow');
                 let guild = this.$store.state.guildAttribute;
                 guild.guild.lv = 1;
-                guild.train.lv = 1;
                 guild.shop.lv = 1;
                 guild.smith.lv = 1;
             }
