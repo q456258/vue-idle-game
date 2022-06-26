@@ -15,7 +15,7 @@
                     <span class="questCategName " v-if="k!='forceUpdate'">
                         <span class="questButton">&nbsp;&minus;&nbsp;</span>&nbsp;{{questCategory[k]}}
                     </span>
-                    <span>
+                    <span v-if="questCateg[k]">
                         <div :class="[{questSelected: val==selectedQuest}, 'quests']" v-for="(val, key) in questCateg[k].list" :key="key" @click="selectQuest(val)">
                             <a class="questHover"></a>
                             <span class="questName">（{{quests[val].lv}}）{{quests[val].name}}
@@ -132,12 +132,14 @@ export default {
             });
             if(questInfo.questId == undefined)
                 questInfo = this.generateQuest(questId);
+            this.addToTrack(questInfo);
             let category = this.questList[questId].category;
             if(this.questCateg[category] == undefined)
                 this.questCateg[category] = {list: [], expand: true};
             this.questCateg[category].list.push(questId);
 
-            this.$set(this.questCateg, 'forceUpdate', 1);
+            this.questCateg.forceUpdate = 1;
+            this.$set(this.questCateg, 'forceUpdate', this.questCateg.forceUpdate+1);
             this.$set(this.quests, questId, questInfo);
             this.checkStatus(questId);
         },
@@ -208,9 +210,6 @@ export default {
                 else if(reqInfo.reqType == 'event') {
                     reqInfo.name = this.eventId[reqInfo.type];
                 }
-                if(this.questTrack[reqInfo.reqType][reqInfo.type] == undefined)
-                    this.questTrack[reqInfo.reqType][reqInfo.type] = []
-                this.questTrack[reqInfo.reqType][reqInfo.type].push(questId);
                 reqList.push(reqInfo);
             }
             return reqList;
@@ -222,11 +221,24 @@ export default {
             }
         },
         removeFromCateg(questId) {
+            if(questId == -1)
+                return;
             let quest = this.quests[questId];
             let list = this.questCateg[quest.category].list;
             list.splice(list.indexOf(questId), 1);
             if(list.length == 0)
                 delete this.questCateg[quest.category];
+        },
+        addToTrack(questInfo) {
+            let reqs = questInfo.reqs;
+            for(let i in reqs) {
+                let reqInfo = {};
+                reqInfo.reqType = reqs[i].reqType;
+                reqInfo.type = reqs[i].type;
+                if(this.questTrack[reqInfo.reqType][reqInfo.type] == undefined)
+                    this.questTrack[reqInfo.reqType][reqInfo.type] = []
+                this.questTrack[reqInfo.reqType][reqInfo.type].push(questInfo.questId);
+            }
         },
         removeFromTrack(questId) {
             let reqs = this.quests[questId].reqs;
@@ -292,8 +304,6 @@ export default {
             this.removeQuestItem();
             this.reward();
             this.successorQuest();
-            this.removeFromCateg(this.selectedQuest);
-            this.removeFromTrack(this.selectedQuest);
             this.removeQuest();
         },
         forfeitQuest() {
@@ -315,6 +325,8 @@ export default {
             }
         },
         removeQuest() {
+            this.removeFromCateg(this.selectedQuest);
+            this.removeFromTrack(this.selectedQuest);
             delete this.$store.state.quests[this.selectedQuest];
             this.selectedQuest = -1;
         },
