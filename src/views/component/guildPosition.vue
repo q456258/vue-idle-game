@@ -69,42 +69,6 @@
         </div>
     </div>
     <div class="building" v-show="displayPage=='shop'" :set="type='shop'">
-        <div class="buildInfo">
-            {{guild[type].lv+'级 (效率: '+totalEfficiency[type]+'/秒)'}}
-        </div>
-        <div class="member">
-            成员{{building[type].length}}/{{maxMember[type]}}
-            <!-- 此处setPosition参数里面用:set设置的变量(type)会随着别处:set重新赋值导致传进去值不同 -->
-            <div class="btn btn-outline-success" v-if="building[type].length<maxMember[type]" @click="setPosition('shop', -1)">添加</div>
-            <div class="list">
-                <div class="grid" v-for="(v, k) in building[type]" :key="k">
-                    <div class="info">
-                        <div class="name">
-                            {{v.name}}
-                            <br>
-                            {{race[v.race].name+' '+v.lv}}级
-                        </div>
-                    </div>
-                    <!-- <div class="skillList">
-                        <span class="statName">{{guildStat['efficiency'].name+': '+v.stat['efficiency']}}</span>
-                        <span class="statName" v-if="v.skill[type]">{{v.skill[type]+"级"+guildSkill[type].name}}</span>
-                        <div class="skill" v-for="(special, index) in v.special" :key="index">
-                            <span class="skillName">{{guildSpecialSkill[special].name}}</span>
-                            <span class="skillDesc">({{guildSpecialSkill[special].desc}})</span>
-                        </div>
-                    </div> -->
-                    <div class="action">
-                        <div class="button kick btn btn-outline-warning" @click="setPosition('shop', k)">更换</div>
-                        <div class="button kick btn btn-outline-danger" @click="cancelPosition('shop', k)">取消</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="progress" style="width:100%;">
-            <div class="progress-bar progress-bar-striped" :style="{width:progress[type].current/progress[type].max*100+'%'}">
-                <small class="justify-content-center d-flex position-absolute w-90" style="color:black">{{progress[type].current+'/'+progress[type].max}} </small>
-            </div>
-        </div>
         <div class="action">
             <div v-if="!inProgress[type]">
                 <select v-model="selectedType[type]" @change="setSelectedType($event, type)" class="btn btn-light">
@@ -120,33 +84,6 @@
         </div>
     </div>
     <div class="building" v-show="displayPage=='smith'" :set="type='smith'">
-        <div class="buildInfo">
-            {{guild[type].lv+'级 (效率: '+totalEfficiency[type]+'/秒)'}}
-        </div>
-        <div class="member">
-            成员{{building[type].length}}/{{maxMember[type]}}
-            <div class="btn btn-outline-success" v-if="building[type].length<maxMember[type]" @click="setPosition('smith', -1)">添加</div>
-            <div class="list">
-                <div class="grid" v-for="(v, k) in building[type]" :key="k">
-                    <div class="info">
-                        <div class="name">
-                            {{v.name}}
-                            <br>
-                            {{race[v.race].name+' '+v.lv}}级
-                        </div>
-                    </div>
-                    <div class="action">
-                        <div class="button kick btn btn-outline-warning" @click="setPosition('smith', k)">更换</div>
-                        <div class="button kick btn btn-outline-danger" @click="cancelPosition('smith', k)">取消</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="progress" style="width:100%;">
-            <div class="progress-bar progress-bar-striped" :style="{width:progress[type].current/progress[type].max*100+'%'}">
-                <small class="justify-content-center d-flex position-absolute w-90" style="color:black">{{progress[type].current+'/'+progress[type].max}} </small>
-            </div>
-        </div>
         <div class="action">
             <div style="display:flex" v-if="!inProgress[type]">
                 <select v-model="selectedType[type]" @change="setSelectedType($event, type)" class="btn btn-light">
@@ -169,25 +106,6 @@
         </div>
     </div>
     <div class="building" v-show="displayPage=='mine'" :set="type='mine'">
-        <div class="member">
-            成员{{building[type].length}}/{{maxMember[type]}}
-            <div class="btn btn-outline-success" v-if="building[type].length<maxMember[type]" @click="setPosition('mine', -1)">添加</div>
-            <div class="list">
-                <div class="grid" v-for="(v, k) in building[type]" :key="k">
-                    <div class="info">
-                        <div class="name">
-                            {{v.name}}
-                            <br>
-                            {{race[v.race].name+' '+v.lv}}级
-                        </div>
-                    </div>
-                    <div class="action">
-                        <div class="button kick btn btn-outline-warning" @click="setPosition('mine', k)">更换</div>
-                        <div class="button kick btn btn-outline-danger" @click="cancelPosition('mine', k)">取消</div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="queue">
             <table class="">
                 <thead>
@@ -327,8 +245,8 @@ export default {
             }
             for(let timer in this.timerList) 
                 clearInterval(this.timerList[timer]);
-            this.start('shop');
-            this.start('mine');
+            // this.start('shop');
+            // this.start('mine');
             // this.start('smith');
             // this.smith_main = this.player.shoulder;
             // this.smith_sub = this.player.weapon;
@@ -620,25 +538,6 @@ export default {
                 this.building[type][index] = target;
             }
             target.job = type;
-        },
-        setPosition(type, k) {
-            var index = this.$store.globalComponent["index"];
-            var guildMember = this.$store.globalComponent["guildMember"];
-            index.displayPage = 'guildMember';
-            guildMember.positionType = type;
-            guildMember.positionIndex = k;
-        },
-        cancelPosition(type, index, replace=false) {
-            var target = this.building[type][index];
-            if(target.job == 'mine') {
-                for(let i=0; i<this.mineQueue.length; i++) {
-                    if(this.mineQueue[i].member.id == target.id)
-                        this.mineQueue[i].member = {};
-                }
-            }
-            target.job = 'None';
-            if(!replace)
-                this.building[type].splice(index, 1);
         },
         recruit(k) {
             var guildMember = this.$store.globalComponent["guildMember"];
