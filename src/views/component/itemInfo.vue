@@ -138,7 +138,8 @@ export default {
                 for(let i=0; i<item.quantity; i++) {
                     let used = backpack.useItem(item);
                     if(used)
-                        return;
+                        continue;
+                    return;
                 }
             }
             if(stack == -1) {
