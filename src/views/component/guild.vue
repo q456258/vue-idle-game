@@ -24,15 +24,15 @@
         金币:<currency :amount="guild.gold"></currency> <br>
         公会名望: {{guild.reputation}}<img class="guildReputationIcon">
     </div>
-    <div id="building">     
-        <div v-for="(v, k) in guildBuildingDesc" :key="k">
-            <cTooltip :placement="'bottom'" v-if="guild[k].lv>0">
+    <div id="building">
+        <div v-for="(v, k) in guildBuildingOptions" :key="k">
+            <cTooltip :placement="'bottom'" v-if="guild[v].lv>0">
                 <template v-slot:content>
-                    <a :id="k+'Btn'" class='glowBtn' @click="switchTab($event, k)">{{guildBuildingName[k]+" "+guild[k].lv}}</a>
+                    <a :id="v+'Btn'" class='glowBtn' @click="switchTab($event, v)">{{guildBuildingName[v]+" "+guild[v].lv}}</a>
                 </template>
                 <template v-slot:tip>
-                    <div v-for="(v2, k2) in guildBuildingDesc[k]" :key="k2">
-                        <span v-if="guildBuildingDesc[k][k2]!=''" :style="{color:guild[k].lv<k2?'#888':''}">{{k2+"级: "+guildBuildingDesc[k][k2]}}</span>
+                    <div v-for="(v2, k2) in guildBuildingDesc[v]" :key="k2">
+                        <span v-if="guildBuildingDesc[v][k2]!=''" :style="{color:guild[v].lv<k2?'#888':''}">{{k2+"级: "+guildBuildingDesc[v][k2]}}</span>
                     </div>
                 </template>
             </cTooltip>
@@ -62,7 +62,12 @@ export default {
     },
     computed: {
         guild() {return this.$store.state.guildAttribute;},
-        player() {return this.$store.state.playerAttribute;}
+        player() {return this.$store.state.playerAttribute;},
+        guildBuildingOptions() {
+            return Object.keys(this.guildBuildingDesc).filter((k) => {
+                return this.guild[k].lv>0;
+            })
+        }
     },
     methods: {      
         switchTab(e, type){
