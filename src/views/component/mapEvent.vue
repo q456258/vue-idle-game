@@ -283,8 +283,15 @@ export default {
             }
         },
         addToQueue(dungeon) {
-            let guild = this.$store.globalComponent["guild"];
             let guildPosition = this.$store.globalComponent["guildPosition"];
+            let guild = this.$store.state.guildAttribute;
+            if(guildPosition.mineQueue.length >= guildPosition.mineMaxQty[guild.mine.lv]) {
+                this.$store.commit("set_sys_info", {
+                    type: 'danger',
+                    msg: '挖矿队列已满',
+                });
+                return;
+            }
             let newDungeon = this.$deepCopy(dungeon);
             newDungeon.progress = [0, this.monster[newDungeon.monsterID].template.MAXHP];
             this.reduceCount(999999);

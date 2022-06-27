@@ -45,7 +45,7 @@
       <div class="battleInfo">
         <div class="clear" @click="clearBattleInfo">清除信息</div>
         <div id="battleInfo" class="scrollbar-morpheus-den">
-          <div class="info" :class="{dmged:v.type=='dmged',dmg:v.type=='dmg',win:v.type=='win',lose:v.type=='lose'}" v-for="(v,k) in battleInfo" :key="k">
+          <div class="info" :class="{danger:v.type=='danger',dmg:v.type=='dmg',win:v.type=='win',lose:v.type=='lose'}" v-for="(v,k) in battleInfo" :key="k">
             <span v-if="v.source=='player'" style="color:#00ff00">【友】</span>
             <span v-else-if="v.source==undefined"></span>
             <span v-else style="color:#ff0000">【敌】</span>
@@ -57,7 +57,7 @@
       <div class="generalInfo">
         <div class="clear" @click="clearSysInfo">清除信息</div>
         <div id="sysInfo" class="scrollbar-morpheus-den">
-          <div class="info warning" :class="{warning:v.type=='dmged',battle:v.type=='battle',win:v.type=='win',reward:v.type=='reward',}" v-for="(v,k) in sysInfo" :key="k">
+          <div class="info warning" :class="{danger:v.type=='danger',battle:v.type=='battle',win:v.type=='win',reward:v.type=='reward',}" v-for="(v,k) in sysInfo" :key="k">
             <span>{{v.msg}}</span>
             <a v-if="v.equip" :style="{color:v.equip.quality.color}" @mouseover="showInfo($event,v.equip.itemType,v.equip)" @mouseleave="closeInfo('equip')">{{v.equip.description.name}}</a>
             <a v-if="v.item" :style="{color:v.item.quality.color}" @mouseover="showInfo($event,'',v.item)" @mouseleave="closeInfo('item')">{{v.item.description.name}}*{{v.quantity}}</a>

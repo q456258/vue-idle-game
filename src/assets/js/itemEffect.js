@@ -15,7 +15,7 @@ export const itemEffect = {
             if(cd != undefined && cd > Date.now()) {
                 this.$store.commit("set_sys_info", {
                     msg: '物品冷却中, 剩余: '+Math.round((cd-Date.now())/1000)+'秒',
-                    type: 'dmged'
+                    type: 'danger'
                 });
                 return used;
             }

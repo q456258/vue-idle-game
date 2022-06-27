@@ -392,7 +392,7 @@ export default {
             let mod = this.equipMod[newEquip.itemType];
             if(has < quantity) {
                 this.$store.commit("set_sys_info", {
-                    type: 'dmged',
+                    type: 'danger',
                     msg: '材料不足, 无法升级装备! '
                 });
                 return;
