@@ -1,9 +1,6 @@
 <template>
 <div class="container scrollbar-morpheus-den">
     <div class="building" v-show="displayPage=='guild'">
-        <div class="buildInfo">
-            {{guild.guild.lv+"级"}}
-        </div>
         <div class="buildingUpgradeContainer">
             <div class="buildingUpgrade" v-for="(v, k) in upgradeCost" :key="k">
                 <div>{{guild[k].lv}}级{{guildBuildingName[k]}}
@@ -17,9 +14,6 @@
     </div>
     <!-- 
     <div class="building" v-show="displayPage=='train'" :set="type='train'">
-        <div class="buildInfo">
-            {{guild[type].lv+"级"}}
-        </div>
         <div class="training">
             <div class="trainingProgressbars">
                 <countdown ref="countdown" :tier="0" :timer="$store.state.train.train1.timer" :level="guild.train.lv" v-if="guild.train.lv>0"></countdown>
@@ -32,7 +26,6 @@
     -->
     <div class="building" v-show="displayPage=='questBoard'">
         <div class="buildInfo">
-            {{guild.questBoard.lv+"级"}}
             <div class="questRefresh">
                 <div class="refresh btn btn-secondary" @click="refreshGuildQuest()"></div>
                 <currency :amount="questRefreshCost"></currency>
@@ -113,7 +106,7 @@
                         <th scope="col" style="width: 7%;">等级</th>
                         <th scope="col" style="width: 12%;">剩余次数</th>
                         <th scope="col">产出</th>
-                        <th scope="col" style="width: 25%;"></th>
+                        <th scope="col" style="width: 15%;"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -134,9 +127,6 @@
                              </div>
                         </td>
                         <td>
-                            <select v-model="mineQueue[index].member.id" @change="setMineMember($event, index)" class="btn btn-xsm btn-secondary" aria-label="training time">
-                                <option :value="v.id" v-for="(v, k) in building.mine" :key="k">{{v.name}}</option>
-                            </select>
                             <span class="button kick btn btn-outline-danger" @click="removeFromQueue('mine', index)">移除</span>
                         </td>
                     </tr>
@@ -246,7 +236,7 @@ export default {
             for(let timer in this.timerList) 
                 clearInterval(this.timerList[timer]);
             // this.start('shop');
-            // this.start('mine');
+            this.start('mine');
             // this.start('smith');
             // this.smith_main = this.player.shoulder;
             // this.smith_sub = this.player.weapon;
@@ -421,10 +411,8 @@ export default {
             this.timerList['mine'] = setInterval(() => {
                 for(let i=this.mineQueue.length-1; i>=0; i--) {
                     let mine = this.mineQueue[i];
-                    if(mine.member.id != undefined) {
-                        if(!this.increaseMineProgress(mine, mine.member)) 
-                            this.mineQueue.splice(i, 1);
-                    }
+                    if(!this.increaseMineProgress(mine)) 
+                        this.mineQueue.splice(i, 1);
                 }
             }, 1*1000);
         },
@@ -477,9 +465,9 @@ export default {
             this.smith_main = {};
             this.smith_sub = {};
         },
-        increaseMineProgress(mine, member) {
-            let total = Math.floor((member.stat.STR+10) * (member.stat.STA+10) / 100);
-            mine.progress[0] += total;
+        increaseMineProgress(mine) {
+            let total = 1;
+            this.$set(mine.progress, 0, mine.progress[0] + total);
             if(mine.progress[0] >= mine.progress[1]) {
                 let count = Math.floor(mine.progress[0]/mine.progress[1]);
                 mine.progress[0] -= count*mine.progress[1];
@@ -546,17 +534,6 @@ export default {
         reject(k) {
             var guildMember = this.$store.globalComponent["guildMember"];
             guildMember.reject(k);
-        },
-        setMineMember(e, index) {
-            let value = e.target.value;
-            let guildMember = this.$store.globalComponent["guildMember"];
-            this.memberID = value;
-            let member = guildMember.findTargetByID(value);
-            for(let i=0; i<this.mineQueue.length; i++) {
-                if(this.mineQueue[i].member.id == member.id)
-                    this.mineQueue[i].member = {};
-            }
-            this.mineQueue[index].member = member;
         },
         removeFromQueue(type, index) {
             this.mineQueue.splice(index, 1);
