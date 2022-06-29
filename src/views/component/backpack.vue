@@ -329,9 +329,11 @@ export default {
                     clearInterval(autoUse);
             }, 50);
         },
-        useItem(item) {
+        useItem(item, msg=true) {
             if(this.displayPage=='use')
                 this.closeInfo();
+            if(item.quantity <= 0)
+                return false;
             if(item.lvReq > this.playerLv) {
                 this.$store.commit("set_sys_info", {
                     type: 'warning',
@@ -339,7 +341,13 @@ export default {
                 });
                 return false;
             }
-            let success = this.callItemEffect(item.type, item.lv);
+            let success;
+            if(this.itemType[item.type].batch) {
+                success = this.callItemEffect(item.type, item.lv, {msg: msg, qty: item.quantity});
+                item.quantity = 0;
+            }
+            else
+                success = this.callItemEffect(item.type, item.lv, {msg: msg});
             return success;
         },
         mergeItem(e, grid='use', k, count=1) {

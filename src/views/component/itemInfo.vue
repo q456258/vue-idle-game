@@ -135,13 +135,14 @@ export default {
                 });
             }
             if(this.itemType[item.type].autoUse) {
-                for(let i=0; i<item.quantity; i++) {
-                    let used = backpack.useItem(item);
-                    item.quantity -= 1;
-                    if(used)
-                        continue;
+                let used = backpack.useItem(item, msg);
+                while(used) {
+                    item.quantity--;
+                    used = backpack.useItem(item, msg);
                 }
             }
+            if(item.quantity <= 0)
+                return;
             if(stack == -1) {
                 for (let i = 0; i < grid.length; i++) {
                     if (Object.keys(grid[i]).length < 3) {

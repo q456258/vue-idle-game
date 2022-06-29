@@ -106,19 +106,19 @@
                         <th scope="col" style="width: 7%;">等级</th>
                         <th scope="col" style="width: 12%;">剩余次数</th>
                         <th scope="col">产出</th>
-                        <th scope="col" style="width: 15%;"></th>
+                        <th scope="col" style="width: 20%;"></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="(mine, index) in mineQueue" :key="index">
                         <td>{{mine.lv}}</td>
                         <td>
-                            <span v-if="mine.count>=0">{{mine.count}}</span>
+                            <span v-if="mine.count>=0">{{mine.available+"/"+mine.count}}</span>
                             <span v-else>无限</span>
                             <div style="font-size: 10px">{{mine.progress[0]+'/'+mine.progress[1]}}</div>
                         </td>
-                        <td class="reward" v-for="(v, k) in mine.reward" :key="k">
-                            <div class="grid" v-if="v[0]" @mouseover="showInfo($event,v[0].itemType,v[0],true)" @mouseleave="closeInfo('item')">
+                        <td class="reward">
+                            <div class="grid" v-for="(v, k) in mine.reward" :key="k" @mouseover="showInfo($event,v[0].itemType,v[0],true)" @mouseleave="closeInfo('item')">
                                 <div class="mediumIconContainer">
                                     <del :class="[{grey:v[0].quality.qualityLv==1, green:v[0].quality.qualityLv==3, blue:v[0].quality.qualityLv==4, purple:v[0].quality.qualityLv==5, orange:v[0].quality.qualityLv==6}, 'mediumIcon iconBorder']"></del>
                                     <img :src="v[0].description.iconSrc" alt="" />
@@ -127,7 +127,8 @@
                              </div>
                         </td>
                         <td>
-                            <span class="button kick btn btn-outline-danger" @click="removeFromQueue('mine', index)">移除</span>
+                            <span class="button btn btn-success" @click="claimReward(index)">提取</span>
+                            <span class="button btn btn-outline-danger" @click="removeFromQueue('mine', index)">移除</span>
                         </td>
                     </tr>
                 </tbody>
@@ -465,18 +466,25 @@ export default {
             this.smith_main = {};
             this.smith_sub = {};
         },
-        increaseMineProgress(mine) {
-            let total = 1;
-            this.$set(mine.progress, 0, mine.progress[0] + total);
+        increaseMineProgress(mine, progress=1) {
+            this.$set(mine.progress, 0, mine.progress[0] + progress);
             if(mine.progress[0] >= mine.progress[1]) {
                 let count = Math.floor(mine.progress[0]/mine.progress[1]);
                 mine.progress[0] -= count*mine.progress[1];
-                this.mineReward(mine.reward, count);
-                mine.count -= count;
-                if(mine.count <= 0)
+                mine.available = Math.min(mine.available+count, mine.count);
+                if(mine.available >= mine.count) {
+                    this.mineReward(mine.reward, mine.available);
                     return false;
+                }
             }
             return true;
+        },
+        claimReward(index) {
+            this.mineReward(this.mineQueue[index].reward, this.mineQueue[index].available);
+            this.mineQueue[index].count -= this.mineQueue[index].available;
+            this.mineQueue[index].available = 0;
+            if(this.mineQueue[index].count <= 0) 
+                this.mineQueue.splice(index, 1);
         },
         mineReward(rewardList, rewardCount) {
             // 清零
@@ -498,7 +506,8 @@ export default {
             }
             // 给予奖励
             for(let k=0; k<rewardList.length; k++) {
-                itemInfo.addItem(rewardList[k][0]);
+                if(rewardList[k][0].quantity > 0)
+                    itemInfo.addItem(this.$deepCopy(rewardList[k][0]), true);
             }
         },
         findTarget(target) {
@@ -536,6 +545,7 @@ export default {
             guildMember.reject(k);
         },
         removeFromQueue(type, index) {
+            this.mineReward(this.mineQueue[index].reward, this.mineQueue[index].available);
             this.mineQueue.splice(index, 1);
         },
         showInfo($event, type, item, compare) {

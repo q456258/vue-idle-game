@@ -81,6 +81,7 @@ export default {
                     selectedType: guildPosition.selectedType,
                     smith_main: guildPosition.smith_main,
                     smith_sub: guildPosition.smith_sub,
+                    mineQueue: guildPosition.mineQueue
                 }
             }
             // 移除部分debuff
@@ -127,6 +128,7 @@ export default {
                         guildPosition.selectedType[type] = data.guildSetting.selectedType[type];
                     guildPosition.smith_main = data.guildSetting.smith_main;
                     guildPosition.smith_sub = data.guildSetting.smith_sub;
+                    guildPosition.mineQueue = data.guildSetting.mineQueue;
                 }
 
                 setting.readSetting();
@@ -147,8 +149,7 @@ export default {
                     let awayTime = Date.now()-data.state.exitTime;
                     let achievement = this.$store.globalComponent["achievement"];
                     achievement.set_statistic({awayTime: awayTime});
-                    // this.$store.commit("set_statistic", {awayTime: awayTime});
-                    // this.awayReward(awayTime);
+                    this.awayReward(awayTime);
                 }
                 this.closeSaveload();
             } catch (error) {
@@ -167,24 +168,11 @@ export default {
                 return;
             if(minute > 288)
                 minute = 288;
-            let guild = this.$store.globalComponent["guild"];
-            let gold = 0;
-            let lv = this.$store.state.playerAttribute.lv;
-            // for(let i=0; i<Math.floor(minute/5); i++) {
-            //     gold += Math.round((100+lv**2)*(2+2*Math.random()))
-            //     if(Math.random() < 1/24) {
-            // // 此处需改动qualitySet参数
-            //         let equip = equipInfo.createEquip(-1, lv, 'random', 1);  
-            //         equip = JSON.parse(equip);
-            //         this.$store.commit("set_sys_info", {
-            //             type: 'reward',
-            //             msg: '外出游荡时的意外收获',
-            //             equip: equip
-            //         });
-            //         backpack.giveEquip(equip);
-            //     }
-            // }
-            // guild.getGold('外出游荡时累积', gold);
+            let guildPosition = this.$store.globalComponent["guildPosition"];
+            for(let i=0; i<guildPosition.mineQueue.length; i++) {
+                if(!guildPosition.increaseMineProgress(guildPosition.mineQueue[i], minute*60)) 
+                    guildPosition.mineQueue.splice(i, 1);
+            }
         },
         closeSaveload() {
             let index = this.$store.globalComponent["index"];

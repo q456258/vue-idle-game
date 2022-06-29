@@ -250,7 +250,7 @@ export default {
                     target[i].classList.remove("flagged");
                  }
             }
-            this.reward(rewardCount);
+            this.reward(rewardCount, false);
         },
         gameWon() {
             this.gridSet = false;
@@ -264,7 +264,7 @@ export default {
                     target[i].classList.remove("flagged")
                 }
             }
-            this.reward(10);
+            this.reward(10, false);
         },
         close() {
             this.gridSet = false;
@@ -273,27 +273,8 @@ export default {
             this.mines = [];
         },
         reward(rewardCount) {
-            // 清零
-            for(let k=0; k<this.rewardList.length; k++) {
-                this.rewardList[k][0].quantity = 0;
-            }
-            if(rewardCount <= 0)
-                return;
-            let itemInfo = this.$store.globalComponent["itemInfo"];
-            // 添加数量
-            while(rewardCount > 0) {
-                for(let k=0; k<this.rewardList.length; k++) {
-                    let random = Math.random()*100;
-                    if(random <= this.rewardList[k][1]) {
-                        this.rewardList[k][0].quantity++;
-                    }
-                }
-                rewardCount--;
-            }
-            // 给予奖励
-            for(let k=0; k<this.rewardList.length; k++) {
-                itemInfo.addItem(this.rewardList[k][0], true);
-            }
+            let guildPosition = this.$store.globalComponent["guildPosition"];
+            guildPosition.mineReward(this.rewardList, rewardCount);
         }
     }
 }

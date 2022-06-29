@@ -12,6 +12,8 @@ export const itemEffect = {
             let toBackpack = options.toBackpack != undefined ? options.toBackpack : true;
             let equipOption = options.equipOption != undefined ? options.equipOption : {};
             let cd = this.$store.state.playerAttribute.globalCD[itemInfo.cdgroup];
+            let msg = options.msg;
+            let qty = options.qty;
             if(cd != undefined && cd > Date.now()) {
                 this.$store.commit("set_sys_info", {
                     msg: '物品冷却中, 剩余: '+Math.round((cd-Date.now())/1000)+'秒',
@@ -21,13 +23,37 @@ export const itemEffect = {
             }
             switch(type) {
                 case 'racial_dwarf_findtreasure':
-                    used = this.randomGold(6, lv);
+                    used = this.randomGold(10000, 10000, msg, qty);
+                    break;
+                case 'inv_misc_coin_05':
+                    used = this.randomGold(1, 20, msg, qty);
+                    break;
+                case 'inv_misc_coin_05_2':
+                    used = this.randomGold(21, 60, msg, qty);
+                    break;
+                case 'inv_misc_coin_06':
+                    used = this.randomGold(60, 100, msg, qty);
+                    break;
+                case 'inv_misc_coin_03':
+                    used = this.randomGold(100, 2000, msg, qty);
+                    break;
+                case 'inv_misc_coin_03_2':
+                    used = this.randomGold(2000, 6000, msg, qty);
+                    break;
+                case 'inv_misc_coin_04':
+                    used = this.randomGold(6000, 10000, msg, qty);
                     break;
                 case 'inv_misc_coin_01':
-                    used = this.randomGold(66, lv);
+                    used = this.randomGold(10000, 200000, msg, qty);
+                    break;
+                case 'inv_misc_coin_01_2':
+                    used = this.randomGold(200000, 600000, msg, qty);
                     break;
                 case 'inv_misc_coin_02':
-                    used = this.randomGold(666, lv);
+                    used = this.randomGold(600000, 1000000, msg, qty);
+                    break;
+                case 'ability_racial_packhobgoblin':
+                    used = this.randomGold(1000000, 10000000, msg, qty);
                     break;
                 // case 'inv_misc_note_06':
                 //     used = this.inv_misc_note_06();
@@ -183,10 +209,12 @@ export const itemEffect = {
         //     guildMember.generateApplicant();
         //     return true;
         // },
-        randomGold(max, lv) {
+        randomGold(min, max, msg, qty=1) {
             let guild = this.$store.globalComponent["guild"];
-            let gold = Math.round(max*Math.random()*(1+lv*0.1))
-            guild.getGold('', gold);
+            let gold = 0;
+            for(; qty>0; qty--)
+                gold += Math.round(((max-min)*Math.random())+min);
+            guild.getGold('', gold, msg);
             return true;
         },
         randomEquip(qualitySet, lv, optional={}, toBackpack) {
