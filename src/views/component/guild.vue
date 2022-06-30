@@ -84,6 +84,10 @@ export default {
                 return;
             }
             amount = parseInt(amount);
+            if(amount <= 0){
+                console.log("获得0或者负数金币"+amount);
+                console.trace();
+            }
             this.guild.gold += amount;
             if(showText) {
                 this.$store.commit("set_sys_info", {
