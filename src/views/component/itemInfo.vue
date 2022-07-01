@@ -122,6 +122,7 @@ export default {
             return total;
         },
         addItem(item, msg=false) {
+            item = this.$deepCopy(item);
             let backpack = this.$store.globalComponent["backpack"];
             let grid = item.use ? backpack.useGrid : backpack.etcGrid;
             let name = item.type;

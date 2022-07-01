@@ -507,7 +507,7 @@ export default {
             // 给予奖励
             for(let k=0; k<rewardList.length; k++) {
                 if(rewardList[k][0].quantity > 0)
-                    itemInfo.addItem(this.$deepCopy(rewardList[k][0]), true);
+                    itemInfo.addItem(rewardList[k][0], true);
             }
         },
         findTarget(target) {
