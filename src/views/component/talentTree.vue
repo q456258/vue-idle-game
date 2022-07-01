@@ -227,6 +227,7 @@ export default {
                 case 'inv_sword_48':
                 case 'ability_whirlwind':
                 case 'spell_holy_crusaderstrike':
+                case 'ability_warrior_shieldbash':
                 case 'spell_warlock_soulburn':
                 case 'ability_warrior_shatteringthrow':
                 case 'spell_arcane_starfire':
