@@ -303,7 +303,7 @@ export default {
             itemInfo.addItem(JSON.parse(item), true);  
             return true;
         },
-        useItemByIndex(e, k) {
+        useItemByIndex(k) {
             if(this.displayPage=='use')
                 this.closeInfo();
             if(k != undefined)
@@ -322,9 +322,9 @@ export default {
             this.$forceUpdate();
             return success;
         },
-        useAllItemByIndex(e, k){
+        useAllItemByIndex(k){
             let autoUse = setInterval(() => {
-                let used = this.useItemByIndex(e, k);
+                let used = this.useItemByIndex(k);
                 if(!used || this.useGrid[k] == {})
                     clearInterval(autoUse);
             }, 50);
@@ -350,7 +350,7 @@ export default {
                 success = this.callItemEffect(item.type, item.lv, {msg: msg});
             return success;
         },
-        mergeItem(e, grid='use', k, count=1) {
+        mergeItem(grid='use', k, count=1) {
             this.closeInfo();
             if(k != undefined)
                 this.currentItemIndex = k; 
@@ -358,18 +358,41 @@ export default {
             let quantity = grid=='use' ? this.useGrid[this.currentItemIndex].quantity : this.etcGrid[this.currentItemIndex].quantity;
             let item = this.itemType[type];
             let mergeCount = item.mergeCount;
-            let result = item.mergeTarget;
+            let targetSet = item.mergeTarget;
             if(!item.merge)
                 return;
             if(quantity < mergeCount*count)
                 return;
+            let resultSet = {};
+            for(let a=0; a<count; a++) {
+                let ran = Math.random()*100;
+                let cur = 0;
+                for(let i in targetSet) {
+                    cur += targetSet[i][1];
+                    if(ran <= cur) {
+                        if(resultSet[targetSet[i][0]] == undefined)
+                            resultSet[targetSet[i][0]] = 0;
+                        resultSet[targetSet[i][0]]++;
+                        break;
+                    }
+                }
+            }
             let itemInfo = this.$store.globalComponent["itemInfo"];
             itemInfo.removeItemByIndex(this.currentItemIndex, mergeCount*count, grid);
-            let newItem = itemInfo.createItem(result, count);
-            itemInfo.addItem(JSON.parse(newItem));
-            this.$forceUpdate();
+            if(Object.keys(resultSet).length == 0) {
+                this.$store.commit("set_sys_info", {
+                    type: 'danger',
+                    msg: '合成失败',
+                });
+            } else {
+                for(let i in resultSet) {
+                    let newItem = itemInfo.createItem(i, resultSet[i]);
+                    itemInfo.addItem(JSON.parse(newItem), true);
+                }
+                this.$forceUpdate();
+            }
         },
-        mergeAll(e, grid='use', k) {
+        mergeAll(grid='use', k) {
             this.closeInfo();
             if(k != undefined)
                 this.currentItemIndex = k; 
@@ -378,7 +401,7 @@ export default {
             let item = this.itemType[type];
             let mergeCount = item.mergeCount;
             let count = Math.floor(quantity/mergeCount);
-            this.mergeItem(e, grid, this.currentItemIndex, count);
+            this.mergeItem(grid, this.currentItemIndex, count);
         },
         throwItem(grid) {
             let itemInfo = this.$store.globalComponent["itemInfo"];
