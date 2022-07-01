@@ -83,14 +83,14 @@ export default {
             let node = document.createElement("DIV");
             if(target == 'player') {
                 parentNode = document.getElementById("playerText");
-                if(type == 'dmg' && Date.now()-this.playerLastDmg < 900) {
+                if(type == 'dmg' && Date.now()-this.playerLastDmg < 100) {
                     node = parentNode.lastChild;
                     isNew = false;
                 }
             }
             else {
                 parentNode = document.getElementById("enemyText");
-                if(type == 'dmg' && Date.now()-this.enemyLastDmg < 900) {
+                if(type == 'dmg' && Date.now()-this.enemyLastDmg < 100) {
                     node = parentNode.lastChild;
                     isNew = false;
                 }
