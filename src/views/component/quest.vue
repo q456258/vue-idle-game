@@ -130,7 +130,7 @@ export default {
                 type: 'win',
                 msg: '新任务: '+this.questList[questId].name,
             });
-            if(questInfo.questId == undefined)
+            if(questInfo.id == undefined)
                 questInfo = this.generateQuest(questId);
             this.addToTrack(questInfo);
             let category = this.questList[questId].category;
