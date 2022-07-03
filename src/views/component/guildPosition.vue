@@ -293,6 +293,13 @@ export default {
         },
         acceptQuest(index, questInfo) {
             let quest = this.$store.globalComponent["quest"];
+            if(quest.quests[questInfo.id] != undefined) {
+                this.$store.commit("set_sys_info", {
+                    type: '',
+                    msg: '任务重复接取!',
+                });
+                return;
+            }
             quest.assignQuest(questInfo.id, questInfo);
             this.guildAvailableQuest.splice(index, 1);
         },
