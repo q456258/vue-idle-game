@@ -27,7 +27,7 @@
     <div class="building" v-show="displayPage=='questBoard'">
         <div class="buildInfo">
             <div class="questRefresh">
-                <div class="refresh btn btn-secondary" @click="refreshGuildQuest()"></div>
+                {{questTimer}}<div class="refresh btn btn-secondary" @click="refreshGuildQuest(false)"></div>
                 <currency :amount="questRefreshCost"></currency>
             </div>
         </div>
@@ -177,7 +177,7 @@ export default {
                 shop: 1, smith: 1, train: 1, train2: 1, train3: 1,
             },
             timerList: {
-                shop: 0, smith: 0, train: 0, train2: 0, train3: 0, mine: 0
+                shop: 0, smith: 0, train: 0, train2: 0, train3: 0, mine: 0, quest: 0
             },
             progress: {
                 shop: { current: 0, max: 1000 },
@@ -185,6 +185,7 @@ export default {
                 train: { current: 0, max: 1000 },
                 train2: { current: 0, max: 1000 },
                 train3: { current: 0, max: 1000 },
+                quest: { current: 0, max: 599 },
             },
             smith_main: {},
             smith_sub: {},
@@ -224,6 +225,11 @@ export default {
         playerGold() { return this.$store.state.guildAttribute.gold; },
         questRefreshCost() { return 100*Math.pow(10, this.guild.questBoard.lv); },
         smithCost() { return 100*Math.pow(5, this.guild.smith.lv); },
+        questTimer() { 
+            let s = this.progress['quest'].current < 60 ? '00:' : '0'+Math.floor(this.progress['quest'].current/60)+':';
+            s += this.progress['quest'].current%60  < 10 ? '0'+this.progress['quest'].current%60 : this.progress['quest'].current%60;
+            return s;
+        },
     },
     methods: {    
         init() {
@@ -238,6 +244,7 @@ export default {
                 clearInterval(this.timerList[timer]);
             // this.start('shop');
             this.start('mine');
+            this.start('quest');
             // this.start('smith');
             // this.smith_main = this.player.shoulder;
             // this.smith_sub = this.player.weapon;
@@ -252,11 +259,13 @@ export default {
             guild.useGold(cost);
             this.guild[type].lv += 1;
         },
-        refreshGuildQuest() {
-            if(this.playerGold < this.questRefreshCost)
+        refreshGuildQuest(free) {
+            if(!free && this.playerGold < this.questRefreshCost)
                 return;
-            let guild = this.$store.globalComponent["guild"];
-            guild.useGold(this.questRefreshCost);
+            if(!free) {
+                let guild = this.$store.globalComponent["guild"];
+                guild.useGold(this.questRefreshCost);
+            }
             this.generateGuildQuest();
         },
         generateGuildQuest() {
@@ -356,6 +365,9 @@ export default {
                 case 'mine':
                     this.startMine();
                     break;
+                case 'quest':
+                    this.startQuest();
+                    break;
             }
         },
         stop(type) {
@@ -414,6 +426,15 @@ export default {
                     let mine = this.mineQueue[i];
                     if(!this.increaseMineProgress(mine)) 
                         this.mineQueue.splice(i, 1);
+                }
+            }, 1*1000);
+        },
+        startQuest() {
+            this.timerList['quest'] = setInterval(() => {
+                this.progress['quest'].current -= 1;
+                if(this.progress['quest'].current <= 0) {
+                    this.refreshGuildQuest(true);
+                    this.progress['quest'].current = this.progress['quest'].max;
                 }
             }, 1*1000);
         },
