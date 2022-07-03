@@ -36,7 +36,8 @@
         </div>
         <!-- <span class="cost" :class="{'warning':warning}">消耗金币: {{cost}}</span> -->
         <span class="cost" :class="{'warning':warning}">
-            消耗<img src="/icons/item/inv_enchant_voidsphere.jpg">&nbsp;{{cost}}/{{itemQty}}
+            <!-- 消耗<img src="/icons/item/inv_enchant_voidsphere.jpg">&nbsp;{{cost}}/{{itemQty}} -->
+            消耗<currency :amount="cost"></currency>
         </span>
         <div class="confirm" @click="forgeAll()">
             重铸
@@ -52,10 +53,11 @@
 <script>
 
 import draggable from '../uiComponent/draggable'
+import currency from '../uiComponent/currency';
 export default {
     name: "equipForge",
     mixins: [],
-    components: {draggable},
+    components: {draggable, currency},
     data() {
         return {
             cost: 1,
@@ -77,7 +79,8 @@ export default {
     },
     computed: {     
         warning() {
-            return this.itemQty < this.cost;
+            return this.$store.state.guildAttribute.gold < this.cost;
+            // return this.itemQty < this.cost;
         },
         item() {
             let itemInfo = this.$store.globalComponent["itemInfo"];
@@ -101,9 +104,10 @@ export default {
             if(this.warning) {
                 return;
             }
-            let itemInfo = this.$store.globalComponent["itemInfo"];
+            this.$store.state.guildAttribute.gold -= this.cost;
+            // let itemInfo = this.$store.globalComponent["itemInfo"];
             let equipInfo = this.$store.globalComponent["equipInfo"];
-            itemInfo.removeItemByItem(this.item, this.cost);
+            // itemInfo.removeItemByItem(this.item, this.cost);
             // equipInfo.forgeAll(this.equip);
             let allLocked = true;
             for(let entry in this.equip.extraEntry) {
@@ -135,13 +139,13 @@ export default {
             this.computeCost();
         },
         computeCost() {
-            let cost = 0;
+            let cost = 25+this.equip.lv**2/7;
+            cost = cost*1.2**this.equip.quality.qualityLv;
             for(let entry in this.equip.extraEntry) {
-                cost += 1;
                 if(this.equip.extraEntry[entry].locked)
-                    cost += 1;
+                    cost *= 1.5;
             }
-            this.cost = cost;
+            this.cost = Math.round(cost);
         },
         forgeInfo(info, type) {
             let element = this.$refs['info'];
@@ -270,18 +274,13 @@ export default {
     }
     .cost {
         position: absolute;
-        top: 19rem;
-        left: 35rem;
-        bottom: 1.2rem;
-        height: 2rem;
+        margin-left: 55%;
+        margin-top: 40%;
+        width: 53%;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1rem;
-        img {
-            height: 2rem;
-            width: 2rem;
-        }
+        font-size: 13px;
     }    
 }
 $blue: #ccc;

@@ -341,20 +341,16 @@ export default {
                 'STRP','AGIP','INTP','ALLP','CRIT','CRITDMG','ATKP','DEFP','MRP','HPP','MPP'
             ];
             extraEntryTypes = this[type].extraEntry;
+            let mod = this.equipMod[type];
             let index = Math.floor(Math.random()*extraEntryTypes.length);
             extraEntry.push({type: extraEntryTypes[index]});
             extraEntry.forEach(entry => {
                 let random = Math.random();
-                if(entry.type == 'CRITDMG') {
-                    entry.value = Math.round((0.5+0.5*random) * Math.floor(this.entryInfo[entry.type].base+equip.lv*equip.lv/200));
-                    entry.showVal = '+' + entry.value + '%';
-                }
-                else if(percent.indexOf(entry.type) > -1) {
+                if(entry.type == 'CRITDMG' || entry.type == 'APCRITDMG') {
                     entry.value = Math.round((0.5+0.5*random) * this.entryInfo[entry.type].base);
                     entry.showVal = '+' + entry.value + '%';
-                }
-                else {
-                    entry.value = Math.round((0.5+0.5*random) * this.entryInfo[entry.type].base * (0.6+equip.lv*0.4));
+                } else {
+                    entry.value = Math.round((0.5+0.5*random) * this.entryInfo[entry.type].base * mod * (1.6+equip.lv*0.08));
                     entry.showVal = '+' + entry.value;
                 }
                 entry.quality = Math.round(random*100);
