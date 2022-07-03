@@ -237,7 +237,7 @@ export default {
                 reqInfo.type = reqs[i].type;
                 if(this.questTrack[reqInfo.reqType][reqInfo.type] == undefined)
                     this.questTrack[reqInfo.reqType][reqInfo.type] = []
-                this.questTrack[reqInfo.reqType][reqInfo.type].push(questInfo.questId);
+                this.questTrack[reqInfo.reqType][reqInfo.type].push(questInfo.id);
             }
         },
         removeFromTrack(questId) {
