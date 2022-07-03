@@ -7,7 +7,7 @@
             </div>
             <div class="content">
                 <div>
-                    累积获得金币: <currency :amount=statistic.cumulatedGold></currency>
+                    累积获得金币: <currency :isCost="false" :amount=statistic.cumulatedGold></currency>
                 </div>
             </div>
         </div>

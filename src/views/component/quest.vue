@@ -52,7 +52,7 @@
                                 </div>
                             </div>
                             <div class="reward" v-for="(v, k) in quests[selectedQuest].reward" :key="k+'a'">
-                                <div v-if="v[0]=='gold'"><currency :amount="v[1]"></currency></div>
+                                <div v-if="v[0]=='gold'"><currency :isCost="false" :amount="v[1]"></currency></div>
                                 <div v-else>{{rewardType[v[0]]+': '+v[1]}}</div>
                             </div>
                         </div>
