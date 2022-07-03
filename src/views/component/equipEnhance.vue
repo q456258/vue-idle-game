@@ -93,6 +93,7 @@ export default {
         equip() {
             if(this.equip.enhanceCur == undefined)
                 this.equip.enhanceCur = 0;
+            this.currentProgress = this.equip.enhanceCur
             this.targetLv = this.equip.enhanceLv+1;
             this.applied = new Array(this.gemType.length).fill(0, 0, this.gemType.length);
         }
