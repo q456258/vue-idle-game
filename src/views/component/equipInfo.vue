@@ -136,7 +136,7 @@ export default {
             newEquip.maxEnhanceLv = (newEquip.quality.qualityLv-1)*5;
             newEquip.enhanceLv = Math.min(0, newEquip.maxEnhanceLv);
             newEquip.baseEntry = this.createBaseEntry(newEquip, baseEntry, optional.baseOption);
-            newEquip.extraBaseEntry = [];
+            newEquip.extraBaseEntry = this.createExtraBaseEntry(newEquip, optional.extraBaseEntry);
             newEquip.extraEntry = this.createExtraEntry(newEquip);
             newEquip.potential = newEquip.lv >= 30 ? this.createPotential(newEquip) : [];
             newEquip.rating = this.rating(newEquip);
@@ -241,13 +241,38 @@ export default {
                 entry[i].name = this.entryInfo[type].name;
             }
         },
+        createExtraBaseEntry(newEquip, option=['STR','AGI','INT','STA','SPI','ALL']) {
+            if(newEquip.quality.qualityLv < 5)
+                return [];
+            let type = newEquip.itemType;
+            let mod = this.equipMod[type];
+            let extraEntries = {STR:'CRITDMG',AGI:'HASTE',INT:'APPEN',STA:'HEAL',SPI:'APCRITDMG',ALL:'VERS'};
+            let extraBaseEntry = [];
+            for(let i=0; i<2; i++) {
+                let ran = Math.floor(Math.random()*option.length);
+                extraBaseEntry.push({type: extraEntries[option[ran]]});
+                option.splice(ran, 1);
+            }
+            extraBaseEntry.forEach(entry => {
+                let random = Math.random()*100;
+                this.createExtraEntryValue(entry, random/100, newEquip.lv, mod);
+            });
+            console.log("extraBaseEntry")
+            console.log(extraBaseEntry)
+            return extraBaseEntry;
+        },
         createExtraEntry(newEquip) {
             let extraEntry = [];
             let extraEntryTypes = [];
             let type = newEquip.itemType;
             let mod = this.equipMod[type];
+            let bonus = 0;
             extraEntryTypes = this[type].extraEntry;
-            for(let i=0; i<newEquip.quality.extraEntryNum; i++) {
+            if(newEquip.quality.qualityLv == 4) {
+                let ran = Math.random()*100;
+                bonus = ran<15 ? (ran<0.9 ? (ran<0.1 ? 3 : 2) : 1) : 0;
+            }
+            for(let i=0; i<newEquip.quality.extraEntryNum+bonus; i++) {
                 let index = Math.floor(Math.random()*extraEntryTypes.length);
                 extraEntry.push({type: extraEntryTypes[index]});
             }
@@ -424,6 +449,11 @@ export default {
         rating(equip) {
             let rating = 0;
             let lines = [].concat(equip.baseEntry, equip.extraBaseEntry, equip.extraEntry);
+            console.log(equip)
+            console.log(equip.baseEntry)
+            console.log(equip.extraBaseEntry)
+            console.log(equip.extraEntry)
+            console.log(lines)
             // 基础属性、额外基础属性、额外属性
             for(let i=0; i<lines.length; i++) {
                 rating += (1/this.entryInfo[lines[i].type].base) * lines[i].value;

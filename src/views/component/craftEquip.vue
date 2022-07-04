@@ -111,7 +111,7 @@ export default {
                 {type: 1, name: "锡锭", desc: "随机重置所有选项类型", icon: "/icons/material/inv_ingot_05.jpg", itemCode: 'inv_ingot_05', max: -1},
                 {type: 2, name: "银锭", desc: "提升最终装备品质", icon: "/icons/material/inv_ingot_01.jpg", itemCode: 'inv_ingot_01', max: 10},
                 {type: 3, name: "铁锭", desc: "赋予随机3个选项额外'降低装备等级'奖励", icon: "/icons/material/inv_ingot_iron.jpg", itemCode: 'inv_ingot_iron', max: 10},
-                {type: 4, name: "钢锭", desc: "赋予随机3个选项额外'提升装备等级'奖励", icon: "/icons/material/inv_ingot_steel.jpg", itemCode: 'inv_ingot_steel', max: -1},
+                {type: 4, name: "钢锭", desc: "赋予随机3个选项额外'提升物品等级'奖励", icon: "/icons/material/inv_ingot_steel.jpg", itemCode: 'inv_ingot_steel', max: -1},
                 {type: 5, name: "金锭", desc: "随机提升3个选项的品质", icon: "/icons/material/inv_ingot_03.jpg", itemCode: 'inv_ingot_03', max: 10},
                 {type: 6, name: "秘银锭", desc: "重置所有选项品质", icon: "/icons/material/inv_ingot_06.jpg", itemCode: 'inv_ingot_06', max: 10},
                 // {type: 7, name: "真银锭", desc: "待定", icon: "/icons/material/inv_ingot_08.jpg", itemCode: 'inv_ingot_08', max: 10},
@@ -618,7 +618,6 @@ export default {
             return true;
         },
         craftEquip() {
-            let guild = this.$store.globalComponent["guild"];
             let equipInfo = this.$store.globalComponent["equipInfo"];
             let backpack = this.$store.globalComponent["backpack"];
              
@@ -659,7 +658,12 @@ export default {
             let mod = this.equipMod[type];
             let index = 0;
             let extraEntryTypes = this[type].extraEntry;
-            for(let i=0; i<newEquip.quality.extraEntryNum; i++) {
+            let bonus = 0;
+            if(newEquip.quality.qualityLv == 4) {
+                let ran = Math.random()*100;
+                bonus = ran<15 ? (ran<0.9 ? (ran<0.1 ? 3 : 2) : 1) : 0;
+            }
+            for(let i=0; i<newEquip.quality.extraEntryNum+bonus; i++) {
                 if(this.finalEquip.subPot.length <= i) {
                     index = Math.floor(Math.random()*extraEntryTypes.length);
                     extraEntry.push({type: extraEntryTypes[index]});
@@ -697,11 +701,12 @@ export default {
                 baseEntry = fixEntry.concat(baseEntry);
             }
             // 额外主潜能
-            extraBaseEntry.forEach(entry => {
-                let random = Math.random()*100+this.finalEquip.extraStatBoost;
-                equipInfo.createExtraEntryValue(entry, random/100, newEquip.lv, mod);
-            });
-
+            if(newEquip.quality.qualityLv == 5) {
+                extraBaseEntry.forEach(entry => {
+                    let random = Math.random()*100+this.finalEquip.extraStatBoost;
+                    equipInfo.createExtraEntryValue(entry, random/100, newEquip.lv, mod);
+                });
+            }
             extraEntry.forEach(entry => {
                 let random = Math.random()*100+this.finalEquip.extraStatBoost;
                 equipInfo.createExtraEntryValue(entry, random/100, newEquip.lv, mod);
