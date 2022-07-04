@@ -22,7 +22,7 @@
             <div class="grid" :style="{cursor:leftClickEnabled?'pointer':''}" @click="selectForSmith($event, k)" v-on:drop="drop($event, k)" v-on:dragover="allowDrop($event)" v-for="(v, k) in grid" :key="k">
                 <div v-if="v.lv" draggable="true" v-on:dblclick="equip($event, k)" v-on:dragstart="dragStart($event,k)" v-on:dragend="dragEnd" @contextmenu.prevent="openMenu(k,$event)" @touchstart.stop.prevent="openMenu(k,$event)"  @mouseover="showInfo($event,v.itemType,v,true)" @mouseleave="closeInfo('equip')">
                     <div class="mediumIconContainer" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v.quality.color }">
-                        <del :class="[{grey:v.quality.qualityLv==1, green:v.quality.qualityLv==3, blue:v.quality.qualityLv==4, purple:v.quality.qualityLv==5, orange:v.quality.qualityLv==5}, 'mediumIcon iconBorder']"></del>
+                        <del :class="[{grey:v.quality.qualityLv==1, green:v.quality.qualityLv==3, blue:v.quality.qualityLv==4, purple:v.quality.qualityLv==5, orange:v.quality.qualityLv==6}, 'mediumIcon iconBorder']"></del>
                         <img :src="v.description.iconSrc" alt="" />
                     </div>
                     <div class="lock" v-if="v.locked">
@@ -35,7 +35,7 @@
             <div class="grid" v-on:drop="drop($event, k)" v-on:dragover="allowDrop($event)" v-for="(v, k) in useGrid" :key="k">
                 <div v-if="v.description" draggable="true" v-on:dblclick="useItemByIndex(k)" v-on:dragstart="dragStart($event,k)" v-on:dragend="dragEnd" @contextmenu.prevent="openMenu(k,$event)" @touchstart.stop.prevent="openMenu(k,$event)"  @mouseover="showInfo($event,v.itemType,v,true)" @mouseleave="closeInfo('item')">
                     <div class="mediumIconContainer" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v.quality.color }">
-                        <del :class="[{grey:v.quality.qualityLv==1, green:v.quality.qualityLv==3, blue:v.quality.qualityLv==4, purple:v.quality.qualityLv==5, orange:v.quality.qualityLv==5}, 'mediumIcon iconBorder']"></del>
+                        <del :class="[{grey:v.quality.qualityLv==1, green:v.quality.qualityLv==3, blue:v.quality.qualityLv==4, purple:v.quality.qualityLv==5, orange:v.quality.qualityLv==6}, 'mediumIcon iconBorder']"></del>
                         <img :src="v.description.iconSrc" alt="" />
                     </div>
                     <div class="quantity" v-if="v.stack">
@@ -564,13 +564,37 @@ export default {
                         break;
                     case 'use':
                         temp = this.useGrid[gridId];
-                        this.$set(this.useGrid, gridId, this.useGrid[k]);
-                        this.$set(this.useGrid, k, temp);
+                        if(temp.stack && temp.type == this.useGrid[k].type) {
+                            let max = this.itemType[temp.type].maxStack;
+                            let sum = temp.quantity + this.useGrid[k].quantity;
+                            if(sum > max) {
+                                temp.quantity = sum-max;
+                                this.useGrid[k].quantity = max;
+                            } else {
+                                this.useGrid[gridId] = {};
+                                this.useGrid[k].quantity = sum;
+                            }
+                        } else {
+                            this.$set(this.useGrid, gridId, this.useGrid[k]);
+                            this.$set(this.useGrid, k, temp);
+                        }
                         break;
                     case 'etc':
                         temp = this.etcGrid[gridId];
-                        this.$set(this.etcGrid, gridId, this.etcGrid[k]);
-                        this.$set(this.etcGrid, k, temp);
+                        if(temp.stack && temp.type == this.etcGrid[k].type) {
+                            let max = this.itemType[temp.type].maxStack;
+                            let sum = temp.quantity + this.etcGrid[k].quantity;
+                            if(sum > max) {
+                                temp.quantity = sum-max;
+                                this.etcGrid[k].quantity = max;
+                            } else {
+                                this.etcGrid[gridId] = {};
+                                this.etcGrid[k].quantity = sum;
+                            }
+                        } else {
+                            this.$set(this.etcGrid, gridId, this.etcGrid[k]);
+                            this.$set(this.etcGrid, k, temp);
+                        }
                         break;
                 }
             }
