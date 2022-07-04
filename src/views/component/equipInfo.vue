@@ -286,7 +286,7 @@ export default {
                 let index = Math.floor(Math.random()*extraEntry.length);
                 let entry = this.entryInfo[extraEntry[index]];
                 let ran = Math.random();
-                let value = ran>0.5 ? entry.base*1 : entry.base*1.5;
+                let value = ran>0.5 ? entry.base*0.67 : entry.base*1;
                 
                 // if(extraEntry[index] == 'CRITDMG') {
                 //     value = Math.floor(entry.base+newEquip.lv*newEquip.lv/200);
