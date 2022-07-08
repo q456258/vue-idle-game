@@ -223,8 +223,8 @@ export default {
         guild() { return this.$store.state.guildAttribute; },
         player() { return this.$store.state.playerAttribute; },
         playerGold() { return this.$store.state.guildAttribute.gold; },
-        questRefreshCost() { return 50*Math.pow(10, this.guild.questBoard.lv); },
-        smithCost() { return 100*Math.pow(5, this.guild.smith.lv); },
+        questRefreshCost() { return 5*Math.pow(10, this.guild.questBoard.lv); },
+        smithCost() { return Math.pow(10, this.guild.smith.lv)/2; },
         questTimer() { 
             let s = this.progress['quest'].current < 60 ? '00:' : '0'+Math.floor(this.progress['quest'].current/60)+':';
             s += this.progress['quest'].current%60  < 10 ? '0'+this.progress['quest'].current%60 : this.progress['quest'].current%60;
