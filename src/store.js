@@ -2,9 +2,6 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import vueInstance from './main'
 Vue.use(Vuex)
-//灰、白、蓝、紫、橙、红
-//破旧, 普通, 精良, 完美, 史诗, 传说
-//a1a1a1,D9D9D9,00BBFF,BB00FF,FFBB00,FF0000
 let initial_shoe = {
         lv: 1,
         lvReq: 1,
@@ -54,8 +51,8 @@ let initial_shoe = {
             iconSrc: "./icons/weapon/inv_axe_19.jpg",
         },
         baseEntry: [{
-            value: 30,
-            showVal: "+30",
+            value: 15,
+            showVal: "+15",
             type: "ATK",
             name: "攻击"
         }],
@@ -126,20 +123,11 @@ export default new Vuex.Store({
     state: {
         sysInfo: [{
             type: '',
-            msg: "欢迎你勇士, 点击地图上的副本开始战斗。"
-        }, {
-            type: '',
-            msg: "菜单栏可以刷新当前世界副本。"
+            msg: "欢迎你勇士, 点击左下角的任务了解一下操作吧"
         }],
         battleInfo: [{
             type: '',
-            msg: "伤害"
-        }, {
-            type: '',
-            msg: "菜单栏可以刷新当前世界副本。"
-        }, {
-            type: '',
-            msg: "菜单栏可以刷新当前世界副"
+            msg: "战斗记录"
         }],
         train: {
             train1: {
@@ -647,7 +635,7 @@ export default new Vuex.Store({
             if(data == 'full'){
                 CURHP.value = MAXHP.value
             }
-            else if(data == 'dead'){
+            else if(data == 'dead' || data == 'remove'){
                 CURHP.value = 0;
             }
             else {

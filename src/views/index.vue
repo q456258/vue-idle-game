@@ -61,7 +61,7 @@
             <span>{{v.msg}}</span>
             <a v-if="v.equip" :style="{color:v.equip.quality.color}" @mouseover="showInfo($event,v.equip.itemType,v.equip)" @mouseleave="closeInfo('equip')">{{v.equip.description.name}}</a>
             <a v-if="v.item" :style="{color:v.item.quality.color}" @mouseover="showInfo($event,'',v.item)" @mouseleave="closeInfo('item')">{{v.item.description.name}}*{{v.quantity}}</a>
-            <a v-if="v.gold"><currency :amount="v.gold"></currency> </a>
+            <a v-if="v.gold"><currency :isCost="false" :amount="v.gold"></currency> </a>
           </div>
         </div>
       </div>
@@ -564,7 +564,7 @@ export default {
             message: '是否放弃当前正在挑战的副本? ',
             confirmBtnText: '更换',
             onClose: () => {
-              this.set_enemy_hp('dead');
+              this.set_enemy_hp('remove');
               this.confirmDungeon(k);
             }
           });
@@ -601,7 +601,7 @@ export default {
       this.dungeon = {};
       if(this.$store.state.dungeonInfo.inBattle)
         mapEvent.toggleBattle();
-      this.set_enemy_hp('dead');
+      this.set_enemy_hp('remove');
       this.createMaps();
       this.resetTime = 1;
       element.disabled = true;

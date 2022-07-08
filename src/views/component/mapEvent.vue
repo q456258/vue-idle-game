@@ -175,23 +175,8 @@ export default {
                 return false;
             }
             this.callAction(source, target);
-            if(target.attribute.CURHP.value == 0) {
-                this.enemySlain(this.monsterId[target.name], 1);
-                this.reward();
-                this.setBattleStatus(false, dungeonInfo.auto, true);
-                // if(dungeonInfo.current == 'normal')
-                //     this.generateenemy();
-                if(this.selectedDungeon.count == 0)
-                    dungeonInfo.auto = false;
-                this.levelToTarget(target.lv);
-                if(dungeonInfo.auto && !this.$store.state.setting.waitFull)
-                    this.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
-                this.$store.commit("set_battle_info", {
-                    type: 'win',
-                    msg: '战斗结束, 你胜利了'
-                });
+            if(target.attribute.CURHP.value == 0)
                 return false;
-            } 
             return true;
         },
         enemyAction(source, target, battleID) {
@@ -203,16 +188,26 @@ export default {
                 return false;
             }
             this.callAction(source, target);
-            if(target.attribute.CURHP.value == 0) {
-                let achievement = this.$store.globalComponent["achievement"];
-                achievement.set_statistic({death: 1});
-                index.set_enemy_hp('dead');
-                this.setBattleStatus(false, false);
-                this.$store.commit("set_battle_info", {
-                    type: 'lose',
-                    msg: '战斗结束, 你扑街了'
-                });
-            } 
+        },
+        victory(source, target) {
+            this.reward();
+            // this.setBattleStatus(false, this.dungeonInfo.auto, true);
+            if(this.selectedDungeon.count == 0)
+                this.dungeonInfo.auto = false;
+            this.levelToTarget(target.lv);
+            if(this.dungeonInfo.auto && !this.$store.state.setting.waitFull)
+                this.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
+            this.$store.commit("set_battle_info", {
+                type: 'win',
+                msg: '战斗结束, 你胜利了'
+            });
+        },
+        defeat(source, target) {
+            this.setBattleStatus(false, false);
+            this.$store.commit("set_battle_info", {
+                type: 'lose',
+                msg: '战斗结束, 你扑街了'
+            });
         },
         reduceCount(count=1) {
             if(this.selectedDungeon.count > 0) {
@@ -268,7 +263,7 @@ export default {
                 if(!inBattle) {
                     clearInterval(this.battleTimer);
                     this.autoBattle(auto);
-                    index.set_enemy_hp('dead');
+                    index.set_enemy_hp('remove');
                 }
             }
             else {
@@ -277,7 +272,7 @@ export default {
                     if(!inBattle) {
                         clearInterval(this.battleTimer);
                         this.autoBattle(auto);
-                        index.set_enemy_hp('dead');
+                        index.set_enemy_hp('remove');
                     }
                 }, 1000);
             }
@@ -419,16 +414,6 @@ export default {
                         itemInfo.addItem(rewardList[k][0], true);
                 }
             }
-        },
-        enemySlain(id, qty){
-            let talentTree = this.$store.globalComponent["talentTree"];
-            talentTree.talentTrigger('spell_deathknight_bloodpresence');
-            talentTree.talentTrigger('spell_deathknight_frostpresence');
-            let slain = {slain: {}};
-            slain['slain'][id] = qty;
-            let achievement = this.$store.globalComponent["achievement"];
-            achievement.set_statistic(slain);
-            // this.$store.commit("set_statistic", slain);
         },
         eliteStat(attribute) {
             attribute['ATK'] = {
