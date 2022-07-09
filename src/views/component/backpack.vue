@@ -239,6 +239,8 @@ export default {
                 default:
                     break;
             }
+            // 装备强化后换装备莫名其妙的会不更新图标，强制更新一下
+            this.$forceUpdate();
         },    
         equipEnhance() {
             let index = this.$store.globalComponent["index"];
