@@ -13,8 +13,8 @@
                 <div id="playerAnime">
                 </div>
             </div>
-            <div id="playerText" class="playerInitPos" @click="simulate">
-            </div>
+            <div id="playerSpellText" class="playerInitPos"></div>
+            <div id="playerDmgText" class="playerInitPos"></div>
             <div id="enemyHpBar">
                 <hpmpBar :vpMin="0" :vpNow="enemyAttr.attribute.CURHP.value" :vpMax="enemyAttr.attribute.MAXHP.value" :shield="enemyAttr.attribute.SHIELD.value" :target="'enemy'" :type="'hp'"></hpmpBar>
             </div>
@@ -22,8 +22,8 @@
                 <div id="enemyAnime">
                 </div>
             </div>
-            <div id="enemyText" class="enemyInitPos">
-            </div>
+            <div id="enemySpellText" class="enemyInitPos"></div>
+            <div id="enemyDmgText" class="enemyInitPos"></div>
         </div>
     </template>
 </draggable>
@@ -51,18 +51,6 @@ export default {
         enemyAttr() { return this.$store.state.enemyAttribute; },
     },
     methods: {   
-        simulate() {
-            let count = 0;
-            let timer = setInterval(() => {
-                this.playerMove();
-                setTimeout(() => {
-                    this.enemyMove();
-                }, 1000);
-                count++;
-                if(count>5)
-                    clearInterval(timer);
-            }, 2000);
-        },
         playerMove(){
             let playerPos = document.getElementById("playerAnime");
             playerPos.style.left = "50%";
@@ -82,14 +70,14 @@ export default {
             let isNew = true;
             let node = document.createElement("DIV");
             if(target == 'player') {
-                parentNode = document.getElementById("playerText");
+                parentNode = type == 'dmg' ? document.getElementById("playerDmgText") :  document.getElementById("playerSpellText");
                 if(type == 'dmg' && Date.now()-this.playerLastDmg < 100) {
                     node = parentNode.lastChild;
                     isNew = false;
                 }
             }
             else {
-                parentNode = document.getElementById("enemyText");
+                parentNode = type == 'dmg' ? document.getElementById("enemyDmgText") :  document.getElementById("enemySpellText");
                 if(type == 'dmg' && Date.now()-this.enemyLastDmg < 100) {
                     node = parentNode.lastChild;
                     isNew = false;
