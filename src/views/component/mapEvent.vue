@@ -112,8 +112,7 @@ export default {
     },
     methods: {
         toggleBattle(type, auto=false) {
-            if(auto)
-                this.autoBattle(true);
+            this.autoBattle(auto);
             if(this.dungeonInfo.inBattle) 
                 this.setBattleStatus(false, false, true);
             else {
@@ -133,12 +132,16 @@ export default {
             let playerAttribute = this.playerAttr,
                 enemyAttribute = this.$store.state.enemyAttribute,
                 dungeonInfo = this.dungeonInfo;
+            if(dungeonInfo.inBattle)
+                return;
             if(enemyAttribute.attribute.CURHP.value == 0) {
                 this.generateenemy();
                 enemyAttribute = this.$store.state.enemyAttribute;
             }
-            if(dungeonInfo.inBattle)
-                return;
+            this.$store.commit("set_battle_info", {
+                type: '',
+                msg: '————战斗开始————'
+            });
             this.setBattleStatus(true, true);
             let currentBattle = Math.floor(Math.random()*90071992547);
             this.battleID = currentBattle;
@@ -180,7 +183,6 @@ export default {
             return true;
         },
         enemyAction(source, target, battleID) {
-            let index = this.$store.globalComponent["index"];
             if(!this.dungeonInfo.inBattle || this.battleID != battleID)
                 return false;
             this.onAttack(source, target);
@@ -191,12 +193,10 @@ export default {
         },
         victory(source, target) {
             this.reward();
-            // this.setBattleStatus(false, this.dungeonInfo.auto, true);
+            this.setBattleStatus(false, this.dungeonInfo.auto);
             if(this.selectedDungeon.count == 0)
-                this.dungeonInfo.auto = false;
+                this.autoBattle(false);
             this.levelToTarget(target.lv);
-            if(this.dungeonInfo.auto && !this.$store.state.setting.waitFull)
-                this.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
             this.$store.commit("set_battle_info", {
                 type: 'win',
                 msg: '战斗结束, 你胜利了'
@@ -269,10 +269,12 @@ export default {
             else {
                 setTimeout(() => {
                     this.dungeonInfo.inBattle = inBattle;
-                    if(!inBattle) {
+                    if(!inBattle && this.dungeonInfo.auto) {
                         clearInterval(this.battleTimer);
                         this.autoBattle(auto);
                         index.set_enemy_hp('remove');
+                        if(this.dungeonInfo.auto && !this.$store.state.setting.waitFull)
+                            this.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
                     }
                 }, 1000);
             }
