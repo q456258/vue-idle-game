@@ -182,7 +182,7 @@ export default {
                 this.currentItemIndex = k; 
                 this.currentItem = this.grid[k];
             }
-            if(this.playerLv < this.currentItem.lv) {
+            if(this.playerLv < this.currentItem.lvReq) {
                 return;
             }
             let quest = this.$store.globalComponent["quest"];
