@@ -88,7 +88,7 @@ export default {
             node.classList.add("floatingText");
             switch(type) {
                 case 'dmg':
-                    node.classList.add("dmg");
+                    node.classList.add("dmgText");
                     if(isNew) {
                         if(target == 'player')
                             this.playerLastDmg = Date.now();
@@ -241,7 +241,7 @@ export default {
     width: 100%;
     text-align: center;
 }
-.dmg {
+.dmgText {
     top: -75px;
     will-change: transform, opacity;
     animation-timing-function: ease-out;
