@@ -72,7 +72,7 @@ export default {
                 backpackUseGrid: backpack.useGrid,
                 backpackEtcGrid: backpack.etcGrid,
                 backpackSetting: { 
-                    sortLocked: backpack.sortLocked,
+                    lockedToEnd: backpack.lockedToEnd,
                     sellPrio: backpack.sellPrio,
                     disPrio: backpack.disPrio,
                     autoSell: backpack.autoSell 
@@ -119,7 +119,7 @@ export default {
                 
                 if(data.backpackSetting != undefined) {
                     backpack.autoSell = data.backpackSetting.autoSell;
-                    backpack.sortLocked = data.backpackSetting.sortLocked;
+                    backpack.lockedToEnd = data.backpackSetting.lockedToEnd;
                     backpack.sellPrio = data.backpackSetting.sellPrio;
                     backpack.disPrio = data.backpackSetting.disPrio;
                 }

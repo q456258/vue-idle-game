@@ -83,8 +83,8 @@
         <div class="footer">
             <div class="autoSellSetting" v-if="autoSellPanel">
                 <div>
-                    整理锁定装备
-                    <span @click="setSortLocked()"><input type="checkbox" name="" v-model="sortLocked"></span>
+                    沉底锁定装备
+                    <span @click="setlockedToEnd()"><input type="checkbox" name="" v-model="lockedToEnd"></span>
                     ————————
                 </div>
                 <div v-if="guild.smith.lv>=30">
@@ -143,7 +143,7 @@ export default {
             usable: false,
             mergeable: false,
             dragging: false,
-            sortLocked: false,
+            lockedToEnd: true,
             autoSellPanel: false,
             autoSell: [false,false,false,false,false,false],
             sellPrio: true,
@@ -470,16 +470,34 @@ export default {
             }
             this.$forceUpdate();
         },
-        setSortLocked() {
-            this.sortLocked = !this.sortLocked;
+        setlockedToEnd() {
+            this.lockedToEnd = !this.lockedToEnd;
         },
         sort() {
+            switch(this.displayPage) {
+                case 'equip':
+                    this.sortEquip();
+                    break;
+                case 'use':
+                    this.sortUse();
+                    break;
+                case 'etc':
+                    this.sortEtc();
+                    break;
+            }
+            // this.$forceUpdate();
+        },
+        sortEquip() {
             let type = ['头盔', '肩膀', '武器', '盔甲', '鞋子', '手部', '戒指', '背部', '手腕', '腰带', '腿部', '项链'];
             this.grid.sort((a, b) => {
                 if(a == b)
                     return 0;
-                if(!this.sortLocked && (a.locked || b.locked))
-                    return 0;
+                if(this.lockedToEnd) {
+                    if(a.locked)
+                        return 1;
+                    else if(b.locked)
+                        return -1;
+                }
                 if(Object.keys(a).length == 0)
                     return 1;
                 if(Object.keys(b).length == 0)
@@ -488,14 +506,32 @@ export default {
                     return type.indexOf(a.description.type) - type.indexOf(b.description.type);
                 if(a.rating != b.rating)
                     return a.rating - b.rating;
-                // if(a.quality.qualityLv != b.quality.qualityLv)
-                //     return a.quality.qualityLv - b.quality.qualityLv;
-                // if(a.lv != b.lv)
-                //     return a.lv - b.lv;
-                // if(a.enhanceLv != b.enhanceLv)
-                //     return a.enhanceLv - b.enhanceLv;
+                return 0;
             });
-            this.$forceUpdate();
+        },
+        sortUse() {            
+            let keys = Object.keys(this.itemType);
+            this.useGrid.sort((a, b) => {
+                if(a == b)
+                    return 0;
+                if(Object.keys(a).length == 0)
+                    return 1;
+                if(Object.keys(b).length == 0)
+                    return -1;
+                return keys.indexOf(a.type) - keys.indexOf(b.type);
+            });
+        },
+        sortEtc() {            
+            let keys = Object.keys(this.itemType);
+            this.etcGrid.sort((a, b) => {
+                if(a == b)
+                    return 0;
+                if(Object.keys(a).length == 0)
+                    return 1;
+                if(Object.keys(b).length == 0)
+                    return -1;
+                return keys.indexOf(a.type) - keys.indexOf(b.type);
+            });
         },
         showInfo($event, type, item, compare) {
             if(this.dragging)
