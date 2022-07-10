@@ -163,9 +163,12 @@ export default {
             return JSON.stringify(newEquip);
         },
         finishUniqueEquip(equip) {
-            equip.extraBaseEntry = [];
-            equip.extraEntry = this.createExtraEntry(equip);
-            equip.potential = equip.lv >= 30 ? this.createPotential(equip) : [];
+            if(equip.extraBaseEntry == undefined)
+                equip.extraBaseEntry = [];
+            if(equip.extraEntry == undefined)
+                equip.extraEntry = this.createExtraEntry(equip);
+            if(equip.potential == undefined)
+                equip.potential = equip.lv >= 30 ? this.createPotential(equip) : [];
             equip.rating = this.rating(equip);
             return JSON.stringify(equip);
         },
@@ -257,8 +260,6 @@ export default {
                 let random = Math.random()*100;
                 this.createExtraEntryValue(entry, random/100, newEquip.lv, mod);
             });
-            console.log("extraBaseEntry")
-            console.log(extraBaseEntry)
             return extraBaseEntry;
         },
         createExtraEntry(newEquip) {
@@ -449,11 +450,6 @@ export default {
         rating(equip) {
             let rating = 0;
             let lines = [].concat(equip.baseEntry, equip.extraBaseEntry, equip.extraEntry);
-            console.log(equip)
-            console.log(equip.baseEntry)
-            console.log(equip.extraBaseEntry)
-            console.log(equip.extraEntry)
-            console.log(lines)
             // 基础属性、额外基础属性、额外属性
             for(let i=0; i<lines.length; i++) {
                 rating += (1/this.entryInfo[lines[i].type].base) * lines[i].value;
