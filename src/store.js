@@ -484,10 +484,10 @@ export default new Vuex.Store({
             ];
             let advancedAttr = {
                 STR: { DEF: 3, BLOCK: 0.5}, 
-                AGI: { ATK: 2, CRIT: 0.05}, 
+                AGI: { ATK: 2, CRIT: 0.2}, 
                 INT: { AP: 2, APCRIT: 0.1}, 
                 STA: { HP: 15}, 
-                SPI: { MP: 15}, 
+                SPI: { MP: 25}, 
                 ALL: { VERS: 1}
             };
             attributes.forEach(attr => {

@@ -125,7 +125,7 @@
                             <br>
                             +2攻击
                             <br>
-                            +0.05%暴击率
+                            +0.2%暴击率
                         </p>
                     </template>
                 </cTooltip>
@@ -210,7 +210,7 @@
                         </p>
                         <p class="info">* 每点提升属性
                             <br>
-                            +15魔法值
+                            +25魔法值
                             <br>
                             +1每五秒回蓝
                         </p>
@@ -364,6 +364,8 @@
                         <p class="info">* 法术暴击
                             <br>
                             基础: {{attribute.APCRIT.baseVal+'%'}}
+                            <br>
+                            法术暴击伤害: {{attribute.APCRITDMG.baseVal+'%'}}
                         </p>
                     </template>
                 </cTooltip>
@@ -454,7 +456,7 @@
                         <p class="info">* 法术穿透
                             <br>
                             基础: {{attribute.APPEN.baseVal }}
-                            <span v-if="attribute.APPEN.value != 0">{{' +' + attribute.APPEN.showValue}}</span>
+                            <span v-if="attribute.APPENP.value != 0">{{' +' + attribute.APPENP.showValue}}</span>
                         </p>
                     </template>
                 </cTooltip>
