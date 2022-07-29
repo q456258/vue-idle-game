@@ -35,7 +35,7 @@
                 </div>
             </div>
             <div class="action" v-if="!inBattle&&selectedDungeon.count!=0">
-                <span v-if="selectedDungeon.type=='gold' || selectedDungeon.type=='mine'" >
+                <span v-if="selectedDungeon.type=='mine'" >
                     <button class="btn btn-success btn-sm" @click="addToQueue(selectedDungeon)">
                         添加至队列
                     </button>   
@@ -309,7 +309,10 @@ export default {
             this.mineDifficulty = Math.floor(Math.random()*3);
             this.mineReward = this.$deepCopy(this.selectedDungeon.reward);
             let minesweeper = this.$store.globalComponent["minesweeper"];
-            minesweeper.reset();
+            // 直接调用reset会导致传进去的mineDifficulty还是之前的值
+            setTimeout(() => {
+                minesweeper.reset();
+            }, 1);
         },
         chest() {
             if(!this.reduceCount())

@@ -58,7 +58,6 @@ export default {
             gridSet: false,
             display: false,
             gameover: false,
-            // rewards: {}
         };
     },
     mounted() {
@@ -76,6 +75,7 @@ export default {
             this.reset();
         },
         reset() {
+            this.difficultyReward();
             switch(this.difficulty) {
                 case 0:
                     this.row = 9;
@@ -113,6 +113,13 @@ export default {
                 minefields[i].classList.remove("flipped");
                 minefields[i].innerHTML = "";
                 minefields[i].style.backgroundColor = "";
+            }
+        },
+        difficultyReward() {
+            let base = 2**(this.difficulty);
+            let reward = this.rewardList;
+            for(let i in reward) {
+                reward[i][1] *= base;
             }
         },
         generateMines(start=-1) {
