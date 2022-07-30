@@ -122,7 +122,7 @@ export default {
             for(let i=0; i<6; i++) {
                 let equip = JSON.parse(equipInfo.createEquip(-1, this.playerLv, 'random', 5));
                 let cost = 100+100*Math.random();
-                cost *= (1+equip.lv/3)*(1+equip.quality.extraEntryNum**3);
+                cost *= (1+equip.lv/15)*(1+equip.quality.extraEntryNum**3);
                 this.equipShop[i] = equip;
                 this.equipCost[i] = Math.round(cost);
             }
