@@ -26,6 +26,9 @@ data() {
             qualityLv: 6,
             color: '#FF8000', 
         }],
+        healBonusMod: {
+            spell_holy_renew: 0.05
+        },
         spell: {
             attack: {
                 name: '普通攻击',
@@ -55,7 +58,7 @@ data() {
             },
             spell_nature_thunderclap: {
                 name: '雷霆一击',
-                max: 10,
+                max: 7,
                 iconSrc: "./icons/spell/spell_nature_thunderclap.jpg",
                 quality: 1,
                 level: [{
@@ -106,7 +109,7 @@ data() {
             },
             ability_racial_avatar: {
                 name: '天神下凡',
-                max: 10,
+                max: 50,
                 iconSrc: "./icons/spell/ability_racial_avatar.jpg",
                 quality: 1,
                 level: [{
@@ -123,20 +126,20 @@ data() {
                 iconSrc: "./icons/spell/ability_warrior_shieldbash.jpg",
                 quality: 1,
                 level: [{
-                        des: '造成攻击力*0.5+护甲*1点伤害',
-                        adDmg: { ATK: 0.5, DEF: 1 },
+                        des: '造成攻击力*0.5+护甲*0.5点伤害',
+                        adDmg: { ATK: 0.5, DEF: 0.5 },
                         cost: { MP: 50, },
                     }, {
-                        des: '造成攻击力*0.5+护甲*1.5点伤害',
-                        adDmg: { ATK: 0.5, DEF: 1.5 },
+                        des: '造成攻击力*0.5+护甲*0.6点伤害',
+                        adDmg: { ATK: 0.5, DEF: 0.6 },
                         cost: { MP: 100, },
                     }, {
-                        des: '造成攻击力*0.5+护甲*2点伤害',
-                        adDmg: { ATK: 0.5, DEF: 2 },
+                        des: '造成攻击力*0.5+护甲*0.7点伤害',
+                        adDmg: { ATK: 0.5, DEF: 0.7 },
                         cost: { MP: 150, },
                     }, {
-                        des: '造成攻击力*0.5+护甲*2.5点伤害',
-                        adDmg: { ATK: 0.5, DEF: 2.5 },
+                        des: '造成攻击力*0.5+护甲*0.8点伤害',
+                        adDmg: { ATK: 0.5, DEF: 0.8 },
                         cost: { MP: 200, },
                     }
                 ],
@@ -169,7 +172,7 @@ data() {
             },
             spell_shadow_ritualofsacrifice: {
                 name: '影袭',
-                max: 30,
+                max: 20,
                 iconSrc: "./icons/spell/spell_shadow_ritualofsacrifice.jpg",
                 quality: 1,
                 level: [{
@@ -187,33 +190,6 @@ data() {
                     }
                 ],
                 tag: ['攻击', '敏捷']
-            },
-            spell_holy_renew: {
-                name: '恢复',
-                max: 8,
-                iconSrc: "./icons/spell/spell_holy_renew.jpg",
-                quality: 1,
-                level: [{
-                        des: '恢复1000点生命值',
-                        adDmg: {},
-                        apDmg: {},
-                        heal: { FIX: 1000 },
-                        cost: { MP: 50, },
-                    }, {
-                        des: '恢复3000点生命值',
-                        adDmg: {},
-                        apDmg: {},
-                        heal: { FIX: 3000 },
-                        cost: { MP: 75, },
-                    }, {
-                        des: '恢复6000点生命值',
-                        adDmg: {},
-                        apDmg: {},
-                        heal: { FIX: 6000 },
-                        cost: { MP: 100, },
-                    }
-                ],
-                tag: ['恢复']
             },
             spell_warlock_soulburn: {
                 name: '勾魂',
@@ -498,37 +474,37 @@ data() {
                 ],
                 tag: ['攻击力', '敏捷', 'BUFF']
             },
-            spell_holy_innerfire: {
-                name: '心灵之火',
-                max: 35,
-                iconSrc: "./icons/spell/spell_holy_innerfire.jpg",
-                quality: 4,
-                level: [{
-                        des: '获得一层虚无效果和一层蓄力效果',
-                        adDmg: {},
-                        apDmg: {},
-                        effect: { void: {stack: 1, chance: 100, target: 'self'},
-                                charge: {stack: 1, chance: 100, target: 'self'} },
-                        cost: { MP: 50, },
-                    }, {
-                        des: '获得两层虚无效果和一层蓄力效果',
-                        adDmg: {},
-                        apDmg: {},
-                        effect: { void: {stack: 2, chance: 100, target: 'self'},
-                                charge: {stack: 1, chance: 100, target: 'self'} },
-                        cost: { MP: 100, },
-                    }, {
-                        des: '获得三层虚无效果和一层蓄力效果',
-                        adDmg: {},
-                        apDmg: {},
-                        effect: { void: {stack: 3, chance: 100, target: 'self'},
-                                charge: {stack: 1, chance: 100, target: 'self'} },
-                        cost: { MP: 150, },
-                    }
-                ],
+            // spell_holy_innerfire: {
+            //     name: '心灵之火',
+            //     max: 35,
+            //     iconSrc: "./icons/spell/spell_holy_innerfire.jpg",
+            //     quality: 4,
+            //     level: [{
+            //             des: '获得一层虚无效果和一层蓄力效果',
+            //             adDmg: {},
+            //             apDmg: {},
+            //             effect: { void: {stack: 1, chance: 100, target: 'self'},
+            //                     charge: {stack: 1, chance: 100, target: 'self'} },
+            //             cost: { MP: 50, },
+            //         }, {
+            //             des: '获得两层虚无效果和一层蓄力效果',
+            //             adDmg: {},
+            //             apDmg: {},
+            //             effect: { void: {stack: 2, chance: 100, target: 'self'},
+            //                     charge: {stack: 1, chance: 100, target: 'self'} },
+            //             cost: { MP: 100, },
+            //         }, {
+            //             des: '获得三层虚无效果和一层蓄力效果',
+            //             adDmg: {},
+            //             apDmg: {},
+            //             effect: { void: {stack: 3, chance: 100, target: 'self'},
+            //                     charge: {stack: 1, chance: 100, target: 'self'} },
+            //             cost: { MP: 150, },
+            //         }
+            //     ],
 
-                tag: ['BUFF']
-            },
+            //     tag: ['BUFF']
+            // },
             spell_holy_layonhands: {
                 name: '圣疗术',
                 max: 85,
@@ -702,7 +678,7 @@ data() {
             },
             spell_fire_flamebolt: {
                 name: '火球术',
-                max: 10,
+                max: 5,
                 iconSrc: "./icons/spell/mage/spell_fire_flamebolt.jpg",
                 quality: 1,
                 level: [{
@@ -727,7 +703,7 @@ data() {
             },
             spell_frost_icestorm: {
                 name: '暴风雪',
-                max: 25,
+                max: 10,
                 iconSrc: "./icons/spell/mage/spell_frost_icestorm.jpg",
                 quality: 1,
                 level: [{
@@ -776,7 +752,7 @@ data() {
             },
             ability_warlock_burningembersblue: {
                 name: '冰风暴',
-                max: 50,
+                max: 15,
                 iconSrc: "./icons/spell/mage/ability_warlock_burningembersblue.jpg",
                 quality: 1,
                 level: [{
@@ -797,7 +773,7 @@ data() {
             },
             spell_fire_fireball02: {
                 name: '炎爆术',
-                max: 50,
+                max: 25,
                 iconSrc: "./icons/spell/mage/spell_fire_fireball02.jpg",
                 quality: 1,
                 level: [{
@@ -818,7 +794,7 @@ data() {
             },
             ability_mage_arcanebarrage: {
                 name: '奥术弹幕',
-                max: 50,
+                max: 10,
                 iconSrc: "./icons/spell/mage/ability_mage_arcanebarrage.jpg",
                 quality: 1,
                 level: [{
@@ -839,7 +815,7 @@ data() {
             },
             ability_mage_arcanebarrage: {
                 name: '奥术弹幕',
-                max: 50,
+                max: 15,
                 iconSrc: "./icons/spell/mage/ability_mage_arcanebarrage.jpg",
                 quality: 1,
                 level: [{
@@ -860,7 +836,7 @@ data() {
             },
             spell_ice_lament: {
                 name: '寒冰护体',
-                max: 50,
+                max: 20,
                 iconSrc: "./icons/spell/mage/spell_ice_lament.jpg",
                 quality: 1,
                 level: [{
@@ -878,7 +854,7 @@ data() {
             },
             spell_shadow_detectlesserinvisibility: {
                 name: '法力护盾',
-                max: 20,
+                max: 10,
                 iconSrc: "./icons/spell/mage/spell_shadow_detectlesserinvisibility.jpg",
                 quality: 1,
                 level: [{
@@ -890,7 +866,7 @@ data() {
             },
             spell_arcane_blast: {
                 name: '奥术冲击',
-                max: 50,
+                max: 20,
                 iconSrc: "./icons/spell/mage/spell_arcane_blast.jpg",
                 quality: 1,
                 level: [{
@@ -911,7 +887,7 @@ data() {
             },
             spell_fire_selfdestruct: {
                 name: '烈焰风暴',
-                max: 50,
+                max: 20,
                 iconSrc: "./icons/spell/mage/spell_fire_selfdestruct.jpg",
                 quality: 1,
                 level: [{
@@ -935,7 +911,7 @@ data() {
             },
             spell_nature_starfall: {
                 name: '奥术飞弹',
-                max: 50,
+                max: 25,
                 iconSrc: "./icons/spell/mage/spell_nature_starfall.jpg",
                 quality: 1,
                 level: [{
@@ -956,7 +932,7 @@ data() {
             },
             spell_frost_coldhearted: {
                 name: '冰冷血脉',
-                max: 50,
+                max: 20,
                 iconSrc: "./icons/spell/mage/spell_frost_coldhearted.jpg",
                 quality: 1,
                 level: [{
@@ -971,7 +947,7 @@ data() {
             },
             spell_frost_wizardmark: {
                 name: '急速冷却',
-                max: 75,
+                max: 60,
                 iconSrc: "./icons/spell/mage/spell_frost_wizardmark.jpg",
                 quality: 1,
                 level: [{
@@ -996,7 +972,7 @@ data() {
             },
             spell_mage_icenova: {
                 name: '大法师之触',
-                max: 100,
+                max: 50,
                 iconSrc: "./icons/spell/mage/spell_mage_icenova.jpg",
                 quality: 1,
                 level: [{
@@ -1027,7 +1003,7 @@ data() {
             },
             spell_fire_sealoffire: {
                 name: '燃烧',
-                max: 120,
+                max: 90,
                 iconSrc: "./icons/spell/mage/spell_fire_sealoffire.jpg",
                 quality: 1,
                 level: [{
@@ -1042,7 +1018,7 @@ data() {
             },
             ability_mage_timewarp: {
                 name: '时间扭曲',
-                max: 150,
+                max: 120,
                 iconSrc: "./icons/spell/mage/ability_mage_timewarp.jpg",
                 quality: 1,
                 level: [{
@@ -1054,24 +1030,24 @@ data() {
             },     
             spell_holy_renew: {
                 name: '恢复',
-                max: 20,
+                max: 15,
                 iconSrc: "./icons/spell/priest/spell_holy_renew.jpg",
                 quality: 1,
                 level: [{
-                        des: '满怀对圣光的信仰，每秒恢复法术强度*0.1点生命值，持续20秒',
+                        des: '满怀对圣光的信仰，每秒恢复法术强度*0.1点生命值，持续15秒',
                         heal: { AP: 0.1 },
                         cost: { MP: 50, },
                     }, {
-                        des: '满怀对圣光的信仰，每秒恢复法术强度*0.12点生命值，持续20秒',
-                        heal: { AP: 0.12 },
+                        des: '满怀对圣光的信仰，每秒恢复法术强度*0.11点生命值，持续15秒',
+                        heal: { AP: 0.11 },
                         cost: { MP: 75, },
                     }, {
-                        des: '满怀对圣光的信仰，每秒恢复法术强度*0.14点生命值，持续20秒',
-                        heal: { AP: 0.14 },
+                        des: '满怀对圣光的信仰，每秒恢复法术强度*0.12点生命值，持续15秒',
+                        heal: { AP: 0.12 },
                         cost: { MP: 100, },
                     }, {
-                        des: '满怀对圣光的信仰，每秒恢复法术强度*0.16点生命值，持续20秒',
-                        heal: { AP: 0.16 },
+                        des: '满怀对圣光的信仰，每秒恢复法术强度*0.13点生命值，持续15秒',
+                        heal: { AP: 0.13 },
                         cost: { MP: 125, },
                     }
                 ],
@@ -1079,24 +1055,24 @@ data() {
             },       
             spell_holy_flashheal: {
                 name: '快速治疗',
-                max: 50,
+                max: 10,
                 iconSrc: "./icons/spell/priest/spell_holy_flashheal.jpg",
                 quality: 1,
                 level: [{
-                        des: '恢复自身法术强度*1.5点生命值',
-                        heal: { AP: 1.5 },
+                        des: '恢复自身法术强度*1.4点生命值',
+                        heal: { AP: 1.4 },
                         cost: { MP: 50, },
                     }, {
-                        des: '恢复自身法术强度*1.75点生命值',
-                        heal: { AP: 1.75 },
+                        des: '恢复自身法术强度*1.55点生命值',
+                        heal: { AP: 1.55 },
                         cost: { MP: 75, },
                     }, {
-                        des: '恢复自身法术强度*2点生命值',
-                        heal: { AP: 2 },
+                        des: '恢复自身法术强度*1.7点生命值',
+                        heal: { AP: 1.7 },
                         cost: { MP: 100, },
                     }, {
-                        des: '恢复自身法术强度*2.25点生命值',
-                        heal: { AP: 2.25 },
+                        des: '恢复自身法术强度*1.85点生命值',
+                        heal: { AP: 1.85 },
                         cost: { MP: 125, },
                     }
                 ],
@@ -1104,28 +1080,31 @@ data() {
             },       
             spell_holy_innerfire: {
                 name: '心灵之火',
-                max: 35,
+                max: 15,
                 iconSrc: "./icons/spell/priest/spell_holy_innerfire.jpg",
                 quality: 1,
                 level: [{
-                        des: '提升10%攻击力和50护甲，持续30秒',
+                        des: '提升10%攻击力、法术强度和500护甲，持续30秒',
                         statBuff: [
                             {type: 'ATK', valType: 'ATK', value: 0.1, stack:30, chance: 100, target: 'self'},
-                            {type: 'DEF', valType: 'FIX', value: 50, stack:30, chance: 100, target: 'self'},
+                            {type: 'AP', valType: 'AP', value: 0.1, stack:30, chance: 100, target: 'self'},
+                            {type: 'DEF', valType: 'FIX', value: 500, stack:30, chance: 100, target: 'self'},
                         ],
                         cost: { MP: 20, },
                     }, {
-                        des: '提升12%攻击力和75护甲，持续30秒',
+                        des: '提升12%攻击力、法术强度和750护甲，持续30秒',
                         statBuff: [
                             {type: 'ATK', valType: 'ATK', value: 0.12, stack:30, chance: 100, target: 'self'},
-                            {type: 'DEF', valType: 'FIX', value: 75, stack:30, chance: 100, target: 'self'},
+                            {type: 'AP', valType: 'AP', value: 0.12, stack:30, chance: 100, target: 'self'},
+                            {type: 'DEF', valType: 'FIX', value: 750, stack:30, chance: 100, target: 'self'},
                         ],
                         cost: { MP: 30, },
                     }, {
-                        des: '提升14%攻击力和100护甲，持续30秒',
+                        des: '提升14%攻击力、法术强度和1000护甲，持续30秒',
                         statBuff: [
                             {type: 'ATK', valType: 'ATK', value: 0.14, stack:30, chance: 100, target: 'self'},
-                            {type: 'DEF', valType: 'FIX', value: 100, stack:30, chance: 100, target: 'self'},
+                            {type: 'AP', valType: 'AP', value: 0.14, stack:30, chance: 100, target: 'self'},
+                            {type: 'DEF', valType: 'FIX', value: 1000, stack:30, chance: 100, target: 'self'},
                         ],
                         cost: { MP: 40, },
                     }
@@ -1134,7 +1113,7 @@ data() {
             },           
             spell_holy_testoffaith: {
                 name: '绝望祷言',
-                max: 70,
+                max: 40,
                 iconSrc: "./icons/spell/priest/spell_holy_testoffaith.jpg",
                 quality: 1,
                 level: [{
@@ -1150,24 +1129,24 @@ data() {
             },     
             spell_shadow_unholyfrenzy: {
                 name: '心灵震爆',
-                max: 70,
+                max: 20,
                 iconSrc: "./icons/spell/priest/spell_shadow_unholyfrenzy.jpg",
                 quality: 1,
                 level: [{
-                        des: '冲击目标的意识，造成智力*2.25点魔法伤害',
-                        apDmg: { INT: 2.25, },
-                        cost: { MP: 70, },
-                    }, {
-                        des: '冲击目标的意识，造成智力*2.5点魔法伤害',
-                        apDmg: { INT: 2.5, },
-                        cost: { MP: 80, },
-                    }, {
-                        des: '冲击目标的意识，造成智力*2.75点魔法伤害',
-                        apDmg: { INT: 2.75, },
-                        cost: { MP: 90, },
-                    }, {
                         des: '冲击目标的意识，造成智力*3点魔法伤害',
                         apDmg: { INT: 3, },
+                        cost: { MP: 70, },
+                    }, {
+                        des: '冲击目标的意识，造成智力*3.5点魔法伤害',
+                        apDmg: { INT: 3.5, },
+                        cost: { MP: 80, },
+                    }, {
+                        des: '冲击目标的意识，造成智力*4点魔法伤害',
+                        apDmg: { INT: 4, },
+                        cost: { MP: 90, },
+                    }, {
+                        des: '冲击目标的意识，造成智力*4.5点魔法伤害',
+                        apDmg: { INT: 4.5, },
                         cost: { MP: 100, },
                     }
                 ],
@@ -1175,17 +1154,17 @@ data() {
             },
             spell_holy_powerwordshield: {
                 name: '真言术：盾',
-                max: 40,
+                max: 25,
                 iconSrc: "./icons/spell/priest/spell_holy_powerwordshield.jpg",
                 quality: 1,
                 level: [{
                         des: '施加一个护盾，吸收法术强度*1*(1+全能*0.1)点伤害',
                         cost: { MP: 50, },
                     }, {
-                        des: '施加一个护盾，吸收法术强度*1.25*(1+全能*0.1)点伤害',
+                        des: '施加一个护盾，吸收法术强度*1.1*(1+全能*0.1)点伤害',
                         cost: { MP: 60, },
                     }, {
-                        des: '施加一个护盾，吸收法术强度*1.5*(1+全能*0.1)点伤害',
+                        des: '施加一个护盾，吸收法术强度*1.2*(1+全能*0.1)点伤害',
                         cost: { MP: 70, },
                     }
                 ],
@@ -1193,7 +1172,7 @@ data() {
             },
             spell_shadow_shadowmend: {
                 name: '暗影愈合',
-                max: 75,
+                max: 30,
                 iconSrc: "./icons/spell/priest/spell_shadow_shadowmend.jpg",
                 quality: 1,
                 level: [{
@@ -1206,7 +1185,7 @@ data() {
             },       
             spell_shadow_shadowwordpain: {
                 name: '暗言术：痛',
-                max: 70,
+                max: 20,
                 iconSrc: "./icons/spell/priest/spell_shadow_shadowwordpain.jpg",
                 quality: 1,
                 level: [{
@@ -1231,7 +1210,7 @@ data() {
             },
             spell_holy_dispelmagic: {
                 name: '纯净术',
-                max: 80,
+                max: 30,
                 iconSrc: "./icons/spell/priest/spell_holy_dispelmagic.jpg",
                 quality: 1,
                 level: [{
@@ -1256,7 +1235,7 @@ data() {
             },   
             spell_holy_holysmite: {
                 name: '惩击',
-                max: 30,
+                max: 15,
                 iconSrc: "./icons/spell/priest/spell_holy_holysmite.jpg",
                 quality: 1,
                 level: [{
@@ -1269,7 +1248,7 @@ data() {
             },   
             spell_shadow_demonicfortitude: {
                 name: '暗言术：灭',
-                max: 60,
+                max: 15,
                 iconSrc: "./icons/spell/priest/spell_shadow_demonicfortitude.jpg",
                 quality: 1,
                 level: [{
@@ -1282,7 +1261,7 @@ data() {
             },   
             spell_holy_powerwordbarrier: {
                 name: '真言术：障',
-                max: 60,
+                max: 30,
                 iconSrc: "./icons/spell/priest/spell_holy_powerwordbarrier.jpg",
                 quality: 1,
                 level: [{
@@ -1316,7 +1295,7 @@ data() {
             }, 
             ability_priest_flashoflight: {
                 name: '真言术：慰',
-                max: 40,
+                max: 20,
                 iconSrc: "./icons/spell/priest/ability_priest_flashoflight.jpg",
                 quality: 1,
                 level: [{
@@ -1351,7 +1330,7 @@ data() {
             }, 
             spell_holy_persuitofjustice: {
                 name: '圣言术：静',
-                max: 150,
+                max: 50,
                 iconSrc: "./icons/spell/priest/spell_holy_persuitofjustice.jpg",
                 quality: 1,
                 level: [{
@@ -1436,9 +1415,9 @@ data() {
             headbutt: {
                 name: '头槌', max: 100, iconSrc: "", quality: 1,
                 level: [{
-                        des: '打击目标头部，造成99点物理伤害，有95%眩晕目标两回合',
+                        des: '打击目标头部，造成99点物理伤害，有95%眩晕目标一回合',
                         adDmg: { FIX: 99 },
-                        effect: {stun: {stack: 2, chance: 95, target: 'enemy'},},
+                        effect: {stun: {stack: 1, chance: 95, target: 'enemy'},},
                         cost: { MP: 20, },
                     }
                 ],

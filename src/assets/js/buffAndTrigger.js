@@ -185,7 +185,7 @@ export const buffAndTrigger = {
                 if(attr.CURHP.value < attr.MAXHP.value*0.5) {
                     this.set_player_hp('dead', source);
                     this.$store.commit("set_battle_info", {
-                        type: 'dmged',
+                        type: 'danger',
                         msg: '【炼狱】您已死亡'
                     })
                 }
@@ -314,7 +314,7 @@ export const buffAndTrigger = {
             if(this.buffReduce(source, source, 'lifesteal')) {
                 let lsRatio = 0.5;
                 let value = Math.round(lsRatio*this.get_dmg(dmgs, 'ad'));
-                this.hpChange(source, source, value);
+                this.hpChange(source, source, {heal: value});
             }
         },
         // 魔法窃取
@@ -405,10 +405,10 @@ export const buffAndTrigger = {
         minionSlayer(source, target, dmgs) {
             if(this.get_dmg(dmgs, 'ad') == 0 && this.get_dmg(dmgs, 'ap') == 0)
                 return;
-            if(source.buff['minionSlayer'] != undefined && target.type == 'normal') {
+            if(source.buff['minionSlayer'] != undefined && target.type == 'normal' && target.lv < source.lv) {
                 this.$store.commit("set_battle_info", {
                     type: 'dmg',
-                    msg: '【野怪杀手】额外造成'+Math.round(-0.5*(this.get_dmg(dmgs, 'ad')+this.get_dmg(dmgs, 'ap')))+'伤害'
+                    msg: '【野怪杀手】额外造成'+Math.round(0.5*(this.get_dmg(dmgs, 'ad')+this.get_dmg(dmgs, 'ap')))+'伤害'
                 })
                 this.set_ad_dmg(dmgs, this.get_dmg(dmgs, 'ad')*1.5);
                 this.set_ap_dmg(dmgs, this.get_dmg(dmgs, 'ap')*1.5);
@@ -425,7 +425,7 @@ export const buffAndTrigger = {
                 }
                 else {
                     this.$store.commit("set_battle_info", {
-                        type: 'dmged',
+                        type: 'danger',
                         msg: '目标处于眩晕状态中, 无法行动'
                     })
                 }
@@ -470,7 +470,7 @@ export const buffAndTrigger = {
             let talent = 'ability_rogue_preparation';
             if(source.talent[talent] > 0) {
                 let recover = source.talent[talent]*10;
-                this.hpChange(source, source, recover);
+                this.hpChange(source, source, {heal: recover});
                 this.mpChange(source, source, recover);
             }
         },
@@ -513,13 +513,22 @@ export const buffAndTrigger = {
         },
         // 死亡后触发, source为击杀者
         triggerAfterKilled(source, target) {
+            let talentTree = this.$store.globalComponent["talentTree"];
             if(target.type == 'player' && this.$store.state.statistic.death%50 == 0 && this.$store.state.statistic.death > 0) {
                 let itemInfo = this.$store.globalComponent["itemInfo"];
                 let item = itemInfo.createItem('inv_potion_27', 1);  
                 itemInfo.addItem(JSON.parse(item));
             }
+            //生命摄取
+            let talent = 'spell_deathknight_bloodpresence';
+            if(source.talent[talent] > 0)
+                talentTree.talentTrigger('spell_deathknight_bloodpresence');
+            //能量摄取
+            talent = 'spell_deathknight_frostpresence';
+            if(source.talent[talent] > 0)
+                talentTree.talentTrigger('spell_deathknight_frostpresence');
             // 生命残留
-            let talent = 'spell_shadow_bloodboil';
+            talent = 'spell_shadow_bloodboil';
             if(source.talent[talent] > 0) {
                 let recover = Math.min(target.attribute.MAXHP.value*0.01, source.attribute.MAXHP.value*source.talent[talent]*0.01);
                 this.hpChange(source, source, {heal: recover});
@@ -537,6 +546,13 @@ export const buffAndTrigger = {
                 setTimeout(() => {
                     this.hpChange(target, target, {heal: recover});
                 }, 1000);
+            }
+            let achievement = this.$store.globalComponent["achievement"];
+            if(target.type != 'player' && this.monsterId.hasOwnProperty(target.name)) {
+                let id = this.monsterId[target.name];
+                let slain = {slain: {}};
+                slain['slain'][id] = 1;
+                achievement.set_statistic(slain);
             }
         },
         hpChange(source, target, dmgs, sourceName) {
@@ -597,11 +613,6 @@ export const buffAndTrigger = {
                 dmgType = '神圣伤害';
                 dmgText = '<span style="color:#ffffff">'+this.get_dmg(dmgs, 'true')+'</span> ';
             }
-
-            if(target.type == 'player')
-                this.set_player_hp(-1*totalDmg, source);
-            else
-                this.set_enemy_hp(-1*totalDmg, source);
             if(sourceName != undefined) {
                 if(target.type == source.type) {
                     this.$store.commit("set_battle_info", {
@@ -616,6 +627,10 @@ export const buffAndTrigger = {
                     })
                 }
             }
+            if(target.type == 'player')
+                this.set_player_hp(-1*totalDmg, source);
+            else
+                this.set_enemy_hp(-1*totalDmg, source);
         },
         heal(source, target, heal, sourceName) {
             if(target.buff['plague'] != undefined)
@@ -756,10 +771,12 @@ export const buffAndTrigger = {
             let target = this.player;
             let CURHP = target.attribute.CURHP,
                 MAXHP = target.attribute.MAXHP;
+            let mapEvent = this.$store.globalComponent["mapEvent"];
+            let achievement = this.$store.globalComponent["achievement"];
             // dead/full 等, 跳过乱七八糟的判断
             if(isNaN(data)) {
                 this.$store.commit('set_hp', {data, CURHP, MAXHP});
-                if(data == 'dead') {
+                if(data == 'dead' || data == 'remove') {
                     this.clearTickTimers(target.type);
                     if(source != undefined) {
                         let slainBy = {};
@@ -767,6 +784,9 @@ export const buffAndTrigger = {
                         this.$store.commit('set_statistic', {slainBy: slainBy});
                         this.triggerAfterKilled(source, target);
                     }
+                }
+                if(data == 'dead') {
+                    mapEvent.defeat(source, target);
                 }
                 return;
             }
@@ -776,23 +796,32 @@ export const buffAndTrigger = {
                 data = this.triggerBeforeKilled(source, target, data);
             this.$store.commit('set_hp', {data, CURHP, MAXHP});
             if(CURHP.value <= 0) {
+                mapEvent.defeat(source, target);
                 this.clearTickTimers(target.type);
                 this.clearAllBuff(target);
                 let slainBy = {};
                 slainBy[source.name] = 1;
+                achievement.set_statistic({death: 1});
                 this.$store.commit('set_statistic', {slainBy: slainBy});
                 this.triggerAfterKilled(source, target);
             }
             CURHP.showValue = CURHP.value;
         },
+        // remove=移除怪物, dead=击杀
         set_enemy_hp(data) {
             let source = this.player;
             let target = this.$store.state.enemyAttribute;
             let CURHP = target.attribute.CURHP,
                 MAXHP = target.attribute.MAXHP;
+            let mapEvent = this.$store.globalComponent["mapEvent"];
             if(isNaN(data)) {
-                if(data == 'dead')
+                if(data == 'dead' || data == 'remove') {
                     this.clearTickTimers(target.type);
+                }
+                if(data == 'dead') {
+                    mapEvent.victory(source, target);
+                    this.triggerAfterKilled(source, target);
+                }
                 this.$store.commit('set_hp', {data, CURHP, MAXHP});
                 return;
             }
@@ -802,6 +831,7 @@ export const buffAndTrigger = {
                 data = this.triggerBeforeKilled(source, target, data);
             this.$store.commit('set_hp', {data, CURHP, MAXHP});
             if(CURHP.value <= 0)  {
+                mapEvent.victory(source, target);
                 this.clearTickTimers(target.type);
                 this.triggerAfterKilled(source, target);
             }

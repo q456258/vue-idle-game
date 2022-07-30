@@ -372,8 +372,9 @@ export const spellEffect = {
         applySpellHealBonus(spell, source, heal) {
             if(heal <= 0)
                 return heal;
+            let mod = this.healBonusMod[spell] == undefined ? 1 : this.healBonusMod[spell];
             let healBonus = source.attribute['HEAL'].value;
-                heal += healBonus;
+            heal += healBonus*mod;
             let talent = 'ability_pvp_innerrenewal';
             if(source.talent[talent] > 0) {
                 heal *= (1+source.talent[talent]*0.01);
@@ -403,7 +404,7 @@ export const spellEffect = {
             }
             talent = 'ability_defend';
             if(target.talent[talent] > 0) {
-                index.set_ad_dmg(dmgs, index.get_dmg(dmgs, 'ad')-source.talent[talent]*5);
+                index.set_ad_dmg(dmgs, index.get_dmg(dmgs, 'ad')-target.talent[talent]*5);
             }
             index.triggerOnHit(source, target);
             talent = 'ability_revendreth_druid';
@@ -654,7 +655,7 @@ export const spellEffect = {
             let dmg = this.getSpellDmg(spell, source);
             let effectList = this.getSpellEffect(source, spell);
             // 盾牌猛击
-            talent = 'inv_shield_05';
+            let talent = 'inv_shield_05';
             if(source.talent[talent] > 0) {
                 let chance = source.talent[talent]*10;
                 effectList['stun'] = {stack: 1, chance: chance, target: 'enemy'};
@@ -897,7 +898,7 @@ export const spellEffect = {
         // 恢复
         spell_holy_renew(source, target, spell) {
             let index = this.$store.globalComponent["index"];
-            let count = 20;
+            let count = 15;
             // 福音
             let talent = 'spell_holy_divineillumination';
             if(source.talent[talent] > 0) {
@@ -941,7 +942,7 @@ export const spellEffect = {
         // 真言术：盾
         spell_holy_powerwordshield(source, target, spell) {
             let index = this.$store.globalComponent["index"];
-            let shield = source.attribute.AP.value*(0.75+source.spells[spell].lv*0.25)*(1+source.attribute.VERS.value*0.1);
+            let shield = source.attribute.AP.value*(0.9+source.spells[spell].lv*0.1)*(1+source.attribute.VERS.value*0.1);
             index.shield(source, target, shield, spell);
         },
         // 暗言术：痛

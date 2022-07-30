@@ -129,7 +129,7 @@ data() {
                 minionSlayer: {
                     timed: true,
                     iconSrc: "./icons/item/inv_potion_27.jpg",
-                    desc: "野怪杀手【分钟】: 对冒险区非精英、BOSS类怪物额外造成50%伤害"
+                    desc: "野怪杀手【分钟】: 对等级低于自身的冒险区非精英、BOSS类怪物额外造成50%伤害"
                 },
                 spell_holy_wordfortitude: {
                     timed: true,
