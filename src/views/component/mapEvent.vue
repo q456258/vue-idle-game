@@ -258,6 +258,8 @@ export default {
             let index = this.$store.globalComponent["index"];
             index.clearShield(this.playerAttr);
             index.clearTurnbaseBuff(this.playerAttr);
+            if(!inBattle)
+                this.battleID = -1;
             if(immediate || inBattle) {
                 this.dungeonInfo.inBattle = inBattle;
                 if(!inBattle) {
@@ -273,7 +275,7 @@ export default {
                         clearInterval(this.battleTimer);
                         this.autoBattle(auto);
                         index.set_enemy_hp('remove');
-                        if(this.dungeonInfo.auto && !this.$store.state.setting.waitFull)
+                        if(auto && !this.$store.state.setting.waitFull)
                             this.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
                     }
                 }, 1000);
