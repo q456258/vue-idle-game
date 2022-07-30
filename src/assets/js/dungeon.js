@@ -5,7 +5,7 @@ export const dungeon = {
     data() {
         return {
             typeColor: {
-                normal: '#6d3', gold: '#6d3', 
+                normal: '#6d3', mine: '#b60', 
                 elite: '#dc3', 
                 boss: '#d63',
                 chest: '#c0f'
@@ -86,7 +86,7 @@ export const dungeon = {
             }
         },
         getLv(type, zoneInfo, monsterInfo) {
-            if(['chest','gold','mine','herb'].indexOf(type) != -1)
+            if(['chest','mine','herb'].indexOf(type) != -1)
                 return zoneInfo.minLv+Math.round(Math.random()*(zoneInfo.maxLv-zoneInfo.minLv));
             else
                 return monsterInfo.minLv+Math.round(Math.random()*(monsterInfo.maxLv-monsterInfo.minLv));
@@ -100,7 +100,6 @@ export const dungeon = {
                 // case 'normal':
                 // case 'elite':
                 // case 'boss':
-                // case 'gold':
                 // case 'mine':
                 // case 'herb':
                 default:
@@ -111,12 +110,9 @@ export const dungeon = {
         getCount(type) {
             let count = 1;
             switch(type) {
-                case 'gold':
-                    count = Math.floor(Math.random()*100);
-                    break;
                 case 'mine':
                 case 'herb':
-                    count = Math.floor(Math.random()*30);
+                    count = Math.floor(Math.random()*99);
                     break;
                 case 'normal':
                     count = -1;
@@ -138,7 +134,6 @@ export const dungeon = {
         getReward(type, monsterID) {
             let reward = this.$deepCopy(this.monsterReward[monsterID]);
             switch(type) {
-                case 'gold':
                 case 'mine':
                 case 'herb':
                     reward[0][1] = Math.floor(Math.random()*100);

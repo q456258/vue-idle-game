@@ -35,14 +35,16 @@
 </template>
 <script>
 import {itemConfig} from '@/assets/config/itemConfig'
-import { assist } from '../../assets/js/assist';
 export default {
     name: "itemInfo",
-    mixins: [itemConfig, assist],
+    mixins: [itemConfig],
     data() {
         return {
             newItem: {},
         };
+    },
+    mounted() {
+        this.$store.globalComponent.itemInfo = this;
     },
     props: {
         item: {
@@ -79,8 +81,22 @@ export default {
                 return this.quality[5];
             return this.quality[quality];
         },
+        findItemIndex(name, checkStack=false) {        
+            let backpack = this.$store.globalComponent["backpack"];
+            let grid = this.itemType[name].use ? backpack.useGrid: backpack.etcGrid;
+            for (let i = 0; i < grid.length; i++) {
+                let item = grid[i];
+                if(Object.keys(item).length > 2 && item.type == name) {
+                    if(!checkStack)
+                        return i;
+                    else if(item.quantity < this.itemType[item.type].maxStack)
+                        return i;
+                }
+            }
+            return -1;
+        },
         findItem(name, checkStack=false) {        
-            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            let backpack = this.$store.globalComponent["backpack"];
             let grid = this.itemType[name].use ? backpack.useGrid: backpack.etcGrid;
             for (let i = 0; i < grid.length; i++) {
                 let item = grid[i];
@@ -94,7 +110,7 @@ export default {
             return -1;
         },
         getItemQty(code) {            
-            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            let backpack = this.$store.globalComponent["backpack"];
             let grid = this.itemType[code].use ? backpack.useGrid: backpack.etcGrid;
             let total = 0;
             for (let i = 0; i < grid.length; i++) {
@@ -106,10 +122,11 @@ export default {
             return total;
         },
         addItem(item, msg=false) {
-            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            item = this.$deepCopy(item);
+            let backpack = this.$store.globalComponent["backpack"];
             let grid = item.use ? backpack.useGrid : backpack.etcGrid;
             let name = item.type;
-            let stack = this.findItem(name, true);
+            let stack = this.findItemIndex(name, true);
             if(msg && !this.itemType[item.type].autoUse) {
                 this.$store.commit("set_sys_info", {
                     type: 'reward',
@@ -119,17 +136,19 @@ export default {
                 });
             }
             if(this.itemType[item.type].autoUse) {
-                for(let i=0; i<item.quantity; i++) {
-                    let used = backpack.useItem(item);
-                    if(used)
-                        return;
+                let used = backpack.useItem(item, msg);
+                while(used) {
+                    item.quantity--;
+                    used = backpack.useItem(item, msg);
                 }
             }
+            if(item.quantity <= 0)
+                return;
             if(stack == -1) {
                 for (let i = 0; i < grid.length; i++) {
                     if (Object.keys(grid[i]).length < 3) {
                         this.$set(grid, i, this.$deepCopy(item));
-                        return;
+                        break;
                     }
                 }
             }
@@ -138,6 +157,8 @@ export default {
                 if(remain > 0)
                     this.addItem(item);
             }
+            let quest = this.$store.globalComponent["quest"];
+            quest.trackProgress('collect', item.type, item.quantity);
         },
         stackItem(item, item2) {
             let max = this.itemType[item.type].maxStack;
@@ -152,30 +173,40 @@ export default {
                 return 0;
             }
         },
+        removeItemByCode(code, quantity) {
+            let index = this.findItemIndex(code);
+            let type = this.itemType[code].use ? 'use': 'etc';
+            this.removeItemByIndex(index, quantity, type);
+        },
         removeItemByIndex(index, quantity, type='use') {
-            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            let backpack = this.$store.globalComponent["backpack"];
+            let quest = this.$store.globalComponent["quest"];
             let grid = type=='use' ? backpack.useGrid : backpack.etcGrid;
             let temp = grid[index];
             if(grid[index].quantity <= quantity) {
                 this.$set(grid, index, {});
                 this.removeItemByItem(temp, quantity-temp.quantity);
             }
-            else
+            else {
                 grid[index].quantity -= quantity;
+                quest.trackProgress('collect', grid[index].type, quantity);
+            }
         },
         removeItemByItem(item, quantity) {
-            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            let backpack = this.$store.globalComponent["backpack"];
+            let quest = this.$store.globalComponent["quest"];
             let grid = item.use ? backpack.useGrid : backpack.etcGrid;
             let name = item.type;
-            let stack = this.findItem(name);
-            if(stack != -1) {
-                if(grid[stack].quantity <= quantity) {
-                    this.$set(grid, stack, {});
+            let index = this.findItemIndex(name);
+            if(index != -1) {
+                if(grid[index].quantity <= quantity) {
+                    this.$set(grid, index, {});
                     this.removeItemByItem(item, quantity-item.quantity);
                 }
                 else
-                    grid[stack].quantity -= quantity;
+                    grid[index].quantity -= quantity;
             }
+            quest.trackProgress('collect', item.type, item.quantity);
         }
     },
 

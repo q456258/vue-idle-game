@@ -14,26 +14,33 @@
                     <img :src="equip.description.iconSrc" alt="icon" />
                 </div>
                 <span class="enhanceLv">
-                    <div v-if="equip.enhanceLv >= equip.maxEnhanceLv" style="color:#c00;">强化等级已达到上限</div>
-                    强化等级: {{equip.enhanceLv+'/'+equip.maxEnhanceLv}}
+                    强化等级: {{equip.enhanceLv}}
+                    <small v-if="enhanceable">{{currentProgress+'/'+req[equip.enhanceLv]}} </small>
+                    <div v-if="!enhanceable" style="color:#c00;">强化等级已达到上限</div>
+                    <div v-else>
+                        <div class="progress">
+                            <div class="progress-bar" :style="{width:currentProgress/req[equip.enhanceLv]*100+'%'}">
+                            </div>
+                        </div>
+                    </div>
                 </span>
             </div>
-            <div class="enhance">
+            <div class="addonGrid">
+                <div class="icon"  style="cursor:pointer" @click="addMaterial($event, k)" @contextmenu="redMaterial($event, k)" v-for="(v, k) in gemType" :key="k">
+                    <div class="mediumIconContainer" :style="{'box-shadow': 'inset 0 0 7px 2px ' + itemType[v].quality.color }">
+                        <del :class="[{grey:itemType[v].quality==1, green:itemType[v].quality==3, blue:itemType[v].quality==4, purple:itemType[v].quality==5, orange:itemType[v].quality==5}, 'mediumIcon iconBorder']"></del>
+                        <img :src="'./icons/item/'+v+'.jpg'" alt="" />
+                    </div>
+                    <div class="quantity">
+                        {{applied[k]+'/'+itemQty[k]}}
+                    </div>
+                </div>
+            </div>
+            <div class="enhance" v-if="enhanceable">
                 <div class="beforeEnhance">
                     <div v-for="v in equip.baseEntry" :key="v.id">
                         <div>
-                            <span>{{v.name}} : {{v.showVal}}</span> 
-                            <!-- <span v-if="equip.enhanceLv>0">&nbsp;({{v.base}}&nbsp;
-                                <span style="color:#ABF6F4">+{{v.value-v.base}}</span>)
-                            </span> -->
-                        </div>
-                    </div>
-                </div>
-                <span class="pointer" v-show="equip.enhanceLv < equip.maxEnhanceLv">→</span>
-                <div class="afterEnhance" v-show="equip.enhanceLv < equip.maxEnhanceLv">
-                    <div v-for="v in equip.baseEntry" :key="v.id">
-                        <div>
-                            &nbsp;{{Math.floor(v.base*(1+(equip.enhanceLv+1)*0.1))}}
+                            <span>{{v.name}} + {{Math.floor(v.base*(1+(equip.enhanceLv+1)*0.1))}}</span> 
                             <span class="bonus">
                                 ↑({{Math.floor(v.base*(1+(equip.enhanceLv+1)*0.1)-v.value)}})
                             </span>
@@ -41,10 +48,6 @@
                     </div>
                 </div>
             </div>
-            <!-- <span class="cost" :class="{'warning':warning}" v-show="equip.enhanceLv < equip.maxEnhanceLv">消耗金币: {{cost}}</span> -->
-            <span class="cost" :class="{'warning':warning}">
-                消耗<img :src="'/icons/item/'+imgSrc+'.jpg'">&nbsp;{{cost}}/{{itemQty}}
-            </span>
             <div class="confirm" @click="enhance()" v-show="equip.enhanceLv < equip.maxEnhanceLv">
                 强化
             </div>
@@ -56,17 +59,30 @@
 </draggable>
 </template>
 <script>
-import { assist } from '../../assets/js/assist';
+
+
+import { itemConfig } from '../../assets/config/itemConfig';
 import draggable from '../uiComponent/draggable'
 export default {
     name: "equipEnhance",
-    mixins: [assist, ],
+    mixins: [itemConfig],
     components: {draggable},
     data() {
         return {
-            material: '',
-            imgSrc: ''
+            value: [1, 5, 10, 25, 100],
+            req: [1, 2, 3, 4, 5, 
+                10, 15, 20, 25, 30,
+                50, 60, 70, 80, 90, 
+                150, 175, 200, 225, 250, 
+                400, 450, 500, 550, 600 ],
+            gemType: ['inv_misc_gem_diamond_05', 'inv_misc_gem_diamond_04', 'inv_misc_gem_diamond_03', 'inv_misc_gem_diamond_02', 'inv_misc_gem_diamond_01'],
+            applied: [],
+            currentProgress: 0,
+
         };
+    },
+    mounted() {
+        this.$store.globalComponent.equipEnhance = this;
     },
     props: {
         equip: {
@@ -75,66 +91,80 @@ export default {
     },
     watch: {
         equip() {
+            if(this.equip.enhanceCur == undefined)
+                this.equip.enhanceCur = 0;
+            this.currentProgress = this.equip.enhanceCur
             this.targetLv = this.equip.enhanceLv+1;
-            this.setMaterial();
+            this.applied = new Array(this.gemType.length).fill(0, 0, this.gemType.length);
         }
     },
     computed: {
-        cost() {
-            let cost = this.equip.enhanceLv%5+1;
-            return cost;
-        },
-        smith() {
-            return this.$store.state.guildAttribute.smith;
-        },
-        maxLv() { return this.equip.maxEnhanceLv; },
-        minLv() { return this.equip.enhanceLv+1; },
-        warning() {
-            return this.itemQty < this.cost;
-        },
-        item() {
-            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
-            let item = itemInfo.findItem(this.material);
-            if(item == -1)
-                return {quantity: 0};
-            else
-                return item.use ? backpack.useGrid[item] : backpack.etcGrid[item];
+        enhanceable() {
+            return this.equip.enhanceLv < this.equip.maxEnhanceLv;
         },
         itemQty() {
-            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-            let qty = itemInfo.getItemQty(this.material);
-            return qty;
+            let itemInfo = this.$store.globalComponent["itemInfo"];
+            let qtys = [];
+            for(let i=0; i<this.gemType.length; i++) {
+                qtys[i] = itemInfo.getItemQty(this.gemType[i]);
+            }
+            return qtys;
         }
     },
     methods: {
         enhance() {
-            if(this.warning) {
+            if(!this.enhanceable) {
                 return;
             }
-            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
-            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-            itemInfo.removeItemByItem(this.item, this.cost);
+            this.consumeGem();
 
-            // backpack.lockEquipment(true);
             this.equip.locked = true;
-            backpack.$forceUpdate();
-            this.equip.enhanceLv = this.equip.enhanceLv + 1;
-            let equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
-            equipInfo.enhanceBaseEntryValue(this.equip);
-            equipInfo.activePotential(this.equip);
-            this.setMaterial();
-            this.$store.commit('set_player_attribute');
+            if(this.equip.enhanceCur >= this.req[this.equip.enhanceLv]) {
+                this.equip.enhanceCur -= this.req[this.equip.enhanceLv];
+                this.currentProgress -= this.req[this.equip.enhanceLv];
+                this.equip.enhanceLv += 1;
+                let equipInfo = this.$store.globalComponent["equipInfo"];
+                equipInfo.enhanceBaseEntryValue(this.equip);
+                equipInfo.activePotential(this.equip);
+                this.$store.commit('set_player_attribute');
+            }
         },
-        setMaterial() {
-            let index = Math.floor(this.equip.enhanceLv/5);
-            // ['低级强化石', '中级强化石', '高级强化石', '顶级强化石', '终极强化石']
-            let names = ['inv_misc_gem_diamond_05', 'inv_misc_gem_diamond_04', 'inv_misc_gem_diamond_03', 'inv_misc_gem_diamond_02', 'inv_misc_gem_diamond_01']
-            this.material = names[index];
-            this.imgSrc = names[index];
+        consumeGem() {
+            let itemInfo = this.$store.globalComponent["itemInfo"];
+            let cur = this.equip.enhanceCur;
+            let max = this.req[this.equip.enhanceLv];
+            for(let i=this.gemType.length-1; i>=0; i--) {
+                let count = Math.min(this.applied[i], Math.ceil((max-cur)/this.value[i]));
+                if(count > 0) {
+                    this.applied[i] -= count;
+                    cur += this.value[i]*count;
+                    itemInfo.removeItemByCode(this.gemType[i], count);
+                }
+                if(cur >= max)
+                    break;
+            }
+            this.equip.enhanceCur = cur;
+        },
+        addMaterial(event, k) {
+            if(this.applied[k] >= this.itemQty[k])
+                return;
+            let qty = 1;
+            if(event.shiftKey)
+                qty = this.itemQty[k]-this.applied[k];
+            this.currentProgress += this.value[k]*qty;
+            this.applied[k] += qty;
+        },
+        redMaterial(event, k) {
+            if(this.applied[k] <= 0)
+                return;
+            let qty = 1;
+            if(event.shiftKey)
+                qty = this.applied[k];
+            this.currentProgress -= this.value[k]*qty;
+            this.applied[k] -= qty;
         },
         closeInfo() {
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent["index"];
             index.closeInfo('enhance');
         }
     }
@@ -177,8 +207,13 @@ export default {
         }
         .enhanceLv {
             position: relative;
-            top: 15rem;
-            left: 2.5rem;
+            top: 200px;
+            left: 35px;
+            .progress {
+                width: 200px;
+                margin: auto;
+                height: 3px;
+            }
         }
     }
     .enhance {
@@ -193,10 +228,6 @@ export default {
         .beforeEnhance {
             margin-left: 1rem;
             text-align: left;
-            // width: 40%;
-        }
-        .afterEnhance {
-            // width: 20%;
             .bonus {
                 color: #0f0;
             }
@@ -205,21 +236,6 @@ export default {
     .warning {
         color: #D8000C;
     }
-    .cost {
-        position: absolute;
-        top: 19rem;
-        left: 35rem;
-        bottom: 1.2rem;
-        height: 2rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1rem;
-        img {
-            height: 2rem;
-            width: 2rem;
-        }
-    }    
     .confirm {
         position: absolute;
         top: 21rem;
@@ -256,5 +272,10 @@ export default {
             opacity: 1; 
         }
     }
+}
+.addonGrid {
+    position: absolute;
+    margin-top: 50%;
+    width: 60%;
 }
 </style>

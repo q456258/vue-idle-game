@@ -33,13 +33,13 @@
 </template>
 <script>
 import draggable from '../uiComponent/draggable';
-import { assist } from '../../assets/js/assist';
 import { Base64 } from 'js-base64';
+import { buffConfig } from '@/assets/config/buffConfig';
 export default {    
     name: 'saveload',
     props: {
     },
-    mixins: [assist],
+    mixins: [buffConfig],
     components: {draggable},
     data() {
         return {
@@ -49,6 +49,7 @@ export default {
         };
     },
     mounted() {
+        this.$store.globalComponent.saveload = this;
     },
     watch: {
     },
@@ -62,9 +63,8 @@ export default {
         }, 
         async saveGame(needInfo=false) {
             let data = {}
-            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
-            let guild = this.findBrothersComponents(this, 'guild', false)[0];
-            let guildPosition = this.findComponentDownward(guild, 'guildPosition');
+            let backpack = this.$store.globalComponent["backpack"];
+            let guildPosition = this.$store.globalComponent["guildPosition"];
             this.$store.state.exitTime = Date.now();
             data = {
                 state: this.$store.state,
@@ -72,7 +72,7 @@ export default {
                 backpackUseGrid: backpack.useGrid,
                 backpackEtcGrid: backpack.etcGrid,
                 backpackSetting: { 
-                    sortLocked: backpack.sortLocked,
+                    lockedToEnd: backpack.lockedToEnd,
                     sellPrio: backpack.sellPrio,
                     disPrio: backpack.disPrio,
                     autoSell: backpack.autoSell 
@@ -81,8 +81,13 @@ export default {
                     selectedType: guildPosition.selectedType,
                     smith_main: guildPosition.smith_main,
                     smith_sub: guildPosition.smith_sub,
+                    mineQueue: guildPosition.mineQueue
                 }
             }
+            // 移除部分debuff
+            for(let i in this.buffCateg.onTick)
+                delete data.state.playerAttribute.buff[this.buffCateg.onTick[i]];
+
             let saveData = Base64.encode(Base64.encode(JSON.stringify(data)));
             localStorage.setItem('_sd', saveData);
 
@@ -100,24 +105,12 @@ export default {
             try {
                 let data = JSON.parse(Base64.decode(Base64.decode(loadData)));
 
-                if(data.state.guildAttribute.member == undefined) {
-                    data.state.guildAttribute.member = []
-                }
-                if(data.state.guildAttribute.guild.lv == undefined) {
-                    data.state.guildAttribute.member = []
-                    data.state.guildAttribute.guild = {lv: 0}
-                    data.state.guildAttribute.train = {lv: 0}
-                    data.state.guildAttribute.train2 = {lv: 0,}
-                    data.state.guildAttribute.train3 = {lv: 0}
-                    data.state.guildAttribute.shop = {lv: 0}
-                    data.state.guildAttribute.smith = {lv: 0}
-                }
+                // data.state.guildAttribute.questBoard = {lv:1};
+                
                 this.$store.replaceState(data.state);
-                let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
-                let mapEvent = this.findBrothersComponents(this, 'mapEvent', false)[0];
-                let setting = this.findBrothersComponents(this, 'setting', false)[0];
-                let guild = this.findBrothersComponents(this, 'guild', false)[0];
-                let guildPosition = this.findComponentDownward(guild, 'guildPosition');
+                let backpack = this.$store.globalComponent["backpack"];
+                let setting = this.$store.globalComponent["setting"];
+                let guildPosition = this.$store.globalComponent["guildPosition"];
 
                 guildPosition.init();
                 backpack.grid = data.backpackEquipment;
@@ -126,7 +119,7 @@ export default {
                 
                 if(data.backpackSetting != undefined) {
                     backpack.autoSell = data.backpackSetting.autoSell;
-                    backpack.sortLocked = data.backpackSetting.sortLocked;
+                    backpack.lockedToEnd = data.backpackSetting.lockedToEnd;
                     backpack.sellPrio = data.backpackSetting.sellPrio;
                     backpack.disPrio = data.backpackSetting.disPrio;
                 }
@@ -135,11 +128,12 @@ export default {
                         guildPosition.selectedType[type] = data.guildSetting.selectedType[type];
                     guildPosition.smith_main = data.guildSetting.smith_main;
                     guildPosition.smith_sub = data.guildSetting.smith_sub;
+                    guildPosition.mineQueue = data.guildSetting.mineQueue;
                 }
 
                 setting.readSetting();
                 
-                let index = this.findComponentUpward(this, 'index');
+                let index = this.$store.globalComponent["index"];
                 this.$store.state.dungeonInfo.auto = false;
                 this.$store.state.dungeonInfo.inBattle = false;
                 this.$store.state.enemyAttribute.attribute.CURHP.value = 0;
@@ -149,13 +143,12 @@ export default {
                 index.createMaps();
                 // index.switchZone('advanture');
 
-                // let guild = this.findComponentDownward(index, 'guild');
+                // let guild = this.$store.globalComponent["guild"];
                 // guild.getAllCost();
                 if(data.state.exitTime != 0) {
                     let awayTime = Date.now()-data.state.exitTime;
-                    let achievement = this.findBrothersComponents(this, 'achievement', false)[0];
+                    let achievement = this.$store.globalComponent["achievement"];
                     achievement.set_statistic({awayTime: awayTime});
-                    // this.$store.commit("set_statistic", {awayTime: awayTime});
                     this.awayReward(awayTime);
                 }
                 this.closeSaveload();
@@ -175,33 +168,14 @@ export default {
                 return;
             if(minute > 288)
                 minute = 288;
-            let guild = this.findBrothersComponents(this, 'guild', false)[0];
-            let equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
-            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
-            let crystal = 0;
-            let gold = 0;
-            let lv = this.$store.state.playerAttribute.lv;
-            for(let i=0; i<Math.floor(minute/5); i++) {
-                gold += Math.round((100+lv**2)*(2+2*Math.random()))
-                if(i%5 == 0)
-                    crystal += Math.round((1+lv*2)*(1+Math.random()));
-            //     if(Math.random() < 1/24) {
-            // // 此处需改动qualitySet参数
-            //         let equip = equipInfo.createEquip(-1, lv, 'random', 1);  
-            //         equip = JSON.parse(equip);
-            //         this.$store.commit("set_sys_info", {
-            //             type: 'reward',
-            //             msg: '外出游荡时的意外收获',
-            //             equip: equip
-            //         });
-            //         backpack.giveEquip(equip);
-            //     }
+            let guildPosition = this.$store.globalComponent["guildPosition"];
+            for(let i=0; i<guildPosition.mineQueue.length; i++) {
+                if(!guildPosition.increaseMineProgress(guildPosition.mineQueue[i], minute*60)) 
+                    guildPosition.mineQueue.splice(i, 1);
             }
-            guild.getGold('外出游荡时累积', gold);
-            guild.getCrystal('外出游荡时累积', crystal);
         },
         closeSaveload() {
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent["index"];
             index.closeMenuPanel('save');
         }
     }

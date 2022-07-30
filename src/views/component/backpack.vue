@@ -22,7 +22,7 @@
             <div class="grid" :style="{cursor:leftClickEnabled?'pointer':''}" @click="selectForSmith($event, k)" v-on:drop="drop($event, k)" v-on:dragover="allowDrop($event)" v-for="(v, k) in grid" :key="k">
                 <div v-if="v.lv" draggable="true" v-on:dblclick="equip($event, k)" v-on:dragstart="dragStart($event,k)" v-on:dragend="dragEnd" @contextmenu.prevent="openMenu(k,$event)" @touchstart.stop.prevent="openMenu(k,$event)"  @mouseover="showInfo($event,v.itemType,v,true)" @mouseleave="closeInfo('equip')">
                     <div class="mediumIconContainer" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v.quality.color }">
-                        <del :class="[{grey:v.quality.qualityLv==1, green:v.quality.qualityLv==3, blue:v.quality.qualityLv==4, purple:v.quality.qualityLv==5, orange:v.quality.qualityLv==5}, 'mediumIcon iconBorder']"></del>
+                        <del :class="[{grey:v.quality.qualityLv==1, green:v.quality.qualityLv==3, blue:v.quality.qualityLv==4, purple:v.quality.qualityLv==5, orange:v.quality.qualityLv==6}, 'mediumIcon iconBorder']"></del>
                         <img :src="v.description.iconSrc" alt="" />
                     </div>
                     <div class="lock" v-if="v.locked">
@@ -33,9 +33,9 @@
         </div>
         <div class="item" v-show="displayPage=='use'">
             <div class="grid" v-on:drop="drop($event, k)" v-on:dragover="allowDrop($event)" v-for="(v, k) in useGrid" :key="k">
-                <div v-if="v.description" draggable="true" v-on:dblclick="useItemByIndex($event, k)" v-on:dragstart="dragStart($event,k)" v-on:dragend="dragEnd" @contextmenu.prevent="openMenu(k,$event)" @touchstart.stop.prevent="openMenu(k,$event)"  @mouseover="showInfo($event,v.itemType,v,true)" @mouseleave="closeInfo('item')">
+                <div v-if="v.description" draggable="true" v-on:dblclick="useItemByIndex(k)" v-on:dragstart="dragStart($event,k)" v-on:dragend="dragEnd" @contextmenu.prevent="openMenu(k,$event)" @touchstart.stop.prevent="openMenu(k,$event)"  @mouseover="showInfo($event,v.itemType,v,true)" @mouseleave="closeInfo('item')">
                     <div class="mediumIconContainer" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v.quality.color }">
-                        <del :class="[{grey:v.quality.qualityLv==1, green:v.quality.qualityLv==3, blue:v.quality.qualityLv==4, purple:v.quality.qualityLv==5, orange:v.quality.qualityLv==5}, 'mediumIcon iconBorder']"></del>
+                        <del :class="[{grey:v.quality.qualityLv==1, green:v.quality.qualityLv==3, blue:v.quality.qualityLv==4, purple:v.quality.qualityLv==5, orange:v.quality.qualityLv==6}, 'mediumIcon iconBorder']"></del>
                         <img :src="v.description.iconSrc" alt="" />
                     </div>
                     <div class="quantity" v-if="v.stack">
@@ -59,12 +59,12 @@
         </div>
         <ul v-show="visible && displayPage=='equip'" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
             <li @click="equip()">装备</li>
-            <li @click="equipEnhance()" v-if="guild.smith.lv>0">强化</li>
-            <li @click="equipForge()" v-if="guild.smith.lv>=10">重铸</li>
-            <li @click="equipPotential()" v-if="guild.smith.lv>=20">洗炼</li>
+            <li @click="equipEnhance()" v-if="guild.smith.lv>1">强化</li>
+            <li @click="equipForge()" v-if="guild.smith.lv>=2">重铸</li>
+            <li @click="equipPotential()" v-if="guild.smith.lv>=4">洗炼</li>
             <li @click="lockEquipment(true)" v-if="!currentItem.locked">锁定</li>
             <li @click="lockEquipment(false)" v-if="currentItem.locked">解锁</li>
-            <li @click="disintegrate()" v-if="guild.smith.lv>=30 && !currentItem.locked">分解</li>
+            <!-- <li @click="disintegrate()" v-if="guild.smith.lv>=30 && !currentItem.locked">分解</li> -->
             <li @click="sellEquipment()" v-if="!currentItem.locked">出售</li>
         </ul>
         <ul v-show="visible && displayPage=='use'" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
@@ -83,8 +83,8 @@
         <div class="footer">
             <div class="autoSellSetting" v-if="autoSellPanel">
                 <div>
-                    整理锁定装备
-                    <span @click="setSortLocked()"><input type="checkbox" name="" v-model="sortLocked"></span>
+                    沉底锁定装备
+                    <span @click="setlockedToEnd()"><input type="checkbox" name="" v-model="lockedToEnd"></span>
                     ————————
                 </div>
                 <div v-if="guild.smith.lv>=30">
@@ -123,13 +123,13 @@
 </draggable>
 </template>
 <script>
-import { assist } from '../../assets/js/assist';
+
 import { itemConfig } from '../../assets/config/itemConfig';
 import { itemEffect } from '../../assets/js/itemEffect';
 import draggable from '../uiComponent/draggable';
 export default {
     name: 'backpack',
-    mixins: [assist, itemConfig, itemEffect],
+    mixins: [itemConfig, itemEffect],
     components: {draggable},
     data() {
         return {
@@ -143,7 +143,7 @@ export default {
             usable: false,
             mergeable: false,
             dragging: false,
-            sortLocked: false,
+            lockedToEnd: true,
             autoSellPanel: false,
             autoSell: [false,false,false,false,false,false],
             sellPrio: true,
@@ -154,6 +154,9 @@ export default {
             leftClickEnabled: false
         }
     },  
+    mounted () {
+        this.$store.globalComponent.backpack = this;
+    },
     watch: {
         visible(value) {
             if (value) {
@@ -179,9 +182,11 @@ export default {
                 this.currentItemIndex = k; 
                 this.currentItem = this.grid[k];
             }
-            if(this.playerLv < this.currentItem.lv) {
+            if(this.playerLv < this.currentItem.lvReq) {
                 return;
             }
+            let quest = this.$store.globalComponent["quest"];
+            quest.trackProgress('event', 2, 1);
             switch (this.currentItem.itemType) {
                 case 'helmet':
                     this.grid[this.currentItemIndex] = this.$store.state.playerAttribute.helmet;
@@ -234,21 +239,23 @@ export default {
                 default:
                     break;
             }
+            // 装备强化后换装备莫名其妙的会不更新图标，强制更新一下
+            this.$forceUpdate();
         },    
         equipEnhance() {
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent["index"];
             index.closeInfo();
             index.enhanceEquip = this.grid[this.currentItemIndex];
             index.equipEnhancePanel = true;
         },
         equipForge() {
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent["index"];
             index.closeInfo();
             index.enhanceEquip = this.grid[this.currentItemIndex];
             index.equipForgePanel = true;
         },
         equipPotential() {
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent["index"];
             index.closeInfo();
             index.enhanceEquip = this.grid[this.currentItemIndex];
             index.equipPotentialPanel = true;
@@ -261,18 +268,18 @@ export default {
             if(index == undefined)
                 index = this.currentItemIndex;
             let equip = this.grid[index];
-            let cost = 8+4*Math.random();
-            cost *= (1+equip.lv/2)*(1+equip.enhanceLv*equip.quality.qualityCoefficient+equip.quality.extraEntryNum*2);
+            let cost = 2+1*Math.random();
+            cost *= (1+equip.lv/3)*(1+equip.enhanceLv*equip.quality.qualityCoefficient+equip.quality.extraEntryNum*2);
             cost = Math.round(cost);
             this.grid[index] = {};
-            let guild = this.findBrothersComponents(this, 'guild', false)[0];
+            let guild = this.$store.globalComponent["guild"];
             guild.getGold('出售装备', cost);
         },
         sellEquipmentByEquip(equip) {
-            let cost = 8+4*Math.random();
-            cost *= (1+equip.lv/2)*(1+equip.enhanceLv*equip.quality.qualityCoefficient+equip.quality.extraEntryNum*2);
+            let cost = 2+1*Math.random();
+            cost *= (1+equip.lv/3)*(1+equip.enhanceLv*equip.quality.qualityCoefficient+equip.quality.extraEntryNum*2);
             cost = Math.round(cost);
-            let guild = this.findBrothersComponents(this, 'guild', false)[0];
+            let guild = this.$store.globalComponent["guild"];
             guild.getGold('出售装备', cost);
         },
         disintegrate(index) {
@@ -281,7 +288,7 @@ export default {
             let equip = this.grid[index];
             let dust = ['dust2', 'dust3', 'dust4', 'dust5', 'dust6'];
 
-            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            let itemInfo = this.$store.globalComponent["itemInfo"];
             let quantity = Math.ceil(equip.lv/10);
             let item = itemInfo.createItem(dust[equip.quality.qualityLv-2], quantity);  
             itemInfo.addItem(JSON.parse(item), true);  
@@ -292,13 +299,13 @@ export default {
                 return false;
             let dust = ['dust2', 'dust3', 'dust4', 'dust5', 'dust6'];
 
-            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            let itemInfo = this.$store.globalComponent["itemInfo"];
             let quantity = Math.ceil(equip.lv/10);
             let item = itemInfo.createItem(dust[equip.quality.qualityLv-2], quantity);  
             itemInfo.addItem(JSON.parse(item), true);  
             return true;
         },
-        useItemByIndex(e, k) {
+        useItemByIndex(k) {
             if(this.displayPage=='use')
                 this.closeInfo();
             if(k != undefined)
@@ -310,23 +317,25 @@ export default {
                 });
                 return false;
             }
-            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            let itemInfo = this.$store.globalComponent["itemInfo"];
             let success = this.callItemEffect(this.useGrid[this.currentItemIndex].type);
             if(success)
                 itemInfo.removeItemByIndex(this.currentItemIndex, 1, 'use');
             this.$forceUpdate();
             return success;
         },
-        useAllItemByIndex(e, k){
+        useAllItemByIndex(k){
             let autoUse = setInterval(() => {
-                let used = this.useItemByIndex(e, k);
+                let used = this.useItemByIndex(k);
                 if(!used || this.useGrid[k] == {})
                     clearInterval(autoUse);
             }, 50);
         },
-        useItem(item) {
+        useItem(item, msg=true) {
             if(this.displayPage=='use')
                 this.closeInfo();
+            if(item.quantity <= 0)
+                return false;
             if(item.lvReq > this.playerLv) {
                 this.$store.commit("set_sys_info", {
                     type: 'warning',
@@ -334,10 +343,16 @@ export default {
                 });
                 return false;
             }
-            let success = this.callItemEffect(item.type, item.lv);
+            let success;
+            if(this.itemType[item.type].batch) {
+                success = this.callItemEffect(item.type, item.lv, {msg: msg, qty: item.quantity});
+                item.quantity = 0;
+            }
+            else
+                success = this.callItemEffect(item.type, item.lv, {msg: msg});
             return success;
         },
-        mergeItem(e, grid='use', k, count=1) {
+        mergeItem(grid='use', k, count=1) {
             this.closeInfo();
             if(k != undefined)
                 this.currentItemIndex = k; 
@@ -345,18 +360,41 @@ export default {
             let quantity = grid=='use' ? this.useGrid[this.currentItemIndex].quantity : this.etcGrid[this.currentItemIndex].quantity;
             let item = this.itemType[type];
             let mergeCount = item.mergeCount;
-            let result = item.mergeTarget;
+            let targetSet = item.mergeTarget;
             if(!item.merge)
                 return;
             if(quantity < mergeCount*count)
                 return;
-            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            let resultSet = {};
+            for(let a=0; a<count; a++) {
+                let ran = Math.random()*100;
+                let cur = 0;
+                for(let i in targetSet) {
+                    cur += targetSet[i][1];
+                    if(ran <= cur) {
+                        if(resultSet[targetSet[i][0]] == undefined)
+                            resultSet[targetSet[i][0]] = 0;
+                        resultSet[targetSet[i][0]]++;
+                        break;
+                    }
+                }
+            }
+            let itemInfo = this.$store.globalComponent["itemInfo"];
             itemInfo.removeItemByIndex(this.currentItemIndex, mergeCount*count, grid);
-            let newItem = itemInfo.createItem(result, count);
-            itemInfo.addItem(JSON.parse(newItem));
-            this.$forceUpdate();
+            if(Object.keys(resultSet).length == 0) {
+                this.$store.commit("set_sys_info", {
+                    type: 'danger',
+                    msg: '合成失败',
+                });
+            } else {
+                for(let i in resultSet) {
+                    let newItem = itemInfo.createItem(i, resultSet[i]);
+                    itemInfo.addItem(JSON.parse(newItem), true);
+                }
+                this.$forceUpdate();
+            }
         },
-        mergeAll(e, grid='use', k) {
+        mergeAll(grid='use', k) {
             this.closeInfo();
             if(k != undefined)
                 this.currentItemIndex = k; 
@@ -365,10 +403,17 @@ export default {
             let item = this.itemType[type];
             let mergeCount = item.mergeCount;
             let count = Math.floor(quantity/mergeCount);
-            this.mergeItem(e, grid, this.currentItemIndex, count);
+            this.mergeItem(grid, this.currentItemIndex, count);
         },
         throwItem(grid) {
-            grid=='use' ? this.$set(this.useGrid, this.currentItemIndex, {}) : this.$set(this.etcGrid, this.currentItemIndex, {});
+            let itemInfo = this.$store.globalComponent["itemInfo"];
+            if(grid == 'use') {
+                itemInfo.removeItemByIndex(this.currentItemIndex, this.useGrid[this.currentItemIndex].quantity, 'use');
+            }
+            else {
+                itemInfo.removeItemByIndex(this.currentItemIndex, this.etcGrid[this.currentItemIndex].quantity, 'etc');
+            }
+            // grid=='use' ? this.$set(this.useGrid, this.currentItemIndex, {}) : this.$set(this.etcGrid, this.currentItemIndex, {});
         },
         giveEquip(equip, auto=true, msg=false) {
             if(msg) {
@@ -425,16 +470,34 @@ export default {
             }
             this.$forceUpdate();
         },
-        setSortLocked() {
-            this.sortLocked = !this.sortLocked;
+        setlockedToEnd() {
+            this.lockedToEnd = !this.lockedToEnd;
         },
         sort() {
+            switch(this.displayPage) {
+                case 'equip':
+                    this.sortEquip();
+                    break;
+                case 'use':
+                    this.sortUse();
+                    break;
+                case 'etc':
+                    this.sortEtc();
+                    break;
+            }
+            // this.$forceUpdate();
+        },
+        sortEquip() {
             let type = ['头盔', '肩膀', '武器', '盔甲', '鞋子', '手部', '戒指', '背部', '手腕', '腰带', '腿部', '项链'];
             this.grid.sort((a, b) => {
                 if(a == b)
                     return 0;
-                if(!this.sortLocked && (a.locked || b.locked))
-                    return 0;
+                if(this.lockedToEnd) {
+                    if(a.locked)
+                        return 1;
+                    else if(b.locked)
+                        return -1;
+                }
                 if(Object.keys(a).length == 0)
                     return 1;
                 if(Object.keys(b).length == 0)
@@ -443,27 +506,45 @@ export default {
                     return type.indexOf(a.description.type) - type.indexOf(b.description.type);
                 if(a.rating != b.rating)
                     return a.rating - b.rating;
-                // if(a.quality.qualityLv != b.quality.qualityLv)
-                //     return a.quality.qualityLv - b.quality.qualityLv;
-                // if(a.lv != b.lv)
-                //     return a.lv - b.lv;
-                // if(a.enhanceLv != b.enhanceLv)
-                //     return a.enhanceLv - b.enhanceLv;
+                return 0;
             });
-            this.$forceUpdate();
+        },
+        sortUse() {            
+            let keys = Object.keys(this.itemType);
+            this.useGrid.sort((a, b) => {
+                if(a == b)
+                    return 0;
+                if(Object.keys(a).length == 0)
+                    return 1;
+                if(Object.keys(b).length == 0)
+                    return -1;
+                return keys.indexOf(a.type) - keys.indexOf(b.type);
+            });
+        },
+        sortEtc() {            
+            let keys = Object.keys(this.itemType);
+            this.etcGrid.sort((a, b) => {
+                if(a == b)
+                    return 0;
+                if(Object.keys(a).length == 0)
+                    return 1;
+                if(Object.keys(b).length == 0)
+                    return -1;
+                return keys.indexOf(a.type) - keys.indexOf(b.type);
+            });
         },
         showInfo($event, type, item, compare) {
             if(this.dragging)
                 return;
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent["index"];
             index.showInfo($event, type, item, compare);
         },
         closeInfo(type) {
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent["index"];
             index.closeInfo(type);
         },
         closeBackpack() {
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent["index"];
             index.openMenuPanel('backpack');
         },
         openMenu(k, e) {
@@ -521,13 +602,37 @@ export default {
                         break;
                     case 'use':
                         temp = this.useGrid[gridId];
-                        this.$set(this.useGrid, gridId, this.useGrid[k]);
-                        this.$set(this.useGrid, k, temp);
+                        if(temp.stack && temp.type == this.useGrid[k].type) {
+                            let max = this.itemType[temp.type].maxStack;
+                            let sum = temp.quantity + this.useGrid[k].quantity;
+                            if(sum > max) {
+                                temp.quantity = sum-max;
+                                this.useGrid[k].quantity = max;
+                            } else {
+                                this.useGrid[gridId] = {};
+                                this.useGrid[k].quantity = sum;
+                            }
+                        } else {
+                            this.$set(this.useGrid, gridId, this.useGrid[k]);
+                            this.$set(this.useGrid, k, temp);
+                        }
                         break;
                     case 'etc':
                         temp = this.etcGrid[gridId];
-                        this.$set(this.etcGrid, gridId, this.etcGrid[k]);
-                        this.$set(this.etcGrid, k, temp);
+                        if(temp.stack && temp.type == this.etcGrid[k].type) {
+                            let max = this.itemType[temp.type].maxStack;
+                            let sum = temp.quantity + this.etcGrid[k].quantity;
+                            if(sum > max) {
+                                temp.quantity = sum-max;
+                                this.etcGrid[k].quantity = max;
+                            } else {
+                                this.etcGrid[gridId] = {};
+                                this.etcGrid[k].quantity = sum;
+                            }
+                        } else {
+                            this.$set(this.etcGrid, gridId, this.etcGrid[k]);
+                            this.$set(this.etcGrid, k, temp);
+                        }
                         break;
                 }
             }
@@ -543,8 +648,7 @@ export default {
         },
         selectForSmith(e, k) {
             if(this.leftClickEnabled) {
-                let guild = this.findBrothersComponents(this, 'guild', false)[0];
-                let guildPosition = this.findComponentDownward(guild, 'guildPosition');  
+                let guildPosition = this.$store.globalComponent["guildPosition"];  
                 guildPosition.selectedEquip(this.grid[k]);
                 this.$set(this.grid, k, {});
                 this.leftClickEnabled = false;
@@ -692,32 +796,6 @@ export default {
             opacity: 0.7;
             background-image: linear-gradient(-270deg, rgba(167, 160, 160, 0) 0%, #ffffff93 40%, #ffffff93 60%, rgba(255,255,255,0.00) 100%);
         }
-    }
-    .close {
-        position: absolute;
-        right: 10px;
-        top: 5px;
-        width: 32px;
-        height: 32px;
-        opacity: 0.7;
-        z-index: 6;
-    }
-    .close:hover {
-        opacity: 1;
-    }
-    .close:before, .close:after {
-        position: absolute;
-        left: 15px;
-        content: ' ';
-        height: 33px;
-        width: 2px;
-        background-color: rgb(255, 255, 255);
-    }
-    .close:before {
-        transform: rotate(45deg);
-    }
-    .close:after {
-        transform: rotate(-45deg);
     }
     .nav {
         // background-color: #ccc;

@@ -38,6 +38,9 @@ export const itemConfig = {
                     },
                     stack: true,
                     quantity: 1,
+                    merge: true,
+                    mergeCount: 3,
+                    mergeTarget: [['inv_ingot_02',100]],
                     cost: 99990000,
                     maxStack: 100
                 },
@@ -64,6 +67,9 @@ export const itemConfig = {
                     },
                     stack: true,
                     quantity: 1,
+                    merge: true,
+                    mergeCount: 3,
+                    mergeTarget: [['inv_ingot_05',100]],
                     cost: 99990000,
                     maxStack: 100
                 },
@@ -90,6 +96,9 @@ export const itemConfig = {
                     },
                     stack: true,
                     quantity: 1,
+                    merge: true,
+                    mergeCount: 3,
+                    mergeTarget: [['inv_ingot_01',100]],
                     cost: 99990000,
                     maxStack: 100
                 },
@@ -116,6 +125,9 @@ export const itemConfig = {
                     },
                     stack: true,
                     quantity: 1,
+                    merge: true,
+                    mergeCount: 3,
+                    mergeTarget: [['inv_ingot_iron',90], ['inv_ingot_steel',10]],
                     cost: 99990000,
                     maxStack: 100
                 },
@@ -155,6 +167,9 @@ export const itemConfig = {
                     },
                     stack: true,
                     quantity: 1,
+                    merge: true,
+                    mergeCount: 3,
+                    mergeTarget: [['inv_ingot_03',100]],
                     cost: 99990000,
                     maxStack: 100
                 },
@@ -181,6 +196,9 @@ export const itemConfig = {
                     },
                     stack: true,
                     quantity: 1,
+                    merge: true,
+                    mergeCount: 3,
+                    mergeTarget: [['inv_ingot_06',100]],
                     cost: 99990000,
                     maxStack: 100
                 },
@@ -207,6 +225,9 @@ export const itemConfig = {
                     },
                     stack: true,
                     quantity: 1,
+                    merge: true,
+                    mergeCount: 3,
+                    mergeTarget: [['inv_ingot_08',100]],
                     cost: 99990000,
                     maxStack: 100
                 },
@@ -233,6 +254,9 @@ export const itemConfig = {
                     },
                     stack: true,
                     quantity: 1,
+                    merge: true,
+                    mergeCount: 3,
+                    mergeTarget: [['inv_ingot_07',100]],
                     cost: 99990000,
                     maxStack: 100
                 },
@@ -259,6 +283,9 @@ export const itemConfig = {
                     },
                     stack: true,
                     quantity: 1,
+                    merge: true,
+                    mergeCount: 3,
+                    mergeTarget: [['inv_ingot_mithril',100]],
                     cost: 99990000,
                     maxStack: 100
                 },
@@ -304,9 +331,9 @@ export const itemConfig = {
                 inv_misc_gem_diamond_05: {
                     quality: 1,
                     description: {
-                        name: '低级强化石',
+                        name: '杂色强化石碎片',
                         category: '材料',
-                        desc: '强化装备的材料, 能够提升装备基础属性, 可用于强化装备1-5星',
+                        desc: '强化装备的材料, 能够提升装备基础属性, 提升1点强化进度',
                         iconSrc: "./icons/item/inv_misc_gem_diamond_05.jpg",
                     },
                     stack: true,
@@ -317,52 +344,52 @@ export const itemConfig = {
                 inv_misc_gem_diamond_04: {
                     quality: 2,
                     description: {
-                        name: '中级强化石',
+                        name: '杂色强化石',
                         category: '材料',
-                        desc: '强化装备的材料, 能够提升装备基础属性, 可用于强化装备6-10星',
+                        desc: '强化装备的材料, 能够提升装备基础属性, 提升5点强化进度',
                         iconSrc: "./icons/item/inv_misc_gem_diamond_04.jpg",
                     },
                     stack: true,
-                    quantity: 1,
+                    quantity: 2,
                     cost: 99990000,
                     maxStack: 9999
                 },
                 inv_misc_gem_diamond_03: {
                     quality: 3,
                     description: {
-                        name: '高级强化石',
+                        name: '纯净强化石碎片',
                         category: '材料',
-                        desc: '强化装备的材料, 能够提升装备基础属性, 可用于强化装备11-15星',
+                        desc: '强化装备的材料, 能够提升装备基础属性, 提升10点强化进度',
                         iconSrc: "./icons/item/inv_misc_gem_diamond_03.jpg",
                     },
                     stack: true,
-                    quantity: 1,
+                    quantity: 3,
                     cost: 99990000,
                     maxStack: 9999
                 },
                 inv_misc_gem_diamond_02: {
                     quality: 4,
                     description: {
-                        name: '顶级强化石',
+                        name: '纯净强化石',
                         category: '材料',
-                        desc: '强化装备的材料, 能够提升装备基础属性, 可用于强化装备16-20星',
+                        desc: '强化装备的材料, 能够提升装备基础属性, 提升25点强化进度',
                         iconSrc: "./icons/item/inv_misc_gem_diamond_02.jpg",
                     },
                     stack: true,
-                    quantity: 1,
+                    quantity: 4,
                     cost: 99990000,
                     maxStack: 9999
                 },
                 inv_misc_gem_diamond_01: {
                     quality: 5,
                     description: {
-                        name: '终极强化石',
+                        name: '无暇强化石',
                         category: '材料',
-                        desc: '强化装备的材料, 能够提升装备基础属性, 可用于强化装备21-25星',
+                        desc: '强化装备的材料, 能够提升装备基础属性, 提升100点强化进度',
                         iconSrc: "./icons/item/inv_misc_gem_diamond_01.jpg",
                     },
                     stack: true,
-                    quantity: 1,
+                    quantity: 5,
                     cost: 99990000,
                     maxStack: 9999
                 },
@@ -448,7 +475,7 @@ export const itemConfig = {
                     description: {
                         name: '屠魔药剂',
                         category: '消耗品',
-                        desc: '使用后获得【野怪杀手】buff, 对对冒险区非精英、BOSS类怪物额外造成50%伤害, 持续10分钟',
+                        desc: '使用后获得【野怪杀手】buff, 对等级低于自身的非精英、BOSS类怪物额外造成50%伤害, 持续10分钟',
                         iconSrc: "./icons/item/inv_potion_27.jpg",
                     },
                     use: true,
@@ -472,14 +499,104 @@ export const itemConfig = {
                     maxStack: 20
                 },
                 racial_dwarf_findtreasure: {
-                    quality: 1,
+                    quality: 3,
                     description: {
-                        name: '少量金币',
+                        name: '一枚金币',
                         category: '消耗品',
-                        desc: '获得少量金币',
+                        desc: '获得一枚金币',
                         iconSrc: "./icons/item/racial_dwarf_findtreasure.jpg",
                     },
-                    autoUse: true,
+                    autoUse: true, batch: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
+                },
+                inv_misc_coin_05: {
+                    quality: 1,
+                    description: {
+                        name: '少量铜币',
+                        category: '消耗品',
+                        desc: '获得少量铜币',
+                        iconSrc: "./icons/item/inv_misc_coin_05.jpg",
+                    },
+                    autoUse: true, batch: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
+                },
+                inv_misc_coin_05_2: {
+                    quality: 1,
+                    description: {
+                        name: '中量铜币',
+                        category: '消耗品',
+                        desc: '获得中量铜币',
+                        iconSrc: "./icons/item/inv_misc_coin_05.jpg",
+                    },
+                    autoUse: true, batch: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
+                },
+                inv_misc_coin_06: {
+                    quality: 1,
+                    description: {
+                        name: '大量铜币',
+                        category: '消耗品',
+                        desc: '获得大量铜币',
+                        iconSrc: "./icons/item/inv_misc_coin_06.jpg",
+                    },
+                    autoUse: true, batch: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
+                },
+                inv_misc_coin_03: {
+                    quality: 2,
+                    description: {
+                        name: '少量银币',
+                        category: '消耗品',
+                        desc: '获得少量银币',
+                        iconSrc: "./icons/item/inv_misc_coin_03.jpg",
+                    },
+                    autoUse: true, batch: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
+                },
+                inv_misc_coin_03_2: {
+                    quality: 2,
+                    description: {
+                        name: '中量银币',
+                        category: '消耗品',
+                        desc: '获得中量银币',
+                        iconSrc: "./icons/item/inv_misc_coin_03.jpg",
+                    },
+                    autoUse: true, batch: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
+                },
+                inv_misc_coin_04: {
+                    quality: 2,
+                    description: {
+                        name: '大量银币',
+                        category: '消耗品',
+                        desc: '获得大量银币',
+                        iconSrc: "./icons/item/inv_misc_coin_04.jpg",
+                    },
+                    autoUse: true, batch: true,
                     use: true,
                     stack: true,
                     quantity: 1,
@@ -487,14 +604,29 @@ export const itemConfig = {
                     maxStack: 20
                 },
                 inv_misc_coin_01: {
-                    quality: 2,
+                    quality: 3,
+                    description: {
+                        name: '少量金币',
+                        category: '消耗品',
+                        desc: '获得少量金币',
+                        iconSrc: "./icons/item/inv_misc_coin_01.jpg",
+                    },
+                    autoUse: true, batch: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
+                },
+                inv_misc_coin_01_2: {
+                    quality: 3,
                     description: {
                         name: '中量金币',
                         category: '消耗品',
                         desc: '获得中量金币',
                         iconSrc: "./icons/item/inv_misc_coin_01.jpg",
                     },
-                    autoUse: true,
+                    autoUse: true, batch: true,
                     use: true,
                     stack: true,
                     quantity: 1,
@@ -502,26 +634,41 @@ export const itemConfig = {
                     maxStack: 20
                 },
                 inv_misc_coin_02: {
-                    quality: 3,
+                    quality: 4,
                     description: {
                         name: '大量金币',
                         category: '消耗品',
                         desc: '获得大量金币',
                         iconSrc: "./icons/item/inv_misc_coin_02.jpg",
                     },
-                    autoUse: true,
+                    autoUse: true, batch: true,
                     use: true,
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
                     maxStack: 20
                 },
-                random_equip_0: {
+                ability_racial_packhobgoblin: {
+                    quality: 5,
+                    description: {
+                        name: '巨额金币',
+                        category: '消耗品',
+                        desc: '获得巨额金币',
+                        iconSrc: "./icons/item/ability_racial_packhobgoblin.jpg",
+                    },
+                    autoUse: true, batch: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
+                },
+                random_equip_normal_0: {
                     quality: 1,
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '大概率获得一件垃圾装备',
+                        desc: '大概率获得一件【力量、敏捷、耐力】类型的垃圾武器、基础防具',
                         iconSrc: "./icons/item/inv_misc_questionmark.jpg",
                     },
                     autoUse: true,
@@ -531,12 +678,12 @@ export const itemConfig = {
                     cost: 99990000,
                     maxStack: 20
                 },
-                random_equip_1: {
+                random_equip_normal_1: {
                     quality: 1,
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '大概率获得一件垃圾装备',
+                        desc: '有概率获得一件类型的普通武器、基础防具',
                         iconSrc: "./icons/item/inv_misc_questionmark.jpg",
                     },
                     autoUse: true,
@@ -546,12 +693,12 @@ export const itemConfig = {
                     cost: 99990000,
                     maxStack: 20
                 },
-                random_equip_2: {
-                    quality: 2,
+                random_equip_normal_2: {
+                    quality: 1,
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '大概率获得一件普通装备',
+                        desc: '极小概率获得一件优质武器、基础防具',
                         iconSrc: "./icons/item/inv_misc_questionmark.jpg",
                     },
                     autoUse: true,
@@ -561,12 +708,87 @@ export const itemConfig = {
                     cost: 99990000,
                     maxStack: 20
                 },
-                random_equip_3: {
-                    quality: 2,
+                random_equip_normal_3: {
+                    quality: 1,
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '大概率获得一件普通装备',
+                        desc: '小概率获得一件优质武器、基础防具',
+                        iconSrc: "./icons/item/inv_misc_questionmark.jpg",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
+                },
+                random_equip_normal_4: {
+                    quality: 1,
+                    description: {
+                        name: '随机装备',
+                        category: '消耗品',
+                        desc: '极小概率获得一件极品武器、防具',
+                        iconSrc: "./icons/item/inv_misc_questionmark.jpg",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
+                },
+                random_equip_normal_10: {
+                    quality: 1,
+                    description: {
+                        name: '随机装备',
+                        category: '消耗品',
+                        desc: '必定获得一件【力量、敏捷、耐力】类型的垃圾武器、基础防具',
+                        iconSrc: "./icons/item/inv_misc_questionmark.jpg",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
+                },
+                random_equip_elite_1: {
+                    quality: 1,
+                    description: {
+                        name: '随机装备',
+                        category: '消耗品',
+                        desc: '有概率获得一件【力量、敏捷、耐力】类型的垃圾武器、防具',
+                        iconSrc: "./icons/item/inv_misc_questionmark.jpg",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
+                },
+                random_equip_elite_3: {
+                    quality: 1,
+                    description: {
+                        name: '随机装备',
+                        category: '消耗品',
+                        desc: '小概率获得一件优质武器、防具',
+                        iconSrc: "./icons/item/inv_misc_questionmark.jpg",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
+                },
+                random_equip_elite_4: {
+                    quality: 1,
+                    description: {
+                        name: '随机装备',
+                        category: '消耗品',
+                        desc: '极小概率获得一件极品武器、防具',
                         iconSrc: "./icons/item/inv_misc_questionmark.jpg",
                     },
                     autoUse: true,
@@ -581,7 +803,7 @@ export const itemConfig = {
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '大概率获得一件良品装备',
+                        desc: '极小概率获得一件极品装备',
                         iconSrc: "./icons/item/inv_misc_questionmark.jpg",
                     },
                     autoUse: true,
@@ -596,7 +818,7 @@ export const itemConfig = {
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '大概率获得一件良品装备',
+                        desc: '极小概率获得一件神器',
                         iconSrc: "./icons/item/inv_misc_questionmark.jpg",
                     },
                     autoUse: true,
@@ -611,7 +833,7 @@ export const itemConfig = {
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '大概率获得一件优质装备',
+                        desc: '大概率获得一件优质装备, 极小概率获得一件神器',
                         iconSrc: "./icons/item/inv_misc_questionmark.jpg",
                     },
                     autoUse: true,
@@ -657,21 +879,6 @@ export const itemConfig = {
                         name: '随机装备',
                         category: '消耗品',
                         desc: '大概率获得一件极品装备',
-                        iconSrc: "./icons/item/inv_misc_questionmark.jpg",
-                    },
-                    autoUse: true,
-                    use: true,
-                    stack: true,
-                    quantity: 1,
-                    cost: 99990000,
-                    maxStack: 20
-                },
-                random_equip_10: {
-                    quality: 1,
-                    description: {
-                        name: '随机装备',
-                        category: '消耗品',
-                        desc: '必定获得一件垃圾装备',
                         iconSrc: "./icons/item/inv_misc_questionmark.jpg",
                     },
                     autoUse: true,
@@ -837,6 +1044,34 @@ export const itemConfig = {
                     maxStack: 10
                 },
                 //potion
+                inv_misc_food_73cinnamonroll: {
+                    quality: 1,
+                    description: {
+                        name: '面包',
+                        category: '消耗品',
+                        desc: '恢复100%生命值, 战斗期间无法使用',
+                        iconSrc: "./icons/spell/mage/inv_misc_food_73cinnamonroll.jpg",
+                    },
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 1,
+                    maxStack: 100
+                },
+                inv_misc_gem_sapphire_02: {
+                    quality: 1,
+                    description: {
+                        name: '法力宝石',
+                        category: '消耗品',
+                        desc: '恢复100%法力值, 战斗期间无法使用',
+                        iconSrc: "./icons/spell/mage/inv_misc_gem_sapphire_02.jpg",
+                    },
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 1,
+                    maxStack: 100
+                },
                 inv_alchemy_80_potion01red: {
                     quality: 1,
                     description: {
@@ -848,7 +1083,7 @@ export const itemConfig = {
                     use: true,
                     stack: true,
                     quantity: 20,
-                    cost: 200,
+                    cost: 100,
                     maxStack: 100
                 },
                 inv_alchemy_80_potion01blue: {
@@ -862,7 +1097,7 @@ export const itemConfig = {
                     use: true,
                     stack: true,
                     quantity: 20,
-                    cost: 200,
+                    cost: 100,
                     maxStack: 100
                 },
                 inv_potion_49: {
@@ -870,13 +1105,13 @@ export const itemConfig = {
                     description: {
                         name: '初级治疗药水',
                         category: '消耗品',
-                        desc: '每秒恢复15点生命值, 持续10秒',
+                        desc: '每秒恢复25点生命值, 持续10秒',
                         iconSrc: "./icons/potion/inv_potion_49.jpg",
                     },
                     use: true,
                     stack: true,
-                    quantity: 1,
-                    cost: 99990000,
+                    quantity: 5,
+                    cost: 200,
                     maxStack: 100,
                     cdgroup: 'hpPotion',
                     cd: 15
@@ -886,13 +1121,13 @@ export const itemConfig = {
                     description: {
                         name: '初级生命药水',
                         category: '消耗品',
-                        desc: '恢复100生命值',
+                        desc: '恢复200生命值',
                         iconSrc: "./icons/potion/inv_potion_50.jpg",
                     },
                     use: true,
                     stack: true,
-                    quantity: 1,
-                    cost: 99990000,
+                    quantity: 5,
+                    cost: 200,
                     maxStack: 100,
                     cdgroup: 'hpPotion',
                     cd: 15
@@ -902,56 +1137,64 @@ export const itemConfig = {
                     description: {
                         name: '次级治疗药水',
                         category: '消耗品',
-                        desc: '每秒恢复150点生命值, 持续10秒',
+                        desc: '每秒恢复100点生命值, 持续10秒',
                         iconSrc: "./icons/potion/inv_potion_51.jpg",
                     },
                     use: true,
                     stack: true,
-                    quantity: 1,
-                    cost: 99990000,
-                    maxStack: 100
+                    quantity: 5,
+                    cost: 10000,
+                    maxStack: 100,
+                    cdgroup: 'hpPotion',
+                    cd: 15
                 },
                 inv_potion_52: {
                     quality: 3,
                     description: {
                         name: '次级生命药水',
                         category: '消耗品',
-                        desc: '恢复1000生命值',
+                        desc: '恢复800生命值',
                         iconSrc: "./icons/potion/inv_potion_52.jpg",
                     },
                     use: true,
                     stack: true,
-                    quantity: 1,
-                    cost: 99990000,
-                    maxStack: 100
+                    quantity: 5,
+                    cost: 10000,
+                    maxStack: 100,
+                    cdgroup: 'hpPotion',
+                    cd: 15
                 },
                 inv_potion_53: {
                     quality: 4,
                     description: {
                         name: '治疗药水',
                         category: '消耗品',
-                        desc: '每秒恢复1500点生命值, 持续10秒',
+                        desc: '每秒恢复500点生命值, 持续10秒',
                         iconSrc: "./icons/potion/inv_potion_53.jpg",
                     },
                     use: true,
                     stack: true,
-                    quantity: 1,
-                    cost: 99990000,
-                    maxStack: 100
+                    quantity: 5,
+                    cost: 1000000,
+                    maxStack: 100,
+                    cdgroup: 'hpPotion',
+                    cd: 15
                 },
                 inv_potion_54: {
                     quality: 4,
                     description: {
                         name: '生命药水',
                         category: '消耗品',
-                        desc: '恢复10000生命值',
+                        desc: '恢复4500生命值',
                         iconSrc: "./icons/potion/inv_potion_54.jpg",
                     },
                     use: true,
                     stack: true,
-                    quantity: 1,
-                    cost: 99990000,
-                    maxStack: 100
+                    quantity: 5,
+                    cost: 1000000,
+                    maxStack: 100,
+                    cdgroup: 'hpPotion',
+                    cd: 15
                 },
                 inv_potion_160: {
                     quality: 3,
@@ -965,7 +1208,9 @@ export const itemConfig = {
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'hpPotion',
+                    cd: 15
                 },
                 inv_potion_55: {
                     quality: 4,
@@ -979,7 +1224,9 @@ export const itemConfig = {
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'hpPotion',
+                    cd: 15
                 },
                 inv_potion_131: {
                     quality: 3,
@@ -993,7 +1240,9 @@ export const itemConfig = {
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'hpPotion',
+                    cd: 15
                 },
                 inv_potion_142: {
                     quality: 4,
@@ -1007,7 +1256,9 @@ export const itemConfig = {
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'hpPotion',
+                    cd: 15
                 },
                 inv_potion_167: {
                     quality: 5,
@@ -1021,7 +1272,9 @@ export const itemConfig = {
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'hpPotion',
+                    cd: 15
                 },
                 inv_potion_70: {
                     quality: 2,
@@ -1033,8 +1286,8 @@ export const itemConfig = {
                     },
                     use: true,
                     stack: true,
-                    quantity: 1,
-                    cost: 99990000,
+                    quantity: 5,
+                    cost: 200,
                     maxStack: 100,
                     cdgroup: 'mpPotion',
                     cd: 15
@@ -1044,70 +1297,80 @@ export const itemConfig = {
                     description: {
                         name: '初级法力药水',
                         category: '消耗品',
-                        desc: '恢复100法力值',
+                        desc: '恢复125法力值',
                         iconSrc: "./icons/potion/inv_potion_71.jpg",
                     },
                     use: true,
                     stack: true,
-                    quantity: 1,
-                    cost: 99990000,
-                    maxStack: 100
+                    quantity: 5,
+                    cost: 200,
+                    maxStack: 100,
+                    cdgroup: 'mpPotion',
+                    cd: 15
                 },
                 inv_potion_72: {
                     quality: 3,
                     description: {
                         name: '次级魔能药水',
                         category: '消耗品',
-                        desc: '每秒恢复150点法力值, 持续10秒',
+                        desc: '每秒恢复50点法力值, 持续10秒',
                         iconSrc: "./icons/potion/inv_potion_72.jpg",
                     },
                     use: true,
                     stack: true,
-                    quantity: 1,
-                    cost: 99990000,
-                    maxStack: 100
+                    quantity: 5,
+                    cost: 8000,
+                    maxStack: 100,
+                    cdgroup: 'mpPotion',
+                    cd: 15
                 },
                 inv_potion_73: {
                     quality: 3,
                     description: {
                         name: '次级法力药水',
                         category: '消耗品',
-                        desc: '恢复1000法力值',
+                        desc: '恢复400法力值',
                         iconSrc: "./icons/potion/inv_potion_73.jpg",
                     },
                     use: true,
                     stack: true,
-                    quantity: 1,
-                    cost: 99990000,
-                    maxStack: 100
+                    quantity: 5,
+                    cost: 8000,
+                    maxStack: 100,
+                    cdgroup: 'mpPotion',
+                    cd: 15
                 },
                 inv_potion_74: {
                     quality: 4,
                     description: {
                         name: '魔能药水',
                         category: '消耗品',
-                        desc: '每秒恢复1500点法力值, 持续10秒',
+                        desc: '每秒恢复200点法力值, 持续10秒',
                         iconSrc: "./icons/potion/inv_potion_74.jpg",
                     },
                     use: true,
                     stack: true,
-                    quantity: 1,
-                    cost: 99990000,
-                    maxStack: 100
+                    quantity: 5,
+                    cost: 500000,
+                    maxStack: 100,
+                    cdgroup: 'mpPotion',
+                    cd: 15
                 },
                 inv_potion_75: {
                     quality: 4,
                     description: {
                         name: '法力药水',
                         category: '消耗品',
-                        desc: '恢复10000法力值',
+                        desc: '恢复1750法力值',
                         iconSrc: "./icons/potion/inv_potion_75.jpg",
                     },
                     use: true,
                     stack: true,
-                    quantity: 1,
-                    cost: 99990000,
-                    maxStack: 100
+                    quantity: 5,
+                    cost: 500000,
+                    maxStack: 100,
+                    cdgroup: 'mpPotion',
+                    cd: 15
                 },
                 inv_potion_163: {
                     quality: 3,
@@ -1121,7 +1384,9 @@ export const itemConfig = {
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'mpPotion',
+                    cd: 15
                 },
                 inv_potion_76: {
                     quality: 4,
@@ -1135,7 +1400,9 @@ export const itemConfig = {
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'mpPotion',
+                    cd: 15
                 },
                 inv_potion_137: {
                     quality: 3,
@@ -1149,7 +1416,9 @@ export const itemConfig = {
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'mpPotion',
+                    cd: 15
                 },
                 inv_potion_148: {
                     quality: 4,
@@ -1163,7 +1432,9 @@ export const itemConfig = {
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'mpPotion',
+                    cd: 15
                 },
                 inv_potion_168: {
                     quality: 5,
@@ -1177,7 +1448,9 @@ export const itemConfig = {
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'mpPotion',
+                    cd: 15
                 },
                 inv_potion_42: {
                     quality: 2,
@@ -1191,7 +1464,9 @@ export const itemConfig = {
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'hpmpPotion',
+                    cd: 15
                 },
                 inv_potion_43: {
                     quality: 2,
@@ -1205,7 +1480,9 @@ export const itemConfig = {
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'hpmpPotion',
+                    cd: 15
                 },
                 inv_potion_44: {
                     quality: 3,
@@ -1219,7 +1496,9 @@ export const itemConfig = {
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'hpmpPotion',
+                    cd: 15
                 },
                 inv_potion_45: {
                     quality: 3,
@@ -1233,7 +1512,9 @@ export const itemConfig = {
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'hpmpPotion',
+                    cd: 15
                 },
                 inv_potion_46: {
                     quality: 4,
@@ -1247,7 +1528,9 @@ export const itemConfig = {
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'hpmpPotion',
+                    cd: 15
                 },
                 inv_potion_47: {
                     quality: 4,
@@ -1261,35 +1544,41 @@ export const itemConfig = {
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'hpmpPotion',
+                    cd: 15
                 },
                 inv_potion_164: {
                     quality: 3,
                     description: {
                         name: '强效恢复药水',
                         category: '消耗品',
-                        desc: '每秒恢复1%最大生命值, 持续100秒',
+                        desc: '每秒恢复1%最大生命值以及魔法值, 持续100秒',
                         iconSrc: "./icons/potion/inv_potion_164.jpg",
                     },
                     use: true,
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'hpmpPotion',
+                    cd: 15
                 },
                 inv_potion_48: {
                     quality: 4,
                     description: {
                         name: '超级恢复药水',
                         category: '消耗品',
-                        desc: '每秒恢复5%最大生命值, 持续100秒',
+                        desc: '每秒恢复5%最大生命值以及魔法值, 持续100秒',
                         iconSrc: "./icons/potion/inv_potion_48.jpg",
                     },
                     use: true,
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'hpmpPotion',
+                    cd: 15
                 },
                 inv_potion_134: {
                     quality: 4,
@@ -1303,7 +1592,9 @@ export const itemConfig = {
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'hpmpPotion',
+                    cd: 15
                 },
                 inv_potion_145: {
                     quality: 5,
@@ -1317,7 +1608,9 @@ export const itemConfig = {
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    maxStack: 100
+                    maxStack: 100,
+                    cdgroup: 'hpmpPotion',
+                    cd: 15
                 },
             }
         }

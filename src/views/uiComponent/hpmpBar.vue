@@ -2,10 +2,11 @@
     <div class="progress" style="width:100%;">
         <div class="progress" style="width:100%;">
             <div class="progress-bar progress-bar-striped insta" :class="{'bg-danger':type=='hp'}" :style="{width:vpNow/vpMax*100+'%'}">
-                <small class="justify-content-center d-flex position-absolute w-100" style="color:black">{{vpNow}} / {{vpMax}} </small>
+                <small class="justify-content-center d-flex position-absolute w-100" style="color:black">{{vpNow}} / {{vpMax}}<span v-if="shield>0">&nbsp;({{shield}})</span></small>
             </div>
             <div ref="delay" class="progress-bar progress-bar-striped" :class="{'delay':type=='hp', 'delayMp':type=='mp'}" :style="{width:(delay-vpNow)/vpMax*100+'%'}">
             </div>
+            <div v-if="type=='hp'" class="progress-bar shield-bar" role="progressbar" :style="{width:shield/vpMax*100+'%'}"></div>
         </div>
     </div>
 
@@ -25,6 +26,10 @@ export default {
         vpMax: {
             type: Number,
             required: true
+        },
+        shield: {
+            type: Number,
+            // required: true
         },
         target: {
             type: String,
@@ -70,6 +75,7 @@ export default {
 <style lang="scss" scoped>
 .progress {
     position: relative;
+    background-color: #646464;
 }
 .w-100 {
     width: 100%;
@@ -85,5 +91,8 @@ export default {
 .delayMp {
     transition: width 0.5s linear;
     background-color: rgb(50, 190, 255);
+}
+.shield-bar {
+    background-color: rgb(255, 255, 255);
 }
 </style>

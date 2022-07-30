@@ -1,29 +1,29 @@
 <template>
-<draggable style="position:absolute; top:0; width:500px">
+<draggable :left_limit="-750" :right_limit="600" :top_limit="-200" :bot_limit="400" style="position:absolute; top:0; width:500px">
     <template slot="header">
         <div class="battleAnimeHeader"></div>
     </template>
     <template slot="main" >
         <div id="battleAnimeWrapper">
             <div id="playerHpBar">
-                <hpmpBar :vpMin="0" :vpNow="attribute.CURHP.value" :vpMax="attribute.MAXHP.value" :target="'player'" :type="'hp'"></hpmpBar>
+                <hpmpBar :vpMin="0" :vpNow="attribute.CURHP.value" :vpMax="attribute.MAXHP.value" :shield="attribute.SHIELD.value" :target="'player'" :type="'hp'"></hpmpBar>
                 <hpmpBar :vpMin="0" :vpNow="attribute.CURMP.value" :vpMax="attribute.MAXMP.value" :target="'player'" :type="'mp'"></hpmpBar>
             </div>
             <div class="playerInitPos">
                 <div id="playerAnime">
                 </div>
             </div>
-            <div id="playerText" class="playerInitPos" @click="simulate">
-            </div>
+            <div id="playerSpellText" class="playerInitPos"></div>
+            <div id="playerDmgText" class="playerInitPos"></div>
             <div id="enemyHpBar">
-                <hpmpBar :vpMin="0" :vpNow="enemyAttr.attribute.CURHP.value" :vpMax="enemyAttr.attribute.MAXHP.value" :target="'enemy'" :type="'hp'"></hpmpBar>
+                <hpmpBar :vpMin="0" :vpNow="enemyAttr.attribute.CURHP.value" :vpMax="enemyAttr.attribute.MAXHP.value" :shield="enemyAttr.attribute.SHIELD.value" :target="'enemy'" :type="'hp'"></hpmpBar>
             </div>
             <div class="enemyInitPos">
                 <div id="enemyAnime">
                 </div>
             </div>
-            <div id="enemyText" class="enemyInitPos">
-            </div>
+            <div id="enemySpellText" class="enemyInitPos"></div>
+            <div id="enemyDmgText" class="enemyInitPos"></div>
         </div>
     </template>
 </draggable>
@@ -31,16 +31,17 @@
 
 <script>
 import hpmpBar from '../uiComponent/hpmpBar';
-import { assist } from '../../assets/js/assist';
 import draggable from '../uiComponent/draggable';
 export default {
     name: "battleAnime",
-    mixins: [assist],
     components: {hpmpBar, draggable},
     mounted() {
+        this.$store.globalComponent.battleAnime = this;
     },
     data() {
         return {
+            playerLastDmg: 0,
+            enemyLastDmg: 0,
         };
     },
     props: {
@@ -50,18 +51,6 @@ export default {
         enemyAttr() { return this.$store.state.enemyAttribute; },
     },
     methods: {   
-        simulate() {
-            let count = 0;
-            let timer = setInterval(() => {
-                this.playerMove();
-                setTimeout(() => {
-                    this.enemyMove();
-                }, 1000);
-                count++;
-                if(count>5)
-                    clearInterval(timer);
-            }, 2000);
-        },
         playerMove(){
             let playerPos = document.getElementById("playerAnime");
             playerPos.style.left = "50%";
@@ -78,54 +67,77 @@ export default {
         },
         displayText(target, type, text) {
             let parentNode;
-            if(target == 'player')
-                parentNode = document.getElementById("playerText");
-            else
-                parentNode = document.getElementById("enemyText");
+            let isNew = true;
             let node = document.createElement("DIV");
+            if(target == 'player') {
+                parentNode = type == 'dmg' ? document.getElementById("playerDmgText") :  document.getElementById("playerSpellText");
+                if(type == 'dmg' && Date.now()-this.playerLastDmg < 100) {
+                    node = parentNode.lastChild;
+                    isNew = false;
+                }
+            }
+            else {
+                parentNode = type == 'dmg' ? document.getElementById("enemyDmgText") :  document.getElementById("enemySpellText");
+                if(type == 'dmg' && Date.now()-this.enemyLastDmg < 100) {
+                    node = parentNode.lastChild;
+                    isNew = false;
+                }
+            }
             let textnode;
-            let duration = 2000;
+            let duration = 1900;
             node.classList.add("floatingText");
             switch(type) {
                 case 'dmg':
-                    node.classList.add("dmg");
+                    node.classList.add("dmgText");
+                    if(isNew) {
+                        if(target == 'player')
+                            this.playerLastDmg = Date.now();
+                        else
+                            this.enemyLastDmg = Date.now();
+                    }
                     for(let i in text) {
                         if(isNaN(text[i]))
                             continue;
                         let span = document.createElement("DIV");
-                        if(i == "adDmg")
+                        if(i == "adDmg") {
                             span.style.color = "#ff0000";
-                        if(i == "apDmg")
+                            textnode = document.createTextNode("-"+text[i]);
+                        }
+                        if(i == "apDmg") {
                             span.style.color = "#2ab0ff";
-                        if(i == "heal")
+                            textnode = document.createTextNode("-"+text[i]);
+                        }
+                        if(i == "trueDmg") {
+                            span.style.color = "#ffffff";
+                            textnode = document.createTextNode("-"+text[i]);
+                        }
+                        if(i == "heal") {
                             span.style.color = "#00ff00";
-                        textnode = document.createTextNode("-"+text[i]);
+                            textnode = document.createTextNode(text[i]);
+                        }
                         span.classList.add("innerFloatingText");
                         span.appendChild(textnode);
                         node.appendChild(span);
                     }
                     break;
                 case 'spell':
-                    duration = 1500;
-                    node.classList.add("spell");
-                    textnode = document.createTextNode("【"+text+"】");
-                    node.appendChild(textnode);
-                    if(target == 'player')
-                        node.style.left = "-35%";
-                    else
-                        node.style.right = "-35%";
-                    break;
                 case 'failSpell':
                     duration = 1500;
-                    node.classList.add("spell");
+                    node.classList.add("spellName");
                     textnode = document.createTextNode("【"+text+"】");
-                    node.style.textDecoration = "line-through";
-                    node.style.color = "#ff0000";
                     node.appendChild(textnode);
-                    if(target == 'player')
+                    if(target == 'player') {
+                        node.classList.add("playerSpellText");
                         node.style.left = "-35%";
-                    else
+                    }
+                    else {
+                        node.classList.add("enermySpellText");
                         node.style.right = "-35%";
+                    }
+                    if(type == 'failSpell') {
+                        node.style.textDecoration = "line-through";
+                        node.style.color = "#ff0000";
+                    }
                     break;
                 default:
                     textnode = document.createTextNode(text);
@@ -133,9 +145,11 @@ export default {
                     break;
             }
             parentNode.appendChild(node); 
-            setTimeout(() => {
-                parentNode.removeChild(node);
-            }, duration);
+            if(isNew) {
+                setTimeout(() => {
+                    parentNode.removeChild(node);
+                }, duration);
+            }
         }
     }   
 }
@@ -147,7 +161,7 @@ export default {
 }
 #battleAnimeWrapper {
     position: absolute;
-    width: 500px;
+    width: 535px;
     height: 300px;
     top: 0px;
     z-index: 1;
@@ -165,6 +179,11 @@ export default {
     background-image: url("/icons/character/player1.png");
     background-size: contain;
     background-repeat: no-repeat;
+    image-rendering: crisp-edges;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -o-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    -ms-interpolation-mode: nearest-neighbor;
 }
 #enemyAnime {
     position: relative;
@@ -176,6 +195,11 @@ export default {
     background-image: url("/icons/character/player1.png");
     background-size: contain;
     background-repeat: no-repeat;
+    image-rendering: crisp-edges;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -o-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    -ms-interpolation-mode: nearest-neighbor;
 }
 #playerHpBar {
     position: absolute;
@@ -217,19 +241,26 @@ export default {
     width: 100%;
     text-align: center;
 }
-.dmg {
+.dmgText {
     top: -75px;
     will-change: transform, opacity;
     animation-timing-function: ease-out;
     animation: move 2000ms;
 }
-.spell {
+.floatingText.spellName {
     font-size: 15px;
-    top: -15%;
+    /* opacity: 0; */
     color: #cfcfcf;
-    will-change: opacity;
+}
+.playerSpellText {
+    will-change: transform, opacity;
     animation-timing-function: ease-out;
-    animation: move 1500ms;
+    animation: playerSpellMove 1300ms;
+}
+.enermySpellText {
+    will-change: transform, opacity;
+    animation-timing-function: ease-out;
+    animation: enermySpellMove 1300ms;
 }
 .innerFloatingText {
     margin-top: -15px;
@@ -243,6 +274,32 @@ export default {
     }
     100% {
         opacity: 0;
+        transform: none;
+    }
+}
+@keyframes playerSpellMove {
+    0% {
+        left: -50%;
+        text-decoration: none;
+        color: #ffffff;
+    }
+    25% {
+        left: -35%;
+    }
+    100% {
+        opacity: 1;
+        transform: none;
+    }
+}
+@keyframes enermySpellMove {
+    0% {
+        right: -50%;
+    }
+    25% {
+        right: -35%;
+    }
+    100% {
+        opacity: 1;
         transform: none;
     }
 }

@@ -8,13 +8,13 @@
             <feColorMatrix type="matrix" values="0.1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 0"></feColorMatrix>
         </filter>
         <filter id="blueBorder">
-            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0.44 0 0 0 0 0 0.87 0 0 0 0 0 1 0"></feColorMatrix>
+            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0.44 0 0 0 0 0 0.87 0.4 0 0 0 0 1 0"></feColorMatrix>
         </filter>
         <filter id="purpleBorder">
-            <feColorMatrix type="matrix" values="0.4 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0"></feColorMatrix>
+            <feColorMatrix type="matrix" values="0.4 0 0 0 0.25 0 0 0 0 0 0 0 1 0.25 0 0 0 0 1 0"></feColorMatrix>
         </filter>
         <filter id="orangeBorder">
-            <feColorMatrix type="matrix" values="1 0 0 0 0 0 0.4 0 0 0 0 0 0 0 0 0 0 0 1 0"></feColorMatrix>
+            <feColorMatrix type="matrix" values="1 0 0 0 0.25 0 0.4 0 0 0 0 0 0 0 0 0 0 0 1 0"></feColorMatrix>
         </filter>
     </svg>
     <ul class="nav nav-tabs">
@@ -24,9 +24,9 @@
       <li class="nav-item">
         <a class="nav-link" :class="{active: displayPage=='guild' }" id="guild" @click="switchTab('guild')" v-show="playerLv >= 20">公会</a>
       </li>
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link" :class="{active: displayPage=='guildMember' }" id="guildMember" @click="switchTab('guildMember')" v-show="playerLv >= 20">公会成员</a>
-      </li>
+      </li> -->
       <li class="nav-item">
         <a class="nav-link" :class="{active: displayPage=='shop' }" id="shop" @click="switchTab('shop')" v-show="guild.shop.lv > 0">商店</a>
       </li>
@@ -45,7 +45,7 @@
       <div class="battleInfo">
         <div class="clear" @click="clearBattleInfo">清除信息</div>
         <div id="battleInfo" class="scrollbar-morpheus-den">
-          <div class="info" :class="{dmged:v.type=='dmged',dmg:v.type=='dmg',win:v.type=='win',lose:v.type=='lose'}" v-for="(v,k) in battleInfo" :key="k">
+          <div class="info" :class="{danger:v.type=='danger',dmg:v.type=='dmg',win:v.type=='win',lose:v.type=='lose'}" v-for="(v,k) in battleInfo" :key="k">
             <span v-if="v.source=='player'" style="color:#00ff00">【友】</span>
             <span v-else-if="v.source==undefined"></span>
             <span v-else style="color:#ff0000">【敌】</span>
@@ -57,11 +57,11 @@
       <div class="generalInfo">
         <div class="clear" @click="clearSysInfo">清除信息</div>
         <div id="sysInfo" class="scrollbar-morpheus-den">
-          <div class="info warning" :class="{warning:v.type=='dmged',battle:v.type=='battle',win:v.type=='win',reward:v.type=='reward',}" v-for="(v,k) in sysInfo" :key="k">
+          <div class="info warning" :class="{danger:v.type=='danger',battle:v.type=='battle',win:v.type=='win',reward:v.type=='reward',}" v-for="(v,k) in sysInfo" :key="k">
             <span>{{v.msg}}</span>
             <a v-if="v.equip" :style="{color:v.equip.quality.color}" @mouseover="showInfo($event,v.equip.itemType,v.equip)" @mouseleave="closeInfo('equip')">{{v.equip.description.name}}</a>
             <a v-if="v.item" :style="{color:v.item.quality.color}" @mouseover="showInfo($event,'',v.item)" @mouseleave="closeInfo('item')">{{v.item.description.name}}*{{v.quantity}}</a>
-            <a v-if="v.gold"><currency :amount="v.gold"></currency> </a>
+            <a v-if="v.gold"><currency :isCost="false" :amount="v.gold"></currency> </a>
           </div>
         </div>
       </div>
@@ -74,7 +74,7 @@
           <button id="advanture" class="btn btn-light btn-sm lvZone" @click="switchZone('advanture')">
             冒险区
           </button>    
-          <button class="btn btn-outline-light btn-sm" id="resetMap" v-show="dungeonInfo.current=='advanture'" @click="resetMap()">
+          <button class="btn btn-outline-light btn-sm" id="resetMap" v-show="dungeonInfo.current=='advanture'" @click="resetMapClick()">
             重置地图<span v-if="resetTime>0">({{resetTime}})</span>
           </button>   
           <select v-model="selectedZone" @change="setSelectedZone($event)" class="btn btn-light">
@@ -109,6 +109,16 @@
       </cTooltip>
       <cTooltip :placement="'top'">
         <template v-slot:content>
+          <div class="menu" @click="openMenuPanel('quest')">
+            <img src="../assets/icons/menu/quest.png" alt="">
+          </div>
+        </template>
+        <template v-slot:tip>
+          <p class="info">* 任务</p>
+        </template>
+      </cTooltip>
+      <cTooltip :placement="'top'">
+        <template v-slot:content>
           <div class="menu" @click="openMenuPanel('save')">
             <img src="../assets/icons/menu/save1.png" alt="">
           </div>
@@ -139,6 +149,7 @@
     <equipPotential :equip="enhanceEquip" v-show="equipPotentialPanel"></equipPotential>    
     <saveload v-show="savePanel"></saveload>
     <setting v-show="settingPanel"></setting>
+    <quest v-show="questPanel"></quest>
 
     <charInfo id="charInfo" v-show="displayPage=='charInfo'"></charInfo>
     <guild id="guild" v-show="displayPage=='guild'"></guild>
@@ -173,13 +184,13 @@ import achievement from './component/achievement';
 import statistic from './component/statistic';
 import saveload from './component/saveload';
 import setting from './component/setting';
+import quest from './component/quest';
 import enemyInfo from './component/enemyInfo';
-import { assist } from '../assets/js/assist';
 import { dungeon } from '../assets/js/dungeon';
 import { buffAndTrigger } from '../assets/js/buffAndTrigger';
 export default {
   name: 'index',
-  mixins: [assist, dungeon, buffAndTrigger],
+  mixins: [dungeon, buffAndTrigger],
   data() {
     return {
       showEquipInfo: false,
@@ -202,6 +213,7 @@ export default {
       equipPotentialPanel: false,
       savePanel: false,
       settingPanel: false,
+      questPanel: false,
       displayPage: 'charInfo',
       saveDateString: '',
       resetTimer: 0,
@@ -209,25 +221,31 @@ export default {
       selectedZone: 0
     }
   },
-  components: {cTooltip, equipInfo, compareEquip, itemInfo, mapEvent, assist, backpack, equipEnhance, equipForge, equipPotential, 
-              charInfo, guild, guildMember, shop, talentTree, faq, achievement, statistic, saveload, setting, enemyInfo, currency},
+  components: {cTooltip, equipInfo, compareEquip, itemInfo, mapEvent, backpack, equipEnhance, equipForge, equipPotential, 
+              charInfo, guild, guildMember, shop, talentTree, faq, achievement, statistic, saveload, setting, quest, enemyInfo, currency},
+  created() {
+    this.$store.globalComponent = {};
+  },
   mounted() {    
+    this.$store.globalComponent.index = this;
     //读取本地存档
-    let saveload = this.findComponentDownward(this, 'saveload');  
+    let saveload =  this.$store.globalComponent['saveload'];  
     let sd = localStorage.getItem('_sd');
     saveload.loadGame(sd);
     // 启用buff中心计时器
     this.buffTimer();
     
-    let achievement = this.findComponentDownward(this, 'achievement');  
+    let achievement =  this.$store.globalComponent['achievement'];  
     achievement.set_statistic({gameStartDate: Date.now()});
 
-    let guild = this.findComponentDownward(this, 'guild');  
-    let guildPosition = this.findComponentDownward(guild, 'guildPosition');   
-    guildPosition.init();
-
-    let talentTree = this.findComponentDownward(this, 'talentTree');  
+    let talentTree =  this.$store.globalComponent['talentTree'];  
     talentTree.init();
+
+    let quest =  this.$store.globalComponent['quest'];  
+    quest.init();
+
+    let guildPosition =  this.$store.globalComponent['guildPosition'];   
+    guildPosition.init();
     
     // this.$store.commit("set_statistic", {gameStartDate: Date.now()});
     //初始系统、战斗信息
@@ -240,42 +258,46 @@ export default {
 
     // 自动保存
     setInterval(() => {
-      let saveload = this.findComponentDownward(this, 'saveload');  
+      let saveload = this.$store.globalComponent["saveload"];  
       saveload.saveGame(true);
     }, 5 * 60 * 1000)
 
     //初始生成地图
     this.createMaps();
     //测试·随机装备
-    // let equipLv = 40;
-    // let equipQuality = 3;
-    // let equipInfo = this.findComponentDownward(this, 'equipInfo');   
-    // let newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'helmet'));
+    // let equipLv = 100;
+    // let equipQuality = 5;
+    // // let optional = {baseOption: ['STR', 'AGI', 'STA']};
+    // let optional = {};
+    // let qualitySet = 0;
+    // let equipInfo = this.$store.globalComponent["equipInfo"];;   
+    // let newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'helmet', qualitySet, optional));
     // this.$store.commit('set_player_helmet', this.$deepCopy(newEquip));
-    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'weapon'));
+    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'weapon', qualitySet, optional));
     // this.$store.commit('set_player_weapon', this.$deepCopy(newEquip));
-    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'armor'));
+    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'armor', qualitySet, optional));
     // this.$store.commit('set_player_armor', this.$deepCopy(newEquip));
-    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'shoe'));
+    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'shoe', qualitySet, optional));
     // this.$store.commit('set_player_shoe', this.$deepCopy(newEquip));
-    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'shoulder'));
+    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'shoulder', qualitySet, optional));
     // this.$store.commit('set_player_shoulder', this.$deepCopy(newEquip));
-    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'glove'));
+    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'glove', qualitySet, optional));
     // this.$store.commit('set_player_glove', this.$deepCopy(newEquip));
-    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'ring'));
+    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'ring', qualitySet, optional));
     // this.$store.commit('set_player_ring', this.$deepCopy(newEquip));
-    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'cape'));
+    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'cape', qualitySet, optional));
     // this.$store.commit('set_player_cape', this.$deepCopy(newEquip));
-    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'bracer')); 
+    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'bracer', qualitySet, optional)); 
     // this.$store.commit('set_player_bracer', this.$deepCopy(newEquip));
-    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'belt'));
+    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'belt', qualitySet, optional));
     // this.$store.commit('set_player_belt', this.$deepCopy(newEquip));
-    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'legging'));
+    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'legging', qualitySet, optional));
     // this.$store.commit('set_player_legging', this.$deepCopy(newEquip));
-    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'necklace'));
+    // newEquip = JSON.parse(equipInfo.createEquip(equipQuality,equipLv,'necklace', qualitySet, optional));
     // this.$store.commit('set_player_necklace', this.$deepCopy(newEquip));
 
-//     let itemInfo = this.findComponentDownward(this, 'itemInfo');
+            // this.$store.state.playerAttribute.lv = 50;
+//     let itemInfo = this.$store.globalComponent["itemInfo"];;
 //     let item ;
 //     let items = ['inv_misc_note_06',
 //      'inv_potion_49',
@@ -314,9 +336,12 @@ export default {
 //       item = itemInfo.createItem(items[i], 20);  
 //       itemInfo.addItem(JSON.parse(item));
 //     }
+    // for(let i in quest.questList) {
+    //   quest.assignQuest(i);
+    // }
 
     this.$store.commit('set_player_attribute');
-    let shop = this.findComponentDownward(this, 'shop');  
+    let shop = this.$store.globalComponent["shop"];  
     shop.setEquipShopItem();
   },
   computed: {
@@ -382,7 +407,7 @@ export default {
           this.dungeon.selected = false;
           this.dungeon = {};
         }
-        let mapEvent = this.findComponentDownward(this, 'mapEvent'); 
+        let mapEvent = this.$store.globalComponent["mapEvent"];
         if(this.$store.state.dungeonInfo.inBattle) {
             mapEvent.toggleBattle();
         }
@@ -396,11 +421,11 @@ export default {
       }
     },
     toggleBattle(type) {
-      let mapEvent = this.findComponentDownward(this, 'mapEvent'); 
+      let mapEvent = this.$store.globalComponent["mapEvent"];
       mapEvent.toggleBattle(type);
     },
     createMaps() {    
-      let itemInfo = this.findComponentDownward(this, 'itemInfo');
+      let itemInfo = this.$store.globalComponent["itemInfo"];;
       let count = 5;
       let type = 'advanture';
       this.mapArr = this.generateDungeonByZone(count, this.monsterZone[this.selectedZone]);
@@ -420,8 +445,8 @@ export default {
 
     },
     actualReward(mapArr) {
-      let equipInfo = this.findComponentDownward(this, 'equipInfo');   
-      let itemInfo = this.findComponentDownward(this, 'itemInfo');
+      let equipInfo = this.$store.globalComponent["equipInfo"];;   
+      let itemInfo = this.$store.globalComponent["itemInfo"];;
       for(let map in mapArr) {
         mapArr[map].reward = [];
         for(let type in mapArr[map].rewardType) {
@@ -537,10 +562,9 @@ export default {
         if(this.mapArr[k] && !this.mapArr[k].selected && this.$store.state.enemyAttribute.attribute.CURHP.value != 0) {
           this.$message({
             message: '是否放弃当前正在挑战的副本? ',
-            title: '更换副本',
             confirmBtnText: '更换',
             onClose: () => {
-              this.set_enemy_hp('dead');
+              this.set_enemy_hp('remove');
               this.confirmDungeon(k);
             }
           });
@@ -550,7 +574,7 @@ export default {
       }
     },
     confirmDungeon(k) {
-      let mapEvent = this.findComponentDownward(this, 'mapEvent'); 
+      let mapEvent = this.$store.globalComponent["mapEvent"];
       mapEvent.displayDungeon = true;
       if(this.dungeon)
         this.dungeon.selected = false;
@@ -563,16 +587,21 @@ export default {
       dungeon.monsterID = this.dungeon.monsterID;
       dungeon.monsterName = this.dungeon.monsterName;
     },
+    resetMapClick() {
+      this.resetMap();
+      let quest = this.$store.globalComponent["quest"];
+      quest.trackProgress('event', 1, 1);
+    },
     resetMap(forceReset=false) {
       let element = document.getElementById('resetMap');
-      let mapEvent = this.findComponentDownward(this, 'mapEvent'); 
+      let mapEvent = this.$store.globalComponent["mapEvent"];
       if(!forceReset && this.resetTime > 0) {
         return;
       }
       this.dungeon = {};
       if(this.$store.state.dungeonInfo.inBattle)
         mapEvent.toggleBattle();
-      this.set_enemy_hp('dead');
+      this.set_enemy_hp('remove');
       this.createMaps();
       this.resetTime = 1;
       element.disabled = true;
@@ -597,7 +626,7 @@ export default {
       clearInterval(this.autoHealthRecovery);
       clearInterval(this.autoManRecovery);
       this.autoHealthRecovery = setInterval(() => {
-        let mapEvent = this.findComponentDownward(this, 'mapEvent');  
+        let mapEvent = this.$store.globalComponent["mapEvent"];
         let player = this.$store.state.playerAttribute;
         let recover = 0.10;
         let talent = 'ability_hunter_harass';
@@ -622,18 +651,24 @@ export default {
       }, 5000);
       this.autoManRecovery = setInterval(() => {
         let player = this.$store.state.playerAttribute;
-        let amount = this.attribute.MAXMP.value*0.10+this.attribute.SPI.value;
-        if(this.dungeonInfo.inBattle) {
-          amount = this.attribute.SPI.value;
-          this.mpChange(player, player, Math.ceil(amount));
-          return;
+        let recover = 0.10;
+        let talent = 'spell_arcane_studentofmagic';
+        let amount = this.attribute.SPI.value;
+        if(!this.dungeonInfo.inBattle) {
+          if(this.playerTalent[talent] > 0) {
+            recover += this.playerTalent[talent]*0.01;
+          }
+          amount += this.attribute.MAXMP.value*recover;
         }
-        else
-          this.mpChange(player, player, Math.ceil(amount));
+        talent = 'spell_arcane_mindmastery';
+        if(this.playerTalent[talent] > 0) {
+          amount *= (1+this.playerTalent[talent]*0.1);
+        }
+        this.mpChange(player, player, Math.ceil(amount));
       }, 5000);
     },
     openMenuPanel(type) {
-      let saveload = this.findComponentDownward(this, 'saveload');  
+      let saveload = this.$store.globalComponent["saveload"];  
       switch(type) {
         case 'backpack':
           this.showBackpack = !this.showBackpack;
@@ -645,10 +680,13 @@ export default {
         case 'setting':
           this.settingPanel = !this.settingPanel;
           break;
+        case 'quest':
+          this.questPanel = !this.questPanel;
+          break;
       }
     },
     closeMenuPanel(type) {
-      let saveload = this.findComponentDownward(this, 'saveload');  
+      let saveload = this.$store.globalComponent["saveload"];  
       switch(type) {
         case 'backpack':
           this.showBackpack = false;
@@ -659,6 +697,9 @@ export default {
           break;
         case 'setting':
           this.settingPanel = false;
+          break;
+        case 'quest':
+          this.questPanel = false;
           break;
       }
     },

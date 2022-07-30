@@ -38,6 +38,7 @@ export default {
         }
     },
     mounted () {
+        this.$store.globalComponent.trainStat = this;
     },
     watch: {
     },

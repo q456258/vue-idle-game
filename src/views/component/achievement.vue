@@ -1,18 +1,18 @@
 <template>
 </template>
 <script>
-import { assist } from '../../assets/js/assist';
+
 export default {    
     name: 'achievement',
     props: {
     },
-    mixins: [assist],
     components: {},
     data() {
         return {
         };
     },
     mounted() {
+        this.$store.globalComponent.achievement = this;
     },
     watch: {
     },
@@ -24,11 +24,20 @@ export default {
             //     let time = this.$store.state.statistic.gameTime;
             //     let hourGap = this.timeGap('hour', time, time+data.gameTime);
             //     if(hourGap == 1) {
-            //         let guildMember = this.findBrothersComponents(this, 'guildMember', false)[0];
+            //         let guildMember = this.$store.globalComponent["guildMember"];
             //         guildMember.levelupAll();
             //     }
 
             // }
+            
+            if(data.slain != undefined) {
+                let quest = this.$store.globalComponent["quest"];
+                for(let id in data.slain) {
+                    if(data.slain[id] != undefined)
+                        quest.trackProgress('slain', id, data.slain[id]);
+                }
+
+            }
             this.$store.commit("set_statistic", data);
         },
         timeGap(type, time, time2) {

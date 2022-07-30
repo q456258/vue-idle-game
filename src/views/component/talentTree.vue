@@ -1,10 +1,11 @@
 <template>
     <div class="container">
-<draggable :left_limit="-500" :right_limit="1" :top_bot="false">
+        <div>剩余天赋点: {{player.talentPoint}}
+            <div class="refresh btn btn-secondary" @click="resetTalent()"></div>
+        </div>
+        <draggable :left_limit="-1100" :right_limit="1" :top_bot="false">
     <template slot="header">
 <!-- <div class="container"> -->
-    <div>剩余天赋点: {{player.talentPoint}}
-    </div>
     <div class="talentTree scrollbar-morpheus-den" >
         <div class="power" v-for="(grid, i) in talents" :key="i">
             <div class="progress">
@@ -56,22 +57,22 @@
 </div>
 </template>
 <script>
-import { assist } from '../../assets/js/assist';
+
 import { talentConfig } from '../../assets/config/talentConfig';
-import { buffAndTrigger } from '../../assets/js/buffAndTrigger';
 import draggable from '../uiComponent/draggable';
 export default {    
     name: 'talentTree',
     props: {
     },
-    mixins: [assist, talentConfig, buffAndTrigger],
+    mixins: [talentConfig],
     components: {draggable},
     data() {
         return {
             talents: {
                 generalBranch: [],
                 warriorBranch: [],
-                mageBranch: []
+                mageBranch: [],
+                priestBranch: []
             }
         };
     },
@@ -81,9 +82,11 @@ export default {
         }
     },
     mounted() {
+        this.$store.globalComponent.talentTree = this;
         this.setGrid('generalBranch');
         this.setGrid('warriorBranch');
         this.setGrid('mageBranch');
+        this.setGrid('priestBranch');
     },
     watch: {
     },
@@ -91,7 +94,7 @@ export default {
         playerTalent() { return this.$store.state.playerAttribute.talent },
         player() { return this.$store.state.playerAttribute },
         branchInfo() {
-            let types = Object.assign(this.generalBranch, this.warriorBranch, this.mageBranch);
+            let types = Object.assign(this.generalBranch, this.warriorBranch, this.mageBranch,  this.priestBranch);
             return types;
          },
     },
@@ -100,6 +103,23 @@ export default {
             this.setStatus('generalBranch');
             this.setStatus('warriorBranch');
             this.setStatus('mageBranch');
+            this.setGrid('priestBranch');
+        },
+        resetTalent() {
+            let total = this.player.talentPoint;
+            let branches = Object.keys(this.playerTalent).filter(k=>(k.indexOf('Branch')==-1&&this.playerTalent[k]>0));
+            for(let i in branches) {
+                total += this.playerTalent[branches[i]];
+            }
+            this.player.talentPoint = total;
+            for(let i in this.playerTalent) {
+                this.playerTalent[i] = 0;
+            }
+            for(let i in branches) {
+                this.setStatus(branches[i]);
+                this.talentChange(branches[i]);
+            }
+            this.setStatus('generalBranch');
         },
         setGrid(branch) {
             for(let talent in this[branch]) {
@@ -140,9 +160,11 @@ export default {
             if(val > 0) {
                 this.playerTalent[branch] += val;
                 this.playerTalent[target.type] += val;
+                this.playerTalent['generalBranch'] = Math.max(this.playerTalent['generalBranch'], this.playerTalent[branch]);
                 this.player.talentPoint -= val;
                 this.setStatus(branch);
-                this.talentChange(target);
+                this.setStatus('generalBranch');
+                this.talentChange(target.type);
             }
         },
         rightClick(e, k, branch, val=-1) {
@@ -158,22 +180,28 @@ export default {
             if(!check)
                 return;
             if(val < 0) {
+                let branches = Object.keys(this.playerTalent).filter(key=>(key!='generalBranch'&&key.indexOf('Branch')!=-1));
                 this.playerTalent[branch] += val;
                 this.playerTalent[target.type] += val;
+                this.playerTalent['generalBranch'] = 0;
+                for(let i in branches) {
+                    this.playerTalent['generalBranch'] = Math.max(this.playerTalent['generalBranch'], this.playerTalent[branches[i]]);
+                }
                 this.player.talentPoint -= val;
                 this.setStatus(branch);
-                this.talentChange(target);
+                this.setStatus('generalBranch');
+                this.talentChange(target.type);
             }
         },
         checkPreReq(talentName, lv, ignore) {
-            let branch = talentName.indexOf('Branch') != -1;
+            let isBranch = talentName.indexOf('Branch') != -1;
             for(let name in this.preReqList) {
                 if(name == ignore)
                     continue;
                 if(this.playerTalent[name] > 0) {
                     for(let preReq in this.preReqList[name]) {
                         let check = this.preReqList[name][preReq];
-                        if(talentName == check[0] && ((!branch && lv < check[1]) || (branch && talentName == check[0] && lv-this.playerTalent[name] < check[1]))) {
+                        if(talentName == check[0] && ((!isBranch && lv < check[1]) || (isBranch && talentName == check[0] && lv < check[1]))) {
                             return false;
                         }
                     }
@@ -182,7 +210,7 @@ export default {
             return true;
         },
         talentChange(talent) {
-            switch(talent.type) {
+            switch(talent) {
                 case 'ATK':
                 case 'SUNDER':
                 case 'DEF':
@@ -199,6 +227,7 @@ export default {
                 case 'inv_sword_48':
                 case 'ability_whirlwind':
                 case 'spell_holy_crusaderstrike':
+                case 'ability_warrior_shieldbash':
                 case 'spell_warlock_soulburn':
                 case 'ability_warrior_shatteringthrow':
                 case 'spell_arcane_starfire':
@@ -208,13 +237,53 @@ export default {
                 case 'ability_revendreth_paladin':
                 // 法师
                 case 'spell_frost_frostbolt02':
-                    this.learnSpell(talent.type);
+                case 'inv_misc_food_73cinnamonroll':
+                case 'inv_misc_gem_sapphire_02':
+                case 'spell_fire_flamebolt':
+                case 'spell_frost_icestorm':
+                case 'spell_fire_soulburn':
+                case 'ability_warlock_burningembersblue':
+                case 'spell_fire_fireball02':
+                case 'ability_mage_arcanebarrage':
+                case 'ability_mage_arcanebarrage':
+                case 'spell_ice_lament':
+                case 'spell_arcane_blast':
+                case 'spell_fire_selfdestruct':
+                case 'spell_nature_starfall':
+                case 'spell_frost_coldhearted':
+                case 'spell_frost_wizardmark':
+                case 'spell_frost_iceshock':
+                case 'spell_mage_icenova':
+                case 'spell_nature_purge':
+                case 'spell_fire_sealoffire':
+                case 'ability_mage_timewarp':
+                case 'spell_ice_lament':
+                case 'spell_shadow_detectlesserinvisibility':
+                // 牧师
+                case 'spell_holy_renew':
+                case 'spell_holy_flashheal':
+                case 'spell_holy_innerfire':
+                case 'spell_holy_testoffaith':
+                case 'spell_shadow_unholyfrenzy':
+                case 'spell_holy_powerwordshield':
+                case 'spell_shadow_shadowmend':
+                case 'spell_shadow_shadowwordpain':
+                case 'spell_holy_dispelmagic':
+                case 'spell_holy_wordfortitude':
+                case 'spell_holy_holysmite':
+                case 'spell_shadow_demonicfortitude':
+                case 'spell_holy_powerwordbarrier':
+                case 'ability_priest_silence':
+                case 'ability_priest_flashoflight':
+                case 'spell_nature_nullifydisease':
+                case 'spell_holy_persuitofjustice':
+                    this.learnSpell(talent);
                     break;
             }
         },
         learnSpell(spellName) {
             let spellList = this.$store.state.playerAttribute.spells;
-            let charInfo = this.findBrothersComponents(this, 'charInfo', false)[0];
+            let charInfo = this.$store.globalComponent["charInfo"];
             if(spellList[spellName] != undefined) {
                 spellList[spellName].lv = this.playerTalent[spellName];
                 if(this.playerTalent[spellName] == 0)
@@ -229,14 +298,15 @@ export default {
             charInfo.dmgFilterSelected = temp;
         },
         talentTrigger(type) {
+            let index = this.$store.globalComponent["index"];
             let lv = this.playerTalent[type];
             let attr = this.player.attribute;
             switch(type) {
                 case 'spell_deathknight_bloodpresence':
-                    this.hpChange(this.player, this.player, Math.ceil((attr.MAXHP.value-attr.CURHP.value)*lv*0.05));
+                    index.hpChange(this.player, this.player, Math.ceil((attr.MAXHP.value-attr.CURHP.value)*lv*0.05));
                     break;
                 case 'spell_deathknight_frostpresence':
-                    this.mpChange(this.player, this.player, Math.ceil((attr.MAXMP.value-attr.CURMP.value)*lv*0.05));
+                    index.mpChange(this.player, this.player, Math.ceil((attr.MAXMP.value-attr.CURMP.value)*lv*0.05));
                     break;
             }
         }

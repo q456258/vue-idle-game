@@ -1,5 +1,5 @@
 <template>
-    <span class="currency">
+    <span class="currency" :style="{color:!isCost||playerGold>=amount?'#fff':'#f00'}">
         <span v-if="gold>0">
             {{gold}}<img class="currencyIcon" src="../../../public/icons/other/gold2.png">
         </span>
@@ -15,11 +15,16 @@
 export default {
     name: "currency",
     props: {
+        isCost: {
+            type: Boolean,
+            default: true,
+        },
         amount: {
             type: Number
         }
     },
     computed: {
+        playerGold() { return this.$store.state.guildAttribute.gold; },
         gold() { return Math.floor(this.amount/10000);},
         silver() { return Math.floor(this.amount%10000/100);},
         copper() { return Math.floor(this.amount%100);},

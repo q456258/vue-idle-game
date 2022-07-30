@@ -84,16 +84,15 @@
 </template>
 <script>
 import {equipConfig} from '@/assets/config/equipConfig'
-import { assist } from '../../assets/js/assist';
 import {itemConfig} from '@/assets/config/itemConfig'
 export default {
     name: "equipInfo",
-    mixins: [equipConfig, itemConfig, assist],
+    mixins: [equipConfig, itemConfig],
     data() {
         return {
             newEquip: {},
             qualityProbability: [
-                [0.75, 1, 1, 1, 1, 1], //0(1-10)
+                [0.75, 1, 1, 1, 1, 1], //0普通(1-10)
                 [0.55, 0.85, 1, 1, 1, 1], //1普通(11-30)，精英（1-10）
                 [0.45, 0.78, 0.98, 1, 1, 1], //2普通(30+)
                 [0.25, 0.65, 0.95, 1, 1, 1], //3精英(11-30)
@@ -111,6 +110,9 @@ export default {
             ],
         };
     },
+    mounted() {
+        this.$store.globalComponent.equipInfo = this;
+    },
     props: {
         equip: {
             type:Object
@@ -120,16 +122,21 @@ export default {
         player() { return this.$store.state.playerAttribute },
     },
     methods: {
-        createEquip(qualityIndex, lv, type, qualitySet) {
+        createEquip(qualityIndex, lvReq, type, qualitySet, optional={}) {
+            let baseEntry = [];
+            if(optional.baseEntry) {
+                for(let i=0; i<optional.baseEntry.length; i++)
+                    baseEntry.push({type:optional.baseEntry[i]});
+            }
             let newEquip = {};
-            newEquip.itemType = type != 'random' ? type : this.createType();
-            newEquip.lvReq = lv || 1;
-            newEquip.lv = lv || 1;
+            newEquip.itemType = type != 'random' ? type : this.createType(optional.types);
+            newEquip.lvReq = lvReq || 1;
+            newEquip.lv = optional.lv || lvReq || 1;
             newEquip.quality = qualityIndex > -1 ? this.quality[qualityIndex] : this.createQuality(qualitySet);
             newEquip.maxEnhanceLv = (newEquip.quality.qualityLv-1)*5;
             newEquip.enhanceLv = Math.min(0, newEquip.maxEnhanceLv);
-            newEquip.baseEntry = this.createBaseEntry(newEquip);
-            newEquip.extraBaseEntry = [];
+            newEquip.baseEntry = this.createBaseEntry(newEquip, baseEntry, optional.baseOption);
+            newEquip.extraBaseEntry = this.createExtraBaseEntry(newEquip, optional.extraBaseEntry);
             newEquip.extraEntry = this.createExtraEntry(newEquip);
             newEquip.potential = newEquip.lv >= 30 ? this.createPotential(newEquip) : [];
             newEquip.rating = this.rating(newEquip);
@@ -156,17 +163,24 @@ export default {
             return JSON.stringify(newEquip);
         },
         finishUniqueEquip(equip) {
-            equip.extraBaseEntry = [];
-            equip.extraEntry = this.createExtraEntry(equip);
-            equip.potential = equip.lv >= 30 ? this.createPotential(equip) : [];
+            if(equip.extraBaseEntry == undefined)
+                equip.extraBaseEntry = [];
+            if(equip.extraEntry == undefined)
+                equip.extraEntry = this.createExtraEntry(equip);
+            if(equip.potential == undefined)
+                equip.potential = equip.lv >= 30 ? this.createPotential(equip) : [];
             equip.rating = this.rating(equip);
             return JSON.stringify(equip);
         },
         // createLv(Max) {
         //     return parseInt(Math.random() * (Max || 39)) + 1;
         // },
-        createType() {
+        createType(types) {
             let random = Math.floor(Math.random()*this.typeName.length)
+            if(types) {
+                random = Math.floor(Math.random()*types.length)
+                return types[random];
+            }
             return this.typeName[random];
         },
         createQuality(qualitySet) {
@@ -180,17 +194,17 @@ export default {
             }
             return this.quality[quality];
         },
-        createBaseEntry(newEquip, baseEntry=[]) {
+        createBaseEntry(newEquip, baseEntry=[], option=['STR','AGI','INT','STA','SPI']) {
+            let options = this.$deepCopy(option);
             let fixEntry = [];
             let type = newEquip.itemType;
             let mod = this.equipMod[type];
             let index = 0;
-            if(baseEntry.length == 0) {
-                let options = ['STR','AGI','INT','STA','SPI'];
+            if(baseEntry.length < 2) {
                 let count = Math.random()>0.5 ? 1 : 2;
                 let ran = Math.floor(Math.random()*options.length);
                 baseEntry.push({type:options[ran]});
-                if(count == 2) {
+                if(count == 2 && baseEntry.length < 2) {
                     options[ran] = options[options.length-1];
                     options.pop();
                     ran = Math.floor(Math.random()*options.length);
@@ -215,6 +229,8 @@ export default {
             return fixEntry.concat(baseEntry);
         },
         createBaseEntryValue(qualityCoefficient, entry, bonus, lv, enhanceLv, mod=1) {
+            if(entry.length == 2 && entry[0].type == entry[1].type)
+                entry.pop();
             for(let i=0; i<entry.length; i++) {
                 let type = entry[i].type;
                 let ran = Math.round(Math.random()*bonus);
@@ -228,13 +244,36 @@ export default {
                 entry[i].name = this.entryInfo[type].name;
             }
         },
+        createExtraBaseEntry(newEquip, option=['STR','AGI','INT','STA','SPI','ALL']) {
+            if(newEquip.quality.qualityLv < 5)
+                return [];
+            let type = newEquip.itemType;
+            let mod = this.equipMod[type];
+            let extraEntries = {STR:'CRITDMG',AGI:'HASTE',INT:'APPEN',STA:'HEAL',SPI:'APCRITDMG',ALL:'VERS'};
+            let extraBaseEntry = [];
+            for(let i=0; i<2; i++) {
+                let ran = Math.floor(Math.random()*option.length);
+                extraBaseEntry.push({type: extraEntries[option[ran]]});
+                option.splice(ran, 1);
+            }
+            extraBaseEntry.forEach(entry => {
+                let random = Math.random()*100;
+                this.createExtraEntryValue(entry, random/100, newEquip.lv, mod);
+            });
+            return extraBaseEntry;
+        },
         createExtraEntry(newEquip) {
             let extraEntry = [];
             let extraEntryTypes = [];
             let type = newEquip.itemType;
             let mod = this.equipMod[type];
+            let bonus = 0;
             extraEntryTypes = this[type].extraEntry;
-            for(let i=0; i<newEquip.quality.extraEntryNum; i++) {
+            if(newEquip.quality.qualityLv == 4) {
+                let ran = Math.random()*100;
+                bonus = ran<15 ? (ran<0.9 ? (ran<0.1 ? 3 : 2) : 1) : 0;
+            }
+            for(let i=0; i<newEquip.quality.extraEntryNum+bonus; i++) {
                 let index = Math.floor(Math.random()*extraEntryTypes.length);
                 extraEntry.push({type: extraEntryTypes[index]});
             }
@@ -273,14 +312,14 @@ export default {
                 let index = Math.floor(Math.random()*extraEntry.length);
                 let entry = this.entryInfo[extraEntry[index]];
                 let ran = Math.random();
-                let value = ran>0.5 ? entry.base*1 : entry.base*1.5;
+                let value = ran>0.5 ? entry.base*0.67 : entry.base*1;
                 
-                if(extraEntry[index] == 'CRITDMG') {
-                    value = Math.floor(entry.base+newEquip.lv*newEquip.lv/200);
-                    value = ran>0.5 ? value*1 : value*1.5;
-                }
+                // if(extraEntry[index] == 'CRITDMG') {
+                //     value = Math.floor(entry.base+newEquip.lv*newEquip.lv/200);
+                //     value = ran>0.5 ? value*1 : value*1.5;
+                // }
                 if(percent.indexOf(extraEntry[index]) == -1)
-                    value = value * (0.6+newEquip.lv*0.4);
+                    value = value * (1.6+newEquip.lv*0.08);
                 value = Math.round(value);
 
                 potentials.push({
@@ -328,20 +367,16 @@ export default {
                 'STRP','AGIP','INTP','ALLP','CRIT','CRITDMG','ATKP','DEFP','MRP','HPP','MPP'
             ];
             extraEntryTypes = this[type].extraEntry;
+            let mod = this.equipMod[type];
             let index = Math.floor(Math.random()*extraEntryTypes.length);
             extraEntry.push({type: extraEntryTypes[index]});
             extraEntry.forEach(entry => {
                 let random = Math.random();
-                if(entry.type == 'CRITDMG') {
-                    entry.value = Math.round((0.5+0.5*random) * Math.floor(this.entryInfo[entry.type].base+equip.lv*equip.lv/200));
-                    entry.showVal = '+' + entry.value + '%';
-                }
-                else if(percent.indexOf(entry.type) > -1) {
+                if(entry.type == 'CRITDMG' || entry.type == 'APCRITDMG') {
                     entry.value = Math.round((0.5+0.5*random) * this.entryInfo[entry.type].base);
                     entry.showVal = '+' + entry.value + '%';
-                }
-                else {
-                    entry.value = Math.round((0.5+0.5*random) * this.entryInfo[entry.type].base * (0.6+equip.lv*0.4));
+                } else {
+                    entry.value = Math.round((0.5+0.5*random) * this.entryInfo[entry.type].base * mod * (1.6+equip.lv*0.08));
                     entry.showVal = '+' + entry.value;
                 }
                 entry.quality = Math.round(random*100);
@@ -371,15 +406,15 @@ export default {
         },
         levelUpEquip(equip) {
             let dust = ['dust2', 'dust3', 'dust4', 'dust5', 'dust6'];
-            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            let itemInfo = this.$store.globalComponent["itemInfo"];
             let quantity = Math.ceil(equip.lv/10);
             let itemCode = dust[equip.quality.qualityLv-2];
-            let item = itemInfo.findItem(itemCode);  
+            let item = itemInfo.findItemIndex(itemCode);  
             let has = itemInfo.getItemQty(itemCode);
             let mod = this.equipMod[newEquip.itemType];
             if(has < quantity) {
                 this.$store.commit("set_sys_info", {
-                    type: 'dmged',
+                    type: 'danger',
                     msg: '材料不足, 无法升级装备! '
                 });
                 return;

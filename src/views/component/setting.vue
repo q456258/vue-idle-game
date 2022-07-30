@@ -29,12 +29,11 @@
 <script>
 import draggable from '../uiComponent/draggable';
 import cTooltip from '../uiComponent/tooltip';
-import { assist } from '../../assets/js/assist';
 export default {    
     name: 'setting',
     props: {
     },
-    mixins: [assist],
+    mixins: [],
     components: {draggable, cTooltip},
     data() {
         return {
@@ -43,6 +42,7 @@ export default {
         };
     },
     mounted() {
+        this.$store.globalComponent.setting = this;
     },
     watch: {
         waitFull() {
@@ -56,7 +56,7 @@ export default {
             this.waitFull = this.$store.state.setting.waitFull== undefined ? false : this.$store.state.setting.waitFull;
         },
         closeSetting() {
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent["index"];
             index.closeMenuPanel('setting');
         },
         changeWaitFull() {

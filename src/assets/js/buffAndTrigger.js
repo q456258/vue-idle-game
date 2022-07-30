@@ -1,13 +1,19 @@
+import { buffConfig } from '@/assets/config/buffConfig';
 export const buffAndTrigger = {
+    mixins: [buffConfig],
     data() {
         return {
             centralTimer: 0,
+            playerTimers: [],
+            enemyTimers: [],
+            buffCounter: {}
         }
     },
     mounted() {
     },
     computed: {
-        player() {return this.$store.state.playerAttribute; }
+        player() {return this.$store.state.playerAttribute; },
+        enemy() {return this.$store.state.enemyAttribute; }
 
     },
     methods: {
@@ -35,7 +41,7 @@ export const buffAndTrigger = {
         // 启用中心计时器, 按时间减少buff时间
         buffTimer(time){
             this.centralTimer = setInterval(() => {
-                let achievement = this.findComponentDownward(this, 'achievement');  
+                let achievement = this.$store.globalComponent["achievement"];  
                 achievement.set_statistic({gameTime: 1000});
                 let now = Date.now();
                 let playerBuff = this.player.buff;
@@ -47,19 +53,45 @@ export const buffAndTrigger = {
                     if(diff > 0)
                         this.buffReduce(this.player, this.player, buff, diff);
                 }
+                playerBuff = this.player.tempStat;
+                for(let i=playerBuff.length-1; i>=0; i--) {
+                    if(playerBuff[i].expire < now) {
+                        this.statBuffRemove(this.player, this.player, playerBuff[i].type, playerBuff[i].value, i);
+                    }
+                }
+                let enemyBuff = this.enemy.buff;
+                for(let buff in this.enemy.timedBuff) {
+                    let curStack = (this.enemy.timedBuff[buff] - now)/60000;
+                    if(curStack < 0)
+                        this.buffRemoved(this.enemy, this.enemy, buff);
+                    let diff = Math.floor(enemyBuff[buff] - curStack);
+                    if(diff > 0)
+                        this.buffReduce(this.enemy, this.enemy, buff, diff);
+                }
+                enemyBuff = this.enemy.tempStat;
+                for(let i=enemyBuff.length-1; i>=0; i--) {
+                    if(enemyBuff[i].expire < now) {
+                        this.statBuffRemove(this.enemy, this.enemy, enemyBuff[i].type, enemyBuff[i].value, i);
+                    }
+                }
             }, 1000);
         },
         // 添加buff
         buffApply(source, target, type, stack=1){
-            let buffer = ['sunder', 'penetrate', 'lifesteal', 'manasteal','charge','deathImmune','void','absorb','hell'];
-            let timed = ['minionSlayer'];
-            if(target.buff == undefined)
-                target.buff = {};
-            if(target.timedBuff == undefined)
-                target.timedBuff = {};
-            if(timed.indexOf(type) != -1) {
-                if(target.timedBuff[type] == undefined)
+            if(type == 'spell_holy_wordfortitude')
+                this.$store.commit('set_player_attribute');
+            // 优雅
+            let talent = 'spell_holy_hopeandgrace';
+            if(target.talent[talent] > 0 && this.buffType.statusDebuff[type] != undefined) {
+                let ran = Math.random()*100;
+                if(ran < target.talent[talent]*2) {
+                    return;
+                }
+            }
+            if(this.buffCateg.timed.indexOf(type) != -1) {
+                if(target.timedBuff[type] == undefined) {
                     target.timedBuff[type] = Date.now()+stack*1000;
+                }
                 else
                     target.timedBuff[type] += stack*1000;
                 if(target.buff[type])
@@ -67,39 +99,124 @@ export const buffAndTrigger = {
                 else
                     stack = Math.ceil((target.timedBuff[type]-Date.now())/60000);
             }
-            if(buffer.indexOf(type) == -1) {
+            if(this.buffCateg.onTick.indexOf(type) != -1 && target.buff[type] == undefined)
+                this.buffOnTick(source, target, type);
+            if(this.buffCateg.counter.indexOf(type) != -1)
+                target.buffCounter[type] = 0;
+            if(this.buffCateg.buffer.indexOf(type) == -1) {
                 if(target.buff[type] == undefined) {
-                    this.$set(target.buff, type, stack)
+                    this.setBuff(source, target, type, stack);
                 }
                 else {
-                    this.$set(target.buff, type, target.buff[type]+stack)
+                    this.setBuff(source, target, type, target.buff[type]+stack);
                 }
             }
             else {
                 setTimeout(() => {
                     if(target.buff[type] == undefined) {
-                        this.$set(target.buff, type, stack)
+                        this.setBuff(source, target, type, stack);
                     }
                     else {
-                        this.$set(target.buff, type, target.buff[type]+stack)
+                        this.setBuff(source, target, type, target.buff[type]+stack);
                     }
                 }, 10);
             }
         },
+        // 添加buff
+        statBuffApply(source, target, type, value, stack=1) {
+            if(isNaN(value)) {
+                console.trace();
+                console.log("属性buff传入无效数字");
+            }
+            value = Math.round(value);
+            let attr = target.attribute;
+            let percent = [
+                'STRP','AGIP','INTP','STAP','SPIP','ALLP','CRIT','CRITDMG','APCRIT','APCRITDMG','ATKP','DEFP','BLOCKP','APP','APPENP','MRP','HPP','MPP'
+            ];
+            let buff = {type: type, value: value, expire: Date.now()+stack*1000};
+            target.tempStat.push(buff);
+            attr[type].value += value;
+            attr[type].showValue = attr[type].value;
+
+            if(percent.indexOf(type) > -1)
+                attr[type].showValue = attr[type].value + '%';
+            else
+                attr[type].showValue = attr[type].value;
+            if(type == 'DEF') {
+                attr['DEFRED'].value = Math.round((attr['DEF'].value/(attr['DEF'].value+5500))*10000)/100;
+                attr['DEFRED'].showValue = attr['DEFRED'].value+'%';
+            } else if(type == 'VERS') {
+                attr['VERSBONUS'].value = Math.round(attr['VERS'].value*4)/100;
+                attr['VERSBONUS'].showValue = attr['VERSBONUS'].value+'%';
+            }
+        },
+        setBuff(source, target, type, stack) {
+            let talent = 'spell_arcane_arcane01'
+            if(type == 'arcCharge')
+                stack = Math.min(stack, source.talent[talent]);
+            this.$set(target.buff, type, stack);
+        },
+        // 战斗结束移除buff
+        clearTurnbaseBuff(target){
+            for(let buff in target.buff) {
+                if(this.buffType.statusBuff[buff] && this.buffType.statusBuff[buff].turnbased) {
+                    this.buffRemoved(target, target, buff);
+                } else if(this.buffType.statusDebuff[buff] && this.buffType.statusDebuff[buff].turnbased) {
+                    this.buffRemoved(target, target, buff);
+                }
+            }
+        },
+        clearAllBuff(target) {
+            for(let buff in target.buff) {
+                this.buffRemoved(target, target, buff);
+            }
+        },
         // 移除buff
         buffRemoved(source, target, type){
+            if(type == 'spell_holy_wordfortitude')
+                this.$store.commit('set_player_attribute');
+            let attr = this.player.attribute;
+            if(type == 'icenova') {
+                let dmgs = {apDmg: target.buffCounter[type]*0.25};
+                this.damage(source, target, dmgs, '大法师之触');
+                delete target.buffCounter[type];
+            }
             if(type == 'hell') {
-                let attr = this.player.attribute;
                 if(attr.CURHP.value < attr.MAXHP.value*0.5) {
                     this.set_player_hp('dead', source);
                     this.$store.commit("set_battle_info", {
-                        type: 'dmged',
+                        type: 'danger',
                         msg: '【炼狱】您已死亡'
                     })
                 }
             }
             this.$delete(target.buff, type)
             this.$delete(target.timedBuff, type)
+        },
+        statBuffRemove(source, target, type, value, index){
+            let attr = target.attribute;
+            let percent = [
+                'STRP','AGIP','INTP','STAP','SPIP','ALLP','CRIT','CRITDMG','APCRIT','APCRITDMG','ATKP','DEFP','BLOCKP','APP','APPENP','MRP','HPP','MPP'
+            ];
+            // 容易出现浮点错误
+            attr[type].value = Math.round((attr[type].value-value)*100)/100;
+            attr[type].showValue = attr[type].value;
+            target.tempStat.splice(index, 1);
+
+            if(percent.indexOf(type) > -1)
+                attr[type].showValue = attr[type].value + '%';
+            else
+                attr[type].showValue = attr[type].value;
+            if(type == 'DEF') {
+                attr['DEFRED'].value = Math.round((attr['DEF'].value/(attr['DEF'].value+5500))*10000)/100;
+                attr['DEFRED'].showValue = attr['DEFRED'].value+'%';
+            } else if(type == 'VERS') {
+                attr['VERSBONUS'].value = Math.round(attr['VERS'].value*4)/100;
+                attr['VERSBONUS'].showValue = attr['VERSBONUS'].value+'%';
+            } else if(type == 'MAXHP') {
+                attr['CURHP'].value = Math.min(attr['CURHP'].value, attr['MAXHP'].value);
+                attr['CURHP'].showValue = attr['CURHP'].value;
+            }
         },
         // 减少buff层数
         buffReduce(source, target, type, stack=1){
@@ -115,8 +232,54 @@ export const buffAndTrigger = {
             return false;
         },
         // 按时间触发buff
-        buffOnTick() {
-
+        buffOnTick(source, target, type) {
+            let gap = 1000;
+            switch(type) {
+                case 'poison':
+                case 'burn':
+                    gap = 1000;
+                    break;
+            }
+            let timer = setInterval(() => {
+                if(!this.buffReduce(target, target, type, 1)) {
+                    this.removeFromTimerList(target.type, timer);
+                    return;
+                }
+                switch(type) {
+                    case 'poison':
+                        this.poison(source, target);
+                        break;
+                    case 'burn':
+                        this.burn(source, target);
+                        break;
+                }
+            }, gap);
+            this.addToTimerList(target.type, timer);
+        },
+        addToTimerList(type, timer) {
+            if(type == 'player')
+                this.playerTimers.push(timer);
+            else
+                this.enemyTimers.push(timer);
+        },
+        removeFromTimerList(type, timer) {
+            if(type == 'player')
+                this.playerTimers.splice(this.playerTimers.indexOf(timer), 1);
+            else
+                this.enemyTimers.splice(this.enemyTimers.indexOf(timer), 1);
+            clearInterval(timer);
+        },
+        clearTickTimers(type) {
+            if(type == 'player') {
+                for(let i in this.playerTimers)
+                    clearInterval(this.playerTimers[i]);
+                this.playerTimers = []
+            }
+            else {
+                for(let i in this.enemyTimers)
+                    clearInterval(this.enemyTimers[i]);
+                this.enemyTimers = []
+            }
         },
         // 返回新护甲值
         sunder(source, armor) {
@@ -151,7 +314,7 @@ export const buffAndTrigger = {
             if(this.buffReduce(source, source, 'lifesteal')) {
                 let lsRatio = 0.5;
                 let value = Math.round(lsRatio*this.get_dmg(dmgs, 'ad'));
-                this.hpChange(source, source, value);
+                this.hpChange(source, source, {heal: value});
             }
         },
         // 魔法窃取
@@ -242,10 +405,10 @@ export const buffAndTrigger = {
         minionSlayer(source, target, dmgs) {
             if(this.get_dmg(dmgs, 'ad') == 0 && this.get_dmg(dmgs, 'ap') == 0)
                 return;
-            if(source.buff['minionSlayer'] != undefined && target.type == 'normal') {
+            if(source.buff['minionSlayer'] != undefined && target.type == 'normal' && target.lv < source.lv) {
                 this.$store.commit("set_battle_info", {
                     type: 'dmg',
-                    msg: '【野怪杀手】额外造成'+Math.round(-0.5*(this.get_dmg(dmgs, 'ad')+this.get_dmg(dmgs, 'ap')))+'伤害'
+                    msg: '【野怪杀手】额外造成'+Math.round(0.5*(this.get_dmg(dmgs, 'ad')+this.get_dmg(dmgs, 'ap')))+'伤害'
                 })
                 this.set_ad_dmg(dmgs, this.get_dmg(dmgs, 'ad')*1.5);
                 this.set_ap_dmg(dmgs, this.get_dmg(dmgs, 'ap')*1.5);
@@ -262,7 +425,7 @@ export const buffAndTrigger = {
                 }
                 else {
                     this.$store.commit("set_battle_info", {
-                        type: 'dmged',
+                        type: 'danger',
                         msg: '目标处于眩晕状态中, 无法行动'
                     })
                 }
@@ -277,15 +440,37 @@ export const buffAndTrigger = {
                 return;
             if(this.buffReduce(source, source, 'weak')) {
                 this.set_ad_dmg(dmgs, this.get_dmg(dmgs, 'ad')*0.5);
+                this.set_ap_dmg(dmgs, this.get_dmg(dmgs, 'ap')*0.5);
             }
         },    
+        // vulnerable
+        vulnerable(target, dmgs) {
+            if(this.get_dmg(dmgs, 'ad') == 0 && this.get_dmg(dmgs, 'ap') == 0)
+                return;
+            if(this.buffReduce(target, target, 'vulnerable')) {
+                this.set_ad_dmg(dmgs, this.get_dmg(dmgs, 'ad')*1.3);
+                this.set_ap_dmg(dmgs, this.get_dmg(dmgs, 'ap')*1.3);
+            }
+        },    
+        // 灼伤
+        burn(source, target) {
+            let burnDmg = target.attribute.MAXHP.value * 0.005;
+            let dmgs = {apDmg: Math.round(burnDmg)};
+            this.damage(source, target, dmgs, '灼伤');
+        },
+        // 中毒
+        poison(source, target) {
+            let dmg = (target.buff['poison'] || 0)+1;
+            let dmgs = {apDmg: Math.round(dmg)};
+            this.damage(source, target, dmgs, '中毒');
+        },
         // 攻击起手触发, source为攻击发起者
         TriggerOnAttack(source, target) {
             this.buffReduce(source, source, 'hell');
             let talent = 'ability_rogue_preparation';
             if(source.talent[talent] > 0) {
                 let recover = source.talent[talent]*10;
-                this.hpChange(source, source, recover);
+                this.hpChange(source, source, {heal: recover});
                 this.mpChange(source, source, recover);
             }
         },
@@ -297,6 +482,13 @@ export const buffAndTrigger = {
         },
         // 回血触发
         triggerOnHeal(source, target) {
+        },
+        // 破盾触发
+        triggerOnShieldBreak(source, target) {
+            if(target.buff['inv_spiritshard_01'] != undefined) {
+                this.buffApply(target, target, 'vulnerable', 3);
+                this.buffRemoved(source, target, 'inv_spiritshard_01');
+            }
         },
         // 临死前触发, target为被杀者
         triggerBeforeKilled(source, target, dmg) {
@@ -321,60 +513,111 @@ export const buffAndTrigger = {
         },
         // 死亡后触发, source为击杀者
         triggerAfterKilled(source, target) {
+            let talentTree = this.$store.globalComponent["talentTree"];
             if(target.type == 'player' && this.$store.state.statistic.death%50 == 0 && this.$store.state.statistic.death > 0) {
-                let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+                let itemInfo = this.$store.globalComponent["itemInfo"];
                 let item = itemInfo.createItem('inv_potion_27', 1);  
                 itemInfo.addItem(JSON.parse(item));
             }
-            let talent = 'spell_shadow_bloodboil';
+            //生命摄取
+            let talent = 'spell_deathknight_bloodpresence';
+            if(source.talent[talent] > 0)
+                talentTree.talentTrigger('spell_deathknight_bloodpresence');
+            //能量摄取
+            talent = 'spell_deathknight_frostpresence';
+            if(source.talent[talent] > 0)
+                talentTree.talentTrigger('spell_deathknight_frostpresence');
+            // 生命残留
+            talent = 'spell_shadow_bloodboil';
             if(source.talent[talent] > 0) {
                 let recover = Math.min(target.attribute.MAXHP.value*0.01, source.attribute.MAXHP.value*source.talent[talent]*0.01);
-                this.hpChange(source, source, recover);
+                this.hpChange(source, source, {heal: recover});
             }
+            // 法力残留
             talent = 'inv_elemental_mote_mana';
             if(source.talent[talent] > 0) {
                 let recover = Math.min(target.attribute.MAXHP.value*0.0025, source.attribute.MAXMP.value*source.talent[talent]*0.01);
                 this.mpChange(source, source, recover);
             }
+            // 复活术
+            talent = 'spell_holy_resurrection';
+            if(target.talent[talent] > 0) {
+                let recover = target.attribute.MAXHP.value*0.15*target.talent[talent];
+                setTimeout(() => {
+                    this.hpChange(target, target, {heal: recover});
+                }, 1000);
+            }
+            let achievement = this.$store.globalComponent["achievement"];
+            if(target.type != 'player' && this.monsterId.hasOwnProperty(target.name)) {
+                let id = this.monsterId[target.name];
+                let slain = {slain: {}};
+                slain['slain'][id] = 1;
+                achievement.set_statistic(slain);
+            }
         },
         hpChange(source, target, dmgs, sourceName) {
             this.absorb(target, dmgs);
-            this.damage(source, target, dmgs, sourceName);
+            if(dmgs.adDmg != undefined || dmgs.apDmg != undefined || dmgs.trueDmg != undefined)
+                this.damage(source, target, dmgs, sourceName);
             if(!isNaN(dmgs.heal))
                 this.heal(source, source, this.get_dmg(dmgs, 'heal'), sourceName);
+            if(!isNaN(dmgs.enemyHeal))
+                this.heal(source, target, this.get_dmg(dmgs, 'enemyHeal'), sourceName);
         },
         damage(source, target, dmgs, sourceName) {
-            let mapEvent = this.findBrothersComponents(this, 'mapEvent', false)[0];
-            let battleAnime = this.findComponentDownward(mapEvent, "battleAnime");
+            let battleAnime = this.$store.globalComponent["battleAnime"];
+            if(target.buff['spell_fire_immolation'] != undefined && this.get_dmg(dmgs, 'ad') > 0)
+                this.damage(target, source, {apDmg: 150});
             this.weak(source, dmgs);
+            this.vulnerable(target, dmgs);
             this.void(target, dmgs);
             this.minionSlayer(source, target, dmgs);
-            let totalDmg = this.get_dmg(dmgs, 'ad')+this.get_dmg(dmgs, 'ap');
+            this.dmgShield(source, target, dmgs, sourceName);
+            for(let dmgType in dmgs)
+                dmgs[dmgType] = Math.round(dmgs[dmgType]);
+            let totalDmg = this.get_dmg(dmgs, 'ad')+this.get_dmg(dmgs, 'ap')+this.get_dmg(dmgs, 'true');
+
             let dmgType = '伤害';
             let dmgText = ' 0 ';
-            battleAnime.displayText(target.type, "dmg", {adDmg: dmgs.adDmg, apDmg: dmgs.apDmg});
-            if(this.get_dmg(dmgs, 'ad') > 0) {
-                if(this.get_dmg(dmgs, 'ap') > 0) {
-                    dmgText = '<span style="color:#ffffff"> '+(this.get_dmg(dmgs, 'ad')+this.get_dmg(dmgs, 'ap'))
-                        +'</span>(<span style="color:#ff0000">'+this.get_dmg(dmgs, 'ad')+'</span>+<span style="color:#2ab0ff">'+this.get_dmg(dmgs, 'ap')+'</span>) ';
-                } else {
-                    dmgType = '物理伤害';
-                    dmgText = '<span style="color:#ff0000">'+this.get_dmg(dmgs, 'ad')+'</span> ';
+            let dmgTypeCount = dmgs.adDmg == undefined ? 0 : 1;
+            dmgs.apDmg == undefined ? 0 : dmgTypeCount++;
+            dmgs.trueDmg == undefined ? 0 : dmgTypeCount++;
+            
+            if(target.buff['icenova'] != undefined)
+                target.buffCounter['icenova'] += totalDmg;
+    
+
+            battleAnime.displayText(target.type, "dmg", {adDmg: dmgs.adDmg, apDmg: dmgs.apDmg, trueDmg: dmgs.trueDmg});
+            if(dmgTypeCount > 1) {
+                dmgText = '<span style="color:#ffffff"> '+totalDmg +'</span>(';
+                if(dmgs.adDmg != undefined)
+                    dmgText += '<span style="color:#ff0000">'+this.get_dmg(dmgs, 'ad')+'</span>';
+                if(dmgs.apDmg != undefined) {
+                    if(dmgs.adDmg != undefined)
+                        dmgText += '+';
+                    dmgText += '<span style="color:#2ab0ff">'+this.get_dmg(dmgs, 'ap')+'</span>';
                 }
-            } else if (this.get_dmg(dmgs, 'ap') > 0) {
+                if(dmgs.trueDmg != undefined) {
+                    if(dmgs.adDmg != undefined || dmgs.apDmg != undefined)
+                        dmgText += '+';
+                    dmgText += '<span style="color:#ffffff">'+this.get_dmg(dmgs, 'true')+'</span>';
+                }
+                dmgText += ')';
+            } else if (dmgs.adDmg != undefined) {
+                dmgType = '物理伤害';
+                dmgText = '<span style="color:#ff0000">'+this.get_dmg(dmgs, 'ad')+'</span> ';
+            } else if (dmgs.apDmg != undefined) {
                 dmgType = '魔法伤害';
                 dmgText = '<span style="color:#2ab0ff">'+this.get_dmg(dmgs, 'ap')+'</span> ';
+            } else if (dmgs.trueDmg != undefined) {
+                dmgType = '神圣伤害';
+                dmgText = '<span style="color:#ffffff">'+this.get_dmg(dmgs, 'true')+'</span> ';
             }
-            // let totalDmg = this.get_dmg(dmgs, 'ad')+this.get_dmg(dmgs, 'ap');
-            if(target.type == 'player')
-                this.set_player_hp(-1*totalDmg, source);
-            else
-                this.set_enemy_hp(-1*totalDmg, source);
             if(sourceName != undefined) {
                 if(target.type == source.type) {
                     this.$store.commit("set_battle_info", {
                         source: source.type,
-                        html: source.name+'使用<span style="color:#888888">【'+sourceName+'】</span>对 自己 造成了<span style="color:#ff0000">' + dmgText+ '</span>点'+dmgType
+                        html: source.name+' 使用<span style="color:#888888">【'+sourceName+'】</span>对 自己 造成了<span style="color:#ff0000">' + dmgText+ '</span>点'+dmgType
                     })
                 }
                 else {
@@ -384,12 +627,28 @@ export const buffAndTrigger = {
                     })
                 }
             }
+            if(target.type == 'player')
+                this.set_player_hp(-1*totalDmg, source);
+            else
+                this.set_enemy_hp(-1*totalDmg, source);
         },
         heal(source, target, heal, sourceName) {
+            if(target.buff['plague'] != undefined)
+                heal = Math.round(heal/2);
+            // 灵魂护壳
+            let talent = 'ability_shaman_astralshift';
+            if(target.talent[talent] > 0 || sourceName == '圣言术：静') {
+                let shield = heal-(target.attribute.MAXHP.value-target.attribute.CURHP.value);
+                if(shield > 0) {
+                    if(sourceName != '圣言术：静')
+                        shield = shield*0.8
+                    heal -= shield;
+                    this.shield(source, target, shield, sourceName);
+                }
+            }
             // this.triggerOnHeal(source, target)
-            let mapEvent = this.findBrothersComponents(this, 'mapEvent', false)[0];
-            let battleAnime = this.findComponentDownward(mapEvent, "battleAnime");
-            battleAnime.displayText(target.type, "dmg", {heal: dmgs.heal});
+            let battleAnime = this.$store.globalComponent["battleAnime"];
+            battleAnime.displayText(target.type, "dmg", {heal: heal});
             if(target.type == 'player')
                 this.set_player_hp(heal, source);
             else
@@ -409,7 +668,33 @@ export const buffAndTrigger = {
                 }
             }
         },
+        shield(source, target, shield, sourceName) {
+            shield = Math.round(shield);
+            if(target.attribute.SHIELD.value == undefined)
+                target.attribute.SHIELD.value = shield;
+            else 
+                target.attribute.SHIELD.value += shield;
+        },
+        dmgShield(source, target, dmgs, sourceName) {
+            if(target.attribute.SHIELD.value == undefined)
+                return;
+            let block = Math.min(target.attribute.SHIELD.value, this.get_dmg(dmgs, 'ad'));
+            target.attribute.SHIELD.value -= block;
+            this.set_ad_dmg(dmgs, this.get_dmg(dmgs, 'ad')-block);
+            
+            block = Math.min(target.attribute.SHIELD.value, this.get_dmg(dmgs, 'ap'));
+            target.attribute.SHIELD.value -= block;
+            this.set_ap_dmg(dmgs, this.get_dmg(dmgs, 'ap')-block);
+            target.attribute.SHIELD.value = Math.round(target.attribute.SHIELD.value);
+
+            if(target.attribute.SHIELD.value <= 0)
+                this.triggerOnShieldBreak(source, target);
+        },
+        clearShield(target) {
+            target.attribute.SHIELD =  { baseVal: 0, value: 0, showbaseVal: 0};
+        },
         mpChange(source, target, value, sourceName) {
+            value = Math.round(value);
             if(value > 0) {
                 this.mpRecover(source, target, value, sourceName);
             }
@@ -432,8 +717,14 @@ export const buffAndTrigger = {
                 case 'ap':
                     dmg = dmgs.apDmg;
                     break;
+                case 'true':
+                    dmg = dmgs.trueDmg;
+                    break;
                 case 'heal':
                     dmg = dmgs.heal;
+                    break;
+                case 'enemyHeal':
+                    dmg = dmgs.enemyHeal;
                     break;
                 default:
                     console.log("获取伤害类型错误");
@@ -480,14 +771,22 @@ export const buffAndTrigger = {
             let target = this.player;
             let CURHP = target.attribute.CURHP,
                 MAXHP = target.attribute.MAXHP;
+            let mapEvent = this.$store.globalComponent["mapEvent"];
+            let achievement = this.$store.globalComponent["achievement"];
             // dead/full 等, 跳过乱七八糟的判断
             if(isNaN(data)) {
                 this.$store.commit('set_hp', {data, CURHP, MAXHP});
-                if(source != undefined) {
-                    let slainBy = {};
-                    slainBy[source.name] = 1;
-                    this.$store.commit('set_statistic', {slainBy: slainBy});
-                    this.triggerAfterKilled(source, target);
+                if(data == 'dead' || data == 'remove') {
+                    this.clearTickTimers(target.type);
+                    if(source != undefined) {
+                        let slainBy = {};
+                        slainBy[source.name] = 1;
+                        this.$store.commit('set_statistic', {slainBy: slainBy});
+                        this.triggerAfterKilled(source, target);
+                    }
+                }
+                if(data == 'dead') {
+                    mapEvent.defeat(source, target);
                 }
                 return;
             }
@@ -495,27 +794,47 @@ export const buffAndTrigger = {
                 this.triggerOnHurt(source, target, data);
             if(-1*data >= CURHP.value)
                 data = this.triggerBeforeKilled(source, target, data);
-            if(-1*data >= CURHP.value) {
+            this.$store.commit('set_hp', {data, CURHP, MAXHP});
+            if(CURHP.value <= 0) {
+                mapEvent.defeat(source, target);
+                this.clearTickTimers(target.type);
+                this.clearAllBuff(target);
                 let slainBy = {};
                 slainBy[source.name] = 1;
+                achievement.set_statistic({death: 1});
                 this.$store.commit('set_statistic', {slainBy: slainBy});
                 this.triggerAfterKilled(source, target);
             }
-            this.$store.commit('set_hp', {data, CURHP, MAXHP});
             CURHP.showValue = CURHP.value;
         },
+        // remove=移除怪物, dead=击杀
         set_enemy_hp(data) {
             let source = this.player;
             let target = this.$store.state.enemyAttribute;
             let CURHP = target.attribute.CURHP,
                 MAXHP = target.attribute.MAXHP;
+            let mapEvent = this.$store.globalComponent["mapEvent"];
+            if(isNaN(data)) {
+                if(data == 'dead' || data == 'remove') {
+                    this.clearTickTimers(target.type);
+                }
+                if(data == 'dead') {
+                    mapEvent.victory(source, target);
+                    this.triggerAfterKilled(source, target);
+                }
+                this.$store.commit('set_hp', {data, CURHP, MAXHP});
+                return;
+            }
             if(data < 0)
                 this.triggerOnHurt(source, target, data);
             if(-1*data >= CURHP.value)
                 data = this.triggerBeforeKilled(source, target, data);
-            if(-1*data >= CURHP.value)
-                this.triggerAfterKilled(source, target);
             this.$store.commit('set_hp', {data, CURHP, MAXHP});
+            if(CURHP.value <= 0)  {
+                mapEvent.victory(source, target);
+                this.clearTickTimers(target.type);
+                this.triggerAfterKilled(source, target);
+            }
             CURHP.showValue = CURHP.value;
         },    
     }

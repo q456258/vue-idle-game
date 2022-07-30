@@ -22,104 +22,37 @@
 <div class="guild">
     <div id="resource">
         金币:<currency :amount="guild.gold"></currency> <br>
-        水晶:{{guild.crystal}} <br>
+        公会名望: {{guild.reputation}}<img class="guildReputationIcon">
     </div>
-    <div id="building">     
-        <cTooltip :placement="'bottom'">
-            <template v-slot:content>
-                <a id="guildBtn" class='glowBtn btnActive' @click="switchTab($event, 'guild')">公会 {{guild.guild.lv}}</a>
-            </template>
-            <template v-slot:tip>
-                <p class="info">* 每10级增加一个公会成员上限</p>
-            </template>
-        </cTooltip>   
-        <!-- <cTooltip :placement="'bottom'" v-if="guild.guild.lv>0">
-            <template v-slot:content>
-                <a id="trainBtn" class='glowBtn' @click="switchTab($event, 'train')">练功房 {{guild.train.lv}}</a>
-            </template>
-            <template v-slot:tip>
-                <p class="info">* 消耗水晶提升能力的场所</p>
-                <p class="info">* 每一级提升1点训练效果</p>
-            </template>
-        </cTooltip>
-        <cTooltip :placement="'bottom'" v-if="guild.guild.lv>0 && guild.train.lv>=15">
-            <template v-slot:content>
-                <a id="train2Btn" class='glowBtn' @click="switchTab($event, 'train2')">中级练功房 {{guild.train2.lv}}</a>
-            </template>
-            <template v-slot:tip>
-                <p class="info">* 消耗水晶提升能力的场所</p>
-                <p class="info">* 每一级提升1点训练效果</p>
-                <p class="info">* 等级上限为练功房等级</p>
-            </template>
-        </cTooltip>
-        <cTooltip :placement="'bottom'" v-if="guild.guild.lv>0 && guild.train2.lv>=15">
-            <template v-slot:content>
-                <a id="train3Btn" class='glowBtn' @click="switchTab($event, 'train3')">高级练功房 {{guild.train3.lv}}</a>
-            </template>
-            <template v-slot:tip>
-                <p class="info">* 消耗水晶提升能力的场所</p>
-                <p class="info">* 每一级提升1点训练效果</p>
-                <p class="info">* 等级上限为中级练功房等级</p>
-            </template>
-        </cTooltip> -->
-        <cTooltip :placement="'bottom'" v-if="guild.guild.lv>0">
-            <template v-slot:content>
-                <a id="shopBtn" class='glowBtn' @click="switchTab($event, 'shop')">商店 {{guild.shop.lv}}</a>
-            </template>
-            <template v-slot:tip>
-                <p class="info">* 出售日常用品</p>
-                <p class="info">* 每一级提升0.5%金币收入</p>
-            </template>
-        </cTooltip>
-        <cTooltip :placement="'bottom'" v-if="guild.guild.lv>0">
-            <template v-slot:content>
-                <a id="smithBtn" class='glowBtn' @click="switchTab($event, 'smith')">铁匠铺 {{guild.smith.lv}}</a>
-            </template>
-            <template v-slot:tip>
-                <p class="info">* 提供强化、锻造等服务</p>
-                <p class="info">* 每一级提升1%强化成功率</p>
-            </template>
-        </cTooltip>
-        <cTooltip :placement="'bottom'" v-if="guild.guild.lv>0">
-            <template v-slot:content>
-                <a id="mineBtn" class='glowBtn' @click="switchTab($event, 'mine')">矿场 {{guild.smith.lv}}</a>
-                <!-- <a id="mineBtn" class='glowBtn' @click="switchTab($event, 'mine')">矿场 {{guild.mine.lv}}</a> -->
-            </template>
-            <template v-slot:tip>
-            </template> 
-        </cTooltip>
-        <cTooltip :placement="'bottom'" v-if="guild.guild.lv>0">
-            <template v-slot:content>
-                <a id="herbBtn" class='glowBtn' @click="switchTab($event, 'herb')">药园 {{guild.smith.lv}}</a>
-                <!-- <a id="herbBtn" class='glowBtn' @click="switchTab($event, 'herb')">药园 {{guild.herb.lv}}</a> -->
-            </template>
-            <template v-slot:tip>
-            </template>
-        </cTooltip>
-        <cTooltip :placement="'bottom'" v-if="guild.guild.lv>0">
-            <template v-slot:content>
-                <a id="barBtn" class='glowBtn' @click="switchTab($event, 'bar')">酒馆 {{guild.smith.lv}}</a>
-                <!-- <a id="barBtn" class='glowBtn' @click="switchTab($event, 'bar')">酒馆 {{guild.bar.lv}}</a> -->
-            </template>
-            <template v-slot:tip>
-            </template>
-        </cTooltip>
+    <div id="building">
+        <div v-for="(v, k) in guildBuildingOptions" :key="k">
+            <cTooltip :placement="'bottom'" v-if="guild[v].lv>0">
+                <template v-slot:content>
+                    <a :id="v+'Btn'" class='glowBtn' @click="switchTab($event, v)">{{guildBuildingName[v]+" "+guild[v].lv}}</a>
+                </template>
+                <template v-slot:tip>
+                    <div v-for="(v2, k2) in guildBuildingDesc[v]" :key="k2">
+                        <span v-if="guildBuildingDesc[v][k2]!=''" :style="{color:guild[v].lv<k2?'#888':''}">{{k2+"级: "+guildBuildingDesc[v][k2]}}</span>
+                    </div>
+                </template>
+            </cTooltip>
+        </div>
     </div>
     <guildPosition></guildPosition>
 </div>
 </template>
 <script>
 import {guildConfig} from '@/assets/config/guildConfig'
-import { assist } from '../../assets/js/assist';
 import currency from '../uiComponent/currency';
 import cTooltip from '../uiComponent/tooltip';
 import guildPosition from '../component/guildPosition';
 import countdown from '../uiComponent/countdown';
 export default {
     name: "guild",
-    mixins: [assist, guildConfig],
+    mixins: [guildConfig],
     components: {cTooltip, guildPosition, countdown, currency},
     mounted() {
+        this.$store.globalComponent.guild = this;
     },
     data() {
         return {
@@ -129,44 +62,81 @@ export default {
     },
     computed: {
         guild() {return this.$store.state.guildAttribute;},
-        player() {return this.$store.state.playerAttribute;}
+        player() {return this.$store.state.playerAttribute;},
+        guildBuildingOptions() {
+            return Object.keys(this.guildBuildingDesc).filter((k) => {
+                return this.guild[k].lv>0;
+            })
+        }
     },
     methods: {      
         switchTab(e, type){
-            let guildPosition = this.findComponentDownward(this, 'guildPosition');
+            let guildPosition = this.$store.globalComponent["guildPosition"];
             let active = document.getElementById(guildPosition.displayPage+'Btn');
             active.classList.remove('btnActive');
             guildPosition.displayPage = type;
             e.target.classList.add('btnActive');
         },    
-        getGold(text, gold, showText=true, bonus=true) {
-            gold = parseInt(gold);
-            if(bonus)
-                gold = Math.round(gold*(1+this.guild.shop.lv*0.005));
-            this.guild.gold += gold;
+        getGold(text, amount, showText=true, bonus=true) {
+            if(isNaN(amount)) {
+                console.log("获得异常数额金币");
+                console.trace();
+                return;
+            }
+            amount = parseInt(amount);
+            if(amount <= 0){
+                console.log("获得0或者负数金币"+amount);
+                console.trace();
+            }
+            this.guild.gold += amount;
             if(showText) {
                 this.$store.commit("set_sys_info", {
                     type: 'reward',
                     msg: text+'获得',
-                    gold: gold
+                    gold: amount
                 });
             }
-            let achievement = this.findBrothersComponents(this, 'achievement', false)[0];
-            achievement.set_statistic({cumulatedGold: gold});
-            // this.$store.commit("set_statistic", {cumulatedGold: gold});
+            let achievement = this.$store.globalComponent["achievement"];
+            achievement.set_statistic({cumulatedGold: amount});
         },
-        getCrystal(text, crystal, showText=true) {
-            crystal = parseInt(crystal);
-            this.guild.crystal += crystal;
+        getReputation(text, amount, showText=true) {
+            if(isNaN(amount)) {
+                console.log("获得异常数名望");
+                console.trace();
+                return;
+            }
+            amount = parseInt(amount);
+            this.guild.reputation += amount;
             if(showText) {
                 this.$store.commit("set_sys_info", {
                     type: 'reward',
-                    msg: text+'获得'+crystal+'水晶'
+                    msg: text+'获得'+amount+'公会名望'
                 });
             }
-            let achievement = this.findBrothersComponents(this, 'achievement', false)[0];
-            achievement.set_statistic({cumulatedCrystal: crystal});
-            // this.$store.commit("set_statistic", {cumulatedCrystal: crystal});
+            let achievement = this.$store.globalComponent["achievement"];
+            achievement.set_statistic({cumulatedReputation: amount});
+        },
+        useGold(amount) {
+            if(isNaN(amount)) {
+                console.log("扣除异常数额金币");
+                console.trace();
+                return;
+            }
+            amount = parseInt(amount);
+            this.guild.gold -= amount;
+        },
+        useReputation(amount, reputationType) {
+            if(isNaN(amount)) {
+                console.log("扣除异常数额金币");
+                console.trace();
+                return;
+            }
+            amount = parseInt(amount);
+            switch(reputationType) {
+                case 'guildReputation':
+                    this.guild.reputation -= amount;
+                    break;
+            }
         },
     }
 }

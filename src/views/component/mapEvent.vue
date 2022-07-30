@@ -4,7 +4,7 @@
         <battleAnime v-show="inBattle"></battleAnime>
         <!-- <battleAnime></battleAnime> -->
         <div class="dungeonInfo" v-if="dungeon.type">
-            <a href="#" class="close" @click="close()"></a>
+            <a href="#" class="smallClose close" @click="close()"></a>
             <div class="title">
                 信息
             </div>
@@ -35,7 +35,7 @@
                 </div>
             </div>
             <div class="action" v-if="!inBattle&&selectedDungeon.count!=0">
-                <span v-if="selectedDungeon.type=='gold' || selectedDungeon.type=='mine'" >
+                <span v-if="selectedDungeon.type=='mine'" >
                     <button class="btn btn-success btn-sm" @click="addToQueue(selectedDungeon)">
                         添加至队列
                     </button>   
@@ -67,9 +67,8 @@
 </template>
 <script>
 
-import { assist } from '../../assets/js/assist';
+
 import { spellEffect } from '../../assets/js/spellEffect';
-import { buffAndTrigger } from '../../assets/js/buffAndTrigger';
 import { monsterConfig } from '@/assets/config/monsterConfig'
 import { spellConfig } from '@/assets/config/spellConfig'
 import { buffConfig } from '@/assets/config/buffConfig'
@@ -77,7 +76,7 @@ import minesweeper from '../component/minesweeper';
 import battleAnime from '../component/battleAnime';
 export default {
     name: 'mapEvent',
-    mixins: [assist, spellEffect, buffAndTrigger, monsterConfig, spellConfig, buffConfig],
+    mixins: [spellEffect, monsterConfig, spellConfig, buffConfig],
     components: {minesweeper, battleAnime},
     props: {
     },
@@ -86,7 +85,6 @@ export default {
             battleTimer: "",
             battleID: 1,
             selectedDungeon: {},
-            reqExp: [],
             type: {normal: '普通', elite: '精英', boss: 'BOSS', chest: '宝藏', gold: '矿物', mine: '矿物', herb: '草药'},
             mineDifficulty: 0,
             mineReward: [],
@@ -104,7 +102,7 @@ export default {
         }
     },
     mounted() {
-        this.expReq();
+        this.$store.globalComponent.mapEvent = this;
     },
     computed: {
         auto() { return this.$store.state.dungeonInfo.auto;},
@@ -114,8 +112,7 @@ export default {
     },
     methods: {
         toggleBattle(type, auto=false) {
-            if(auto)
-                this.autoBattle(true);
+            this.autoBattle(auto);
             if(this.dungeonInfo.inBattle) 
                 this.setBattleStatus(false, false, true);
             else {
@@ -135,12 +132,16 @@ export default {
             let playerAttribute = this.playerAttr,
                 enemyAttribute = this.$store.state.enemyAttribute,
                 dungeonInfo = this.dungeonInfo;
+            if(dungeonInfo.inBattle)
+                return;
             if(enemyAttribute.attribute.CURHP.value == 0) {
                 this.generateenemy();
                 enemyAttribute = this.$store.state.enemyAttribute;
             }
-            if(dungeonInfo.inBattle)
-                return;
+            this.$store.commit("set_battle_info", {
+                type: '',
+                msg: '————战斗开始————'
+            });
             this.setBattleStatus(true, true);
             let currentBattle = Math.floor(Math.random()*90071992547);
             this.battleID = currentBattle;
@@ -177,23 +178,8 @@ export default {
                 return false;
             }
             this.callAction(source, target);
-            if(target.attribute.CURHP.value == 0) {
-                this.enemySlain(this.monsterId[target.name], 1);
-                this.reward();
-                this.setBattleStatus(false, dungeonInfo.auto, true);
-                // if(dungeonInfo.current == 'normal')
-                //     this.generateenemy();
-                if(this.selectedDungeon.count == 0)
-                    dungeonInfo.auto = false;
-                this.gainExp(target.lv);
-                if(dungeonInfo.auto && !this.$store.state.setting.waitFull)
-                    this.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
-                this.$store.commit("set_battle_info", {
-                    type: 'win',
-                    msg: '战斗结束, 你胜利了'
-                });
+            if(target.attribute.CURHP.value == 0)
                 return false;
-            } 
             return true;
         },
         enemyAction(source, target, battleID) {
@@ -204,16 +190,24 @@ export default {
                 return false;
             }
             this.callAction(source, target);
-            if(target.attribute.CURHP.value == 0) {
-                let achievement = this.findBrothersComponents(this, 'achievement', false)[0];
-                achievement.set_statistic({death: 1});
-                this.set_enemy_hp('dead');
-                this.setBattleStatus(false, false);
-                this.$store.commit("set_battle_info", {
-                    type: 'lose',
-                    msg: '战斗结束, 你扑街了'
-                });
-            } 
+        },
+        victory(source, target) {
+            this.reward();
+            this.setBattleStatus(false, this.dungeonInfo.auto);
+            if(this.selectedDungeon.count == 0)
+                this.autoBattle(false);
+            this.levelToTarget(target.lv);
+            this.$store.commit("set_battle_info", {
+                type: 'win',
+                msg: '战斗结束, 你胜利了'
+            });
+        },
+        defeat(source, target) {
+            this.setBattleStatus(false, false);
+            this.$store.commit("set_battle_info", {
+                type: 'lose',
+                msg: '战斗结束, 你扑街了'
+            });
         },
         reduceCount(count=1) {
             if(this.selectedDungeon.count > 0) {
@@ -224,69 +218,14 @@ export default {
                 return false;
             return true;
         },
-        gainExp(lv) {
-            let exp = 35+lv*5;
-            let tempExp = 0;
-            let playerLv = this.playerAttr.lv;
-            if(lv>playerLv) {
-                // 经验上限125%
-                tempExp = exp*(lv-playerLv)*1.05;
-                exp = Math.min(tempExp, exp*1.25);
-            }
-            else {
-                // 经验下限10%
-                tempExp = exp*(1-(playerLv-lv)*0.1);
-                exp = Math.max(tempExp, exp*0.1);
-            }
-            exp = Math.round(exp);
-            let curExp = this.playerAttr.exp.cur + exp;
-            let reqExp = this.reqExp[playerLv];
-            if(reqExp == undefined) {
-                this.expReq();
-                reqExp = this.reqExp[playerLv];
-            }
-            if(curExp > this.playerAttr.exp.req)
-                this.playerAttr.exp.req = this.reqExp[playerLv];
-            if(curExp >= reqExp) {
+        levelToTarget(target) {
+            this.talentLevelToTarget(target);
+            while(this.playerAttr.lv < target)
                 this.levelUp();
-                curExp -= reqExp;
-            }
-            this.playerAttr.exp.cur = curExp;
-            if(exp > 0) {
-                let element = document.getElementById('expInfo');
-                let node = document.createElement('DIV');
-                let textnode = document.createTextNode("+"+exp+'exp');
-                node.appendChild(textnode);
-                element.appendChild(node); 
-                node.style.position = 'absolute';
-                node.style.width = '10rem';
-                node.style.color = '#aaf';
-                node.style.top = '2.5rem';
-                node.style.right = '3rem';
-                node.style.transition = '1s';
-                node.style.transitionTimingFunction = 'ease-out';
-                setTimeout(()=>{
-                    node.style.top = '1rem';
-                },1);
-                setTimeout(()=>{
-                    element.removeChild(node);
-                },800);
-            }
-        },
-        expReq() {
-            this.reqExp[0] = 0;
-            for(let i=1; i<200; i++) {
-                if(i<10)
-                    this.reqExp[i] = this.reqExp[i-1]+(20+i*10)
-                else
-                    this.reqExp[i] = this.reqExp[i-1]+(35+i*20)
-            }
         },
         levelUp() {
-            let playerLv = this.playerAttr.lv;
             this.playerAttr.lv += 1;
-            this.playerAttr.talentPoint += 1;
-            this.playerAttr.exp.req = this.reqExp[playerLv+1];
+            // this.playerAttr.talentPoint += 1;
             if(this.playerAttr.lv == 10) {
                 let element = document.getElementById('talentTree');
                 element.classList.add('glow');
@@ -294,12 +233,20 @@ export default {
             if(this.playerAttr.lv == 20) {
                 let element = document.getElementById('guild');
                 element.classList.add('glow');
-                guild = this.$store.state.guildAttribute;
+                let guild = this.$store.state.guildAttribute;
                 guild.guild.lv = 1;
-                guild.train.lv = 1;
                 guild.shop.lv = 1;
                 guild.smith.lv = 1;
             }
+        },
+        talentLevelToTarget(target) {
+            while(this.playerAttr.talentLv < target)
+                this.talentLevelUp();
+        },
+        talentLevelUp() {
+            this.playerAttr.talentLv += 1;
+            if(this.playerAttr.talentLv > 10)
+                this.playerAttr.talentPoint += 1;
         },
         autoBattle(auto) {
             if(auto == undefined)
@@ -308,12 +255,17 @@ export default {
                 this.dungeonInfo.auto = auto;
         },
         setBattleStatus(inBattle, auto=true, immediate=false) {
+            let index = this.$store.globalComponent["index"];
+            index.clearShield(this.playerAttr);
+            index.clearTurnbaseBuff(this.playerAttr);
+            if(!inBattle)
+                this.battleID = -1;
             if(immediate || inBattle) {
                 this.dungeonInfo.inBattle = inBattle;
                 if(!inBattle) {
                     clearInterval(this.battleTimer);
                     this.autoBattle(auto);
-                    this.set_enemy_hp('dead');
+                    index.set_enemy_hp('remove');
                 }
             }
             else {
@@ -322,16 +274,26 @@ export default {
                     if(!inBattle) {
                         clearInterval(this.battleTimer);
                         this.autoBattle(auto);
-                        this.set_enemy_hp('dead');
+                        index.set_enemy_hp('remove');
+                        if(auto && !this.$store.state.setting.waitFull)
+                            this.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
                     }
                 }, 1000);
             }
         },
         addToQueue(dungeon) {
-            let guild = this.findBrothersComponents(this, 'guild', false)[0];
-            let guildPosition = this.findComponentDownward(guild, 'guildPosition');
+            let guildPosition = this.$store.globalComponent["guildPosition"];
+            let guild = this.$store.state.guildAttribute;
+            if(guildPosition.mineQueue.length >= guildPosition.mineMaxQty[guild.mine.lv]) {
+                this.$store.commit("set_sys_info", {
+                    type: 'danger',
+                    msg: '挖矿队列已满',
+                });
+                return;
+            }
             let newDungeon = this.$deepCopy(dungeon);
             newDungeon.progress = [0, this.monster[newDungeon.monsterID].template.MAXHP];
+            newDungeon.available = 0;
             this.reduceCount(999999);
             switch(dungeon.type) {
                 case 'gold':
@@ -348,8 +310,11 @@ export default {
                 return;
             this.mineDifficulty = Math.floor(Math.random()*3);
             this.mineReward = this.$deepCopy(this.selectedDungeon.reward);
-            let minesweeper = this.findComponentDownward(this, 'minesweeper');
-            minesweeper.reset();
+            let minesweeper = this.$store.globalComponent["minesweeper"];
+            // 直接调用reset会导致传进去的mineDifficulty还是之前的值
+            setTimeout(() => {
+                minesweeper.reset();
+            }, 1);
         },
         chest() {
             if(!this.reduceCount())
@@ -367,6 +332,10 @@ export default {
             if(!monsterID)
                 monsterID = this.dungeonInfo[this.dungeonInfo.current].monsterID;
             enemyAttribute.attribute = {};
+            enemyAttribute.buff = {};
+            enemyAttribute.buffCounter = {};
+            enemyAttribute.tempStat = [];
+            enemyAttribute.timedBuff = {};
             enemyAttribute.spellCycle = this.$deepCopy(this.monster[monsterID].spellCycle);
             enemyAttribute.talent = this.$deepCopy(this.monster[monsterID].talent);
             enemyAttribute.curSpell = 0;
@@ -389,7 +358,7 @@ export default {
                 // attribute.value = Math.round(attribute.value*(1+enemyAttribute.lv*0.15));
                 // attribute.value = Math.round(attribute.value*(1.5+enemyAttribute.lv*(enemyAttribute.lv-1)*(enemyAttribute.lv/50)));
                 // attr.value = Math.round(attr.value*(2+enemyAttribute.lv*(enemyAttribute.lv/35)*(0.9+Math.random()*0.2)));
-                attr.value = Math.round(attr.value*(1+flexLv*(flexLv/75))*(0.9+Math.random()*0.2));
+                attr.value = Math.round(attr.value*(1+flexLv*(flexLv/75))*(0.95+Math.random()*0.1));
                 attr.showValue = attr.value;
                 enemyAttribute.attribute[stat] = attr;
             });
@@ -409,6 +378,10 @@ export default {
                 value: attribute['MAXHP'].value,
                 showValue: attribute['MAXHP'].value
             }
+            attribute['SHIELD'] = {
+                value: 0,
+                showValue: 0
+            }
             // if(type=='elite') {
             //     attribute = this.eliteStat(attribute);
             // }
@@ -426,25 +399,17 @@ export default {
             this.$store.commit('set_enemy_attribute', enemyAttribute);
         },
         onAttack(source, target) {
-            this.TriggerOnAttack(source, target);
+            let index = this.$store.globalComponent["index"];
+            index.TriggerOnAttack(source, target);
             if(source.type == 'player') {
-                let spellList = this.playerAttr.spells;
-                let haste = this.playerAttr.attribute.HASTE.value;
-                let progress = 1+Math.floor(haste/100);
-                if(Math.random()*100 < haste%100) 
-                    progress += 1;
-                for(let spell in spellList) {
-                    if(spellList[spell].progress < this.spell[spell].max) {
-                        spellList[spell].progress += progress;
-                    }
-                }
+                this.setSpellProgress(source, source, 'add', 'all', 1);
             }
         },
         reward() {
             let equip = ['helmet', 'weapon', 'armor', 'shoe', 'shoulder', 'glove', 'ring', 'cape', 'bracer', 'belt', 'legging', 'necklace'];
-            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-            let equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];   
-            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];   
+            let itemInfo = this.$store.globalComponent["itemInfo"];
+            let equipInfo = this.$store.globalComponent["equipInfo"];   
+            let backpack = this.$store.globalComponent["backpack"];   
             let rewardList = this.dungeonInfo.advanture.reward;
             for(let k=0; k<rewardList.length; k++) {
                 let random = Math.random()*100;
@@ -456,18 +421,6 @@ export default {
                         itemInfo.addItem(rewardList[k][0], true);
                 }
             }
-            // let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-            // itemInfo.addItem(item);
-        },
-        enemySlain(id, qty){
-            let talentTree = this.findBrothersComponents(this, 'talentTree', false)[0];
-            talentTree.talentTrigger('spell_deathknight_bloodpresence');
-            talentTree.talentTrigger('spell_deathknight_frostpresence');
-            let slain = {slain: {}};
-            slain['slain'][id] = qty;
-            let achievement = this.findBrothersComponents(this, 'achievement', false)[0];
-            achievement.set_statistic(slain);
-            // this.$store.commit("set_statistic", slain);
         },
         eliteStat(attribute) {
             attribute['ATK'] = {
@@ -524,18 +477,18 @@ export default {
             return attribute;
         },
         close() {
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent["index"];
             if(index.dungeon) {
                 index.dungeon.selected = false;
                 index.dungeon = {};
             }
         },
         showInfo($event, type, item, compare) {
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent["index"];
             index.showInfo($event, type, item, compare);
         },
         closeInfo(type) {
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent["index"];
             let equip = ['helmet', 'weapon', 'armor', 'shoe', 'shoulder', 'glove', 'ring', 'cape', 'bracer', 'belt', 'legging', 'necklace'];
 
             if(equip.indexOf(type) != -1)
@@ -584,32 +537,6 @@ export default {
 .reward {
     display: flex;
     flex-wrap: wrap;
-}
-.close {
-    position: absolute;
-    right: 10px;
-    top: 5px;
-    width: 15px;
-    height: 15px;
-    opacity: 0.7;
-    z-index: 6;
-}
-.close:hover {
-    opacity: 1;
-}
-.close:before, .close:after {
-    position: absolute;
-    left: 7px;
-    content: ' ';
-    height: 15px;
-    width: 2px;
-    background-color: rgb(255, 255, 255);
-}
-.close:before {
-    transform: rotate(45deg);
-}
-.close:after {
-    transform: rotate(-45deg);
 }
 
 </style>

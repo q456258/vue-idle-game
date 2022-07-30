@@ -14,17 +14,20 @@
     </div>
 </template>
 <script>
-import { assist } from '../../assets/js/assist';
+
 import {equipConfig} from '@/assets/config/equipConfig'
 export default {
     name: "compareEquip",
-    mixins: [assist, equipConfig],
+    mixins: [equipConfig],
     data() {
         return {
             diff: {},
             comparedAttributes: ['HP','MP','ATK','DEF','SUNDER','BLOCK','CRIT','CRITDMG',],
             percent: ['CRIT','CRITDMG']
         };
+    },
+    mounted() {
+        this.$store.globalComponent.compareEquip = this;
     },
     props: {
         equip: {

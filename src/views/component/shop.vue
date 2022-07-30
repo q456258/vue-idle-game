@@ -3,38 +3,20 @@
 	<div class="container">
         <div class="resource">
             金币: <currency :amount="playerGold"></currency> <br>
-            水晶: {{playerCrystal}} <br>
+            公会名望：{{guildReputation}}<img class="guildReputationIcon">
         </div>
-        <div class="shops">
-                水晶商城
-            <div class="crystal">
-                <div class="buyCrystal">
-                    <input class="target" type="number" v-model="buyCrystalAmt"  @input="checkBuyRange" :max="Math.floor(playerGold/2000)" :min="0" />  
-                    <button type="button" class="btn btn-outline-success" :disabled="playerGold<buyCrystalGold" @click="buyCrystal">购买水晶</button>
-                    <br>
-                    <span v-if="buyCrystalGold<100000">{{buyCrystalGold}}</span>
-                    <span v-if="buyCrystalGold>=100000">{{buyCrystalGold/10000}}w</span>金 (1:2000)
-                </div>
-                <div class="sellCrystal">
-                    <input class="target" type="number" v-model="sellCrystalAmt" @input="checkSellRange" :max="playerCrystal" min="0" />    
-                    <button type="button" class="btn btn-outline-danger" :disabled="playerCrystal<sellCrystalAmt" @click="sellCrystal">出售水晶</button>                    
-                    <br>
-                    <span v-if="sellCrystalGold<100000">{{sellCrystalGold}}</span>
-                    <span v-if="sellCrystalGold>=100000">{{sellCrystalGold/10000}}w</span>金 (1:500)
-                </div>
-            </div>
-        </div>
-        <div class="shops">
-                杂货店
+        <div class="shops scrollbar-morpheus-den">
+            杂货店
             <div class="wrapper">
-                <div class="grid" v-for="(v, k) in generalShop" :key="k">
+                <div class="grid" v-for="(v, k) in guildShop.generalShop[guild.shop.lv]" :key="k">
                     <div @mouseover="showInfo($event,itemType[v].itemType,itemType[v],true)" @mouseleave="closeInfo('item')">
                         <div class="mediumIconContainer">
                             <del :class="[{grey:itemType[v].quality==1, green:itemType[v].quality==3, blue:itemType[v].quality==4, purple:itemType[v].quality==5, orange:itemType[v].quality==5}, 'mediumIcon iconBorder']"></del>
                             <img :src="itemType[v].description.iconSrc" alt="" />
                         </div>
+                        <div class="quantity">{{itemType[v].quantity}}</div>
                     </div>       
-                    <button type="button" class="btn btn-outline-warning buy" :disabled="playerGold<itemType[v].cost" @click="buyItem(k)">购买</button>
+                    <button type="button" class="btn btn-outline-warning buy" :disabled="playerGold<itemType[v].cost" @click="buyItem(v)">购买</button>
                     <span class="itemName">
                         {{itemType[v].description.name}}
                     </span>      
@@ -42,21 +24,42 @@
                 </div>
             </div>
         </div>
-        <div class="shops">
-                奸商
+        <div class="shops scrollbar-morpheus-den">
+            名望商店
             <div class="wrapper">
-                <div class="grid" v-for="(v, k) in equipShop" :key="k">
-                    <div @mouseover="showInfo($event,v.itemType,v,true)" @mouseleave="closeInfo('equip')">
-                        <div class="mediumIconContainer" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v.quality.color }">
-                            <del :class="[{grey:v.quality.qualityLv==1, green:v.quality.qualityLv==3, blue:v.quality.qualityLv==4, purple:v.quality.qualityLv==5, orange:v.quality.qualityLv==5}, 'mediumIcon iconBorder']"></del>
-                            <img :src="v.description.iconSrc" alt="" />
+                <div class="grid" v-for="(v, k) in guildShop.reputationShop[guild.shop.lv]" :key="k">
+                    <div @mouseover="showInfo($event,itemType[v[0]].itemType,itemType[v[0]],true)" @mouseleave="closeInfo('item')">
+                        <div class="mediumIconContainer">
+                            <del :class="[{grey:itemType[v[0]].quality==1, green:itemType[v[0]].quality==3, blue:itemType[v[0]].quality==4, purple:itemType[v[0]].quality==5, orange:itemType[v[0]].quality==5}, 'mediumIcon iconBorder']"></del>
+                            <img :src="itemType[v[0]].description.iconSrc" alt="" />
                         </div>
-                    </div>
-                    <button type="button" class="btn btn-outline-warning buy" :disabled="playerGold<equipCost[k]" @click="buyEquip(k)">购买</button>
-                    <span class="itemName" :style="{color:v.quality.color}">
-                        {{v.description.name}}
-                    </span>          
-                    <span :style="{color:playerGold<equipCost[k]?'#f00':''}"><currency :amount="equipCost[k]"></currency></span>
+                        <div class="quantity">{{itemType[v[0]].quantity}}</div>
+                    </div>       
+                    <button type="button" class="btn btn-outline-warning buy" :disabled="guildReputation<v[1]" @click="buyReputationItem(v[0], v[1], 'guildReputation')">购买</button>
+                    <span class="itemName">
+                        {{itemType[v[0]].description.name}}
+                    </span>      
+                    <span :style="{color:guildReputation<v[1].cost?'#f00':''}">{{v[1]}}<img class="guildReputationIcon"></span>
+                </div>
+            </div>
+        </div>
+        <div class="shops" v-if="guild['shop'].lv>2">
+            黑市
+            <div class="wrapper">
+                <div v-for="(v, k) in equipShop" :key="k">
+                    <span class="grid" v-if="v.itemType!=undefined">
+                        <div @mouseover="showInfo($event,v.itemType,v,true)" @mouseleave="closeInfo('equip')">
+                            <div class="mediumIconContainer" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v.quality.color }">
+                                <del :class="[{grey:v.quality.qualityLv==1, green:v.quality.qualityLv==3, blue:v.quality.qualityLv==4, purple:v.quality.qualityLv==5, orange:v.quality.qualityLv==6}, 'mediumIcon iconBorder']"></del>
+                                <img :src="v.description.iconSrc" alt="" />
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-outline-warning buy" :disabled="playerGold<equipCost[k]" @click="buyEquip(k)">购买</button>
+                        <span class="itemName" :style="{color:v.quality.color}">
+                            {{v.description.name}}
+                        </span>          
+                        <span :style="{color:playerGold<equipCost[k]?'#f00':''}"><currency :amount="equipCost[k]"></currency></span>
+                    </span>
                 </div>
                 <span class="equipTimer">
                     <button type="button" class="btn btn-outline-warning"  v-if="freeRefreshCount>0" @click="freeRefresh()">免费刷新({{freeRefreshCount}})</button>
@@ -72,19 +75,18 @@
 	</div>
 </template>
 <script>
-import { assist } from '../../assets/js/assist';
+
+import {guildConfig} from '@/assets/config/guildConfig'
 import currency from '../uiComponent/currency';
 import { itemConfig } from '../../assets/config/itemConfig';
 export default {
     name:"shop",
-    mixins: [assist, itemConfig],
+    mixins: [itemConfig, guildConfig],
     components: {currency},
     props: {
     },
     data () {
         return {
-            buyCrystalAmt: 0,
-            sellCrystalAmt: 0,
             generalShop: ['inv_alchemy_80_potion01red', 'inv_alchemy_80_potion01blue'],
             equipShop: [],
             equipCost: [],
@@ -94,6 +96,7 @@ export default {
         }
     },
     mounted () {
+        this.$store.globalComponent.shop = this;
         this.setEquipShopItem();
         this.equipTimer = setInterval(() => {
             this.equipTimerRemain -= 1;
@@ -107,51 +110,19 @@ export default {
     watch: {
     },
     computed: {
+        guild() { return this.$store.state.guildAttribute; },
         playerLv() { return this.$store.state.playerAttribute.lv; },
         playerGold() { return this.$store.state.guildAttribute.gold; },
-        playerCrystal() { return this.$store.state.guildAttribute.crystal; },
-        buyCrystalGold() { return this.buyCrystalAmt * 2000; },
-        sellCrystalGold() { return this.sellCrystalAmt * 500; }
+        guildReputation() { return this.$store.state.guildAttribute.reputation; },
+        
     },
     methods: {
-        buyCrystal() {
-            let guild = this.findBrothersComponents(this, 'guild', false)[0];
-            this.$store.state.guildAttribute.gold -= this.buyCrystalGold;
-            // this.$store.state.guildAttribute.crystal += parseInt(this.buyCrystalAmt);
-            guild.getCrystal('外出游荡时累积', this.buyCrystalAmt);
-        },
-        sellCrystal() {
-            let guild = this.findBrothersComponents(this, 'guild', false)[0];
-            guild.getGold('', this.sellCrystalGold, false, false);
-            // this.$store.state.guildAttribute.gold += this.sellCrystalGold;
-            this.$store.state.guildAttribute.crystal -= this.sellCrystalAmt;
-        },
-        checkBuyRange(e) {
-            let value = e.target.value;
-            let limit = Math.floor(this.playerGold/2000);
-            if(value > limit) {
-                this.buyCrystalAmt = limit;
-            }
-            if(value < 0) {
-                this.buyCrystalAmt = 0;
-            }
-        },
-        checkSellRange(e) {
-            let value = e.target.value;
-            let limit = this.playerCrystal;
-            if(value > limit) {
-                this.sellCrystalAmt = limit;
-            }
-            if(value < 0) {
-                this.sellCrystalAmt = 0;
-            }
-        },
         setEquipShopItem() {
-            let equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
+            let equipInfo = this.$store.globalComponent["equipInfo"];
             for(let i=0; i<6; i++) {
                 let equip = JSON.parse(equipInfo.createEquip(-1, this.playerLv, 'random', 5));
                 let cost = 100+100*Math.random();
-                cost *= (1+equip.lv/3)*(1+equip.quality.extraEntryNum**3);
+                cost *= (1+equip.lv/15)*(1+equip.quality.extraEntryNum**3);
                 this.equipShop[i] = equip;
                 this.equipCost[i] = Math.round(cost);
             }
@@ -172,7 +143,6 @@ export default {
             if(msg) {
                 this.$message({
                     message: '有个传说装备没买, 考虑考虑?',
-                    title: '奸商的友善提醒',
                     confirmBtnText: '传说装备? 狗都不买',
                     onClose: () => {
                         this.freeRefreshCount -= 1;
@@ -189,6 +159,7 @@ export default {
             if(this.playerGold < cost)
                 return
             let msg = false;
+            let guild = this.$store.globalComponent["guild"];
             for(let index in this.equipShop) {
                 if(Object.keys(this.equipShop[index]).length == 0)
                     continue;
@@ -200,42 +171,57 @@ export default {
             if(msg) {
                 this.$message({
                     message: '有个传说装备没买, 考虑考虑?',
-                    title: '奸商的友善提醒',
                     confirmBtnText: '传说装备? 狗都不买',
                     onClose: () => {
-                        this.$store.state.guildAttribute.gold -= cost;
+                        guild.useGold(cost);
                         this.setEquipShopItem();
                     }
                 });
             }
             else {
-                this.$store.state.guildAttribute.gold -= cost;
+                guild.useGold(cost);
                 this.setEquipShopItem();
             }
         },
         buyEquip(index) {
             if(this.playerGold < this.equipCost[index])
                 return
-            this.$store.state.guildAttribute.gold -= this.equipCost[index];
-            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            let guild = this.$store.globalComponent["guild"];
+            guild.useGold(this.equipCost[index]);
+            let backpack = this.$store.globalComponent["backpack"];
             backpack.giveEquip(this.equipShop[index], false);
             this.$set(this.equipShop, index, {});
         },
-        buyItem(index) {
-            let itemName = this.generalShop[index];
+        buyItem(itemName) {
             if(this.playerGold < this.itemType[itemName].cost)
                 return
-            this.$store.state.guildAttribute.gold -= this.itemType[itemName].cost;
-            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            let guild = this.$store.globalComponent["guild"];
+            guild.useGold(this.itemType[itemName].cost);
+            let itemInfo = this.$store.globalComponent["itemInfo"];
+            let item = itemInfo.createItem(itemName, this.itemType[itemName].quantity);
+            itemInfo.addItem(JSON.parse(item));
+        },
+        buyReputationItem(itemName, cost, reputationType) {
+            let current;
+            switch(reputationType) {
+                case 'guildReputation':
+                    current = this.guild.reputation;
+                    break;
+            }
+            if(current < cost)
+                return
+            let guild = this.$store.globalComponent["guild"];
+            guild.useReputation(cost, reputationType);
+            let itemInfo = this.$store.globalComponent["itemInfo"];
             let item = itemInfo.createItem(itemName, this.itemType[itemName].quantity);
             itemInfo.addItem(JSON.parse(item));
         },
         showInfo($event, type, item, compare) {
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent["index"];
             index.showInfo($event, type, item, compare);
         },
         closeInfo(type) {
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent["index"];
             index.closeInfo(type);
         },
     }
@@ -258,33 +244,14 @@ export default {
     height: 100%;
     width: 50rem;
 }
-.crystal {
-    position: relative;
-    display: flex;
-    flex-wrap: wrap;
-    padding: 0rem 1.5rem 1.5rem 1.7rem;
-    width: 100%;
-    height: 5rem;
-    margin-top: 0.5rem;
-    .buyCrystal {
-        margin: 0rem 2rem 0rem 3rem;
-    }
-    .target {
-        width: 5rem;    
-        height: 2rem;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        padding: 0.2rem;
-        font-size: 1rem;
-        background-color: #e0e8ea;
-    }
-}
 .shops {
     padding: 0.5rem;
     margin: 0.5rem;
     border: 1px solid rgba(255, 255, 255, 0.404);
     border-radius: 1rem;
     height: 100%;
+    max-height: 220px;
+    overflow: auto;
     width: 50rem;
     display: flex;
     flex-direction: row;
@@ -294,7 +261,7 @@ export default {
     position: relative;
     display: flex;
     flex-wrap: wrap;
-    padding: 5px 15px 45px 15px;
+    padding: 5px 15px 5px 15px;
     width: 100%;
 }
 .grid {
@@ -319,9 +286,8 @@ export default {
     align-items: start;
 }
 .equipTimer {
-    position:absolute;
-    bottom:0;
-    right:0;
+    width: 100%;
+    text-align: right;
 }
 
 </style>

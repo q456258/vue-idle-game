@@ -10,7 +10,7 @@
         <button class="btn btn-success" :disabled="status=='picked'" @click="nextStep" v-if="status!='crafting' & status!='done'">下一步</button>
         <button class="btn btn-success" @click="craftEquip" v-if="status=='done'">提取装备</button>
         <div class="addonGrid"  v-if="status=='wait'">
-            <div class="icon" :style="{'box-shadow': 'inset 0 0 7px 2px #fff'}"  style="cursor:pointer" @click="applyAddon($event, k)" v-for="(v, k) in addonType" :key="k">
+            <div class="icon" style="cursor:pointer" @click="applyAddon($event, k)" v-for="(v, k) in addonType" :key="k">
                 <img :src="v.icon" alt="" />
                 <a class="clickBorder"></a>
                 <div class="quantity">
@@ -87,8 +87,6 @@
                             <div :class="[{greyQuality:v.quality==0,purpleQuality:v.quality==1,goldQuality:v.quality==2},'reward']"  v-for="(v, k) in rewards" :key="k">
                                 <img class="smallIcon" :src="v.icon" alt="" /> 
                                 <div class="rewardDesc">{{v.desc}}</div>
-                                <div :class="[{'fail':!v.success},'progress craftProgress']" :style="{width:v.cur/v.max*100+'%'}">{{forceupdate}}
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -98,13 +96,13 @@
     </div>
 </template>
 <script>
-import { assist } from '../../assets/js/assist';
+
 import {equipConfig} from '@/assets/config/equipConfig'
 export default {    
     name: 'craftEquip',
     props: {
     },
-    mixins: [assist, equipConfig],
+    mixins: [equipConfig],
     data() {
         return {
             addons: [],
@@ -113,11 +111,11 @@ export default {
                 {type: 1, name: "锡锭", desc: "随机重置所有选项类型", icon: "/icons/material/inv_ingot_05.jpg", itemCode: 'inv_ingot_05', max: -1},
                 {type: 2, name: "银锭", desc: "提升最终装备品质", icon: "/icons/material/inv_ingot_01.jpg", itemCode: 'inv_ingot_01', max: 10},
                 {type: 3, name: "铁锭", desc: "赋予随机3个选项额外'降低装备等级'奖励", icon: "/icons/material/inv_ingot_iron.jpg", itemCode: 'inv_ingot_iron', max: 10},
-                {type: 4, name: "钢锭", desc: "赋予随机3个选项额外'提升装备等级'奖励", icon: "/icons/material/inv_ingot_steel.jpg", itemCode: 'inv_ingot_steel', max: -1},
-                {type: 5, name: "金锭", desc: "赋予随机3个选项额外'降低装备品质'奖励", icon: "/icons/material/inv_ingot_03.jpg", itemCode: 'inv_ingot_03', max: 10},
-                {type: 6, name: "秘银锭", desc: "随机提升3个选项的品质", icon: "/icons/material/inv_ingot_06.jpg", itemCode: 'inv_ingot_06', max: 10},
+                {type: 4, name: "钢锭", desc: "赋予随机3个选项额外'提升物品等级'奖励", icon: "/icons/material/inv_ingot_steel.jpg", itemCode: 'inv_ingot_steel', max: -1},
+                {type: 5, name: "金锭", desc: "随机提升3个选项的品质", icon: "/icons/material/inv_ingot_03.jpg", itemCode: 'inv_ingot_03', max: 10},
+                {type: 6, name: "秘银锭", desc: "重置所有选项品质", icon: "/icons/material/inv_ingot_06.jpg", itemCode: 'inv_ingot_06', max: 10},
                 // {type: 7, name: "真银锭", desc: "待定", icon: "/icons/material/inv_ingot_08.jpg", itemCode: 'inv_ingot_08', max: 10},
-                {type: 8, name: "瑟银锭", desc: "赋予随机3个选项额外'降低装备品质'奖励", icon: "/icons/material/inv_ingot_07.jpg", itemCode: 'inv_ingot_07', max: 10},
+                {type: 8, name: "瑟银锭", desc: "随机提升3个选项的品质", icon: "/icons/material/inv_ingot_07.jpg", itemCode: 'inv_ingot_07', max: 10},
                 // {type: 9, name: "黑铁锭", desc: "赋予随机3个选项额外'附加技能'奖励", icon: "/icons/material/inv_ingot_mithril.jpg", itemCode: 'inv_ingot_mithril', max: 10},
             ],
             rewardType: [
@@ -165,18 +163,17 @@ export default {
             // none, wait, picking, picked, donePick, order, crafting, done
             status: 'none',
             remain: 0,
-            forceupdate: 1
         };
     },
     mounted() {
+        this.$store.globalComponent.craftEquip = this;
         this.initReward();
     },
     watch: {
     },
     computed: {
         itemQtys() {
-            let guild = this.findComponentUpward(this.findComponentUpward(this, 'guildPosition'), 'guild');
-            let itemInfo = this.findBrothersComponents(guild, 'itemInfo', false)[0];
+            let itemInfo = this.$store.globalComponent["itemInfo"];
             let itemQtys = [];
             for(let i=0; i<this.addonType.length; i++) {
                 itemQtys[i] = itemInfo.getItemQty(this.addonType[i].itemCode);
@@ -187,8 +184,7 @@ export default {
     methods: {
         applyAddon(event, index) {
             let count = 1;
-            let guild = this.findComponentUpward(this.findComponentUpward(this, 'guildPosition'), 'guild');
-            let itemInfo = this.findBrothersComponents(guild, 'itemInfo', false)[0];
+            let itemInfo = this.$store.globalComponent["itemInfo"];
             let itemQty = itemInfo.getItemQty(this.addonType[index].itemCode);
             let max = this.addonType[index].max;
             if(this.addons[index] == undefined)
@@ -203,7 +199,7 @@ export default {
             }
             else
                 return false;
-            itemInfo.removeItemByIndex(itemInfo.findItem(this.addonType[index].itemCode), count, 'etc');
+            itemInfo.removeItemByIndex(itemInfo.findItemIndex(this.addonType[index].itemCode), count, 'etc');
             for(let i=0; i<count; i++) {
                 switch(this.addonType[index].type) { 
                     case 0:
@@ -284,7 +280,7 @@ export default {
             }
         },
         nextStep() {
-            let guildPosition = this.findComponentUpward(this, 'guildPosition');
+            let guildPosition = this.$store.globalComponent["guildPosition"];
             // none, wait, picking, picked, donePick, order, crafting
             switch(this.status) {
                 case 'wait':
@@ -438,6 +434,10 @@ export default {
                     list[3].classList.add('craft_active');
                     break;
                 case 'done':
+                    for(let index in this.rewards) {
+                        let reward = this.rewards[index];
+                        this.craftReward(reward);
+                    }
                     progressBar.style.width = length;
                     list[3].classList.replace('craft_active', 'craft_done');
                     break;
@@ -526,27 +526,6 @@ export default {
                 temp = this.rewards[rewardID];
                 this.$set(this.forfeitRewards, this.forfeitRewards.length, temp);
                 this.$delete(this.rewards, rewardID);
-            }
-        },
-        increaseProgress(amount) {
-            for(let index in this.rewards) {
-                let reward = this.rewards[index];
-                if(reward.cur < reward.max) {
-                    let diff = reward.max-reward.cur;
-                    if(diff>=amount) {
-                        if(diff==amount)
-                            this.craftReward(reward);
-                        reward.cur += amount;
-                        this.forceupdate += 1;
-                        break;
-                    }
-                    else {
-                        this.craftReward(reward);
-                        this.forceupdate = 0;
-                        reward.cur += diff;
-                        this.increaseProgress(amount-diff);
-                    }
-                }
             }
         },
         craftReward(reward) {
@@ -639,9 +618,8 @@ export default {
             return true;
         },
         craftEquip() {
-            let guild = this.findComponentUpward(this.findComponentUpward(this, 'guildPosition'), 'guild');
-            let equipInfo = this.findBrothersComponents(guild, 'equipInfo', false)[0];
-            let backpack = this.findBrothersComponents(guild, 'backpack', false)[0];
+            let equipInfo = this.$store.globalComponent["equipInfo"];
+            let backpack = this.$store.globalComponent["backpack"];
              
             let fixEntry = [];
             let baseEntry = [];
@@ -680,7 +658,12 @@ export default {
             let mod = this.equipMod[type];
             let index = 0;
             let extraEntryTypes = this[type].extraEntry;
-            for(let i=0; i<newEquip.quality.extraEntryNum; i++) {
+            let bonus = 0;
+            if(newEquip.quality.qualityLv == 4) {
+                let ran = Math.random()*100;
+                bonus = ran<15 ? (ran<0.9 ? (ran<0.1 ? 3 : 2) : 1) : 0;
+            }
+            for(let i=0; i<newEquip.quality.extraEntryNum+bonus; i++) {
                 if(this.finalEquip.subPot.length <= i) {
                     index = Math.floor(Math.random()*extraEntryTypes.length);
                     extraEntry.push({type: extraEntryTypes[index]});
@@ -709,20 +692,21 @@ export default {
             newEquip.description.type = this.type[type];
 
             // 装备类型自带主潜能
-            if(this[type].baseEntry.length > 0) {
+            if(this[type].fixEntry.length > 0) {
                 if(type == 'weapon' && (baseEntry[0].type == 'INT' || baseEntry[0].type == 'SPI'))
                     fixEntry.push({type:'AP'});
                 else
-                    fixEntry.push({type:this[type].baseEntry[0]});
+                    fixEntry.push({type:this[type].fixEntry[0]});
                 equipInfo.createBaseEntryValue(newEquip.quality.qualityCoefficient, fixEntry, 0, newEquip.lv, newEquip.enhanceLv, mod);
                 baseEntry = fixEntry.concat(baseEntry);
             }
             // 额外主潜能
-            extraBaseEntry.forEach(entry => {
-                let random = Math.random()*100+this.finalEquip.extraStatBoost;
-                equipInfo.createExtraEntryValue(entry, random/100, newEquip.lv, mod);
-            });
-
+            if(newEquip.quality.qualityLv == 5) {
+                extraBaseEntry.forEach(entry => {
+                    let random = Math.random()*100+this.finalEquip.extraStatBoost;
+                    equipInfo.createExtraEntryValue(entry, random/100, newEquip.lv, mod);
+                });
+            }
             extraEntry.forEach(entry => {
                 let random = Math.random()*100+this.finalEquip.extraStatBoost;
                 equipInfo.createExtraEntryValue(entry, random/100, newEquip.lv, mod);
@@ -731,7 +715,6 @@ export default {
             newEquip.baseEntry = baseEntry;
             newEquip.extraBaseEntry = extraBaseEntry;
             newEquip.extraEntry = extraEntry;
-
             backpack.giveEquip(newEquip);
             this.forfeit();
         }
@@ -900,66 +883,6 @@ $tertiary: #ced6d5;
 .flipped {
     transform: rotateY(180deg);
 }
-.addonGrid {
-    display: flex;
-    flex-direction: row;
-    left: 0;
-    right: 0;
-    justify-content: center;
-    .icon {
-        position: relative;
-        width: 40px;
-        height: 40px;
-        margin: 1px;
-        img {
-            width: 100%;
-            height: 100%;
-            border-radius: 1rem;
-        }
-        .quantity {
-            position: relative;
-            top: -0.6rem;
-            right: -0.8rem;
-            width: 2rem;
-            height: 0.5rem;
-            font-size: 0.8rem;
-            line-height: 0;
-            text-align: right;
-            text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
-        }
-        .addonTips {    
-            visibility: hidden;
-            border-radius: 8px;
-            background: #111;
-            position: absolute;
-            z-index: 3;
-            top: 50px;
-            left: -130px;
-            width: 300px;
-            padding: 10px;
-            box-shadow: 0 6px 11px #000000;
-            border: 1px solid #333;
-            .desc {
-                text-align: left;
-            }
-            .preReq {
-                text-align: left;
-                margin-top: 1rem;
-                .detail {
-                    margin-left: 2rem;
-                }
-            }
-            .footnote {
-                margin-top: 1rem;
-                color: #ccc;
-                font-size: 0.8rem;
-            }
-        }
-    }
-    .icon:hover .addonTips {
-        visibility: visible;
-    }
-}
 .clickBorder {
     width: 40px;
     height: 40px;
@@ -968,9 +891,8 @@ $tertiary: #ced6d5;
     position: absolute;
     top: 0px;
     z-index: 20;
-    background: url(/icons/ui/glowBorder40.png) no-repeat 62px 0;
     &:hover{
-        background-position: 0 0;
+        box-shadow: inset 0 0 10px rgb(0, 102, 255);
     }
 }
 .greyGlow {

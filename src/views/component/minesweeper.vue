@@ -36,10 +36,9 @@
 </div>
 </template>
 <script>
-import { assist } from '../../assets/js/assist';
 export default {    
     name: 'minesweeper',
-    mixins: [assist],
+    mixins: [],
     components: {},
     props: {
         difficulty: {
@@ -59,11 +58,10 @@ export default {
             gridSet: false,
             display: false,
             gameover: false,
-            // rewards: {}
         };
     },
     mounted() {
-        // this.init()
+        this.$store.globalComponent.minesweeper = this;
     },
     watch: {
     },
@@ -77,6 +75,7 @@ export default {
             this.reset();
         },
         reset() {
+            this.difficultyReward();
             switch(this.difficulty) {
                 case 0:
                     this.row = 9;
@@ -114,6 +113,13 @@ export default {
                 minefields[i].classList.remove("flipped");
                 minefields[i].innerHTML = "";
                 minefields[i].style.backgroundColor = "";
+            }
+        },
+        difficultyReward() {
+            let base = 2**(this.difficulty);
+            let reward = this.rewardList;
+            for(let i in reward) {
+                reward[i][1] *= base;
             }
         },
         generateMines(start=-1) {
@@ -251,7 +257,7 @@ export default {
                     target[i].classList.remove("flagged");
                  }
             }
-            this.reward(rewardCount);
+            this.reward(rewardCount, false);
         },
         gameWon() {
             this.gridSet = false;
@@ -265,7 +271,7 @@ export default {
                     target[i].classList.remove("flagged")
                 }
             }
-            this.reward(10);
+            this.reward(10, false);
         },
         close() {
             this.gridSet = false;
@@ -274,28 +280,8 @@ export default {
             this.mines = [];
         },
         reward(rewardCount) {
-            // 清零
-            for(let k=0; k<this.rewardList.length; k++) {
-                this.rewardList[k][0].quantity = 0;
-            }
-            if(rewardCount <= 0)
-                return;
-            let mapEvent = this.findComponentUpward(this, 'mapEvent');
-            let itemInfo = this.findBrothersComponents(mapEvent, 'itemInfo', false)[0];
-            // 添加数量
-            while(rewardCount > 0) {
-                for(let k=0; k<this.rewardList.length; k++) {
-                    let random = Math.random()*100;
-                    if(random <= this.rewardList[k][1]) {
-                        this.rewardList[k][0].quantity++;
-                    }
-                }
-                rewardCount--;
-            }
-            // 给予奖励
-            for(let k=0; k<this.rewardList.length; k++) {
-                itemInfo.addItem(this.rewardList[k][0], true);
-            }
+            let guildPosition = this.$store.globalComponent["guildPosition"];
+            guildPosition.mineReward(this.rewardList, rewardCount);
         }
     }
 }

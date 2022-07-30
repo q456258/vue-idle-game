@@ -36,7 +36,8 @@
         </div>
         <!-- <span class="cost" :class="{'warning':warning}">消耗金币: {{cost}}</span> -->
         <span class="cost" :class="{'warning':warning}">
-            消耗<img src="/icons/item/inv_enchant_voidsphere.jpg">&nbsp;{{cost}}/{{itemQty}}
+            <!-- 消耗<img src="/icons/item/inv_enchant_voidsphere.jpg">&nbsp;{{cost}}/{{itemQty}} -->
+            消耗<currency :amount="cost"></currency>
         </span>
         <div class="confirm" @click="forgeAll()">
             重铸
@@ -50,12 +51,13 @@
 </draggable>
 </template>
 <script>
-import { assist } from '../../assets/js/assist';
+
 import draggable from '../uiComponent/draggable'
+import currency from '../uiComponent/currency';
 export default {
     name: "equipForge",
-    mixins: [assist, ],
-    components: {draggable},
+    mixins: [],
+    components: {draggable, currency},
     data() {
         return {
             cost: 1,
@@ -68,6 +70,7 @@ export default {
         }
     },
     mounted() {
+        this.$store.globalComponent.equipForge = this;
     },
     watch: {
         equip() {
@@ -76,20 +79,21 @@ export default {
     },
     computed: {     
         warning() {
-            return this.itemQty < this.cost;
+            return this.$store.state.guildAttribute.gold < this.cost;
+            // return this.itemQty < this.cost;
         },
         item() {
-            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            let itemInfo = this.$store.globalComponent["itemInfo"];
+            let backpack = this.$store.globalComponent["backpack"];
             // 虚空宝珠
-            let item = itemInfo.findItem('inv_enchant_voidsphere');
+            let item = itemInfo.findItemIndex('inv_enchant_voidsphere');
             if(item == -1)
                 return {quantity: 0};
             else
                 return item.use ? backpack.useGrid[item] : backpack.etcGrid[item];
         },
         itemQty() {
-            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
+            let itemInfo = this.$store.globalComponent["itemInfo"];
             // 虚空宝珠
             let qty = itemInfo.getItemQty('inv_enchant_voidsphere');
             return qty;
@@ -100,9 +104,10 @@ export default {
             if(this.warning) {
                 return;
             }
-            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-            let equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
-            itemInfo.removeItemByItem(this.item, this.cost);
+            this.$store.state.guildAttribute.gold -= this.cost;
+            // let itemInfo = this.$store.globalComponent["itemInfo"];
+            let equipInfo = this.$store.globalComponent["equipInfo"];
+            // itemInfo.removeItemByItem(this.item, this.cost);
             // equipInfo.forgeAll(this.equip);
             let allLocked = true;
             for(let entry in this.equip.extraEntry) {
@@ -122,7 +127,7 @@ export default {
             if(entry.locked) {
                 return;
             }
-            let equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
+            let equipInfo = this.$store.globalComponent["equipInfo"];
             equipInfo.forgeEntry(this.equip, key);
             this.$store.commit('set_player_attribute');
         },
@@ -134,13 +139,13 @@ export default {
             this.computeCost();
         },
         computeCost() {
-            let cost = 0;
+            let cost = 25+this.equip.lv**2/7;
+            cost = cost*1.2**this.equip.quality.qualityLv;
             for(let entry in this.equip.extraEntry) {
-                cost += 1;
                 if(this.equip.extraEntry[entry].locked)
-                    cost += 1;
+                    cost *= 1.5;
             }
-            this.cost = cost;
+            this.cost = Math.round(cost);
         },
         forgeInfo(info, type) {
             let element = this.$refs['info'];
@@ -160,7 +165,7 @@ export default {
             },900);
         },
         closeInfo() {
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent["index"];
             index.closeInfo('forge');
         },
     }
@@ -269,18 +274,13 @@ export default {
     }
     .cost {
         position: absolute;
-        top: 19rem;
-        left: 35rem;
-        bottom: 1.2rem;
-        height: 2rem;
+        margin-left: 55%;
+        margin-top: 40%;
+        width: 53%;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1rem;
-        img {
-            height: 2rem;
-            width: 2rem;
-        }
+        font-size: 13px;
     }    
 }
 $blue: #ccc;

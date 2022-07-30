@@ -26,20 +26,10 @@
                     <p class="info">* 每通过一次试炼提升等级</p>
                 </template>
             </cTooltip>
-            <div class="exp">
-                <div class="progress" style="width:80%;">
-                    <div class="progress-bar" :style="{width:player.exp.cur/player.exp.req*100+'%'}">
-                    </div>
-                </div>
-                <div class="value">
-                    <span id="expInfo"></span>
-                    <span>{{player.exp.cur+'/'+player.exp.req}}</span>
-                </div>
-            </div>
             <cTooltip placement="bottom">
                 <template v-slot:content>
                     <div class="hpmp">
-                        <hpmpBar :vpMin="0" :vpNow="attribute.CURHP.value" :vpMax="attribute.MAXHP.value" :target="'player'" :type="'hp'"></hpmpBar>
+                        <hpmpBar :vpMin="0" :vpNow="attribute.CURHP.value" :vpMax="attribute.MAXHP.value" :shield="attribute.SHIELD.value" :target="'player'" :type="'hp'"></hpmpBar>
                         <hpmpBar :vpMin="0" :vpNow="attribute.CURMP.value" :vpMax="attribute.MAXMP.value" :target="'player'" :type="'mp'"></hpmpBar>
                     </div>
                 </template>
@@ -106,7 +96,7 @@
                             <br>
                             +3护甲
                             <br>
-                            +1格挡
+                            +0.5格挡
                         </p>
                         </template>
                 </cTooltip>
@@ -133,9 +123,9 @@
                         </p>
                         <p class="info">* 每点提升属性
                             <br>
-                            +4攻击
+                            +2攻击
                             <br>
-                            +0.05%暴击率
+                            +0.2%暴击率
                         </p>
                     </template>
                 </cTooltip>
@@ -191,7 +181,7 @@
                         </p>
                         <p class="info">* 每点提升属性
                             <br>
-                            +5法术伤害
+                            +2法术强度
                             <br>
                             +0.1%法术暴击率
                         </p>
@@ -220,7 +210,7 @@
                         </p>
                         <p class="info">* 每点提升属性
                             <br>
-                            +5魔法值
+                            +25魔法值
                             <br>
                             +1每五秒回蓝
                         </p>
@@ -244,11 +234,11 @@
                         </p>
                         <p class="info">* 每点提升属性
                             <br>
-                            +1力量
-                            +1敏捷
-                            +1耐力
-                            +1智力
-                            +1精神
+                            +1力量 <br>
+                            +1敏捷 <br>
+                            +1耐力 <br>
+                            +1智力 <br>
+                            +1精神 <br>
                             +1全能
                         </p>
                     </template>
@@ -353,7 +343,7 @@
                         </div>
                     </template>
                     <template v-slot:tip>
-                        <p class="info">* 法术伤害
+                        <p class="info">* 法术强度
                             <br>
                             基础: {{attribute.AP.baseVal }}
                             <span v-if="attribute.APP.value != 0">{{' +' + attribute.APP.showValue}}</span>
@@ -374,6 +364,8 @@
                         <p class="info">* 法术暴击
                             <br>
                             基础: {{attribute.APCRIT.baseVal+'%'}}
+                            <br>
+                            法术暴击伤害: {{attribute.APCRITDMG.baseVal+'%'}}
                         </p>
                     </template>
                 </cTooltip>
@@ -464,7 +456,7 @@
                         <p class="info">* 法术穿透
                             <br>
                             基础: {{attribute.APPEN.baseVal }}
-                            <span v-if="attribute.APPEN.value != 0">{{' +' + attribute.APPEN.showValue}}</span>
+                            <span v-if="attribute.APPENP.value != 0">{{' +' + attribute.APPENP.showValue}}</span>
                         </p>
                     </template>
                 </cTooltip>
@@ -542,7 +534,7 @@
                 
             </div>
         </div>
-        <div class="user-spell" v-show="playerLv >= 20">
+        <div class="user-spell" v-show="playerLv >= 10">
             <ul class="nav nav-tabs">
                 <li class="nav-item" v-for="(v, k) in dmgFilter" :key=k>
                     <a class="nav-link" :class="{active: dmgFilterSelected==v}" id="charInfo" @click="switchFilter(v)">{{v}}</a>
@@ -554,6 +546,8 @@
                 </option>
             </select>
             <div class="container scrollbar-morpheus-den">
+                <!-- 技能移除再添加后，进度条无法正常显示进度，添加一个强制刷新 -->
+                <span v-show="false">{{forceRender}} </span>
                 <div class="spell" v-for="(v, k) in filteredSpell" :key="k" :set="curLv=spell[v].level[spells[v].lv-1]">
                     <span class="largeIconContainer spellIcon">
                         <del :class="[{grey:spell[v].quality==1, green:spell[v].quality==3, blue:spell[v].quality==4, purple:spell[v].quality==5, orange:spell[v].quality==6}, 'largeIcon iconBorder']"></del>
@@ -593,9 +587,9 @@
         </div>
         <ul v-show="visible" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
             <li @click="unEquip()">卸下</li>
-            <li @click="equipEnhance()" v-if="guild.smith.lv>0">强化</li>
-            <li @click="equipForge()" v-if="guild.smith.lv>=0">重铸</li>
-            <li @click="equipLevelUp()" v-if="guild.smith.lv>=30 && currentEquip.lv < playerLv && currentEquip.quality.qualityLv>1">升级</li>
+            <li @click="equipEnhance()" v-if="guild.smith.lv>=1">强化</li>
+            <li @click="equipForge()" v-if="guild.smith.lv>=2">重铸</li>
+            <!-- <li @click="equipLevelUp()" v-if="guild.smith.lv>=30 && currentEquip.lv < playerLv && currentEquip.quality.qualityLv>1">升级</li> -->
         </ul>
     </div>
 </template>
@@ -603,8 +597,7 @@
 import cTooltip from '../uiComponent/tooltip';
 import hpmpBar from '../uiComponent/hpmpBar';
 import currency from '../uiComponent/currency';
-import { assist } from '../../assets/js/assist';
-import { buffAndTrigger } from '../../assets/js/buffAndTrigger';
+
 import {itemConfig} from '@/assets/config/itemConfig';
 import {spellConfig} from '@/assets/config/spellConfig';
 import {equipConfig} from '@/assets/config/equipConfig';
@@ -613,10 +606,11 @@ import Saveload from './saveload.vue';
 
 export default {
     name: "charInfo",
-    mixins: [assist, buffAndTrigger, itemConfig, spellConfig, equipConfig, buffConfig],
+    mixins: [itemConfig, spellConfig, equipConfig, buffConfig],
     components: {cTooltip, hpmpBar, Saveload, currency},
     data() {
         return {
+            forceRender: 0,
             visible: false,
             currentEquip: {},
             top: 0,
@@ -626,6 +620,9 @@ export default {
             dmgFilter: ['所有', '力量', '敏捷', '智力', '生命', '魔法', '攻击', '护甲', '恢复', 'BUFF', 'DEBUFF'],
             dmgFilterSelected: '所有'
         };
+    },
+    mounted() {
+        this.$store.globalComponent.charInfo = this;
     },
     props: {
     },
@@ -686,10 +683,14 @@ export default {
             this.checkValidity(name);
         },
         confirmName() {
-            let alert = document.getElementById("nameAlert");
             let name = document.getElementById("name").value;
-            if(this.checkValidity(name))
+            if(this.checkValidity(name)) {
                 this.player.name = name;
+                let quest = this.$store.globalComponent["quest"];
+                quest.assignQuest(0);
+                quest.assignQuest(1);
+                quest.$forceUpdate();
+            }
         },
         checkValidity(name) {
             let alert = document.getElementById("nameAlert");
@@ -701,7 +702,7 @@ export default {
             return true;
         },
         unEquip() {
-            let backpack = this.findBrothersComponents(this, 'backpack', false)[0];
+            let backpack = this.$store.globalComponent["backpack"];
             for (let i = 0; i < backpack.grid.length; i++) {
                 if (Object.keys(backpack.grid[i]).length < 3) {
                     this.$set(backpack.grid, i, this.currentEquip);
@@ -756,28 +757,27 @@ export default {
             }
         },
         equipEnhance() {
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent["index"];
             index.closeInfo();
             index.enhanceEquip = this.currentEquip;
             index.equipEnhancePanel = true;
         },
         equipForge() {
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent["index"];
             index.closeInfo();
             index.enhanceEquip = this.currentEquip;
             index.equipForgePanel = true;
         },
         equipLevelUp() {
             let dust = ['dust2', 'dust3', 'dust4', 'dust5', 'dust6'];
-            let itemInfo = this.findBrothersComponents(this, 'itemInfo', false)[0];
-            let equipInfo = this.findBrothersComponents(this, 'equipInfo', false)[0];
+            let itemInfo = this.$store.globalComponent["itemInfo"];
+            let equipInfo = this.$store.globalComponent["equipInfo"];
             let quantity = Math.ceil(this.currentEquip.lv/10);
             let itemCode = dust[this.currentEquip.quality.qualityLv-2];
             let itemName = this.itemType[itemCode].description.name;
             let has = itemInfo.getItemQty(itemCode);
             this.$message({
                 message: '消耗材料'+itemName+"*"+quantity+",目前拥有数量: "+has,
-                title: '升级装备',
                 confirmBtnText: '升级',
                 onClose: () => {
                     equipInfo.levelUpEquip(this.currentEquip);
@@ -788,11 +788,11 @@ export default {
             this.dmgFilterSelected = filter;
         },
         showInfo($event, type, item, compare) {
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent["index"];
             index.showInfo($event, type, item, compare);
         },
         closeInfo() {
-            let index = this.findComponentUpward(this, 'index');
+            let index = this.$store.globalComponent["index"];
             index.closeInfo('equip');
         },
         openMenu(equip, e) {
@@ -964,21 +964,6 @@ export default {
           flex: 1;
         }
     }
-    .exp {
-        .progress {
-            width: 80%;
-            margin: auto;
-            height: 1px;
-            .progress-bar {
-                background-color: orange;  
-            }
-        }
-        .value {
-            text-align: right;
-            font-size: 0.75rem;
-            margin-right: 2.3rem;
-        }
-    }
     .hpmp {
         cursor: pointer;
         // border: 2px solid #ccc;
@@ -1017,9 +1002,10 @@ export default {
             }
             .buffText {
                 position: absolute;
-                font-size: 0.9rem;
-                top: 0.6rem;
-                left: 1rem; 
+                text-align: right;
+                font-size: 11px;
+                top: 10px;
+                right: 0px;
                 text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
             }
         }
@@ -1109,9 +1095,8 @@ export default {
                 }
                 .name {
                     font-size: 0.85rem;
-                    height: 1rem;
-                    margin-top: 0.5rem;
                     line-height: 1rem;
+                    text-align: left;
                 }
             }
         }
@@ -1154,6 +1139,7 @@ export default {
                 top: 2rem;
                 width: 30rem;
                 text-align: left;
+                font-size: 10.5px;
             }
             .spellProgress {
                 position: absolute;

@@ -86,21 +86,21 @@ export const equipConfig = {
         STA: { base: 2.5, name: '耐力' }, 
         SPI: { base: 2.5, name: '精神' }, 
         ALL: { base: 0.8, name: '全属性'},
-        ATK: { base: 12, name: '攻击' }, 
-        DEF: { base: 4, name: '护甲' }, 
+        ATK: { base: 5, name: '攻击' }, 
+        DEF: { base: 10, name: '护甲' }, 
         BLOCK: { base: 2, name: '格挡' }, 
-        AP: { base: 14, name: '法伤' }, 
-        APCRIT: { base: 2, name: '法术暴击' }, 
+        AP: { base: 5, name: '法伤' }, 
+        APCRIT: { base: 1, name: '法术暴击' }, 
         APCRITDMG: { base: 5, name: '法暴伤害' }, 
         APPEN: { base: 2, name: '法术穿透' }, 
-        MR: { base: 4, name: '魔抗' }, 
+        MR: { base: 2, name: '魔抗' }, 
         HASTE: { base: 4, name: '急速' }, 
         HEAL: { base: 8, name: '治疗效果' }, 
         VERS: { base: 4, name: '全能' }, 
         HP: { base: 40, name: '生命值' }, 
-        MP: { base: 15, name: '魔法值' }, 
-        CRIT: { base: 2, name: '暴击率' }, 
-        CRITDMG: { base: 5, name: '暴击伤害' }, 
+        MP: { base: 60, name: '魔法值' }, 
+        CRIT: { base: 4, name: '暴击率' }, 
+        CRITDMG: { base: 1, name: '暴击伤害' }, 
         STRP: { base: 6, name: '力量' }, 
         AGIP: { base: 6, name: '敏捷' }, 
         INTP: { base: 6, name: '智力' }, 
@@ -571,7 +571,7 @@ export const equipConfig = {
               iconSrc: "./icons/shoulder/inv_shoulder_07.jpg",
             },{
               name: '角斗士护肩', desc: '',
-              iconSrc: "./icons/shoulder/inv_shoulder_plate_raidpaladin_j_01.jpg",
+              iconSrc: "./icons/shoulder/inv_shoulder_54.jpg",
             },{
               name: '獠牙肩甲', desc: '',
               iconSrc: "./icons/shoulder/inv_shoulder_plate_garrosh_d_01.jpg",
@@ -1427,7 +1427,7 @@ export const equipConfig = {
             iconSrc: "./icons/weapon/inv_sword_05.jpg",
           },
           baseEntry: [
-            'AGI'
+            'AGI', 'AGI'
           ]
         },
         inv_wand_06: {
@@ -1438,7 +1438,7 @@ export const equipConfig = {
             iconSrc: "./icons/weapon/inv_wand_06.jpg",
           },
           baseEntry: [
-            'INT'
+            'INT', 'INT'
           ]
         }
       },
