@@ -271,7 +271,7 @@ export default {
             else {
                 setTimeout(() => {
                     this.dungeonInfo.inBattle = inBattle;
-                    if(!inBattle) {
+                    if(!inBattle && this.dungeonInfo.auto) {
                         clearInterval(this.battleTimer);
                         this.autoBattle(auto);
                         index.set_enemy_hp('remove');
