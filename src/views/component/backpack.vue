@@ -96,16 +96,16 @@
                 </div>
                 <!-- 若勾选会在副本获得该品质装备时自动出售 -->
                 <div>
-                    <span style="color:#a1a1a1;" @click="setAutoSell(0)"><input type="checkbox" name="" v-model="autoSell[0]">破旧</span>
+                    <span style="color:#9D9D9D;" @click="setAutoSell(0)"><input type="checkbox" name="" v-model="autoSell[0]">破旧</span>
                     <span style="color:#D9D9D9;" @click="setAutoSell(1)"><input type="checkbox" name="" v-model="autoSell[1]">普通</span>
                 </div>
                 <div>
-                    <span style="color:#00BBFF;" @click="setAutoSell(2)"><input type="checkbox" name="" v-model="autoSell[2]">精良</span>
-                    <span style="color:#BB00FF;" @click="setAutoSell(3)"><input type="checkbox" name="" v-model="autoSell[3]">完美</span>
+                    <span style="color:#1EFF00;" @click="setAutoSell(2)"><input type="checkbox" name="" v-model="autoSell[2]">精良</span>
+                    <span style="color:#0070DD;" @click="setAutoSell(3)"><input type="checkbox" name="" v-model="autoSell[3]">完美</span>
                 </div>
                 <div>
-                    <span style="color:#FFBB00;" @click="setAutoSell(4)"><input type="checkbox" name="" v-model="autoSell[4]">史诗</span>
-                    <span style="color:#FF0000;" @click="setAutoSell(5)"><input type="checkbox" name="" v-model="autoSell[5]">传说</span>
+                    <span style="color:#9345FF;" @click="setAutoSell(4)"><input type="checkbox" name="" v-model="autoSell[4]">史诗</span>
+                    <span style="color:#FF8000;" @click="setAutoSell(5)"><input type="checkbox" name="" v-model="autoSell[5]">传说</span>
                 </div>
 
             </div>
