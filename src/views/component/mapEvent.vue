@@ -4,7 +4,7 @@
         <battleAnime v-show="inBattle"></battleAnime>
         <!-- <battleAnime></battleAnime> -->
         <div class="dungeonInfo" v-if="dungeon.type">
-            <a href="#" class="smallClose close" @click="close()"></a>
+            <a v-show="!inBattle" href="#" class="smallClose close" @click="close()"></a>
             <div class="title">
                 信息
             </div>
