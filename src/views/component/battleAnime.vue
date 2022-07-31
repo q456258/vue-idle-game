@@ -1,10 +1,10 @@
 <template>
-<draggable :left_limit="-750" :right_limit="600" :top_limit="-200" :bot_limit="400" style="position:absolute; top:0; width:500px">
+<draggable v-show="size!='none'" :left_limit="-750" :right_limit="600" :top_limit="-200" :bot_limit="400" style="position:absolute; top:0; width:500px">
     <template slot="header">
         <div class="battleAnimeHeader"></div>
     </template>
     <template slot="main" >
-        <div id="battleAnimeWrapper">
+        <div id="battleAnimeWrapper" :class="{large: size=='large', medium: size=='medium', small: size=='small'}">
             <div id="playerHpBar">
                 <hpmpBar :vpMin="0" :vpNow="attribute.CURHP.value" :vpMax="attribute.MAXHP.value" :shield="attribute.SHIELD.value" :target="'player'" :type="'hp'"></hpmpBar>
                 <hpmpBar :vpMin="0" :vpNow="attribute.CURMP.value" :vpMax="attribute.MAXMP.value" :target="'player'" :type="'mp'"></hpmpBar>
@@ -49,9 +49,12 @@ export default {
     computed: {
         attribute() { return this.$store.state.playerAttribute.attribute },
         enemyAttr() { return this.$store.state.enemyAttribute; },
+        size() { return this.$store.state.setting.animeSize; },
     },
     methods: {   
         playerMove(){
+            if(this.size == 'none')
+                return;
             let playerPos = document.getElementById("playerAnime");
             playerPos.style.left = "50%";
             setTimeout(() => {
@@ -59,6 +62,8 @@ export default {
             }, 100);
         },
         enemyMove(){
+            if(this.size == 'none')
+                return;
             let enemyPos = document.getElementById("enemyAnime");
             enemyPos.style.right = "50%"
             setTimeout(() => {
@@ -66,6 +71,8 @@ export default {
             }, 100);
         },
         displayText(target, type, text) {
+            if(this.size == 'none')
+                return;
             let parentNode;
             let isNew = true;
             let node = document.createElement("DIV");
@@ -168,6 +175,18 @@ export default {
     /* background-image: url("/icons/maps/fairbreezeValleyBattle.jpg"); */
     background-image: url("/icons/maps/battleBG1.jpg");
     background-size: cover;
+}
+#battleAnimeWrapper.small {
+    width: 355px;
+    height: 200px;
+}
+#battleAnimeWrapper.medium {
+    width: 410px;
+    height: 230px;
+}
+#battleAnimeWrapper.large {
+    width: 535px;
+    height: 300px;
 }
 #playerAnime {
     position: relative;

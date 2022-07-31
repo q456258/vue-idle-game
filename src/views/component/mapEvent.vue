@@ -2,7 +2,6 @@
     <div class='mapEvent scrollbar-morpheus-den scrollbar-square'>
         <minesweeper :difficulty="mineDifficulty" :rewardList="mineReward"></minesweeper>
         <battleAnime v-show="inBattle"></battleAnime>
-        <!-- <battleAnime></battleAnime> -->
         <div class="dungeonInfo" v-if="dungeon.type">
             <a v-show="!inBattle" href="#" class="smallClose close" @click="close()"></a>
             <div class="title">

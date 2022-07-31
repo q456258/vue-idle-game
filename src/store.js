@@ -341,7 +341,8 @@ export default new Vuex.Store({
             SPI: 0
         },
         setting: {
-            waitFull: false
+            waitFull: false,
+            animeSize: 'large'
         },
         statistic: {
             slain: {},
