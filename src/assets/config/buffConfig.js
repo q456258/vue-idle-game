@@ -90,7 +90,7 @@ data() {
                     cleanse: false,
                     stacked: false,
                     iconSrc: "./icons/spell/mage/spell_shadow_detectlesserinvisibility.jpg",
-                    desc: "法力护盾: 使用魔法值抵消受到的伤害，每点魔法值可抵消一点伤害",
+                    desc: "法力护盾: 使用魔法值抵消受到的伤害，每点魔法值可抵消2点伤害",
                     turnbased: true
                 },
                 void: {
@@ -170,7 +170,7 @@ data() {
                     cleanse: true,
                     stacked: true,
                     iconSrc: './icons/spell/mage/spell_fire_fire.jpg',
-                    desc: "灼伤: 每秒受到0.5%最大生命值点魔法伤害"
+                    desc: "灼伤: 每秒受到0.5%最大生命值点神圣伤害"
                 },
                 // bleed: {
                 //     cleanse: true,

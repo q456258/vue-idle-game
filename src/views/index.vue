@@ -629,16 +629,19 @@ export default {
         let mapEvent = this.$store.globalComponent["mapEvent"];
         let player = this.$store.state.playerAttribute;
         let recover = 0.10;
+        let bonus = 1;
         let talent = 'ability_hunter_harass';
         if(this.playerTalent[talent] > 0) {
-          recover += this.playerTalent[talent]*0.01;
+          bonus += this.playerTalent[talent]*0.05;
         }
         let amount = this.attribute.MAXHP.value*recover+this.attribute.STA.value;
+        amount *= bonus;
         if(this.dungeonInfo.inBattle) {
           amount = this.attribute.STA.value;
+          amount *= bonus;
           this.set_player_hp(Math.ceil(amount), player);
           return;
-        }
+        } 
         else {
           this.set_player_hp(Math.ceil(amount), player);
         }
@@ -652,11 +655,12 @@ export default {
       this.autoManRecovery = setInterval(() => {
         let player = this.$store.state.playerAttribute;
         let recover = 0.10;
+        let bonus = 1;
         let talent = 'spell_arcane_studentofmagic';
         let amount = this.attribute.SPI.value;
         if(!this.dungeonInfo.inBattle) {
           if(this.playerTalent[talent] > 0) {
-            recover += this.playerTalent[talent]*0.01;
+            bonus += this.playerTalent[talent]*0.05;
           }
           amount += this.attribute.MAXMP.value*recover;
         }
@@ -664,6 +668,7 @@ export default {
         if(this.playerTalent[talent] > 0) {
           amount *= (1+this.playerTalent[talent]*0.1);
         }
+        amount *= bonus;
         this.mpChange(player, player, Math.ceil(amount));
       }, 5000);
     },

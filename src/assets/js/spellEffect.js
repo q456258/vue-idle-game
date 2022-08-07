@@ -525,7 +525,7 @@ export const spellEffect = {
             let crit = Math.round(Math.random()*100);
             let talent = 'spell_fire_fire';
             // 纵火者
-            if((spell == 'spell_fire_flamebolt' || spell == 'spell_fire_fireball02') && source.talent[talent] > 0 && target.attribute.CURHP.value >= target.attribute.MAXHP.value*0.9)
+            if((spell == 'spell_fire_flamebolt' || spell == 'spell_fire_fireball02') && source.talent[talent] > 0 && target.attribute.CURHP.value >= target.attribute.MAXHP.value*0.8)
                 crit = -1;
             if(crit < source.attribute.APCRIT.value) {
                 index.set_ap_dmg(dmgs, index.get_dmg(dmgs, 'ap')*source.attribute.APCRITDMG.value/100);
@@ -795,13 +795,14 @@ export const spellEffect = {
             let index = this.$store.globalComponent["index"];
             let curMana = target.attribute.CURMP.value;
             let manaCost = 0;
-            let min = Math.min(index.get_dmg(dmgs, 'ad'), curMana);
-            index.set_ad_dmg(dmgs, index.get_dmg(dmgs, 'ad')-min);
+            let denyMultiplier = 2;
+            let min = Math.min(index.get_dmg(dmgs, 'ad')/denyMultiplier, curMana);
+            index.set_ad_dmg(dmgs, index.get_dmg(dmgs, 'ad')-min*denyMultiplier);
             manaCost -= min;
             curMana -= min;
 
-            min = Math.min(index.get_dmg(dmgs, 'ap'), curMana);
-            index.set_ap_dmg(dmgs, index.get_dmg(dmgs, 'ap')-min);
+            min = Math.min(index.get_dmg(dmgs, 'ap')/denyMultiplier, curMana);
+            index.set_ap_dmg(dmgs, index.get_dmg(dmgs, 'ap')-min*denyMultiplier);
             manaCost -= min;
 
             index.mpChange(target, target, manaCost);
@@ -902,7 +903,7 @@ export const spellEffect = {
             // 福音
             let talent = 'spell_holy_divineillumination';
             if(source.talent[talent] > 0) {
-                count += (1+3*source.talent[talent]);
+                count += (2*source.talent[talent]);
             }
             let dmgs = this.getSpellDmg(spell, source);
             this.getSpellHeal(spell, source, target, dmgs);

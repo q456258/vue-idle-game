@@ -43,9 +43,9 @@ export const talentConfig = {
                 ability_whirlwind: [['warriorBranch', 40]],
                 sunder_buff: [['warriorBranch', 40]],
                 ability_racial_avatar: [['warriorBranch', 45]],
-                ability_revendreth_paladin: [['warriorBranch', 45]],
+                spell_shadow_deathscream: [['warriorBranch', 45]],
                 penetrate_buff: [['warriorBranch', 45]],
-                spell_shadow_deathscream: [['warriorBranch', 50]],
+                ability_revendreth_paladin: [['warriorBranch', 50]],
                 // // mage
                 spell_frost_frostbolt02: [],
                 spell_arcane_studentofmagic: [],
@@ -372,11 +372,11 @@ export const talentConfig = {
                 ability_hunter_harass: {
                     name: '复苏之风',
                     desc: ['',
-                        '非战斗状态每五秒恢复11%最大生命值(初始10%)',
-                        '非战斗状态每五秒恢复12%最大生命值(初始10%)',
-                        '非战斗状态每五秒恢复13%最大生命值(初始10%)',
-                        '非战斗状态每五秒恢复14%最大生命值(初始10%)',
-                        '非战斗状态每五秒恢复15%最大生命值(初始10%)',
+                        '生命值自然恢复效果提升5%',
+                        '生命值自然恢复效果提升10%',
+                        '生命值自然恢复效果提升15%',
+                        '生命值自然恢复效果提升20%',
+                        '生命值自然恢复效果提升25%',
                     ],
                     type: 'ability_hunter_harass',
                     iconSrc: "./icons/spell/ability_hunter_harass.jpg",
@@ -479,10 +479,10 @@ export const talentConfig = {
                 ability_warrior_shieldbash: {
                     name: '盾击',
                     desc: ['',
+                        '造成攻击力*0.5+护甲*0.4点伤害',
+                        '造成攻击力*0.5+护甲*0.45点伤害',
                         '造成攻击力*0.5+护甲*0.5点伤害',
-                        '造成攻击力*0.5+护甲*0.6点伤害',
-                        '造成攻击力*0.5+护甲*0.7点伤害',
-                        '造成攻击力*0.5+护甲*0.8点伤害'
+                        '造成攻击力*0.5+护甲*0.55点伤害'
                     ],
                     type: 'ability_warrior_shieldbash',
                     iconSrc: "./icons/spell/ability_warrior_shieldbash.jpg",
@@ -598,7 +598,7 @@ export const talentConfig = {
                 ability_warrior_shatteringthrow: {
                     name: '【技能】碎裂投掷',
                     desc: ['',
-                        '造成攻击力*1点伤害, 30%获得一层穿透效果',
+                        '造成攻击力*1.1点伤害, 30%获得一层穿透效果',
                         '造成攻击力*1.2点伤害, 30%获得一层穿透效果',
                     ],
                     type: 'ability_warrior_shatteringthrow',
@@ -769,11 +769,11 @@ export const talentConfig = {
                 spell_arcane_studentofmagic:{
                     name: '魔力源泉',
                     desc: ['',
-                        '非战斗状态每五秒恢复11%最大魔法值(初始10%)',
-                        '非战斗状态每五秒恢复12%最大魔法值(初始10%)',
-                        '非战斗状态每五秒恢复13%最大魔法值(初始10%)',
-                        '非战斗状态每五秒恢复14%最大魔法值(初始10%)',
-                        '非战斗状态每五秒恢复15%最大魔法值(初始10%)',
+                        '魔法值自然恢复效果提升5%',
+                        '魔法值自然恢复效果提升10%',
+                        '魔法值自然恢复效果提升15%',
+                        '魔法值自然恢复效果提升20%',
+                        '魔法值自然恢复效果提升25%',
                     ],
                     type: 'spell_arcane_studentofmagic',
                     iconSrc: './icons/spell/mage/spell_arcane_studentofmagic.jpg',
@@ -894,7 +894,7 @@ export const talentConfig = {
                 spell_fire_fire:{
                     name: '纵火者',
                     desc: ['',
-                        '火球术和炎爆术对当前生命值大于90%的目标必定暴击',
+                        '火球术和炎爆术对当前生命值大于80%的目标必定暴击',
                     ],
                     type: 'spell_fire_fire',
                     iconSrc: './icons/spell/mage/spell_fire_fire.jpg',
@@ -917,7 +917,7 @@ export const talentConfig = {
                 spell_shadow_detectlesserinvisibility:{
                     name: '【技能】法力护盾',
                     desc: ['',
-                        '制造一个护盾，使用魔法值抵消受到的伤害，每点魔法值可抵消一点伤害，持续10秒'
+                        '制造一个护盾，使用魔法值抵消受到的伤害，每点魔法值可抵消2点伤害，持续10秒'
                     ],
                     type: 'spell_shadow_detectlesserinvisibility',
                     iconSrc: './icons/spell/mage/spell_shadow_detectlesserinvisibility.jpg',
@@ -1135,9 +1135,9 @@ export const talentConfig = {
                 spell_holy_divineillumination:{
                     name: '福音',
                     desc: ['',
+                        '恢复效果的持续时间延长2秒',
                         '恢复效果的持续时间延长4秒',
-                        '恢复效果的持续时间延长7秒',
-                        '恢复效果的持续时间延长10秒'
+                        '恢复效果的持续时间延长6秒'
                     ],
                     type: 'spell_holy_divineillumination',
                     iconSrc: './icons/spell/priest/spell_holy_divineillumination.jpg',

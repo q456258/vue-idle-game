@@ -455,7 +455,7 @@ export const buffAndTrigger = {
         // 灼伤
         burn(source, target) {
             let burnDmg = target.attribute.MAXHP.value * 0.005;
-            let dmgs = {apDmg: Math.round(burnDmg)};
+            let dmgs = {trueDmg: Math.round(burnDmg)};
             this.damage(source, target, dmgs, '灼伤');
         },
         // 中毒
