@@ -469,9 +469,10 @@ export const buffAndTrigger = {
             this.buffReduce(source, source, 'hell');
             let talent = 'ability_rogue_preparation';
             if(source.talent[talent] > 0) {
-                let recover = source.talent[talent]*10;
-                this.hpChange(source, source, {heal: recover});
+                let recover = source.talent[talent]*5;
                 this.mpChange(source, source, recover);
+                recover += Math.ceil(source.attribute.MAXHP.value*source.talent[talent]*0.002);
+                this.hpChange(source, source, {heal: recover});
             }
         },
         // 受攻击伤害触发, source为攻击发起者
