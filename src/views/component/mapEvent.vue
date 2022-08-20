@@ -13,7 +13,10 @@
                 <div>等级: {{selectedDungeon.lv}}</div>
                 <div>类型: {{type[selectedDungeon.type]}}</div>
                 <div>剩余次数: 
-                    <span v-if="selectedDungeon.count>=0">{{selectedDungeon.count}}</span>
+                    <span v-if="selectedDungeon.count>=0">
+                        {{selectedDungeon.count}}
+                        ({{selectedDungeon.resetCount+"/"+selectedDungeon.resetMax}})
+                    </span>
                     <span v-else>无限</span>
                 </div>
             </div>
@@ -33,7 +36,7 @@
                     </div>
                 </div>
             </div>
-            <div class="action" v-if="!inBattle&&selectedDungeon.count!=0">
+            <div class="action" v-if="!inBattle && selectedDungeon.count!=0">
                 <span v-if="selectedDungeon.type=='mine'" >
                     <button class="btn btn-success btn-sm" @click="addToQueue(selectedDungeon)">
                         添加至队列
@@ -84,7 +87,7 @@ export default {
             battleTimer: "",
             battleID: 1,
             selectedDungeon: {},
-            type: {normal: '普通', elite: '精英', boss: 'BOSS', chest: '宝藏', gold: '矿物', mine: '矿物', herb: '草药'},
+            type: {normal: '普通', elite: '精英', boss: 'BOSS', chest: '宝藏', mine: '矿物', herb: '草药'},
             mineDifficulty: 0,
             mineReward: [],
         }
@@ -121,8 +124,7 @@ export default {
         startBattle(type) {
             if(!type)
                 type = this.dungeonInfo['advanture'].type;
-            // if(['gold', 'wood', 'crystal', 'equip'].indexOf(type) != -1)
-            if(['normal', 'elite', 'boss', 'gold'].indexOf(type) != -1)
+            if(['normal', 'elite', 'boss', 'mine'].indexOf(type) != -1)
                 this.battle(type);
             if(type == 'chest')
                 this.chest();
@@ -137,6 +139,7 @@ export default {
                 this.generateenemy();
                 enemyAttribute = this.$store.state.enemyAttribute;
             }
+            this.reduceResetCount();
             this.$store.commit("set_battle_info", {
                 type: '',
                 msg: '————战斗开始————'
@@ -193,6 +196,7 @@ export default {
         victory(source, target) {
             this.reward();
             this.setBattleStatus(false, this.dungeonInfo.auto);
+            this.reduceResetCount(this.selectedDungeon.resetCount);
             if(this.selectedDungeon.count == 0)
                 this.autoBattle(false);
             this.levelToTarget(target.lv);
@@ -210,12 +214,19 @@ export default {
         },
         reduceCount(count=1) {
             if(this.selectedDungeon.count > 0) {
-                this.selectedDungeon.count -= Math.min(count, this.selectedDungeon.count);
+                if(this.selectedDungeon.resetCount <= 0)
+                    this.selectedDungeon.count -= Math.min(count, this.selectedDungeon.count);
+                this.selectedDungeon.resetCount = this.selectedDungeon.resetMax;
                 return true;
             }
             else if(this.selectedDungeon.count == 0)
                 return false;
             return true;
+        },
+        reduceResetCount(count=1) {
+            this.selectedDungeon.resetCount -= count;
+            if(this.selectedDungeon.count == 1 && this.selectedDungeon.resetCount == 0)
+                this.selectedDungeon.count--;
         },
         levelToTarget(target) {
             this.talentLevelToTarget(target);
@@ -264,16 +275,20 @@ export default {
                 if(!inBattle) {
                     clearInterval(this.battleTimer);
                     this.autoBattle(auto);
-                    index.set_enemy_hp('remove');
+                    if(this.selectedDungeon.resetCount < 1) {
+                        index.set_enemy_hp('remove');
+                    }
                 }
             }
             else {
                 setTimeout(() => {
                     this.dungeonInfo.inBattle = inBattle;
-                    if(!inBattle && this.dungeonInfo.auto) {
+                    if(!inBattle) {
                         clearInterval(this.battleTimer);
                         this.autoBattle(auto);
-                        index.set_enemy_hp('remove');
+                        if(this.selectedDungeon.resetCount < 1) {
+                            index.set_enemy_hp('remove');
+                        }
                         if(auto && !this.$store.state.setting.waitFull)
                             this.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
                     }
@@ -295,7 +310,6 @@ export default {
             newDungeon.available = 0;
             this.reduceCount(999999);
             switch(dungeon.type) {
-                case 'gold':
                 case 'mine':
                     newDungeon.member = {};
                     guildPosition.mineQueue.push(newDungeon);

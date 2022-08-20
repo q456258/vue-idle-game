@@ -35,6 +35,8 @@ export const dungeon = {
                     monsterID: monsterID,
                     monsterName: monsterName,
                     count: this.getCount(eventType),
+                    resetCount: this.getResetCount(eventType),
+                    resetMax: this.getResetCount(eventType),
                     left: Math.floor(this.arrList[ran]%6)*15+Math.random()*10+5,
                     top: this.arrList[ran]/6*20+Math.random()*10+5,
                 };
@@ -125,6 +127,26 @@ export const dungeon = {
                     break;
                 case 'chest':
                     count = 1;
+                    break;
+                default:
+                    count = 1;
+            }
+            return count;
+        },
+        getResetCount(type) {
+            let count = 1;
+            switch(type) {
+                case 'mine':
+                case 'herb':
+                case 'chest':
+                case 'normal':
+                    count = 1;
+                    break;
+                case 'elite':
+                    count = 2;
+                    break;
+                case 'boss':
+                    count = 5;
                     break;
                 default:
                     count = 1;

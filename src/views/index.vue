@@ -575,6 +575,7 @@ export default {
     },
     confirmDungeon(k) {
       let mapEvent = this.$store.globalComponent["mapEvent"];
+      mapEvent.reduceResetCount(mapEvent.selectedDungeon.resetCount);
       mapEvent.displayDungeon = true;
       if(this.dungeon)
         this.dungeon.selected = false;
