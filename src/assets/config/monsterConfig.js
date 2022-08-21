@@ -71,7 +71,7 @@ export const monsterConfig = {
                     name: '训练假人精英', type: 'elite', minLv: 1, maxLv: 5,
                     spellCycle: ['attack'], talent: {}, anime: 'trainingDummy1.png',
                     template:{  
-                        MAXHP: 250, ATK: 35, DEF: 20, BLOCK: 2, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 500, ATK: 35, DEF: 20, BLOCK: 2, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 },  
@@ -79,7 +79,7 @@ export const monsterConfig = {
                     name: '高级训练假人精英', type: 'elite', minLv: 6, maxLv: 10,
                     spellCycle: ['attack'], talent: {}, anime: 'trainingDummy2.png',
                     template:{  
-                        MAXHP: 400, ATK: 45, DEF: 30, BLOCK: 5, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 800, ATK: 45, DEF: 30, BLOCK: 5, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
@@ -87,7 +87,7 @@ export const monsterConfig = {
                     name: '导师', type: 'boss', minLv: 10, maxLv: 10,
                     spellCycle: ['attack', 'spell_frost_frostbolt02'], talent: {}, anime: 'trainer.png',
                     template:{  
-                        MAXHP: 600, ATK: 60, DEF: 40, BLOCK: 10, AP: 60, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 3000, ATK: 60, DEF: 40, BLOCK: 10, AP: 60, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
@@ -111,7 +111,7 @@ export const monsterConfig = {
                     name: '杂斑野猪精英', type: 'elite', minLv: 11, maxLv: 15,
                     spellCycle: ['attack','attack','spell_magic_polymorphpig','attack','attack','attack','attack','attack'], talent: {}, anime: 'mottledBoar1.png',
                     template:{  
-                        MAXHP: 750, ATK: 50, DEF: 50, BLOCK: 5, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 150, ATK: 50, DEF: 50, BLOCK: 5, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 20, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
@@ -119,7 +119,7 @@ export const monsterConfig = {
                     name: '癞皮山猪精英', type: 'elite', minLv: 16, maxLv: 20,
                     spellCycle: ['attack','ability_hunter_pet_boar','attack','attack'], talent: {}, anime: 'mottledBoar2.png',
                     template:{  
-                        MAXHP: 675, ATK: 80, DEF: 70, BLOCK: 10, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 1350, ATK: 80, DEF: 70, BLOCK: 10, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 30, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
@@ -129,7 +129,7 @@ export const monsterConfig = {
                         ,'ability_druid_berserk','ability_hunter_pet_boar','ability_hunter_pet_boar','ability_hunter_pet_boar'
                     ], talent: {}, anime: 'agamar.png',
                     template:{  
-                        MAXHP: 1200, ATK: 100, DEF: 500, BLOCK: 50, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 6000, ATK: 100, DEF: 500, BLOCK: 50, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 30, CRITDMG: 250, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
@@ -153,7 +153,7 @@ export const monsterConfig = {
                     name: '狗头人矿工精英', type: 'elite', minLv: 21, maxLv: 25,
                     spellCycle: ['spell_shadow_vampiricaura','attack','attack','attack','attack'], talent: {}, anime: 'kobold1.png',
                     template:{  
-                        MAXHP: 1300, ATK: 150, DEF: 200, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 2600, ATK: 150, DEF: 200, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
@@ -161,7 +161,7 @@ export const monsterConfig = {
                     name: '狗头人地卜师精英', type: 'elite', minLv: 26, maxLv: 30,
                     spellCycle: ['spell_frost_frostbolt02','spell_fire_flamebolt'], talent: {}, anime: 'kobold2.png',
                     template:{  
-                        MAXHP: 1300, ATK: 50, DEF: 100, BLOCK: 0, AP: 100, APCRIT: 100, APCRITDMG: 200, 
+                        MAXHP: 2600, ATK: 50, DEF: 100, BLOCK: 0, AP: 100, APCRIT: 100, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
@@ -169,7 +169,7 @@ export const monsterConfig = {
                     name: '金牙', type: 'boss', minLv: 30, maxLv: 30,
                     spellCycle: ['poison_arrow','fireflask','headbutt'], talent: {}, anime: 'kobold2.png',
                     template:{  
-                        MAXHP: 1500, ATK: 100, DEF: 100, BLOCK: 0, AP: 100, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 7500, ATK: 100, DEF: 100, BLOCK: 0, AP: 100, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
@@ -193,7 +193,7 @@ export const monsterConfig = {
                     name: '河爪豺狼人精英', type: 'elite', minLv: 31, maxLv: 35,
                     spellCycle: ['attack','spell_frost_frostward','attack','attack'], talent: {}, anime: 'riverpawGnoll.png',
                     template:{  
-                        MAXHP: 2000, ATK: 150, DEF: 1000, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 4000, ATK: 150, DEF: 1000, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 50, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 20,
                     }
                 }, 
@@ -201,7 +201,7 @@ export const monsterConfig = {
                     name: '黑爪豺狼人精英', type: 'elite', minLv: 36, maxLv: 40,
                     spellCycle: ['attack','attack','attack','attack','ability_ghoulfrenzy'], talent: {}, anime: 'mudsnoutGnoll.png',
                     template:{  
-                        MAXHP: 2400, ATK: 230, DEF: 1000, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 10000, ATK: 230, DEF: 1000, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 50, CRITDMG: 250, HEAL: 0, APPEN: 0, MR: 20,
                     }
                 }, 
@@ -209,7 +209,7 @@ export const monsterConfig = {
                     name: '霍格', type: 'boss', minLv: 40, maxLv: 40,
                     spellCycle: ['spell_frost_frostward','inv_misc_food_meat_raw_04','attack','attack','ability_ghoulfrenzy','attack','attack'], talent: {}, anime: 'hogger.png',
                     template:{  
-                        MAXHP: 3000, ATK: 230, DEF: 1000, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 15000, ATK: 230, DEF: 1000, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 50, CRITDMG: 250, HEAL: 0, APPEN: 0, MR: 20,
                     } 
                 }, 
@@ -233,7 +233,7 @@ export const monsterConfig = {
                     name: '盐壳龟精英', type: 'elite', minLv: 41, maxLv: 45,
                     spellCycle: ['attack','attack','attack','ability_vehicle_shellshieldgenerator','attack','attack'], talent: {}, anime: 'sparkleshell.png',
                     template:{  
-                        MAXHP: 5000, ATK: 300, DEF: 5000, BLOCK: 50, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 10000, ATK: 300, DEF: 5000, BLOCK: 50, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 70,
                     }
                 }, 
@@ -241,7 +241,7 @@ export const monsterConfig = {
                     name: '钳嘴龟精英', type: 'elite', minLv: 46, maxLv: 50,
                     spellCycle: ['attack','attack','ability_creature_disease_01','attack','ability_creature_disease_01'], talent: {}, anime: 'snapjaw.png',
                     template:{  
-                        MAXHP: 5500, ATK: 400, DEF: 2000, BLOCK: 30, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 11000, ATK: 400, DEF: 2000, BLOCK: 30, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 35,
                     }
                 }, 
@@ -251,7 +251,7 @@ export const monsterConfig = {
                         'attack','ability_creature_disease_01','attack','ability_vehicle_shellshieldgenerator'
                         ], talent: {}, anime: 'ironback.png',
                     template:{  
-                        MAXHP: 7500, ATK: 650, DEF: 5000, BLOCK: 50, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 37500, ATK: 650, DEF: 5000, BLOCK: 50, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 100,
                     }
                 }, 
@@ -275,7 +275,7 @@ export const monsterConfig = {
                     name: '火元素精英', type: 'elite', minLv: 51, maxLv: 55,
                     spellCycle: ['spell_fire_flameblades','spell_frost_frostbolt02','spell_frost_frostbolt02'], talent: {}, anime: 'infernoEle.png',
                     template:{  
-                        MAXHP: 8000, ATK: 10, DEF: 10, BLOCK: 0, AP: 1000, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 16000, ATK: 10, DEF: 10, BLOCK: 0, AP: 1000, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 150,
                     }
                 }, 
@@ -283,7 +283,7 @@ export const monsterConfig = {
                     name: '石元素精英', type: 'elite', minLv: 56, maxLv: 60,
                     spellCycle: ['inv_spiritshard_01','attack','attack','attack','attack'], talent: {}, anime: 'rockEle.png',
                     template: {  
-                        MAXHP: 8000, ATK: 1200, DEF: 8000, BLOCK: 100, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 16000, ATK: 1200, DEF: 8000, BLOCK: 100, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
@@ -294,7 +294,7 @@ export const monsterConfig = {
                         'sha_spell_fire_bluehellfire_nightmare'
                     ], talent: {}, anime: 'magmaEle.png',
                     template: {  
-                        MAXHP: 10000, ATK: 1500, DEF: 10000, BLOCK: 200, AP: 1, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 50000, ATK: 1500, DEF: 10000, BLOCK: 200, AP: 1, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 200,
                     }
                 }, 
