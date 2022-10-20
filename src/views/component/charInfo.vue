@@ -1055,7 +1055,7 @@ export default {
     padding: 0.5rem;
     .uii {
         display: flex;
-        width: calc(100% -0.4rem);
+        width: calc(100% - 0.4rem);
     }
     .equips {
         padding: 0px 25px;
