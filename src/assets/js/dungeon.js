@@ -64,6 +64,8 @@ export const dungeon = {
                     monsterID: monsterID,
                     monsterName: monsterName,
                     count: this.getCount(eventType),
+                    resetCount: this.getResetCount(eventType),
+                    resetMax: this.getResetCount(eventType),
                     left: Math.floor(this.arrList[ran]%6)*15+Math.random()*10+5,
                     top: this.arrList[ran]/6*20+Math.random()*10+5,
                 };
