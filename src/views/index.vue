@@ -675,12 +675,14 @@ export default {
     },
     openMenuPanel(type) {
       let saveload = this.$store.globalComponent["saveload"];  
+      let quest = this.$store.globalComponent["quest"];
       switch(type) {
         case 'backpack':
           this.showBackpack = !this.showBackpack;
           break;
         case 'save':
           this.savePanel = !this.savePanel;
+          quest.trackProgress('event', 3, 1);
           saveload.saveGame();
           break;
         case 'setting':

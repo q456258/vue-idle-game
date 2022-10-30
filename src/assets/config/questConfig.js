@@ -4,6 +4,7 @@ export const questConfig = {
             eventId: {
                 1: '重置地图',
                 2: '穿戴装备',
+                3: '存档',
             },
             rewardType: {gold: '金币', guildReputation: '公会名望'},
             questCategory: {
@@ -110,6 +111,18 @@ export const questConfig = {
                     target: '穿戴一件装备',
                     lv: 1,
                     reqs: [['event', 2, 1]],
+                    reward: [],
+                    rewardItem: [['inv_alchemy_80_potion01red', 20, 100]],
+                    successor: [8],
+                    forfeit: false
+                },
+                8: {
+                    name: '存档',
+                    category: 'newbie',
+                    desc: '点击左下角的【保存/加载游戏】, 点击后自动进行一次存档, 平时每5分钟自动存档一次',
+                    target: '保存一次游戏进度',
+                    lv: 1,
+                    reqs: [['event', 3, 1]],
                     reward: [],
                     rewardItem: [['inv_alchemy_80_potion01red', 20, 100]],
                     successor: [],
