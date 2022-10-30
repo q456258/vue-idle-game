@@ -561,8 +561,8 @@ export default {
       if(!this.dungeonInfo.inBattle) {
         if(this.mapArr[k] && !this.mapArr[k].selected && this.$store.state.enemyAttribute.attribute.CURHP.value != 0) {
           this.$message({
-            message: '是否放弃当前正在挑战的副本? ',
-            confirmBtnText: '更换',
+            message: '是否放弃当前正在挑战的目标? ',
+            confirmBtnText: '放弃',
             onClose: () => {
               this.set_enemy_hp('remove');
               this.confirmDungeon(k);
