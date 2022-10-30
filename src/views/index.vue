@@ -71,9 +71,9 @@
       <enemyInfo :enemy="enemyInfo"></enemyInfo>
       <div class="zoneSelect">    
         <div class="zoneAction">    
-          <button id="advanture" class="btn btn-light btn-sm lvZone" @click="switchZone('advanture')">
+          <!-- <button id="advanture" class="btn btn-light btn-sm lvZone" @click="switchZone('advanture')">
             冒险区
-          </button>    
+          </button>     -->
           <button class="btn btn-outline-light btn-sm" id="resetMap" v-show="dungeonInfo.current=='advanture'" @click="resetMapClick()">
             重置地图<span v-if="resetTime>0">({{resetTime}})</span>
           </button>   
