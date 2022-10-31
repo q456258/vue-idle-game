@@ -105,7 +105,8 @@ export default {
             try {
                 let data = JSON.parse(Base64.decode(Base64.decode(loadData)));
 
-                // data.state.guildAttribute.questBoard = {lv:1};
+                // 临时
+                data.state.guildAttribute.blackmarket = {lv:0};
                 
                 this.$store.replaceState(data.state);
                 let backpack = this.$store.globalComponent["backpack"];

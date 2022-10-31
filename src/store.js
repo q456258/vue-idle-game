@@ -183,6 +183,7 @@ export default new Vuex.Store({
             train2: {lv: 0},
             train3: {lv: 0},
             shop: {lv: 0},
+            blackmarket: {lv: 0},
             smith: {lv: 0},
             mine: {lv: 0},
             herb: {lv: 0},

@@ -2,12 +2,12 @@
 <div class="container scrollbar-morpheus-den">
     <div class="building" v-show="displayPage=='guild'">
         <div class="buildingUpgradeContainer">
-            <div class="buildingUpgrade" v-for="(v, k) in upgradeCost" :key="k">
-                <div>{{guild[k].lv}}级{{guildBuildingName[k]}}
+            <div class="buildingUpgrade" v-for="(v, k) in displayUpgrades" :key="k">
+                <div>{{guild[v].lv}}级{{guildBuildingName[v]}}
                     <br>
-                    费用： <currency :amount="upgradeCost[k][guild[k].lv]"></currency><span v-if="!upgradeCost[k][guild[k].lv]">已满级</span>
+                    费用： <currency :amount="upgradeCost[v][guild[v].lv]"></currency><span v-if="!upgradeCost[v][guild[v].lv]">已满级</span>
                     <br>
-                    <button class="btn btn-secondary" v-if="upgradeCost[k][guild[k].lv]" @click="upgradeBuilding(k)" :disabled="guild.gold<upgradeCost[k][guild[k].lv]">升级</button>
+                    <button class="btn btn-secondary" v-if="upgradeCost[v][guild[v].lv]" @click="upgradeBuilding(v)" :disabled="guild.gold<upgradeCost[v][guild[v].lv]">升级</button>
                 </div>
             </div>
         </div>
@@ -230,6 +230,16 @@ export default {
             s += this.progress['quest'].current%60  < 10 ? '0'+this.progress['quest'].current%60 : this.progress['quest'].current%60;
             return s;
         },
+        displayUpgrades() {
+            return Object.keys(this.upgradeCost).filter((k) => {
+                for(let i in this.buildingPreReq[k]) {
+                    if(this.guild[this.buildingPreReq[k][i][0]].lv < this.buildingPreReq[k][i][1])
+                        return false;
+                }
+                return true;
+            });
+        }
+        
     },
     methods: {    
         init() {
