@@ -24,7 +24,7 @@
                 </div>
             </div>
         </div>
-        <div class="shops scrollbar-morpheus-den">
+        <div class="shops scrollbar-morpheus-den" v-if="guild['shop'].lv>1">
             名望商店
             <div class="wrapper">
                 <div class="grid" v-for="(v, k) in guildShop.reputationShop[guild.shop.lv]" :key="k">

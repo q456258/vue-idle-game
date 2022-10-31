@@ -5,6 +5,7 @@ export const guildConfig = {
                 generalShop: [
                     [],
                     ['inv_alchemy_80_potion01red', 'inv_alchemy_80_potion01blue'],
+                    ['inv_alchemy_80_potion01red', 'inv_alchemy_80_potion01blue'],
                     ['inv_alchemy_80_potion01red', 'inv_alchemy_80_potion01blue', 'inv_potion_49', 'inv_potion_70', 'inv_potion_50', 'inv_potion_71'],
                     ['inv_alchemy_80_potion01red', 'inv_alchemy_80_potion01blue', 'inv_potion_49', 'inv_potion_70', 'inv_potion_50', 'inv_potion_71', 
                     'inv_potion_51', 'inv_potion_72', 'inv_potion_52', 'inv_potion_73'],
@@ -25,7 +26,7 @@ export const guildConfig = {
             guildBuildingDesc: {
                 guild: [],
                 questBoard: ['','解锁任务榜','解锁二级任务','解锁三级任务'],
-                shop: ['','解锁杂货店/名望商店','解锁黑市,增加商品','增加商品'],
+                shop: ['','解锁杂货店','解锁名望商店','解锁黑市,增加商品','增加商品'],
                 smith: ['','解锁装备强化', '解锁装备重铸', '解锁装备打造'],
                 train: [],
                 train2: [],
@@ -34,8 +35,8 @@ export const guildConfig = {
                 herb: []
             },
             upgradeCost: {
-                questBoard: [1000,10000,100000],
-                shop: [1000,10000,50000],
+                questBoard: [100,10000,100000],
+                shop: [10,1000,5000,20000],
                 smith: [10,100,10000,100000,1000000],
                 mine: [1000,100000,1000000],
                 // herb: [100,1000,10000],
