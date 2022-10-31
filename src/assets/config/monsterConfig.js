@@ -95,7 +95,7 @@ export const monsterConfig = {
                     name: '杂斑野猪', type: 'normal', minLv: 11, maxLv: 15,
                     spellCycle: ['attack'], talent: {}, anime: 'mottledBoar1.png',
                     template:{  
-                        MAXHP: 400, ATK: 65, DEF: 50, BLOCK: 5, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 400, ATK: 60, DEF: 50, BLOCK: 5, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 20, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
@@ -103,7 +103,7 @@ export const monsterConfig = {
                     name: '癞皮山猪', type: 'normal', minLv: 16, maxLv: 20,
                     spellCycle: ['attack'], talent: {}, anime: 'mottledBoar2.png',
                     template:{  
-                        MAXHP: 550, ATK: 75, DEF: 70, BLOCK: 10, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 500, ATK: 70, DEF: 70, BLOCK: 5, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 30, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
@@ -111,7 +111,7 @@ export const monsterConfig = {
                     name: '杂斑野猪精英', type: 'elite', minLv: 11, maxLv: 15,
                     spellCycle: ['attack','attack','spell_magic_polymorphpig','attack','attack','attack','attack','attack'], talent: {}, anime: 'mottledBoar1.png',
                     template:{  
-                        MAXHP: 1500, ATK: 50, DEF: 50, BLOCK: 5, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 1500, ATK: 50, DEF: 50, BLOCK: 10, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 20, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
