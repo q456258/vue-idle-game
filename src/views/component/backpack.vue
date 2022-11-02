@@ -70,14 +70,10 @@
         <ul v-show="visible && displayPage=='use'" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
             <li @click="useItemByIndex()" v-if="usable">使用</li>
             <li @click="useAllItemByIndex('use')" v-if="usable && useGrid[currentItemIndex].quantity > 1">全部使用</li>
-            <li @click="mergeItem('use')" v-if="mergeable">合成</li>
-            <li @click="mergeAll('use')" v-if="mergeable && useGrid[currentItemIndex].quantity > 1">全部合成</li>
             <li @click="throwItem('use')">丢弃</li>
         </ul>
         <ul v-show="visible && displayPage=='etc'" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
             <li @click="useAllItemByIndex('etc')" v-if="usable && etcGrid[currentItemIndex].quantity > 1">全部使用</li>
-            <li @click="mergeItem('etc')" v-if="mergeable">合成</li>
-            <li @click="mergeAll('etc')" v-if="mergeable && etcGrid[currentItemIndex].quantity > 1">全部合成</li>
             <li @click="throwItem('etc')">丢弃</li>
         </ul>
         <div class="footer">
@@ -141,7 +137,6 @@ export default {
             etcGrid: [],
             visible: false,
             usable: false,
-            mergeable: false,
             dragging: false,
             lockedToEnd: true,
             autoSellPanel: false,
@@ -352,59 +347,6 @@ export default {
                 success = this.callItemEffect(item.type, item.lv, {msg: msg});
             return success;
         },
-        mergeItem(grid='use', k, count=1) {
-            this.closeInfo();
-            if(k != undefined)
-                this.currentItemIndex = k; 
-            let type = grid=='use' ? this.useGrid[this.currentItemIndex].type : this.etcGrid[this.currentItemIndex].type;
-            let quantity = grid=='use' ? this.useGrid[this.currentItemIndex].quantity : this.etcGrid[this.currentItemIndex].quantity;
-            let item = this.itemType[type];
-            let mergeCount = item.mergeCount;
-            let targetSet = item.mergeTarget;
-            if(!item.merge)
-                return;
-            if(quantity < mergeCount*count)
-                return;
-            let resultSet = {};
-            for(let a=0; a<count; a++) {
-                let ran = Math.random()*100;
-                let cur = 0;
-                for(let i in targetSet) {
-                    cur += targetSet[i][1];
-                    if(ran <= cur) {
-                        if(resultSet[targetSet[i][0]] == undefined)
-                            resultSet[targetSet[i][0]] = 0;
-                        resultSet[targetSet[i][0]]++;
-                        break;
-                    }
-                }
-            }
-            let itemInfo = this.$store.globalComponent["itemInfo"];
-            itemInfo.removeItemByIndex(this.currentItemIndex, mergeCount*count, grid);
-            if(Object.keys(resultSet).length == 0) {
-                this.$store.commit("set_sys_info", {
-                    type: 'danger',
-                    msg: '合成失败',
-                });
-            } else {
-                for(let i in resultSet) {
-                    let newItem = itemInfo.createItem(i, resultSet[i]);
-                    itemInfo.addItem(JSON.parse(newItem), true);
-                }
-                this.$forceUpdate();
-            }
-        },
-        mergeAll(grid='use', k) {
-            this.closeInfo();
-            if(k != undefined)
-                this.currentItemIndex = k; 
-            let type = grid=='use' ? this.useGrid[this.currentItemIndex].type : this.etcGrid[this.currentItemIndex].type;
-            let quantity = grid=='use' ? this.useGrid[this.currentItemIndex].quantity : this.etcGrid[this.currentItemIndex].quantity;
-            let item = this.itemType[type];
-            let mergeCount = item.mergeCount;
-            let count = Math.floor(quantity/mergeCount);
-            this.mergeItem(grid, this.currentItemIndex, count);
-        },
         throwItem(grid) {
             let itemInfo = this.$store.globalComponent["itemInfo"];
             if(grid == 'use') {
@@ -553,12 +495,10 @@ export default {
             if(this.displayPage == 'use') {
                 let type = this.itemType[this.useGrid[this.currentItemIndex].type];
                 this.usable = type.use;
-                this.mergeable = type.merge;
             }
             else if(this.displayPage == 'etc') {
                 let type = this.itemType[this.etcGrid[this.currentItemIndex].type];
                 this.usable = false;
-                this.mergeable = type.merge;
             }
             // this.$store.commit('set_need_strengthen_equipment', this.currentItem)
             const menuMinWidth = 105;

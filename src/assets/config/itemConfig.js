@@ -38,9 +38,6 @@ export const itemConfig = {
                     },
                     stack: true,
                     quantity: 1,
-                    merge: true,
-                    mergeCount: 3,
-                    mergeTarget: [['inv_ingot_02',100]],
                     cost: 99990000,
                     maxStack: 100
                 },
@@ -67,9 +64,6 @@ export const itemConfig = {
                     },
                     stack: true,
                     quantity: 1,
-                    merge: true,
-                    mergeCount: 3,
-                    mergeTarget: [['inv_ingot_05',100]],
                     cost: 99990000,
                     maxStack: 100
                 },
@@ -96,9 +90,6 @@ export const itemConfig = {
                     },
                     stack: true,
                     quantity: 1,
-                    merge: true,
-                    mergeCount: 3,
-                    mergeTarget: [['inv_ingot_01',100]],
                     cost: 99990000,
                     maxStack: 100
                 },
@@ -125,9 +116,6 @@ export const itemConfig = {
                     },
                     stack: true,
                     quantity: 1,
-                    merge: true,
-                    mergeCount: 3,
-                    mergeTarget: [['inv_ingot_iron',90], ['inv_ingot_steel',10]],
                     cost: 99990000,
                     maxStack: 100
                 },
@@ -167,9 +155,6 @@ export const itemConfig = {
                     },
                     stack: true,
                     quantity: 1,
-                    merge: true,
-                    mergeCount: 3,
-                    mergeTarget: [['inv_ingot_03',100]],
                     cost: 99990000,
                     maxStack: 100
                 },
@@ -196,9 +181,6 @@ export const itemConfig = {
                     },
                     stack: true,
                     quantity: 1,
-                    merge: true,
-                    mergeCount: 3,
-                    mergeTarget: [['inv_ingot_06',100]],
                     cost: 99990000,
                     maxStack: 100
                 },
@@ -225,9 +207,6 @@ export const itemConfig = {
                     },
                     stack: true,
                     quantity: 1,
-                    merge: true,
-                    mergeCount: 3,
-                    mergeTarget: [['inv_ingot_08',100]],
                     cost: 99990000,
                     maxStack: 100
                 },
@@ -254,9 +233,6 @@ export const itemConfig = {
                     },
                     stack: true,
                     quantity: 1,
-                    merge: true,
-                    mergeCount: 3,
-                    mergeTarget: [['inv_ingot_07',100]],
                     cost: 99990000,
                     maxStack: 100
                 },
@@ -283,9 +259,6 @@ export const itemConfig = {
                     },
                     stack: true,
                     quantity: 1,
-                    merge: true,
-                    mergeCount: 3,
-                    mergeTarget: [['inv_ingot_mithril',100]],
                     cost: 99990000,
                     maxStack: 100
                 },
@@ -398,15 +371,12 @@ export const itemConfig = {
                     description: {
                         name: '普通装备精华',
                         category: '材料',
-                        desc: '分解普通装备获得, 可用于升级普通品质的装备, 可消耗10个合成精良装备精华',
+                        desc: '分解普通装备获得, 可用于升级普通品质的装备',
                         iconSrc: "./icons/item/inv_enchanting_dust.jpg",
                     },
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    merge: true,
-                    mergeCount: 10,
-                    mergeTarget: 'dust3',
                     maxStack: 1000
                 },
                 dust3: {
@@ -414,15 +384,12 @@ export const itemConfig = {
                     description: {
                         name: '精良装备精华',
                         category: '材料',
-                        desc: '分解精良装备获得, 可用于升级精良品质的装备, 可消耗10个合成完美装备精华',
+                        desc: '分解精良装备获得, 可用于升级精良品质的装备',
                         iconSrc: "./icons/item/inv_enchanting_70_arkhana.jpg",
                     },
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    merge: true,
-                    mergeCount: 10,
-                    mergeTarget: 'dust4',
                     maxStack: 1000
                 },
                 dust4: {
@@ -430,15 +397,12 @@ export const itemConfig = {
                     description: {
                         name: '完美装备精华',
                         category: '材料',
-                        desc: '分解完美装备获得, 可用于升级完美品质的装备, 可消耗10个合成史诗装备精华',
+                        desc: '分解完美装备获得, 可用于升级完美品质的装备',
                         iconSrc: "./icons/item/inv_misc_dust_infinite.jpg",
                     },
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    merge: true,
-                    mergeCount: 10,
-                    mergeTarget: 'dust5',
                     maxStack: 1000
                 },
                 dust5: {
@@ -446,15 +410,12 @@ export const itemConfig = {
                     description: {
                         name: '史诗装备精华',
                         category: '材料',
-                        desc: '分解史诗装备获得, 可用于升级史诗品质的装备, 可消耗10个合成传奇装备精华',
+                        desc: '分解史诗装备获得, 可用于升级史诗品质的装备',
                         iconSrc: "./icons/item/inv_enchanting_wod_dust3.jpg",
                     },
                     stack: true,
                     quantity: 1,
                     cost: 99990000,
-                    merge: true,
-                    mergeCount: 10,
-                    mergeTarget: 'dust6',
                     maxStack: 1000
                 },
                 dust6: {
