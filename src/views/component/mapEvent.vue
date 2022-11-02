@@ -505,7 +505,7 @@ export default {
             let equip = ['helmet', 'weapon', 'armor', 'shoe', 'shoulder', 'glove', 'ring', 'cape', 'bracer', 'belt', 'legging', 'necklace'];
 
             if(equip.indexOf(type) != -1)
-                index.closeInfo('eqiup');
+                index.closeInfo('equip');
             else
                 index.closeInfo('item');
         },
