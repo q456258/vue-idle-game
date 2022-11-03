@@ -149,7 +149,7 @@ export default {
             newEquip.itemType = template.itemType;
             newEquip.lvReq = template.lvReq || template.lv || 1;
             newEquip.lv = template.lv || 1;
-            newEquip.quality = template.qualityIndex > -1 ? this.quality[template.qualityIndex] : this.createQuality(qualitySet);
+            newEquip.quality = template.quality > -1 ? this.quality[template.quality] : this.createQuality(qualitySet);
             newEquip.maxEnhanceLv = (newEquip.quality.qualityLv-1)*5;
             newEquip.enhanceLv = Math.min(template.enhanceLv || 0, newEquip.maxEnhanceLv);
             for(let i=0; i<template.baseEntry.length; i++)

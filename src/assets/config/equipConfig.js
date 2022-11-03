@@ -1421,7 +1421,7 @@ export const equipConfig = {
       unique: {
         inv_sword_05: {
           itemType: 'weapon',
-          lv: 10, qualityIndex: 3, enhanceLv: 5,
+          lv: 10, quality: 3, enhanceLv: 5,
           description: {
             name: '轻灵佩剑', desc: '导师的离别赠礼',
             iconSrc: "./icons/weapon/inv_sword_05.jpg",
@@ -1432,7 +1432,7 @@ export const equipConfig = {
         },
         inv_wand_06: {
           itemType: 'weapon',
-          lv: 10, qualityIndex: 3, enhanceLv: 5,
+          lv: 10, quality: 3, enhanceLv: 5,
           description: {
             name: '魔术法杖', desc: '导师的离别赠礼',
             iconSrc: "./icons/weapon/inv_wand_06.jpg",
