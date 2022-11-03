@@ -206,7 +206,7 @@
     .displayEquip {
         position: absolute;
         display: none;
-        z-index: 10;
+        z-index: 15;
         & > div {
             margin: 0.1rem;
         }
@@ -725,6 +725,16 @@
             &:hover {
                 opacity: 1; 
             }
+        }
+    }
+    .vertical-nav-item {
+        margin-left: auto;
+        width: 50px;
+        .vertical-nav-link {
+            padding: 2px 5px;
+            border-bottom-left-radius: 0.25rem;
+            border-top-left-radius: 0.25rem;
+            border-top-right-radius: 0;
         }
     }
 }
