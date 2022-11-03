@@ -12,7 +12,7 @@
                     <img :src="item.description.iconSrc" alt="icon">
                 </div> -->
                 <div class="largeIconContainer">
-                    <del :class="[{grey:item.quality.qualityLv==1, green:item.quality.qualityLv==3, blue:item.quality.qualityLv==4, purple:item.quality.qualityLv==5, orange:item.quality.qualityLv==5}, 'largeIcon iconBorder']"></del>
+                    <del :class="[{grey:item.quality.qualityLv==1, green:item.quality.qualityLv==3, blue:item.quality.qualityLv==4, purple:item.quality.qualityLv==5, orange:item.quality.qualityLv==6}, 'largeIcon iconBorder']"></del>
                     <img :src="item.description.iconSrc" alt="item icon" />
                 </div>
                 <div class="lv" v-if="item.lvReq > 0">

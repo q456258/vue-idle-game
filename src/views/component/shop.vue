@@ -11,7 +11,7 @@
                 <div class="grid" v-for="(v, k) in guildShop.generalShop[guild.shop.lv]" :key="k">
                     <div @mouseover="showInfo($event,itemType[v].itemType,itemType[v],true)" @mouseleave="closeInfo('item')">
                         <div class="mediumIconContainer">
-                            <del :class="[{grey:itemType[v].quality==1, green:itemType[v].quality==3, blue:itemType[v].quality==4, purple:itemType[v].quality==5, orange:itemType[v].quality==5}, 'mediumIcon iconBorder']"></del>
+                            <del :class="[{grey:itemType[v].quality==1, green:itemType[v].quality==3, blue:itemType[v].quality==4, purple:itemType[v].quality==5, orange:itemType[v].quality==6}, 'mediumIcon iconBorder']"></del>
                             <img :src="itemType[v].description.iconSrc" alt="" />
                         </div>
                         <div class="quantity">{{itemType[v].quantity}}</div>
@@ -30,7 +30,7 @@
                 <div class="grid" v-for="(v, k) in guildShop.reputationShop[guild.shop.lv]" :key="k">
                     <div @mouseover="showInfo($event,itemType[v[0]].itemType,itemType[v[0]],true)" @mouseleave="closeInfo('item')">
                         <div class="mediumIconContainer">
-                            <del :class="[{grey:itemType[v[0]].quality==1, green:itemType[v[0]].quality==3, blue:itemType[v[0]].quality==4, purple:itemType[v[0]].quality==5, orange:itemType[v[0]].quality==5}, 'mediumIcon iconBorder']"></del>
+                            <del :class="[{grey:itemType[v[0]].quality==1, green:itemType[v[0]].quality==3, blue:itemType[v[0]].quality==4, purple:itemType[v[0]].quality==5, orange:itemType[v[0]].quality==6}, 'mediumIcon iconBorder']"></del>
                             <img :src="itemType[v[0]].description.iconSrc" alt="" />
                         </div>
                         <div class="quantity">{{itemType[v[0]].quantity}}</div>
