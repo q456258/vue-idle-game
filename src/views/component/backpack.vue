@@ -361,7 +361,7 @@ export default {
             if(msg) {
                 this.$store.commit("set_sys_info", {
                     type: 'reward',
-                    msg: '获得战利品',
+                    msg: '获得装备',
                     equip: equip
                 });
             }
