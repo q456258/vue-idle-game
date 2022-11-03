@@ -28,7 +28,7 @@
             <div class="addonGrid">
                 <div class="icon"  style="cursor:pointer" @click="addMaterial($event, k)" @contextmenu="redMaterial($event, k)" v-for="(v, k) in gemType" :key="k">
                     <div class="mediumIconContainer" :style="{'box-shadow': 'inset 0 0 7px 2px ' + itemType[v].quality.color }">
-                        <del :class="[{grey:itemType[v].quality==1, green:itemType[v].quality==3, blue:itemType[v].quality==4, purple:itemType[v].quality==5, orange:itemType[v].quality==5}, 'mediumIcon iconBorder']"></del>
+                        <del :class="[{grey:itemType[v].quality==1, green:itemType[v].quality==3, blue:itemType[v].quality==4, purple:itemType[v].quality==5, orange:itemType[v].quality==6}, 'mediumIcon iconBorder']"></del>
                         <img :src="'./icons/item/'+v+'.jpg'" alt="" />
                     </div>
                     <div class="quantity">
