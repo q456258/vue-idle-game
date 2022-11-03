@@ -117,6 +117,16 @@
           <p class="info">* 任务</p>
         </template>
       </cTooltip>
+      <cTooltip :placement="'top'" v-if="playerLv>=20">
+        <template v-slot:content>
+          <div class="menu" @click="openMenuPanel('craft')">
+            <img src="../assets/icons/menu/craft.png" alt="">
+          </div>
+        </template>
+        <template v-slot:tip>
+          <p class="info">* 锻造</p>
+        </template>
+      </cTooltip>
       <cTooltip :placement="'top'">
         <template v-slot:content>
           <div class="menu" @click="openMenuPanel('save')">
@@ -146,10 +156,11 @@
     </div>
     <equipEnhance :equip="enhanceEquip" v-show="equipEnhancePanel"></equipEnhance>
     <equipForge :equip="enhanceEquip" v-show="equipForgePanel"></equipForge>    
-    <equipPotential :equip="enhanceEquip" v-show="equipPotentialPanel"></equipPotential>    
+    <equipPotential :equip="enhanceEquip" v-show="equipPotentialPanel"></equipPotential> 
+    <quest v-show="questPanel"></quest>   
+    <craftItem v-show="craftPanel"></craftItem>
     <saveload v-show="savePanel"></saveload>
     <setting v-show="settingPanel"></setting>
-    <quest v-show="questPanel"></quest>
 
     <charInfo id="charInfo" v-show="displayPage=='charInfo'"></charInfo>
     <guild id="guild" v-show="displayPage=='guild'"></guild>
@@ -185,6 +196,7 @@ import statistic from './component/statistic';
 import saveload from './component/saveload';
 import setting from './component/setting';
 import quest from './component/quest';
+import craftItem from './component/craftItem';
 import enemyInfo from './component/enemyInfo';
 import { dungeon } from '../assets/js/dungeon';
 import { buffAndTrigger } from '../assets/js/buffAndTrigger';
@@ -214,6 +226,7 @@ export default {
       savePanel: false,
       settingPanel: false,
       questPanel: false,
+      craftPanel: false,
       displayPage: 'charInfo',
       saveDateString: '',
       resetTimer: 0,
@@ -221,7 +234,7 @@ export default {
       selectedZone: 0
     }
   },
-  components: {cTooltip, equipInfo, compareEquip, itemInfo, mapEvent, backpack, equipEnhance, equipForge, equipPotential, 
+  components: {cTooltip, equipInfo, compareEquip, itemInfo, mapEvent, backpack, equipEnhance, equipForge, equipPotential, craftItem,
               charInfo, guild, guildMember, shop, talentTree, faq, achievement, statistic, saveload, setting, quest, enemyInfo, currency},
   created() {
     this.$store.globalComponent = {};
@@ -545,6 +558,9 @@ export default {
         case 'forge':
           this.equipForgePanel = false;
           break;
+        case 'craft':
+          this.craftPanel = false;
+          break;
         case 'potential':
           this.equipPotentialPanel = false;
           break;
@@ -691,6 +707,9 @@ export default {
         case 'quest':
           this.questPanel = !this.questPanel;
           break;
+        case 'craft':
+          this.craftPanel = !this.craftPanel;
+          break;
       }
     },
     closeMenuPanel(type) {
@@ -708,6 +727,9 @@ export default {
           break;
         case 'quest':
           this.questPanel = false;
+          break;
+        case 'craft':
+          this.craftPanel = false;
           break;
       }
     },
