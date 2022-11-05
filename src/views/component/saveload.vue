@@ -107,6 +107,7 @@ export default {
 
                 // 临时
                 data.state.guildAttribute.blackmarket = {lv:0};
+                data.state.playerAttribute.learntRecipe = [];
                 
                 this.$store.replaceState(data.state);
                 let backpack = this.$store.globalComponent["backpack"];
