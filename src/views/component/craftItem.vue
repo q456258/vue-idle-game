@@ -10,14 +10,14 @@
                         <span v-if="targetType=='equip'">{{ itemTemplate.description.name }}</span>
                         <span v-else>{{ itemTemplate.description.name }}</span>
                     </div>
-                    <div class="largeIconContainer"  @mouseover="showInfo($event)" @mouseleave="closeInfo(targetItem)">
+                    <div class="largeIconContainer"  @mouseover="showInfo($event)" @mouseleave="closeInfo(itemTemplate.itemType)">
                         <del :class="[{grey:targetQuality==0, green:targetQuality==2, blue:targetQuality==3, purple:targetQuality==4, orange:targetQuality==5}, 'largeIcon iconBorder']"></del>
                         <img v-if="targetType=='equip'" :src="itemTemplate.description.iconSrc" alt="icon" />
                         <img v-else :src="itemTemplate.description.iconSrc" alt="icon" />
                     </div>
                 </div>
                 <div class="addonGrid" v-if="targetItem">
-                    <div class="icon" style="cursor:pointer" @mouseover="showInfo($event, k)" @mouseleave="closeInfo(k)" @click="addMaterial($event, k)" @contextmenu="redMaterial($event, k)" v-for="(v, k) in materialList[targetItem]" :key="k">
+                    <div class="icon" style="cursor:pointer" @mouseover="showInfo($event, k)" @mouseleave="closeInfo()" @click="addMaterial($event, k)" @contextmenu="redMaterial($event, k)" v-for="(v, k) in materialList[targetItem]" :key="k">
                         <div class="mediumIconContainer" :style="{'box-shadow': 'inset 0 0 7px 2px ' + itemQuality[itemType[k].quality].color }">
                             <del :class="[{grey:itemType[k].quality==1, green:itemType[k].quality==3, blue:itemType[k].quality==4, purple:itemType[k].quality==5, orange:itemType[k].quality==6}, 'mediumIcon iconBorder']"></del>
                             <img :src="'./icons/material/'+k+'.jpg'" alt="" />
@@ -159,8 +159,8 @@ export default {
         },
         showInfo($event, itemName, compare=true) {
             let index = this.$store.globalComponent["index"];
-            if(itemName == null)
-                index.showInfo($event, this.targetType, this.itemTemplate, compare);
+            if(!itemName)
+                index.showInfo($event, this.itemTemplate.itemType, this.itemTemplate, compare);
             else {
                 let item = this.itemType[itemName];
                 let type = item.type;
@@ -168,6 +168,7 @@ export default {
             }
         },
         closeInfo(type) {
+            console.log(type)
             let index = this.$store.globalComponent["index"];
             let equip = ['helmet', 'weapon', 'armor', 'shoe', 'shoulder', 'glove', 'ring', 'cape', 'bracer', 'belt', 'legging', 'necklace'];
 
