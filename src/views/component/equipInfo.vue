@@ -203,8 +203,8 @@ export default {
             let fixEntry = [];
             let type = newEquip.itemType;
             let mod = this.equipMod[type];
-            if(baseEntry.length < 2) {
-                let count = Math.random()>0.5 ? 1 : 2;
+            if(baseEntry.length < 2 && option.length > 0) {
+                let count = (Math.random()>0.5 && option.length > 1) ? 1 : 2;
                 let ran = Math.floor(Math.random()*options.length);
                 baseEntry.push({type:options[ran]});
                 if(count == 2 && baseEntry.length < 2) {
@@ -243,12 +243,18 @@ export default {
             this.createBaseEntryValue(newEquip.quality.qualityCoefficient, baseEntry, 0, newEquip.lv, newEquip.enhanceLv, mod);
 
             // 提示额外基础词条类型
-            let optionString = '+ ? [无';
-            for(let i in options)
-                optionString += '/'+this.entryInfo[options[i]].name+'';
-            if(options.length > 0)
+            let optionString = '+ ? [';
+            let first = 0;
+            for(let i in options) {
+                if(first++ != 0)
+                    optionString += '/';
+                if(options[i] == baseEntry[0].type)
+                    optionString += '无';
+                else
+                    optionString += this.entryInfo[options[i]].name+'';
+            }
+            if(options.length > 0 && baseEntry.length < 2)
                 baseEntry.push({name:optionString+']'});
-            
             return fixEntry.concat(baseEntry);
         },
         createBaseEntryValue(qualityCoefficient, entry, bonus, lv, enhanceLv, mod=1) {
