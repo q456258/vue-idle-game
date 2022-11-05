@@ -266,7 +266,8 @@ export default new Vuex.Store({
             bracer: {},
             belt: {},
             legging: initial_legging,
-            necklace: {}
+            necklace: {},
+            learntRecipe: []
         },
         enemyAttribute: {
             name: "小鸡",
