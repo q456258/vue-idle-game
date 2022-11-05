@@ -16,14 +16,19 @@
                         <img v-else :src="itemTemplate.description.iconSrc" alt="icon" />
                     </div>
                 </div>
+                <div class="craftQty" v-if="targetItem">
+                    <button class="btn btn-sm btn-light" @click="minQty">&lt;&lt;&nbsp;</button>
+                    <input type="number" v-model="craftQty" min="1" class="qty" />
+                    <button class="btn btn-sm btn-light" @click="maxQty">&nbsp;>></button>
+                </div>
                 <div class="addonGrid" v-if="targetItem">
                     <div class="icon" style="cursor:pointer" @mouseover="showInfo($event, k)" @mouseleave="closeInfo()" @click="addMaterial($event, k)" @contextmenu="redMaterial($event, k)" v-for="(v, k) in materialList[targetItem]" :key="k">
                         <div class="mediumIconContainer" :style="{'box-shadow': 'inset 0 0 7px 2px ' + itemQuality[itemType[k].quality].color }">
                             <del :class="[{grey:itemType[k].quality==1, green:itemType[k].quality==3, blue:itemType[k].quality==4, purple:itemType[k].quality==5, orange:itemType[k].quality==6}, 'mediumIcon iconBorder']"></del>
                             <img :src="'./icons/material/'+k+'.jpg'" alt="" />
                         </div>
-                        <div class="quantity" :class="{'warning':itemQty[k]<v}">
-                            {{itemQty[k]+'/'+v}}
+                        <div class="quantity" :class="{'warning':itemQty[k]<reqQty[k]}">
+                            {{itemQty[k]+'/'+reqQty[k]}}
                         </div>
                     </div>
                 </div>
@@ -65,8 +70,10 @@ export default {
         return {
             targetItem: null,
             targetType: 'equip',
+            craftQty: 1,
             itemTemplate: null,
             itemQty: [],
+            reqQty: [],
             categFilter: ['裁缝','打造','炼金','草药','矿物','皮','杂项'],
             categFilterSelected: '裁缝',
             categCorres: {'裁缝': 'tailor','打造': 'craft','炼金': 'alchemy','草药': 'herb','矿物': 'mine','皮': 'leather','杂项': 'misc'},
@@ -74,11 +81,14 @@ export default {
     },
     mounted() {
         this.$store.globalComponent.craftItem = this;
-        // this.targetItem = 'inv_ingot_02';
+        this.switchFilter("裁缝");
     },
     props: {
     },
     watch: {
+        craftQty() {
+            this.setReqQty();
+        },
         targetItem() {
             this.getQty();
             let itemInfo = this.$store.globalComponent["itemInfo"];
@@ -116,14 +126,23 @@ export default {
             let backpack = this.$store.globalComponent["backpack"];
             let equipInfo = this.$store.globalComponent["equipInfo"];
             if(this.targetType == 'equip') {
-                let newEquip = JSON.parse(equipInfo.createUniqueEquipTemplate(this.targetItem)); 
-                backpack.giveEquip(newEquip, true, true);
+                for(let i=0; i<this.craftQty; i++) {
+                    let newEquip = JSON.parse(equipInfo.createUniqueEquipTemplate(this.targetItem)); 
+                    backpack.giveEquip(newEquip, true, true);
+                }
             } else {
-                let newItem = JSON.parse(itemInfo.createItem(this.targetItem, 1));
+                let newItem = JSON.parse(itemInfo.createItem(this.targetItem, this.craftQty));
                 itemInfo.addItem(newItem, true);
             }
 
             this.getQty();
+        },
+        setReqQty() {
+            let qtys = [];
+            for(let i in this.materialList[this.targetItem]) {
+                qtys[i] = this.materialList[this.targetItem][i]*this.craftQty;
+            }
+            this.reqQty = qtys;
         },
         getQty() {
             let itemInfo = this.$store.globalComponent["itemInfo"];
@@ -133,9 +152,19 @@ export default {
             }
             this.itemQty = qtys;
         },
+        minQty() {
+            this.craftQty = 1;
+        },
+        maxQty() {
+            let max = 9999;
+            for(let i in this.materialList[this.targetItem]) {
+                max = Math.min(max, this.itemQty[i]/this.materialList[this.targetItem][i]);
+            }
+            this.craftQty = max < 1 ? 1 : Math.floor(max);
+        },
         checkMaterial() {
             for(let i in this.itemQty) {
-                if(this.itemQty[i] < this.materialList[this.targetItem][i])
+                if(this.itemQty[i] < this.reqQty[i])
                     return false;
             }
             return true;
@@ -143,12 +172,14 @@ export default {
         consumeMaterial() {
             let itemInfo = this.$store.globalComponent["itemInfo"];
             for(let i in this.materialList[this.targetItem]) {
-                itemInfo.removeItemByCode(i, this.materialList[this.targetItem][i]);
+                itemInfo.removeItemByCode(i, this.reqQty[i]);
             }
         },
         switchFilter(value) {
             this.categFilterSelected = value;
+            this.craftQty = 1;
             this.targetItem = this.categList[this.categCorres[this.categFilterSelected]][0];
+            this.setReqQty();
             if(value=='裁缝' || value=='打造')
                 this.targetType = 'equip';
             else
@@ -156,6 +187,7 @@ export default {
         },
         selectTarget(value) {
             this.targetItem = value;
+            this.setReqQty();
         },
         showInfo($event, itemName, compare=true) {
             let index = this.$store.globalComponent["index"];
@@ -168,7 +200,6 @@ export default {
             }
         },
         closeInfo(type) {
-            console.log(type)
             let index = this.$store.globalComponent["index"];
             let equip = ['helmet', 'weapon', 'armor', 'shoe', 'shoulder', 'glove', 'ring', 'cape', 'bracer', 'belt', 'legging', 'necklace'];
 
@@ -203,9 +234,27 @@ export default {
         overflow-y: auto;
     }
 }
+.craftQty {
+    position: absolute;
+    display: flex;
+    margin-top: 42%;
+    width: 61%;
+    justify-content: center;
+    align-items: center;
+    .qty {    
+        display: block;
+        width: 60px;
+        height: 27.5px;
+        padding: 0.375rem 0.5rem;
+        color: #495057;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+    }
+}
 .addonGrid {
     position: absolute;
-    margin-top: 45%;
+    margin-top: 48%;
     width: 60%;
 }
 a.glowBtn{
