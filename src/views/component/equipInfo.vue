@@ -155,6 +155,7 @@ export default {
             for(let i=0; i<template.baseEntry.length; i++)
                 baseEntry.push({type:template.baseEntry[i]});
             newEquip.baseEntry = this.createBaseEntry(newEquip, baseEntry);
+            this.createBaseEntryValue(newEquip.quality.qualityCoefficient, newEquip.baseEntry, 0, newEquip.lv, newEquip.enhanceLv, this.equipMod[newEquip.itemType]);
             newEquip.extraBaseEntry = [];
             newEquip.extraEntry = [];
             newEquip.potential = [];
