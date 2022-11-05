@@ -140,6 +140,7 @@ export default {
             newEquip.extraEntry = this.createExtraEntry(newEquip);
             newEquip.potential = newEquip.lv >= 30 ? this.createPotential(newEquip) : [];
             newEquip.rating = this.rating(newEquip);
+            newEquip.desc = this.getEquipDesc(newEquip);
             return JSON.stringify(newEquip);
         },
         createUniqueEquipTemplate(name) {
@@ -154,8 +155,7 @@ export default {
             newEquip.enhanceLv = Math.min(template.enhanceLv || 0, newEquip.maxEnhanceLv);
             for(let i=0; i<template.baseEntry.length; i++)
                 baseEntry.push({type:template.baseEntry[i]});
-            newEquip.baseEntry = this.createBaseEntry(newEquip, baseEntry);
-            this.createBaseEntryValue(newEquip.quality.qualityCoefficient, newEquip.baseEntry, 0, newEquip.lv, newEquip.enhanceLv, this.equipMod[newEquip.itemType]);
+            newEquip.baseEntry = this.uniqueCreateBaseEntry(newEquip, baseEntry, template.option);
             newEquip.extraBaseEntry = [];
             newEquip.extraEntry = [];
             newEquip.potential = [];
@@ -164,6 +164,12 @@ export default {
             return JSON.stringify(newEquip);
         },
         finishUniqueEquip(equip) {
+            let baseEntry = [];
+            for(let i in equip.baseEntry) {
+                if(['STR','AGI','INT','STA','SPI'].indexOf(equip.baseEntry[i].type) != -1)
+                    baseEntry.push({type:equip.baseEntry[i].type});
+            }
+            equip.baseEntry = this.createBaseEntry(equip, baseEntry, equip.option);
             if(equip.extraBaseEntry == undefined)
                 equip.extraBaseEntry = [];
             if(equip.extraEntry == undefined)
@@ -173,9 +179,6 @@ export default {
             equip.rating = this.rating(equip);
             return JSON.stringify(equip);
         },
-        // createLv(Max) {
-        //     return parseInt(Math.random() * (Max || 39)) + 1;
-        // },
         createType(types) {
             let random = Math.floor(Math.random()*this.typeName.length)
             if(types) {
@@ -200,7 +203,6 @@ export default {
             let fixEntry = [];
             let type = newEquip.itemType;
             let mod = this.equipMod[type];
-            let index = 0;
             if(baseEntry.length < 2) {
                 let count = Math.random()>0.5 ? 1 : 2;
                 let ran = Math.floor(Math.random()*options.length);
@@ -222,10 +224,30 @@ export default {
             this.createBaseEntryValue(newEquip.quality.qualityCoefficient, fixEntry, 0, newEquip.lv, newEquip.enhanceLv, mod);
             let bonus = newEquip.quality.qualityLv != 3 ? 1 : Math.round(1+(newEquip.quality.qualityCoefficient * mod * (1.6+newEquip.lv*0.08)));
             this.createBaseEntryValue(newEquip.quality.qualityCoefficient, baseEntry, bonus, newEquip.lv, newEquip.enhanceLv, mod);
+            
+            return fixEntry.concat(baseEntry);
+        },
+        uniqueCreateBaseEntry(newEquip, baseEntry=[], option=['STR','AGI','INT','STA','SPI']) {
+            let options = this.$deepCopy(option);
+            let fixEntry = [];
+            let type = newEquip.itemType;
+            let mod = this.equipMod[type];
+            newEquip.option = options;
+            for(let i in this[type].fixEntry) {
+                if(type == 'weapon' && (baseEntry[0].type == 'INT' || baseEntry[0].type == 'SPI'))
+                    fixEntry.push({type:'AP'});
+                else
+                    fixEntry.push({type: this[type].fixEntry[i]});
+            }
+            this.createBaseEntryValue(newEquip.quality.qualityCoefficient, fixEntry, 0, newEquip.lv, newEquip.enhanceLv, mod);
+            this.createBaseEntryValue(newEquip.quality.qualityCoefficient, baseEntry, 0, newEquip.lv, newEquip.enhanceLv, mod);
 
-            index = Math.min(newEquip.quality.qualityLv-1, this[type].type[baseEntry[0].type].length-1);
-            newEquip.description = this.$deepCopy(this[type].type[baseEntry[0].type][index]);
-            newEquip.description.type = this.type[newEquip.itemType];
+            // 提示额外基础词条类型
+            let optionString = '+ ? [无';
+            for(let i in options)
+                optionString += '/'+this.entryInfo[options[i]].name+'';
+            if(options.length > 0)
+                baseEntry.push({name:optionString+']'});
             
             return fixEntry.concat(baseEntry);
         },
@@ -334,6 +356,18 @@ export default {
                 });
             }
             return potentials;
+        },
+        getEquipDesc(newEquip) {
+            let index = 0;
+            let type = newEquip.itemType;
+            let baseType = newEquip.baseEntry[0].type;
+            let desc = null;
+            if(['STR','AGI','INT','STA','SPI'].indexOf(baseType) == -1)
+                baseType = newEquip.baseEntry[1].type;
+            index = Math.min(newEquip.quality.qualityLv-1, this[type].type[baseType].length-1);
+            desc = this.$deepCopy(this[type].type[baseType][index]);
+            desc.type = this.type[newEquip.itemType];
+            return desc;
         },
         enhanceBaseEntryValue(equip) {
             let baseEntry = equip.baseEntry;
