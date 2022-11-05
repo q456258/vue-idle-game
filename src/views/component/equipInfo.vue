@@ -172,9 +172,9 @@ export default {
             equip.baseEntry = this.createBaseEntry(equip, baseEntry, equip.option);
             if(equip.extraBaseEntry == undefined)
                 equip.extraBaseEntry = [];
-            if(equip.extraEntry == undefined)
+            if(equip.extraEntry == undefined || equip.extraEntry.length == 0)
                 equip.extraEntry = this.createExtraEntry(equip);
-            if(equip.potential == undefined)
+            if(equip.potential == undefined || equip.potential.length == 0)
                 equip.potential = equip.lv >= 30 ? this.createPotential(equip) : [];
             equip.rating = this.rating(equip);
             return JSON.stringify(equip);
