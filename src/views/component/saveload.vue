@@ -106,8 +106,10 @@ export default {
                 let data = JSON.parse(Base64.decode(Base64.decode(loadData)));
 
                 // 临时
-                data.state.guildAttribute.blackmarket = {lv:0};
-                data.state.playerAttribute.learntRecipe = [];
+                if(!data.state.guildAttribute.blackmarket)
+                    data.state.guildAttribute.blackmarket = {lv:0};
+                if(!data.state.playerAttribute.learntRecipe)
+                    data.state.playerAttribute.learntRecipe = [];
                 
                 this.$store.replaceState(data.state);
                 let backpack = this.$store.globalComponent["backpack"];
