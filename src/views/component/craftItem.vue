@@ -128,7 +128,7 @@ export default {
             if(this.targetType == 'equip') {
                 for(let i=0; i<this.craftQty; i++) {
                     let newEquip = JSON.parse(equipInfo.createUniqueEquipTemplate(this.targetItem)); 
-                    backpack.giveEquip(newEquip, true, true);
+                    backpack.giveEquip(JSON.parse(equipInfo.finishUniqueEquip(newEquip)), true, true);
                 }
             } else {
                 let newItem = JSON.parse(itemInfo.createItem(this.targetItem, this.craftQty));
