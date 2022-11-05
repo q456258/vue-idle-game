@@ -157,6 +157,15 @@ export const itemEffect = {
                 case 'bossTicket10':
                     used = this.bossTicket(105);
                     break;
+                // 配方
+                case 'inv_chest_leather_03_recipe':
+                case 'inv_helmet_40_recipe':
+                case 'inv_gauntlets_05_recipe':
+                case 'inv_bracer_06_recipe':
+                case 'inv_pants_02_recipe':
+                case 'inv_chest_chain_12_recipe':
+                    used = this.learnRecipe(type);
+                    break;
                 // 药剂
                 case 'inv_misc_food_73cinnamonroll':
                 case 'inv_misc_gem_sapphire_02':
@@ -236,6 +245,19 @@ export const itemEffect = {
         bossTicket(monsterID) {
             let index = this.$store.globalComponent.index;
             index.addToMap('boss', (monsterID+5)*2, 1, monsterID);
+            return true;
+        },
+        learnRecipe(type) {
+            let learnt = this.$store.state.playerAttribute.learntRecipe;
+            let newType = type.replace("_recipe","");
+            if(learnt.indexOf(newType) != -1) {
+                this.$store.commit("set_sys_info", {
+                    type: 'warning',
+                    msg: '无法重复学习配方!'
+                });
+                return false;
+            }
+            learnt.push(newType);
             return true;
         },
         potion(type) {

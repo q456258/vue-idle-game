@@ -102,6 +102,7 @@ export default {
         }
     },
     computed: {
+        player() {return this.$store.state.playerAttribute; },
         targetQuality() {
             if(this.categFilterSelected=='裁缝' || this.categFilterSelected=='打造')
                 return this.unique[this.targetItem].quality; 
@@ -109,8 +110,10 @@ export default {
         },
         filteredOptions() { 
             let craftList = this.categList[this.categCorres[this.categFilterSelected]];
-            let filtered = craftList.filter(s => {
-                // 筛选已学习、未学习
+            let learnt = this.player.learntRecipe;
+            let filtered = craftList.filter(item => {
+                if(learnt.indexOf(item) == -1)
+                    return false;
                 return true;
             });
             return filtered;
@@ -178,7 +181,7 @@ export default {
         switchFilter(value) {
             this.categFilterSelected = value;
             this.craftQty = 1;
-            this.targetItem = this.categList[this.categCorres[this.categFilterSelected]][0];
+            this.targetItem = this.filteredOptions[0];
             this.setReqQty();
             if(value=='裁缝' || value=='打造')
                 this.targetType = 'equip';
