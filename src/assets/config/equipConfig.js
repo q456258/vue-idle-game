@@ -1426,9 +1426,8 @@ export const equipConfig = {
             name: '轻灵佩剑', desc: '导师的离别赠礼',
             iconSrc: "./icons/weapon/inv_sword_05.jpg",
           },
-          baseEntry: [
-            'AGI', 'AGI'
-          ]
+          baseEntry: [ 'AGI' ],
+          option: []
         },
         inv_wand_06: {
           itemType: 'weapon',
@@ -1437,10 +1436,59 @@ export const equipConfig = {
             name: '魔术法杖', desc: '导师的离别赠礼',
             iconSrc: "./icons/weapon/inv_wand_06.jpg",
           },
-          baseEntry: [
-            'INT', 'INT'
-          ]
-        }
+          baseEntry: [ 'INT' ],
+          option: []
+        },
+        inv_helmet_40: {
+          itemType: 'helmet',
+          lv: 45, quality: 2, enhanceLv: 0,
+          description: {
+            name: '龟壳头盔', desc: '',
+            iconSrc: "./icons/helmet/inv_helmet_40.jpg",
+          },
+          baseEntry: [ 'STA' ],
+          option: ['STA', 'AGI', 'INT']
+        },
+        inv_gauntlets_05: {
+          itemType: 'glove',
+          lv: 45, quality: 2, enhanceLv: 0,
+          description: {
+            name: '龟壳手套', desc: '',
+            iconSrc: "./icons/glove/inv_gauntlets_05.jpg",
+          },
+          baseEntry: [ 'STA' ],
+          option: ['STA', 'AGI', 'INT']
+        },
+        inv_bracer_06: {
+          itemType: 'bracer',
+          lv: 45, quality: 2, enhanceLv: 0,
+          description: {
+            name: '龟壳护腕', desc: '',
+            iconSrc: "./icons/bracer/inv_bracer_06.jpg",
+          },
+          baseEntry: [ 'STA' ],
+          option: ['STA', 'AGI', 'INT']
+        },
+        inv_pants_02: {
+          itemType: 'legging',
+          lv: 45, quality: 2, enhanceLv: 0,
+          description: {
+            name: '龟壳护腿', desc: '',
+            iconSrc: "./icons/legging/inv_pants_02.jpg",
+          },
+          baseEntry: [ 'STA' ],
+          option: ['STA', 'AGI', 'INT']
+        },
+        inv_chest_chain_12: {
+          itemType: 'armor',
+          lv: 45, quality: 2, enhanceLv: 0,
+          description: {
+            name: '龟壳胸甲', desc: '',
+            iconSrc: "./icons/armor/inv_chest_chain_12.jpg",
+          },
+          baseEntry: [ 'STA' ],
+          option: ['STA', 'AGI', 'INT']
+        },
       },
     }
   },
