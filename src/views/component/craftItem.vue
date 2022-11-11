@@ -22,13 +22,24 @@
                     <button class="btn btn-sm btn-light" @click="maxQty">&nbsp;>></button>
                 </div>
                 <div class="addonGrid" v-if="targetItem">
-                    <div class="icon" style="cursor:pointer" @mouseover="showInfo($event, k)" @mouseleave="closeInfo()" @click="addMaterial($event, k)" @contextmenu="redMaterial($event, k)" v-for="(v, k) in materialList[targetItem]" :key="k">
+                    <div class="icon" style="cursor:pointer" @mouseover="showInfo($event, k)" @mouseleave="closeInfo()" @click="addMaterial($event, k)" @contextmenu="redMaterial($event, k)" v-for="(v, k) in reqItem" :key="k">
                         <div class="mediumIconContainer" :style="{'box-shadow': 'inset 0 0 7px 2px ' + itemQuality[itemType[k].quality].color }">
-                            <del :class="[{grey:itemType[k].quality==1, green:itemType[k].quality==3, blue:itemType[k].quality==4, purple:itemType[k].quality==5, orange:itemType[k].quality==6}, 'mediumIcon iconBorder']"></del>
-                            <img :src="'./icons/material/'+k+'.jpg'" alt="" />
+                            <del :class="[{grey:itemType[k].quality==0, green:itemType[k].quality==2, blue:itemType[k].quality==3, purple:itemType[k].quality==4, orange:itemType[k].quality==5}, 'mediumIcon iconBorder']"></del>
+                            <img :src="itemType[k].description.iconSrc" alt="" />
                         </div>
                         <div class="quantity" :class="{'warning':itemQty[k]<reqQty[k]}">
                             {{itemQty[k]+'/'+reqQty[k]}}
+                        </div>
+                    </div>
+                </div>
+                <div class="addonGrid optional" v-if="targetItem">
+                    <div class="icon" style="cursor:pointer" @mouseover="showInfo($event, v.name)" @mouseleave="closeInfo()" @click="applyAddon($event, k)" @contextmenu="reduceAddon($event, k)" v-for="(v, k) in addons" :key="k">
+                        <div class="mediumIconContainer">
+                            <del :class="[{grey:itemType[v.name].quality==0, green:itemType[v.name].quality==2, blue:itemType[v.name].quality==3, purple:itemType[v.name].quality==4, orange:itemType[v.name].quality==5}, 'mediumIcon iconBorder']"></del>
+                            <img :src="itemType[v.name].description.iconSrc" alt="" />
+                        </div>
+                        <div class="quantity">
+                            {{v.cur+'/'+v.max}}
                         </div>
                     </div>
                 </div>
@@ -72,16 +83,18 @@ export default {
             targetType: 'equip',
             craftQty: 1,
             itemTemplate: null,
+            addons: [],
+            reqItem: {},
             itemQty: [],
             reqQty: [],
-            categFilter: ['裁缝','打造','炼金','草药','矿物','皮','杂项'],
-            categFilterSelected: '裁缝',
-            categCorres: {'裁缝': 'tailor','打造': 'craft','炼金': 'alchemy','草药': 'herb','矿物': 'mine','皮': 'leather','杂项': 'misc'},
+            categFilter: ['打造','炼金','草药','矿物','皮','杂项'],
+            categFilterSelected: '打造',
+            categCorres: {'打造': 'craft','炼金': 'alchemy','草药': 'herb','矿物': 'mine','皮': 'leather','杂项': 'misc'},
         };
     },
     mounted() {
         this.$store.globalComponent.craftItem = this;
-        this.switchFilter("裁缝");
+        this.switchFilter("打造");
     },
     props: {
     },
@@ -91,29 +104,46 @@ export default {
         },
         targetItem() {
             this.getQty();
+            this.reqItem = {};
+            this.addons = [];
             let itemInfo = this.$store.globalComponent["itemInfo"];
             let equipInfo = this.$store.globalComponent["equipInfo"];
             if(this.targetItem == null)
                 this.itemTemplate = null;
-            else if(this.targetType == 'equip')
-                this.itemTemplate = JSON.parse(equipInfo.createUniqueEquipTemplate(this.targetItem));
-            else
-                this.itemTemplate = JSON.parse(itemInfo.createItem(this.targetItem, 1));
+            else {
+                let materialList = this.materialList[this.targetItem];
+                for(let i in materialList) {
+                    if(i == 'optional') {
+                        for(let j in materialList['optional']) {
+                            let addon = {name: j};
+                            addon['cur'] = 0;
+                            if(materialList['optional'][j] == -1)
+                                addon['max'] = '∞';
+                            else
+                                addon['max'] = materialList['optional'][j];
+                            this.addons.push(addon);
+                        }
+                    }
+                    else
+                        this.reqItem[i] = materialList[i];
+                }
+                if(this.targetType == 'equip')
+                    this.itemTemplate = JSON.parse(equipInfo.createUniqueEquipTemplate(this.targetItem));
+                else
+                    this.itemTemplate = JSON.parse(itemInfo.createItem(this.targetItem, 1));
+            }
         }
     },
     computed: {
         player() {return this.$store.state.playerAttribute; },
         targetQuality() {
-            if(this.categFilterSelected=='裁缝' || this.categFilterSelected=='打造')
+            if(this.targetType == 'equip')
                 return this.unique[this.targetItem].quality; 
             return this.itemType[this.targetItem].quality; 
         },
         filteredOptions() { 
             let craftList = this.categList[this.categCorres[this.categFilterSelected]];
-            let learnt = this.player.learntRecipe;
             let filtered = craftList.filter(item => {
-                if(learnt.indexOf(item) == -1)
-                    return false;
                 return true;
             });
             return filtered;
@@ -151,9 +181,31 @@ export default {
             let itemInfo = this.$store.globalComponent["itemInfo"];
             let qtys = [];
             for(let i in this.materialList[this.targetItem]) {
-                qtys[i] = itemInfo.getItemQty(i);
+                if(i != 'optional')
+                    qtys[i] = itemInfo.getItemQty(i);
             }
             this.itemQty = qtys;
+        },
+        applyAddon(event, index) {
+            let itemInfo = this.$store.globalComponent["itemInfo"];
+            let itemQty = itemInfo.getItemQty(this.addons[index].name);
+            let count = 1;
+            let max = this.addons[index].max;
+            if(event.shiftKey)
+                count = 10;
+            let target = this.addons[index].cur+count;
+            target = Math.min(target, itemQty);
+            if(max != '∞')
+                target = Math.min(target, max);
+            this.addons[index].cur = target;
+        },
+        reduceAddon(event, index) {
+            if(event.shiftKey)
+                this.addons[index].cur = 0;
+            else if(this.addons[index].cur > 0)
+                this.addons[index].cur -= 1;
+            else
+                return false;
         },
         minQty() {
             this.craftQty = 1;
@@ -183,7 +235,8 @@ export default {
             this.craftQty = 1;
             this.targetItem = this.filteredOptions[0];
             this.setReqQty();
-            if(value=='裁缝' || value=='打造')
+            // 暂时移除装备打造, 留着避免后面需要
+            if(false)
                 this.targetType = 'equip';
             else
                 this.targetType = 'item';
@@ -240,7 +293,7 @@ export default {
 .craftQty {
     position: absolute;
     display: flex;
-    margin-top: 42%;
+    margin-top: 40%;
     width: 61%;
     justify-content: center;
     align-items: center;
@@ -257,8 +310,11 @@ export default {
 }
 .addonGrid {
     position: absolute;
-    margin-top: 48%;
+    margin-top: 44.5%;
     width: 60%;
+}
+.optional {
+    margin-top: 51%;
 }
 a.glowBtn{
 	line-height: 2rem;

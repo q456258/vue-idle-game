@@ -46,7 +46,7 @@ export const itemConfig = {
                     description: {
                         name: '铜锭',
                         category: '材料',
-                        desc: '',
+                        desc: '锻造附加材料, 提升5级锻造装备的等级要求和物品等级',
                         iconSrc: "./icons/material/inv_ingot_02.jpg",
                     },
                     stack: true,
@@ -98,7 +98,7 @@ export const itemConfig = {
                     description: {
                         name: '银锭',
                         category: '材料',
-                        desc: '',
+                        desc: '锻造附加材料, 降低1级锻造装备的等级要求',
                         iconSrc: "./icons/material/inv_ingot_01.jpg",
                     },
                     stack: true,
@@ -137,7 +137,7 @@ export const itemConfig = {
                     description: {
                         name: '钢锭',
                         category: '材料',
-                        desc: '由铁矿石合成',
+                        desc: '锻造附加材料, 降低2级锻造装备的等级要求',
                         iconSrc: "./icons/material/inv_ingot_steel.jpg",
                     },
                     stack: true,
@@ -163,7 +163,7 @@ export const itemConfig = {
                     description: {
                         name: '金锭',
                         category: '材料',
-                        desc: '',
+                        desc: '锻造附加材料, 1%提升锻造装备的品质',
                         iconSrc: "./icons/material/inv_ingot_03.jpg",
                     },
                     stack: true,
@@ -367,11 +367,11 @@ export const itemConfig = {
                     maxStack: 9999
                 },
                 dust2: {
-                    quality: 2,
+                    quality: 1,
                     description: {
                         name: '普通装备精华',
                         category: '材料',
-                        desc: '分解普通装备获得, 可用于升级普通品质的装备',
+                        desc: '分解普通装备获得, 可用于打造普通品质的装备',
                         iconSrc: "./icons/item/inv_enchanting_dust.jpg",
                     },
                     stack: true,
@@ -380,11 +380,11 @@ export const itemConfig = {
                     maxStack: 1000
                 },
                 dust3: {
-                    quality: 3,
+                    quality: 2,
                     description: {
                         name: '精良装备精华',
                         category: '材料',
-                        desc: '分解精良装备获得, 可用于升级精良品质的装备',
+                        desc: '分解精良装备获得, 可用于打造精良品质的装备',
                         iconSrc: "./icons/item/inv_enchanting_70_arkhana.jpg",
                     },
                     stack: true,
@@ -393,11 +393,11 @@ export const itemConfig = {
                     maxStack: 1000
                 },
                 dust4: {
-                    quality: 4,
+                    quality: 3,
                     description: {
                         name: '完美装备精华',
                         category: '材料',
-                        desc: '分解完美装备获得, 可用于升级完美品质的装备',
+                        desc: '分解完美装备获得, 可用于打造完美品质的装备',
                         iconSrc: "./icons/item/inv_misc_dust_infinite.jpg",
                     },
                     stack: true,
@@ -406,11 +406,11 @@ export const itemConfig = {
                     maxStack: 1000
                 },
                 dust5: {
-                    quality: 5,
+                    quality: 4,
                     description: {
                         name: '史诗装备精华',
                         category: '材料',
-                        desc: '分解史诗装备获得, 可用于升级史诗品质的装备',
+                        desc: '分解史诗装备获得, 可用于打造史诗品质的装备',
                         iconSrc: "./icons/item/inv_enchanting_wod_dust3.jpg",
                     },
                     stack: true,
@@ -419,11 +419,11 @@ export const itemConfig = {
                     maxStack: 1000
                 },
                 dust6: {
-                    quality: 6,
+                    quality: 5,
                     description: {
                         name: '传奇装备精华',
                         category: '材料',
-                        desc: '分解传奇装备获得, 可用于升级传奇品质的装备',
+                        desc: '分解传奇装备获得, 可用于打造传奇品质的装备',
                         iconSrc: "./icons/item/inv_enchant_dustillusion.jpg",
                     },
                     stack: true,
@@ -849,6 +849,96 @@ export const itemConfig = {
                     cost: 99990000,
                     maxStack: 20
                 },
+                random_poor_equip: {
+                    quality: 0,
+                    description: {
+                        name: '随机贫乏装备',
+                        category: '消耗品',
+                        desc: '随机获得一件贫乏装备',
+                        iconSrc: "./icons/item/inv_misc_questionmark.jpg",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
+                },
+                random_common_equip: {
+                    quality: 1,
+                    description: {
+                        name: '随机普通装备',
+                        category: '消耗品',
+                        desc: '随机获得一件普通装备',
+                        iconSrc: "./icons/item/inv_misc_questionmark.jpg",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
+                },
+                random_uncommon_equip: {
+                    quality: 2,
+                    description: {
+                        name: '随机罕见装备',
+                        category: '消耗品',
+                        desc: '随机获得一件罕见装备',
+                        iconSrc: "./icons/item/inv_misc_questionmark.jpg",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
+                },
+                random_rare_equip: {
+                    quality: 3,
+                    description: {
+                        name: '随机稀有装备',
+                        category: '消耗品',
+                        desc: '随机获得一件稀有装备',
+                        iconSrc: "./icons/item/inv_misc_questionmark.jpg",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
+                },
+                random_epic_equip: {
+                    quality: 4,
+                    description: {
+                        name: '随机史诗装备',
+                        category: '消耗品',
+                        desc: '随机获得一件史诗装备',
+                        iconSrc: "./icons/item/inv_misc_questionmark.jpg",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
+                },
+                random_legendary_equip: {
+                    quality: 5,
+                    description: {
+                        name: '随机传奇装备',
+                        category: '消耗品',
+                        desc: '随机获得一件传奇装备',
+                        iconSrc: "./icons/item/inv_misc_questionmark.jpg",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
+                },
                 //'导师', '阿迦玛', '金牙', '霍格', '铁背龟', '熔岩元素', '咕噜咕拉', '塞瑞娜·血羽', '科多兽', '维斯迦尔', '安戈雷尔'
                 bossTicket0: {
                     quality: 3,
@@ -856,7 +946,7 @@ export const itemConfig = {
                         name: 'BOSS挑战券【导师】',
                         category: '消耗品',
                         desc: '挑战【导师】',
-                        iconSrc: "./icons/item/inv_crate_01.jpg",
+                        iconSrc: "./icons/item/inv_scroll_11.jpg",
                     },
                     use: true,
                     stack: true,
@@ -870,7 +960,7 @@ export const itemConfig = {
                         name: 'BOSS挑战券【阿迦玛】',
                         category: '消耗品',
                         desc: '挑战野猪王【阿迦玛】',
-                        iconSrc: "./icons/item/inv_crate_01.jpg",
+                        iconSrc: "./icons/item/inv_scroll_11.jpg",
                     },
                     use: true,
                     stack: true,
@@ -884,7 +974,7 @@ export const itemConfig = {
                         name: 'BOSS挑战券【金牙】',
                         category: '消耗品',
                         desc: '挑战狗头人头目【金牙】',
-                        iconSrc: "./icons/item/inv_crate_01.jpg",
+                        iconSrc: "./icons/item/inv_scroll_11.jpg",
                     },
                     use: true,
                     stack: true,
@@ -898,7 +988,7 @@ export const itemConfig = {
                         name: 'BOSS挑战券【霍格】',
                         category: '消耗品',
                         desc: '挑战豺狼人首领【霍格】',
-                        iconSrc: "./icons/item/inv_crate_01.jpg",
+                        iconSrc: "./icons/item/inv_scroll_11.jpg",
                     },
                     use: true,
                     stack: true,
@@ -912,7 +1002,7 @@ export const itemConfig = {
                         name: 'BOSS挑战券【铁背龟】',
                         category: '消耗品',
                         desc: '挑战乌龟BOSS【铁背龟】',
-                        iconSrc: "./icons/item/inv_crate_01.jpg",
+                        iconSrc: "./icons/item/inv_scroll_11.jpg",
                     },
                     use: true,
                     stack: true,
@@ -926,7 +1016,7 @@ export const itemConfig = {
                         name: 'BOSS挑战券【熔岩元素】',
                         category: '消耗品',
                         desc: '挑战元素BOSS【熔岩元素',
-                        iconSrc: "./icons/item/inv_crate_01.jpg",
+                        iconSrc: "./icons/item/inv_scroll_11.jpg",
                     },
                     use: true,
                     stack: true,
@@ -940,7 +1030,7 @@ export const itemConfig = {
                         name: 'BOSS挑战券【咕噜咕拉】',
                         category: '消耗品',
                         desc: '挑战鱼人首领【咕噜咕拉】',
-                        iconSrc: "./icons/item/inv_crate_01.jpg",
+                        iconSrc: "./icons/item/inv_scroll_11.jpg",
                     },
                     use: true,
                     stack: true,
@@ -954,7 +1044,7 @@ export const itemConfig = {
                         name: 'BOSS挑战券【塞瑞娜·血羽】',
                         category: '消耗品',
                         desc: '挑战鸟人头目【塞瑞娜·血羽】',
-                        iconSrc: "./icons/item/inv_crate_01.jpg",
+                        iconSrc: "./icons/item/inv_scroll_11.jpg",
                     },
                     use: true,
                     stack: true,
@@ -968,7 +1058,7 @@ export const itemConfig = {
                         name: 'BOSS挑战券【科多兽】',
                         category: '消耗品',
                         desc: '挑战蜥蜴头目【科多兽】',
-                        iconSrc: "./icons/item/inv_crate_01.jpg",
+                        iconSrc: "./icons/item/inv_scroll_11.jpg",
                     },
                     use: true,
                     stack: true,
@@ -982,7 +1072,7 @@ export const itemConfig = {
                         name: 'BOSS挑战券【维斯迦尔】',
                         category: '消耗品',
                         desc: '挑战熊怪首领【维斯迦尔】',
-                        iconSrc: "./icons/item/inv_crate_01.jpg",
+                        iconSrc: "./icons/item/inv_scroll_11.jpg",
                     },
                     use: true,
                     stack: true,
@@ -996,7 +1086,7 @@ export const itemConfig = {
                         name: 'BOSS挑战券【安戈雷尔】',
                         category: '消耗品',
                         desc: '挑战美味的龙虾【安戈雷尔】',
-                        iconSrc: "./icons/item/inv_crate_01.jpg",
+                        iconSrc: "./icons/item/inv_scroll_11.jpg",
                     },
                     use: true,
                     stack: true,
