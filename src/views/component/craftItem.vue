@@ -80,7 +80,7 @@ export default {
     data() {
         return {
             targetItem: null,
-            targetType: 'equip',
+            targetType: '',
             craftQty: 1,
             itemTemplate: null,
             addons: [],
