@@ -140,7 +140,7 @@ export default {
             newEquip.extraEntry = this.createExtraEntry(newEquip);
             newEquip.potential = newEquip.lv >= 30 ? this.createPotential(newEquip) : [];
             newEquip.rating = this.rating(newEquip);
-            newEquip.desc = this.getEquipDesc(newEquip);
+            newEquip.description = this.getEquipDesc(newEquip);
             return JSON.stringify(newEquip);
         },
         createUniqueEquipTemplate(name) {
