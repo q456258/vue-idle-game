@@ -64,7 +64,7 @@
             <li @click="equipPotential()" v-if="guild.smith.lv>=4">洗炼</li>
             <li @click="lockEquipment(true)" v-if="!currentItem.locked">锁定</li>
             <li @click="lockEquipment(false)" v-if="currentItem.locked">解锁</li>
-            <!-- <li @click="disintegrate()" v-if="guild.smith.lv>=30 && !currentItem.locked">分解</li> -->
+            <li @click="disintegrate()" v-if="guild.smith.lv>=1 && !currentItem.locked && currentItem.quality && currentItem.quality.qualityLv>1">分解</li>
             <li @click="sellEquipment()" v-if="!currentItem.locked">出售</li>
         </ul>
         <ul v-show="visible && displayPage=='use'" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
