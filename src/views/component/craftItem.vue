@@ -213,8 +213,11 @@ export default {
         maxQty() {
             let max = 9999;
             for(let i in this.materialList[this.targetItem]) {
-                max = Math.min(max, this.itemQty[i]/this.materialList[this.targetItem][i]);
+                if(i != 'optional')
+                    max = Math.min(max, this.itemQty[i]/this.materialList[this.targetItem][i]);
             }
+            if(isNaN(max))
+                max = 1;
             this.craftQty = max < 1 ? 1 : Math.floor(max);
         },
         checkMaterial() {
