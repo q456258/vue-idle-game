@@ -157,15 +157,6 @@ export const itemEffect = {
                 case 'bossTicket10':
                     used = this.bossTicket(105);
                     break;
-                // 配方
-                case 'inv_chest_leather_03_recipe':
-                case 'inv_helmet_40_recipe':
-                case 'inv_gauntlets_05_recipe':
-                case 'inv_bracer_06_recipe':
-                case 'inv_pants_02_recipe':
-                case 'inv_chest_chain_12_recipe':
-                    used = this.learnRecipe(type);
-                    break;
                 // 药剂
                 case 'inv_misc_food_73cinnamonroll':
                 case 'inv_misc_gem_sapphire_02':
