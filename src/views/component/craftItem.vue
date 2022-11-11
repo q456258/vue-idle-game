@@ -23,8 +23,8 @@
                 </div>
                 <div class="addonGrid" v-if="targetItem">
                     <div class="icon" style="cursor:pointer" @mouseover="showInfo($event, k)" @mouseleave="closeInfo()" @click="addMaterial($event, k)" @contextmenu="redMaterial($event, k)" v-for="(v, k) in reqItem" :key="k">
-                        <div class="mediumIconContainer" :style="{'box-shadow': 'inset 0 0 7px 2px ' + itemQuality[itemType[k].quality].color }">
-                            <del :class="[{grey:itemType[k].quality==0, green:itemType[k].quality==2, blue:itemType[k].quality==3, purple:itemType[k].quality==4, orange:itemType[k].quality==5}, 'mediumIcon iconBorder']"></del>
+                        <div class="mediumIconContainer" :style="{'box-shadow': 'inset 0 0 7px 2px ' + itemQuality[itemType[k].quality-1].color }">
+                            <del :class="[{grey:itemType[k].quality==1, green:itemType[k].quality==3, blue:itemType[k].quality==4, purple:itemType[k].quality==5, orange:itemType[k].quality==6}, 'mediumIcon iconBorder']"></del>
                             <img :src="itemType[k].description.iconSrc" alt="" />
                         </div>
                         <div class="quantity" :class="{'warning':itemQty[k]<reqQty[k]}">
@@ -35,7 +35,7 @@
                 <div class="addonGrid optional" v-if="targetItem">
                     <div class="icon" style="cursor:pointer" @mouseover="showInfo($event, v.name)" @mouseleave="closeInfo()" @click="applyAddon($event, k)" @contextmenu="reduceAddon($event, k)" v-for="(v, k) in addons" :key="k">
                         <div class="mediumIconContainer">
-                            <del :class="[{grey:itemType[v.name].quality==0, green:itemType[v.name].quality==2, blue:itemType[v.name].quality==3, purple:itemType[v.name].quality==4, orange:itemType[v.name].quality==5}, 'mediumIcon iconBorder']"></del>
+                            <del :class="[{grey:itemType[v.name].quality==1, green:itemType[v.name].quality==3, blue:itemType[v.name].quality==4, purple:itemType[v.name].quality==5, orange:itemType[v.name].quality==6}, 'mediumIcon iconBorder']"></del>
                             <img :src="itemType[v.name].description.iconSrc" alt="" />
                         </div>
                         <div class="quantity">
@@ -52,7 +52,7 @@
                     <div class="craftList scrollbar-morpheus-den">
                         <div class="spell" v-for="(v, k) in filteredOptions" :key="k">
                             <a v-if="targetType=='equip'" class='glowBtn' :class="{btnActive:v==targetItem}" :style="{color: itemQuality[unique[v].quality].color}" @click="selectTarget(v)">{{unique[v].description.name}}</a>
-                            <a v-else class='glowBtn' :class="{btnActive:v==targetItem}" :style="{color: itemQuality[itemType[v].quality].color}" @click="selectTarget(v)">{{itemType[v].description.name}}</a>
+                            <a v-else class='glowBtn' :class="{btnActive:v==targetItem}" :style="{color: itemQuality[itemType[v].quality-1].color}" @click="selectTarget(v)">{{itemType[v].description.name}}</a>
                         </div>
                     </div>
                 </div>
@@ -139,7 +139,7 @@ export default {
         targetQuality() {
             if(this.targetType == 'equip')
                 return this.unique[this.targetItem].quality; 
-            return this.itemType[this.targetItem].quality; 
+            return this.itemType[this.targetItem].quality-1; 
         },
         filteredOptions() { 
             let craftList = this.categList[this.categCorres[this.categFilterSelected]];
