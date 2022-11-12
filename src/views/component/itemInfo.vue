@@ -81,7 +81,7 @@ export default {
                 return this.quality[5];
             return this.quality[quality];
         },
-        findItemIndex(name, checkStack=false) {        
+        findItemIndex(name, checkStack=false) {   
             let backpack = this.$store.globalComponent["backpack"];
             let grid = this.itemType[name].use ? backpack.useGrid: backpack.etcGrid;
             for (let i = 0; i < grid.length; i++) {
@@ -176,7 +176,8 @@ export default {
         removeItemByCode(code, quantity) {
             let index = this.findItemIndex(code);
             let type = this.itemType[code].use ? 'use': 'etc';
-            this.removeItemByIndex(index, quantity, type);
+            if(index != -1)
+                this.removeItemByIndex(index, quantity, type);
         },
         removeItemByIndex(index, quantity, type='use') {
             let backpack = this.$store.globalComponent["backpack"];
