@@ -23,7 +23,7 @@
                 </div>
                 <div class="addonGrid" v-if="targetItem">
                     <div class="icon" style="cursor:pointer" @mouseover="showInfo($event, k)" @mouseleave="closeInfo()" @click="addMaterial($event, k)" @contextmenu="redMaterial($event, k)" v-for="(v, k) in reqItem" :key="k">
-                        <div class="mediumIconContainer" :style="{'box-shadow': 'inset 0 0 7px 2px ' + itemQuality[itemType[k].quality-1].color }">
+                        <div class="mediumIconContainer">
                             <del :class="[{grey:itemType[k].quality==1, green:itemType[k].quality==3, blue:itemType[k].quality==4, purple:itemType[k].quality==5, orange:itemType[k].quality==6}, 'mediumIcon iconBorder']"></del>
                             <img :src="itemType[k].description.iconSrc" alt="" />
                         </div>
