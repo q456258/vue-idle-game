@@ -115,6 +115,24 @@ export const itemEffect = {
                 case 'random_equip_9':
                     used = this.randomEquip(9, lv, equipOption, toBackpack);
                     break;
+                case 'random_poor_equip':
+                    used = this.randomEquip(10, lv, equipOption, toBackpack);
+                    break;
+                case 'random_common_equip':
+                    used = this.randomEquip(11, lv, equipOption, toBackpack);
+                    break;
+                case 'random_uncommon_equip':
+                    used = this.randomEquip(12, lv, equipOption, toBackpack);
+                    break;
+                case 'random_rare_equip':
+                    used = this.randomEquip(13, lv, equipOption, toBackpack);
+                    break;
+                case 'random_epic_equip':
+                    used = this.randomEquip(14, lv, equipOption, toBackpack);
+                    break;
+                case 'random_legendary_equip':
+                    used = this.randomEquip(15, lv, equipOption, toBackpack);
+                    break;
                 // case 'inv_box_01':
                 //     used = this.inv_box_01();
                 //     break;

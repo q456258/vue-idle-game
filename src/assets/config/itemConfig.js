@@ -98,7 +98,7 @@ export const itemConfig = {
                     description: {
                         name: '银锭',
                         category: '材料',
-                        desc: '锻造附加材料, 降低1级锻造装备的等级要求',
+                        desc: '',
                         iconSrc: "./icons/material/inv_ingot_01.jpg",
                     },
                     stack: true,
@@ -124,7 +124,7 @@ export const itemConfig = {
                     description: {
                         name: '铁锭',
                         category: '材料',
-                        desc: '',
+                        desc: '锻造附加材料, 降低1级锻造装备的等级要求',
                         iconSrc: "./icons/material/inv_ingot_iron.jpg",
                     },
                     stack: true,
@@ -367,7 +367,7 @@ export const itemConfig = {
                     maxStack: 9999
                 },
                 dust2: {
-                    quality: 1,
+                    quality: 2,
                     description: {
                         name: '普通装备精华',
                         category: '材料',
@@ -380,11 +380,11 @@ export const itemConfig = {
                     maxStack: 1000
                 },
                 dust3: {
-                    quality: 2,
+                    quality: 3,
                     description: {
-                        name: '精良装备精华',
+                        name: '罕见装备精华',
                         category: '材料',
-                        desc: '分解精良装备获得, 可用于打造精良品质的装备',
+                        desc: '分解罕见装备获得, 可用于打造罕见品质的装备',
                         iconSrc: "./icons/item/inv_enchanting_70_arkhana.jpg",
                     },
                     stack: true,
@@ -393,11 +393,11 @@ export const itemConfig = {
                     maxStack: 1000
                 },
                 dust4: {
-                    quality: 3,
+                    quality: 4,
                     description: {
-                        name: '完美装备精华',
+                        name: '稀有装备精华',
                         category: '材料',
-                        desc: '分解完美装备获得, 可用于打造完美品质的装备',
+                        desc: '分解稀有装备获得, 可用于打造稀有品质的装备',
                         iconSrc: "./icons/item/inv_misc_dust_infinite.jpg",
                     },
                     stack: true,
@@ -406,7 +406,7 @@ export const itemConfig = {
                     maxStack: 1000
                 },
                 dust5: {
-                    quality: 4,
+                    quality: 5,
                     description: {
                         name: '史诗装备精华',
                         category: '材料',
@@ -419,7 +419,7 @@ export const itemConfig = {
                     maxStack: 1000
                 },
                 dust6: {
-                    quality: 5,
+                    quality: 6,
                     description: {
                         name: '传奇装备精华',
                         category: '材料',
@@ -850,7 +850,7 @@ export const itemConfig = {
                     maxStack: 20
                 },
                 random_poor_equip: {
-                    quality: 0,
+                    quality: 1,
                     description: {
                         name: '随机贫乏装备',
                         category: '消耗品',
@@ -865,7 +865,7 @@ export const itemConfig = {
                     maxStack: 20
                 },
                 random_common_equip: {
-                    quality: 1,
+                    quality: 2,
                     description: {
                         name: '随机普通装备',
                         category: '消耗品',
@@ -880,7 +880,7 @@ export const itemConfig = {
                     maxStack: 20
                 },
                 random_uncommon_equip: {
-                    quality: 2,
+                    quality: 3,
                     description: {
                         name: '随机罕见装备',
                         category: '消耗品',
@@ -895,7 +895,7 @@ export const itemConfig = {
                     maxStack: 20
                 },
                 random_rare_equip: {
-                    quality: 3,
+                    quality: 4,
                     description: {
                         name: '随机稀有装备',
                         category: '消耗品',
@@ -910,7 +910,7 @@ export const itemConfig = {
                     maxStack: 20
                 },
                 random_epic_equip: {
-                    quality: 4,
+                    quality: 5,
                     description: {
                         name: '随机史诗装备',
                         category: '消耗品',
@@ -925,7 +925,7 @@ export const itemConfig = {
                     maxStack: 20
                 },
                 random_legendary_equip: {
-                    quality: 5,
+                    quality: 6,
                     description: {
                         name: '随机传奇装备',
                         category: '消耗品',
