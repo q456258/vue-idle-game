@@ -103,7 +103,6 @@ export default {
             this.setReqQty();
         },
         targetItem() {
-            this.getQty();
             this.reqItem = {};
             this.addons = [];
             let itemInfo = this.$store.globalComponent["itemInfo"];
@@ -132,6 +131,7 @@ export default {
                 else
                     this.itemTemplate = JSON.parse(itemInfo.createItem(this.targetItem, 1));
             }
+            this.getQty();
         }
     },
     computed: {
@@ -156,19 +156,54 @@ export default {
             this.consumeMaterial();
 
             let itemInfo = this.$store.globalComponent["itemInfo"];
-            let backpack = this.$store.globalComponent["backpack"];
-            let equipInfo = this.$store.globalComponent["equipInfo"];
-            if(this.targetType == 'equip') {
-                for(let i=0; i<this.craftQty; i++) {
-                    let newEquip = JSON.parse(equipInfo.createUniqueEquipTemplate(this.targetItem)); 
-                    backpack.giveEquip(JSON.parse(equipInfo.finishUniqueEquip(newEquip)), true, true);
-                }
+            // let backpack = this.$store.globalComponent["backpack"];
+            // let equipInfo = this.$store.globalComponent["equipInfo"];
+            // if(this.targetType == 'equip') {
+            //     for(let i=0; i<this.craftQty; i++) {
+            //         let newEquip = JSON.parse(equipInfo.createUniqueEquipTemplate(this.targetItem)); 
+            //         backpack.giveEquip(JSON.parse(equipInfo.finishUniqueEquip(newEquip)), true, true);
+            //     }
+            let equipItem = ['random_common_equip','random_uncommon_equip','random_rare_equip','random_epic_equip','random_legendary_equip']
+            if(equipItem.indexOf(this.targetItem) != -1) {
+                this.craftEquip(equipItem.indexOf(this.targetItem));
             } else {
                 let newItem = JSON.parse(itemInfo.createItem(this.targetItem, this.craftQty));
                 itemInfo.addItem(newItem, true);
             }
 
             this.getQty();
+        },
+        craftEquip(quality) {
+            let equipInfo = this.$store.globalComponent["equipInfo"];
+            let backpack = this.$store.globalComponent["backpack"];
+            let lvReq = 0;
+            let optional = {lv: 0};
+            for(let i in this.addons) {
+                let addon = this.addons[i];
+                switch(addon.name) {
+                    // 铜矿， 每个+5等级
+                    case 'inv_ingot_02':
+                        lvReq += addon.cur * 5;
+                        optional.lv += addon.cur * 5;
+                        break;
+                    // 铁矿， 每个-1等级要求
+                    case 'inv_ingot_iron':
+                        lvReq -= addon.cur * 1;
+                        break;
+                    // 钢矿， 每个-2等级要求
+                    case 'inv_ingot_steel':
+                        lvReq -= addon.cur * 2;
+                        break;
+                    // 金矿， 每个1%提升品质
+                    case 'inv_ingot_03':
+                        let random = Math.random()*100;
+                        if(random < addon.cur*2)
+                            quality++;
+                        break;
+                }
+            }
+            let newEquip = equipInfo.createEquip(quality, lvReq, 'random', -1, optional);
+            backpack.giveEquip(JSON.parse(newEquip), true, true);
         },
         setReqQty() {
             let qtys = [];
@@ -180,9 +215,8 @@ export default {
         getQty() {
             let itemInfo = this.$store.globalComponent["itemInfo"];
             let qtys = [];
-            for(let i in this.materialList[this.targetItem]) {
-                if(i != 'optional')
-                    qtys[i] = itemInfo.getItemQty(i);
+            for(let i in this.reqItem) {
+                qtys[i] = itemInfo.getItemQty(i);
             }
             this.itemQty = qtys;
         },
@@ -229,8 +263,11 @@ export default {
         },
         consumeMaterial() {
             let itemInfo = this.$store.globalComponent["itemInfo"];
-            for(let i in this.materialList[this.targetItem]) {
+            for(let i in this.reqItem) {
                 itemInfo.removeItemByCode(i, this.reqQty[i]);
+            }
+            for(let i in this.addons) {
+                itemInfo.removeItemByCode(this.addons[i].name, this.addons[i].cur);
             }
         },
         switchFilter(value) {
