@@ -32,7 +32,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="addonGrid optional" v-if="targetItem">
+                <div class="addonGrid optional" v-if="targetItem && addons.length>0">附加：
                     <div class="icon" style="cursor:pointer" @mouseover="showInfo($event, v.name)" @mouseleave="closeInfo()" @click="applyAddon($event, k)" @contextmenu="reduceAddon($event, k)" v-for="(v, k) in addons" :key="k">
                         <div class="mediumIconContainer">
                             <del :class="[{grey:itemType[v.name].quality==1, green:itemType[v.name].quality==3, blue:itemType[v.name].quality==4, purple:itemType[v.name].quality==5, orange:itemType[v.name].quality==6}, 'mediumIcon iconBorder']"></del>
