@@ -164,7 +164,7 @@ export default {
             newEquip.extraBaseEntry = [];
             newEquip.extraEntry = [];
             newEquip.potential = [];
-            newEquip.description = this.$deepCopy(this.unique[name].description);
+            newEquip.description = this.$deepCopy(this.unique[name].desc);
             newEquip.description.type = this.type[newEquip.itemType];
             return JSON.stringify(newEquip);
         },
