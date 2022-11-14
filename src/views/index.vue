@@ -157,6 +157,7 @@
     <equipEnhance :equip="enhanceEquip" v-show="equipEnhancePanel"></equipEnhance>
     <equipForge :equip="enhanceEquip" v-show="equipForgePanel"></equipForge>    
     <equipPotential :equip="enhanceEquip" v-show="equipPotentialPanel"></equipPotential> 
+    <lottery v-show="lotteryPanel"></lottery>
     <quest v-show="questPanel"></quest>   
     <craftItem v-show="craftPanel"></craftItem>
     <saveload v-show="savePanel"></saveload>
@@ -184,6 +185,7 @@ import equipEnhance from './component/equipEnhance';
 import equipForge from './component/equipForge';
 import equipPotential from './component/equipPotential';
 import mapEvent from './component/mapEvent';
+import lottery from './component/lottery';
 import backpack from './component/backpack';
 import charInfo from './component/charInfo';
 import guild from './component/guild';
@@ -223,6 +225,7 @@ export default {
       equipEnhancePanel: false,
       equipForgePanel: false,
       equipPotentialPanel: false,
+      lotteryPanel: false,
       savePanel: false,
       settingPanel: false,
       questPanel: false,
@@ -234,7 +237,7 @@ export default {
       selectedZone: 0
     }
   },
-  components: {cTooltip, equipInfo, compareEquip, itemInfo, mapEvent, backpack, equipEnhance, equipForge, equipPotential, craftItem,
+  components: {cTooltip, equipInfo, compareEquip, itemInfo, mapEvent, lottery, backpack, equipEnhance, equipForge, equipPotential, craftItem,
               charInfo, guild, guildMember, shop, talentTree, faq, achievement, statistic, saveload, setting, quest, enemyInfo, currency},
   created() {
     this.$store.globalComponent = {};
@@ -312,41 +315,16 @@ export default {
             // this.$store.state.playerAttribute.lv = 50;
 //     let itemInfo = this.$store.globalComponent["itemInfo"];;
 //     let item ;
-//     let items = ['inv_misc_note_06',
-//      'inv_potion_49',
-// 'inv_potion_50',
-// 'inv_potion_51',
-// 'inv_potion_52',
-// 'inv_potion_53',
-// 'inv_potion_54',
-// 'inv_potion_160',
-// 'inv_potion_55',
-// 'inv_potion_131',
-// 'inv_potion_142',
-// 'inv_potion_167',
-// 'inv_potion_70',
-// 'inv_potion_71',
-// 'inv_potion_72',
-// 'inv_potion_73',
-// 'inv_potion_74',
-// 'inv_potion_75',
-// 'inv_potion_163',
-// 'inv_potion_76',
-// 'inv_potion_137',
-// 'inv_potion_148',
-// 'inv_potion_168',
-// 'inv_potion_42',
-// 'inv_potion_43',
-// 'inv_potion_44',
-// 'inv_potion_45',
-// 'inv_potion_46',
-// 'inv_potion_47',
-// 'inv_potion_164',
-// 'inv_potion_48',
-// 'inv_potion_134',
-// 'inv_potion_145',];
+//     let items = [
+// 'inv_ingot_02',
+// 'inv_stone_16',
+// 'inv_ingot_01',
+// 'inv_ingot_03',
+// 'inv_ingot_iron',
+// 'inv_ingot_steel',
+// ];
 //     for(let i in items) {
-//       item = itemInfo.createItem(items[i], 20);  
+//       item = itemInfo.createItem(items[i], 60);  
 //       itemInfo.addItem(JSON.parse(item));
 //     }
     // for(let i in quest.questList) {
@@ -438,14 +416,15 @@ export default {
       mapEvent.toggleBattle(type);
     },
     createMaps() {    
-      let itemInfo = this.$store.globalComponent["itemInfo"];;
-      let count = 5;
+      let count = 7;
       let type = 'advanture';
       this.mapArr = this.generateDungeonByZone(count, this.monsterZone[this.selectedZone]);
       this.actualReward(this.mapArr);
 
       this.dungeonInfo[type].level = -1;
       this.dungeonInfo[type].reward = 'None';
+      this.dungeonInfo[type].lotReward = [];
+      this.dungeonInfo[type].isLottery = false;
       this.dungeonInfo[type].type = 'normal';
       this.dungeonInfo[type].monsterID = 0;
       this.dungeonInfo[type].monsterName = '';
@@ -461,6 +440,10 @@ export default {
       let equipInfo = this.$store.globalComponent["equipInfo"];;   
       let itemInfo = this.$store.globalComponent["itemInfo"];;
       for(let map in mapArr) {
+        // 抽奖类型，不立即生成奖励
+        if(mapArr[map].isLottery) {
+          mapArr[map].lotReward = mapArr[map].rewardType;
+        }
         mapArr[map].reward = [];
         for(let type in mapArr[map].rewardType) {
           let rewardInfo = mapArr[map].rewardType[type];
@@ -564,6 +547,10 @@ export default {
         case 'potential':
           this.equipPotentialPanel = false;
           break;
+        // 不受‘关闭全部’影响
+        case 'lottery':
+          this.lottery = false;
+          break;
         default:
           this.showItemInfo = false;
           this.showEquipInfo = false;
@@ -600,6 +587,8 @@ export default {
       let dungeon = this.dungeonInfo[this.dungeonInfo.current];
       dungeon.level = this.dungeon.lv;
       dungeon.reward = this.dungeon.reward;
+      dungeon.isLottery = this.dungeon.isLottery;
+      dungeon.lotReward = this.dungeon.lotReward;
       dungeon.type = this.dungeon.type;
       dungeon.monsterID = this.dungeon.monsterID;
       dungeon.monsterName = this.dungeon.monsterName;

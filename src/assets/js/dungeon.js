@@ -30,6 +30,7 @@ export const dungeon = {
                     type: eventType, 
                     color: this.typeColor[eventType],
                     rewardType: this.getReward(eventType, monsterID), 
+                    isLottery: this.getIsLottery(eventType, monsterID),
                     img: './icons/other/'+eventType+'.png',
                     lv: lv,
                     monsterID: monsterID,
@@ -59,6 +60,7 @@ export const dungeon = {
                     type: eventType, 
                     color: this.typeColor[eventType],
                     rewardType: this.getReward(eventType, monsterID), 
+                    isLottery: this.getIsLoterry(eventType, monsterID),
                     img: './icons/other/'+eventType+'.png',
                     lv: lv,
                     monsterID: monsterID,
@@ -169,6 +171,15 @@ export const dungeon = {
                 //     return this.monsterReward[monsterID];
             }
             return reward;
+        },
+        getIsLottery(type, monsterID) {
+            switch(type) {
+                // case 'normal':
+                case 'boss':
+                case 'chest':
+                    return true;
+            }
+            return false;
         }
     }
 }
