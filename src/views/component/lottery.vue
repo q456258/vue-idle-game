@@ -1,33 +1,13 @@
 <template>
-    <div class="craftEquip">
-        <button class="btn btn-success" :disabled="status=='picked'" @click="nextStep" v-if="status!='crafting' & status!='done'">下一步</button>
-        <button class="btn btn-success" :disabled="status=='picked'" @click="claimReward" v-if="status=='donePick'">领取奖励</button>
-        <div class="addonGrid"  v-if="status=='wait'">
-            <div class="icon" style="cursor:pointer" @click="applyAddon($event, k)" v-for="(v, k) in addonType" :key="k">
-                <img :src="v.icon" alt="" />
-                <a class="clickBorder"></a>
-                <!-- <div class="quantity">
-                    {{itemQtys[k]}}
-                </div> -->
-                <div class="addonTips">
-                    <h5>{{v.name}}</h5>
-                    <div class="desc">当前:{{v.desc}}</div>
-                    <div class="desc" v-if="addonType[k].max!=-1">上限:{{addons[k]+'/'+addonType[k].max}}</div>
-                    <div class="desc" v-else>上限:{{'∞'}}</div>
-                    <div class="footnote">
-                        按住shift点击一次使用最大可使用次数
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div id="lottery">
         <div v-if="status=='wait' | status=='picking' | status=='picked' | status=='donePick'">
             <div class="rewards">
                 <div class="grid" @click="takeAction($event, k)" v-for="(v, k) in rewardList" :key="k">
-                    <div class="craftRewardIcon flipped" >
+                    <div class="rewardIcon flipped" >
                         <div class="frontIcon" >
-                            <img draggable="false" src="/icons/other/Trade_blacksmithing.png" alt="" />
+                            <img draggable="false" src="/icons/item/inv_box_01.jpg" alt="" />
                         </div>
-                        <div v-if="status=='wait' | status=='picked' | status=='donePick'" @mouseover="showInfo($event,v.itemType,v)" @mouseleave="closeInfo(v.itemType)" class="backIcon mediumIconContainer" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v.quality.color }">
+                        <div v-if="!hide[k]" @mouseover="showInfo($event,v.itemType,v)" @mouseleave="closeInfo(v.itemType)" class="backIcon mediumIconContainer" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v.quality.color }">
                             <del :class="[{grey:v.quality.qualityLv==1, green:v.quality.qualityLv==3, blue:v.quality.qualityLv==4, purple:v.quality.qualityLv==5, orange:v.quality.qualityLv==6}, 'mediumIcon iconBorder']"></del>
                             <img draggable="false" :src=v.description.iconSrc alt="" />
                             <!-- <span class="addonCount">
@@ -38,6 +18,26 @@
                 </div>
             </div>
         </div>
+        <!-- <div class="addonGrid"  v-if="status=='wait'">
+            <div class="icon" style="cursor:pointer" @click="applyAddon($event, k)" v-for="(v, k) in addonType" :key="k">
+                <img :src="v.icon" alt="" />
+                <a class="clickBorder"></a>
+                <div class="quantity">
+                    {{itemQtys[k]}}
+                </div>
+                <div class="addonTips">
+                    <h5>{{v.name}}</h5>
+                    <div class="desc">当前:{{v.desc}}</div>
+                    <div class="desc" v-if="addonType[k].max!=-1">上限:{{addons[k]+'/'+addonType[k].max}}</div>
+                    <div class="desc" v-else>上限:{{'∞'}}</div>
+                    <div class="footnote">
+                        按住shift点击一次使用最大可使用次数
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <button class="btn btn-success" :disabled="status=='picked'" @click="nextStep" v-if="status!='crafting' & status!='done'">下一步</button>
+        <button class="btn btn-success" :disabled="status=='picked'" @click="claimReward" v-if="status=='donePick'">领取奖励</button>
     </div>
 </template>
 <script>
@@ -69,6 +69,7 @@ export default {
             // none, wait, picking, picked, donePick
             status: 'wait',
             remain: 0,
+            hide: []
         };
     },
     mounted() {
@@ -77,14 +78,14 @@ export default {
     watch: {
     },
     computed: {
-        // itemQtys() {
-        //     let itemInfo = this.$store.globalComponent["itemInfo"];
-        //     let itemQtys = [];
-        //     for(let i=0; i<this.addonType.length; i++) {
-        //         itemQtys[i] = itemInfo.getItemQty(this.addonType[i].itemCode);
-        //     }
-        //     return itemQtys;
-        // }
+        itemQtys() {
+            let itemInfo = this.$store.globalComponent["itemInfo"];
+            let itemQtys = [];
+            for(let i=0; i<this.addonType.length; i++) {
+                itemQtys[i] = itemInfo.getItemQty(this.addonType[i].itemCode);
+            }
+            return itemQtys;
+        }
     },
     methods: {
         initLottery(rewardOptions) {
@@ -99,6 +100,7 @@ export default {
             let backpack = this.$store.globalComponent["backpack"];
             let rewardCount = 40;
             this.rewardList = [];
+            this.hide = Array.from({length: rewardCount}, (_) => false);
             while(rewardCount > 0) {
                 for(let i in this.rewardOptions) {
                     let ran = Math.random()*100;
@@ -158,9 +160,10 @@ export default {
             switch(this.status) {
                 case 'wait':
                     this.startPicking();
+                    this.hide.fill(true,0,this.hide.length);
                     break;
                 case 'picking':
-                    let list = document.getElementsByClassName('craftRewardIcon');
+                    let list = document.getElementsByClassName('rewardIcon');
                     let group = Array.from({length: list.length}, (_, i) => i + 1);
                     for(let i=0; this.remain>0; i++) {
                         let ran = Math.floor(Math.random()*group.length);
@@ -168,6 +171,8 @@ export default {
                         group[ran] = group[group.length-1];
                         group.pop();
                     }
+                    break;
+                case 'donePick':
                     break;
             }
         },
@@ -179,7 +184,7 @@ export default {
         },
         reset() {
             this.statusChange('wait');
-            let elements = document.getElementsByClassName("craftRewardIcon");
+            let elements = document.getElementsByClassName("rewardIcon");
             for(let i=0; i<elements.length; i++) {
                 elements[i].classList.add("flipped")
             }
@@ -187,7 +192,9 @@ export default {
         takeAction(e, index) {
             if((this.status != 'picking' && this.status != 'picked') || this.remain <= 0)
                 return;
-            let element = e.target.closest(".craftRewardIcon");
+            // this.hide[index] = false;
+            this.$set(this.hide, index, false)
+            let element = e.target.closest(".rewardIcon");
             this.displayHidden(element, index);
         },
         displayHidden(element, index) {
@@ -209,9 +216,10 @@ export default {
                     break;
                 case 'picking':
                     break;
-                case 'done':
+                case 'donePick':
                     break;
-                case 'none':
+                case 'close':
+                    this.closePanel();
                     break;
             }
             this.status = newStatus;
@@ -219,7 +227,7 @@ export default {
         startPicking() {
             this.remain = 10;
             this.statusChange('picking');
-            let elements = document.getElementsByClassName("craftRewardIcon");
+            let elements = document.getElementsByClassName("rewardIcon");
             for(let i=0; i<elements.length; i++) {
                 elements[i].classList.remove("flipped")
             }
@@ -242,6 +250,7 @@ export default {
                 else
                     itemInfo.addItem(reward, true);
             }
+            this.statusChange('close');
         },
         showInfo($event, type, item) {
             let index = this.$store.globalComponent["index"];
@@ -258,13 +267,14 @@ export default {
         },
         closePanel() {
             let index = this.$store.globalComponent["index"];
+            console.log("close")
             index.closeInfo('lottery');
         }
     }
 }
 </script>
 <style lang="scss" scoped>
-.craftEquip {
+#lottery {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -284,6 +294,7 @@ export default {
         width: 520px;
         left: 0;
         right: 0;
+        padding: 25px 0;
         margin: auto;
         .grid {
             height: 60px;
@@ -291,32 +302,30 @@ export default {
             border: none;
         }
     }
-    .craftRewardIcon {
+    .rewardIcon {
         position: relative;
         transform-style: preserve-3d;
         width: 60px;
         height: 60px;
         transition: 1s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         &:hover .frontIcon{
 	        filter: drop-shadow(0px 0px 8px rgba(252, 252, 252, 0.8));
         }
         .frontIcon {
             position: absolute;
-            width: 100%;
-            height: 100%;
+            width: 80%;
+            height: 80%;
             background: transparent;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: auto;
-            border-radius: 0.3rem;
             backface-visibility: hidden;
             z-index: 1;
             filter: grayscale(100%);
             img {
                 width:100%;
                 height:100%;
-                border-radius: 1rem;
+                border-radius: 0.4rem;
             }
         }
         .backIcon {
@@ -325,7 +334,6 @@ export default {
             border-radius: 0.3rem;
             transform: rotateY(180deg);
             transition: 1s;
-            top: 10%;
             .addonCount {
                 position: absolute;
                 width: 40px;
