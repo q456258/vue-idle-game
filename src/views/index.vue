@@ -549,7 +549,7 @@ export default {
           break;
         // 不受‘关闭全部’影响
         case 'lottery':
-          this.lottery = false;
+          this.lotteryPanel = false;
           break;
         default:
           this.showItemInfo = false;
