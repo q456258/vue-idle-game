@@ -39,7 +39,10 @@
         <div v-if="status=='picking' || status=='picked'">
         下一次翻奖价格: <currency :amount="cost[flipCount]"></currency>
         </div>
-        <button class="btn btn-success" @click="nextStep" v-if="status!='picked' && status!='donePick'">下一步</button>
+        <button class="btn btn-success" @click="nextStep" v-if="status!='picked' && status!='donePick'">
+            <span v-if="status=='wait'">打乱</span>
+            <span v-if="status=='picking'">下一步</span>
+        </button>
         <button class="btn btn-success" @click="claimReward" v-if="status=='picked' || status=='donePick'">领取奖励</button>
     </div>
 </template>
@@ -73,8 +76,9 @@ export default {
             // none, wait, picking, picked, donePick
             status: 'wait',
             flipCount: 0,
-            cost: [0,0,100,1000,10000,100000],
-            hide: []
+            cost: [0,0,100,500,2500,10000,40000,200000,1000000],
+            hide: [],
+            lv: 0,
         };
     },
     mounted() {
@@ -94,8 +98,9 @@ export default {
         }
     },
     methods: {
-        initLottery(rewardOptions) {
+        initLottery(rewardOptions, lv) {
             this.rewardOptions = rewardOptions;
+            this.lv = lv || 0;
             let index = this.$store.globalComponent["index"];
             index.lotteryPanel = true;
             this.generateReward();
@@ -200,13 +205,13 @@ export default {
                 return;
             let guild = this.$store.globalComponent["guild"];
             guild.useGold(this.cost[this.flipCount]);
-            this.$set(this.hide, index, false)
             let element = e.target.closest(".rewardIcon");
             this.displayHidden(element, index);
         },
         displayHidden(element, index) {
             if(element == null || element.classList.contains("flipped"))
                 return;
+            this.$set(this.hide, index, false)
             let reward = this.rewardList[index];
             element.classList.add('flipped');
         

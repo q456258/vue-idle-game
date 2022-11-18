@@ -421,7 +421,7 @@ export default {
         reward() {
             let lottery = this.$store.globalComponent["lottery"];
             if(this.dungeonInfo.advanture.isLottery) {
-                lottery.initLottery(this.dungeonInfo.advanture.lotReward);
+                lottery.initLottery(this.dungeonInfo.advanture.lotReward, this.dungeonInfo.advanture.level);
                 return;
             }
             let equip = ['helmet', 'weapon', 'armor', 'shoe', 'shoulder', 'glove', 'ring', 'cape', 'bracer', 'belt', 'legging', 'necklace'];
