@@ -165,7 +165,7 @@ export default {
             //     }
             let equipItem = ['random_common_equip','random_uncommon_equip','random_rare_equip','random_epic_equip','random_legendary_equip']
             if(equipItem.indexOf(this.targetItem) != -1) {
-                this.craftEquip(equipItem.indexOf(this.targetItem));
+                this.craftEquip(equipItem.indexOf(this.targetItem)+1);
             } else {
                 let newItem = JSON.parse(itemInfo.createItem(this.targetItem, this.craftQty));
                 itemInfo.addItem(newItem, true);
