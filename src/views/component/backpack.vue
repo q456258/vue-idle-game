@@ -111,7 +111,7 @@
                 <!-- <i class="icon icon-setting"></i> -->
                 </span>
             </a>
-            <a class="function" v-show="guild.smith.lv>=30 && displayPage=='equip'" @click="disintegrateAll()">一键分解</a>
+            <a class="function" v-show="playerLv>=20 && displayPage=='equip'" @click="disintegrateAll()">一键分解</a>
             <a class="function" v-show="displayPage=='equip'" @click="sellAll()">一键出售</a>
             <a class="function" @click="sort()">整理背包</a>
         </div>
