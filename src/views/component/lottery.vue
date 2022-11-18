@@ -36,18 +36,22 @@
                 </div>
             </div>
         </div> -->
-        <button class="btn btn-success" :disabled="status=='picked'" @click="nextStep" v-if="status!='crafting' & status!='done'">下一步</button>
-        <button class="btn btn-success" :disabled="status=='picked'" @click="claimReward" v-if="status=='donePick'">领取奖励</button>
+        <div v-if="status=='picking' || status=='picked'">
+        下一次翻奖价格: <currency :amount="cost[flipCount]"></currency>
+        </div>
+        <button class="btn btn-success" @click="nextStep" v-if="status!='picked' && status!='donePick'">下一步</button>
+        <button class="btn btn-success" @click="claimReward" v-if="status=='picked' || status=='donePick'">领取奖励</button>
     </div>
 </template>
 <script>
 
-import {equipConfig} from '@/assets/config/equipConfig'
+import {equipConfig} from '@/assets/config/equipConfig';
+import currency from '../uiComponent/currency';
 export default {    
     name: 'lottery',
-    props: {
-    },
+    props: { },
     mixins: [equipConfig],
+    components: {currency},
     data() {
         return {
             addons: [],
@@ -68,7 +72,8 @@ export default {
             rewards: [],
             // none, wait, picking, picked, donePick
             status: 'wait',
-            remain: 0,
+            flipCount: 0,
+            cost: [0,0,100,1000,10000,100000],
             hide: []
         };
     },
@@ -78,6 +83,7 @@ export default {
     watch: {
     },
     computed: {
+        playerGold() { return this.$store.state.guildAttribute.gold; },
         itemQtys() {
             let itemInfo = this.$store.globalComponent["itemInfo"];
             let itemQtys = [];
@@ -165,7 +171,7 @@ export default {
                 case 'picking':
                     let list = document.getElementsByClassName('rewardIcon');
                     let group = Array.from({length: list.length}, (_, i) => i + 1);
-                    for(let i=0; this.remain>0; i++) {
+                    for(let i=0; this.flipCount<2; i++) {
                         let ran = Math.floor(Math.random()*group.length);
                         this.displayHidden(list[ran], ran);
                         group[ran] = group[group.length-1];
@@ -190,9 +196,10 @@ export default {
             }
         },
         takeAction(e, index) {
-            if((this.status != 'picking' && this.status != 'picked') || this.remain <= 0)
+            if((this.status != 'picking' && this.status != 'picked') || this.playerGold < this.cost[this.flipCount])
                 return;
-            // this.hide[index] = false;
+            let guild = this.$store.globalComponent["guild"];
+            guild.useGold(this.cost[this.flipCount]);
             this.$set(this.hide, index, false)
             let element = e.target.closest(".rewardIcon");
             this.displayHidden(element, index);
@@ -204,9 +211,9 @@ export default {
             element.classList.add('flipped');
         
             this.rewards.push(reward);
-            this.remain -= 1;
+            this.flipCount += 1;
             this.statusChange('picked');
-            if(this.remain <= 0) {
+            if(this.flipCount >= this.cost.length) {
                 this.statusChange('donePick');
             }
         },
@@ -218,14 +225,14 @@ export default {
                     break;
                 case 'donePick':
                     break;
-                case 'close':
+                case 'none':
                     this.closePanel();
                     break;
             }
             this.status = newStatus;
         },
         startPicking() {
-            this.remain = 10;
+            this.flipCount = 0;
             this.statusChange('picking');
             let elements = document.getElementsByClassName("rewardIcon");
             for(let i=0; i<elements.length; i++) {
@@ -250,7 +257,7 @@ export default {
                 else
                     itemInfo.addItem(reward, true);
             }
-            this.statusChange('close');
+            this.statusChange('none');
         },
         showInfo($event, type, item) {
             let index = this.$store.globalComponent["index"];
@@ -267,7 +274,6 @@ export default {
         },
         closePanel() {
             let index = this.$store.globalComponent["index"];
-            console.log("close")
             index.closeInfo('lottery');
         }
     }
