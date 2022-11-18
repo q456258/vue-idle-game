@@ -60,7 +60,7 @@ export const dungeon = {
                     type: eventType, 
                     color: this.typeColor[eventType],
                     rewardType: this.getReward(eventType, monsterID), 
-                    isLottery: this.getIsLoterry(eventType, monsterID),
+                    isLottery: this.getIsLottery(eventType, monsterID),
                     img: './icons/other/'+eventType+'.png',
                     lv: lv,
                     monsterID: monsterID,
