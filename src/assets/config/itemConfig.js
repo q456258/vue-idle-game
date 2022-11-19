@@ -323,7 +323,7 @@ export const itemConfig = {
                         iconSrc: "./icons/item/inv_misc_gem_diamond_04.jpg",
                     },
                     stack: true,
-                    quantity: 2,
+                    quantity: 1,
                     cost: 99990000,
                     maxStack: 9999
                 },
@@ -336,7 +336,7 @@ export const itemConfig = {
                         iconSrc: "./icons/item/inv_misc_gem_diamond_03.jpg",
                     },
                     stack: true,
-                    quantity: 3,
+                    quantity: 1,
                     cost: 99990000,
                     maxStack: 9999
                 },
@@ -349,7 +349,7 @@ export const itemConfig = {
                         iconSrc: "./icons/item/inv_misc_gem_diamond_02.jpg",
                     },
                     stack: true,
-                    quantity: 4,
+                    quantity: 1,
                     cost: 99990000,
                     maxStack: 9999
                 },
@@ -362,9 +362,99 @@ export const itemConfig = {
                         iconSrc: "./icons/item/inv_misc_gem_diamond_01.jpg",
                     },
                     stack: true,
-                    quantity: 5,
+                    quantity: 1,
                     cost: 99990000,
                     maxStack: 9999
+                },
+                inv_misc_enchantedpearla_bag: {
+                    quality: 2,
+                    description: {
+                        name: '一袋神秘宝珠',
+                        category: '消耗品',
+                        desc: '获得10颗神秘宝珠(具有神秘力量的宝珠, 能够重置装备的潜在属性)',
+                        iconSrc: "./icons/item/inv_misc_enchantedpearla_bag.jpg",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
+                },
+                inv_misc_gem_diamond_05_bag: {
+                    quality: 1,
+                    description: {
+                        name: '一袋杂色强化石碎片',
+                        category: '消耗品',
+                        desc: '获得10颗杂色强化石碎片(强化装备的材料, 能够提升装备基础属性, 提升1点强化进度)',
+                        iconSrc: "./icons/item/inv_misc_gem_diamond_05_bag.jpg",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
+                },
+                inv_misc_gem_diamond_04_bag: {
+                    quality: 2,
+                    description: {
+                        name: '一袋杂色强化石',
+                        category: '消耗品',
+                        desc: '获得10颗杂色强化石(强化装备的材料, 能够提升装备基础属性, 提升5点强化进度)',
+                        iconSrc: "./icons/item/inv_misc_gem_diamond_04_bag.jpg",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
+                },
+                inv_misc_gem_diamond_03_bag: {
+                    quality: 3,
+                    description: {
+                        name: '一袋纯净强化石碎片',
+                        category: '消耗品',
+                        desc: '获得10颗强化纯净强化石碎片(装备的材料, 能够提升装备基础属性, 提升10点强化进度)',
+                        iconSrc: "./icons/item/inv_misc_gem_diamond_03_bag.jpg",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
+                },
+                inv_misc_gem_diamond_02_bag: {
+                    quality: 4,
+                    description: {
+                        name: '一袋纯净强化石',
+                        category: '消耗品',
+                        desc: '获得10颗纯净强化石(强化装备的材料, 能够提升装备基础属性, 提升25点强化进度)',
+                        iconSrc: "./icons/item/inv_misc_gem_diamond_02_bag.jpg",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
+                },
+                inv_misc_gem_diamond_01_bag: {
+                    quality: 5,
+                    description: {
+                        name: '一袋无暇强化石',
+                        category: '消耗品',
+                        desc: '获得10颗无暇强化石(强化装备的材料, 能够提升装备基础属性, 提升100点强化进度)',
+                        iconSrc: "./icons/item/inv_misc_gem_diamond_01_bag.jpg",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
                 },
                 dust2: {
                     quality: 2,
@@ -436,7 +526,7 @@ export const itemConfig = {
                     description: {
                         name: '屠魔药剂',
                         category: '消耗品',
-                        desc: '使用后获得【野怪杀手】buff, 对等级低于自身的非精英、BOSS类怪物额外造成50%伤害, 持续10分钟',
+                        desc: '使用: 获得【野怪杀手】buff, 对等级低于自身的非精英、BOSS类怪物额外造成50%伤害, 持续10分钟',
                         iconSrc: "./icons/item/inv_potion_27.jpg",
                     },
                     use: true,
@@ -450,7 +540,7 @@ export const itemConfig = {
                     description: {
                         name: '招募启事',
                         category: '消耗品',
-                        desc: '发布招募声明, 吸引路人来申请公会',
+                        desc: '使用: 发布招募声明, 吸引路人来申请公会',
                         iconSrc: "./icons/item/inv_misc_note_06.jpg",
                     },
                     use: true,
@@ -462,10 +552,10 @@ export const itemConfig = {
                 racial_dwarf_findtreasure: {
                     quality: 3,
                     description: {
-                        name: '一枚金币',
+                        name: '一颗金牙',
                         category: '消耗品',
-                        desc: '获得一枚金币',
-                        iconSrc: "./icons/item/racial_dwarf_findtreasure.jpg",
+                        desc: '使用: 获得1金<br>"别问他是怎么弄到的"',
+                        iconSrc: "./icons/item/trade_archaeology_trolltooth-w-goldfilling.jpg",
                     },
                     autoUse: true, batch: true,
                     use: true,
@@ -479,7 +569,7 @@ export const itemConfig = {
                     description: {
                         name: '少量铜币',
                         category: '消耗品',
-                        desc: '获得少量铜币',
+                        desc: '使用: 获得少量铜币',
                         iconSrc: "./icons/item/inv_misc_coin_05.jpg",
                     },
                     autoUse: true, batch: true,
@@ -945,7 +1035,7 @@ export const itemConfig = {
                     description: {
                         name: 'BOSS挑战券【导师】',
                         category: '消耗品',
-                        desc: '挑战【导师】',
+                        desc: '使用: 召唤【导师】',
                         iconSrc: "./icons/item/inv_scroll_11.jpg",
                     },
                     use: true,
@@ -959,7 +1049,7 @@ export const itemConfig = {
                     description: {
                         name: 'BOSS挑战券【阿迦玛】',
                         category: '消耗品',
-                        desc: '挑战野猪王【阿迦玛】',
+                        desc: '使用: 召唤野猪王【阿迦玛】',
                         iconSrc: "./icons/item/inv_scroll_11.jpg",
                     },
                     use: true,
@@ -973,7 +1063,7 @@ export const itemConfig = {
                     description: {
                         name: 'BOSS挑战券【金牙】',
                         category: '消耗品',
-                        desc: '挑战狗头人头目【金牙】',
+                        desc: '使用: 召唤狗头人头目【金牙】',
                         iconSrc: "./icons/item/inv_scroll_11.jpg",
                     },
                     use: true,
@@ -987,7 +1077,7 @@ export const itemConfig = {
                     description: {
                         name: 'BOSS挑战券【霍格】',
                         category: '消耗品',
-                        desc: '挑战豺狼人首领【霍格】',
+                        desc: '使用: 召唤豺狼人首领【霍格】',
                         iconSrc: "./icons/item/inv_scroll_11.jpg",
                     },
                     use: true,
@@ -1001,7 +1091,7 @@ export const itemConfig = {
                     description: {
                         name: 'BOSS挑战券【铁背龟】',
                         category: '消耗品',
-                        desc: '挑战乌龟BOSS【铁背龟】',
+                        desc: '使用: 召唤乌龟BOSS【铁背龟】',
                         iconSrc: "./icons/item/inv_scroll_11.jpg",
                     },
                     use: true,
@@ -1015,7 +1105,7 @@ export const itemConfig = {
                     description: {
                         name: 'BOSS挑战券【熔岩元素】',
                         category: '消耗品',
-                        desc: '挑战元素BOSS【熔岩元素',
+                        desc: '使用: 召唤元素BOSS【熔岩元素',
                         iconSrc: "./icons/item/inv_scroll_11.jpg",
                     },
                     use: true,
@@ -1029,7 +1119,7 @@ export const itemConfig = {
                     description: {
                         name: 'BOSS挑战券【咕噜咕拉】',
                         category: '消耗品',
-                        desc: '挑战鱼人首领【咕噜咕拉】',
+                        desc: '使用: 召唤鱼人首领【咕噜咕拉】',
                         iconSrc: "./icons/item/inv_scroll_11.jpg",
                     },
                     use: true,
@@ -1043,7 +1133,7 @@ export const itemConfig = {
                     description: {
                         name: 'BOSS挑战券【塞瑞娜·血羽】',
                         category: '消耗品',
-                        desc: '挑战鸟人头目【塞瑞娜·血羽】',
+                        desc: '使用: 召唤鸟人头目【塞瑞娜·血羽】',
                         iconSrc: "./icons/item/inv_scroll_11.jpg",
                     },
                     use: true,
@@ -1057,7 +1147,7 @@ export const itemConfig = {
                     description: {
                         name: 'BOSS挑战券【科多兽】',
                         category: '消耗品',
-                        desc: '挑战蜥蜴头目【科多兽】',
+                        desc: '使用: 召唤蜥蜴头目【科多兽】',
                         iconSrc: "./icons/item/inv_scroll_11.jpg",
                     },
                     use: true,
@@ -1071,7 +1161,7 @@ export const itemConfig = {
                     description: {
                         name: 'BOSS挑战券【维斯迦尔】',
                         category: '消耗品',
-                        desc: '挑战熊怪首领【维斯迦尔】',
+                        desc: '使用: 召唤熊怪首领【维斯迦尔】',
                         iconSrc: "./icons/item/inv_scroll_11.jpg",
                     },
                     use: true,
@@ -1085,7 +1175,7 @@ export const itemConfig = {
                     description: {
                         name: 'BOSS挑战券【安戈雷尔】',
                         category: '消耗品',
-                        desc: '挑战美味的龙虾【安戈雷尔】',
+                        desc: '使用: 召唤美味的龙虾【安戈雷尔】',
                         iconSrc: "./icons/item/inv_scroll_11.jpg",
                     },
                     use: true,
@@ -1100,7 +1190,7 @@ export const itemConfig = {
                     description: {
                         name: '面包',
                         category: '消耗品',
-                        desc: '恢复100%生命值, 战斗期间无法使用',
+                        desc: '使用: 恢复100%生命值, 战斗期间无法使用',
                         iconSrc: "./icons/spell/mage/inv_misc_food_73cinnamonroll.jpg",
                     },
                     use: true,
@@ -1114,7 +1204,7 @@ export const itemConfig = {
                     description: {
                         name: '法力宝石',
                         category: '消耗品',
-                        desc: '恢复100%法力值, 战斗期间无法使用',
+                        desc: '使用: 恢复100%法力值, 战斗期间无法使用',
                         iconSrc: "./icons/spell/mage/inv_misc_gem_sapphire_02.jpg",
                     },
                     use: true,
@@ -1128,7 +1218,7 @@ export const itemConfig = {
                     description: {
                         name: '特效生命药水',
                         category: '消耗品',
-                        desc: '恢复100%生命值, 战斗期间无法使用',
+                        desc: '使用: 恢复100%生命值, 战斗期间无法使用',
                         iconSrc: "./icons/potion/inv_alchemy_80_potion01red.jpg",
                     },
                     use: true,
@@ -1142,7 +1232,7 @@ export const itemConfig = {
                     description: {
                         name: '特效法力药水',
                         category: '消耗品',
-                        desc: '恢复100%法力值, 战斗期间无法使用',
+                        desc: '使用: 恢复100%法力值, 战斗期间无法使用',
                         iconSrc: "./icons/potion/inv_alchemy_80_potion01blue.jpg",
                     },
                     use: true,
@@ -1156,7 +1246,7 @@ export const itemConfig = {
                     description: {
                         name: '初级治疗药水',
                         category: '消耗品',
-                        desc: '每秒恢复25点生命值, 持续10秒',
+                        desc: '使用: 每秒恢复25点生命值, 持续10秒',
                         iconSrc: "./icons/potion/inv_potion_49.jpg",
                     },
                     use: true,
@@ -1172,7 +1262,7 @@ export const itemConfig = {
                     description: {
                         name: '初级生命药水',
                         category: '消耗品',
-                        desc: '恢复200生命值',
+                        desc: '使用: 恢复200生命值',
                         iconSrc: "./icons/potion/inv_potion_50.jpg",
                     },
                     use: true,
@@ -1188,7 +1278,7 @@ export const itemConfig = {
                     description: {
                         name: '次级治疗药水',
                         category: '消耗品',
-                        desc: '每秒恢复100点生命值, 持续10秒',
+                        desc: '使用: 每秒恢复100点生命值, 持续10秒',
                         iconSrc: "./icons/potion/inv_potion_51.jpg",
                     },
                     use: true,
@@ -1204,7 +1294,7 @@ export const itemConfig = {
                     description: {
                         name: '次级生命药水',
                         category: '消耗品',
-                        desc: '恢复800生命值',
+                        desc: '使用: 恢复800生命值',
                         iconSrc: "./icons/potion/inv_potion_52.jpg",
                     },
                     use: true,
@@ -1220,7 +1310,7 @@ export const itemConfig = {
                     description: {
                         name: '治疗药水',
                         category: '消耗品',
-                        desc: '每秒恢复500点生命值, 持续10秒',
+                        desc: '使用: 每秒恢复500点生命值, 持续10秒',
                         iconSrc: "./icons/potion/inv_potion_53.jpg",
                     },
                     use: true,
@@ -1236,7 +1326,7 @@ export const itemConfig = {
                     description: {
                         name: '生命药水',
                         category: '消耗品',
-                        desc: '恢复4500生命值',
+                        desc: '使用: 恢复4500生命值',
                         iconSrc: "./icons/potion/inv_potion_54.jpg",
                     },
                     use: true,
@@ -1252,7 +1342,7 @@ export const itemConfig = {
                     description: {
                         name: '强效治疗药水',
                         category: '消耗品',
-                        desc: '每秒恢复1%最大生命值, 持续100秒',
+                        desc: '使用: 每秒恢复1%最大生命值, 持续100秒',
                         iconSrc: "./icons/potion/inv_potion_160.jpg",
                     },
                     use: true,
@@ -1268,7 +1358,7 @@ export const itemConfig = {
                     description: {
                         name: '超级治疗药水',
                         category: '消耗品',
-                        desc: '每秒恢复5%最大生命值, 持续100秒',
+                        desc: '使用: 每秒恢复5%最大生命值, 持续100秒',
                         iconSrc: "./icons/potion/inv_potion_55.jpg",
                     },
                     use: true,
@@ -1284,7 +1374,7 @@ export const itemConfig = {
                     description: {
                         name: '强效生命药水',
                         category: '消耗品',
-                        desc: '恢复25%最大生命值',
+                        desc: '使用: 恢复25%最大生命值',
                         iconSrc: "./icons/potion/inv_potion_131.jpg",
                     },
                     use: true,
@@ -1300,7 +1390,7 @@ export const itemConfig = {
                     description: {
                         name: '超级生命药水',
                         category: '消耗品',
-                        desc: '恢复50%最大生命值',
+                        desc: '使用: 恢复50%最大生命值',
                         iconSrc: "./icons/potion/inv_potion_142.jpg",
                     },
                     use: true,
@@ -1316,7 +1406,7 @@ export const itemConfig = {
                     description: {
                         name: '终极生命药水',
                         category: '消耗品',
-                        desc: '恢复100%最大生命值',
+                        desc: '使用: 恢复100%最大生命值',
                         iconSrc: "./icons/potion/inv_potion_167.jpg",
                     },
                     use: true,
@@ -1332,7 +1422,7 @@ export const itemConfig = {
                     description: {
                         name: '初级魔能药水',
                         category: '消耗品',
-                        desc: '每秒恢复15点魔法值, 持续10秒',
+                        desc: '使用: 每秒恢复15点魔法值, 持续10秒',
                         iconSrc: "./icons/potion/inv_potion_70.jpg",
                     },
                     use: true,
@@ -1348,7 +1438,7 @@ export const itemConfig = {
                     description: {
                         name: '初级法力药水',
                         category: '消耗品',
-                        desc: '恢复125法力值',
+                        desc: '使用: 恢复125法力值',
                         iconSrc: "./icons/potion/inv_potion_71.jpg",
                     },
                     use: true,
@@ -1364,7 +1454,7 @@ export const itemConfig = {
                     description: {
                         name: '次级魔能药水',
                         category: '消耗品',
-                        desc: '每秒恢复50点法力值, 持续10秒',
+                        desc: '使用: 每秒恢复50点法力值, 持续10秒',
                         iconSrc: "./icons/potion/inv_potion_72.jpg",
                     },
                     use: true,
@@ -1380,7 +1470,7 @@ export const itemConfig = {
                     description: {
                         name: '次级法力药水',
                         category: '消耗品',
-                        desc: '恢复400法力值',
+                        desc: '使用: 恢复400法力值',
                         iconSrc: "./icons/potion/inv_potion_73.jpg",
                     },
                     use: true,
@@ -1396,7 +1486,7 @@ export const itemConfig = {
                     description: {
                         name: '魔能药水',
                         category: '消耗品',
-                        desc: '每秒恢复200点法力值, 持续10秒',
+                        desc: '使用: 每秒恢复200点法力值, 持续10秒',
                         iconSrc: "./icons/potion/inv_potion_74.jpg",
                     },
                     use: true,
@@ -1412,7 +1502,7 @@ export const itemConfig = {
                     description: {
                         name: '法力药水',
                         category: '消耗品',
-                        desc: '恢复1750法力值',
+                        desc: '使用: 恢复1750法力值',
                         iconSrc: "./icons/potion/inv_potion_75.jpg",
                     },
                     use: true,
@@ -1428,7 +1518,7 @@ export const itemConfig = {
                     description: {
                         name: '强效魔能药水',
                         category: '消耗品',
-                        desc: '每秒恢复1%最大法力值, 持续100秒',
+                        desc: '使用: 每秒恢复1%最大法力值, 持续100秒',
                         iconSrc: "./icons/potion/inv_potion_163.jpg",
                     },
                     use: true,
@@ -1444,7 +1534,7 @@ export const itemConfig = {
                     description: {
                         name: '超级魔能药水',
                         category: '消耗品',
-                        desc: '每秒恢复5%最大法力值, 持续100秒',
+                        desc: '使用: 每秒恢复5%最大法力值, 持续100秒',
                         iconSrc: "./icons/potion/inv_potion_76.jpg",
                     },
                     use: true,
@@ -1460,7 +1550,7 @@ export const itemConfig = {
                     description: {
                         name: '强效法力药水',
                         category: '消耗品',
-                        desc: '恢复25%最大法力值',
+                        desc: '使用: 恢复25%最大法力值',
                         iconSrc: "./icons/potion/inv_potion_137.jpg",
                     },
                     use: true,
@@ -1476,7 +1566,7 @@ export const itemConfig = {
                     description: {
                         name: '超级法力药水',
                         category: '消耗品',
-                        desc: '恢复50%最大法力值',
+                        desc: '使用: 恢复50%最大法力值',
                         iconSrc: "./icons/potion/inv_potion_148.jpg",
                     },
                     use: true,
@@ -1492,7 +1582,7 @@ export const itemConfig = {
                     description: {
                         name: '终极法力药水',
                         category: '消耗品',
-                        desc: '恢复100%最大法力值',
+                        desc: '使用: 恢复100%最大法力值',
                         iconSrc: "./icons/potion/inv_potion_168.jpg",
                     },
                     use: true,
@@ -1508,7 +1598,7 @@ export const itemConfig = {
                     description: {
                         name: '初级恢复药水',
                         category: '消耗品',
-                        desc: '每秒恢复15点生命值以及15点魔法值, 持续10秒',
+                        desc: '使用: 每秒恢复15点生命值以及15点魔法值, 持续10秒',
                         iconSrc: "./icons/potion/inv_potion_42.jpg",
                     },
                     use: true,
@@ -1524,7 +1614,7 @@ export const itemConfig = {
                     description: {
                         name: '初级活力药水',
                         category: '消耗品',
-                        desc: '恢复100生命值以及100点魔法值',
+                        desc: '使用: 恢复100生命值以及100点魔法值',
                         iconSrc: "./icons/potion/inv_potion_43.jpg",
                     },
                     use: true,
@@ -1540,7 +1630,7 @@ export const itemConfig = {
                     description: {
                         name: '次级恢复药水',
                         category: '消耗品',
-                        desc: '每秒恢复150点生命值以及150点魔法值, 持续10秒',
+                        desc: '使用: 每秒恢复150点生命值以及150点魔法值, 持续10秒',
                         iconSrc: "./icons/potion/inv_potion_44.jpg",
                     },
                     use: true,
@@ -1556,7 +1646,7 @@ export const itemConfig = {
                     description: {
                         name: '次级活力药水',
                         category: '消耗品',
-                        desc: '恢复1000生命值以及1000点魔法值',
+                        desc: '使用: 恢复1000生命值以及1000点魔法值',
                         iconSrc: "./icons/potion/inv_potion_45.jpg",
                     },
                     use: true,
@@ -1572,7 +1662,7 @@ export const itemConfig = {
                     description: {
                         name: '恢复药水',
                         category: '消耗品',
-                        desc: '每秒恢复1500点生命值以及1500点魔法值, 持续10秒',
+                        desc: '使用: 每秒恢复1500点生命值以及1500点魔法值, 持续10秒',
                         iconSrc: "./icons/potion/inv_potion_46.jpg",
                     },
                     use: true,
@@ -1588,7 +1678,7 @@ export const itemConfig = {
                     description: {
                         name: '活力药水',
                         category: '消耗品',
-                        desc: '恢复10000生命值以及10000点魔法值',
+                        desc: '使用: 恢复10000生命值以及10000点魔法值',
                         iconSrc: "./icons/potion/inv_potion_47.jpg",
                     },
                     use: true,
@@ -1604,7 +1694,7 @@ export const itemConfig = {
                     description: {
                         name: '强效恢复药水',
                         category: '消耗品',
-                        desc: '每秒恢复1%最大生命值以及魔法值, 持续100秒',
+                        desc: '使用: 每秒恢复1%最大生命值以及魔法值, 持续100秒',
                         iconSrc: "./icons/potion/inv_potion_164.jpg",
                     },
                     use: true,
@@ -1620,7 +1710,7 @@ export const itemConfig = {
                     description: {
                         name: '超级恢复药水',
                         category: '消耗品',
-                        desc: '每秒恢复5%最大生命值以及魔法值, 持续100秒',
+                        desc: '使用: 每秒恢复5%最大生命值以及魔法值, 持续100秒',
                         iconSrc: "./icons/potion/inv_potion_48.jpg",
                     },
                     use: true,
@@ -1636,7 +1726,7 @@ export const itemConfig = {
                     description: {
                         name: '强效活力药水',
                         category: '消耗品',
-                        desc: '恢复33%最大生命值以及魔法值',
+                        desc: '使用: 恢复33%最大生命值以及魔法值',
                         iconSrc: "./icons/potion/inv_potion_134.jpg",
                     },
                     use: true,
@@ -1652,7 +1742,7 @@ export const itemConfig = {
                     description: {
                         name: '超级活力药水',
                         category: '消耗品',
-                        desc: '恢复75%最大生命值以及魔法值',
+                        desc: '使用: 恢复75%最大生命值以及魔法值',
                         iconSrc: "./icons/potion/inv_potion_145.jpg",
                     },
                     use: true,

@@ -22,6 +22,24 @@ export const itemEffect = {
                 return used;
             }
             switch(type) {
+                case 'inv_enchant_voidsphere_bag':
+                    used = this.giveItem('inv_enchant_voidsphere', 10);
+                    break;
+                case 'inv_misc_gem_diamond_05_bag':
+                    used = this.giveItem('inv_misc_gem_diamond_05', 10);
+                    break;
+                case 'inv_misc_gem_diamond_04_bag':
+                    used = this.giveItem('inv_misc_gem_diamond_04', 10);
+                    break;
+                case 'inv_misc_gem_diamond_03_bag':
+                    used = this.giveItem('inv_misc_gem_diamond_03', 10);
+                    break;
+                case 'inv_misc_gem_diamond_02_bag':
+                    used = this.giveItem('inv_misc_gem_diamond_02', 10);
+                    break;
+                case 'inv_misc_gem_diamond_01_bag':
+                    used = this.giveItem('inv_misc_gem_diamond_01', 10);
+                    break;
                 case 'racial_dwarf_findtreasure':
                     used = this.randomGold(10000, 10000, msg, qty);
                     break;
@@ -227,6 +245,12 @@ export const itemEffect = {
         //     guildMember.generateApplicant();
         //     return true;
         // },
+        giveItem(code, qty) {
+            let itemInfo = this.$store.globalComponent["itemInfo"];;
+            item = itemInfo.createItem(code, qty);  
+            itemInfo.addItem(JSON.parse(item));
+            return true;
+        },
         randomGold(min, max, msg, qty=1) {
             let guild = this.$store.globalComponent["guild"];
             let gold = 0;
