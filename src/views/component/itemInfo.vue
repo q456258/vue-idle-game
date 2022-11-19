@@ -23,8 +23,8 @@
                 <div class="type">
                     物品分类: {{item.description.category}}
                 </div>
-                <div class="baseEntry">
-                    {{item.description.desc}}
+                <div class="baseEntry" v-html="item.description.desc">
+                    <!-- {{item.description.desc}} -->
                 </div>
                 <div class="extraEntry">
                     数量: {{item.quantity}}
