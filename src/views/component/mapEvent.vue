@@ -126,8 +126,10 @@ export default {
                 type = this.dungeonInfo['advanture'].type;
             if(['normal', 'elite', 'boss', 'mine'].indexOf(type) != -1)
                 this.battle(type);
-            if(type == 'chest')
+            if(type == 'chest') {
                 this.chest();
+                this.autoBattle(false);
+            }
         },
         battle(type) {
             let playerAttribute = this.playerAttr,
@@ -214,8 +216,7 @@ export default {
         },
         reduceCount(count=1) {
             if(this.selectedDungeon.count > 0) {
-                if(this.selectedDungeon.resetCount <= 0)
-                    this.selectedDungeon.count -= Math.min(count, this.selectedDungeon.count);
+                this.selectedDungeon.count -= Math.min(count, this.selectedDungeon.count);
                 this.selectedDungeon.resetCount = this.selectedDungeon.resetMax;
                 return true;
             }
@@ -224,9 +225,11 @@ export default {
             return true;
         },
         reduceResetCount(count=1) {
+            if(this.selectedDungeon.resetCount <= 0)
+                this.reduceCount();
             this.selectedDungeon.resetCount -= count;
-            if(this.selectedDungeon.count == 1 && this.selectedDungeon.resetCount == 0)
-                this.selectedDungeon.count--;
+            if((this.selectedDungeon.count == 1 && this.selectedDungeon.resetCount == 0))
+                this.reduceCount();
         },
         levelToTarget(target) {
             this.talentLevelToTarget(target);
@@ -330,13 +333,10 @@ export default {
             }, 1);
         },
         chest() {
-            if(!this.reduceCount())
-                return;
+            this.reduceResetCount();
             this.reward();
         },
         generateenemy(type, level, monsterID) {
-            if(!this.reduceCount())
-                return;
             let enemyAttribute = {};
             if(!type)
                 type = this.dungeonInfo[this.dungeonInfo.current].type;
