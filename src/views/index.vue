@@ -316,12 +316,13 @@ export default {
 //     let itemInfo = this.$store.globalComponent["itemInfo"];;
 //     let item ;
 //     let items = [
-// 'inv_ingot_02',
-// 'inv_stone_16',
-// 'inv_ingot_01',
-// 'inv_ingot_03',
-// 'inv_ingot_iron',
-// 'inv_ingot_steel',
+// 'bossTicket0',
+// 'bossTicket1',
+// 'bossTicket2',
+// 'bossTicket3',
+// 'bossTicket4',
+// 'bossTicket5',
+// 'bossTicket6',
 // ];
 //     for(let i in items) {
 //       item = itemInfo.createItem(items[i], 60);  
@@ -578,7 +579,8 @@ export default {
     },
     confirmDungeon(k) {
       let mapEvent = this.$store.globalComponent["mapEvent"];
-      mapEvent.reduceResetCount(mapEvent.selectedDungeon.resetCount);
+      if(mapEvent.selectedDungeon.resetCount != mapEvent.selectedDungeon.resetMax)
+        mapEvent.reduceResetCount(mapEvent.selectedDungeon.resetCount);
       mapEvent.displayDungeon = true;
       if(this.dungeon)
         this.dungeon.selected = false;
