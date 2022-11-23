@@ -40,9 +40,9 @@
                 <div class="beforeEnhance">
                     <div v-for="v in equip.baseEntry" :key="v.id">
                         <div>
-                            <span>{{v.name}} + {{Math.floor(v.base*(1+(equip.enhanceLv+1)*0.1))}}</span> 
+                            <span>{{v.name}} + {{Math.floor(v.base*(1+(equip.enhanceLv+1)*0.05))}}</span> 
                             <span class="bonus">
-                                ↑({{Math.floor(v.base*(1+(equip.enhanceLv+1)*0.1)-v.value)}})
+                                ↑({{Math.floor(v.base*(1+(equip.enhanceLv+1)*0.05)-v.value)}})
                             </span>
                         </div>
                     </div>
