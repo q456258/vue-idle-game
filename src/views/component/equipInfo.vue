@@ -273,7 +273,7 @@ export default {
                     entry[i].base = Math.round(Math.pow(Math.pow(base, 1.5)/2, 0.66))+ran;
                 else
                     entry[i].base = Math.ceil(base)+ran;
-                entry[i].value = Math.ceil(entry[i].base * (1+enhanceLv*0.1));
+                entry[i].value = Math.ceil(entry[i].base * (1+enhanceLv*0.05));
                 entry[i].showVal = '+' + entry[i].value;
                 entry[i].name = this.entryInfo[type].name;
             }
@@ -388,11 +388,11 @@ export default {
 
             baseEntry.forEach(entry => {
                 if(percent.indexOf(entry.type) > -1) {
-                    entry.value = Math.floor(entry.base * (1+equip.enhanceLv*0.1));
+                    entry.value = Math.floor(entry.base * (1+equip.enhanceLv*0.05));
                     entry.showVal = '+' + entry.value + '%';
                 }
                 else {
-                    entry.value = Math.floor(entry.base * (1+equip.enhanceLv*0.1));
+                    entry.value = Math.floor(entry.base * (1+equip.enhanceLv*0.05));
                     entry.showVal = '+' + entry.value;
                 }
             });
