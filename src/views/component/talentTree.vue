@@ -166,6 +166,8 @@ export default {
                 this.setStatus('generalBranch');
                 this.talentChange(target.type);
             }
+            let quest = this.$store.globalComponent["quest"];
+            quest.trackProgress('event', 4, 1);
         },
         rightClick(e, k, branch, val=-1) {
             let target = this.talents[branch][k];

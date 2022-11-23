@@ -237,11 +237,14 @@ export default {
                 this.levelUp();
         },
         levelUp() {
+            let quest =  this.$store.globalComponent['quest']; 
             this.playerAttr.lv += 1;
             // this.playerAttr.talentPoint += 1;
             if(this.playerAttr.lv == 10) {
                 let element = document.getElementById('talentTree');
                 element.classList.add('glow');
+                quest.assignQuest(15);
+                quest.assignQuest(16);
             }
             if(this.playerAttr.lv == 20) {
                 let element = document.getElementById('guild');
@@ -250,6 +253,7 @@ export default {
                 guild.guild.lv = 1;
                 guild.shop.lv = 1;
                 guild.smith.lv = 1;
+                quest.assignQuest(26);
             }
         },
         talentLevelToTarget(target) {

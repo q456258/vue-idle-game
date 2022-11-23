@@ -127,6 +127,8 @@ export default {
                 equipInfo.enhanceBaseEntryValue(this.equip);
                 equipInfo.activePotential(this.equip);
                 this.$store.commit('set_player_attribute');
+                let quest = this.$store.globalComponent["quest"];
+                quest.trackProgress('event', 5, 1);
             }
         },
         consumeGem() {

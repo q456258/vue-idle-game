@@ -122,6 +122,8 @@ export default {
                     equipInfo.forgeEntry(this.equip, entry);
             }
             this.$store.commit('set_player_attribute');
+            let quest = this.$store.globalComponent["quest"];
+            quest.trackProgress('event', 6, 1);
         },
         forge(entry, key) {       
             if(entry.locked) {
@@ -130,6 +132,8 @@ export default {
             let equipInfo = this.$store.globalComponent["equipInfo"];
             equipInfo.forgeEntry(this.equip, key);
             this.$store.commit('set_player_attribute');
+            let quest = this.$store.globalComponent["quest"];
+            quest.trackProgress('event', 6, 1);
         },
         lock(entry, key) {
             if(entry.locked == undefined)
