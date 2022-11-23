@@ -77,60 +77,60 @@ export const itemEffect = {
                 //     used = this.inv_misc_note_06();
                 //     break;
                 case 'random_equip_normal_0':
-                    equipOption.types = ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove'];
                     equipOption.baseOption = ['STR', 'AGI', 'STA'];
                     used = this.randomEquip(0, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_normal_1':
-                    equipOption.types = ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove'];
                     used = this.randomEquip(1, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_normal_2':
-                    equipOption.types = ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove'];
                     used = this.randomEquip(2, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_normal_3':
-                    equipOption.types = ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove'];
                     used = this.randomEquip(3, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_normal_4':
-                    equipOption.types = ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove'];
                     used = this.randomEquip(4, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_normal_10':
-                    equipOption.types = ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove'];
                     equipOption.baseOption = ['STR', 'AGI', 'STA'];
                     used = this.randomEquip(10, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_elite_1':
-                    equipOption.types = ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove', 'shoulder', 'cape', 'bracer', 'belt'];
                     equipOption.baseOption = ['STR', 'AGI', 'STA'];
+                    equipOption.lv = lv+2;
                     used = this.randomEquip(1, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_elite_3':
-                    equipOption.types = ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove', 'shoulder', 'cape', 'bracer', 'belt'];
+                    equipOption.lv = lv+2;
                     used = this.randomEquip(3, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_elite_4':
-                    equipOption.types = ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove', 'shoulder', 'cape', 'bracer', 'belt'];
+                    equipOption.lv = lv+2;
                     used = this.randomEquip(4, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_4':
+                    equipOption.lv = lv+5;
                     used = this.randomEquip(4, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_5':
+                    equipOption.lv = lv+5;
                     used = this.randomEquip(5, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_6':
+                    equipOption.lv = lv+5;
                     used = this.randomEquip(6, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_7':
+                    equipOption.lv = lv+5;
                     used = this.randomEquip(7, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_8':
+                    equipOption.lv = lv+5;
                     used = this.randomEquip(8, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_9':
+                    equipOption.lv = lv+5;
                     used = this.randomEquip(9, lv, equipOption, toBackpack);
                     break;
                 case 'random_poor_equip':
