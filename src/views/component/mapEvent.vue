@@ -90,6 +90,7 @@ export default {
             type: {normal: '普通', elite: '精英', boss: 'BOSS', chest: '宝藏', mine: '矿物', herb: '草药'},
             mineDifficulty: 0,
             mineReward: [],
+            reqExp: [],
         }
     },
     watch: {
@@ -105,6 +106,7 @@ export default {
     },
     mounted() {
         this.$store.globalComponent.mapEvent = this;
+        this.expReq();
     },
     computed: {
         auto() { return this.$store.state.dungeonInfo.auto;},
@@ -201,7 +203,8 @@ export default {
             this.reduceResetCount(this.selectedDungeon.resetCount);
             if(this.selectedDungeon.count == 0)
                 this.autoBattle(false);
-            this.levelToTarget(target.lv);
+            // this.levelToTarget(target.lv);
+            this.gainExpByLv(target.lv);
             this.$store.commit("set_battle_info", {
                 type: 'win',
                 msg: '战斗结束, 你胜利了'
@@ -231,14 +234,76 @@ export default {
             if((this.selectedDungeon.count == 1 && this.selectedDungeon.resetCount == 0))
                 this.reduceCount();
         },
-        levelToTarget(target) {
-            this.talentLevelToTarget(target);
-            while(this.playerAttr.lv < target)
-                this.levelUp();
+        gainExpByLv(lv) {
+            let exp = 35+lv*5;
+            let tempExp = 0;
+            let playerLv = this.playerAttr.lv;
+            if(lv>playerLv) {
+                // 经验上限125%
+                tempExp = exp*(lv-playerLv)*1.05;
+                exp = Math.min(tempExp, exp*1.25);
+            }
+            else {
+                // 经验下限10%
+                tempExp = exp*(1-(playerLv-lv)*0.1);
+                exp = Math.max(tempExp, exp*0.1);
+            }
+            this.gainExp(exp);
         },
+        gainExp(exp) {
+            exp = Math.round(exp);
+            let playerLv = this.playerAttr.lv;
+            let curExp = this.playerAttr.exp.cur + exp;
+            let reqExp = this.reqExp[playerLv];
+            if(reqExp == undefined) {
+                this.expReq();
+                reqExp = this.reqExp[playerLv];
+            }
+            if(curExp >= reqExp) {
+                this.playerAttr.exp.cur = curExp-reqExp;
+                this.levelUp();
+            }
+            else
+                this.playerAttr.exp.cur = curExp;
+            if(exp > 0) {
+                let element = document.getElementById('expInfo');
+                let node = document.createElement('DIV');
+                let textnode = document.createTextNode("+"+exp+'exp');
+                node.appendChild(textnode);
+                element.appendChild(node); 
+                node.style.position = 'absolute';
+                node.style.width = '10rem';
+                node.style.color = '#aaf';
+                node.style.top = '2.5rem';
+                node.style.right = '3rem';
+                node.style.transition = '1s';
+                node.style.transitionTimingFunction = 'ease-out';
+                setTimeout(()=>{
+                    node.style.top = '1rem';
+                },1);
+                setTimeout(()=>{
+                    element.removeChild(node);
+                },800);
+            }
+        },
+        expReq() {
+            this.reqExp[0] = 0;
+            for(let i=1; i<200; i++) {
+                if(i<10)
+                    this.reqExp[i] = this.reqExp[i-1]+(20+i*10)
+                else
+                    this.reqExp[i] = this.reqExp[i-1]+(35+i*20)
+            }
+        },
+        // levelToTarget(target) {
+        //     this.talentLevelToTarget(target);
+        //     while(this.playerAttr.lv < target)
+        //         this.levelUp();
+        // },
         levelUp() {
             let quest =  this.$store.globalComponent['quest']; 
             this.playerAttr.lv += 1;
+            this.playerAttr.exp.req = this.reqExp[this.playerAttr.lv];
             // this.playerAttr.talentPoint += 1;
             if(this.playerAttr.lv == 10) {
                 let element = document.getElementById('talentTree');
@@ -255,6 +320,8 @@ export default {
                 guild.smith.lv = 1;
                 quest.assignQuest(26);
             }
+            // 如果升级后有溢出经验，继续尝试升级
+            this.gainExp(0);
         },
         talentLevelToTarget(target) {
             while(this.playerAttr.talentLv < target)
