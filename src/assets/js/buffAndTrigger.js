@@ -45,8 +45,14 @@ export const buffAndTrigger = {
                 achievement.set_statistic({gameTime: 1000});
                 let now = Date.now();
                 let playerBuff = this.player.buff;
+                let timeGap = 0;
+                let stackRemain = 0;
                 for(let buff in this.player.timedBuff) {
-                    let curStack = (this.player.timedBuff[buff] - now)/60000;
+                    timeGap = this.getTimeGap(this.player.timedBuff[buff], now);
+                    stackRemain = Math.ceil((this.player.timedBuff[buff] - now)/1000);
+                    if(stackRemain == 120 || stackRemain == 7200)
+                        this.buffSetStack(this.player, this.player, buff, 120);
+                    let curStack = (this.player.timedBuff[buff] - now)/timeGap;
                     if(curStack < 0)
                         this.buffRemoved(this.player, this.player, buff);
                     let diff = Math.floor(playerBuff[buff] - curStack);
@@ -61,7 +67,11 @@ export const buffAndTrigger = {
                 }
                 let enemyBuff = this.enemy.buff;
                 for(let buff in this.enemy.timedBuff) {
-                    let curStack = (this.enemy.timedBuff[buff] - now)/60000;
+                    timeGap = this.getTimeGap(this.enemy.timedBuff[buff], now);
+                    stackRemain = Math.ceil((this.player.timedBuff[buff] - now)/1000);
+                    if(stackRemain == 120 || stackRemain == 7200)
+                        this.buffSetStack(this.player, this.player, buff, 120);
+                    let curStack = (this.enemy.timedBuff[buff] - now)/timeGap;
                     if(curStack < 0)
                         this.buffRemoved(this.enemy, this.enemy, buff);
                     let diff = Math.floor(enemyBuff[buff] - curStack);
@@ -78,6 +88,7 @@ export const buffAndTrigger = {
         },
         // 添加buff
         buffApply(source, target, type, stack=1){
+            let now = Date.now();
             // 优雅
             let talent = 'spell_holy_hopeandgrace';
             if(target.talent[talent] > 0 && this.buffType.statusDebuff[type] != undefined) {
@@ -86,16 +97,17 @@ export const buffAndTrigger = {
                     return;
                 }
             }
-            if(this.buffCateg.timed.indexOf(type) != -1) {
+            if(this.buffCateg.timed.indexOf(type) != -1 || this.buffCateg.timedSecond.indexOf(type) != -1) {
                 if(target.timedBuff[type] == undefined) {
-                    target.timedBuff[type] = Date.now()+stack*1000;
+                    target.timedBuff[type] = now+stack*1000;
                 }
                 else
                     target.timedBuff[type] += stack*1000;
+                let timeGap = this.getTimeGap(target.timedBuff[type], now);
                 if(target.buff[type])
-                    stack = Math.ceil((target.timedBuff[type]-Date.now())/60000)-target.buff[type];
+                    stack = Math.floor((target.timedBuff[type]-now)/timeGap)-target.buff[type];
                 else
-                    stack = Math.ceil((target.timedBuff[type]-Date.now())/60000);
+                    stack = Math.floor((target.timedBuff[type]-now)/timeGap);
             }
             if(this.buffCateg.onTick.indexOf(type) != -1 && target.buff[type] == undefined)
                 this.buffOnTick(source, target, type);
@@ -242,6 +254,17 @@ export const buffAndTrigger = {
                 target.buff = {};
             if(target.buff[type] != undefined) {
                 this.$set(target.buff, type, target.buff[type]-stack)
+                if(target.buff[type] <= 0){
+                    this.buffRemoved(source, target, type);
+                }
+                return true;
+            }
+            return false;
+        },
+        // 更改buff层数，主要为时间类型改动(小时->分钟->秒)
+        buffSetStack(source, target, type, stack=1){
+            if(target.buff[type] != undefined) {
+                this.$set(target.buff, type, stack)
                 if(target.buff[type] <= 0){
                     this.buffRemoved(source, target, type);
                 }
@@ -856,5 +879,14 @@ export const buffAndTrigger = {
             }
             CURHP.showValue = CURHP.value;
         },    
+        // 获取计时buff时间间隔，低于120秒按秒显示，高于120秒低于120分钟按分钟显示，高于120分钟按小时显示
+        getTimeGap(time, now) {
+            let timeGap = 60000;
+            if((time-now)/1000 < 120)
+                timeGap = 1000;
+            else if((time-now)/1000 > 7200)
+                timeGap = 3600000;
+            return timeGap;
+        }
     }
 }

@@ -4,8 +4,10 @@ data() {
         buffCateg: {
             buffer: ['sunder', 'penetrate', 'lifesteal', 'manasteal','charge','deathImmune','void','absorb','hell','focus','arcCharge',
                 'inv_spiritshard_01'],
-            timed: ['minionSlayer','spell_holy_wordfortitude','manaShield','silence','icenova','plague','spell_holy_powerwordbarrier',
-                'spell_nature_skinofearth'],
+            timed: ['minionSlayer','spell_holy_wordfortitude','manaShield','silence','icenova','plague','spell_holy_powerwordbarrier','spell_frost_coldhearted',
+                'spell_fire_sealoffire','spell_holy_innerfire','spell_holy_innerfire2','spell_holy_innerfire3','spell_holy_testoffaith','spell_magic_polymorphpig',
+                'ability_druid_berserk','spell_nature_skinofearth',
+            ],
             onTick: ['burn', 'poison'],
             counter: ['icenova']
         },
