@@ -9,6 +9,9 @@ data() {
             onTick: ['burn', 'poison'],
             counter: ['icenova']
         },
+        buffStatBonus: {
+            spell_holy_wordfortitude: [{type: 'STAP', valType: 'FIX', value: 5, stack:3600, chance: 100, target: 'self', buffGroup: 'spell_holy_wordfortitude'}],
+        },
         buffType: {
             buff: {
                 ATK: {

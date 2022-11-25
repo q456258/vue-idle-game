@@ -133,14 +133,7 @@ export const buffAndTrigger = {
             let percent = [
                 'STRP','AGIP','INTP','STAP','SPIP','ALLP','CRIT','CRITDMG','APCRIT','APCRITDMG','ATKP','DEFP','BLOCKP','APP','APPENP','MRP','HPP','MPP'
             ];
-            if(buffGroup) {
-                for(let i in target.tempStat) {
-                    if(target.tempStat[i].buffGroup == buffGroup) {
-                        // 如果重复添加不可叠加buff，移除原有的，再添加新的
-                        this.statBuffRemove(source, target, target.tempStat[i].type, target.tempStat[i].value, i);
-                    }
-                }
-            }
+            this.removeStatBuffByGroup(source, target, buffGroup);
             let buff = {type: type, value: value, expire: Date.now()+stack*1000, buffGroup: buffGroup};
             target.tempStat.push(buff);
             attr[type].value += value;
@@ -158,9 +151,13 @@ export const buffAndTrigger = {
             }
         },
         setBuff(source, target, type, stack) {
+            let mapEvent = this.$store.globalComponent["mapEvent"];
             let talent = 'spell_arcane_arcane01'
             if(type == 'arcCharge')
                 stack = Math.min(stack, source.talent[talent]);
+            if(this.buffStatBonus[type] != undefined) {
+                mapEvent.applyStatBuff(source, target, this.buffStatBonus[type]);
+            }
             this.$set(target.buff, type, stack);
         },
         // 战斗结束移除buff
@@ -180,8 +177,13 @@ export const buffAndTrigger = {
         },
         // 移除buff
         buffRemoved(source, target, type){
-            if(type == 'spell_holy_wordfortitude')
-                this.$store.commit('set_player_attribute');
+            console.log(this.buffStatBonus[type])
+            if(this.buffStatBonus[type] != undefined) {
+                for(let i in this.buffStatBonus[type]) {
+                    let buffInfo = this.buffStatBonus[type][i];
+                    this.removeStatBuffByGroup(source, target, buffInfo.buffGroup);
+                }
+            }
             let attr = this.player.attribute;
             if(type == 'icenova') {
                 let dmgs = {apDmg: target.buffCounter[type]*0.25};
@@ -224,6 +226,18 @@ export const buffAndTrigger = {
                 attr['CURHP'].value = Math.min(attr['CURHP'].value, attr['MAXHP'].value);
                 attr['CURHP'].showValue = attr['CURHP'].value;
             }
+        },
+        removeStatBuffByGroup(source, target, buffGroup) {
+            if(buffGroup) {
+                for(let i in target.tempStat) {
+                    if(target.tempStat[i].buffGroup == buffGroup) {
+                        // 如果重复添加不可叠加buff，移除原有的，再添加新的
+                        this.statBuffRemove(source, target, target.tempStat[i].type, target.tempStat[i].value, i);
+                        return true;
+                    }
+                }
+            }
+            return false;
         },
         // 减少buff层数
         buffReduce(source, target, type, stack=1){

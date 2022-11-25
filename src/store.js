@@ -534,9 +534,6 @@ export default new Vuex.Store({
             attribute['STAP'].baseVal += attribute['ALLP'].baseVal;
             attribute['SPIP'].baseVal += attribute['ALLP'].baseVal;
 
-            // 真言术·韧
-            if(playerAttribute.buff['spell_holy_wordfortitude'] != undefined)
-                attribute['STAP'].baseVal += 5;
             // 天赋技能加成
             hasPercent.forEach(attr => {
                 if(playerAttribute.talent[attr])
