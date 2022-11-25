@@ -11,6 +11,38 @@ data() {
         },
         buffStatBonus: {
             spell_holy_wordfortitude: [{type: 'STAP', valType: 'FIX', value: 5, stack:3600, chance: 100, target: 'self', buffGroup: 'spell_holy_wordfortitude'}],
+            spell_frost_coldhearted: [
+                {type: 'HASTE', valType: 'FIX', value: 30, stack:20, chance: 100, target: 'self', buffGroup: 'spell_frost_coldhearted'},
+            ],
+            spell_fire_sealoffire:  [
+                {type: 'APCRIT', valType: 'FIX', value: 101, stack:10, chance: 100, target: 'self', buffGroup: 'spell_fire_sealoffire'},
+            ],
+            spell_holy_innerfire: [
+                {type: 'ATK', valType: 'ATK', value: 0.1, stack:30, chance: 100, target: 'self', buffGroup: 'spell_holy_innerfire_atk'},
+                {type: 'AP', valType: 'AP', value: 0.1, stack:30, chance: 100, target: 'self', buffGroup: 'spell_holy_innerfire_ap'},
+                {type: 'DEF', valType: 'FIX', value: 500, stack:30, chance: 100, target: 'self', buffGroup: 'spell_holy_innerfire_def'},
+            ],
+            spell_holy_innerfire2: [
+                {type: 'ATK', valType: 'ATK', value: 0.12, stack:30, chance: 100, target: 'self', buffGroup: 'spell_holy_innerfire_atk'},
+                {type: 'AP', valType: 'AP', value: 0.12, stack:30, chance: 100, target: 'self', buffGroup: 'spell_holy_innerfire_ap'},
+                {type: 'DEF', valType: 'FIX', value: 750, stack:30, chance: 100, target: 'self', buffGroup: 'spell_holy_innerfire_def'},
+            ],
+            spell_holy_innerfire3: [
+                {type: 'ATK', valType: 'ATK', value: 0.14, stack:30, chance: 100, target: 'self', buffGroup: 'spell_holy_innerfire_atk'},
+                {type: 'AP', valType: 'AP', value: 0.14, stack:30, chance: 100, target: 'self', buffGroup: 'spell_holy_innerfire_ap'},
+                {type: 'DEF', valType: 'FIX', value: 1000, stack:30, chance: 100, target: 'self', buffGroup: 'spell_holy_innerfire_def'},
+            ],
+            spell_holy_testoffaith: [
+                {type: 'MAXHP', valType: 'MAXHP', value: 0.25, stack:30, chance: 100, target: 'self', buffGroup: 'spell_holy_testoffaith'},
+            ],
+            spell_magic_polymorphpig: [
+                {type: 'ATK', valType: 'ATK', value: 0.2, stack:20, chance: 100, target: 'self', buffGroup: 'spell_magic_polymorphpig_atk'},
+                {type: 'CRIT', valType: 'FIX', value: 20, stack:20, chance: 100, target: 'self', buffGroup: 'spell_magic_polymorphpig_crit'},
+            ],
+            ability_druid_berserk: [
+                {type: 'ATK', valType: 'ATK', value: 0.5, stack:6, chance: 100, target: 'self', buffGroup: 'ability_druid_berserk_atk'},
+                {type: 'CRIT', valType: 'FIX', value: 50, stack:6, chance: 100, target: 'self', buffGroup: 'ability_druid_berserk_crit'},
+            ],
         },
         buffType: {
             buff: {
@@ -153,7 +185,47 @@ data() {
                     timed: true,
                     iconSrc: "./icons/spell/ability_racial_avatar.jpg",
                     desc: "天神下凡【分钟】: 最终伤害提升20%"
-                }
+                },
+                spell_magic_polymorphpig: {
+                    timed: true,
+                    iconSrc: "./icons/spell/neutral/spell_magic_polymorphpig.jpg",
+                    desc: '提升20%攻击力，20%暴击率，持续20秒',
+                }, 
+                ability_druid_berserk: {
+                    timed: true,
+                    iconSrc: "./icons/spell/neutral/ability_druid_berserk.jpg",
+                    desc: "提升50%攻击力，50%暴击率，持续6秒"
+                },
+                spell_frost_coldhearted: {
+                    timed: true,
+                    iconSrc: "./icons/spell/mage/spell_frost_coldhearted.jpg",
+                    desc: '加快你的施法速度，使你的急速提高30，持续20秒',
+                },
+                spell_fire_sealoffire: {
+                    timed: true,
+                    iconSrc: "./icons/spell/mage/spell_fire_sealoffire.jpg",
+                    desc: '将自身包裹在烈焰之中，短时间内使你的法术爆击几率提高100%，持续10秒',
+                },            
+                spell_holy_innerfire: {
+                    timed: true,
+                    iconSrc: "./icons/spell/priest/spell_holy_innerfire.jpg",
+                    desc: '提升10%攻击力、法术强度和500护甲，持续30秒',
+                },            
+                spell_holy_innerfire2: {
+                    timed: true,
+                    iconSrc: "./icons/spell/priest/spell_holy_innerfire.jpg",
+                    desc: '提升12%攻击力、法术强度和750护甲，持续30秒',
+                },            
+                spell_holy_innerfire3: {
+                    timed: true,
+                    iconSrc: "./icons/spell/priest/spell_holy_innerfire.jpg",
+                    desc: '提升14%攻击力、法术强度和1000护甲，持续30秒',
+                },
+                spell_holy_testoffaith: {
+                    timed: true,
+                    iconSrc: "./icons/spell/priest/spell_holy_testoffaith.jpg",
+                    desc: '使最大生命值提高25%，持续10 sec。',
+                },
             },
             statusDebuff: {
                 stun: {
