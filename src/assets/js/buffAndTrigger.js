@@ -78,8 +78,6 @@ export const buffAndTrigger = {
         },
         // 添加buff
         buffApply(source, target, type, stack=1){
-            if(type == 'spell_holy_wordfortitude')
-                this.$store.commit('set_player_attribute');
             // 优雅
             let talent = 'spell_holy_hopeandgrace';
             if(target.talent[talent] > 0 && this.buffType.statusDebuff[type] != undefined) {
@@ -177,7 +175,6 @@ export const buffAndTrigger = {
         },
         // 移除buff
         buffRemoved(source, target, type){
-            console.log(this.buffStatBonus[type])
             if(this.buffStatBonus[type] != undefined) {
                 for(let i in this.buffStatBonus[type]) {
                     let buffInfo = this.buffStatBonus[type][i];
