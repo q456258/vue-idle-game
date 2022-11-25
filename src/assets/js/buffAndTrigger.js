@@ -123,7 +123,7 @@ export const buffAndTrigger = {
             }
         },
         // 添加buff
-        statBuffApply(source, target, type, value, stack=1) {
+        statBuffApply(source, target, type, value, stack=1, buffGroup=false) {
             if(isNaN(value)) {
                 console.trace();
                 console.log("属性buff传入无效数字");
@@ -133,10 +133,17 @@ export const buffAndTrigger = {
             let percent = [
                 'STRP','AGIP','INTP','STAP','SPIP','ALLP','CRIT','CRITDMG','APCRIT','APCRITDMG','ATKP','DEFP','BLOCKP','APP','APPENP','MRP','HPP','MPP'
             ];
-            let buff = {type: type, value: value, expire: Date.now()+stack*1000};
+            if(buffGroup) {
+                for(let i in target.tempStat) {
+                    if(target.tempStat[i].buffGroup == buffGroup) {
+                        // 如果重复添加不可叠加buff，移除原有的，再添加新的
+                        this.statBuffRemove(source, target, target.tempStat[i].type, target.tempStat[i].value, i);
+                    }
+                }
+            }
+            let buff = {type: type, value: value, expire: Date.now()+stack*1000, buffGroup: buffGroup};
             target.tempStat.push(buff);
             attr[type].value += value;
-            attr[type].showValue = attr[type].value;
 
             if(percent.indexOf(type) > -1)
                 attr[type].showValue = attr[type].value + '%';

@@ -365,8 +365,8 @@ export const spellEffect = {
             // 护盾戒律
             let talent = 'spell_holy_divineprotection';
             if(source.talent[talent] > 0 && index.get_dmg(dmgs, 'heal') > 0 && target.attribute.CURHP.value<(target.attribute.MAXHP.value*(0.05+0.15*source.talent[talent]))) {
-                index.statBuffApply(source, source, 'AP', source.attribute.AP.value*0.05, 10);
-                index.statBuffApply(source, source, 'HEAL', source.attribute.HEAL.value*0.05, 10);
+                index.statBuffApply(source, source, 'AP', source.attribute.AP.value*0.05, 10, 'spell_holy_divineprotection_ap');
+                index.statBuffApply(source, source, 'HEAL', source.attribute.HEAL.value*0.05, 10, 'spell_holy_divineprotection_heal');
             }
         },
         applySpellHealBonus(spell, source, heal) {
@@ -577,9 +577,9 @@ export const spellEffect = {
                         value = statBuffList[i].valType == 'FIX' ? statBuffList[i].value : target.attribute[statBuffList[i].valType].value*statBuffList[i].value;
 
                     if(statBuffList[i].target == 'self')
-                        index.statBuffApply(source, source, statBuffList[i].type, value, statBuffList[i].stack);
+                        index.statBuffApply(source, source, statBuffList[i].type, value, statBuffList[i].stack, statBuffList[i].buffGroup);
                     else
-                        index.statBuffApply(source, target, statBuffList[i].type, value, statBuffList[i].stack);
+                        index.statBuffApply(source, target, statBuffList[i].type, value, statBuffList[i].stack, statBuffList[i].buffGroup);
                 }
             }
         },

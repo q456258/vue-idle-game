@@ -513,7 +513,7 @@ data() {
                 level: [{
                         des: '加快你的施法速度，使你的急速提高30，持续20秒',
                         statBuff: [
-                            {type: 'HASTE', valType: 'FIX', value: 30, stack:20, chance: 100, target: 'self'},
+                            {type: 'HASTE', valType: 'FIX', value: 30, stack:20, chance: 100, target: 'self', buffGroup: 'spell_frost_coldhearted'},
                         ],
                         cost: { MP: 100, },
                     }
@@ -584,7 +584,7 @@ data() {
                 level: [{
                         des: '将自身包裹在烈焰之中，短时间内使你的法术爆击几率提高100%，持续10秒',
                         statBuff: [
-                            {type: 'APCRIT', valType: 'FIX', value: 101, stack:10, chance: 100, target: 'self'},
+                            {type: 'APCRIT', valType: 'FIX', value: 101, stack:10, chance: 100, target: 'self', buffGroup: 'spell_fire_sealoffire'},
                         ],
                         cost: { MP: 200, },
                     }
@@ -661,25 +661,25 @@ data() {
                 level: [{
                         des: '提升10%攻击力、法术强度和500护甲，持续30秒',
                         statBuff: [
-                            {type: 'ATK', valType: 'ATK', value: 0.1, stack:30, chance: 100, target: 'self'},
-                            {type: 'AP', valType: 'AP', value: 0.1, stack:30, chance: 100, target: 'self'},
-                            {type: 'DEF', valType: 'FIX', value: 500, stack:30, chance: 100, target: 'self'},
+                            {type: 'ATK', valType: 'ATK', value: 0.1, stack:30, chance: 100, target: 'self', buffGroup: 'spell_holy_innerfire_atk'},
+                            {type: 'AP', valType: 'AP', value: 0.1, stack:30, chance: 100, target: 'self', buffGroup: 'spell_holy_innerfire_ap'},
+                            {type: 'DEF', valType: 'FIX', value: 500, stack:30, chance: 100, target: 'self', buffGroup: 'spell_holy_innerfire_def'},
                         ],
                         cost: { MP: 20, },
                     }, {
                         des: '提升12%攻击力、法术强度和750护甲，持续30秒',
                         statBuff: [
-                            {type: 'ATK', valType: 'ATK', value: 0.12, stack:30, chance: 100, target: 'self'},
-                            {type: 'AP', valType: 'AP', value: 0.12, stack:30, chance: 100, target: 'self'},
-                            {type: 'DEF', valType: 'FIX', value: 750, stack:30, chance: 100, target: 'self'},
+                            {type: 'ATK', valType: 'ATK', value: 0.12, stack:30, chance: 100, target: 'self', buffGroup: 'spell_holy_innerfire_atk'},
+                            {type: 'AP', valType: 'AP', value: 0.12, stack:30, chance: 100, target: 'self', buffGroup: 'spell_holy_innerfire_ap'},
+                            {type: 'DEF', valType: 'FIX', value: 750, stack:30, chance: 100, target: 'self', buffGroup: 'spell_holy_innerfire_def'},
                         ],
                         cost: { MP: 30, },
                     }, {
                         des: '提升14%攻击力、法术强度和1000护甲，持续30秒',
                         statBuff: [
-                            {type: 'ATK', valType: 'ATK', value: 0.14, stack:30, chance: 100, target: 'self'},
-                            {type: 'AP', valType: 'AP', value: 0.14, stack:30, chance: 100, target: 'self'},
-                            {type: 'DEF', valType: 'FIX', value: 1000, stack:30, chance: 100, target: 'self'},
+                            {type: 'ATK', valType: 'ATK', value: 0.14, stack:30, chance: 100, target: 'self', buffGroup: 'spell_holy_innerfire_atk'},
+                            {type: 'AP', valType: 'AP', value: 0.14, stack:30, chance: 100, target: 'self', buffGroup: 'spell_holy_innerfire_ap'},
+                            {type: 'DEF', valType: 'FIX', value: 1000, stack:30, chance: 100, target: 'self', buffGroup: 'spell_holy_innerfire_def'},
                         ],
                         cost: { MP: 40, },
                     }
@@ -695,7 +695,7 @@ data() {
                         des: '使最大生命值提高25%，持续10 sec。同时立即为你恢复同样数量的生命值',
                         heal: { MAXHP: 0.25, },
                         statBuff: [
-                            {type: 'MAXHP', valType: 'MAXHP', value: 0.25, stack:30, chance: 100, target: 'self'},
+                            {type: 'MAXHP', valType: 'MAXHP', value: 0.25, stack:30, chance: 100, target: 'self', buffGroup: 'spell_holy_testoffaith'},
                         ],
                         cost: { MP: 200, },
                     }
@@ -922,8 +922,8 @@ data() {
                 level: [{
                         des: '提升20%攻击力，20%暴击率，持续20秒',
                         statBuff: [
-                            {type: 'ATK', valType: 'ATK', value: 0.2, stack:20, chance: 100, target: 'self'},
-                            {type: 'CRIT', valType: 'FIX', value: 20, stack:20, chance: 100, target: 'self'},
+                            {type: 'ATK', valType: 'ATK', value: 0.2, stack:20, chance: 100, target: 'self', buffGroup: 'spell_magic_polymorphpig_atk'},
+                            {type: 'CRIT', valType: 'FIX', value: 20, stack:20, chance: 100, target: 'self', buffGroup: 'spell_magic_polymorphpig_crit'},
                         ],
                         cost: { MP: 20, },
                     }
@@ -946,8 +946,8 @@ data() {
                 level: [{
                         des: '提升50%攻击力，50%暴击率，持续6秒',
                         statBuff: [
-                            {type: 'ATK', valType: 'ATK', value: 0.5, stack:6, chance: 100, target: 'self'},
-                            {type: 'CRIT', valType: 'FIX', value: 50, stack:6, chance: 100, target: 'self'},
+                            {type: 'ATK', valType: 'ATK', value: 0.5, stack:6, chance: 100, target: 'self', buffGroup: 'ability_druid_berserk_atk'},
+                            {type: 'CRIT', valType: 'FIX', value: 50, stack:6, chance: 100, target: 'self', buffGroup: 'ability_druid_berserk_crit'},
                         ],
                         cost: { MP: 20, },
                     }
@@ -960,7 +960,7 @@ data() {
                         des: '造成攻击力*0.8点伤害，使敌人的护甲降低50%，持续10秒',
                         adDmg: { ATK: 0.8 },
                         statBuff: [
-                            {type: 'DEF', valType: 'DEF', value: -0.5, stack:10, chance: 100, target: 'enemy', valSource: 'enemy'},
+                            {type: 'DEF', valType: 'DEF', value: -0.5, stack:10, chance: 100, target: 'enemy', valSource: 'enemy', buffGroup: 'spell_shadow_vampiricaura'},
                         ],
                         cost: { MP: 20, },
                     }
