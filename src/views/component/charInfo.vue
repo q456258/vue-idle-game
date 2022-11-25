@@ -98,8 +98,7 @@
                             <span v-if="attribute.STRP.value != 0">{{' +' + attribute.STRP.showValue}}</span>
                             <span class="info" v-if="attribute.ALL.value>0">
                                 <br>
-                                全属性: {{attribute.ALL.baseVal}}
-                                <span v-if="attribute.ALLP.value>0">{{' +'+attribute.ALLP.showValue}}</span>
+                                全属性: {{attribute.ALL.value}}
                             </span>
                         </p>
                         <p class="info">* 每点提升属性
@@ -127,15 +126,14 @@
                             <span v-if="attribute.AGIP.value != 0">{{' +' + attribute.AGIP.showValue}}</span>
                             <span class="info" v-if="attribute.ALL.value>0">
                                 <br>
-                                全属性: {{attribute.ALL.baseVal}}
-                                <span v-if="attribute.ALLP.value>0">{{' +'+attribute.ALLP.showValue}}</span>
+                                全属性: {{attribute.ALL.value}}
                             </span>
                         </p>
                         <p class="info">* 每点提升属性
                             <br>
                             +2攻击
                             <br>
-                            +0.2%暴击率
+                            +0.1%暴击率
                         </p>
                     </template>
                 </cTooltip>
@@ -156,8 +154,7 @@
                             <span v-if="attribute.STAP.value != 0">{{' +' + attribute.STAP.showValue}}</span>
                             <span class="info" v-if="attribute.ALL.value>0">
                                 <br>
-                                全属性: {{attribute.ALL.baseVal}}
-                                <span v-if="attribute.ALLP.value>0">{{' +'+attribute.ALLP.showValue}}</span>
+                                全属性: {{attribute.ALL.value}}
                             </span>
                         </p>
                         <p class="info">* 每点提升属性
@@ -185,8 +182,7 @@
                             <span v-if="attribute.INTP.value != 0">{{' +' + attribute.INTP.showValue}}</span>
                             <span class="info" v-if="attribute.ALL.value>0">
                                 <br>
-                                全属性: {{attribute.ALL.baseVal}}
-                                <span v-if="attribute.ALLP.value>0">{{' +'+attribute.ALLP.showValue}}</span>
+                                全属性: {{attribute.ALL.value}}
                             </span>
                         </p>
                         <p class="info">* 每点提升属性
@@ -214,8 +210,7 @@
                             <span v-if="attribute.SPIP.value != 0">{{' +' + attribute.SPIP.showValue}}</span>
                             <span class="info" v-if="attribute.ALL.value>0">
                                 <br>
-                                全属性: {{attribute.ALL.baseVal}}
-                                <span v-if="attribute.ALLP.value>0">{{' +'+attribute.ALLP.showValue}}</span>
+                                全属性: {{attribute.ALL.value}}
                             </span>
                         </p>
                         <p class="info">* 每点提升属性

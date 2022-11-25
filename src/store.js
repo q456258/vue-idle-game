@@ -487,7 +487,7 @@ export default new Vuex.Store({
             ];
             let advancedAttr = {
                 STR: { DEF: 3, BLOCK: 0.5}, 
-                AGI: { ATK: 2, CRIT: 0.2}, 
+                AGI: { ATK: 2, CRIT: 0.1}, 
                 INT: { AP: 2, APCRIT: 0.1}, 
                 STA: { HP: 15}, 
                 SPI: { MP: 25}, 
@@ -537,7 +537,7 @@ export default new Vuex.Store({
             // 真言术·韧
             if(playerAttribute.buff['spell_holy_wordfortitude'] != undefined)
                 attribute['STAP'].baseVal += 5;
-
+            // 天赋技能加成
             hasPercent.forEach(attr => {
                 if(playerAttribute.talent[attr])
                     attribute[attr+'P'].baseVal += playerAttribute.talent[attr]*2;
@@ -553,6 +553,9 @@ export default new Vuex.Store({
                 else
                     attribute[attr].value = attribute[attr].baseVal;
             });
+            //等级加成
+            attribute['ALL'].value += playerAttribute.lv;
+
             attribute['STR'].value += attribute['ALL'].value;
             attribute['AGI'].value += attribute['ALL'].value;
             attribute['INT'].value += attribute['ALL'].value;
@@ -563,17 +566,17 @@ export default new Vuex.Store({
                     attribute[attr].baseVal += Math.round(advancedAttr[adv][attr]*attribute[adv].value*100)/100;
                 }
             }
-
-            // buff附加的属性，不享受任何加成
-            tempStat.map(stat => {
-                attribute[stat.type].value += stat.value;
-            });
             
             normalAttributes.forEach(attr => {
                 if(hasPercent.indexOf(attr) > -1)
                     attribute[attr].value = Math.round(attribute[attr].baseVal*(1+attribute[attr+'P'].baseVal/100));
                 else
                     attribute[attr].value = attribute[attr].baseVal;
+            });
+
+            // buff附加的属性，不享受任何加成
+            tempStat.map(stat => {
+                attribute[stat.type].value += stat.value;
             });
 
             for(let key in attribute) {
