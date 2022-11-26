@@ -226,7 +226,7 @@ data() {
                 spell_holy_testoffaith: {
                     timed: true,
                     iconSrc: "./icons/spell/priest/spell_holy_testoffaith.jpg",
-                    desc: '使最大生命值提高25%，持续10 sec。',
+                    desc: '使最大生命值提高25%，持续10秒。',
                 },
             },
             statusDebuff: {

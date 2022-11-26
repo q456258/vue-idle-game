@@ -1187,7 +1187,7 @@ export const talentConfig = {
                 spell_holy_testoffaith:{
                     name: '【技能】绝望祷言',
                     desc: ['',
-                        '使最大生命值提高25%，持续10 sec。同时立即为你恢复同样数量的生命值'
+                        '使最大生命值提高25%，持续10秒。同时立即为你恢复同样数量的生命值'
                     ],
                     type: 'spell_holy_testoffaith',
                     iconSrc: './icons/spell/priest/spell_holy_testoffaith.jpg',

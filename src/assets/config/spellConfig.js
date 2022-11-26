@@ -676,7 +676,7 @@ data() {
                 iconSrc: "./icons/spell/priest/spell_holy_testoffaith.jpg",
                 quality: 1,
                 level: [{
-                        des: '使最大生命值提高25%，持续10 sec。同时立即为你恢复同样数量的生命值',
+                        des: '使最大生命值提高25%，持续10秒。同时立即为你恢复同样数量的生命值',
                         heal: { MAXHP: 0.25, },
                         effect: {spell_holy_testoffaith: {stack: 30, chance: 100, target: 'self'},},
                         cost: { MP: 200, },
