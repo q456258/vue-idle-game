@@ -311,14 +311,9 @@ export default {
                 quest.assignQuest(15);
                 quest.assignQuest(16);
             }
-            if(this.playerAttr.lv == 20) {
+            if(this.playerAttr.lv == 15) {
                 let element = document.getElementById('guild');
                 element.classList.add('glow');
-                let guild = this.$store.state.guildAttribute;
-                guild.guild.lv = 1;
-                guild.shop.lv = 1;
-                guild.smith.lv = 1;
-                quest.assignQuest(26);
             }
             // 如果升级后有溢出经验，继续尝试升级
             this.gainExp(0);

@@ -549,6 +549,19 @@ export const itemConfig = {
                     cost: 99990000,
                     maxStack: 20
                 },
+                inv_misc_bone_06: {
+                    quality: 1,
+                    description: {
+                        name: '阿迦玛的牙',
+                        category: '材料',
+                        desc: '击败阿迦玛的证明，创建公会时会消耗。随着更多公会被创建，阿迦玛数量也逐渐稀少。',
+                        iconSrc: "./icons/item/inv_misc_bone_06.jpg",
+                    },
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
+                },
                 racial_dwarf_findtreasure: {
                     quality: 3,
                     description: {

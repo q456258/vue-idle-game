@@ -8,6 +8,8 @@ export const questConfig = {
                 4: '升级天赋',
                 5: '强化装备',
                 6: '锻造装备',
+                7: '切换地图',
+                8: '使用药剂',
             },
             rewardType: {gold: '金币', guildReputation: '公会名望'},
             questCategory: {
@@ -30,7 +32,7 @@ export const questConfig = {
                     target: '在晴风村杀1只0级的小鸡',
                     lv: 1,
                     reqs: [['slain', 0, 1]],
-                    reward: [['exp', 100]],
+                    reward: [['exp', 50]],
                     rewardItem: [['random_equip_normal_0', 1, 100, {types: ['helmet']}]],
                     successor: [2, 7],
                     forfeit: false
@@ -44,7 +46,7 @@ export const questConfig = {
                     reqs: [['event', 1, 1]],
                     reward: [['exp', 50]],
                     rewardItem: [['inv_alchemy_80_potion01red', 20, 100]],
-                    successor: [],
+                    successor: [10],
                     forfeit: false
                 },
                 2: {
@@ -54,7 +56,7 @@ export const questConfig = {
                     target: '击败训练假人',
                     lv: 2,
                     reqs: [['slain', 1, 1]],
-                    reward: [['exp', 200]],
+                    reward: [['exp', 100]],
                     rewardItem: [['random_equip_normal_0', 1, 100, {types: ['necklace']}]],
                     successor: [3, 4],
                     forfeit: false
@@ -66,7 +68,7 @@ export const questConfig = {
                     target: '击败训练假人精英',
                     lv: 5,
                     reqs: [['slain', 3, 1]],
-                    reward: [['exp', 600]],
+                    reward: [['exp', 500]],
                     rewardItem: [['random_equip_elite_1', 1, 100, {types: ['shoulder']}]],
                     successor: [],
                     forfeit: false
@@ -78,7 +80,7 @@ export const questConfig = {
                     target: '击败高级训练假人',
                     lv: 5,
                     reqs: [['slain', 2, 1]],
-                    reward: [['exp', 300]],
+                    reward: [['exp', 400]],
                     rewardItem: [['random_equip_normal_0', 1, 100, {types: ['ring']}]],
                     successor: [5],
                     forfeit: false
@@ -90,9 +92,9 @@ export const questConfig = {
                     target: '击败高级训练假人精英',
                     lv: 10,
                     reqs: [['slain', 4, 1]],
-                    reward: [['exp', 800]],
+                    reward: [['exp', 1000]],
                     rewardItem: [['random_equip_elite_1', 1, 100, {types: ['glove']}]],
-                    successor: [6, 11],
+                    successor: [6, 9, 11],
                     forfeit: false
                 },
                 6: {
@@ -102,7 +104,7 @@ export const questConfig = {
                     target: '击败导师',
                     lv: 10,
                     reqs: [['slain', 5, 1]],
-                    reward: [['exp', 2000]],
+                    reward: [['exp', 4000]],
                     rewardItem: [['unique_equip', 'inv_sword_05', 1, 100], ['unique_equip', 'inv_wand_06', 1, 100]],
                     successor: [],
                     forfeit: false
@@ -114,7 +116,7 @@ export const questConfig = {
                     target: '穿戴一件装备',
                     lv: 1,
                     reqs: [['event', 2, 1]],
-                    reward: [['exp', 200]],
+                    reward: [['exp', 100]],
                     rewardItem: [['inv_alchemy_80_potion01red', 20, 100]],
                     successor: [8],
                     forfeit: false
@@ -126,8 +128,32 @@ export const questConfig = {
                     target: '保存一次游戏进度',
                     lv: 1,
                     reqs: [['event', 3, 1]],
-                    reward: [['exp', 300]],
+                    reward: [['exp', 200]],
                     rewardItem: [['inv_alchemy_80_potion01red', 20, 100]],
+                    successor: [],
+                    forfeit: false
+                },
+                9: {
+                    name: '切换地区',
+                    category: 'newbie',
+                    desc: '点击正中间重置地图右边的【晴风村(0-10级)】切换当前地图',
+                    target: '切换一次地区',
+                    lv: 10,
+                    reqs: [['event', 7, 1]],
+                    reward: [['exp', 500]],
+                    rewardItem: [['inv_alchemy_80_potion01red', 20, 100], ['inv_alchemy_80_potion01blue', 20, 100]],
+                    successor: [],
+                    forfeit: false
+                },
+                10: {
+                    name: '使用药剂',
+                    category: 'newbie',
+                    desc: '打开背包，在上方切换至【消耗】，在战斗外使用一次特效生命药水恢复生命值吧！',
+                    target: '使用一次药剂',
+                    lv: 1,
+                    reqs: [['event', 8, 1]],
+                    reward: [['exp', 200]],
+                    rewardItem: [['inv_alchemy_80_potion01red', 20, 100], ['inv_alchemy_80_potion01blue', 20, 100]],
                     successor: [],
                     forfeit: false
                 },
@@ -138,8 +164,32 @@ export const questConfig = {
                     target: '击败杂斑野猪',
                     lv: 10,
                     reqs: [['slain', 11, 1]],
-                    reward: [['exp', 500]],
+                    reward: [['exp', 800]],
                     rewardItem: [['random_equip_normal_0', 1, 100]],
+                    successor: [12],
+                    forfeit: false
+                },
+                12: {
+                    name: '击败杂斑野猪精英',
+                    category: 'newbie',
+                    desc: '接下来击败一只杂斑野猪精英吧，克罗莫丹11-15级，图标为银色骷髅头的怪物为杂斑野猪精英。精英比起普通怪物会多出一个技能，杂斑野猪精英的技能是愤怒之气，可提升20%攻击力，20%暴击率，持续20秒',
+                    target: '击败杂斑野猪精英',
+                    lv: 15,
+                    reqs: [['slain', 13, 1]],
+                    reward: [['exp', 3000]],
+                    rewardItem: [['random_equip_elite_1', 1, 100]],
+                    successor: [13],
+                    forfeit: false
+                },
+                13: {
+                    name: '实力的证明',
+                    category: 'newbie',
+                    desc: '击败阿迦玛可获得创建公会的资格。',
+                    target: '击败阿迦玛',
+                    lv: 10,
+                    reqs: [['slain', 15, 1]],
+                    reward: [['exp', 10000]],
+                    rewardItem: [['inv_misc_bone_06', 1, 100]],
                     successor: [],
                     forfeit: false
                 },
@@ -162,7 +212,7 @@ export const questConfig = {
                     target: '提升一次装备强化等级',
                     lv: 10,
                     reqs: [['event', 5, 1]],
-                    reward: [['exp', 300]],
+                    reward: [['exp', 400]],
                     rewardItem: [['inv_misc_gem_diamond_04', 5, 100]],
                     successor: [],
                     forfeit: false

@@ -405,6 +405,8 @@ export const itemEffect = {
                     used = this.hpPotion(75, 0, 0, 'maxPercent', itemInfo.description.name) | this.mpPotion(75, 0, 0, 'maxPercent', itemInfo.description.name);
                     break;
             }
+            let quest = this.$store.globalComponent["quest"];
+            quest.trackProgress('event', 8, 1);
             return used;
         },
         inBattle() {

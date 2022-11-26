@@ -22,7 +22,7 @@
         <a class="nav-link active" id="charInfo" @click="switchTab('charInfo')">角色信息</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" :class="{active: displayPage=='guild' }" id="guild" @click="switchTab('guild')" v-show="playerLv >= 20">公会</a>
+        <a class="nav-link" :class="{active: displayPage=='guild' }" id="guild" @click="switchTab('guild')" v-show="playerLv >= 15">公会</a>
       </li>
       <!-- <li class="nav-item">
         <a class="nav-link" :class="{active: displayPage=='guildMember' }" id="guildMember" @click="switchTab('guildMember')" v-show="playerLv >= 20">公会成员</a>
@@ -623,6 +623,8 @@ export default {
       }, 1000);
     },
     setSelectedZone(e) {
+      let quest = this.$store.globalComponent["quest"];
+      quest.trackProgress('event', 7, 1);
       this.switchZone('advanture');
       let zone = document.getElementsByClassName('zone')[0];
       let value = e.target.value;

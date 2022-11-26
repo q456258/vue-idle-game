@@ -2,10 +2,10 @@
     <div class="charInfo">
         <div id="rename" v-if="player.name=='无名'">
             <div class="container" >
-                <div class="title">创建角色</div>
-                <div class="content">
-                    <input id="name" placeholder="请输入您的角色名" type="text" @input="updateName"/>  
-                    <div id="nameAlert"></div>
+                <div class="nameTitle">创建角色</div>
+                <div class="nameContent">
+                    <input id="name" class="nameAnime" placeholder="请输入您的角色名" type="text" @input="updateName"/>  
+                    <div id="charNameAlert" class="alert"></div>
                     <button class="confirm" @click="confirmName">确认
                     </button>
                 </div>
@@ -698,7 +698,7 @@ export default {
             }
         },
         checkValidity(name) {
-            let alert = document.getElementById("nameAlert");
+            let alert = document.getElementById("charNameAlert");
             if(name.length < 1 || name.length > 8) {
                 alert.innerHTML = "名字限定在1-8个字符之间, 别一天到晚整点阴间活";
                 return false;
@@ -845,99 +845,6 @@ export default {
             background-color: rgba(15, 15, 15, 0.822);
             // border-radius: 2rem;
             box-shadow:  0 0 5px 1px rgba(255, 255, 255, 0.3);
-
-        .title {
-            font-family: "Times New Roman", Times, serif;
-            width: 100%;
-            text-align: center;
-            font-size: 1.5rem;;
-            background: linear-gradient(90deg, rgb(20, 20, 20) 0%, rgb(70, 70, 70) 50%, rgb(20, 20, 20) 100%);
-        }
-        .content {
-            margin-top: 2rem;
-            #nameAlert {
-                color: red;
-            }
-        }
-        #name {
-            width: 70%;
-            padding: 10px 5px;
-            margin: 10px 0;
-            border-top: 0;
-            border-left: 2px solid #57AAB4;
-            border-right:0;
-            border-bottom: 2px solid #57AAB4;
-            outline: none;
-            background: transparent; 
-            color: rgb(234, 234, 235);
-            font-size: 15px;
-            transition: 0.5s;
-        }
-        #name:focus{
-            border-left: 2px solid transparent;
-
-            border-bottom: 2px solid transparent;
-            animation: animINP 5s linear infinite,animBTN 5s linear infinite;;
-        }
-        .confirm {
-            position: relative;
-            display: block;
-            padding: auto;
-            margin: auto;
-            margin-top: 1rem;
-            color: #62BBC1;
-            height: 3rem;
-            width: 6rem;
-            background-color:#333;
-            font-size: 1.5rem;
-            text-align: center;
-            text-decoration: none;
-            border: 1px solid #868686;
-            overflow: hidden;
-            transition: color 150ms ease-in-out 150ms, border-color 300ms ease-out, box-shadow 300ms ease-in-out;
-            z-index: 1;
-            
-            &:after {
-                content: "";
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                height: 100%;
-                background-color: darken(#868686, 45%);
-                z-index: -1;
-                transform: scaleX(0);
-                transition: transform 300ms ease-out 200ms;
-            }
-            
-            &:hover {
-                color: rgb(160, 160, 160);
-                border-color: lighten(#868686, 20%);
-                box-shadow: 0 0 16px rgba(255, 255, 255, 0.1);
-                
-                &:after {
-                    transform: scaleX(1);
-                    transform-origin: 50% 50%;
-                    transition: transform 300ms ease-out;
-                }
-            }
-        }
-        @keyframes animBTN {
-            0%{
-                box-shadow:  0 0 10px 9px rgba(3,169,244,0.3);
-            }
-            33%{
-                box-shadow:  0 0 10px 9px rgba(244,65,165,0.3);
-                
-            }
-            66.9%{
-                box-shadow:  0 0 10px 9px rgba(255,235,59,0.3);
-                
-            }
-            100%{
-                box-shadow:  0 0 10px 9px rgba(3,169,244,0.3);
-            }
-        }
     }
 }
 .user-status {

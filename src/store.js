@@ -176,6 +176,7 @@ export default new Vuex.Store({
             },
         },
         guildAttribute: {
+            name: null,
             gold: 0,
             reputation: 0,
             guild: {lv: 0},

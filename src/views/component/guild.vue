@@ -19,26 +19,39 @@
     矿场
     招募所
 -->
-<div class="guild">
-    <div id="resource">
-        金币:<currency :amount="guild.gold"></currency> <br>
-        公会名望: {{guild.reputation}}<img class="guildReputationIcon">
-    </div>
-    <div id="building">
-        <div v-for="(v, k) in guildBuildingOptions" :key="k">
-            <cTooltip :placement="'bottom'" v-if="guild[v].lv>0">
-                <template v-slot:content>
-                    <a :id="v+'Btn'" class='glowBtn' @click="switchTab($event, v)">{{guildBuildingName[v]+" "+guild[v].lv}}</a>
-                </template>
-                <template v-slot:tip>
-                    <div v-for="(v2, k2) in guildBuildingDesc[v]" :key="k2">
-                        <span v-if="guildBuildingDesc[v][k2]!=''" :style="{color:guild[v].lv<k2?'#888':''}">{{k2+"级: "+guildBuildingDesc[v][k2]}}</span>
-                    </div>
-                </template>
-            </cTooltip>
+<div class="guild">{{guild.name}}
+    <div v-if="guild.name==null" id="createGuild">
+        <div class="nameTitle">创建公会</div>
+        <div class="nameContent">
+            <input id="guildName" class="nameAnime" placeholder="请输入您的公会名" type="text" @input="updateName"/>  
+            <div id="guildNameAlert" class="alert"></div>
+            <button class="confirm" @click="confirmName">确认
+            </button>
         </div>
     </div>
-    <guildPosition></guildPosition>
+    <div v-show="guild.name">
+        <div id="resource">
+            {{guild.name}}
+            <br>
+            金币:<currency :amount="guild.gold"></currency> <br>
+            公会名望: {{guild.reputation}}<img class="guildReputationIcon">
+        </div>
+        <div id="building">
+            <div v-for="(v, k) in guildBuildingOptions" :key="k">
+                <cTooltip :placement="'bottom'" v-if="guild[v].lv>0">
+                    <template v-slot:content>
+                        <a :id="v+'Btn'" class='glowBtn' @click="switchTab($event, v)">{{guildBuildingName[v]+" "+guild[v].lv}}</a>
+                    </template>
+                    <template v-slot:tip>
+                        <div v-for="(v2, k2) in guildBuildingDesc[v]" :key="k2">
+                            <span v-if="guildBuildingDesc[v][k2]!=''" :style="{color:guild[v].lv<k2?'#888':''}">{{k2+"级: "+guildBuildingDesc[v][k2]}}</span>
+                        </div>
+                    </template>
+                </cTooltip>
+            </div>
+        </div>
+        <guildPosition></guildPosition>
+    </div>
 </div>
 </template>
 <script>
@@ -69,7 +82,38 @@ export default {
             })
         }
     },
-    methods: {      
+    methods: {    
+        updateName(e) {
+            let name = e.target.value;
+            this.checkValidity(name);
+        },
+        confirmName() {
+            let name = document.getElementById("guildName").value;
+            let itemInfo = this.$store.globalComponent["itemInfo"];
+            if(this.checkValidity(name)) {
+                let quest =  this.$store.globalComponent['quest']; 
+                itemInfo.removeItemByCode('inv_misc_bone_06', 1);
+                this.$set(this.guild, 'name', name);
+                this.guild.guild.lv = 1;
+                this.guild.shop.lv = 1;
+                this.guild.smith.lv = 1;
+                quest.assignQuest(26);
+            }
+        },
+        checkValidity(name) {
+            let itemInfo = this.$store.globalComponent["itemInfo"];
+            let alert = document.getElementById("guildNameAlert");
+            if(name.length < 1 || name.length > 8) {
+                alert.innerHTML = "公会名字限定在1-8个字符之间！";
+                return false;
+            }
+            if(itemInfo.findItemIndex('inv_misc_bone_06') == -1) {
+                alert.innerHTML = "缺少关键道具【阿迦玛的牙】";
+                return false;
+            }
+            alert.innerHTML = "";
+            return true;
+        },  
         switchTab(e, type){
             let guildPosition = this.$store.globalComponent["guildPosition"];
             let active = document.getElementById(guildPosition.displayPage+'Btn');
@@ -142,6 +186,12 @@ export default {
 }
 </script>
 <style lang="scss">
+#createGuild {
+    padding: 0.5rem;
+    margin: 0.5rem;
+    height: 100%;
+    width: 50rem;
+}
 #resource {
     padding: 0.5rem;
     margin: 0.5rem;
