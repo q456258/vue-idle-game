@@ -25,7 +25,7 @@
         <div class="nameContent">
             <input id="guildName" class="nameAnime" placeholder="请输入您的公会名" type="text" @input="updateName"/>  
             <div id="guildNameAlert" class="alert"></div>
-            <button class="confirm" @click="confirmName">确认
+            <button class="nameConfirm" @click="confirmName">确认
             </button>
         </div>
     </div>

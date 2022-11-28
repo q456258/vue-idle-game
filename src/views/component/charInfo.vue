@@ -6,7 +6,7 @@
                 <div class="nameContent">
                     <input id="name" class="nameAnime" placeholder="请输入您的角色名" type="text" @input="updateName"/>  
                     <div id="charNameAlert" class="alert"></div>
-                    <button class="confirm" @click="confirmName">确认
+                    <button class="nameConfirm" @click="confirmName">确认
                     </button>
                 </div>
             </div>
