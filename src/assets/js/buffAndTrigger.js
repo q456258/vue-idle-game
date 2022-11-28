@@ -218,13 +218,17 @@ export const buffAndTrigger = {
             ];
             // 容易出现浮点错误
             attr[type].value = Math.round((attr[type].value-value)*100)/100;
-            attr[type].showValue = attr[type].value;
+            attr[type].bonus = Math.round((attr[type].bonus-value)*100)/100;
             target.tempStat.splice(index, 1);
 
-            if(percent.indexOf(type) > -1)
+            if(percent.indexOf(type) > -1) {
                 attr[type].showValue = attr[type].value + '%';
-            else
+                attr[type].bonusShowValue = attr[type].bonus + '%';
+            }
+            else {
                 attr[type].showValue = attr[type].value;
+                attr[type].bonusShowValue = attr[type].bonus;
+            }
             if(type == 'DEF') {
                 attr['DEFRED'].value = Math.round((attr['DEF'].value/(attr['DEF'].value+5500))*10000)/100;
                 attr['DEFRED'].showValue = attr['DEFRED'].value+'%';

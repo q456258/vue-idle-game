@@ -49,6 +49,7 @@
                         <br>
                         基础: {{attribute.HP.baseVal}}
                         <span v-if="attribute.HPP.value != 0">{{' +' + attribute.HPP.showValue}}</span>
+                        <span v-if="attribute.HP.bonus != 0"><br>{{'附加: ' + attribute.HP.bonusShowValue}}</span>
                         <br>
                         恢复: {{attribute.STA.value}} /5秒
                     </p>
@@ -57,6 +58,7 @@
                         <br>
                         基础: {{attribute.MP.baseVal}}
                         <span v-if="attribute.MPP.value != 0">{{' +' + attribute.MPP.showValue}}</span>
+                        <span v-if="attribute.MP.bonus != 0"><br>{{'附加: ' + attribute.MP.bonusShowValue}}</span>
                         <br>
                         恢复: {{attribute.SPI.value}} /5秒
                     </p>
@@ -100,6 +102,7 @@
                                 <br>
                                 全属性: {{attribute.ALL.value}}
                             </span>
+                            <span v-if="attribute.STR.bonus != 0"><br>{{'附加: ' + attribute.STR.bonusShowValue}}</span>
                         </p>
                         <p class="info">* 每点提升属性
                             <br>
@@ -128,6 +131,7 @@
                                 <br>
                                 全属性: {{attribute.ALL.value}}
                             </span>
+                            <span v-if="attribute.AGI.bonus != 0"><br>{{'附加: ' + attribute.AGI.bonusShowValue}}</span>
                         </p>
                         <p class="info">* 每点提升属性
                             <br>
@@ -156,6 +160,7 @@
                                 <br>
                                 全属性: {{attribute.ALL.value}}
                             </span>
+                            <span v-if="attribute.STA.bonus != 0"><br>{{'附加: ' + attribute.STA.bonusShowValue}}</span>
                         </p>
                         <p class="info">* 每点提升属性
                             <br>
@@ -184,6 +189,7 @@
                                 <br>
                                 全属性: {{attribute.ALL.value}}
                             </span>
+                            <span v-if="attribute.INT.bonus != 0"><br>{{'附加: ' + attribute.INT.bonusShowValue}}</span>
                         </p>
                         <p class="info">* 每点提升属性
                             <br>
@@ -212,6 +218,7 @@
                                 <br>
                                 全属性: {{attribute.ALL.value}}
                             </span>
+                            <span v-if="attribute.SPI.bonus != 0"><br>{{'附加: ' + attribute.SPI.bonusShowValue}}</span>
                         </p>
                         <p class="info">* 每点提升属性
                             <br>
@@ -236,6 +243,8 @@
                             <br>
                             全属性: {{attribute.ALL.baseVal}}
                             <span v-if="attribute.ALLP.value>0">{{' +'+attribute.ALLP.showValue}}</span>
+                            <br>
+                            附加: {{attribute.ALL.bonusShowValue}}
                         </p>
                         <p class="info">* 每点提升属性
                             <br>
@@ -263,6 +272,7 @@
                             <br>
                             基础: {{attribute.ATK.baseVal }}
                             <span v-if="attribute.ATKP.value != 0">{{' +' + attribute.ATKP.showValue}}</span>
+                            <span v-if="attribute.ATK.bonus != 0"><br>{{'附加: ' + attribute.ATK.bonusShowValue}}</span>
                             <br>
                             <span v-if="attribute.CRIT.value <= 100">
                                 DPS:{{Math.round(attribute.ATK.value*(1+attribute.CRIT.value/100*(attribute.CRITDMG.value-100)/100)) }}
@@ -303,8 +313,8 @@
                                 <img src="/icons/stat/arm.jpg" alt="" />
                             </span>
                             <span>{{attribute.DEF.showValue}}
-                                    <div class="percent">({{attribute.DEFRED.showValue}})
-                            </div></span>
+                                <div class="percent">({{attribute.DEFRED.showValue}})</div>
+                            </span>
                         </div>
                     </template>
                     <template v-slot:tip>
@@ -312,6 +322,7 @@
                             <br>
                             基础: {{attribute.DEF.baseVal }}
                             <span v-if="attribute.DEFP.value != 0">{{' +' + attribute.DEFP.showValue}}</span>
+                            <span v-if="attribute.DEF.bonus != 0"><br>{{'附加: ' + attribute.DEF.bonusShowValue}}</span>
                             <br>
                             减伤: {{attribute.DEFRED.showValue}}
                         </p>
@@ -333,6 +344,7 @@
                             <br>
                             基础: {{attribute.BLOCK.baseVal }}
                             <span v-if="attribute.BLOCKP.value != 0">{{' +' + attribute.BLOCKP.showValue}}</span>
+                            <span v-if="attribute.BLOCK.bonus != 0"><br>{{'附加: ' + attribute.BLOCK.bonusShowValue}}</span>
                         </p>
                         <p class="info">减少受到的物理伤害（结算于护甲之后）</p>
                     </template>
@@ -352,6 +364,7 @@
                             <br>
                             基础: {{attribute.AP.baseVal }}
                             <span v-if="attribute.APP.value != 0">{{' +' + attribute.APP.showValue}}</span>
+                            <span v-if="attribute.AP.bonus != 0"><br>{{'附加: ' + attribute.AP.bonusShowValue}}</span>
                         </p>
                     </template>
                 </cTooltip>
@@ -369,6 +382,7 @@
                         <p class="info">* 法术暴击
                             <br>
                             基础: {{attribute.APCRIT.baseVal+'%'}}
+                            <span v-if="attribute.APCRIT.bonus != 0"><br>{{'附加: ' + attribute.APCRIT.bonusShowValue}}</span>
                             <br>
                             法术暴击伤害: {{attribute.APCRITDMG.baseVal+'%'}}
                         </p>
@@ -390,6 +404,7 @@
                         <p class="info">* 全能
                             <br>
                             基础: {{attribute.VERS.baseVal }}
+                            <span v-if="attribute.VERS.bonus != 0"><br>{{'附加: ' + attribute.VERS.bonusShowValue}}</span>
                             <br>
                             增伤/减伤: {{attribute.VERSBONUS.showValue}}
                         </p>
@@ -410,6 +425,7 @@
                         <p class="info">* 暴击率
                             <br>
                             基础: {{attribute.CRIT.baseVal}}%
+                            <span v-if="attribute.CRIT.bonus != 0"><br>{{'附加: ' + attribute.CRIT.bonusShowValue}}</span>
                         </p>
                     </template>
                 </cTooltip>
@@ -427,6 +443,7 @@
                         <p class="info">* 暴击伤害
                             <br>
                             基础: {{attribute.CRITDMG.baseVal }}
+                            <span v-if="attribute.CRITDMG.bonus != 0"><br>{{'附加: ' + attribute.CRITDMG.bonusShowValue}}</span>
                         </p>
                     </template>
                 </cTooltip>
@@ -444,6 +461,7 @@
                         <p class="info">* 治疗效果
                             <br>
                             基础: {{attribute.HEAL.baseVal }}
+                            <span v-if="attribute.HEAL.bonus != 0"><br>{{'附加: ' + attribute.HEAL.bonusShowValue}}</span>
                         </p>
                     </template>
                 </cTooltip>
@@ -462,6 +480,7 @@
                             <br>
                             基础: {{attribute.APPEN.baseVal }}
                             <span v-if="attribute.APPENP.value != 0">{{' +' + attribute.APPENP.showValue}}</span>
+                            <span v-if="attribute.APPEN.bonus != 0"><br>{{'附加: ' + attribute.APPEN.bonusShowValue}}</span>
                         </p>
                     </template>
                 </cTooltip>
@@ -480,6 +499,7 @@
                             <br>
                             基础: {{attribute.MR.baseVal }}
                             <span v-if="attribute.MRP.value != 0">{{' +' + attribute.MRP.showValue}}</span>
+                            <span v-if="attribute.MR.bonus != 0"><br>{{'附加: ' + attribute.MR.bonusShowValue}}</span>
                         </p>
                         <p class="info">降低受到的魔法伤害</p>
                     </template>
@@ -498,6 +518,7 @@
                         <p class="info">* 急速
                             <br>
                             基础: {{attribute.HASTE.baseVal }}
+                            <span v-if="attribute.HASTE.bonus != 0"><br>{{'附加: ' + attribute.HASTE.bonusShowValue}}</span>
                         </p>
                         <p class="info">提升行动后获得的技能充能</p>
                     </template>

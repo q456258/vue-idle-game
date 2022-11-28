@@ -551,8 +551,15 @@ export default new Vuex.Store({
                 else
                     attribute[attr].value = attribute[attr].baseVal;
             });
+
+            // 清空额外属性
+            attributes.map(stat => {
+                attribute[stat].bonus = 0;
+            });
+
             //等级加成
             attribute['ALL'].value += playerAttribute.lv;
+            attribute['ALL'].bonus += playerAttribute.lv;
 
             attribute['STR'].value += attribute['ALL'].value;
             attribute['AGI'].value += attribute['ALL'].value;
@@ -574,15 +581,19 @@ export default new Vuex.Store({
 
             // buff附加的属性，不享受任何加成
             tempStat.map(stat => {
+                attribute[stat.type].bonus += stat.value;
                 attribute[stat.type].value += stat.value;
             });
 
             for(let key in attribute) {
                 if(percent.indexOf(key) > -1) {
                     attribute[key].showValue = attribute[key].value + '%';
+                    attribute[key].bonusShowValue = attribute[key].bonus + '%';
                 }
-                else
+                else {
                     attribute[key].showValue = attribute[key].value;
+                    attribute[key].bonusShowValue = attribute[key].bonus;
+                }
             }
             attribute['MAXHP'].value += attribute['HP'].value;
             attribute['CURHP'].value = Math.floor(hpPercent*attribute['HP'].value);
