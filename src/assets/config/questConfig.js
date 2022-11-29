@@ -10,6 +10,7 @@ export const questConfig = {
                 6: '锻造装备',
                 7: '切换地图',
                 8: '使用药剂',
+                9: '锁定/解锁装备',
             },
             rewardType: {gold: '金币', guildReputation: '公会名望'},
             questCategory: {
@@ -214,6 +215,18 @@ export const questConfig = {
                     reqs: [['event', 5, 1]],
                     reward: [['exp', 400]],
                     rewardItem: [['inv_misc_gem_diamond_04', 5, 100]],
+                    successor: [17],
+                    forfeit: false
+                },
+                17: {
+                    name: '锁定/解锁装备',
+                    category: 'newbie',
+                    desc: '在背包中右键点击装备，可锁定/解锁装备。装备强化后自动锁定，被锁定的装备无法出售/不会被出售。',
+                    target: '锁定/解锁装备',
+                    lv: 10,
+                    reqs: [['event', 9, 1]],
+                    reward: [['gold', 500], ['exp', 200]],
+                    rewardItem: [],
                     successor: [],
                     forfeit: false
                 },

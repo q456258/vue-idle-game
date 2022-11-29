@@ -258,6 +258,8 @@ export default {
         lockEquipment(lock) {
             let equip = this.grid[this.currentItemIndex];
             equip.locked = lock;
+            let quest = this.$store.globalComponent["quest"];
+            quest.trackProgress('event', 9, 1);
         },
         sellEquipment(index) {
             if(index == undefined)
