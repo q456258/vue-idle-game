@@ -97,7 +97,7 @@ export default {
                 this.guild.guild.lv = 1;
                 this.guild.shop.lv = 1;
                 this.guild.smith.lv = 1;
-                quest.assignQuest(26);
+                quest.assignQuest(18);
             }
         },
         checkValidity(name) {
