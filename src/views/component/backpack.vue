@@ -290,6 +290,8 @@ export default {
             let item = itemInfo.createItem(dust[equip.quality.qualityLv-2], quantity);  
             itemInfo.addItem(JSON.parse(item), true);  
             this.grid[index] = {};
+            let quest = this.$store.globalComponent["quest"];
+            quest.trackProgress('event', 10, 1);
         },
         disintegrateByEquip(equip) {
             if(equip.quality.qualityLv < 2)
@@ -300,6 +302,8 @@ export default {
             let quantity = Math.ceil(equip.lv/10);
             let item = itemInfo.createItem(dust[equip.quality.qualityLv-2], quantity);  
             itemInfo.addItem(JSON.parse(item), true);  
+            let quest = this.$store.globalComponent["quest"];
+            quest.trackProgress('event', 10, 1);
             return true;
         },
         useItemByIndex(k) {

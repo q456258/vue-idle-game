@@ -156,6 +156,7 @@ export default {
             this.consumeMaterial();
 
             let itemInfo = this.$store.globalComponent["itemInfo"];
+            let quest = this.$store.globalComponent["quest"];
             // let backpack = this.$store.globalComponent["backpack"];
             // let equipInfo = this.$store.globalComponent["equipInfo"];
             // if(this.targetType == 'equip') {
@@ -166,7 +167,10 @@ export default {
             let equipItem = ['random_common_equip','random_uncommon_equip','random_rare_equip','random_epic_equip','random_legendary_equip']
             if(equipItem.indexOf(this.targetItem) != -1) {
                 this.craftEquip(equipItem.indexOf(this.targetItem)+1);
+                quest.trackProgress('event', 12, 1);
             } else {
+                if(this.targetItem == 'inv_ingot_02')
+                    quest.trackProgress('event', 11, this.craftQty);
                 let newItem = JSON.parse(itemInfo.createItem(this.targetItem, this.craftQty));
                 itemInfo.addItem(newItem, true);
             }
