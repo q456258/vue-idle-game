@@ -251,6 +251,7 @@ export default {
             }
         },
         increaseProgress(type, questId, key, quantity) {
+            quantity = parseInt(quantity);
             let quest = this.quests[questId];
             let itemInfo = this.$store.globalComponent.itemInfo;
             for(let i in quest.reqs) {
