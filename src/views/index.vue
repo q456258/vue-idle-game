@@ -104,7 +104,7 @@
           </div>
         </template>
         <template v-slot:tip>
-          <p class="info">* 背包</p>
+          <p class="info">* 背包 (B)</p>
         </template>
       </cTooltip>
       <cTooltip :placement="'top'">
@@ -114,7 +114,7 @@
           </div>
         </template>
         <template v-slot:tip>
-          <p class="info">* 任务</p>
+          <p class="info">* 任务 (Q)</p>
         </template>
       </cTooltip>
       <cTooltip :placement="'top'" v-if="playerLv>=20">
@@ -124,7 +124,7 @@
           </div>
         </template>
         <template v-slot:tip>
-          <p class="info">* 锻造</p>
+          <p class="info">* 锻造 (C)</p>
         </template>
       </cTooltip>
       <cTooltip :placement="'top'">
@@ -134,7 +134,7 @@
           </div>
         </template>
         <template v-slot:tip>
-          <p class="info">* 保存/加载游戏</p>
+          <p class="info">* 保存/加载游戏 (S)</p>
         </template>
       </cTooltip>
       <cTooltip :placement="'top'">
@@ -144,7 +144,7 @@
           </div>
         </template>
         <template v-slot:tip>
-          <p class="info">* 设置</p>
+          <p class="info">* 设置 (X)</p>
         </template>
       </cTooltip>
     </div>
