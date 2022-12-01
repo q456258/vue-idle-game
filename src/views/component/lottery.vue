@@ -99,6 +99,7 @@ export default {
     },
     methods: {
         initLottery(rewardOptions, lv) {
+            this.statusChange('wait');
             this.rewardOptions = rewardOptions;
             this.lv = lv || 0;
             let index = this.$store.globalComponent["index"];
