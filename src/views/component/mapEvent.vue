@@ -304,7 +304,7 @@ export default {
             let quest =  this.$store.globalComponent['quest']; 
             this.playerAttr.lv += 1;
             this.playerAttr.exp.req = this.reqExp[this.playerAttr.lv];
-            // this.playerAttr.talentPoint += 1;
+            this.talentLevelUp();
             if(this.playerAttr.lv == 10) {
                 let element = document.getElementById('talentTree');
                 element.classList.add('glow');
