@@ -732,7 +732,7 @@ export const itemConfig = {
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '大概率获得一件【力量、敏捷、耐力】类型的垃圾武器、基础防具',
+                        desc: '随机获得一件【力量、敏捷、耐力】装备<br>贫乏: 75%<br>普通: 25%',
                         iconSrc: "./icons/item/inv_misc_questionmark.jpg",
                     },
                     autoUse: true,
@@ -747,7 +747,7 @@ export const itemConfig = {
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '有概率获得一件类型的普通武器、基础防具',
+                        desc: '随机获得一件装备<br>贫乏: 55%<br>普通: 30%<br>罕见: 15%',
                         iconSrc: "./icons/item/inv_misc_questionmark.jpg",
                     },
                     autoUse: true,
@@ -762,7 +762,7 @@ export const itemConfig = {
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '极小概率获得一件优质武器、基础防具',
+                        desc: '随机获得一件装备<br>贫乏: 45%<br>普通: 33%<br>罕见: 21%<br>稀有: 1%',
                         iconSrc: "./icons/item/inv_misc_questionmark.jpg",
                     },
                     autoUse: true,
@@ -777,7 +777,7 @@ export const itemConfig = {
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '小概率获得一件优质武器、基础防具',
+                        desc: '随机获得一件装备<br>贫乏: 25%<br>普通: 40%<br>罕见: 32%<br>稀有: 3%',
                         iconSrc: "./icons/item/inv_misc_questionmark.jpg",
                     },
                     autoUse: true,
@@ -792,7 +792,7 @@ export const itemConfig = {
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '极小概率获得一件极品武器、防具',
+                        desc: '随机获得一件装备<br>贫乏: 19%<br>普通: 30%<br>罕见: 35%<br>稀有: 15%<br>史诗: 1%',
                         iconSrc: "./icons/item/inv_misc_questionmark.jpg",
                     },
                     autoUse: true,
@@ -807,7 +807,7 @@ export const itemConfig = {
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '必定获得一件【力量、敏捷、耐力】类型的垃圾武器、基础防具',
+                        desc: '随机获得一件【力量、敏捷、耐力】类型的贫乏装备',
                         iconSrc: "./icons/item/inv_misc_questionmark.jpg",
                     },
                     autoUse: true,
@@ -822,7 +822,22 @@ export const itemConfig = {
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '有概率获得一件【力量、敏捷、耐力】类型的垃圾武器、防具',
+                        desc: '随机获得一件装备<br>贫乏: 55%<br>普通: 30%<br>罕见: 15%',
+                        iconSrc: "./icons/item/inv_misc_questionmark.jpg",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
+                },
+                random_equip_elite_2: {
+                    quality: 1,
+                    description: {
+                        name: '随机装备',
+                        category: '消耗品',
+                        desc: '随机获得一件装备<br>贫乏: 45%<br>普通: 33%<br>罕见: 21%<br>稀有: 1%',
                         iconSrc: "./icons/item/inv_misc_questionmark.jpg",
                     },
                     autoUse: true,
@@ -837,7 +852,7 @@ export const itemConfig = {
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '小概率获得一件优质武器、防具',
+                        desc: '随机获得一件装备<br>贫乏: 25%<br>普通: 40%<br>罕见: 32%<br>稀有: 3%',
                         iconSrc: "./icons/item/inv_misc_questionmark.jpg",
                     },
                     autoUse: true,
@@ -852,7 +867,7 @@ export const itemConfig = {
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '极小概率获得一件极品武器、防具',
+                        desc: '随机获得一件装备<br>贫乏: 19%<br>普通: 30%<br>罕见: 35%<br>稀有: 15%<br>史诗: 1%',
                         iconSrc: "./icons/item/inv_misc_questionmark.jpg",
                     },
                     autoUse: true,
@@ -867,7 +882,7 @@ export const itemConfig = {
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '极小概率获得一件极品装备',
+                        desc: '随机获得一件装备<br>贫乏: 19%<br>普通: 30%<br>罕见: 35%<br>稀有: 15%<br>史诗: 1%',
                         iconSrc: "./icons/item/inv_misc_questionmark.jpg",
                     },
                     autoUse: true,
@@ -882,7 +897,7 @@ export const itemConfig = {
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '极小概率获得一件神器',
+                        desc: '随机获得一件装备<br>贫乏: 25%<br>普通: 35%<br>罕见: 34%<br>稀有: 5%<br>史诗: 0.95%<br>传奇: 0.05%',
                         iconSrc: "./icons/item/inv_misc_questionmark.jpg",
                     },
                     autoUse: true,
@@ -897,7 +912,7 @@ export const itemConfig = {
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '大概率获得一件优质装备, 极小概率获得一件神器',
+                        desc: '随机获得一件装备<br>贫乏: 10%<br>普通: 15%<br>罕见: 32%<br>稀有: 35%<br>史诗: 7.5%<br>传奇: 0.5%',
                         iconSrc: "./icons/item/inv_misc_questionmark.jpg",
                     },
                     autoUse: true,
@@ -912,7 +927,7 @@ export const itemConfig = {
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '大概率获得一件优质装备',
+                        desc: '随机获得一件装备<br>贫乏: 10%<br>普通: 15%<br>罕见: 30%<br>稀有: 30%<br>史诗: 14%<br>传奇: 1%',
                         iconSrc: "./icons/item/inv_misc_questionmark.jpg",
                     },
                     autoUse: true,
@@ -927,7 +942,7 @@ export const itemConfig = {
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '大概率获得一件极品装备',
+                        desc: '随机获得一件装备<br>贫乏: 5%<br>普通: 10%<br>罕见: 20%<br>稀有: 40%<br>史诗: 20%<br>传奇: 5%',
                         iconSrc: "./icons/item/inv_misc_questionmark.jpg",
                     },
                     autoUse: true,
@@ -942,7 +957,7 @@ export const itemConfig = {
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '大概率获得一件极品装备',
+                        desc: '随机获得一件装备<br>罕见: 15%<br>稀有: 40<br>史诗: 35%<br>传奇: 10%',
                         iconSrc: "./icons/item/inv_misc_questionmark.jpg",
                     },
                     autoUse: true,
