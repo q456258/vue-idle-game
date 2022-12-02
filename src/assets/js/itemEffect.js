@@ -101,6 +101,11 @@ export const itemEffect = {
                     equipOption.lv = lv+2;
                     used = this.randomEquip(1, lv, equipOption, toBackpack);
                     break;
+                case 'random_equip_elite_2':
+                    equipOption.baseOption = ['STR', 'AGI', 'STA'];
+                    equipOption.lv = lv+2;
+                    used = this.randomEquip(2, lv, equipOption, toBackpack);
+                    break;
                 case 'random_equip_elite_3':
                     equipOption.lv = lv+2;
                     used = this.randomEquip(3, lv, equipOption, toBackpack);
