@@ -97,7 +97,7 @@ export const buffAndTrigger = {
                     return;
                 }
             }
-            if(this.buffCateg.timed.indexOf(type) != -1 || this.buffCateg.timedSecond.indexOf(type) != -1) {
+            if(this.buffCateg.timed.indexOf(type) != -1) {
                 if(target.timedBuff[type] == undefined) {
                     target.timedBuff[type] = now+stack*1000;
                 }
