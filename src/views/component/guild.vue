@@ -19,7 +19,7 @@
     矿场
     招募所
 -->
-<div class="guild">{{guild.name}}
+<div class="guild">
     <div v-if="guild.name==null" id="createGuild">
         <div class="nameTitle">创建公会</div>
         <div class="nameContent">
