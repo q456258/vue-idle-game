@@ -236,7 +236,7 @@ export const questConfig = {
                 18: {
                     name: '重铸装备',
                     category: 'newbie',
-                    desc: '公会铁匠铺1级解锁重铸功能，可花钱重置装备的额外词条。',
+                    desc: '公会铁匠铺2级解锁重铸功能，可花钱重置装备的额外词条。',
                     target: '重铸一次装备',
                     lv: 20,
                     reqs: [['event', 6, 1]],
