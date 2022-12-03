@@ -232,6 +232,7 @@ export default {
                 case 'donePick':
                     break;
                 case 'none':
+                    this.rewards = [];
                     this.closePanel();
                     break;
             }
