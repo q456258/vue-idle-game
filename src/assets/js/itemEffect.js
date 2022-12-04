@@ -73,6 +73,10 @@ export const itemEffect = {
                 case 'ability_racial_packhobgoblin':
                     used = this.randomGold(1000000, 10000000, msg, qty);
                     break;
+                case 'inv_misc_note_06_mine':
+                case 'inv_misc_note_06_mine2':
+                    used = this.upgradeGuildBuild('mine');
+                    break;
                 // case 'inv_misc_note_06':
                 //     used = this.inv_misc_note_06();
                 //     break;
@@ -250,6 +254,11 @@ export const itemEffect = {
         //     guildMember.generateApplicant();
         //     return true;
         // },
+        upgradeGuildBuild(type) {
+            let guild = this.$store.state.guildAttribute;
+            guild[type].lv += 1;
+            return true;
+        },
         giveItem(code, qty) {
             let itemInfo = this.$store.globalComponent["itemInfo"];;
             item = itemInfo.createItem(code, qty);  

@@ -562,6 +562,36 @@ export const itemConfig = {
                     cost: 99990000,
                     maxStack: 20
                 },
+                inv_misc_note_06_mine: {
+                    quality: 2,
+                    description: {
+                        name: '矿场地契',
+                        category: '消耗品',
+                        desc: '使用: 解锁公会矿场',
+                        iconSrc: "./icons/item/inv_misc_note_06.jpg",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
+                },
+                inv_misc_note_06_mine2: {
+                    quality: 2,
+                    description: {
+                        name: '矿场地契',
+                        category: '消耗品',
+                        desc: '使用: 升级公会矿场',
+                        iconSrc: "./icons/item/inv_misc_note_06.jpg",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
+                },
                 racial_dwarf_findtreasure: {
                     quality: 3,
                     description: {

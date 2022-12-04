@@ -99,6 +99,7 @@ export default {
                 this.guild.smith.lv = 1;
                 quest.assignQuest(18);
                 quest.assignQuest(20);
+                quest.assignQuest(25);
             }
         },
         checkValidity(name) {
