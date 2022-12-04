@@ -117,7 +117,7 @@
           <p class="info">* 任务 (Q)</p>
         </template>
       </cTooltip>
-      <cTooltip :placement="'top'" v-if="playerLv>=20">
+      <cTooltip :placement="'top'" v-if="guild['smith'].lv>=1">
         <template v-slot:content>
           <div class="menu" @click="openMenuPanel('craft')">
             <img src="../assets/icons/menu/craft.png" alt="">
