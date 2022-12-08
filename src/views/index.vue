@@ -117,6 +117,16 @@
           <p class="info">* 任务 (Q)</p>
         </template>
       </cTooltip>
+      <cTooltip :placement="'top'" v-if="(playerLv>=15)">
+        <template v-slot:content>
+          <div class="menu" @click="openMenuPanel('dungeon')">
+            <img src="../assets/icons/menu/dungeon.png" alt="">
+          </div>
+        </template>
+        <template v-slot:tip>
+          <p class="info">* 副本 (D)</p>
+        </template>
+      </cTooltip>
       <cTooltip :placement="'top'" v-if="guild['smith'].lv>=1">
         <template v-slot:content>
           <div class="menu" @click="openMenuPanel('craft')">
@@ -159,6 +169,7 @@
     <equipPotential :equip="enhanceEquip" v-show="equipPotentialPanel"></equipPotential> 
     <lottery v-show="lotteryPanel"></lottery>
     <quest v-show="questPanel"></quest>   
+    <dungeon v-show="dungeonPanel"></dungeon>
     <craftItem v-show="craftPanel"></craftItem>
     <saveload v-show="savePanel"></saveload>
     <setting v-show="settingPanel"></setting>
@@ -186,6 +197,7 @@ import equipForge from './component/equipForge';
 import equipPotential from './component/equipPotential';
 import mapEvent from './component/mapEvent';
 import lottery from './component/lottery';
+import dungeon from './component/dungeon';
 import backpack from './component/backpack';
 import charInfo from './component/charInfo';
 import guild from './component/guild';
@@ -200,11 +212,11 @@ import setting from './component/setting';
 import quest from './component/quest';
 import craftItem from './component/craftItem';
 import enemyInfo from './component/enemyInfo';
-import { dungeon } from '../assets/js/dungeon';
+import { map } from '../assets/js/map';
 import { buffAndTrigger } from '../assets/js/buffAndTrigger';
 export default {
   name: 'index',
-  mixins: [dungeon, buffAndTrigger],
+  mixins: [map, buffAndTrigger],
   data() {
     return {
       showEquipInfo: false,
@@ -225,6 +237,7 @@ export default {
       equipEnhancePanel: false,
       equipForgePanel: false,
       equipPotentialPanel: false,
+      dungeonPanel: false,
       lotteryPanel: false,
       savePanel: false,
       settingPanel: false,
@@ -237,7 +250,7 @@ export default {
       selectedZone: 0
     }
   },
-  components: {cTooltip, equipInfo, compareEquip, itemInfo, mapEvent, lottery, backpack, equipEnhance, equipForge, equipPotential, craftItem,
+  components: {cTooltip, equipInfo, compareEquip, itemInfo, mapEvent, lottery, dungeon, backpack, equipEnhance, equipForge, equipPotential, craftItem,
               charInfo, guild, guildMember, shop, talentTree, faq, achievement, statistic, saveload, setting, quest, enemyInfo, currency},
   created() {
     this.$store.globalComponent = {};
@@ -419,7 +432,7 @@ export default {
     createMaps() {    
       let count = 7;
       let type = 'advanture';
-      this.mapArr = this.generateDungeonByZone(count, this.monsterZone[this.selectedZone]);
+      this.mapArr = this.generateMapByZone(count, this.monsterZone[this.selectedZone]);
       this.actualReward(this.mapArr);
 
       this.dungeonInfo[type].level = -1;
@@ -432,7 +445,7 @@ export default {
       this.dungeonInfo.current = type;
     },
     addToMap(type='advanture', lv, count=1, monsterID) {
-      let newMaps = this.generateDungeonByID(count, this.monsterZone[this.selectedZone], monsterID);
+      let newMaps = this.generateMapByID(count, this.monsterZone[this.selectedZone], monsterID);
       this.actualReward(newMaps);
       this.mapArr = this.mapArr.concat(newMaps);
 
@@ -700,6 +713,9 @@ export default {
         case 'quest':
           this.questPanel = !this.questPanel;
           break;
+        case 'dungeon':
+          this.dungeonPanel = !this.dungeonPanel;
+          break;
         case 'craft':
           this.craftPanel = !this.craftPanel;
           break;
@@ -720,6 +736,9 @@ export default {
           break;
         case 'quest':
           this.questPanel = false;
+          break;
+        case 'dungeon':
+          this.dungeonPanel = false;
           break;
         case 'craft':
           this.craftPanel = false;

@@ -1,6 +1,6 @@
 
 import { monsterConfig } from '@/assets/config/monsterConfig';
-export const dungeon = {
+export const map = {
     mixins: [monsterConfig],
     data() {
         return {
@@ -15,7 +15,7 @@ export const dungeon = {
         }
     },
     methods: {
-        generateDungeonByZone(count, zoneInfo) {
+        generateMapByZone(count, zoneInfo) {
             let map = [];
             this.arrList = Array.from(Array(24).keys());
             for(let i=0; i<count; i++) {
@@ -47,7 +47,7 @@ export const dungeon = {
             }
             return map;
         },
-        generateDungeonByID(count, zoneInfo, monsterID) {
+        generateMapByID(count, zoneInfo, monsterID) {
             let map = [];
             for(let i=0; i<count; i++) {
                 let choice = {};
