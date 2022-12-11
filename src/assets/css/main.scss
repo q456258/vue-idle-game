@@ -829,4 +829,12 @@
             box-shadow:  0 0 10px 9px rgba(3,169,244,0.3);
         }
     }
+    .grayscale {
+        filter: grayscale(1);
+    }
+    .dungeonGainStat {
+        float: right;
+        margin-top: 9px;
+        margin-left: 2px;
+    }
 }

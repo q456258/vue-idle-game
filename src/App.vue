@@ -18,6 +18,8 @@ mounted() {
             index.openMenuPanel('setting')
         } else if (e.key === "q") {
             index.openMenuPanel('quest')
+        } else if (e.key === "d") {
+            index.openMenuPanel('dungeon')
         } else if (e.key === "c") {
             if(this.$store.state.playerAttribute.lv >= 20)
                 index.openMenuPanel('craft')
