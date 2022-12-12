@@ -13,10 +13,10 @@
         </div>
         <div id="dungeonZone" :style="{background: 'url(/icons/maps/'+curDungeon+'.jpg)', backgroundSize: 'cover'}">
             <div class="grid" v-for="(v, k) in map" :key="k" @mouseover="takeAction($event, k, true)" @click="takeAction($event, k, false)" @contextmenu.prevent="showInfo($event, k)">
-                <div class="frontIcon" v-if="v.reveal <= 0">
+                <div class="frontIcon" v-show="v.reveal <= 0">
                     <img v-if="v.reveal<0" src="/icons/dungeon/restrict.png" style="width: 100px;" alt="" />
                 </div>
-                <div class="backIcon" v-if="v.type" :style="{backgroundImage: 'url(/icons/dungeon/'+v.type+'Border.png)'}">
+                <div :class="['backIcon',{grayscale:v.stat.hp==0&&(v.type=='normal'||v.type=='elite'||v.type=='boss')}]" v-if="v.type" :style="{backgroundImage: 'url(/icons/dungeon/'+v.type+'Border.png)'}">
                     <img :src=v.iconSrc alt="" />
                     <!-- <span class="addonCount">
                         <img src="../../assets/icons/star.png" alt="icon" style="height: 10px; width: 10px;"  v-for="n in v.addon.length" :key="n">
@@ -39,7 +39,7 @@
                 <div class="dungeonIcon"><img src="/icons/dungeon/ATK.png" alt="ATK">{{target.stat.atk}}</div>
                 <div class="dungeonIcon"><img src="/icons/dungeon/BLOCK.png" alt="BLOCK">{{target.stat.block}}</div>
                 <div class="dungeonSpecialty">
-                    <div class="" v-for="(v, k) in target.specialty">
+                    <div v-for="(v, k) in target.specialty">
                         <span style="color:yellow">{{dungeonSpecialty[v].name}} </span> 
                         <span style="color:gray">{{dungeonSpecialty[v].desc}}</span>
                     </div>
@@ -109,20 +109,23 @@ export default {
             return map;
         },
         takeAction(e, index, fogOnly) {
-            if(this.map[index].reveal < 0) {
+            let target = this.map[index];
+            if(target.reveal < 0) {
                 return;
-            } else if(this.map[index].reveal == 0) {
-                let element = e.target.closest(".frontIcon");
-                element.remove();
+            } else if(target.reveal == 0) {
                 this.fogRemoved(index);
                 return;
             } else if(fogOnly)
                 return;
             this.showInfo(e, index);
-            if(['normal', 'elite', 'boss'].indexOf(this.map[index].type) != -1 && this.map[index].stat.hp > 0) {
+            let type = target.type;
+            if(['normal', 'elite', 'boss'].indexOf(type) != -1 && target.stat.hp > 0) {
                 this.triggerBattle(index);
-                if(this.map[index].stat.hp <= 0)
+                if(target.stat.hp <= 0)
                     this.enemyDead(e, index);
+            } else if(type == 'door') {
+                this.generateDungeon(this.curDungeon, ++this.level);
+                this.target = null;
             }
         },
         showInfo(e, index) {
@@ -205,8 +208,6 @@ export default {
                 this.map[index+col].reveal--;
         },
         enemyDead(e, index) {
-            let element = e.target.closest(".backIcon");
-            element.classList.add('grayscale');
             this.unlockSurrounding(index);
             let enemyStat = this.map[index].stat;
             this.gainStat('hp', Math.max(Math.ceil(enemyStat.maxHp/10), 0));
