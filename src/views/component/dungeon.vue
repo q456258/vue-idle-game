@@ -5,6 +5,7 @@
                 <div class="dungeonPortrait">
                     <img src="/icons/character/player1.png" alt="" />
                 </div>
+                <div>{{this.$store.state.playerAttribute.name}}</div>
                 <div id="dungeonPlayerHp" class="dungeonIcon"><img src="/icons/dungeon/HP.png" alt="HP">{{playerStat.hp}}</div>
                 <div id="dungeonPlayerAtk" class="dungeonIcon"><img src="/icons/dungeon/ATK.png" alt="ATK">{{playerStat.atk}}</div>
                 <div id="dungeonPlayerBlock" class="dungeonIcon"><img src="/icons/dungeon/BLOCK.png" alt="BLOCK">{{playerStat.block}}</div>
@@ -33,6 +34,7 @@
                 <div class="dungeonPortrait">
                     <img :src=target.iconSrc alt="" />
                 </div>
+                <div>{{target.name}}</div>
                 <div class="dungeonIcon"><img src="/icons/dungeon/HP.png" alt="HP">{{target.stat.hp}}</div>
                 <div class="dungeonIcon"><img src="/icons/dungeon/ATK.png" alt="ATK">{{target.stat.atk}}</div>
                 <div class="dungeonIcon"><img src="/icons/dungeon/BLOCK.png" alt="BLOCK">{{target.stat.block}}</div>
@@ -128,7 +130,7 @@ export default {
         },
         fogRemoved(index) {
             this.map[index].reveal++;
-            if(['normal', 'elite', 'boss'].indexOf(this.map[index].type) != -1) {
+            if(['normal', 'elite'].indexOf(this.map[index].type) != -1) {
                 this.lockSurrounding(index);
             }
         },
