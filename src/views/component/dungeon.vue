@@ -122,8 +122,9 @@ export default {
                 return;
             } else if(fogOnly)
                 return;
-            this.showInfo(e, index);
             let type = target.type;
+            if(type != undefined)
+                this.showInfo(e, index);
             if(['normal', 'elite', 'boss'].indexOf(type) != -1 && target.stat.hp > 0) {
                 this.triggerBattle(index);
             } else if(type == 'upDoor') {
@@ -279,7 +280,7 @@ export default {
             this.showGainStat(type, amount);
         },
         showGainStat(type, amount) {
-            let duration = 200;
+            let duration = 500;
             let parentNode;
             let node = document.createElement("DIV");
             node.innerHTML = amount>0 ? '+'+amount : amount;
