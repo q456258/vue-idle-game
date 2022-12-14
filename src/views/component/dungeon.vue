@@ -125,6 +125,8 @@ export default {
             let type = target.type;
             if(type != undefined)
                 this.showInfo(e, index);
+            if(this.inBattle)
+                return false;
             if(['normal', 'elite', 'boss'].indexOf(type) != -1 && target.stat.hp > 0) {
                 this.triggerBattle(index);
             } else if(type == 'upDoor') {
@@ -147,8 +149,6 @@ export default {
             }
         },
         triggerBattle(index) {
-            if(this.inBattle)
-                return false;
             this.inBattle = true;
             if(this.playerAttack(index) && this.enemyAttack(index)) {
                 setTimeout(() => {
@@ -169,6 +169,11 @@ export default {
                 return false;
             let dmg = enemyStat.atk-this.playerStat.block;
             this.playerStat.hp -= Math.max(dmg, 0);
+            if(enemySpecialty.indexOf('reckless') != -1) {
+                let ran = Math.round(Math.random()*10);
+                this.enemyGainStat(index, 'hp', -2*ran);
+                this.gainStat('hp', -1*ran);
+            }
             if(enemySpecialty.indexOf('hunger') != -1 && dmg > 0) {
                 this.enemyGainStat(index, 'atk', 1);
                 this.enemyGainStat(index, 'block', 1);
