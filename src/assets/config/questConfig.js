@@ -192,7 +192,7 @@ export const questConfig = {
                     target: '击败阿迦玛',
                     lv: 20,
                     reqs: [['slain', 15, 1]],
-                    reward: [['exp', 10000]],
+                    reward: [['exp', 7000]],
                     rewardItem: [['inv_misc_bone_06', 1, 100]],
                     successor: [],
                     forfeit: false
@@ -272,7 +272,7 @@ export const questConfig = {
                 22: {
                     name: '合成装备',
                     category: 'newbie',
-                    desc: '打开左下角【锻造】功能，选择【打造】，选择【随机罕见装备】，使用10份罕见装备精华打造一件随机罕见装备，记得添加4块铜矿石增加装备等级。',
+                    desc: '打开左下角【锻造】功能，选择【打造】，选择【随机罕见装备】，使用10份罕见装备精华打造一件随机罕见装备，记得添加4块铜锭增加成品的装备等级。',
                     target: '打造装备',
                     lv: 20,
                     reqs: [['event', 12, 1]],
@@ -906,6 +906,18 @@ export const questConfig = {
                     forfeit: true
                 },
                 1099: {
+                    name: '魔物扫荡：地狱元素',
+                    category: 'guild', 
+                    desc: '击败灼热峡谷地区首领',
+                    target: '击败地狱元素',
+                    lv: 60,
+                    reqs: [['slain', 45, 1]],
+                    reward: [['gold', 15000], ['exp', 30000], ['guildReputation', 100]],
+                    rewardItem: [['random_equip_6', 1, 100]],
+                    successor: [],
+                    forfeit: true
+                },
+                2000: {
                     name: '魔物扫荡：地狱元素',
                     category: 'guild', 
                     desc: '击败灼热峡谷地区首领',

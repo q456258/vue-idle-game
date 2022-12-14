@@ -837,4 +837,19 @@
         margin-top: 9px;
         margin-left: 2px;
     }
+    .optionHover {
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        display: block;
+        &:hover{
+            box-shadow: inset 0 0 10px rgba(123, 176, 255, 0.651);
+        }
+    }
+    .optionSelected {
+        box-shadow: inset 0 0 10px rgba(123, 255, 139, 0.651);
+        background-image: linear-gradient(-270deg, rgba(167, 160, 160, 0) 0%, #59b94c85 40%, #87cf6b69 60%, rgba(255,255,255,0.00) 100%);
+    }
 }
