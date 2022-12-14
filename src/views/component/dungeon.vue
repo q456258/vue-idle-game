@@ -255,8 +255,6 @@ export default {
             if(enemySpecialty.indexOf('corrosion') != -1) {
                 this.gainStat('block', -2);
             }
-            if(this.target == enemy)
-                this.target = null;
         },
         enemyGainStat(index, type, amount) {
             amount = parseInt(amount);
