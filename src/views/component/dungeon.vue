@@ -12,11 +12,11 @@
             </div>
         </div>
         <div id="dungeonZone" :style="{background: 'url(/icons/maps/'+curDungeon+'.jpg)', backgroundSize: 'cover'}">
-            <div class="grid" v-for="(v, k) in map" :key="k" @mouseover="takeAction($event, k, true)" @click="takeAction($event, k, false)" @contextmenu.prevent="showInfo($event, k)">
+            <div class="grid" v-for="(v, k) in curMap" :key="k" @mouseover="takeAction($event, k, true)" @click="takeAction($event, k, false)" @contextmenu.prevent="showInfo($event, k)">
                 <div class="frontIcon" v-show="v.reveal <= 0">
                     <img v-if="v.reveal<0" src="/icons/dungeon/restrict.png" style="width: 100px;" alt="" />
                 </div>
-                <div :class="['backIcon',{grayscale:v.stat.hp==0&&(v.type=='normal'||v.type=='elite'||v.type=='boss')}]" v-if="v.type" :style="{backgroundImage: 'url(/icons/dungeon/'+v.type+'Border.png)'}">
+                <div :class="['backIcon',{grayscale:v.stat.hp<=0&&(v.type=='normal'||v.type=='elite'||v.type=='boss')}]" v-if="v.type" :style="{backgroundImage: 'url(/icons/dungeon/'+v.type+'Border.png)'}">
                     <img :src=v.iconSrc alt="" />
                     <!-- <span class="addonCount">
                         <img src="../../assets/icons/star.png" alt="icon" style="height: 10px; width: 10px;"  v-for="n in v.addon.length" :key="n">
@@ -60,7 +60,7 @@ export default {
         return {
             row: 7,
             col: 7,
-            playerStat: {hp: 100, atk: 100, block: 10},
+            playerStat: {hp: 1000, atk: 10, block: 10},
             target: null,
             curDungeon: 'Ragefire_Chasm',
             mapName: '',
@@ -69,6 +69,8 @@ export default {
                 // {type:'normal', stat:{hp:100, atk: 20, block: 20}, description:{iconSrc:'/icons/dungeon/ui-ej-boss-adarogg.png'}},
                 // {type:'normal', stat:{hp:100, atk: 20, block: 20}, description:{iconSrc:'/icons/dungeon/ui-ej-boss-adarogg.png'}}
             ],
+            curMap: [],
+            inBattle: false
         };
     },
     mounted() {
@@ -80,11 +82,13 @@ export default {
     computed: {
     },
     methods: {
-        generateDungeon(name, level) {
+        generateDungeon(name) {
             let dungeon = this.dungeons[name];
             this.mapName = dungeon.name;
             this.curDungeon = name;
-            this.map = this.generateMap(dungeon.map[level]);
+            for(let level in dungeon.map)
+                this.map[level] = this.generateMap(dungeon.map[level]);
+            this.curMap = this.map[this.level];
         },
         generateMap(mapArr) {
             let map = Array(this.row*this.col).fill();
@@ -101,6 +105,7 @@ export default {
                     map[ranArr[ran]] = this.$deepCopy(this.dungeonMonster[info.id]);
                     map[ranArr[ran]].reveal = info.reveal ? 1 : 0;
                     map[ranArr[ran]].index = ranArr[ran];
+                    map[ranArr[ran]].buff = {};
                     if(map[ranArr[ran]].stat) 
                         map[ranArr[ran]].stat.maxHp = map[ranArr[ran]].stat.hp;
                     ranArr[ran] = ranArr[--len];
@@ -109,7 +114,7 @@ export default {
             return map;
         },
         takeAction(e, index, fogOnly) {
-            let target = this.map[index];
+            let target = this.curMap[index];
             if(target.reveal < 0) {
                 return;
             } else if(target.reveal == 0) {
@@ -121,29 +126,44 @@ export default {
             let type = target.type;
             if(['normal', 'elite', 'boss'].indexOf(type) != -1 && target.stat.hp > 0) {
                 this.triggerBattle(index);
-                if(target.stat.hp <= 0)
-                    this.enemyDead(e, index);
-            } else if(type == 'door') {
-                this.generateDungeon(this.curDungeon, ++this.level);
+            } else if(type == 'upDoor') {
+                this.level--;
+                this.curMap = this.map[this.level];
+                this.target = null;
+            } else if(type == 'downDoor') {
+                this.level++;
+                this.curMap = this.map[this.level];
                 this.target = null;
             }
         },
         showInfo(e, index) {
-            this.target = this.map[index];
+            this.target = this.curMap[index];
         },
         fogRemoved(index) {
-            this.map[index].reveal++;
-            if(['normal', 'elite'].indexOf(this.map[index].type) != -1) {
+            this.curMap[index].reveal++;
+            if(['normal', 'elite'].indexOf(this.curMap[index].type) != -1) {
                 this.lockSurrounding(index);
             }
         },
         triggerBattle(index) {
-            this.playerAttack(index);
-            this.enemyAttack(index);
+            if(this.inBattle)
+                return false;
+            this.inBattle = true;
+            if(this.playerAttack(index) && this.enemyAttack(index)) {
+                setTimeout(() => {
+                    this.inBattle = false;
+                    this.triggerBattle(index);
+                }, 100);
+            } else  {
+                this.inBattle = false;
+            }
+            if(this.curMap[index].stat.hp <= 0)
+                this.enemyDead(index);
         },
         enemyAttack(index) {
-            let enemySpecialty = this.map[index].specialty;
-            let enemyStat = this.map[index].stat;
+            let enemy = this.curMap[index]
+            let enemySpecialty = enemy.specialty;
+            let enemyStat = enemy.stat;
             if(enemyStat.hp <= 0 || this.playerStat.hp <= 0)
                 return false;
             let dmg = enemyStat.atk-this.playerStat.block;
@@ -153,67 +173,88 @@ export default {
                 this.enemyGainStat(index, 'block', 1);
                 this.gainStat('atk', -1);
                 this.gainStat('block', -1);
+                if(!enemy.buff.hunger)
+                    enemy.buff.hunger = 0;
+                enemy.buff.hunger += 1;
             }
+            return true;
         },
         playerAttack(index) {
-            let enemyStat = this.map[index].stat;
+            let enemyStat = this.curMap[index].stat;
             if(enemyStat.hp <= 0 || this.playerStat.hp <= 0)
                 return false;
-            enemyStat.hp -= Math.max(this.playerStat.atk-enemyStat.block, 0);
+            let dmg = this.playerStat.atk-enemyStat.block;
+            if(dmg <= 0)
+                return false;
+            enemyStat.hp -= Math.max(dmg, 0);
+            return true;
         },
         unlockSurrounding(index) {
+            let map = this.curMap;
             let col = this.col;
             let row = this.row;
             if(index%col > 0) {
-                this.map[index-1].reveal++;
+                map[index-1].reveal++;
                 if(index-col >= 0)
-                    this.map[index-col-1].reveal++;
+                    map[index-col-1].reveal++;
                 if(index < col*(row-1))
-                    this.map[index+col-1].reveal++;
+                    map[index+col-1].reveal++;
             }
             if(index%col != col-1) {
-                this.map[index+1].reveal++;
+                map[index+1].reveal++;
                 if(index-col >= 0)
-                    this.map[index-col+1].reveal++;
+                    map[index-col+1].reveal++;
                 if(index < col*(row-1))
-                    this.map[index+col+1].reveal++;
+                    map[index+col+1].reveal++;
             }
             if(index-col >= 0)
-                this.map[index-col].reveal++;
+                map[index-col].reveal++;
             if(index < col*(row-1))
-                this.map[index+col].reveal++;
+                map[index+col].reveal++;
         },
         lockSurrounding(index) {
+            let map = this.curMap;
             let col = this.col;
             let row = this.row;
             if(index%col > 0) {
-                if(this.map[index-1].reveal <= 0)
-                    this.map[index-1].reveal--;
-                if(index-col >= 0 && this.map[index-col-1].reveal <= 0)
-                    this.map[index-col-1].reveal--;
-                if(index < col*(row-1) && this.map[index+col-1].reveal <= 0)
-                    this.map[index+col-1].reveal--;
+                if(map[index-1].reveal <= 0)
+                    map[index-1].reveal--;
+                if(index-col >= 0 && map[index-col-1].reveal <= 0)
+                    map[index-col-1].reveal--;
+                if(index < col*(row-1) && map[index+col-1].reveal <= 0)
+                    map[index+col-1].reveal--;
             }
             if(index%col != col-1) {
-                if(this.map[index+1].reveal <= 0)
-                    this.map[index+1].reveal--;
-                if(index-col >= 0 && this.map[index-col+1].reveal <= 0)
-                    this.map[index-col+1].reveal--;
-                if(index < col*(row-1) && this.map[index+col+1].reveal <= 0)
-                    this.map[index+col+1].reveal--;
+                if(map[index+1].reveal <= 0)
+                    map[index+1].reveal--;
+                if(index-col >= 0 && map[index-col+1].reveal <= 0)
+                    map[index-col+1].reveal--;
+                if(index < col*(row-1) && map[index+col+1].reveal <= 0)
+                    map[index+col+1].reveal--;
             }
-            if(index-col >= 0 && this.map[index-col].reveal <= 0)
-                this.map[index-col].reveal--;
-            if(index < col*(row-1) && this.map[index+col].reveal <= 0)
-                this.map[index+col].reveal--;
+            if(index-col >= 0 && map[index-col].reveal <= 0)
+                map[index-col].reveal--;
+            if(index < col*(row-1) && map[index+col].reveal <= 0)
+                map[index+col].reveal--;
         },
-        enemyDead(e, index) {
+        enemyDead(index) {
+            let enemy = this.curMap[index];
             this.unlockSurrounding(index);
-            let enemyStat = this.map[index].stat;
+            let enemyStat = enemy.stat;
+            let enemySpecialty = enemy.specialty;
             this.gainStat('hp', Math.max(Math.ceil(enemyStat.maxHp/10), 0));
             this.gainStat('atk', Math.max(Math.ceil(enemyStat.atk/10), 0));
             this.gainStat('block', Math.max(Math.ceil(enemyStat.block/10), 0));
-            if(this.target == this.map[index])
+            if(enemySpecialty.indexOf('hunger') != -1) {
+                if(enemy.buff.hunger) {
+                    this.gainStat('atk', enemy.buff.hunger);
+                    this.gainStat('block', enemy.buff.hunger);
+                }
+            }
+            if(enemySpecialty.indexOf('corrosion') != -1) {
+                this.gainStat('block', -2);
+            }
+            if(this.target == enemy)
                 this.target = null;
         },
         enemyGainStat(index, type, amount) {
@@ -224,7 +265,7 @@ export default {
             } else if(amount == 0)
                 return false;
 
-            this.map[index].stat[type] += amount;
+            this.curMap[index].stat[type] += amount;
         },
         gainStat(type, amount) {
             amount = parseInt(amount);
@@ -238,7 +279,7 @@ export default {
             this.showGainStat(type, amount);
         },
         showGainStat(type, amount) {
-            let duration = 1000;
+            let duration = 200;
             let parentNode;
             let node = document.createElement("DIV");
             node.innerHTML = amount>0 ? '+'+amount : amount;
