@@ -493,7 +493,7 @@
         border-collapse: separate;
         border-spacing: 0px;
     }
-    td th{
+    td, th{
         padding: 2px 0px 1px 5px;
         border-top: none;
         vertical-align: middle;
@@ -832,11 +832,6 @@
     .grayscale {
         filter: grayscale(1);
     }
-    .dungeonGainStat {
-        float: right;
-        margin-top: 9px;
-        margin-left: 2px;
-    }
     .optionHover {
         position: absolute;
         left: 0px;
@@ -851,5 +846,9 @@
     .optionSelected {
         box-shadow: inset 0 0 10px rgba(123, 255, 139, 0.651);
         background-image: linear-gradient(-270deg, rgba(167, 160, 160, 0) 0%, #59b94c85 40%, #87cf6b69 60%, rgba(255,255,255,0.00) 100%);
+    }
+    .itemList {
+        display:flex;
+        flex-wrap: wrap;
     }
 }
