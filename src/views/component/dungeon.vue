@@ -55,7 +55,7 @@
                         </thead>
                         <tbody>
                             <tr v-for="(v, k) in guild.member" :key="k">
-                                <td><input type="checkbox" v-on:change="updateMember($event, v.id, selectedDungeon)"></td>
+                                <td><input type="checkbox" v-model="selected" :value="v.id" v-on:change="updateMember($event, v.id, selectedDungeon)"></td>
                                 <td>{{v.name}}</td>
                                 <td>{{v.lv}}</td>
                                 <td>{{v.stat.HP}}</td>
@@ -97,7 +97,8 @@ export default {
         return {
             selectedDungeon: null,
             dungeonProgress: {},
-            forceUpdate: 0,            
+            forceUpdate: 0,   
+            selected: []         
         };
     },
     mounted() {
@@ -124,6 +125,7 @@ export default {
             if(this.dungeonProgress[name] == null) {
                 this.generateDungeon(name);
             }
+            this.resetMember();
         },
         generateDungeon(name) {
             this.dungeonProgress[name] = {};
@@ -172,9 +174,21 @@ export default {
             else
                 this.statusChange(dungeon, 'ready');
         },
-        updatePlayerStat(type, value) {
-            this.playerStat[type] += value;
+        resetMember() {
+            this.selected = [];
+            this.clearPlayerStat();
+        },
+        updatePlayerStat(type, value, fixed=false) {
+            if(fixed)
+                this.playerStat[type] = value;
+            else
+                this.playerStat[type] += value;
             this.forceUpdate += 1;
+        },
+        clearPlayerStat() {
+            this.updatePlayerStat('HP', 0, true);
+            this.updatePlayerStat('ATK', 0, true);
+            this.updatePlayerStat('BLOCK', 0, true);
         },
         startDungeon(dungeon) {
             let curDungeon = this.dungeonProgress[dungeon];
@@ -210,7 +224,7 @@ export default {
             let playerTurn = Math.ceil(enemy.HP/playerDmg);
             let enemyTurn = Math.ceil(player.HP/enemyDmg);
             if(enemyTurn<playerTurn) {
-                player.HP = 0;
+                this.updatePlayerStat('HP', 0, true);
                 let hpRemain = enemy.HP-playerDmg*enemyTurn;
                 this.battleLost(dungeon, hpRemain)
                 return false;
