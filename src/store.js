@@ -180,6 +180,7 @@ export default new Vuex.Store({
             gold: 0,
             reputation: 0,
             guild: {lv: 0},
+            bar: {lv: 0},
             train: {lv: 0},
             train2: {lv: 0},
             train3: {lv: 0},
@@ -336,13 +337,6 @@ export default new Vuex.Store({
             APPENP: 0,
             MRP: 0,
         },    
-        memberAttribute: {
-            STR: 0,
-            AGI: 0,
-            STA: 0,
-            INT: 0,
-            SPI: 0
-        },
         setting: {
             waitFull: false,
             animeSize: 'large'
@@ -496,8 +490,6 @@ export default new Vuex.Store({
             };
             attributes.forEach(attr => {
                 let val = this.state.baseAttribute[attr];
-                if(this.state.memberAttribute[attr] != undefined)
-                    val += this.state.memberAttribute[attr];
                 attribute[attr] = { 
                     baseVal: val, 
                     value: val, 
