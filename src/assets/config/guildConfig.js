@@ -18,13 +18,14 @@ export const guildConfig = {
                 ],        
             },
             guildBuildingName: {
-                guild: '公会',
+                guild: '公会', bar: '酒馆',
                 questBoard:'任务榜', shop:'商店', blackmarket:'黑市', smith:'铁匠铺', 
                 train:'练功房', train2:'中级练功房', train3:'高级练功房', 
                 mine: '矿场', herb: '药园'
             },
             guildBuildingDesc: {
                 guild: [],
+                bar: [],
                 questBoard: ['','解锁任务榜','解锁二级任务','解锁三级任务'],
                 shop: ['','解锁杂货店','解锁名望商店','增加商品','增加商品'],
                 blackmarket: ['','解锁黑市'],
