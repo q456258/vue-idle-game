@@ -288,13 +288,6 @@ export default {
     },
     methods: {    
         init() {
-            // for(let mem in this.maxMember) {
-            //     this.maxMember[mem] = Math.floor(this.guild[mem].lv/10+1);
-            // }
-            for(var mem in this.guild.member) {
-                if(this.guild.member[mem].job != 'None')
-                    this.assignPosition(this.guild.member[mem].job, -1, this.guild.member[mem], true);
-            }
             for(let timer in this.timerList) 
                 clearInterval(this.timerList[timer]);
             // this.start('shop');
@@ -608,22 +601,6 @@ export default {
                     return i;
             }
             return -1;
-        },
-        assignPosition(type, index, target, force=false) {
-            if(!force && type == target.job)
-                return;
-            if(target.job != 'None') {
-                let targetIndex = this.findTarget(target);
-                if(targetIndex != -1)
-                    this.cancelPosition(target.job, targetIndex);
-            }
-            if(index == -1)
-                this.building[type].push(target);
-            else {
-                this.cancelPosition(type, index, true);
-                this.building[type][index] = target;
-            }
-            target.job = type;
         },
         recruit(k) {
             var guildMember = this.$store.globalComponent["guildMember"];

@@ -20,7 +20,6 @@
                     <th scope="col" style="cursor:pointer" @click="sortBy('BLOCK', 'stat')">防御</th>
                     <th scope="col" style="cursor:pointer" @click="sortBy('GROWTH', 'stat')">成长</th>
                     <th scope="col">技能</th>
-                    <th scope="col">职位</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,11 +35,8 @@
                             <span class="skillName">{{guildSkill[id].name}}</span>
                         </div>
                     </td>
-                    <td style="width: 6em;">
-                        <span v-if="v.job=='None'">空闲</span>
-                        <span v-else>{{typeName[v.job]}}</span>
-                        <div class="button specialButton accept" v-if="positionType!='None'" @click="assignPosition(k)">任命</div>
-                        <span class="button specialButton kick" v-if="kickEnabled" @click="kick(k)">踢出</span>
+                    <td style="width: 4em;" v-if="kickEnabled">
+                        <span class="button specialButton kick" @click="kick(k)">移除</span>
                     </td>
                 </tr>
             </tbody>
@@ -77,8 +73,6 @@ export default {
                 ['train6', 'shop6', 'smith6'],
             ],
             // applicantList: [],
-            positionList: [['None','空闲'], ['trainManager','练功房管理'], ['train2Manager','中级练功房管理'], ['train3Manager','高级练功房管理']],
-            positionType: 'None',
             typeName: {shop:'商店', smith:'铁匠铺', train:'练功房', train2:'中级练功房', train3:'高级练功房', mine: '矿场', herb: '药园'},
             viewType: 'list',
             sortKey: 'name',
@@ -104,7 +98,6 @@ export default {
             return max;
         },
         applicantList() {
-            var guild = this.$store.globalComponent["guild"];
             var guildPosition = this.$store.globalComponent["guildPosition"];
             return guildPosition.applicantList;
         }
@@ -123,7 +116,6 @@ export default {
             applicant.special = [];
             applicant.id = this.generateMemberId();
             this.applicantList.push(applicant);
-            console.log(applicant)
         },
         generateMemberId() {
             let id = Math.floor(Math.random()*90071992547);
@@ -242,11 +234,6 @@ export default {
         },
         gainStat(member, type, value) {
             member.stat[type] += value;
-            // this.playerGainStat(type, value);
-        },
-        playerGainStat(type, value) {
-            this.$store.state.memberAttribute[type] += Math.round(value*0.1);
-            this.$store.commit('set_player_attribute');
         },
         resetPlayerStat() {
             for(let type in this.$store.state.memberAttribute) {
@@ -263,10 +250,6 @@ export default {
         recruit(k) {
             if(this.guild.member.length >= this.maxMember)
                 return;
-            let member = this.applicantList[k];
-            for(let type in member.stat) 
-                this.playerGainStat(type, Math.round(member.stat[type]*0.1));
-            this.applicantList[k].job = 'None';
             this.applicantList[k].isMember = true;
             this.guild.member.push(this.applicantList[k]);
             for(let index in this.applicantList[k].skill) {
@@ -277,7 +260,6 @@ export default {
                 this.guild['guild'].lv = this.guild['guild'].lv + value;
             }
             this.applicantList.splice(k, 1);
-            this.$store.commit('set_player_attribute');
         },
         reject(k) {
             this.applicantList.splice(k, 1);
@@ -293,52 +275,8 @@ export default {
                 guildPosition.cancelPosition(member.job, guildPosition.findTarget(member));
             }
         },
-        autoAssign() {
-            var guild = this.$store.globalComponent["guild"];
-            var guildPosition = this.$store.globalComponent["guildPosition"];
-            var members = this.guild.member;
-            members.sort((a, b) => {
-                return (b.stat['efficiency']-a.stat['efficiency']);
-            })
-            var need = {};
-            for(let type in guildPosition.building) {
-                need[type] = guildPosition.maxMember[type]-guildPosition.building[type].length;
-            }
-            for(let index in members) {
-                let member = members[index];
-                if(member.job != 'None')
-                    continue;
-                if(need[member.career] > 0) {
-                    guildPosition.assignPosition(member.career, -1, member);
-                    need[member.career]--;
-                }
-            }
-            for(let index in members) {
-                let member = members[index];
-                if(member.job != 'None')
-                    continue;
-                for(let type in guildPosition.building) {
-                    if(need[type] > 0) {
-                        guildPosition.assignPosition(type, -1, member);
-                        need[type]--;
-                        break;
-                    }
-                }
-            }
-        },
-        assignPosition(k) {
-            var index = this.$store.globalComponent["index"];
-            var guild = this.$store.globalComponent["guild"];
-            var guildPosition = this.$store.globalComponent["guildPosition"];
-            guildPosition.assignPosition(this.positionType, this.positionIndex, this.guild.member[k])
-            this.positionType = 'None';
-            index.displayPage = 'guild';
-            guildPosition.$forceUpdate();
-        },
         kick(k) {
             let member = this.guild.member[k];
-            for(let type in member.stat)
-                this.playerGainStat(type, -1*Math.round(member.stat[type]*0.1));
             for(let index in member.skill) {
                 let skill = member.skill[index];
                 let type = this.guildSkill[skill].type;
@@ -347,7 +285,6 @@ export default {
                 this.guild['guild'].lv = this.guild['guild'].lv - value;
             }
             this.guild.member.splice(k, 1);
-            this.$store.commit('set_player_attribute');
         },
         sortBy(type, type2='talent') {
             this.reverseSort = type==this.sortKey ? -1*this.reverseSort : -1;
