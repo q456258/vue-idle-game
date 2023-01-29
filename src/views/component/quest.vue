@@ -16,8 +16,8 @@
                         <span class="questButton">&nbsp;&minus;&nbsp;</span>&nbsp;{{questCategory[k]}}
                     </span>
                     <span v-if="questCateg[k]">
-                        <div :class="[{questSelected: val==selectedQuest}, 'quests']" v-for="(val, key) in questCateg[k].list" :key="key" @click="selectQuest(val)">
-                            <a class="questHover"></a>
+                        <div :class="[{optionSelected: val==selectedQuest}, 'quests']" v-for="(val, key) in questCateg[k].list" :key="key" @click="selectQuest(val)">
+                            <a class="optionHover"></a>
                             <span class="questName">（{{quests[val].lv}}）{{quests[val].name}}
                             </span>
                             <span class="questStatus" v-show="quests[val].status=='完成'">(完成)</span>
@@ -482,21 +482,6 @@ export default {
 }
 .questStatus {
     float: right;
-}
-.questHover {
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    width: 100%;
-    height: 100%;
-    display: block;
-    &:hover{
-        box-shadow: inset 0 0 10px rgba(123, 176, 255, 0.651);
-    }
-}
-.questSelected {
-    box-shadow: inset 0 0 10px rgba(123, 255, 139, 0.651);
-    background-image: linear-gradient(-270deg, rgba(167, 160, 160, 0) 0%, #59b94c85 40%, #87cf6b69 60%, rgba(255,255,255,0.00) 100%);
 }
 .questFooterField {
     display: flex;
