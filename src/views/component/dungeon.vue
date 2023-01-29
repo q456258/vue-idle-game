@@ -1,310 +1,294 @@
 <template>
     <div id="dungeon">
-        <div class="dungeonStatInfo">
-            <div class="dungeonStat"> 
-                <div class="dungeonPortrait">
-                    <img src="/icons/character/player1.png" alt="" />
-                </div>
-                <div>{{this.$store.state.playerAttribute.name}}</div>
-                <div id="dungeonPlayerHp" class="dungeonIcon"><img src="/icons/dungeon/HP.png" alt="HP">{{playerStat.hp}}</div>
-                <div id="dungeonPlayerAtk" class="dungeonIcon"><img src="/icons/dungeon/ATK.png" alt="ATK">{{playerStat.atk}}</div>
-                <div id="dungeonPlayerBlock" class="dungeonIcon"><img src="/icons/dungeon/BLOCK.png" alt="BLOCK">{{playerStat.block}}</div>
+        <div class="title">
+            副本
+        </div>    
+        <div class="dungeonList" >
+            <div v-for="(val, key) in dungeons" :key="key" @click="selectDungeon(key)">
+                <div :class="[{dungeonSelected: key==selectedDungeon}, 'glossy-button dungeonName']" :style="{backgroundImage: 'url(/icons/dungeon/'+key+'.png)'}">{{dungeons[key].name}}</div>
             </div>
         </div>
-        <div id="dungeonZone" :style="{background: 'url(/icons/maps/'+curDungeon+'.jpg)', backgroundSize: 'cover'}">
-            <div class="grid" v-for="(v, k) in curMap" :key="k" @mouseover="takeAction($event, k, true)" @click="takeAction($event, k, false)" @contextmenu.prevent="showInfo($event, k)">
-                <div class="frontIcon" v-show="v.reveal <= 0">
-                    <img v-if="v.reveal<0" src="/icons/dungeon/restrict.png" style="width: 100px;" alt="" />
+        <div class="" v-if="selectedDungeon">
+            <div id="dungeonInfo">
+                <div id="dungeonDesc" class="scrollbar-morpheus-den">
+                    <p v-for="(v, k) in curDungeon.desc" :key="k"> 
+                        {{ v }}
+                    </p>
                 </div>
-                <div :class="['backIcon',{grayscale:v.stat.hp<=0&&(v.type=='normal'||v.type=='elite'||v.type=='boss')}]" v-if="v.type" :style="{backgroundImage: 'url(/icons/dungeon/'+v.type+'Border.png)'}">
-                    <img :src=v.iconSrc alt="" />
-                    <!-- <span class="addonCount">
-                        <img src="../../assets/icons/star.png" alt="icon" style="height: 10px; width: 10px;"  v-for="n in v.addon.length" :key="n">
-                    </span> -->
+                <div >
+                    奖励
                 </div>
-                <span class="dungeonStat" v-if="(v.stat && v.stat.hp>0)"> 
-                    <span class="dungeonIcon"><img src="/icons/dungeon/HP.png" alt="HP">{{v.stat.hp}}</span>
-                    <span class="dungeonIcon"><img src="/icons/dungeon/ATK.png" alt="ATK">{{v.stat.atk}}</span>
-                    <span class="dungeonIcon"><img src="/icons/dungeon/BLOCK.png" alt="BLOCK">{{v.stat.block}}</span>
-                </span>
-            </div>
-        </div>
-        <div class="dungeonStatInfo">
-            <div class="dungeonStat" v-if="target"> 
-                <div class="dungeonPortrait">
-                    <img :src=target.iconSrc alt="" />
-                </div>
-                <div>{{target.name}}</div>
-                <div class="dungeonIcon"><img src="/icons/dungeon/HP.png" alt="HP">{{target.stat.hp}}</div>
-                <div class="dungeonIcon"><img src="/icons/dungeon/ATK.png" alt="ATK">{{target.stat.atk}}</div>
-                <div class="dungeonIcon"><img src="/icons/dungeon/BLOCK.png" alt="BLOCK">{{target.stat.block}}</div>
-                <div class="dungeonSpecialty">
-                    <div v-for="(v, k) in target.specialty">
-                        <span style="color:yellow">{{dungeonSpecialty[v].name}} </span> 
-                        <span style="color:gray">{{dungeonSpecialty[v].desc}}</span>
+                <div class="itemList">
+                    <div v-for="(v, k) in curDungeon.rewardList" :key="k"> 
+                        <div class="grid" v-if="v[0]" @mouseover="showInfo($event,v[0].itemType,v[0],true)" @mouseleave="closeInfo(v[0].itemType)">
+                            <div class="mediumIconContainer">
+                                <del :class="[{grey:v[0].quality.qualityLv==1, green:v[0].quality.qualityLv==3, blue:v[0].quality.qualityLv==4, purple:v[0].quality.qualityLv==5, orange:v[0].quality.qualityLv==6}, 'mediumIcon iconBorder']"></del>
+                                <img :src="v[0].description.iconSrc" alt="" />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div id="dungeonMember">
+                <span class="dungeonStat"> 
+                    <span v-show="false">{{ forceUpdate }}</span>
+                    <span class="dungeonIcon" v-if="curDungeon.status=='none' || curDungeon.status=='ready'">建议</span>
+                    <span class="dungeonIcon">当前</span>
+                    <span class="dungeonIcon" v-if="curDungeon.status=='none' || curDungeon.status=='ready'"><img src="/icons/dungeon/HP.png" alt="HP">{{curDungeon.suggestStat[0]}}</span>
+                    <span class="dungeonIcon"><img src="/icons/dungeon/HP.png" alt="HP">{{playerStat.HP}}</span>
+                    <span class="dungeonIcon" v-if="curDungeon.status=='none' || curDungeon.status=='ready'"><img src="/icons/dungeon/ATK.png" alt="ATK">{{curDungeon.suggestStat[1]}}</span>
+                    <span class="dungeonIcon"><img src="/icons/dungeon/ATK.png" alt="ATK">{{playerStat.ATK}}</span>
+                    <span class="dungeonIcon" v-if="curDungeon.status=='none' || curDungeon.status=='ready'"><img src="/icons/dungeon/BLOCK.png" alt="BLOCK">{{curDungeon.suggestStat[2]}}</span>
+                    <span class="dungeonIcon"><img src="/icons/dungeon/BLOCK.png" alt="BLOCK">{{playerStat.BLOCK}}</span>
+                </span>
+                <div class="memberList" v-if="curDungeon.status=='none' || curDungeon.status=='ready'">        
+                    <table>
+                        <thead>
+                            <tr>
+                                <th scope="col" style="cursor:pointer"></th>
+                                <th scope="col" style="cursor:pointer">名称</th>
+                                <th scope="col" style="cursor:pointer" @click="sortBy('lv')">等级</th>
+                                <th scope="col" style="cursor:pointer" @click="sortBy('HP', 'stat')">生命</th>
+                                <th scope="col" style="cursor:pointer" @click="sortBy('ATK', 'stat')">攻击</th>
+                                <th scope="col" style="cursor:pointer" @click="sortBy('BLOCK', 'stat')">防御</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(v, k) in guild.member" :key="k">
+                                <td><input type="checkbox" v-on:change="updateMember($event, v.id, selectedDungeon)"></td>
+                                <td>{{v.name}}</td>
+                                <td>{{v.lv}}</td>
+                                <td>{{v.stat.HP}}</td>
+                                <td>{{v.stat.ATK}}</td>
+                                <td>{{v.stat.BLOCK}}</td>
+                                <!-- <td style="width: 8em;">
+                                    <div class="skill" v-for="(id, index) in v.skill" :key="index">
+                                        <span class="skillName">{{guildSkill[id].name}}</span>
+                                    </div>
+                                </td> -->
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="dungeonMsg" class="scrollbar-morpheus-den" v-show="curDungeon.status == 'inProgress' || curDungeon.status == 'done'">
+                    <span v-show="false">{{ forceUpdate }}</span>
+                    战斗信息：
+                    <div v-for="(v, k) in curDungeon.msg" :key="k"> 
+                        {{ v }}
+                    </div>
+                </div>
+            </div>
+            <div class="btn btn-success" v-if="curDungeon.status == 'ready'" @click="startDungeon(selectedDungeon)">进入副本</div>
+            <div class="btn btn-danger" v-if="curDungeon.status == 'inProgress'" @click="quitDungeon(selectedDungeon)">退出副本</div>
+            <div class="btn btn-success" v-if="curDungeon.status == 'done'" @click="collectReward(selectedDungeon)">领取奖励</div>
         </div>
     </div>
 </template>
 <script>
 
 import { dungeonConfig } from '@/assets/config/dungeonConfig';
+import { itemConfig } from '@/assets/config/itemConfig';
 export default {    
     name: 'dungeon',
     props: { },
-    mixins: [dungeonConfig],
+    mixins: [dungeonConfig, itemConfig],
     components: {},
     data() {
         return {
-            row: 7,
-            col: 7,
-            playerStat: {hp: 1000, atk: 10, block: 10},
-            target: null,
-            curDungeon: 'Ragefire_Chasm',
-            mapName: '',
-            level: 0,
-            map: [
-                // {type:'normal', stat:{hp:100, atk: 20, block: 20}, description:{iconSrc:'/icons/dungeon/ui-ej-boss-adarogg.png'}},
-                // {type:'normal', stat:{hp:100, atk: 20, block: 20}, description:{iconSrc:'/icons/dungeon/ui-ej-boss-adarogg.png'}}
-            ],
-            curMap: [],
-            inBattle: false
+            selectedDungeon: null,
+            dungeonProgress: {},
+            forceUpdate: 0,            
         };
     },
     mounted() {
         this.$store.globalComponent.dungeon = this;
-        this.generateDungeon('Ragefire_Chasm', 0);
     },
     watch: {
     },
     computed: {
+        guild() { return this.$store.state.guildAttribute; },
+        playerStat() {
+            if(!this.selectedDungeon || !this.dungeonProgress[this.selectedDungeon])
+                return null;
+            return this.dungeonProgress[this.selectedDungeon].playerStat;
+        },
+        curDungeon() {
+            if(!this.selectedDungeon || !this.dungeonProgress[this.selectedDungeon])
+                return null;
+            return this.dungeonProgress[this.selectedDungeon];
+        }
     },
     methods: {
+        selectDungeon(name) {
+            this.selectedDungeon = name;
+            if(this.dungeonProgress[name] == null) {
+                this.generateDungeon(name);
+            }
+        },
         generateDungeon(name) {
+            this.dungeonProgress[name] = {};
             let dungeon = this.dungeons[name];
-            this.mapName = dungeon.name;
-            this.curDungeon = name;
-            for(let level in dungeon.map)
-                this.map[level] = this.generateMap(dungeon.map[level]);
-            this.curMap = this.map[this.level];
+            let curDungeon = this.dungeonProgress[name];
+            curDungeon.mapName = dungeon.name;
+            curDungeon.desc = dungeon.desc;
+            curDungeon.level = 0;
+            curDungeon.playerStat = {HP: 0, ATK: 0, BLOCK: 0};
+            curDungeon.map = this.generateMap(dungeon.map);
+            curDungeon.suggestStat = dungeon.suggestStat;
+            curDungeon.rewardList = this.generateRewardList(dungeon.rewardList);
+            curDungeon.msg = [];
+            curDungeon.status = 'none';
+            curDungeon.prizePool = {};
+            curDungeon.timer = null;
         },
         generateMap(mapArr) {
-            let map = Array(this.row*this.col).fill();
-            let ranArr = Array.from(map.keys());
-            let len = ranArr.length;
-            // 直接fill({reveal: 0})会让所有指针指向同一个地址
-            for(let i in map) {
-                map[i] = {reveal: 0};
-            }
-            for(let j in mapArr) {
-                let info = mapArr[j];
-                for(let k=0; k<info.count; k++) {
-                    let ran = info.position != -1 ? info.position : Math.floor(Math.random()*len);
-                    map[ranArr[ran]] = this.$deepCopy(this.dungeonMonster[info.id]);
-                    map[ranArr[ran]].reveal = info.reveal ? 1 : 0;
-                    map[ranArr[ran]].index = ranArr[ran];
-                    map[ranArr[ran]].buff = {};
-                    if(map[ranArr[ran]].stat) 
-                        map[ranArr[ran]].stat.maxHp = map[ranArr[ran]].stat.hp;
-                    ranArr[ran] = ranArr[--len];
-                }
+            let map = [];
+            for(let i in mapArr) {
+                let id = mapArr[i];
+                let monster = this.$deepCopy(this.dungeonMonster[id]);
+                map.push(monster);
             }
             return map;
         },
-        takeAction(e, index, fogOnly) {
-            let target = this.curMap[index];
-            if(target.reveal < 0) {
-                return;
-            } else if(target.reveal == 0) {
-                this.fogRemoved(index);
-                return;
-            } else if(fogOnly)
-                return;
-            let type = target.type;
-            if(type != undefined)
-                this.showInfo(e, index);
-            if(this.inBattle)
+        generateRewardList(list) {
+            let rewardList = [];
+            let itemInfo = this.$store.globalComponent.itemInfo;
+            for(let i in list) {
+                rewardList.push([JSON.parse(itemInfo.createItem(list[i], 1, 1))]);
+            }
+
+            return rewardList;
+        },
+        updateMember(e, id, dungeon) {
+            let curDungeon = this.dungeonProgress[dungeon];
+            let isAdding = e.target.checked ? 1 : -1;
+            let guildMember = this.$store.globalComponent["guildMember"];
+            let member = guildMember.findTargetByID(id);
+            this.updatePlayerStat('HP', isAdding*member.stat.HP);
+            this.updatePlayerStat('ATK', isAdding*member.stat.ATK);
+            this.updatePlayerStat('BLOCK', isAdding*member.stat.BLOCK);
+            if(member.stat.HP <= 0 || member.stat.ATK <= 0)
+                this.statusChange(dungeon, 'none');
+            else
+                this.statusChange(dungeon, 'ready');
+        },
+        updatePlayerStat(type, value) {
+            this.playerStat[type] += value;
+            this.forceUpdate += 1;
+        },
+        startDungeon(dungeon) {
+            let curDungeon = this.dungeonProgress[dungeon];
+            this.statusChange(dungeon, 'inProgress');
+            curDungeon.timer = setInterval(() => {
+                if(curDungeon.status != 'inProgress' || !this.battle(dungeon) || ++curDungeon.level >= curDungeon.map.length) {
+                    this.statusChange(dungeon, 'done');
+                    clearInterval(curDungeon.timer);
+                    return;
+                }
+            }, 2000)
+        },
+        quitDungeon(dungeon) {
+            let curDungeon = this.dungeonProgress[dungeon];
+            clearInterval(curDungeon.timer);
+            this.statusChange(dungeon, 'done');
+        },
+        collectReward(dungeon) {
+            let curDungeon = this.dungeonProgress[dungeon];
+            let itemInfo = this.$store.globalComponent["itemInfo"];
+            for(let k in curDungeon.prizePool) {
+                let item = itemInfo.createItem(k, curDungeon.prizePool[k]);  
+                itemInfo.addItem(JSON.parse(item), true);
+            }
+            this.statusChange(dungeon, 'none');
+        },
+        battle(dungeon) {
+            let curDungeon = this.dungeonProgress[dungeon];
+            let player = curDungeon.playerStat;
+            let enemy = curDungeon.map[curDungeon.level].stat;
+            let playerDmg = Math.max(player.ATK-enemy.BLOCK, 0);
+            let enemyDmg = Math.max(enemy.ATK-player.BLOCK, 0);
+            let playerTurn = Math.ceil(enemy.HP/playerDmg);
+            let enemyTurn = Math.ceil(player.HP/enemyDmg);
+            if(enemyTurn<playerTurn) {
+                player.HP = 0;
+                let hpRemain = enemy.HP-playerDmg*enemyTurn;
+                this.battleLost(dungeon, hpRemain)
                 return false;
-            if(['normal', 'elite', 'boss'].indexOf(type) != -1 && target.stat.hp > 0) {
-                this.triggerBattle(index);
-            } else if(type == 'upDoor') {
-                this.level--;
-                this.curMap = this.map[this.level];
-                this.target = null;
-            } else if(type == 'downDoor') {
-                this.level++;
-                this.curMap = this.map[this.level];
-                this.target = null;
+            } else {
+                let dmg = playerTurn*enemyDmg;
+                this.updatePlayerStat('HP', dmg)
+                this.battleWon(dungeon, dmg)
+                return true;
             }
         },
-        showInfo(e, index) {
-            this.target = this.curMap[index];
-        },
-        fogRemoved(index) {
-            this.curMap[index].reveal++;
-            if(['normal', 'elite'].indexOf(this.curMap[index].type) != -1) {
-                this.lockSurrounding(index);
-            }
-        },
-        triggerBattle(index) {
-            this.inBattle = true;
-            if(this.playerAttack(index) && this.enemyAttack(index)) {
-                setTimeout(() => {
-                    this.inBattle = false;
-                    this.triggerBattle(index);
-                }, 100);
-            } else  {
-                this.inBattle = false;
-            }
-            if(this.curMap[index].stat.hp <= 0)
-                this.enemyDead(index);
-        },
-        enemyAttack(index) {
-            let enemy = this.curMap[index]
-            let enemySpecialty = enemy.specialty;
-            let enemyStat = enemy.stat;
-            if(enemyStat.hp <= 0 || this.playerStat.hp <= 0)
-                return false;
-            let dmg = enemyStat.atk-this.playerStat.block;
-            this.playerStat.hp -= Math.max(dmg, 0);
-            if(enemySpecialty.indexOf('reckless') != -1) {
-                let ran = Math.round(Math.random()*10);
-                this.enemyGainStat(index, 'hp', -2*ran);
-                this.gainStat('hp', -1*ran);
-            }
-            if(enemySpecialty.indexOf('hunger') != -1 && dmg > 0) {
-                this.enemyGainStat(index, 'atk', 1);
-                this.enemyGainStat(index, 'block', 1);
-                this.gainStat('atk', -1);
-                this.gainStat('block', -1);
-                if(!enemy.buff.hunger)
-                    enemy.buff.hunger = 0;
-                enemy.buff.hunger += 1;
-            }
-            return true;
-        },
-        playerAttack(index) {
-            let enemyStat = this.curMap[index].stat;
-            if(enemyStat.hp <= 0 || this.playerStat.hp <= 0)
-                return false;
-            let dmg = this.playerStat.atk-enemyStat.block;
-            if(dmg <= 0)
-                return false;
-            enemyStat.hp -= Math.max(dmg, 0);
-            return true;
-        },
-        unlockSurrounding(index) {
-            let map = this.curMap;
-            let col = this.col;
-            let row = this.row;
-            if(index%col > 0) {
-                map[index-1].reveal++;
-                if(index-col >= 0)
-                    map[index-col-1].reveal++;
-                if(index < col*(row-1))
-                    map[index+col-1].reveal++;
-            }
-            if(index%col != col-1) {
-                map[index+1].reveal++;
-                if(index-col >= 0)
-                    map[index-col+1].reveal++;
-                if(index < col*(row-1))
-                    map[index+col+1].reveal++;
-            }
-            if(index-col >= 0)
-                map[index-col].reveal++;
-            if(index < col*(row-1))
-                map[index+col].reveal++;
-        },
-        lockSurrounding(index) {
-            let map = this.curMap;
-            let col = this.col;
-            let row = this.row;
-            if(index%col > 0) {
-                if(map[index-1].reveal <= 0)
-                    map[index-1].reveal--;
-                if(index-col >= 0 && map[index-col-1].reveal <= 0)
-                    map[index-col-1].reveal--;
-                if(index < col*(row-1) && map[index+col-1].reveal <= 0)
-                    map[index+col-1].reveal--;
-            }
-            if(index%col != col-1) {
-                if(map[index+1].reveal <= 0)
-                    map[index+1].reveal--;
-                if(index-col >= 0 && map[index-col+1].reveal <= 0)
-                    map[index-col+1].reveal--;
-                if(index < col*(row-1) && map[index+col+1].reveal <= 0)
-                    map[index+col+1].reveal--;
-            }
-            if(index-col >= 0 && map[index-col].reveal <= 0)
-                map[index-col].reveal--;
-            if(index < col*(row-1) && map[index+col].reveal <= 0)
-                map[index+col].reveal--;
-        },
-        enemyDead(index) {
-            let enemy = this.curMap[index];
-            this.unlockSurrounding(index);
-            let enemyStat = enemy.stat;
-            let enemySpecialty = enemy.specialty;
-            this.gainStat('hp', Math.max(Math.ceil(enemyStat.maxHp/10), 0));
-            this.gainStat('atk', Math.max(Math.ceil(enemyStat.atk/10), 0));
-            this.gainStat('block', Math.max(Math.ceil(enemyStat.block/10), 0));
-            if(enemySpecialty.indexOf('hunger') != -1) {
-                if(enemy.buff.hunger) {
-                    this.gainStat('atk', enemy.buff.hunger);
-                    this.gainStat('block', enemy.buff.hunger);
+        battleWon(dungeon, dmg) {
+            let curDungeon = this.dungeonProgress[dungeon];
+            let msg = '击败'+ curDungeon.map[curDungeon.level].name+', 失去'+dmg+'点生命值';
+            let haveReward = false;
+            
+            for(let i in curDungeon.map[curDungeon.level].reward) {
+                let random = Math.random()*100;
+                let reward = curDungeon.map[curDungeon.level].reward[i];
+                if(random <= reward[1]) {
+                    this.addToPrizePool(dungeon, reward[0], reward[2]);
+                    if(!haveReward) {
+                        msg += '，获得战利品: '
+                        msg += this.itemType[reward[0]].description.name + '*' + reward[2];
+                    }
+                    else
+                        msg += ', ' + this.itemType[reward[0]].description.name + '*' + reward[2];
+                    haveReward = true;
                 }
             }
-            if(enemySpecialty.indexOf('corrosion') != -1) {
-                this.gainStat('block', -2);
+            this.addMsg(dungeon, msg);
+        },
+        battleLost(dungeon, hpRemain) {
+            let msg = '战斗失败，目标剩余 ' +hpRemain+' 点生命值';
+            this.addMsg(dungeon, msg);
+            this.statusChange(dungeon, 'done');
+        },
+        addToPrizePool(dungeon, itemName, quantity) {
+            let curDungeon = this.dungeonProgress[dungeon];
+            if(curDungeon.prizePool[itemName])
+                curDungeon.prizePool[itemName] += quantity;
+            else
+                curDungeon.prizePool[itemName] = quantity;
+        },
+        addMsg(dungeon, msg) {
+            let curDungeon = this.dungeonProgress[dungeon];
+            curDungeon.msg.push(msg);
+            let element = document.getElementById('dungeonMsg');
+            // 渲染完成后滚至最下端
+            this.$nextTick(() => {
+                element.scrollTop = element.scrollHeight + 20;
+                this.forceUpdate += 1;
+            })
+        },
+        statusChange(dungeon, status) {
+            let curDungeon = this.dungeonProgress[dungeon];
+            curDungeon.status = status;
+            switch(status) {
+                case 'none':
+                    this.generateDungeon(dungeon);
+                    break;
+                default:
+                    curDungeon.status = status;
             }
+            this.forceUpdate += 1;
         },
-        enemyGainStat(index, type, amount) {
-            amount = parseInt(amount);
-            if(isNaN(amount)) {
-                console.log("增加属性数据传入非数字字符: 类型" +type+' 数额 '+amount);
-                return false;
-            } else if(amount == 0)
-                return false;
+        showInfo($event, type, item, compare) {
+            let index = this.$store.globalComponent["index"];
+            index.showInfo($event, type, item, compare);
+        },
+        closeInfo(type) {
+            let index = this.$store.globalComponent["index"];
+            let equip = ['helmet', 'weapon', 'armor', 'shoe', 'shoulder', 'glove', 'ring', 'cape', 'bracer', 'belt', 'legging', 'necklace'];
 
-            this.curMap[index].stat[type] += amount;
+            if(equip.indexOf(type) != -1)
+                index.closeInfo('equip');
+            else
+                index.closeInfo('item');
         },
-        gainStat(type, amount) {
-            amount = parseInt(amount);
-            if(isNaN(amount)) {
-                console.log("增加属性数据传入非数字字符: 类型" +type+' 数额 '+amount);
-                return false;
-            } else if(amount == 0)
-                return false;
-
-            this.playerStat[type] += amount;
-            this.showGainStat(type, amount);
-        },
-        showGainStat(type, amount) {
-            let duration = 500;
-            let parentNode;
-            let node = document.createElement("DIV");
-            node.innerHTML = amount>0 ? '+'+amount : amount;
-            switch(type) {
-                case 'hp':
-                    parentNode = document.getElementById("dungeonPlayerHp");
-                    break;
-                case 'atk':
-                    parentNode = document.getElementById("dungeonPlayerAtk");
-                    break;
-                case 'block':
-                    parentNode = document.getElementById("dungeonPlayerBlock");
-                    break;
-            }
-            node.classList.add("dungeonGainStat");
-            node.style.color = amount > 0 ? 'greenyellow' : 'red';
-            parentNode.appendChild(node);
-            setTimeout(() => {
-                parentNode.removeChild(node);
-            }, duration);
-        }
     }
 }
 </script>
@@ -315,99 +299,113 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
+    padding-top: 60px;
     margin: auto;
-    border-radius: 15px;
+    border-radius: 2px;
     background: linear-gradient(130deg, rgba(0, 0, 0, 1) 0%, rgb(44, 37, 24) 40%, rgb(14, 10, 6) 70%);
-    width: 1000px;
-    height: 700px;
+    width: 750px;
+    height: 500px;
     z-index: 9;
     display: flex;
-    
+    background-image: url(/icons/dungeon/dungeonBG.png);
+    background-size: cover;
 }
-.dungeonStatInfo {
-    width: 145px;
-    height: 700px;
+#dungeonInfo {
+    width: 595px;
+    height: 200px;
 }
-.dungeonStat {
+#dungeonMember {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    width: 595px;
+    // height: 300px;
+}
+#dungeonMsg {
+    width: 1000px;
+    height: 100px;
+    overflow-y: auto;
+}
+#dungeonDesc {
+    width: 595px;
+    height: 100px;
+    overflow-y: auto;
+    text-align: left;
+    text-indent: 30px;
+    margin: 10px 0 20px 0;
+}
+.dungeonList {
+    position: relative;
+    height: 650px;
+    font-size: 15px;
+    line-height: 25px;
+    padding: 0px 10px 0px 10px;
+    display: block;
+}
+.dungeonName {
+    color: #FFCE00;
+    font-size: 13px;
+    font-family: sans-serif;
+    font-weight: bold;
+}
+.glossy-button {
+    position: relative;
+    width: 132px;
+    height: 65px;
+    display: inline-block;
+    background-color: #AAA;
+    background-image: url(/icons/dungeon/ragefireChasm.png);
+    background-size: contain;
+    padding: 5px 10px;
     text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
-    .dungeonPortrait {
-        display: flex;
-        width: 100px;
-        height: 100px;
-        img {
-            width: auto;
-            height: auto;
-            max-width: 100px;
-            max-height: 100px;
-            margin-top: auto;
-            margin-bottom: 10px;
-        }
-    }
-    .dungeonIcon {
-        position: relative;
-    }
-    img {
-        width: 40px;
-        height: 40px;
-    }
+    border-radius: 5px;
+    box-shadow: inset 0 -5px 20px hsla(0, 0%, 0%, 1), /* top light */ inset 0 5px 20px hsla(0, 0%, 100%, 0.4), /* bottom shadow */ /* multiple light sources yall */ -8px 8px 5px hsla(0, 0%, 0%, 0.15), /* drop shadow 1 */ 5px 18px 10px hsla(0, 0%, 0%, 0.2);
+    // transition: transform 0.1s, box-shadow 0.1s;
 }
-#dungeonZone {
-    width: 700px;
-    height: 700px;
-    display: flex;
-    flex-wrap: wrap;
-    left: 0;
-    right: 0;
-    padding: 0;
-    margin: auto;
-    .grid {
-        position: relative;
-        height: 100px;
-        width: 100px;
-        border: none;
-        margin: 0;
-        &:hover .frontIcon{
-            background-color: #282424;
-        }
-        .frontIcon {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-color: #1d1a1a;
-            backface-visibility: hidden;
-            z-index: 1;
-        }
-        .backIcon {
-            position: relative;
-            display: flex;
-            background-size: contain;
-            height: 100px;
-            width: 100px;
-            img {
-                max-height: 100%;
-                max-width: 100%;
-                margin-top: auto;
-                margin-bottom: 10px;
-            }
-        }
-        .dungeonStat {
-            position: absolute;
-            top: 5px;
-            left: 7px;
-            pointer-events: none;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
-            img {
-                width: 10px;
-                height: 10px;
-            }
-        }
-    }
+/* highlight */
+.glossy-button:before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    height: 10px;
+    border-radius: 5px;
+    background: linear-gradient(hsla(0, 0%, 100%, 0.4), hsla(0, 0%, 100%, 0) );
+}
+.glossy-button:hover {
+    transform: scale(1.05);    
+}
+.dungeonSelected {
+    box-shadow: inset 0 -5px 20px rgba(123, 255, 139, 0.6), /* top light */ inset 0 5px 20px hsla(0, 0%, 100%, 0.4), /* bottom shadow */ /* multiple light sources yall */ -8px 8px 5px hsla(0, 0%, 0%, 0.15), /* drop shadow 1 */ 5px 18px 10px hsla(0, 0%, 0%, 0.2);
 }
 
+.dungeonStat {
+    display: flex;
+    // flex-direction: column;
+    flex-wrap: wrap;
+    width: 200px;
+    align-items: flex-start;
+    text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
+    .dungeonIcon {
+        position: relative;
+        // width: 50%;
+        width: 99px;
+        text-align: left;
+    }
+    img {
+        width: 30px;
+        height: 30px;
+    }
+}
+.memberList {
+    width: 400px;
+}
+.title {
+    position: absolute;
+    top: 1.4rem;
+    left: 0;
+    right: 0;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
 </style>
