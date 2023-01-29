@@ -32,16 +32,16 @@
             <div id="dungeonMember">
                 <span class="dungeonStat"> 
                     <span v-show="false">{{ forceUpdate }}</span>
-                    <span class="dungeonIcon" v-if="curDungeon.status=='none' || curDungeon.status=='ready'">建议</span>
                     <span class="dungeonIcon">当前</span>
-                    <span class="dungeonIcon" v-if="curDungeon.status=='none' || curDungeon.status=='ready'"><img src="/icons/dungeon/HP.png" alt="HP">{{curDungeon.suggestStat[0]}}</span>
+                    <span class="dungeonIcon" v-if="curDungeon.status=='none' || curDungeon.status=='ready'">建议</span>
                     <span class="dungeonIcon"><img src="/icons/dungeon/HP.png" alt="HP">{{playerStat.HP}}</span>
-                    <span class="dungeonIcon" v-if="curDungeon.status=='none' || curDungeon.status=='ready'"><img src="/icons/dungeon/ATK.png" alt="ATK">{{curDungeon.suggestStat[1]}}</span>
+                    <span class="dungeonIcon" v-if="curDungeon.status=='none' || curDungeon.status=='ready'"><img src="/icons/dungeon/HP.png" alt="HP">{{curDungeon.suggestStat[0]}}</span>
                     <span class="dungeonIcon"><img src="/icons/dungeon/ATK.png" alt="ATK">{{playerStat.ATK}}</span>
-                    <span class="dungeonIcon" v-if="curDungeon.status=='none' || curDungeon.status=='ready'"><img src="/icons/dungeon/BLOCK.png" alt="BLOCK">{{curDungeon.suggestStat[2]}}</span>
+                    <span class="dungeonIcon" v-if="curDungeon.status=='none' || curDungeon.status=='ready'"><img src="/icons/dungeon/ATK.png" alt="ATK">{{curDungeon.suggestStat[1]}}</span>
                     <span class="dungeonIcon"><img src="/icons/dungeon/BLOCK.png" alt="BLOCK">{{playerStat.BLOCK}}</span>
+                    <span class="dungeonIcon" v-if="curDungeon.status=='none' || curDungeon.status=='ready'"><img src="/icons/dungeon/BLOCK.png" alt="BLOCK">{{curDungeon.suggestStat[2]}}</span>
                 </span>
-                <div class="memberList" v-if="curDungeon.status=='none' || curDungeon.status=='ready'">        
+                <div class="memberList scrollbar-morpheus-den" v-if="curDungeon.status=='none' || curDungeon.status=='ready'">        
                     <table>
                         <thead>
                             <tr>
@@ -128,7 +128,8 @@ export default {
             this.resetMember(name);
         },
         generateDungeon(name) {
-            this.dungeonProgress[name] = {};
+            if(this.dungeonProgress[name] == null)
+                this.dungeonProgress[name] = {};
             let dungeon = this.dungeons[name];
             let curDungeon = this.dungeonProgress[name];
             curDungeon.mapName = dungeon.name;
@@ -170,14 +171,14 @@ export default {
             this.updatePlayerStat('HP', isAdding*member.stat.HP);
             this.updatePlayerStat('ATK', isAdding*member.stat.ATK);
             this.updatePlayerStat('BLOCK', isAdding*member.stat.BLOCK);
-            if(member.stat.HP <= 0 || member.stat.ATK <= 0)
-                this.statusChange(dungeon, 'none');
-            else
-                this.statusChange(dungeon, 'ready');
             if(e.target.checked)
                 curDungeon.members.push(id);
             else
                 curDungeon.members.splice(curDungeon.members.indexOf(id),1);
+            if(curDungeon.members.length == 0)
+                this.statusChange(dungeon, 'none');
+            else
+                this.statusChange(dungeon, 'ready');
         },
         resetMember(dungeon) {
             let curDungeon = this.dungeonProgress[dungeon];
@@ -303,8 +304,6 @@ export default {
                     this.generateDungeon(dungeon);
                     this.resetMember(dungeon);
                     break;
-                default:
-                    curDungeon.status = status;
             }
             this.forceUpdate += 1;
         },
@@ -353,7 +352,7 @@ export default {
 }
 #dungeonMsg {
     width: 1000px;
-    height: 100px;
+    height: 170px;
     overflow-y: auto;
 }
 #dungeonDesc {
@@ -416,6 +415,7 @@ export default {
     // flex-direction: column;
     flex-wrap: wrap;
     width: 200px;
+    height: 170px;
     align-items: flex-start;
     text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
     .dungeonIcon {
@@ -431,6 +431,9 @@ export default {
 }
 .memberList {
     width: 400px;
+    overflow-y: auto;
+    display: block;
+    height: 170px;
 }
 .title {
     position: absolute;
