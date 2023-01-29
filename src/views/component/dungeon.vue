@@ -125,7 +125,7 @@ export default {
             if(this.dungeonProgress[name] == null) {
                 this.generateDungeon(name);
             }
-            this.resetMember();
+            this.resetMember(name);
         },
         generateDungeon(name) {
             this.dungeonProgress[name] = {};
@@ -142,6 +142,7 @@ export default {
             curDungeon.status = 'none';
             curDungeon.prizePool = {};
             curDungeon.timer = null;
+            curDungeon.members = [];
         },
         generateMap(mapArr) {
             let map = [];
@@ -173,8 +174,14 @@ export default {
                 this.statusChange(dungeon, 'none');
             else
                 this.statusChange(dungeon, 'ready');
+            if(e.target.checked)
+                curDungeon.members.push(id);
+            else
+                curDungeon.members.splice(curDungeon.members.indexOf(id),1);
         },
-        resetMember() {
+        resetMember(dungeon) {
+            let curDungeon = this.dungeonProgress[dungeon];
+            curDungeon.members = [];
             this.selected = [];
             this.clearPlayerStat();
         },
@@ -279,11 +286,22 @@ export default {
             })
         },
         statusChange(dungeon, status) {
+            let guildMember = this.$store.globalComponent["guildMember"];
             let curDungeon = this.dungeonProgress[dungeon];
             curDungeon.status = status;
             switch(status) {
                 case 'none':
+                    let chance = curDungeon.level/curDungeon.map.length;
+                    for(let i in curDungeon.members) {
+                        let id = curDungeon.members[i];
+                        let ran = Math.random();
+                        if(ran <= chance) {
+                            let member = guildMember.findTargetByID(id);
+                            guildMember.levelUp(member);
+                        }
+                    }
                     this.generateDungeon(dungeon);
+                    this.resetMember(dungeon);
                     break;
                 default:
                     curDungeon.status = status;

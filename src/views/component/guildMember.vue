@@ -90,7 +90,7 @@ export default {
         guild() { return this.$store.state.guildAttribute; },
         player() { return this.$store.state.playerAttribute; },
         maxMember() { 
-            let max = 2;
+            let max = this.guild.guild.lv*5+5;
             // for(let build in this.guild) {
             //     if(build != 'guild' && this.guild[build].lv != null && this.guild[build].lv > 0)
             //         max += Math.floor(this.guild[build].lv/10+1);
@@ -214,23 +214,14 @@ export default {
             if(member.lv >= this.player.lv)
                 return;
             member.lv += 1;
-            if(member.lv%10 == 0) {
-                let temp = this.generateSkill(member);
-                if(temp == undefined)
-                    return;   
-                if(member.skill[temp] == undefined)
-                    member.skill[temp] = 1;
-                else
-                    member.skill[temp]++;
-            }
-            // 升级暂时先不加属性了
-            // this.gainStat(member);
+            member.stat.HP += Math.round(member.talent.HP*member.stat.GROWTH);
+            member.stat.ATK += Math.round(member.talent.ATK*member.stat.GROWTH);
+            member.stat.BLOCK += Math.round(member.talent.BLOCK*member.stat.GROWTH);
         },
         levelupAll() {
             for(let index in this.guild.member) {
                 this.levelUp(this.guild.member[index]);
             }
-            this.$store.commit('set_player_attribute');
         },
         gainStat(member, type, value) {
             member.stat[type] += value;
