@@ -10,19 +10,15 @@
     <label for="login" style="margin-top: 0.25rem;">踢人</label>
     <div class="member scrollbar-morpheus-den" v-if="viewType=='list'">
         公会成员&nbsp;<span :style="{color: guild.member.length>=maxMember?'#F00':''}">{{guild.member.length+'/'+maxMember}}</span>
-        <button class="btn btn-secondary" v-if="size=='maximize'" style="margin-left: 1rem;" @click="changeSize('minimize')"><i class="fa fa-window-minimize" aria-hidden="true"></i></button>
-        <button class="btn btn-secondary" v-if="size=='minimize'" style="margin-left: 1rem;" @click="changeSize('maximize')"><i class="fa fa-window-maximize" aria-hidden="true"></i></button>
-
-        <table v-if="size=='maximize'">
+        <table>
             <thead>
                 <tr>
                     <th scope="col">名称</th>
                     <th scope="col" style="cursor:pointer" @click="sortBy('lv')">等级</th>
-                    <th scope="col" style="cursor:pointer" @click="sortBy('STR', 'stat')">力量</th>
-                    <th scope="col" style="cursor:pointer" @click="sortBy('AGI', 'stat')">敏捷</th>
-                    <th scope="col" style="cursor:pointer" @click="sortBy('STA', 'stat')">耐力</th>
-                    <th scope="col" style="cursor:pointer" @click="sortBy('INT', 'stat')">智力</th>
-                    <th scope="col" style="cursor:pointer" @click="sortBy('SPI', 'stat')">精神</th>
+                    <th scope="col" style="cursor:pointer" @click="sortBy('HP', 'stat')">生命</th>
+                    <th scope="col" style="cursor:pointer" @click="sortBy('ATK', 'stat')">攻击</th>
+                    <th scope="col" style="cursor:pointer" @click="sortBy('BLOCK', 'stat')">防御</th>
+                    <th scope="col" style="cursor:pointer" @click="sortBy('GROWTH', 'stat')">成长</th>
                     <th scope="col">技能</th>
                     <th scope="col">职位</th>
                 </tr>
@@ -31,26 +27,10 @@
                 <tr v-for="(v, k) in guild.member" :key="k">
                     <td>{{v.name}}</td>
                     <td>{{v.lv}}</td>
-                    <td>{{v.stat.STR}}
-                        <!-- <br>
-                        <span class="mini-talent">({{v.talent.STR}})</span> -->
-                    </td>
-                    <td>{{v.stat.AGI}}
-                        <!-- <br>
-                        <span class="mini-talent">({{v.talent.AGI}})</span> -->
-                    </td>
-                    <td>{{v.stat.STA}}
-                        <!-- <br>
-                        <span class="mini-talent">({{v.talent.STA}})</span> -->
-                    </td>
-                    <td>{{v.stat.INT}}
-                        <!-- <br>
-                        <span class="mini-talent">({{v.talent.INT}})</span> -->
-                    </td>
-                    <td>{{v.stat.SPI}}
-                        <!-- <br>
-                        <span class="mini-talent">({{v.talent.SPI}})</span> -->
-                    </td>
+                    <td>{{v.stat.HP}}</td>
+                    <td>{{v.stat.ATK}}</td>
+                    <td>{{v.stat.BLOCK}}</td>
+                    <td>{{v.stat.GROWTH}}</td>
                     <td style="width: 8em;">
                         <div class="skill" v-for="(id, index) in v.skill" :key="index">
                             <span class="skillName">{{guildSkill[id].name}}</span>
@@ -65,66 +45,6 @@
                 </tr>
             </tbody>
         </table>
-    </div>
-    <div class="member scrollbar-morpheus-den" v-if="viewType=='detail'">
-        公会成员&nbsp;<span :style="{color: guild.member.length>=maxMember?'#F00':''}">{{guild.member.length+'/'+maxMember}}</span>
-        <button class="btn btn-secondary" v-if="size=='maximize'" style="margin-left: 1rem;" @click="changeSize('minimize')"><i class="fa fa-window-minimize" aria-hidden="true"></i></button>
-        <button class="btn btn-secondary" v-if="size=='minimize'" style="margin-left: 1rem;" @click="changeSize('maximize')"><i class="fa fa-window-maximize" aria-hidden="true"></i></button>
-
-        <div class="list" v-if="size=='maximize'">        
-            <table>
-                <thead>
-                    <tr>
-                        <th scope="col" style="cursor:pointer" @click="sortBy('lv')">等级</th>
-                        <th scope="col" style="cursor:pointer" @click="sortBy('STR', 'stat')">力量</th>
-                        <th scope="col" style="cursor:pointer" @click="sortBy('AGI', 'stat')">敏捷</th>
-                        <th scope="col" style="cursor:pointer" @click="sortBy('STA', 'stat')">耐力</th>
-                        <th scope="col" style="cursor:pointer" @click="sortBy('INT', 'stat')">智力</th>
-                        <th scope="col" style="cursor:pointer" @click="sortBy('SPI', 'stat')">精神</th>
-                    </tr>
-                </thead>
-            </table>
-            <div class="memberGrid" v-for="(v, k) in guild.member" :key="k">
-                <div class="info">
-                    <div class="icon"><img :src="v.iconSrc"></div>
-                    <div class="name">
-                        {{v.name}}
-                        <br>
-                        {{race[v.race].name+' '+v.lv}}级
-                    </div>
-                </div>
-                <div class="svg-pentagon">
-                    <div class="statList">
-                        <div :class="'stat ' +type" v-for="(value, type) in v.talent" :key="type">
-                            <span class="statName">{{guildStat[type].name}}</span>
-                            <span class="statDesc">{{'('+value+')'+guildStat[type].desc}}</span>
-                        </div>
-                    </div>
-                    <svg id="J-svg-pentagon"  width="120" height="120">
-                        <g transform="translate(10, 15)">
-                            <polygon class="pentagon pentagon-5" points="-50 0.00 -2.45 -34.55 -20.61 -90.45 -79.39 -90.45 -97.55 -34.55"/>
-                            <polygon class="pentagon pentagon-4" points="-50 -10.00 -11.96 -37.64 -26.49 -82.36 -73.51 -82.36 -88.04 -37.64"/>
-                            <polygon class="pentagon pentagon-3" points="-50 -20.00 -21.47 -40.73 -32.37 -74.27 -67.63 -74.27 -78.53 -40.73"/>
-                            <polygon class="pentagon pentagon-2" points="-50 -30.00 -30.98 -43.82 -38.24 -66.18 -61.76 -66.18 -69.02 -43.82"/>
-                            <polygon class="pentagon pentagon-1" points="-50 -40.00 -40.49 -46.91 -44.12 -58.09 -55.88 -58.09 -59.51 -46.91"/>
-                            <polygon class="pentagon pentagonAbility" :points="v.points" />
-                        </g>
-                    </svg>
-                </div>
-                <div class="skillList">
-                    <div class="skill" v-for="(id, index) in v.skill" :key="index">
-                        <span class="skillName">{{guildSkill[id].name}}</span>
-                        <span class="skillDesc">({{guildSkill[id].desc}})</span>
-                    </div>
-                </div>
-                <div class="action">
-                    <span v-if="v.job=='None'">空闲</span>
-                    <span v-else>{{typeName[v.job]}}</span>
-                    <div class="button accept" v-if="positionType!='None'" @click="assignPosition(k)">任命</div>
-                    <div class="button kick" v-if="kickEnabled" @click="kick(k)">踢出公会</div>
-                </div>
-            </div>
-        </div>
     </div>
  </div>
 </template>
@@ -161,7 +81,6 @@ export default {
             positionType: 'None',
             typeName: {shop:'商店', smith:'铁匠铺', train:'练功房', train2:'中级练功房', train3:'高级练功房', mine: '矿场', herb: '药园'},
             viewType: 'list',
-            size: 'maximize',
             sortKey: 'name',
             reverseSort: 1,
             kickEnabled: false
@@ -200,11 +119,11 @@ export default {
             applicant.talent = this.createTalent(applicant.race);
             // 属性：最终值
             applicant.stat = this.createStat(applicant);
-            applicant.points = this.createPoints(applicant.talent);
             applicant.skill = this.createSkill(applicant);
             applicant.special = [];
             applicant.id = this.generateMemberId();
             this.applicantList.push(applicant);
+            console.log(applicant)
         },
         generateMemberId() {
             let id = Math.floor(Math.random()*90071992547);
@@ -222,11 +141,10 @@ export default {
         },
         createStat(applicant) {
             let stat = {
-                STR: 0,
-                AGI: 0,
-                STA: 0,
-                INT: 0,
-                SPI: 0
+                HP: 0,
+                ATK: 0,
+                BLOCK: 0,
+                GROWTH: 0
             };
             for(let s in stat) {
                 stat[s] = applicant.talent[s];
@@ -238,35 +156,36 @@ export default {
             let initTalent = this.race[race].talent;
             for(let type in this.guildStat) {
                 let ran = Math.random();
+                let max = this.guildStat[type].max;
+                let decimal = Math.pow(10, this.guildStat[type].decimal);
                 if(ran>0.75)
                     talent[type] = Math.random()*90;
                 else if(ran>0.9)
                     talent[type] = Math.random()*100;
                 else
                     talent[type] = Math.random()*80;
-            }
-            for(let type in initTalent) {
-                talent[type] = Math.round((100-initTalent[type])*talent[type]/100);
+                talent[type] = Math.round((max-initTalent[type])*talent[type]/100*decimal) / decimal;
                 talent[type] += initTalent[type];
             }
             return talent;
         },
-        createPoints(talent) {
-            let points = "";
-            let radius = 60;
-            let count = 0;
-            // 提前算好cos、sin函数
-            let xy = [0, 1, 0.951056516, 0.309016994, 0.587785252, -0.809016994, -0.587785252, -0.809016994, -0.951056516, 0.309016994];
-            let offsetx = 50;        
-            let offsety = 50;  
-            for(let num in talent) {
-                radius = talent[num];
-                points += Math.round(radius * xy[count++]*50)/100-offsetx + " ";
-                points += Math.round(radius * xy[count++]*50)/100-offsety + " ";
-            }
-            points.trimEnd();
-            return points;
-        },
+        // 五边形属性图
+        // createPoints(talent) {
+        //     let points = "";
+        //     let radius = 60;
+        //     let count = 0;
+        //     // 提前算好cos、sin函数
+        //     let xy = [0, 1, 0.951056516, 0.309016994, 0.587785252, -0.809016994, -0.587785252, -0.809016994, -0.951056516, 0.309016994];
+        //     let offsetx = 50;        
+        //     let offsety = 50;  
+        //     for(let num in talent) {
+        //         radius = talent[num];
+        //         points += Math.round(radius * xy[count++]*50/100)-offsetx + " ";
+        //         points += Math.round(radius * xy[count++]*50/100)-offsety + " ";
+        //     }
+        //     points.trimEnd();
+        //     return points;
+        // },
         createSkill(applicant) {
             let skillList = [];
             for(let i=0; i<2+Math.floor(applicant.lv/10); i++) {
@@ -366,7 +285,6 @@ export default {
         },
         
         allCancel() {
-            var guild = this.$store.globalComponent["guild"];
             var guildPosition = this.$store.globalComponent["guildPosition"];
             var members = this.guild.member;
             for(let index in members) {
@@ -422,8 +340,6 @@ export default {
             let member = this.guild.member[k];
             for(let type in member.stat)
                 this.playerGainStat(type, -1*Math.round(member.stat[type]*0.1));
-            var guildPosition = this.$store.globalComponent["guildPosition"];
-            guildPosition.cancelPosition(this.guild.member[k].job, guildPosition.findTarget(this.guild.member[k]));
             for(let index in member.skill) {
                 let skill = member.skill[index];
                 let type = this.guildSkill[skill].type;
@@ -472,9 +388,6 @@ export default {
             // let value = e.target.value;
             this.viewType = type;
         },
-        changeSize(size) {
-            this.size = size;
-        }
     }
 }
 </script>
@@ -653,35 +566,6 @@ export default {
 .hidden {
     display: none;
 }
-// .memberTable {
-//     color: rgb(238, 238, 238);
-//     border-collapse: separate;
-//     border-spacing: 0px;
-// }
-// .memberTable td, .memberTable th {
-//     padding: 2px 0px 1px 5px;
-//     border-top: none;
-//     vertical-align: middle;
-//     text-align: left;
-// }
-// .memberTable th {
-//     border-top-left-radius: 5px;
-//     border-top-right-radius: 5px;
-//     margin-left: 7px;
-//     border: 1px solid #494745;
-//     border-bottom: none;
-//     background-color: #231f1b;
-// }
-// .memberTable tr {
-//     height: 20px;
-// }
-// .memberTable tr:nth-of-type(odd) td{
-//     background-color: #161616;
-// }
-// tr:nth-of-type(even) td{
-    // background-color: lighten(#000000, 15%);
-// }
-
 .switch {
     appearance: none;
     height: 2em;

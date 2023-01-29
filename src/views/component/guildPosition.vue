@@ -135,6 +135,51 @@
             </table>
         </div>
     </div>
+    <div class="building" v-show="displayPage=='bar'" :set="type='bar'">
+        <!-- <div class="buildInfo">
+            {{guild[type].lv+'级 (效率: '+totalEfficiency[type]+'/秒)'}}
+        </div> -->
+        <div class="applicant scrollbar-morpheus-den">
+            <div class="list">
+                <div class="grid" v-for="(v, k) in applicantList" :key="k">
+                    <div class="info">
+                        <div class="icon"><img :src="v.iconSrc"></div>
+                        <div class="name">
+                            {{v.name}}
+                            <br>
+                            {{race[v.race].name+' '+v.lv}}级
+                        </div>
+                    </div>
+                    <!-- <div class="svg-pentagon">
+                        <div class="statList">
+                            <div :class="'stat ' +type" v-for="(value, type) in v.talent" :key="type">{{guildStat[type].name}}
+                            </div>
+                        </div>
+                        <svg id="J-svg-pentagon"  width="120" height="120">
+                            <g transform="translate(10, 15)">
+                                <polygon class="pentagon pentagon-5" points="-50 0.00 -2.45 -34.55 -20.61 -90.45 -79.39 -90.45 -97.55 -34.55"/>
+                                <polygon class="pentagon pentagon-4" points="-50 -10.00 -11.96 -37.64 -26.49 -82.36 -73.51 -82.36 -88.04 -37.64"/>
+                                <polygon class="pentagon pentagon-3" points="-50 -20.00 -21.47 -40.73 -32.37 -74.27 -67.63 -74.27 -78.53 -40.73"/>
+                                <polygon class="pentagon pentagon-2" points="-50 -30.00 -30.98 -43.82 -38.24 -66.18 -61.76 -66.18 -69.02 -43.82"/>
+                                <polygon class="pentagon pentagon-1" points="-50 -40.00 -40.49 -46.91 -44.12 -58.09 -55.88 -58.09 -59.51 -46.91"/>
+                                <polygon class="pentagon pentagonAbility" :points="v.points" />
+                            </g>
+                        </svg>
+                    </div> -->
+                    <div class="skillList">
+                        <div class="skill" v-for="(id, index) in v.skill" :key="index">
+                            <span class="skillName">{{guildSkill[id].name}}</span>
+                            <span class="skillDesc">({{guildSkill[id].desc}})</span>
+                        </div>
+                    </div>
+                    <div class="action">
+                        <div class="button specialButton accept" @click="recruit(k)">招募</div>
+                        <div class="button specialButton reject" @click="reject(k)">婉拒</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
     
 </template>
@@ -262,6 +307,12 @@ export default {
             // for(let type in types) 
             //     this.computeLv(types[type]);
             this.generateGuildQuest();
+
+
+            
+            this.guild.bar.lv = 1;
+            let guildMember = this.$store.globalComponent["guildMember"];
+            guildMember.generateApplicant();
         },
         upgradeBuilding(type) {
             let guild = this.$store.globalComponent["guild"];
