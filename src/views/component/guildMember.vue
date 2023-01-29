@@ -19,7 +19,7 @@
                     <th scope="col" style="cursor:pointer" @click="sortBy('ATK', 'stat')">攻击</th>
                     <th scope="col" style="cursor:pointer" @click="sortBy('BLOCK', 'stat')">防御</th>
                     <th scope="col" style="cursor:pointer" @click="sortBy('GROWTH', 'stat')">成长</th>
-                    <th scope="col">技能</th>
+                    <!-- <th scope="col">技能</th> -->
                 </tr>
             </thead>
             <tbody>
@@ -30,11 +30,11 @@
                     <td>{{v.stat.ATK}}</td>
                     <td>{{v.stat.BLOCK}}</td>
                     <td>{{v.stat.GROWTH}}</td>
-                    <td style="width: 8em;">
+                    <!-- <td style="width: 8em;">
                         <div class="skill" v-for="(id, index) in v.skill" :key="index">
                             <span class="skillName">{{guildSkill[id].name}}</span>
                         </div>
-                    </td>
+                    </td> -->
                     <td style="width: 4em;" v-if="kickEnabled">
                         <span class="button specialButton kick" @click="kick(k)">移除</span>
                     </td>
@@ -112,7 +112,7 @@ export default {
             applicant.talent = this.createTalent(applicant.race);
             // 属性：最终值
             applicant.stat = this.createStat(applicant);
-            applicant.skill = this.createSkill(applicant);
+            // applicant.skill = this.createSkill(applicant);
             applicant.special = [];
             applicant.id = this.generateMemberId();
             this.applicantList.push(applicant);
