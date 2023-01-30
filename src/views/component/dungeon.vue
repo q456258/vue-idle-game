@@ -5,7 +5,9 @@
         </div>    
         <div class="dungeonList" >
             <div v-for="(val, key) in dungeons" :key="key" @click="selectDungeon(key)">
-                <div :class="[{dungeonSelected: key==selectedDungeon}, 'glossy-button dungeonName']" :style="{backgroundImage: 'url(/icons/dungeon/'+key+'.png)'}">{{dungeons[key].name}}</div>
+                <div :class="[{dungeonSelected: key==selectedDungeon}, 'glossy-button dungeonName']" :style="{backgroundImage: 'url(/icons/dungeon/'+key+'.png)'}">
+                    {{dungeons[key].name+'('+dungeons[key].lv+')'}}
+                </div>
             </div>
         </div>
         <div class="" v-if="selectedDungeon">
@@ -45,8 +47,10 @@
                     <table>
                         <thead>
                             <tr>
-                                <th scope="col" style="cursor:pointer"></th>
-                                <th scope="col" style="cursor:pointer">名称</th>
+                                <th>
+                                    <div :class="{danger:curDungeon.members.length==curDungeon.limit}">{{ curDungeon.members.length + '/' +curDungeon.limit }}</div>
+                                </th>
+                                <th scope="col">名称</th>
                                 <th scope="col" style="cursor:pointer" @click="sortBy('lv')">等级</th>
                                 <th scope="col" style="cursor:pointer" @click="sortBy('HP', 'stat')">生命</th>
                                 <th scope="col" style="cursor:pointer" @click="sortBy('ATK', 'stat')">攻击</th>
@@ -134,8 +138,15 @@ export default {
             let curDungeon = this.dungeonProgress[name];
             curDungeon.mapName = dungeon.name;
             curDungeon.desc = dungeon.desc;
+            // 当前层数
             curDungeon.level = 0;
-            curDungeon.playerStat = {HP: 0, ATK: 0, BLOCK: 0};
+            // 副本等级
+            curDungeon.lv = dungeon.lv;
+            curDungeon.limit = dungeon.limit;
+            if(curDungeon.playerStat)
+                this.clearPlayerStat(name);
+            else
+                curDungeon.playerStat = {HP: 0, ATK: 0, BLOCK: 0};
             curDungeon.map = this.generateMap(dungeon.map);
             curDungeon.suggestStat = dungeon.suggestStat;
             curDungeon.rewardList = this.generateRewardList(dungeon.rewardList);
@@ -166,15 +177,24 @@ export default {
         updateMember(e, id, dungeon) {
             let curDungeon = this.dungeonProgress[dungeon];
             let isAdding = e.target.checked ? 1 : -1;
+            if(e.target.checked) {
+                if(curDungeon.members.length<curDungeon.limit) {
+                    curDungeon.members.push(id);
+                }
+                else {
+                    this.selected.splice(this.selected.indexOf(id),1);
+                    e.target.checked = false;
+                    return;
+                }
+            }
+            else
+                curDungeon.members.splice(curDungeon.members.indexOf(id),1);
+
             let guildMember = this.$store.globalComponent["guildMember"];
             let member = guildMember.findTargetByID(id);
             this.updatePlayerStat('HP', isAdding*member.stat.HP);
             this.updatePlayerStat('ATK', isAdding*member.stat.ATK);
             this.updatePlayerStat('BLOCK', isAdding*member.stat.BLOCK);
-            if(e.target.checked)
-                curDungeon.members.push(id);
-            else
-                curDungeon.members.splice(curDungeon.members.indexOf(id),1);
             if(curDungeon.members.length == 0)
                 this.statusChange(dungeon, 'none');
             else
@@ -238,7 +258,7 @@ export default {
                 return false;
             } else {
                 let dmg = playerTurn*enemyDmg;
-                this.updatePlayerStat('HP', dmg)
+                this.updatePlayerStat('HP', -dmg)
                 this.battleWon(dungeon, dmg)
                 return true;
             }
@@ -265,7 +285,8 @@ export default {
             this.addMsg(dungeon, msg);
         },
         battleLost(dungeon, hpRemain) {
-            let msg = '战斗失败，目标剩余 ' +hpRemain+' 点生命值';
+            let curDungeon = this.dungeonProgress[dungeon];
+            let msg = '战斗失败，'+curDungeon.map[curDungeon.level].name+'剩余 ' +hpRemain+' 点生命值';
             this.addMsg(dungeon, msg);
             this.statusChange(dungeon, 'done');
         },
@@ -306,6 +327,19 @@ export default {
                     break;
             }
             this.forceUpdate += 1;
+        },
+        sortBy(type, type2='talent') {
+            this.reverseSort = type==this.sortKey ? -1*this.reverseSort : -1;
+            this.sortKey = type;
+            if(type == 'lv') {
+                this.guild.member.sort((a, b) => {
+                    return this.reverseSort*(a[type]-b[type]);
+                })
+            } else {
+                this.guild.member.sort((a, b) => {
+                    return this.reverseSort*(a[type2][type]-b[type2][type]);
+                })
+            }
         },
         showInfo($event, type, item, compare) {
             let index = this.$store.globalComponent["index"];
