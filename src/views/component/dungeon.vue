@@ -319,7 +319,8 @@ export default {
                         let ran = Math.random();
                         if(ran <= chance) {
                             let member = guildMember.findTargetByID(id);
-                            guildMember.levelUp(member);
+                            if(member.lv < curDungeon.lv)
+                                guildMember.levelUp(member);
                         }
                     }
                     this.generateDungeon(dungeon);
