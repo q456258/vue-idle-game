@@ -59,7 +59,7 @@
                         </thead>
                         <tbody>
                             <tr v-for="(v, k) in guild.member" :key="k">
-                                <td><input type="checkbox" v-model="selected" :value="v.id" v-on:change="updateMember($event, v.id, selectedDungeon)"></td>
+                                <td><input type="checkbox" v-if="v.status!='inDungeon'" v-model="selected" :value="v.id" v-on:change="updateMember($event, v.id, selectedDungeon)">{{ v.status }}</td>
                                 <td>{{v.name}}</td>
                                 <td>{{v.lv}}</td>
                                 <td>{{v.stat.HP}}</td>
@@ -107,7 +107,6 @@ export default {
     },
     mounted() {
         this.$store.globalComponent.dungeon = this;
-        this.initAllDungeon();
     },
     watch: {
     },
@@ -133,9 +132,13 @@ export default {
             else if( ['none', 'ready'].indexOf(this.dungeonProgress[name].status) != -1)
                 this.resetMember(name);
         },
-        initAllDungeon() {
+        init() {
             for(let dungeon in this.dungeons) {
                 this.generateDungeon(dungeon);
+            }
+            for(let i in this.guild.member) {
+                let member = this.guild.member[i];
+                member.status = 'none';
             }
         },
         generateDungeon(name) {
@@ -347,13 +350,21 @@ export default {
             let curDungeon = this.dungeonProgress[dungeon];
             curDungeon.status = status;
             switch(status) {
+                case 'inProgress':
+                    for(let i in curDungeon.members) {
+                        let id = curDungeon.members[i];
+                        let member = guildMember.findTargetByID(id);
+                        member.status = 'inDungeon';
+                    }
+                    break;
                 case 'none':
                     let chance = curDungeon.level/curDungeon.map.length;
                     for(let i in curDungeon.members) {
                         let id = curDungeon.members[i];
+                        let member = guildMember.findTargetByID(id);
                         let ran = Math.random();
+                        member.status = 'none';
                         if(ran <= chance) {
-                            let member = guildMember.findTargetByID(id);
                             if(member.lv < curDungeon.lv)
                                 guildMember.levelUp(member);
                         }

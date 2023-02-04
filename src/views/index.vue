@@ -275,6 +275,9 @@ export default {
 
     let guildPosition =  this.$store.globalComponent['guildPosition'];   
     guildPosition.init();
+
+    let dungeon =  this.$store.globalComponent['dungeon'];   
+    dungeon.init();
     
     // this.$store.commit("set_statistic", {gameStartDate: Date.now()});
     //初始系统、战斗信息
