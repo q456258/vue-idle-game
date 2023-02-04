@@ -59,7 +59,7 @@
                         </thead>
                         <tbody>
                             <tr v-for="(v, k) in guild.member" :key="k">
-                                <td><input type="checkbox" v-if="v.status!='inDungeon'" v-model="selected" :value="v.id" v-on:change="updateMember($event, v.id, selectedDungeon)">{{ v.status }}</td>
+                                <td><input type="checkbox" v-if="v.status!='inDungeon'" v-model="selected" :value="v.id" v-on:change="updateMember($event, v.id, selectedDungeon)"></td>
                                 <td>{{v.name}}</td>
                                 <td>{{v.lv}}</td>
                                 <td>{{v.stat.HP}}</td>
