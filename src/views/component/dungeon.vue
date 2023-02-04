@@ -1,5 +1,6 @@
 <template>
     <div id="dungeon">
+        <a href="#" class="close" @click="close()"></a>
         <div class="title">
             副本
         </div>    
@@ -400,6 +401,10 @@ export default {
                 index.closeInfo('equip');
             else
                 index.closeInfo('item');
+        },
+        close() {
+            let index = this.$store.globalComponent["index"];
+            index.closeMenuPanel('dungeon');
         },
     }
 }
