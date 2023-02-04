@@ -48,7 +48,7 @@
                         <thead>
                             <tr>
                                 <th>
-                                    <div :class="{danger:curDungeon.members.length==curDungeon.limit}">{{ curDungeon.members.length + '/' +curDungeon.limit }}</div>
+                                    <div :class="{danger:curDungeon.members.length==curDungeon.limit}" style="cursor:pointer" @click="autofill(selectedDungeon)">{{ curDungeon.members.length + '/' +curDungeon.limit }}</div>
                                 </th>
                                 <th scope="col">名称</th>
                                 <th scope="col" style="cursor:pointer" @click="sortBy('lv')">等级</th>
@@ -107,6 +107,7 @@ export default {
     },
     mounted() {
         this.$store.globalComponent.dungeon = this;
+        this.initAllDungeon();
     },
     watch: {
     },
@@ -131,6 +132,11 @@ export default {
             }
             else if( ['none', 'ready'].indexOf(this.dungeonProgress[name].status) != -1)
                 this.resetMember(name);
+        },
+        initAllDungeon() {
+            for(let dungeon in this.dungeons) {
+                this.generateDungeon(dungeon);
+            }
         },
         generateDungeon(name) {
             if(this.dungeonProgress[name] == null)
@@ -175,18 +181,44 @@ export default {
 
             return rewardList;
         },
+        autofill(dungeon) {
+            let curDungeon = this.dungeonProgress[dungeon];
+            if(curDungeon.members.length>=curDungeon.limit) {
+                for(let i in this.selected) {
+                    let id = this.selected[i];
+                    this.updateMemberStat(false, id, dungeon);
+                }
+            }
+            else {
+                for(let i in this.guild.member) {
+                    let id = this.guild.member[i].id;
+                    if(curDungeon.members.length>=curDungeon.limit)
+                        return;
+                    if(this.selected.indexOf(id) == -1) {
+                        this.selected.push(id);
+                        this.updateMemberStat(true, id, dungeon);
+                    }
+                
+                }
+            }
+        },
         updateMember(e, id, dungeon) {
             let curDungeon = this.dungeonProgress[dungeon];
-            let isAdding = e.target.checked ? 1 : -1;
-            if(e.target.checked) {
-                if(curDungeon.members.length<curDungeon.limit) {
+            if(e.target.checked && curDungeon.members.length>=curDungeon.limit) {
+                this.selected.splice(this.selected.indexOf(id),1);
+                e.target.checked = false;
+                return;
+            }
+            this.updateMemberStat(e.target.checked, id, dungeon);
+        },
+        updateMemberStat(isAdd, id, dungeon) {
+            let curDungeon = this.dungeonProgress[dungeon];
+            let isAdding = isAdd ? 1 : -1;
+            if(isAdd) {
+                if(curDungeon.members.length<curDungeon.limit)
                     curDungeon.members.push(id);
-                }
-                else {
-                    this.selected.splice(this.selected.indexOf(id),1);
-                    e.target.checked = false;
+                else
                     return;
-                }
             }
             else
                 curDungeon.members.splice(curDungeon.members.indexOf(id),1);
