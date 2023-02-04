@@ -129,7 +129,8 @@ export default {
             if(this.dungeonProgress[name] == null) {
                 this.generateDungeon(name);
             }
-            this.resetMember(name);
+            else if( ['none', 'ready'].indexOf(this.dungeonProgress[name].status) != -1)
+                this.resetMember(name);
         },
         generateDungeon(name) {
             if(this.dungeonProgress[name] == null)
@@ -251,9 +252,11 @@ export default {
             let enemyDmg = Math.max(enemy.ATK-player.BLOCK, 0);
             let playerTurn = Math.ceil(enemy.HP/playerDmg);
             let enemyTurn = Math.ceil(player.HP/enemyDmg);
-            if(enemyTurn<playerTurn) {
+            if(enemyTurn<playerTurn || (playerDmg==0 && enemyDmg==0)) {
                 this.updatePlayerStat('HP', 0, true);
                 let hpRemain = enemy.HP-playerDmg*enemyTurn;
+                if(playerDmg==0 && enemyDmg==0)
+                    hpRemain = enemy.HP;
                 this.battleLost(dungeon, hpRemain)
                 return false;
             } else {
