@@ -230,9 +230,9 @@ export default {
 
             let guildMember = this.$store.globalComponent["guildMember"];
             let member = guildMember.findTargetByID(id);
-            this.updatePlayerStat('HP', isAdding*member.stat.HP);
-            this.updatePlayerStat('ATK', isAdding*member.stat.ATK);
-            this.updatePlayerStat('BLOCK', isAdding*member.stat.BLOCK);
+            this.updatePlayerStat(dungeon, 'HP', isAdding*member.stat.HP);
+            this.updatePlayerStat(dungeon, 'ATK', isAdding*member.stat.ATK);
+            this.updatePlayerStat(dungeon, 'BLOCK', isAdding*member.stat.BLOCK);
             if(curDungeon.members.length == 0)
                 this.statusChange(dungeon, 'none');
             else
@@ -242,19 +242,20 @@ export default {
             let curDungeon = this.dungeonProgress[dungeon];
             curDungeon.members = [];
             this.selected = [];
-            this.clearPlayerStat();
+            this.clearPlayerStat(dungeon);
         },
-        updatePlayerStat(type, value, fixed=false) {
+        updatePlayerStat(dungeon, type, value, fixed=false) {
+            let playerStat = this.dungeonProgress[dungeon].playerStat;
             if(fixed)
-                this.playerStat[type] = value;
+                playerStat[type] = value;
             else
-                this.playerStat[type] += value;
+                playerStat[type] += value;
             this.forceUpdate += 1;
         },
-        clearPlayerStat() {
-            this.updatePlayerStat('HP', 0, true);
-            this.updatePlayerStat('ATK', 0, true);
-            this.updatePlayerStat('BLOCK', 0, true);
+        clearPlayerStat(dungeon) {
+            this.updatePlayerStat(dungeon, 'HP', 0, true);
+            this.updatePlayerStat(dungeon, 'ATK', 0, true);
+            this.updatePlayerStat(dungeon, 'BLOCK', 0, true);
         },
         startDungeon(dungeon) {
             let curDungeon = this.dungeonProgress[dungeon];
@@ -290,7 +291,7 @@ export default {
             let playerTurn = Math.ceil(enemy.HP/playerDmg);
             let enemyTurn = Math.ceil(player.HP/enemyDmg);
             if(enemyTurn<playerTurn || (playerDmg==0 && enemyDmg==0)) {
-                this.updatePlayerStat('HP', 0, true);
+                this.updatePlayerStat(dungeon, 'HP', 0, true);
                 let hpRemain = enemy.HP-playerDmg*enemyTurn;
                 if(playerDmg==0 && enemyDmg==0)
                     hpRemain = enemy.HP;
@@ -298,7 +299,7 @@ export default {
                 return false;
             } else {
                 let dmg = (playerTurn-1)*enemyDmg;
-                this.updatePlayerStat('HP', -dmg)
+                this.updatePlayerStat(dungeon, 'HP', -dmg)
                 this.battleWon(dungeon, dmg)
                 return true;
             }
