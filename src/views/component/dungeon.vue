@@ -195,10 +195,11 @@ export default {
             }
             else {
                 for(let i in this.guild.member) {
-                    let id = this.guild.member[i].id;
                     if(curDungeon.members.length>=curDungeon.limit)
                         return;
-                    if(this.selected.indexOf(id) == -1) {
+                    let member = this.guild.member[i];
+                    let id = this.guild.member[i].id;
+                    if(member.status == 'none') {
                         this.selected.push(id);
                         this.updateMemberStat(true, id, dungeon);
                     }
@@ -296,7 +297,7 @@ export default {
                 this.battleLost(dungeon, hpRemain)
                 return false;
             } else {
-                let dmg = playerTurn*enemyDmg;
+                let dmg = (playerTurn-1)*enemyDmg;
                 this.updatePlayerStat('HP', -dmg)
                 this.battleWon(dungeon, dmg)
                 return true;
