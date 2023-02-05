@@ -156,7 +156,7 @@ export default {
                     talent[type] = Math.random()*100;
                 else
                     talent[type] = Math.random()*80;
-                talent[type] = Math.round(((max-initTalent[type])*talent[type]/100+initTalent[type])*decimal) / decimal;
+                talent[type] = Math.round((max*talent[type]/100+initTalent[type])*decimal) / decimal;
             }
             return talent;
         },
