@@ -1,9 +1,10 @@
 <template>
-<draggable v-show="size!='none'" :left_limit="-750" :right_limit="600" :top_limit="-200" :bot_limit="400" style="position:absolute; top:0; width:500px">
+<draggable v-show="size!='none'" :left_limit="-750" :right_limit="600" :top_limit="-200" :bot_limit="400" style="position:absolute; top:0;" :style="{width:size=='large'?'535px':size=='medium'?'410px':'355px'}" >
     <template slot="header">
         <div class="battleAnimeHeader"></div>
     </template>
     <template slot="main" >
+        <canvas id="battleAnimeCanvas" :class="{large: size=='large', medium: size=='medium', small: size=='small'}"></canvas>
         <div id="battleAnimeWrapper" :class="{large: size=='large', medium: size=='medium', small: size=='small'}">
             <div id="playerHpBar">
                 <hpmpBar :vpMin="0" :vpNow="attribute.CURHP.value" :vpMax="attribute.MAXHP.value" :shield="attribute.SHIELD.value" :target="'player'" :type="'hp'"></hpmpBar>
@@ -53,6 +54,8 @@ export default {
     },
     methods: {   
         playerMove(){
+            // this.displayEffect("/effect/test2.png", 6, 100);
+
             if(this.size == 'none')
                 return;
             let playerPos = document.getElementById("playerAnime");
@@ -157,12 +160,48 @@ export default {
                     parentNode.removeChild(node);
                 }, duration);
             }
-        }
+        },
+        displayEffect(src, imgCount, delay) {
+            let ctx = null;
+            delay = 100;
+            imgCount = 6;
+            const canvas = document.getElementById('battleAnimeCanvas');
+            const images = new Image();
+            images.src = src;
+            images.src = "/effect/test2.png";
+            images.onload = () => {
+                animation(0);
+            }
+            const animation = (i) => {
+                let width = images.width;
+                let height = images.height/imgCount;
+                const cWidth = canvas.width;
+                const cHeight = canvas.height;
+                let posX = 0.58;
+                let posY = 0.4;
+                ctx = canvas.getContext('2d')
+                if (!ctx) 
+                    return;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                // 图片，原图片x轴，原图片y轴，原图片宽，原图片长，显示位置x轴，显示位置y轴，显示区域宽度，显示区域长读
+                // x、y轴以左上角为准，超出canvas大小不显示
+                ctx.drawImage(images, 0,i*height, width,height, cWidth*posX,cHeight*posY, width,height);
+                if (i != imgCount) {
+                    setTimeout(() => {
+                        animation(i + 1);
+                    }, delay);
+                }
+            }
+        },
     }   
 }
 </script>
 
 <style>
+#battleAnimeCanvas {
+    position: relative;
+    z-index: 4;
+}
 #battleAnimeHeader {
     height: 10px;
 }
@@ -176,15 +215,15 @@ export default {
     background-image: url("/icons/maps/battleBG1.jpg");
     background-size: cover;
 }
-#battleAnimeWrapper.small {
+#battleAnimeWrapper.small, #battleAnimeCanvas.small {
     width: 355px;
     height: 200px;
 }
-#battleAnimeWrapper.medium {
+#battleAnimeWrapper.medium, #battleAnimeCanvas.medium {
     width: 410px;
     height: 230px;
 }
-#battleAnimeWrapper.large {
+#battleAnimeWrapper.large, #battleAnimeCanvas.large {
     width: 535px;
     height: 300px;
 }
@@ -238,7 +277,6 @@ export default {
     top: 40%;
     left: 10%;
     width: 30%;
-    padding-bottom: 20%;
 }
 .enemyInitPos {
     position: absolute;
@@ -246,7 +284,6 @@ export default {
     top: 40%;
     right: 10%;
     width: 30%;
-    padding-bottom: 20%;
 }
 .floatingText {
     position: absolute;
