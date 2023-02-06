@@ -8,7 +8,7 @@
     </nav>
     <input class="switch" v-model="kickEnabled" type="checkbox" />
     <label for="login" style="margin-top: 0.25rem;">踢人</label>
-    <div class="member scrollbar-morpheus-den" v-if="viewType=='list'">
+    <div class="member scrollbar-morpheus-den">
         公会成员&nbsp;<span :style="{color: guild.member.length>=maxMember?'#F00':''}">{{guild.member.length+'/'+maxMember}}</span>
         <table>
             <thead>
@@ -36,7 +36,38 @@
                         </div>
                     </td> -->
                     <td style="width: 4em;" v-if="kickEnabled">
-                        <span class="button specialButton kick" @click="kick(k)">移除</span>
+                        <span class="button specialButton reject" @click="kick(k)">移除</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="member scrollbar-morpheus-den">
+        申请列表&nbsp;
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col">名称</th>
+                    <th scope="col" style="cursor:pointer" @click="sortAppBy('lv')">等级</th>
+                    <th scope="col" style="cursor:pointer" @click="sortAppBy('HP', 'stat')">生命</th>
+                    <th scope="col" style="cursor:pointer" @click="sortAppBy('ATK', 'stat')">攻击</th>
+                    <th scope="col" style="cursor:pointer" @click="sortAppBy('BLOCK', 'stat')">防御</th>
+                    <th scope="col" style="cursor:pointer" @click="sortAppBy('GROWTH', 'stat')">成长</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(v, k) in applicantList" :key="k">
+                    <td>{{v.name}}</td>
+                    <td>{{v.lv}}</td>
+                    <td>{{v.stat.HP}}</td>
+                    <td>{{v.stat.ATK}}</td>
+                    <td>{{v.stat.BLOCK}}</td>
+                    <td>{{v.stat.GROWTH}}</td>
+                    <td style="width: 4em;">
+                        <span class="button specialButton accept" @click="recruit(k)">招募</span>
+                    </td>
+                    <td style="width: 4em;">
+                        <span class="button specialButton reject" @click="reject(k)">婉拒</span>
                     </td>
                 </tr>
             </tbody>
@@ -98,8 +129,11 @@ export default {
             return max;
         },
         applicantList() {
-            var guildPosition = this.$store.globalComponent["guildPosition"];
-            return guildPosition.applicantList;
+            let guildPosition = this.$store.globalComponent["guildPosition"];
+            if(guildPosition)
+                return guildPosition.applicantList;
+            else
+                return [];
         }
     },
     methods: {
@@ -471,20 +505,6 @@ export default {
 //     left: 400px;
 //     transition: .6s ease-in-out;
 // }
-.kick {
-    font-size: 20px;
-    line-height: 30px;
-    margin: auto;
-    width: 100px;
-    height: 40px;
-    background: linear-gradient(#771d1d, #380e0e);
-    border: 3px #792525 solid; 
-    box-shadow: 0 0 50px rgba(117, 0, 0, 0.5);
-}
-.kick:active {
-    background: linear-gradient(#821f1f, #441111);
-    box-shadow: 0 0 75px rgba(137, 43, 43, 0.5);
-}
 .btn {
     margin-left: -1rem;
     padding: .375rem 0rem;
