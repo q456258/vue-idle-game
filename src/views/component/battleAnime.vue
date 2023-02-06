@@ -33,8 +33,10 @@
 <script>
 import hpmpBar from '../uiComponent/hpmpBar';
 import draggable from '../uiComponent/draggable';
+import { effectConfig } from '@/assets/config/effectConfig'
 export default {
     name: "battleAnime",
+    mixins: [effectConfig],
     components: {hpmpBar, draggable},
     mounted() {
         this.$store.globalComponent.battleAnime = this;
@@ -53,8 +55,8 @@ export default {
         size() { return this.$store.state.setting.animeSize; },
     },
     methods: {   
-        playerMove(){
-            // this.displayEffect("/effect/test2.png", 6, 100);
+        playerMove(spell){
+            this.displayEffect(spell);
 
             if(this.size == 'none')
                 return;
@@ -161,31 +163,38 @@ export default {
                 }, duration);
             }
         },
-        displayEffect(src, imgCount, delay) {
+        displayEffect(name) {
+            let info = this.effectList[name];
+            if(!info) {
+                return;
+            }
             let ctx = null;
-            delay = 100;
-            imgCount = 6;
+            let delay = info.delay;
+            let imgCount = info.imgCount;
+            let col = info.col;
+            let row = info.row;
             const canvas = document.getElementById('battleAnimeCanvas');
             const images = new Image();
-            images.src = src;
-            images.src = "/effect/test2.png";
+            images.src = info.src;
             images.onload = () => {
                 animation(0);
             }
             const animation = (i) => {
-                let width = images.width;
-                let height = images.height/imgCount;
+                let width = images.width/col;
+                let height = images.height/row;
                 const cWidth = canvas.width;
                 const cHeight = canvas.height;
-                let posX = 0.58;
-                let posY = 0.4;
+                let posX = info.posX;
+                let posY = info.posY;
+                let frameX = i%col;
+                let frameY = Math.floor(i/col);
                 ctx = canvas.getContext('2d')
                 if (!ctx) 
                     return;
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 // 图片，原图片x轴，原图片y轴，原图片宽，原图片长，显示位置x轴，显示位置y轴，显示区域宽度，显示区域长读
                 // x、y轴以左上角为准，超出canvas大小不显示
-                ctx.drawImage(images, 0,i*height, width,height, cWidth*posX,cHeight*posY, width,height);
+                ctx.drawImage(images, frameX*width,frameY*height, width,height, cWidth*posX,cHeight*posY, width,height);
                 if (i != imgCount) {
                     setTimeout(() => {
                         animation(i + 1);

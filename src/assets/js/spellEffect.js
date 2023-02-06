@@ -95,7 +95,7 @@ export const spellEffect = {
                 this.useCost(spell);
             let battleAnime = this.$store.globalComponent["battleAnime"];
             if(source.type == 'player')
-                battleAnime.playerMove();
+                battleAnime.playerMove(spell);
             else
                 battleAnime.enemyMove();
             if(this.spell[spell].max > 0)
