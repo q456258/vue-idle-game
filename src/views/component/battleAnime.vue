@@ -63,7 +63,7 @@ export default {
             let playerPos = document.getElementById("playerAnime");
             playerPos.style.left = "50%";
             setTimeout(() => {
-                playerPos.style.left = "10%";
+                playerPos.style.left = "0%";
             }, 100);
         },
         enemyMove(){
@@ -72,7 +72,7 @@ export default {
             let enemyPos = document.getElementById("enemyAnime");
             enemyPos.style.right = "50%"
             setTimeout(() => {
-                enemyPos.style.right = "10%";
+                enemyPos.style.right = "0%";
             }, 100);
         },
         displayText(target, type, text) {
@@ -192,7 +192,7 @@ export default {
                 if (!ctx) 
                     return;
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                // 图片，原图片x轴，原图片y轴，原图片宽，原图片长，显示位置x轴，显示位置y轴，显示区域宽度，显示区域长读
+                // 图片，原图片x轴，原图片y轴，原图片宽，原图片长，显示位置x轴，显示位置y轴，显示区域宽度，显示区域长度
                 // x、y轴以左上角为准，超出canvas大小不显示
                 ctx.drawImage(images, frameX*width,frameY*height, width,height, cWidth*posX,cHeight*posY, width,height);
                 if (i != imgCount) {
@@ -229,18 +229,17 @@ export default {
     height: 200px;
 }
 #battleAnimeWrapper.medium, #battleAnimeCanvas.medium {
-    width: 410px;
-    height: 230px;
-}
-#battleAnimeWrapper.large, #battleAnimeCanvas.large {
     width: 535px;
     height: 300px;
+}
+#battleAnimeWrapper.large, #battleAnimeCanvas.large {
+    width: 700px;
+    height: 400px;
 }
 #playerAnime {
     position: relative;
     width: 100%;
     height: 0;
-    left: 10%;
     padding-bottom: 100%;
     /* background-image: url("/icons/other/normal.png"); */
     background-image: url("/icons/character/player1.png");
@@ -256,7 +255,6 @@ export default {
     position: relative;
     width: 100%;
     height: 0;
-    right: 10%;
     padding-bottom: 100%;
     /* background-image: url("/icons/other/boss.png"); */
     background-image: url("/icons/character/player1.png");
@@ -272,27 +270,27 @@ export default {
     position: absolute;
     width: 40%;
     top: 5%;
-    left: 5%;
+    left: 1%;
 }
 #enemyHpBar {
     position: absolute;
     width: 40%;
     top: 5%;
-    right: 5%;
+    right: 1%;
 }
 .playerInitPos {
     position: absolute;
     text-align: center;
-    top: 40%;
+    top: 55%;
     left: 10%;
-    width: 30%;
+    width: 20%;
 }
 .enemyInitPos {
     position: absolute;
     text-align: center;
-    top: 40%;
+    top: 55%;
     right: 10%;
-    width: 30%;
+    width: 20%;
 }
 .floatingText {
     position: absolute;
