@@ -278,6 +278,9 @@ export default {
 
     let dungeon =  this.$store.globalComponent['dungeon'];   
     dungeon.init();
+
+    let battleAnime =  this.$store.globalComponent['battleAnime'];   
+    battleAnime.init();
     
     // this.$store.commit("set_statistic", {gameStartDate: Date.now()});
     //初始系统、战斗信息
