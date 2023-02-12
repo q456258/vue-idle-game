@@ -11,8 +11,7 @@
                 <hpmpBar :vpMin="0" :vpNow="attribute.CURMP.value" :vpMax="attribute.MAXMP.value" :target="'player'" :type="'mp'"></hpmpBar>
             </div>
             <div class="playerInitPos">
-                <div id="playerAnime">
-                </div>
+                <canvas id="playerAnime"></canvas>
             </div>
             <div id="playerSpellText" class="playerInitPos"></div>
             <div id="playerDmgText" class="playerInitPos"></div>
@@ -55,16 +54,26 @@ export default {
         size() { return this.$store.state.setting.animeSize; },
     },
     methods: {   
+        init() {
+            const canvas = document.getElementById('playerAnime');
+            const images = new Image();
+            images.src = '/char/mage_stand.png';
+            images.onload = () => {
+                let ctx = canvas.getContext('2d')
+                ctx.drawImage(images, 0,0, canvas.width, canvas.height);
+            }
+        },
         playerMove(spell){
             this.displayEffect(spell);
+            this.playerMoveTest();
 
-            if(this.size == 'none')
-                return;
-            let playerPos = document.getElementById("playerAnime");
-            playerPos.style.left = "50%";
-            setTimeout(() => {
-                playerPos.style.left = "0%";
-            }, 100);
+            // if(this.size == 'none')
+            //     return;
+            // let playerPos = document.getElementById("playerAnime");
+            // playerPos.style.left = "50%";
+            // setTimeout(() => {
+            //     playerPos.style.left = "0%";
+            // }, 100);
         },
         enemyMove(){
             if(this.size == 'none')
@@ -163,6 +172,51 @@ export default {
                 }, duration);
             }
         },
+        playerMoveTest() {
+            let info = {
+                    src: "/char/mage.png",
+                    delay: 25,
+                    imgCount: 8,
+                    col: 3,
+                    row: 3,
+                    posX: 0,
+                    posY: 0,
+                };
+            let ctx = null;
+            let delay = info.delay;
+            let imgCount = info.imgCount;
+            let col = info.col;
+            let row = info.row;
+            const canvas = document.getElementById('playerAnime');
+            const images = new Image();
+            images.src = info.src;
+            images.onload = () => {
+                animation(0);
+            }
+            canvas.width=150
+            const animation = (i) => {
+                let width = images.width/col;
+                let height = images.height/row;
+                const cWidth = canvas.width;
+                const cHeight = canvas.height;
+                let posX = info.posX;
+                let posY = info.posY;
+                let frameX = i%col;
+                let frameY = Math.floor(i/col);
+                ctx = canvas.getContext('2d')
+                if (!ctx) 
+                    return;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                // 图片，原图片x轴，原图片y轴，原图片宽，原图片长，显示位置x轴，显示位置y轴，显示区域宽度，显示区域长度
+                // x、y轴以左上角为准，超出canvas大小不显示
+                ctx.drawImage(images, frameX*width,frameY*height, width,height, cWidth*posX,cHeight*posY, width,height);
+                if (i != imgCount) {
+                    setTimeout(() => {
+                        animation(i + 1);
+                    }, delay);
+                }
+            }
+        },
         displayEffect(name) {
             let info = this.effectList[name];
             if(!info) {
@@ -176,9 +230,12 @@ export default {
             const canvas = document.getElementById('battleAnimeCanvas');
             const images = new Image();
             images.src = info.src;
-            images.onload = () => {
+            // images.onload = () => {
+            //     animation(0);
+            // }
+            setTimeout(() => {
                 animation(0);
-            }
+            }, 200);
             const animation = (i) => {
                 let width = images.width/col;
                 let height = images.height/row;
@@ -239,17 +296,7 @@ export default {
 #playerAnime {
     position: relative;
     width: 100%;
-    height: 0;
-    padding-bottom: 100%;
-    /* background-image: url("/icons/other/normal.png"); */
-    background-image: url("/icons/character/player1.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    image-rendering: crisp-edges;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: -o-crisp-edges;
-    image-rendering: -webkit-optimize-contrast;
-    -ms-interpolation-mode: nearest-neighbor;
+    height: 100%;
 }
 #enemyAnime {
     position: relative;
@@ -284,6 +331,7 @@ export default {
     top: 55%;
     left: 10%;
     width: 20%;
+    height: 35%;
 }
 .enemyInitPos {
     position: absolute;

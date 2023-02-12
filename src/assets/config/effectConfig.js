@@ -72,7 +72,7 @@ export const effectConfig = {
                 // 天神下凡
                 ability_racial_avatar: {
                     src: "/effect/ability_racial_avatar.png",
-                    delay: 50,
+                    delay: 44,
                     imgCount: 18,
                     col: 3,
                     row: 6,
@@ -113,7 +113,7 @@ export const effectConfig = {
                 // 血祭
                 ability_revendreth_paladin: {
                     src: "/effect/ability_revendreth_paladin2.png",
-                    delay: 50,
+                    delay: 40,
                     imgCount: 20,
                     col: 3,
                     row: 7,
@@ -144,7 +144,7 @@ export const effectConfig = {
                 // 暴风雪
                 spell_frost_icestorm: {
                     src: "/effect/spell_frost_icestorm.png",
-                    delay: 35,
+                    delay: 32,
                     imgCount: 24,
                     col: 3,
                     row: 8,
@@ -184,7 +184,7 @@ export const effectConfig = {
                 // 奥术弹幕
                 ability_mage_arcanebarrage: {
                     src: "/effect/ability_mage_arcanebarrage.png",
-                    delay: 16,
+                    delay: 13,
                     imgCount: 60,
                     col: 3,
                     row: 20,
@@ -204,7 +204,7 @@ export const effectConfig = {
                 // 法力护盾
                 spell_shadow_detectlesserinvisibility: {
                     src: "/effect/spell_shadow_detectlesserinvisibility.png",
-                    delay: 30,
+                    delay: 32,
                     imgCount: 31,
                     col: 3,
                     row: 11,
@@ -214,7 +214,7 @@ export const effectConfig = {
                 // 奥术冲击
                 spell_arcane_blast: {
                     src: "/effect/spell_arcane_blast.png",
-                    delay: 50,
+                    delay: 37,
                     imgCount: 21,
                     col: 3,
                     row: 7,
@@ -243,7 +243,7 @@ export const effectConfig = {
                 // 奥术飞弹
                 spell_nature_starfall: {
                     src: "/effect/spell_nature_starfall.png",
-                    delay: 50,
+                    delay: 40,
                     imgCount: 22,
                     col: 3,
                     row: 7,
@@ -253,7 +253,7 @@ export const effectConfig = {
                 // 冰冷血脉
                 spell_frost_coldhearted: {
                     src: "/effect/spell_frost_coldhearted.png",
-                    delay: 50,
+                    delay: 40,
                     imgCount: 20,
                     col: 3,
                     row: 7,
@@ -275,7 +275,7 @@ export const effectConfig = {
                 // 大法师之触
                 spell_mage_icenova: {
                     src: "/effect/spell_mage_icenova.png",
-                    delay: 80,
+                    delay: 75,
                     imgCount: 11,
                     col: 3,
                     row: 4,
@@ -285,7 +285,7 @@ export const effectConfig = {
                 // 唤醒
                 spell_nature_purge: {
                     src: "/effect/spell_nature_purge.png",
-                    delay: 60,
+                    delay: 50,
                     imgCount: 15,
                     col: 3,
                     row: 5,
@@ -315,7 +315,7 @@ export const effectConfig = {
                 // 恢复
                 spell_holy_renew: {
                     src: "/effect/spell_holy_renew.png",
-                    delay: 50,
+                    delay: 29,
                     imgCount: 27,
                     col: 3,
                     row: 9,
@@ -345,7 +345,7 @@ export const effectConfig = {
                 // 绝望祷言
                 spell_holy_testoffaith: {
                     src: "/effect/spell_holy_testoffaith.png",
-                    delay: 50,
+                    delay: 35,
                     imgCount: 21,
                     col: 3,
                     row: 7,
@@ -355,7 +355,7 @@ export const effectConfig = {
                 // 心灵震爆
                 spell_shadow_unholyfrenzy: {
                     src: "/effect/spell_shadow_unholyfrenzy.png",
-                    delay: 18,
+                    delay: 14,
                     imgCount: 55,
                     col: 3,
                     row: 19,
@@ -385,7 +385,7 @@ export const effectConfig = {
                 // 暗言术：痛
                 spell_shadow_shadowwordpain: {
                     src: "/effect/spell_shadow_shadowwordpain.png",
-                    delay: 25,
+                    delay: 21,
                     imgCount: 37,
                     col: 3,
                     row: 13,
@@ -425,7 +425,7 @@ export const effectConfig = {
                 // 暗言术：灭
                 spell_shadow_demonicfortitude: {
                     src: "/effect/spell_shadow_demonicfortitude.png",
-                    delay: 25,
+                    delay: 20,
                     imgCount: 40,
                     col: 3,
                     row: 14,
@@ -435,7 +435,7 @@ export const effectConfig = {
                 // 真言术：障
                 spell_holy_powerwordbarrier: {
                     src: "/effect/spell_holy_powerwordbarrier.png",
-                    delay: 30,
+                    delay: 25,
                     imgCount: 31,
                     col: 3,
                     row: 11,
@@ -475,7 +475,7 @@ export const effectConfig = {
                 // 圣言术：静
                 spell_holy_persuitofjustice: {
                     src: "/effect/spell_holy_persuitofjustice.png",
-                    delay: 60,
+                    delay: 50,
                     imgCount: 16,
                     col: 3,
                     row: 6,
