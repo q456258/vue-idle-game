@@ -339,7 +339,7 @@ export default new Vuex.Store({
         },    
         setting: {
             waitFull: false,
-            animeSize: 'large'
+            animeSize: 'medium'
         },
         statistic: {
             slain: {},
