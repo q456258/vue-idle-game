@@ -116,6 +116,14 @@ export const talentConfig = {
                     maxLv: 100,
                     position: [-1, -1]
                 },
+                generalBranch2: {
+                    name: '通用系自身点数',
+                    desc: [''],
+                    type: 'generalBranch2',
+                    iconSrc: "./icons/accessory/inv_jewelry_necklace_17.jpg",
+                    maxLv: 100,
+                    position: [-1, -1]
+                },
                 ATK: {
                     name: '攻击',
                     desc: ['',
