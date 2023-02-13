@@ -64,11 +64,10 @@ export default {
             }
         },
         playerMove(spell){
+            if(this.size == 'none')
+                return;
             this.displayEffect(spell);
             this.playerMoveTest();
-
-            // if(this.size == 'none')
-            //     return;
             // let playerPos = document.getElementById("playerAnime");
             // playerPos.style.left = "50%";
             // setTimeout(() => {
