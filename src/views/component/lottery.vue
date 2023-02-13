@@ -128,7 +128,9 @@ export default {
                         if(reward[0].indexOf('random_equip') != -1) {
                             this.rewardList.push(backpack.callItemEffect(reward[0], this.lv, {toBackpack: false}));
                         } else {
-                            let newItem = JSON.parse(itemInfo.createItem(reward[0], 1, this.lv))
+                            let qty = reward[2]==undefined ? 1 : reward[2];
+                            qty = reward[3]==undefined ? qty : qty+Math.ceil(Math.random()*(reward[3]-qty));
+                            let newItem = JSON.parse(itemInfo.createItem(reward[0], qty, this.lv))
                             this.rewardList.push(newItem);
                         }
                         rewardCount--;

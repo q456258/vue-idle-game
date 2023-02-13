@@ -501,8 +501,13 @@ export default {
                     let type = rewardList[k][0].itemType;
                     if(equip.indexOf(type) != -1)
                         backpack.giveEquip(JSON.parse(equipInfo.finishUniqueEquip(rewardList[k][0])), false, true);
-                    else
+                    else {
+                        let qty = rewardList[k][2]==undefined ? 1 : rewardList[k][2];
+                        qty = rewardList[k][3]==undefined ? qty : qty+Math.ceil(Math.random()*(rewardList[k][3]-qty));
+                        rewardList[k][0].quantity = qty;
                         itemInfo.addItem(rewardList[k][0], true);
+                        rewardList[k][0].quantity = 1;
+                    }
                 }
             }
         },
