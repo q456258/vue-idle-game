@@ -41,7 +41,7 @@ export const itemEffect = {
                     used = this.giveItem('inv_misc_gem_diamond_01', 10);
                     break;
                 case 'racial_dwarf_findtreasure':
-                    used = this.randomGold(10000, 10000, msg, qty);
+                    used = this.randomGold(100000, 100000, msg, qty);
                     break;
                 case 'inv_misc_coin_05':
                     used = this.randomGold(1, 20, msg, qty);
@@ -261,7 +261,7 @@ export const itemEffect = {
         },
         giveItem(code, qty) {
             let itemInfo = this.$store.globalComponent["itemInfo"];;
-            item = itemInfo.createItem(code, qty);  
+            let item = itemInfo.createItem(code, qty);  
             itemInfo.addItem(JSON.parse(item));
             return true;
         },
