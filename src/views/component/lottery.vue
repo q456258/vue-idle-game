@@ -76,7 +76,7 @@ export default {
             // none, wait, picking, picked, donePick
             status: 'wait',
             flipCount: 0,
-            cost: [0,0,10,100,500,2500,10000,40000,200000,1000000],
+            cost: [0,0,100,500,2500,10000,40000,200000,1000000],
             hide: [],
             lv: 0,
         };
