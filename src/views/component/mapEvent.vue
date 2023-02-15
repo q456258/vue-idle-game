@@ -506,7 +506,7 @@ export default {
                         qty = rewardList[k][3]==undefined ? qty : qty+Math.ceil(Math.random()*(rewardList[k][3]-qty));
                         rewardList[k][0].quantity = qty;
                         itemInfo.addItem(rewardList[k][0], true);
-                        rewardList[k][0].quantity = 1;
+                        rewardList[k][0].quantity = rewardList[k][2]==undefined ? 1 : rewardList[k][2];
                     }
                 }
             }

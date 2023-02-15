@@ -471,8 +471,10 @@ export default {
             let newEquip = JSON.parse(equipInfo.createUniqueEquipTemplate(rewardInfo[1]));
             mapArr[map].reward.push([newEquip,rewardInfo[2]]);
           }
-          else
-            mapArr[map].reward.push([JSON.parse(itemInfo.createItem(rewardInfo[0], 1, mapArr[map].lv)), rewardInfo[1], rewardInfo[2], rewardInfo[3]]);
+          else {
+            let minQty = rewardInfo[2]==undefined ? 1 : rewardInfo[2];
+            mapArr[map].reward.push([JSON.parse(itemInfo.createItem(rewardInfo[0], minQty, mapArr[map].lv)), rewardInfo[1], rewardInfo[2], rewardInfo[3]]);
+          }
         }
       }
     },
