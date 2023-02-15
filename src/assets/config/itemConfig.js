@@ -597,10 +597,10 @@ export const itemConfig = {
                     description: {
                         name: '一颗金牙',
                         category: '消耗品',
-                        desc: '使用: 获得1金<br>"别问他是怎么弄到的"',
+                        desc: '使用: 获得10金<br><br>"别问他是怎么弄到的"',
                         iconSrc: "./icons/item/trade_archaeology_trolltooth-w-goldfilling.jpg",
                     },
-                    autoUse: true, batch: true,
+                    autoUse: false, batch: true,
                     use: true,
                     stack: true,
                     quantity: 1,
@@ -613,21 +613,6 @@ export const itemConfig = {
                         name: '少量铜币',
                         category: '消耗品',
                         desc: '使用: 获得少量铜币',
-                        iconSrc: "./icons/item/inv_misc_coin_05.jpg",
-                    },
-                    autoUse: true, batch: true,
-                    use: true,
-                    stack: true,
-                    quantity: 1,
-                    cost: 99990000,
-                    maxStack: 20
-                },
-                inv_misc_coin_05_2: {
-                    quality: 1,
-                    description: {
-                        name: '中量铜币',
-                        category: '消耗品',
-                        desc: '获得中量铜币',
                         iconSrc: "./icons/item/inv_misc_coin_05.jpg",
                     },
                     autoUse: true, batch: true,
@@ -667,21 +652,6 @@ export const itemConfig = {
                     cost: 99990000,
                     maxStack: 20
                 },
-                inv_misc_coin_03_2: {
-                    quality: 2,
-                    description: {
-                        name: '中量银币',
-                        category: '消耗品',
-                        desc: '获得中量银币',
-                        iconSrc: "./icons/item/inv_misc_coin_03.jpg",
-                    },
-                    autoUse: true, batch: true,
-                    use: true,
-                    stack: true,
-                    quantity: 1,
-                    cost: 99990000,
-                    maxStack: 20
-                },
                 inv_misc_coin_04: {
                     quality: 2,
                     description: {
@@ -703,21 +673,6 @@ export const itemConfig = {
                         name: '少量金币',
                         category: '消耗品',
                         desc: '获得少量金币',
-                        iconSrc: "./icons/item/inv_misc_coin_01.jpg",
-                    },
-                    autoUse: true, batch: true,
-                    use: true,
-                    stack: true,
-                    quantity: 1,
-                    cost: 99990000,
-                    maxStack: 20
-                },
-                inv_misc_coin_01_2: {
-                    quality: 3,
-                    description: {
-                        name: '中量金币',
-                        category: '消耗品',
-                        desc: '获得中量金币',
                         iconSrc: "./icons/item/inv_misc_coin_01.jpg",
                     },
                     autoUse: true, batch: true,

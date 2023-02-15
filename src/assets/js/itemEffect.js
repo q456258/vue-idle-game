@@ -44,31 +44,22 @@ export const itemEffect = {
                     used = this.randomGold(100000, 100000, msg, qty);
                     break;
                 case 'inv_misc_coin_05':
-                    used = this.randomGold(1, 20, msg, qty);
-                    break;
-                case 'inv_misc_coin_05_2':
-                    used = this.randomGold(21, 60, msg, qty);
+                    used = this.randomGold(1, 2, msg, qty);
                     break;
                 case 'inv_misc_coin_06':
-                    used = this.randomGold(60, 100, msg, qty);
+                    used = this.randomGold(1, 100, msg, qty);
                     break;
                 case 'inv_misc_coin_03':
-                    used = this.randomGold(100, 2000, msg, qty);
-                    break;
-                case 'inv_misc_coin_03_2':
-                    used = this.randomGold(2000, 6000, msg, qty);
+                    used = this.randomGold(100, 200, msg, qty);
                     break;
                 case 'inv_misc_coin_04':
-                    used = this.randomGold(6000, 10000, msg, qty);
+                    used = this.randomGold(100, 10000, msg, qty);
                     break;
                 case 'inv_misc_coin_01':
-                    used = this.randomGold(10000, 200000, msg, qty);
-                    break;
-                case 'inv_misc_coin_01_2':
-                    used = this.randomGold(200000, 600000, msg, qty);
+                    used = this.randomGold(10000, 20000, msg, qty);
                     break;
                 case 'inv_misc_coin_02':
-                    used = this.randomGold(600000, 1000000, msg, qty);
+                    used = this.randomGold(10000, 1000000, msg, qty);
                     break;
                 case 'ability_racial_packhobgoblin':
                     used = this.randomGold(1000000, 10000000, msg, qty);
