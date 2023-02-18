@@ -266,7 +266,7 @@ export default {
                     clearInterval(curDungeon.timer);
                     return;
                 }
-            }, 2000)
+            }, 15000)
         },
         quitDungeon(dungeon) {
             let curDungeon = this.dungeonProgress[dungeon];
