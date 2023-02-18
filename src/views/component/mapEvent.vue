@@ -204,7 +204,7 @@ export default {
             if(this.selectedDungeon.count == 0)
                 this.autoBattle(false);
             // this.levelToTarget(target.lv);
-            this.gainExpByLv(target.lv);
+            this.gainExpByLv(target.lv, target.type);
             this.$store.commit("set_battle_info", {
                 type: 'win',
                 msg: '战斗结束, 你胜利了'
@@ -234,8 +234,12 @@ export default {
             if((this.selectedDungeon.count == 1 && this.selectedDungeon.resetCount == 0))
                 this.reduceCount();
         },
-        gainExpByLv(lv) {
+        gainExpByLv(lv, type) {
             let exp = 35+lv*5;
+            if(type == 'elite')
+                exp *= 3;
+            else if(type == 'boss')
+                exp *= 10;
             let tempExp = 0;
             let playerLv = this.playerAttr.lv;
             if(lv>playerLv) {
