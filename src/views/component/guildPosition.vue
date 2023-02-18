@@ -326,9 +326,8 @@ export default {
             let quest = this.$store.globalComponent["quest"];
             let list = [];
             this.guildAvailableQuest = [];
-            for(let l=0; l<this.questBoardList.length; l++) {
-                if(this.player.lv <= (l+1)*10)
-                    break;
+            let minIndex = Math.ceil(this.player.lv/10-2);
+            for(let l=minIndex; l<minIndex+2; l++) {
                 for(let j=0; j<this.guild['questBoard'].lv; j++) {
                     for(let k in this.questBoardList[l][j]) {
                         list.push(this.questBoardList[l][j][k]);
