@@ -50,6 +50,11 @@
                         </li>
                     </ul>
                     <div class="craftList scrollbar-morpheus-den">
+                            <select v-model="craftEquipType" class="btn btn-light">
+                                <option :value="k" v-for="(v, k) in craftEquipTypes" :key="k">
+                                    {{v}}
+                                </option>
+                            </select>
                         <div class="spell" v-for="(v, k) in filteredOptions" :key="k">
                             <a v-if="targetType=='equip'" class='glowBtn' :class="{btnActive:v==targetItem}" :style="{color: itemQuality[unique[v].quality].color}" @click="selectTarget(v)">{{unique[v].description.name}}</a>
                             <a v-else class='glowBtn' :class="{btnActive:v==targetItem}" :style="{color: itemQuality[itemType[v].quality-1].color}" @click="selectTarget(v)">{{itemType[v].description.name}}</a>
@@ -87,9 +92,17 @@ export default {
             reqItem: {},
             itemQty: [],
             reqQty: [],
-            categFilter: ['打造','炼金','草药','矿物','皮','杂项'],
+            // categFilter: ['打造','炼金','草药','矿物','皮','杂项'],
+            categFilter: ['打造','矿物'],
             categFilterSelected: '打造',
             categCorres: {'打造': 'craft','炼金': 'alchemy','草药': 'herb','矿物': 'mine','皮': 'leather','杂项': 'misc'},
+            craftEquipType: 'weapon',
+            craftEquipTypes: {
+                helmet: '头盔', shoulder: '肩膀', weapon: '武器',
+                armor: '盔甲', shoe: '鞋子', glove: '手部', ring: '戒指',
+                cape: '背部', bracer: '手腕', belt: '腰带', legging: '腿部',
+                necklace: '项链'
+            }
         };
     },
     mounted() {
@@ -166,7 +179,7 @@ export default {
             //     }
             let equipItem = ['random_common_equip','random_uncommon_equip','random_rare_equip','random_epic_equip','random_legendary_equip']
             if(equipItem.indexOf(this.targetItem) != -1) {
-                this.craftEquip(equipItem.indexOf(this.targetItem)+1);
+                this.craftEquip(equipItem.indexOf(this.targetItem)+1, this.craftEquipType);
                 quest.trackProgress('event', 12, 1);
             } else {
                 if(this.targetItem == 'inv_ingot_02')
@@ -177,7 +190,7 @@ export default {
 
             this.getQty();
         },
-        craftEquip(quality) {
+        craftEquip(quality, type) {
             let equipInfo = this.$store.globalComponent["equipInfo"];
             let backpack = this.$store.globalComponent["backpack"];
             let lvReq = 0;
@@ -206,7 +219,7 @@ export default {
                         break;
                 }
             }
-            let newEquip = equipInfo.createEquip(quality, lvReq, 'random', -1, optional);
+            let newEquip = equipInfo.createEquip(quality, lvReq, type, -1, optional);
             backpack.giveEquip(JSON.parse(newEquip), true, true);
         },
         setReqQty() {
