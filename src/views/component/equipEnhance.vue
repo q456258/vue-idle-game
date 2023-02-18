@@ -10,7 +10,7 @@
                     {{ equip.description.name }}
                 </div>
                 <div class="largeIconContainer">
-                    <del :class="[{grey:equip.quality.qualityLv==1, green:equip.quality.qualityLv==3, blue:equip.quality.qualityLv==4, purple:equip.quality.qualityLv==5, orange:equip.quality.qualityLv==5}, 'largeIcon iconBorder']"></del>
+                    <del :class="[{grey:equip.quality.qualityLv==1, green:equip.quality.qualityLv==3, blue:equip.quality.qualityLv==4, purple:equip.quality.qualityLv==5, orange:equip.quality.qualityLv==6}, 'largeIcon iconBorder']"></del>
                     <img :src="equip.description.iconSrc" alt="icon" />
                 </div>
                 <span class="enhanceLv">
