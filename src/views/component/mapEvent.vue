@@ -15,7 +15,7 @@
                 <div>剩余次数: 
                     <span v-if="selectedDungeon.count>=0">
                         {{selectedDungeon.count}}
-                        ({{selectedDungeon.resetCount+"/"+selectedDungeon.resetMax}})
+                        <!-- ({{selectedDungeon.resetCount+"/"+selectedDungeon.resetMax}}) -->
                     </span>
                     <span v-else>无限</span>
                 </div>
