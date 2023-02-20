@@ -598,7 +598,7 @@ export default new Vuex.Store({
             // attribute['DEFRED'].value = 
             //     Math.round((attribute['DEF'].value/(100+attribute['DEF'].value) + attribute['DEF'].value/(attribute['DEF'].value+3500))/2*10000)/100;
             attribute['DEFRED'].value = 
-                Math.round((attribute['DEF'].value/(attribute['DEF'].value+5500))*10000)/100;
+                Math.round((attribute['DEF'].value/(attribute['DEF'].value+3000))*10000)/100;
             // attribute['DEFRED'].value = Math.round(0.01 * attribute['DEF'].value / (1 + (0.0105 * attribute['DEF'].value))*1000000)/10000;
             // attribute['DEFRED'].value = Math.round(0.01 * attribute['DEF'].value / (1 + (0.01 * attribute['DEF'].value))*10000)/100;
             attribute['DEFRED'].showValue = attribute['DEFRED'].value+'%';

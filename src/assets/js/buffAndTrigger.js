@@ -153,7 +153,7 @@ export const buffAndTrigger = {
             else
                 attr[type].showValue = attr[type].value;
             if(type == 'DEF') {
-                attr['DEFRED'].value = Math.round((attr['DEF'].value/(attr['DEF'].value+5500))*10000)/100;
+                attr['DEFRED'].value = Math.round((attr['DEF'].value/(attr['DEF'].value+3000))*10000)/100;
                 attr['DEFRED'].showValue = attr['DEFRED'].value+'%';
             } else if(type == 'VERS') {
                 attr['VERSBONUS'].value = Math.round(attr['VERS'].value*4)/100;
@@ -230,7 +230,7 @@ export const buffAndTrigger = {
                 attr[type].bonusShowValue = attr[type].bonus;
             }
             if(type == 'DEF') {
-                attr['DEFRED'].value = Math.round((attr['DEF'].value/(attr['DEF'].value+5500))*10000)/100;
+                attr['DEFRED'].value = Math.round((attr['DEF'].value/(attr['DEF'].value+3000))*10000)/100;
                 attr['DEFRED'].showValue = attr['DEFRED'].value+'%';
             } else if(type == 'VERS') {
                 attr['VERSBONUS'].value = Math.round(attr['VERS'].value*4)/100;
