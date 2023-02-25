@@ -50,7 +50,7 @@
                         </li>
                     </ul>
                     <div class="craftList scrollbar-morpheus-den">
-                            <select v-model="craftEquipType" class="btn btn-light">
+                            <select v-if="categFilterSelected=='打造'" v-model="craftEquipType" class="btn btn-light">
                                 <option :value="k" v-for="(v, k) in craftEquipTypes" :key="k">
                                     {{v}}
                                 </option>
@@ -93,7 +93,7 @@ export default {
             itemQty: [],
             reqQty: [],
             // categFilter: ['打造','炼金','草药','矿物','皮','杂项'],
-            categFilter: ['打造','矿物'],
+            categFilter: ['打造','矿物','炼金'],
             categFilterSelected: '打造',
             categCorres: {'打造': 'craft','炼金': 'alchemy','草药': 'herb','矿物': 'mine','皮': 'leather','杂项': 'misc'},
             craftEquipType: 'weapon',
@@ -156,7 +156,10 @@ export default {
         },
         filteredOptions() { 
             let craftList = this.categList[this.categCorres[this.categFilterSelected]];
+            let learnt = this.player.learntRecipe;
             let filtered = craftList.filter(item => {
+                if(this.itemType[item+'_recipe'] != null && learnt.indexOf(item) == -1)
+                    return false;
                 return true;
             });
             return filtered;

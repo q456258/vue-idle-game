@@ -14,6 +14,9 @@ export const itemEffect = {
             let cd = this.$store.state.playerAttribute.globalCD[itemInfo.cdgroup];
             let msg = options.msg;
             let qty = options.qty;
+            let recipeName = type;
+            if(type.includes('_recipe'))
+                type = 'recipe';
             if(cd != undefined && cd > Date.now()) {
                 this.$store.commit("set_sys_info", {
                     msg: '物品冷却中, 剩余: '+Math.round((cd-Date.now())/1000)+'秒',
@@ -22,6 +25,9 @@ export const itemEffect = {
                 return used;
             }
             switch(type) {
+                case 'recipe':
+                    used = this.learnRecipe(recipeName);
+                    break;
                 case 'inv_enchant_voidsphere_bag':
                     used = this.giveItem('inv_enchant_voidsphere', 10);
                     break;
@@ -41,25 +47,25 @@ export const itemEffect = {
                     used = this.giveItem('inv_misc_gem_diamond_01', 10);
                     break;
                 case 'racial_dwarf_findtreasure':
-                    used = this.randomGold(100000, 100000, msg, qty);
+                    used = this.randomGold(50000, 50000, msg, qty);
                     break;
                 case 'inv_misc_coin_05':
                     used = this.randomGold(1, 2, msg, qty);
                     break;
                 case 'inv_misc_coin_06':
-                    used = this.randomGold(1, 100, msg, qty);
+                    used = this.randomGold(1, 10, msg, qty);
                     break;
                 case 'inv_misc_coin_03':
                     used = this.randomGold(100, 200, msg, qty);
                     break;
                 case 'inv_misc_coin_04':
-                    used = this.randomGold(100, 10000, msg, qty);
+                    used = this.randomGold(100, 1000, msg, qty);
                     break;
                 case 'inv_misc_coin_01':
                     used = this.randomGold(10000, 20000, msg, qty);
                     break;
                 case 'inv_misc_coin_02':
-                    used = this.randomGold(10000, 1000000, msg, qty);
+                    used = this.randomGold(10000, 100000, msg, qty);
                     break;
                 case 'ability_racial_packhobgoblin':
                     used = this.randomGold(1000000, 10000000, msg, qty);

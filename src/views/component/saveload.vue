@@ -110,6 +110,8 @@ export default {
                     data.state.guildAttribute.blackmarket = {lv:0};
                 if(!data.state.playerAttribute.exp)
                     data.state.playerAttribute.exp = {cur: 0, req: 30};
+                if(!data.state.playerAttribute.learntRecipe)
+                    data.state.playerAttribute.learntRecipe = [];
                 
                 this.$store.replaceState(data.state);
                 let backpack = this.$store.globalComponent["backpack"];
