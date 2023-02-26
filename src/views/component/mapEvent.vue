@@ -36,13 +36,16 @@
                     </div>
                 </div>
             </div>
-            <div class="action" v-if="!inBattle && selectedDungeon.count!=0">
-                <span v-if="selectedDungeon.type=='mine'" >
-                    <button class="btn btn-success btn-sm" @click="addToQueue(selectedDungeon)">
+            <div class="action" v-if="!inBattle && !harvesting && selectedDungeon.count!=0">
+                <span v-if="selectedDungeon.type=='mine' || selectedDungeon.type=='herb'" >
+                    <!-- <button class="btn btn-success btn-sm" @click="addToQueue(selectedDungeon)">
                         添加至队列
                     </button>   
                     <button class="btn btn-success btn-sm" @click="initMine()">
                         手动采集
+                    </button>    -->
+                    <button class="btn btn-success btn-sm" @click="toggleHarvest()">
+                        采集
                     </button>   
                 </span>
                 <button class="btn btn-success btn-sm" @click="toggleBattle(selectedDungeon.type)">
@@ -59,7 +62,16 @@
                     </button>    
                 </span>  
             </div>    
-            <div class="action" v-if="inBattle">
+            <div class="action" v-if="inBattle || harvesting">
+                <div v-show="harvesting">
+                    <div class="progress">
+                        <div id="harvestProgressBar" class="progress-bar progress-bar-striped" :style="{backgroundColor:'#f0ad4e', width: (harvestProgress*100)+'%'}">
+                        </div>
+                    </div>
+                    <button class="btn btn-danger btn-sm" @click="toggleHarvest()">
+                        停止采集
+                    </button>
+                </div>
                 <button v-if="inBattle" class="btn btn-danger btn-sm" @click="toggleBattle()">
                     放弃战斗
                 </button>
@@ -86,6 +98,9 @@ export default {
         return {
             battleTimer: "",
             battleID: 1,
+            harvestProgress: 0,
+            harvestTimer: "",
+            harvesting: false,
             selectedDungeon: {},
             type: {normal: '普通', elite: '精英', boss: 'BOSS', chest: '宝藏', mine: '矿物', herb: '草药'},
             mineDifficulty: 0,
@@ -123,10 +138,45 @@ export default {
                 this.startBattle(type);
             }
         },
+        toggleHarvest() {
+            if(this.harvesting)
+                this.stopHarvest();
+            else
+                this.startHarvest();
+        },
+        startHarvest() {
+            this.harvesting = true;
+            setTimeout(() => {
+                this.harvestProgress = 0;
+                document.getElementById('harvestProgressBar').style.transition = '3s linear';
+                this.harvestProgress = 1;
+            }, 1);
+            this.harvestTimer = setInterval(() => {
+                if(!this.reduceCount(1)) {
+                    clearInterval(this.harvestTimer);
+                    this.stopHarvest();
+                    return;
+                }
+                let guildPosition = this.$store.globalComponent["guildPosition"];
+                guildPosition.mineReward(this.selectedDungeon.reward, 1);
+                document.getElementById('harvestProgressBar').style.transition = '0s linear';
+                this.harvestProgress = 0;
+                setTimeout(() => {
+                    document.getElementById('harvestProgressBar').style.transition = '3s linear';
+                    this.harvestProgress = 1;
+                }, 10);
+            }, 3010);
+        },
+        stopHarvest() {
+            document.getElementById('harvestProgressBar').style.transition = '0s linear';
+            this.harvestProgress = 0;
+            this.harvesting = false;
+            clearInterval(this.harvestTimer);
+        },
         startBattle(type) {
             if(!type)
                 type = this.dungeonInfo['advanture'].type;
-            if(['normal', 'elite', 'boss', 'mine'].indexOf(type) != -1)
+            if(['normal', 'elite', 'boss', 'mine', 'herb'].indexOf(type) != -1)
                 this.battle(type);
             if(type == 'chest') {
                 this.chest();
