@@ -118,7 +118,7 @@ export const map = {
             switch(type) {
                 case 'mine':
                 case 'herb':
-                    count = Math.floor(Math.random()*99);
+                    count = Math.ceil(Math.random()*9);
                     break;
                 case 'normal':
                     count = -1;
@@ -147,10 +147,12 @@ export const map = {
                     count = 1;
                     break;
                 case 'elite':
-                    count = 2;
+                    // count = 2;
+                    count = 1;
                     break;
                 case 'boss':
-                    count = 5;
+                    // count = 5;
+                    count = 1;
                     break;
                 default:
                     count = 1;
