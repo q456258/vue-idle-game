@@ -48,19 +48,21 @@
                         采集
                     </button>   
                 </span>
-                <button class="btn btn-success btn-sm" @click="toggleBattle(selectedDungeon.type)">
-                    开始战斗
-                </button>   
-                <span v-if="auto">
-                    <button class="btn btn-danger btn-sm" @click="autoBattle(false)">
-                        自动中···
-                    </button>    
+                <span v-else >
+                    <button class="btn btn-success btn-sm" @click="toggleBattle(selectedDungeon.type)">
+                        开始战斗
+                    </button>   
+                    <span v-if="auto">
+                        <button class="btn btn-danger btn-sm" @click="autoBattle(false)">
+                            自动中···
+                        </button>    
+                    </span>
+                    <span v-else>
+                        <button class="btn btn-success btn-sm" @click="toggleBattle(selectedDungeon.type, true)">
+                            连续战斗
+                        </button>    
+                    </span>  
                 </span>
-                <span v-else>
-                    <button class="btn btn-success btn-sm" @click="toggleBattle(selectedDungeon.type, true)">
-                        连续战斗
-                    </button>    
-                </span>  
             </div>    
             <div class="action" v-if="inBattle || harvesting">
                 <div v-show="harvesting">
