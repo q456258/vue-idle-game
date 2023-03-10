@@ -375,6 +375,10 @@ export default {
     playerLv() { return this.$store.state.playerAttribute.lv },
     playerTalent() { return this.$store.state.playerAttribute.talent },
     inBattle() { return this.$store.state.dungeonInfo.inBattle;},
+    harvesting() { 
+      let mapEvent = this.$store.globalComponent["mapEvent"];
+      return mapEvent.harvesting;
+    },
     guild() { return this.$store.state.guildAttribute;},
     filteredMonsterZone() {
       return this.monsterZone.filter((zone)=>{return (this.playerLv+20)>=zone.maxLv});
@@ -419,8 +423,11 @@ export default {
           this.dungeon = {};
         }
         let mapEvent = this.$store.globalComponent["mapEvent"];
-        if(this.$store.state.dungeonInfo.inBattle) {
+        if(this.inBattle) {
             mapEvent.toggleBattle();
+        }
+        if(this.harvesting) {
+            mapEvent.toggleHarvest();
         }
         mapEvent.autoBattle(false);
         let element = document.getElementById(this.dungeonInfo.current);
@@ -583,7 +590,7 @@ export default {
       }
     },
     choseDungeon(e, k) {
-      if(!this.dungeonInfo.inBattle) {
+      if(!this.inBattle && !this.harvesting) {
         if(this.mapArr[k] && !this.mapArr[k].selected && this.$store.state.enemyAttribute.attribute.CURHP.value != 0) {
           this.$message({
             message: '是否放弃当前正在挑战的目标? ',
@@ -628,8 +635,10 @@ export default {
         return;
       }
       this.dungeon = {};
-      if(this.$store.state.dungeonInfo.inBattle)
+      if(this.inBattle)
         mapEvent.toggleBattle();
+      if(this.harvesting)
+        mapEvent.toggleHarvest();
       this.set_enemy_hp('remove');
       this.createMaps();
       this.resetTime = 1;
@@ -667,7 +676,7 @@ export default {
         }
         let amount = this.attribute.MAXHP.value*recover+this.attribute.STA.value;
         amount *= bonus;
-        if(this.dungeonInfo.inBattle) {
+        if(this.inBattle) {
           amount = this.attribute.STA.value;
           amount *= bonus;
           this.set_player_hp(Math.ceil(amount), player);
@@ -678,7 +687,7 @@ export default {
         }
         if(this.attribute.CURHP.value == this.attribute.MAXHP.value && this.dungeonInfo.auto) {
           setTimeout(() => {
-            if(!this.dungeonInfo.inBattle)
+            if(!this.inBattle)
               mapEvent.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
           }, 200);
         }
@@ -689,7 +698,7 @@ export default {
         let bonus = 1;
         let talent = 'spell_arcane_studentofmagic';
         let amount = this.attribute.SPI.value;
-        if(!this.dungeonInfo.inBattle) {
+        if(!this.inBattle) {
           if(this.playerTalent[talent] > 0) {
             bonus += this.playerTalent[talent]*0.05;
           }
