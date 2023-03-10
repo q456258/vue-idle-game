@@ -588,7 +588,7 @@ export const questConfig = {
                     target: '击败10只黑爪豺狼人',
                     lv: 40,
                     reqs: [['slain', 32, 10]],
-                    reward: [['gold', 360], ['exp', 720], ['guildReputation', 10]],
+                    reward: [['gold', 1080], ['exp', 2160], ['guildReputation', 10]],
                     rewardItem: [['random_equip_normal_2', 1, 100]],
                     successor: [],
                     forfeit: true
@@ -600,7 +600,7 @@ export const questConfig = {
                     target: '击败25只黑爪豺狼人',
                     lv: 40,
                     reqs: [['slain', 32, 25]],
-                    reward: [['gold', 840], ['exp', 1680], ['guildReputation', 25]],
+                    reward: [['gold', 2160], ['exp', 4320], ['guildReputation', 25]],
                     rewardItem: [['random_equip_normal_2', 1, 100, {lv: 42}]],
                     successor: [],
                     forfeit: true
@@ -612,7 +612,7 @@ export const questConfig = {
                     target: '击败100只黑爪豺狼人',
                     lv: 40,
                     reqs: [['slain', 32, 100]],
-                    reward: [['gold', 1680], ['exp', 3360], ['guildReputation', 100]],
+                    reward: [['gold', 4320], ['exp', 8640], ['guildReputation', 100]],
                     rewardItem: [['random_equip_normal_3', 1, 100, {lv: 45}]],
                     successor: [],
                     forfeit: true
@@ -624,7 +624,7 @@ export const questConfig = {
                     target: '击败10只黑爪豺狼人精英',
                     lv: 40,
                     reqs: [['slain', 34, 10]],
-                    reward: [['gold', 540], ['exp', 1080], ['guildReputation', 20]],
+                    reward: [['gold', 1620], ['exp', 3240], ['guildReputation', 20]],
                     rewardItem: [['random_equip_elite_4', 1, 100, {lv: 42}]],
                     successor: [],
                     forfeit: true
@@ -636,7 +636,7 @@ export const questConfig = {
                     target: '击败25只黑爪豺狼人精英',
                     lv: 40,
                     reqs: [['slain', 34, 25]],
-                    reward: [['gold', 1260], ['exp', 2520], ['guildReputation', 50]],
+                    reward: [['gold', 3240], ['exp', 6480], ['guildReputation', 50]],
                     rewardItem: [['random_equip_elite_4', 1, 100, {lv: 45}]],
                     successor: [],
                     forfeit: true
@@ -648,7 +648,7 @@ export const questConfig = {
                     target: '击败霍格',
                     lv: 40,
                     reqs: [['slain', 35, 1]],
-                    reward: [['gold', 3000], ['exp', 6000], ['guildReputation', 100]],
+                    reward: [['gold', 6000], ['exp', 12000], ['guildReputation', 100]],
                     rewardItem: [['random_equip_6', 1, 100]],
                     successor: [],
                     forfeit: true
