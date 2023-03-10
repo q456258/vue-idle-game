@@ -154,7 +154,7 @@ export default {
                 this.harvestProgress = 1;
             }, 1);
             this.harvestTimer = setInterval(() => {
-                if(!this.reduceCount(1)) {
+                if(!this.reduceCount(1) && this.selectedDungeon.count > 0) {
                     clearInterval(this.harvestTimer);
                     this.stopHarvest();
                     return;
