@@ -5,7 +5,7 @@ export const map = {
     data() {
         return {
             typeColor: {
-                normal: '#6d3', mine: '#b60', 
+                normal: '#6d3', mine: '#b60', herb: '#bd7', 
                 elite: '#dc3', 
                 boss: '#d63',
                 chest: '#c0f'
@@ -20,7 +20,7 @@ export const map = {
             this.arrList = Array.from(Array(24).keys());
             for(let i=0; i<count; i++) {
                 let choice = {};
-                let monsterID = this.getMonsterID(zoneInfo.monsterList, zoneInfo.probability);
+                let monsterID = this.getMonsterID(zoneInfo.monsterList, zoneInfo.weight);
                 let monsterInfo = this.monster[monsterID];
                 let ran = Math.floor(Math.random()*this.arrList.length);
                 let eventType = monsterInfo.type;
@@ -44,6 +44,11 @@ export const map = {
                 [this.arrList[ran], this.arrList[this.arrList.length-1]] = [this.arrList[this.arrList.length-1], this.arrList[ran]];
                 this.arrList.pop();
                 map.push(choice);
+            }
+            if(Math.random()<0.5 && zoneInfo.harvestList.length>0) {
+                let count = (Math.random()<0.5 || zoneInfo.harvestList.length==1) ? 1 : 2;
+                let harvest = this.generateMapByID(count, zoneInfo, this.getMonsterID(zoneInfo.harvestList, zoneInfo.harvestWeight));
+                map = map.concat(harvest)
             }
             return map;
         },
@@ -77,15 +82,15 @@ export const map = {
             }
             return map;
         },
-        getMonsterID(monsters, probabilities) {
+        getMonsterID(monsters, weights) {
             let probability = [];
             let total = 0;
-            for(let type in probabilities) {
-                total += probabilities[type];
+            for(let type in weights) {
+                total += weights[type];
                 probability.push(total);
             }
             let random = Math.random()*total;
-            for(let k=0; k<probabilities.length; k++) {
+            for(let k=0; k<weights.length; k++) {
                 if(random <= probability[k]) {
                     return monsters[k];
                 }
