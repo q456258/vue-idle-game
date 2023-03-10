@@ -39,7 +39,7 @@
                             <img :src="itemType[v.name].description.iconSrc" alt="" />
                         </div>
                         <div class="quantity">
-                            {{v.cur+'/'+v.max}}
+                            {{v.cur+'/'+itemQty[v.name]}}
                         </div>
                     </div>
                 </div>
@@ -206,6 +206,10 @@ export default {
                         lvReq += addon.cur * 5;
                         optional.lv += addon.cur * 5;
                         break;
+                    // 银矿， 每个+1物品等级
+                    case 'inv_ingot_01':
+                        optional.lv += addon.cur * 1;
+                        break;
                     // 铁矿， 每个-1等级要求
                     case 'inv_ingot_iron':
                         lvReq -= addon.cur * 1;
@@ -237,6 +241,10 @@ export default {
             let qtys = [];
             for(let i in this.reqItem) {
                 qtys[i] = itemInfo.getItemQty(i);
+            }
+            for(let i in this.addons) {
+                let name = this.addons[i].name;
+                qtys[name] = itemInfo.getItemQty(name);
             }
             this.itemQty = qtys;
         },
