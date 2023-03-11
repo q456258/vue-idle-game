@@ -70,6 +70,9 @@ export const itemEffect = {
                 case 'ability_racial_packhobgoblin':
                     used = this.randomGold(1000000, 10000000, msg, qty);
                     break;
+                case 'inv_misc_note_06_guild':
+                    used = this.upgradeGuildBuild('guild');
+                    break;
                 case 'inv_misc_note_06_mine':
                 case 'inv_misc_note_06_mine2':
                     used = this.upgradeGuildBuild('mine');
