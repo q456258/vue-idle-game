@@ -110,9 +110,16 @@ export default {
             // itemInfo.removeItemByItem(this.item, this.cost);
             // equipInfo.forgeAll(this.equip);
             let allLocked = true;
+            let anyLocked = false;
             for(let entry in this.equip.extraEntry) {
+                if(this.equip.extraEntry[entry].locked)
+                    anyLocked = true;
                 if(!this.equip.extraEntry[entry].locked)
                     allLocked = false;
+            }
+            if(!anyLocked && this.equip.quality.qualityLv == 4) {
+                // 无锁定并且目标是蓝装的情况下，重置装备的词条数量
+                this.equip.extraEntry = equipInfo.createExtraEntry(this.equip);
             }
             if(allLocked) {
                 this.forgeInfo("全锁上了你重铸个锤子? ", '')
@@ -125,6 +132,7 @@ export default {
             let quest = this.$store.globalComponent["quest"];
             quest.trackProgress('event', 6, 1);
         },
+        // 重铸单个词条，未被使用
         forge(entry, key) {       
             if(entry.locked) {
                 return;
