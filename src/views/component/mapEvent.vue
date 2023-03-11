@@ -280,11 +280,17 @@ export default {
             return true;
         },
         reduceResetCount(count=1) {
-            if(this.selectedDungeon.resetCount <= 0)
-                this.reduceCount();
+            if(this.selectedDungeon.resetCount <= 0) {
+                if(!this.reduceCount()) {
+                    this.toggleBattle();
+                    return;
+                }
+            }
             this.selectedDungeon.resetCount -= count;
-            if((this.selectedDungeon.count == 1 && this.selectedDungeon.resetCount == 0))
-                this.reduceCount();
+            if(this.selectedDungeon.count == 1 && this.selectedDungeon.resetCount == 0) {
+                if(!this.reduceCount())
+                    this.toggleBattle();
+            }
         },
         gainExpByLv(lv, type) {
             let exp = 35+lv*5;
