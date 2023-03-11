@@ -707,6 +707,7 @@ export default {
             amount *= (1+this.playerTalent[talent]*0.1);
           }
           amount += this.attribute.MAXMP.value*recover;
+          this.mpChange(player, player, Math.ceil(amount));
         }
         else {
           amount = this.attribute.SPI.value;
