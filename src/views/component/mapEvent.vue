@@ -253,7 +253,8 @@ export default {
         victory(source, target) {
             this.reward();
             this.setBattleStatus(false, this.dungeonInfo.auto);
-            this.reduceResetCount(this.selectedDungeon.resetCount);
+            if(this.selectedDungeon.resetCount != this.selectedDungeon.resetMax)
+                this.reduceResetCount(this.selectedDungeon.resetCount);
             if(this.selectedDungeon.count == 0)
                 this.autoBattle(false);
             // this.levelToTarget(target.lv);
