@@ -43,7 +43,7 @@
                 </div>
             </div>
         </div>
-        <div class="shops" v-if="guild['blackmarket'].lv>2">
+        <div class="shops" v-if="guild['blackmarket'].lv>0">
             黑市
             <div class="wrapper">
                 <div v-for="(v, k) in equipShop" :key="k">
