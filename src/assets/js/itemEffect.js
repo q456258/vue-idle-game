@@ -237,6 +237,11 @@ export const itemEffect = {
                 case 'inv_potion_48':
                 case 'inv_potion_134':
                 case 'inv_potion_145':
+                case 'trade_alchemy_potionc2':
+                case 'trade_alchemy_potionc6':
+                case 'trade_alchemy_potionc3':
+                case 'trade_alchemy_potionc4':
+                case 'trade_alchemy_potionc5':
                     used = this.potion(type);
                     break;
             }
@@ -307,6 +312,8 @@ export const itemEffect = {
         potion(type) {
             let used = false;
             let itemInfo = this.itemType[type];
+            let src = this.$store.state.playerAttribute;
+            let index = this.$store.globalComponent["index"];
             switch(type) {
                 case 'inv_potion_27':
                     used = this.inv_potion_27();
@@ -389,10 +396,10 @@ export const itemEffect = {
                     used = this.hpPotion(15, 1, 10, 'fix') | this.mpPotion(15, 1, 10, 'fix');
                     break;
                 case 'inv_potion_43':
-                    used = this.hpPotion(100, 0, 0, 'fix', itemInfo.description.name) | this.mpPotion(100, 0, 0, 'fix', itemInfo.description.name);
+                    used = this.hpPotion(125, 0, 0, 'fix', itemInfo.description.name) | this.mpPotion(125, 0, 0, 'fix', itemInfo.description.name);
                     break;
                 case 'inv_potion_44':
-                    used = this.hpPotion(150, 1, 10, 'fix') | this.mpPotion(150, 1, 10, 'fix');
+                    used = this.hpPotion(100, 1, 10, 'fix') | this.mpPotion(100, 1, 10, 'fix');
                     break;
                 case 'inv_potion_45':
                     used = this.hpPotion(1000, 0, 0, 'fix', itemInfo.description.name) | this.mpPotion(1000, 0, 0, 'fix', itemInfo.description.name);
@@ -414,6 +421,26 @@ export const itemEffect = {
                     break;
                 case 'inv_potion_145':
                     used = this.hpPotion(75, 0, 0, 'maxPercent', itemInfo.description.name) | this.mpPotion(75, 0, 0, 'maxPercent', itemInfo.description.name);
+                    break;
+                case 'trade_alchemy_potionc2':
+                    index.statBuffApply(src, src, 'STR', src.lv, 1800, itemInfo.cdgroup);
+                    used = true;
+                    break;
+                case 'trade_alchemy_potionc6':
+                    index.statBuffApply(src, src, 'AGI', src.lv, 1800, itemInfo.cdgroup);
+                    used = true;
+                    break;
+                case 'trade_alchemy_potionc3':
+                    index.statBuffApply(src, src, 'STA', src.lv, 1800, itemInfo.cdgroup);
+                    used = true;
+                    break;
+                case 'trade_alchemy_potionc4':
+                    index.statBuffApply(src, src, 'INT', src.lv, 1800, itemInfo.cdgroup);
+                    used = true;
+                    break;
+                case 'trade_alchemy_potionc5':
+                    index.statBuffApply(src, src, 'SPI', src.lv, 1800, itemInfo.cdgroup);
+                    used = true;
                     break;
             }
             let quest = this.$store.globalComponent["quest"];

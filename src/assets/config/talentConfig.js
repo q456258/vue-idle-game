@@ -1116,11 +1116,11 @@ export const talentConfig = {
                 spell_arcane_mindmastery:{
                     name: '启迪',
                     desc: ['',
-                        '你的法力恢复速度提高10%',
-                        '你的法力恢复速度提高20%',
-                        '你的法力恢复速度提高30%',
-                        '你的法力恢复速度提高40%',
-                        '你的法力恢复速度提高50%'
+                        '非战斗状态下, 你的法力恢复速度提高10%',
+                        '非战斗状态下, 你的法力恢复速度提高20%',
+                        '非战斗状态下, 你的法力恢复速度提高30%',
+                        '非战斗状态下, 你的法力恢复速度提高40%',
+                        '非战斗状态下, 你的法力恢复速度提高50%'
                     ],
                     type: 'spell_arcane_mindmastery',
                     iconSrc: './icons/spell/priest/spell_arcane_mindmastery.jpg',
@@ -1130,10 +1130,10 @@ export const talentConfig = {
                 spell_holy_renew:{
                     name: '【技能】恢复',
                     desc: ['',
-                        '满怀对圣光的信仰，每秒恢复法术强度*0.1点生命值，持续15秒',
-                        '满怀对圣光的信仰，每秒恢复法术强度*0.11点生命值，持续15秒',
-                        '满怀对圣光的信仰，每秒恢复法术强度*0.12点生命值，持续15秒',
-                        '满怀对圣光的信仰，每秒恢复法术强度*0.13点生命值，持续15秒'
+                        '满怀对圣光的信仰，每秒恢复法术强度*0.06点生命值，持续15秒',
+                        '满怀对圣光的信仰，每秒恢复法术强度*0.07点生命值，持续15秒',
+                        '满怀对圣光的信仰，每秒恢复法术强度*0.08点生命值，持续15秒',
+                        '满怀对圣光的信仰，每秒恢复法术强度*0.09点生命值，持续15秒'
                     ],
                     type: 'spell_holy_renew',
                     iconSrc: './icons/spell/priest/spell_holy_renew.jpg',
@@ -1170,10 +1170,10 @@ export const talentConfig = {
                 spell_holy_flashheal:{
                     name: '【技能】快速治疗',
                     desc: ['',
-                        '恢复自身法术强度*1.4点生命值',
-                        '恢复自身法术强度*1.55点生命值',
-                        '恢复自身法术强度*1.7点生命值',
-                        '恢复自身法术强度*1.85点生命值'
+                        '恢复自身法术强度*0.8点生命值',
+                        '恢复自身法术强度*0.9点生命值',
+                        '恢复自身法术强度*1点生命值',
+                        '恢复自身法术强度*1.1点生命值'
                     ],
                     type: 'spell_holy_flashheal',
                     iconSrc: './icons/spell/priest/spell_holy_flashheal.jpg',
@@ -1246,9 +1246,9 @@ export const talentConfig = {
                 spell_holy_powerwordshield:{
                     name: '【技能】真言术：盾',
                     desc: ['',
-                        '施加一个护盾，吸收法术强度*1*(1+全能*0.1)点伤害',
-                        '施加一个护盾，吸收法术强度*1.1*(1+全能*0.1)点伤害',
-                        '施加一个护盾，吸收法术强度*1.2*(1+全能*0.1)点伤害',
+                        '施加一个护盾，吸收法术强度*1*(1+全能*0.01)点伤害',
+                        '施加一个护盾，吸收法术强度*1.1*(1+全能*0.01)点伤害',
+                        '施加一个护盾，吸收法术强度*1.2*(1+全能*0.01)点伤害',
                     ],
                     type: 'spell_holy_powerwordshield',
                     iconSrc: './icons/spell/priest/spell_holy_powerwordshield.jpg',

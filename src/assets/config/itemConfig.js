@@ -33,7 +33,7 @@ export const itemConfig = {
                     description: {
                         name: '铜矿石',
                         category: '材料',
-                        desc: '',
+                        desc: '可将三个铜矿石合成为铜锭',
                         iconSrc: "./icons/material/inv_ore_copper_01.jpg",
                     },
                     stack: true,
@@ -46,7 +46,7 @@ export const itemConfig = {
                     description: {
                         name: '铜锭',
                         category: '材料',
-                        desc: '锻造附加材料, 提升5级锻造装备的等级要求和物品等级',
+                        desc: '锻造附加材料, 提升5级锻造装备的等级要求和物品等级, 单次锻造最多使用16个',
                         iconSrc: "./icons/material/inv_ingot_02.jpg",
                     },
                     stack: true,
@@ -59,7 +59,7 @@ export const itemConfig = {
                     description: {
                         name: '锡矿石',
                         category: '材料',
-                        desc: '',
+                        desc: '可将三个锡矿石合成为锡锭',
                         iconSrc: "./icons/material/inv_ore_tin_01.jpg",
                     },
                     stack: true,
@@ -85,7 +85,7 @@ export const itemConfig = {
                     description: {
                         name: '银矿石',
                         category: '材料',
-                        desc: '',
+                        desc: '可将三个银矿石合成为银锭',
                         iconSrc: "./icons/material/inv_stone_16.jpg",
                     },
                     stack: true,
@@ -98,7 +98,7 @@ export const itemConfig = {
                     description: {
                         name: '银锭',
                         category: '材料',
-                        desc: '',
+                        desc: '锻造附加材料, 提升1级装备的物品等级, 单次锻造最多使用10个',
                         iconSrc: "./icons/material/inv_ingot_01.jpg",
                     },
                     stack: true,
@@ -111,7 +111,7 @@ export const itemConfig = {
                     description: {
                         name: '铁矿石',
                         category: '材料',
-                        desc: '',
+                        desc: '可将三个铁矿石合成为铁锭',
                         iconSrc: "./icons/material/inv_ore_iron_01.jpg",
                     },
                     stack: true,
@@ -124,7 +124,7 @@ export const itemConfig = {
                     description: {
                         name: '铁锭',
                         category: '材料',
-                        desc: '锻造附加材料, 降低1级锻造装备的等级要求',
+                        desc: '锻造附加材料, 降低1级锻造装备的等级要求, 单次锻造最多使用10个',
                         iconSrc: "./icons/material/inv_ingot_iron.jpg",
                     },
                     stack: true,
@@ -137,7 +137,7 @@ export const itemConfig = {
                     description: {
                         name: '钢锭',
                         category: '材料',
-                        desc: '锻造附加材料, 降低2级锻造装备的等级要求',
+                        desc: '锻造附加材料, 降低2级锻造装备的等级要求, 单次锻造最多使用5个',
                         iconSrc: "./icons/material/inv_ingot_steel.jpg",
                     },
                     stack: true,
@@ -150,7 +150,7 @@ export const itemConfig = {
                     description: {
                         name: '金矿石',
                         category: '材料',
-                        desc: '',
+                        desc: '可将三个金矿石合成为金锭',
                         iconSrc: "./icons/material/inv_ore_gold_01.jpg",
                     },
                     stack: true,
@@ -163,7 +163,7 @@ export const itemConfig = {
                     description: {
                         name: '金锭',
                         category: '材料',
-                        desc: '锻造附加材料, 1%提升锻造装备的品质',
+                        desc: '锻造附加材料, 1%提升锻造装备的品质, 单次锻造最多使用10个',
                         iconSrc: "./icons/material/inv_ingot_03.jpg",
                     },
                     stack: true,
@@ -280,7 +280,7 @@ export const itemConfig = {
                     description: {
                         name: '宁神花',
                         category: '材料',
-                        desc: '炼金制作药品所需的材料',
+                        desc: '炼金制作恢复生命类药品所需的材料',
                         iconSrc: "./icons/material/inv_misc_flower_02.jpg",
                     },
                     stack: true,
@@ -293,7 +293,7 @@ export const itemConfig = {
                     description: {
                         name: '魔皇草',
                         category: '材料',
-                        desc: '炼金制作药品所需的材料',
+                        desc: '炼金制作恢复魔法类药品所需的材料',
                         iconSrc: "./icons/material/inv_jewelry_talisman_03.jpg",
                     },
                     stack: true,
@@ -306,8 +306,73 @@ export const itemConfig = {
                     description: {
                         name: '跌打草',
                         category: '材料',
-                        desc: '炼金制作药品所需的材料',
+                        desc: '炼金制作恢复类药品所需的材料',
                         iconSrc: "./icons/material/inv_misc_herb_01.jpg",
+                    },
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 100
+                },
+                inv_misc_herb_07: {
+                    quality: 3,
+                    description: {
+                        name: '地根草',
+                        category: '材料',
+                        desc: '炼金制作增强力量药品所需的材料',
+                        iconSrc: "./icons/material/inv_misc_herb_07.jpg",
+                    },
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 100
+                },
+                inv_misc_herb_whispervine: {
+                    quality: 3,
+                    description: {
+                        name: '巫妖花',
+                        category: '材料',
+                        desc: '炼金制作增强智力药品所需的材料',
+                        iconSrc: "./icons/material/inv_misc_herb_whispervine.jpg",
+                    },
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 100
+                },
+                inv_misc_herb_04: {
+                    quality: 3,
+                    description: {
+                        name: '雨燕草',
+                        category: '材料',
+                        desc: '炼金制作增强敏捷药品所需的材料',
+                        iconSrc: "./icons/material/inv_misc_herb_04.jpg",
+                    },
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 100
+                },
+                inv_misc_herb_11: {
+                    quality: 3,
+                    description: {
+                        name: '荆棘藻',
+                        category: '材料',
+                        desc: '炼金制作增强耐力药品所需的材料',
+                        iconSrc: "./icons/material/inv_misc_herb_11.jpg",
+                    },
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 100
+                },
+                inv_misc_herb_dreamfoil: {
+                    quality: 3,
+                    description: {
+                        name: '梦夜草',
+                        category: '材料',
+                        desc: '炼金制作增强精神药品所需的材料',
+                        iconSrc: "./icons/material/inv_misc_herb_dreamfoil.jpg",
                     },
                     stack: true,
                     quantity: 1,
@@ -1747,7 +1812,7 @@ export const itemConfig = {
                     description: {
                         name: '次级恢复药水',
                         category: '消耗品',
-                        desc: '使用: 每秒恢复150点生命值以及150点魔法值, 持续10秒',
+                        desc: '使用: 每秒恢复125点生命值以及125点魔法值, 持续10秒',
                         iconSrc: "./icons/potion/inv_potion_44.jpg",
                     },
                     use: true,
@@ -1870,22 +1935,93 @@ export const itemConfig = {
                     cdgroup: 'hpmpPotion',
                     cd: 15
                 },
-                
-
-
-
-
-
-
-
-                
+                trade_alchemy_potionc2: {
+                    quality: 4,
+                    description: {
+                        name: '力量药剂',
+                        category: '消耗品',
+                        desc: '使用: 提升等级*1点力量, 持续30分钟',
+                        iconSrc: "./icons/potion/trade_alchemy_potionc2.jpg",
+                    },
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 100,
+                    cdgroup: 'strPotion',
+                    cd: 60
+                },
+                trade_alchemy_potionc4: {
+                    quality: 4,
+                    description: {
+                        name: '智力药剂',
+                        category: '消耗品',
+                        desc: '使用: 提升等级*1点智力, 持续30分钟',
+                        iconSrc: "./icons/potion/trade_alchemy_potionc4.jpg",
+                    },
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 100,
+                    cdgroup: 'intPotion',
+                    cd: 60
+                },
+                trade_alchemy_potionc6: {
+                    quality: 4,
+                    description: {
+                        name: '敏捷药剂',
+                        category: '消耗品',
+                        desc: '使用: 提升等级*1点敏捷, 持续30分钟',
+                        iconSrc: "./icons/potion/trade_alchemy_potionc6.jpg",
+                    },
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 100,
+                    cdgroup: 'agiPotion',
+                    cd: 60
+                },
+                trade_alchemy_potionc3: {
+                    quality: 4,
+                    description: {
+                        name: '耐力药剂',
+                        category: '消耗品',
+                        desc: '使用: 提升等级*1点耐力, 持续30分钟',
+                        iconSrc: "./icons/potion/trade_alchemy_potionc3.jpg",
+                    },
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 100,
+                    cdgroup: 'staPotion',
+                    cd: 60
+                },
+                trade_alchemy_potionc5: {
+                    quality: 4,
+                    description: {
+                        name: '精神药剂',
+                        category: '消耗品',
+                        desc: '使用: 提升等级*1点精神, 持续30分钟',
+                        iconSrc: "./icons/potion/trade_alchemy_potionc5.jpg",
+                    },
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 100,
+                    cdgroup: 'spiPotion',
+                    cd: 60
+                },
                 inv_potion_51_recipe: {
                     quality: 2,
                     description: {
                         name: '次级治疗药水配方',
                         category: '消耗品',
-                        desc: '使用: 习得如何制造强效活力药水 (每秒恢复100点生命值, 持续10秒)',
-                        iconSrc: "./icons/item/inv_misc_book_09.jpg",
+                        desc: '使用: 习得如何制造次级治疗药水 (每秒恢复100点生命值, 持续10秒)',
+                        iconSrc: "./icons/item/inv_scroll_03.jpg",
                     },
                     use: true,
                     stack: true,
@@ -1898,8 +2034,8 @@ export const itemConfig = {
                     description: {
                         name: '次级生命药水配方',
                         category: '消耗品',
-                        desc: '使用: 习得如何制造强效活力药水 (恢复800生命值)',
-                        iconSrc: "./icons/item/inv_misc_book_09.jpg",
+                        desc: '使用: 习得如何制造次级生命药水 (恢复800生命值)',
+                        iconSrc: "./icons/item/inv_scroll_03.jpg",
                     },
                     use: true,
                     stack: true,
@@ -1912,8 +2048,8 @@ export const itemConfig = {
                     description: {
                         name: '治疗药水配方',
                         category: '消耗品',
-                        desc: '使用: 习得如何制造强效活力药水 (每秒恢复500点生命值, 持续10秒)',
-                        iconSrc: "./icons/item/inv_misc_book_09.jpg",
+                        desc: '使用: 习得如何制造治疗药水 (每秒恢复500点生命值, 持续10秒)',
+                        iconSrc: "./icons/item/inv_scroll_06.jpg",
                     },
                     use: true,
                     stack: true,
@@ -1926,8 +2062,8 @@ export const itemConfig = {
                     description: {
                         name: '生命药水配方',
                         category: '消耗品',
-                        desc: '使用: 习得如何制造强效活力药水 (恢复4500生命值)',
-                        iconSrc: "./icons/item/inv_misc_book_09.jpg",
+                        desc: '使用: 习得如何制造生命药水 (恢复4500生命值)',
+                        iconSrc: "./icons/item/inv_scroll_06.jpg",
                     },
                     use: true,
                     stack: true,
@@ -1940,8 +2076,8 @@ export const itemConfig = {
                     description: {
                         name: '强效治疗药水配方',
                         category: '消耗品',
-                        desc: '使用: 习得如何制造强效活力药水 (每秒恢复1%最大生命值, 持续100秒)',
-                        iconSrc: "./icons/item/inv_misc_book_09.jpg",
+                        desc: '使用: 习得如何制造强效治疗药水 (每秒恢复1%最大生命值, 持续100秒)',
+                        iconSrc: "./icons/item/inv_scroll_06.jpg",
                     },
                     use: true,
                     stack: true,
@@ -1954,8 +2090,8 @@ export const itemConfig = {
                     description: {
                         name: '超级治疗药水配方',
                         category: '消耗品',
-                        desc: '使用: 习得如何制造强效活力药水 (每秒恢复5%最大生命值, 持续100秒)',
-                        iconSrc: "./icons/item/inv_misc_book_09.jpg",
+                        desc: '使用: 习得如何制造超级治疗药水 (每秒恢复5%最大生命值, 持续100秒)',
+                        iconSrc: "./icons/item/inv_scroll_05.jpg",
                     },
                     use: true,
                     stack: true,
@@ -1968,8 +2104,8 @@ export const itemConfig = {
                     description: {
                         name: '强效生命药水配方',
                         category: '消耗品',
-                        desc: '使用: 习得如何制造强效活力药水 (恢复25%最大生命值)',
-                        iconSrc: "./icons/item/inv_misc_book_09.jpg",
+                        desc: '使用: 习得如何制造强效生命药水 (恢复25%最大生命值)',
+                        iconSrc: "./icons/item/inv_scroll_06.jpg",
                     },
                     use: true,
                     stack: true,
@@ -1982,8 +2118,8 @@ export const itemConfig = {
                     description: {
                         name: '超级生命药水配方',
                         category: '消耗品',
-                        desc: '使用: 习得如何制造强效活力药水 (恢复50%最大生命值)',
-                        iconSrc: "./icons/item/inv_misc_book_09.jpg",
+                        desc: '使用: 习得如何制造超级生命药水 (恢复50%最大生命值)',
+                        iconSrc: "./icons/item/inv_scroll_05.jpg",
                     },
                     use: true,
                     stack: true,
@@ -1996,8 +2132,8 @@ export const itemConfig = {
                     description: {
                         name: '次级魔能药水配方',
                         category: '消耗品',
-                        desc: '使用: 习得如何制造强效活力药水 (每秒恢复50点法力值, 持续10秒)',
-                        iconSrc: "./icons/item/inv_misc_book_09.jpg",
+                        desc: '使用: 习得如何制造次级魔能药水 (每秒恢复50点法力值, 持续10秒)',
+                        iconSrc: "./icons/item/inv_scroll_03.jpg",
                     },
                     use: true,
                     stack: true,
@@ -2010,8 +2146,8 @@ export const itemConfig = {
                     description: {
                         name: '次级法力药水配方',
                         category: '消耗品',
-                        desc: '使用: 习得如何制造强效活力药水 (恢复400法力值)',
-                        iconSrc: "./icons/item/inv_misc_book_09.jpg",
+                        desc: '使用: 习得如何制造次级法力药水 (恢复400法力值)',
+                        iconSrc: "./icons/item/inv_scroll_03.jpg",
                     },
                     use: true,
                     stack: true,
@@ -2024,8 +2160,8 @@ export const itemConfig = {
                     description: {
                         name: '魔能药水配方',
                         category: '消耗品',
-                        desc: '使用: 习得如何制造强效活力药水 (每秒恢复200点法力值, 持续10秒)',
-                        iconSrc: "./icons/item/inv_misc_book_09.jpg",
+                        desc: '使用: 习得如何制造魔能药水 (每秒恢复200点法力值, 持续10秒)',
+                        iconSrc: "./icons/item/inv_scroll_06.jpg",
                     },
                     use: true,
                     stack: true,
@@ -2038,8 +2174,8 @@ export const itemConfig = {
                     description: {
                         name: '法力药水配方',
                         category: '消耗品',
-                        desc: '使用: 习得如何制造强效活力药水 (恢复1750法力值)',
-                        iconSrc: "./icons/item/inv_misc_book_09.jpg",
+                        desc: '使用: 习得如何制造法力药水 (恢复1750法力值)',
+                        iconSrc: "./icons/item/inv_scroll_06.jpg",
                     },
                     use: true,
                     stack: true,
@@ -2052,8 +2188,8 @@ export const itemConfig = {
                     description: {
                         name: '强效魔能药水配方',
                         category: '消耗品',
-                        desc: '使用: 习得如何制造强效活力药水 (每秒恢复1%最大法力值, 持续100秒)',
-                        iconSrc: "./icons/item/inv_misc_book_09.jpg",
+                        desc: '使用: 习得如何制造强效魔能药水 (每秒恢复1%最大法力值, 持续100秒)',
+                        iconSrc: "./icons/item/inv_scroll_06.jpg",
                     },
                     use: true,
                     stack: true,
@@ -2066,8 +2202,8 @@ export const itemConfig = {
                     description: {
                         name: '超级魔能药水配方',
                         category: '消耗品',
-                        desc: '使用: 习得如何制造强效活力药水 (每秒恢复5%最大法力值, 持续100秒)',
-                        iconSrc: "./icons/item/inv_misc_book_09.jpg",
+                        desc: '使用: 习得如何制造超级魔能药水 (每秒恢复5%最大法力值, 持续100秒)',
+                        iconSrc: "./icons/item/inv_scroll_05.jpg",
                     },
                     use: true,
                     stack: true,
@@ -2080,8 +2216,8 @@ export const itemConfig = {
                     description: {
                         name: '强效法力药水配方',
                         category: '消耗品',
-                        desc: '使用: 习得如何制造强效活力药水 (恢复25%最大法力值)',
-                        iconSrc: "./icons/item/inv_misc_book_09.jpg",
+                        desc: '使用: 习得如何制造强效法力药水 (恢复25%最大法力值)',
+                        iconSrc: "./icons/item/inv_scroll_06.jpg",
                     },
                     use: true,
                     stack: true,
@@ -2094,8 +2230,8 @@ export const itemConfig = {
                     description: {
                         name: '超级法力药水配方',
                         category: '消耗品',
-                        desc: '使用: 习得如何制造强效活力药水 (恢复50%最大法力值)',
-                        iconSrc: "./icons/item/inv_misc_book_09.jpg",
+                        desc: '使用: 习得如何制造超级法力药水 (恢复50%最大法力值)',
+                        iconSrc: "./icons/item/inv_scroll_05.jpg",
                     },
                     use: true,
                     stack: true,
@@ -2108,8 +2244,8 @@ export const itemConfig = {
                     description: {
                         name: '次级恢复药水配方',
                         category: '消耗品',
-                        desc: '使用: 习得如何制造强效活力药水 (每秒恢复150点生命值以及150点魔法值, 持续10秒)',
-                        iconSrc: "./icons/item/inv_misc_book_09.jpg",
+                        desc: '使用: 习得如何制造次级恢复药水 (每秒恢复125点生命值以及125点魔法值, 持续10秒)',
+                        iconSrc: "./icons/item/inv_scroll_03.jpg",
                     },
                     use: true,
                     stack: true,
@@ -2122,8 +2258,8 @@ export const itemConfig = {
                     description: {
                         name: '次级活力药水配方',
                         category: '消耗品',
-                        desc: '使用: 习得如何制造强效活力药水 (恢复1000生命值以及1000点魔法值)',
-                        iconSrc: "./icons/item/inv_misc_book_09.jpg",
+                        desc: '使用: 习得如何制造次级活力药水 (恢复1000生命值以及1000点魔法值)',
+                        iconSrc: "./icons/item/inv_scroll_03.jpg",
                     },
                     use: true,
                     stack: true,
@@ -2136,8 +2272,8 @@ export const itemConfig = {
                     description: {
                         name: '恢复药水配方',
                         category: '消耗品',
-                        desc: '使用: 习得如何制造强效活力药水 (每秒恢复1500点生命值以及1500点魔法值, 持续10秒)',
-                        iconSrc: "./icons/item/inv_misc_book_09.jpg",
+                        desc: '使用: 习得如何制造恢复药水 (每秒恢复1500点生命值以及1500点魔法值, 持续10秒)',
+                        iconSrc: "./icons/item/inv_scroll_06.jpg",
                     },
                     use: true,
                     stack: true,
@@ -2150,8 +2286,8 @@ export const itemConfig = {
                     description: {
                         name: '活力药水配方',
                         category: '消耗品',
-                        desc: '使用: 习得如何制造强效活力药水 (恢复10000生命值以及10000点魔法值)',
-                        iconSrc: "./icons/item/inv_misc_book_09.jpg",
+                        desc: '使用: 习得如何制造活力药水 (恢复10000生命值以及10000点魔法值)',
+                        iconSrc: "./icons/item/inv_scroll_06.jpg",
                     },
                     use: true,
                     stack: true,
@@ -2164,8 +2300,8 @@ export const itemConfig = {
                     description: {
                         name: '强效恢复药水配方',
                         category: '消耗品',
-                        desc: '使用: 习得如何制造强效活力药水 (每秒恢复1%最大生命值以及魔法值, 持续100秒)',
-                        iconSrc: "./icons/item/inv_misc_book_09.jpg",
+                        desc: '使用: 习得如何制造强效恢复药水 (每秒恢复1%最大生命值以及魔法值, 持续100秒)',
+                        iconSrc: "./icons/item/inv_scroll_06.jpg",
                     },
                     use: true,
                     stack: true,
@@ -2178,8 +2314,8 @@ export const itemConfig = {
                     description: {
                         name: '超级恢复药水配方',
                         category: '消耗品',
-                        desc: '使用: 习得如何制造强效活力药水 (每秒恢复5%最大生命值以及魔法值, 持续100秒)',
-                        iconSrc: "./icons/item/inv_misc_book_09.jpg",
+                        desc: '使用: 习得如何制造超级恢复药水 (每秒恢复5%最大生命值以及魔法值, 持续100秒)',
+                        iconSrc: "./icons/item/inv_scroll_05.jpg",
                     },
                     use: true,
                     stack: true,
@@ -2193,7 +2329,7 @@ export const itemConfig = {
                         name: '强效活力药水配方',
                         category: '消耗品',
                         desc: '使用: 习得如何制造强效活力药水 (恢复75%最大生命值以及魔法值)',
-                        iconSrc: "./icons/item/inv_misc_book_09.jpg",
+                        iconSrc: "./icons/item/inv_scroll_05.jpg",
                     },
                     use: true,
                     stack: true,

@@ -5,10 +5,10 @@ export const guildMemberConfig = {
                 Human: {
                     name: '人类',
                     talent: {
-                        HP: 300,
-                        ATK: 10,
-                        BLOCK: 10,
-                        GROWTH: 0.7
+                        HP: 100,
+                        ATK: 0,
+                        BLOCK: 0,
+                        GROWTH: 0.5
                     }
                 }, 
                 Dwarf: {
@@ -107,57 +107,6 @@ export const guildMemberConfig = {
             guildSkill: {
                 train: {
                     name: '导师I', type: 'train', value: 1, desc: '练功房等级+1',
-                },
-                train2: {
-                    name: '导师II', type: 'train', value: 2, desc: '练功房等级+2',
-                },
-                train3: {
-                    name: '导师III', type: 'train', value: 3, desc: '练功房等级+3',
-                },
-                train4: {
-                    name: '导师IV', type: 'train', value: 4, desc: '练功房等级+4',
-                },
-                train5: {
-                    name: '导师V', type: 'train', value: 5, desc: '练功房等级+5',
-                },
-                train6: {
-                    name: '导师VI', type: 'train', value: 7, desc: '练功房等级+7',
-                },
-                shop: {
-                    name: '商人I', type: 'shop', value: 1, desc: '商店等级+1',
-                },
-                shop2: {
-                    name: '商人II', type: 'shop', value: 2, desc: '商店等级+2',
-                },
-                shop3: {
-                    name: '商人III', type: 'shop', value: 3, desc: '商店等级+3',
-                },
-                shop4: {
-                    name: '商人IV', type: 'shop', value: 4, desc: '商店等级+4',
-                },
-                shop5: {
-                    name: '商人V', type: 'shop', value: 5, desc: '商店等级+5',
-                },
-                shop6: {
-                    name: '商人VI', type: 'shop', value: 7, desc: '商店等级+7',
-                },
-                smith: {
-                    name: '铁匠I', type: 'smith', value: 1, desc: '铁匠铺等级+1',
-                },
-                smith2: {
-                    name: '铁匠II', type: 'smith', value: 2, desc: '铁匠铺等级+2',
-                },
-                smith3: {
-                    name: '铁匠III', type: 'smith', value: 3, desc: '铁匠铺等级+3',
-                },
-                smith4: {
-                    name: '铁匠IV', type: 'smith', value: 4, desc: '铁匠铺等级+4',
-                },
-                smith5: {
-                    name: '铁匠V', type: 'smith', value: 5, desc: '铁匠铺等级+5',
-                },
-                smith6: {
-                    name: '铁匠VI', type: 'smith', value: 7, desc: '铁匠铺等级+7',
                 },
             },
         }

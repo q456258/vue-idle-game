@@ -584,20 +584,20 @@ data() {
                 iconSrc: "./icons/spell/priest/spell_holy_renew.jpg",
                 quality: 1,
                 level: [{
-                        des: '满怀对圣光的信仰，每秒恢复法术强度*0.1点生命值，持续15秒',
-                        heal: { AP: 0.1 },
+                        des: '满怀对圣光的信仰，每秒恢复法术强度*0.06点生命值，持续15秒',
+                        heal: { AP: 0.06 },
                         cost: { MP: 50, },
                     }, {
-                        des: '满怀对圣光的信仰，每秒恢复法术强度*0.11点生命值，持续15秒',
-                        heal: { AP: 0.11 },
+                        des: '满怀对圣光的信仰，每秒恢复法术强度*0.07点生命值，持续15秒',
+                        heal: { AP: 0.07 },
                         cost: { MP: 75, },
                     }, {
-                        des: '满怀对圣光的信仰，每秒恢复法术强度*0.12点生命值，持续15秒',
-                        heal: { AP: 0.12 },
+                        des: '满怀对圣光的信仰，每秒恢复法术强度*0.08点生命值，持续15秒',
+                        heal: { AP: 0.08 },
                         cost: { MP: 100, },
                     }, {
-                        des: '满怀对圣光的信仰，每秒恢复法术强度*0.13点生命值，持续15秒',
-                        heal: { AP: 0.13 },
+                        des: '满怀对圣光的信仰，每秒恢复法术强度*0.09点生命值，持续15秒',
+                        heal: { AP: 0.09 },
                         cost: { MP: 125, },
                     }
                 ],
@@ -609,20 +609,20 @@ data() {
                 iconSrc: "./icons/spell/priest/spell_holy_flashheal.jpg",
                 quality: 1,
                 level: [{
-                        des: '恢复自身法术强度*1.4点生命值',
-                        heal: { AP: 1.4 },
+                        des: '恢复自身法术强度*0.8点生命值',
+                        heal: { AP: 0.8 },
                         cost: { MP: 50, },
                     }, {
-                        des: '恢复自身法术强度*1.55点生命值',
-                        heal: { AP: 1.55 },
+                        des: '恢复自身法术强度*0.9点生命值',
+                        heal: { AP: 0.9 },
                         cost: { MP: 75, },
                     }, {
-                        des: '恢复自身法术强度*1.7点生命值',
-                        heal: { AP: 1.7 },
+                        des: '恢复自身法术强度*1点生命值',
+                        heal: { AP: 1 },
                         cost: { MP: 100, },
                     }, {
-                        des: '恢复自身法术强度*1.85点生命值',
-                        heal: { AP: 1.85 },
+                        des: '恢复自身法术强度*1.1点生命值',
+                        heal: { AP: 1.1 },
                         cost: { MP: 125, },
                     }
                 ],
@@ -694,13 +694,13 @@ data() {
                 iconSrc: "./icons/spell/priest/spell_holy_powerwordshield.jpg",
                 quality: 1,
                 level: [{
-                        des: '施加一个护盾，吸收法术强度*1*(1+全能*0.1)点伤害',
+                        des: '施加一个护盾，吸收法术强度*1*(1+全能*0.01)点伤害',
                         cost: { MP: 50, },
                     }, {
-                        des: '施加一个护盾，吸收法术强度*1.1*(1+全能*0.1)点伤害',
+                        des: '施加一个护盾，吸收法术强度*1.1*(1+全能*0.01)点伤害',
                         cost: { MP: 60, },
                     }, {
-                        des: '施加一个护盾，吸收法术强度*1.2*(1+全能*0.1)点伤害',
+                        des: '施加一个护盾，吸收法术强度*1.2*(1+全能*0.01)点伤害',
                         cost: { MP: 70, },
                     }
                 ],
@@ -925,8 +925,8 @@ data() {
             poison_arrow: {
                 name: '毒箭', max: 20, iconSrc: "", quality: 1,
                 level: [{
-                        des: '附加20层中毒效果',
-                        effect: {poison: {stack: 20, chance: 100, target: 'enemy'},},
+                        des: '附加15层中毒效果',
+                        effect: {poison: {stack: 15, chance: 100, target: 'enemy'},},
                         cost: { MP: 25, },
                     }
                 ],

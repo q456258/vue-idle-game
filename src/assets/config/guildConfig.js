@@ -12,15 +12,15 @@ export const guildConfig = {
                 ],      
                 reputationShop: [
                     [],
-                    [['inv_misc_gem_diamond_05', 3]],
-                    [['inv_misc_gem_diamond_05', 3], ['inv_misc_gem_diamond_04', 15],],
-                    [['inv_misc_gem_diamond_05', 3], ['inv_misc_gem_diamond_04', 15], ['inv_misc_gem_diamond_03', 30]],
+                    [['inv_misc_gem_diamond_05_bag', 3]],
+                    [['inv_misc_gem_diamond_05_bag', 3], ['inv_misc_gem_diamond_04_bag', 15],],
+                    [['inv_misc_gem_diamond_05_bag', 3], ['inv_misc_gem_diamond_04_bag', 15], ['inv_misc_gem_diamond_03_bag', 30]],
                 ],        
             },
             guildBuildingName: {
                 guild: '公会', bar: '酒馆',
                 questBoard:'任务榜', shop:'商店', blackmarket:'黑市', smith:'铁匠铺', 
-                train:'练功房', train2:'中级练功房', train3:'高级练功房', 
+                // train:'练功房', train2:'中级练功房', train3:'高级练功房', 
                 mine: '矿场', herb: '药园'
             },
             guildBuildingDesc: {

@@ -83,7 +83,7 @@ export const spellEffect = {
         getDefRed(armor) {
             let sign = armor>=0 ? 1 : -1;
             armor = Math.abs(armor);
-            return sign*Math.round((armor/(armor+5500))*1000000)/10000;
+            return sign*Math.round((armor/(armor+3000))*1000000)/10000;
         },
         callAction(source, target) {
             let index = this.$store.globalComponent["index"];
@@ -943,7 +943,7 @@ export const spellEffect = {
         // 真言术：盾
         spell_holy_powerwordshield(source, target, spell) {
             let index = this.$store.globalComponent["index"];
-            let shield = source.attribute.AP.value*(0.9+source.spells[spell].lv*0.1)*(1+source.attribute.VERS.value*0.1);
+            let shield = source.attribute.AP.value*(0.9+source.spells[spell].lv*0.1)*(1+source.attribute.VERS.value*0.01);
             index.shield(source, target, shield, spell);
         },
         // 暗言术：痛
