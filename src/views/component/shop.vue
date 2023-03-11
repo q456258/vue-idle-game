@@ -68,7 +68,9 @@
                         <span class="time"><span v-if="equipTimerRemain%60<10">0</span>{{equipTimerRemain%60}}</span>
                     </button>
                     &nbsp;
-                    <button type="button" class="btn btn-outline-warning"  :disabled="playerGold<100000" @click="forceRefresh(100000)">刷新(10w金)</button>
+                    <button type="button" class="btn btn-outline-warning"  :disabled="playerGold<bmRefreshCost" @click="forceRefresh(bmRefreshCost)">
+                        刷新 <currency :amount="bmRefreshCost"></currency>
+                    </button>
                 </span>
             </div>
         </div>
@@ -92,7 +94,8 @@ export default {
             equipCost: [],
             equipTimer: 0,
             equipTimerRemain: 600,
-            freeRefreshCount: 1
+            freeRefreshCount: 1,
+            bmRefreshCost: 10000
         }
     },
     mounted () {
