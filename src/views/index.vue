@@ -698,18 +698,21 @@ export default {
         let bonus = 1;
         let talent = 'spell_arcane_studentofmagic';
         let amount = this.attribute.SPI.value;
+        if(this.playerTalent[talent] > 0) {
+          bonus += this.playerTalent[talent]*0.05;
+        }
         if(!this.inBattle) {
+          talent = 'spell_arcane_mindmastery';
           if(this.playerTalent[talent] > 0) {
-            bonus += this.playerTalent[talent]*0.05;
+            amount *= (1+this.playerTalent[talent]*0.1);
           }
           amount += this.attribute.MAXMP.value*recover;
         }
-        talent = 'spell_arcane_mindmastery';
-        if(this.playerTalent[talent] > 0) {
-          amount *= (1+this.playerTalent[talent]*0.1);
+        else {
+          amount = this.attribute.SPI.value;
+          amount *= bonus;
+          this.mpChange(player, player, Math.ceil(amount));
         }
-        amount *= bonus;
-        this.mpChange(player, player, Math.ceil(amount));
       }, 5000);
     },
     openMenuPanel(type) {
