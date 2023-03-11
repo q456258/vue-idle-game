@@ -189,13 +189,14 @@ export default {
             let playerAttribute = this.playerAttr,
                 enemyAttribute = this.$store.state.enemyAttribute,
                 dungeonInfo = this.dungeonInfo;
-            if(dungeonInfo.inBattle)
+            if(dungeonInfo.inBattle || !this.reduceResetCount()) {
+                this.setBattleStatus(false, false);
                 return;
+            }
             if(enemyAttribute.attribute.CURHP.value == 0) {
                 this.generateenemy();
                 enemyAttribute = this.$store.state.enemyAttribute;
             }
-            this.reduceResetCount();
             this.$store.commit("set_battle_info", {
                 type: '',
                 msg: '————战斗开始————'
@@ -281,16 +282,13 @@ export default {
         },
         reduceResetCount(count=1) {
             if(this.selectedDungeon.resetCount <= 0) {
-                if(!this.reduceCount()) {
-                    this.toggleBattle();
-                    return;
-                }
+                return this.reduceCount();
             }
             this.selectedDungeon.resetCount -= count;
-            if(this.selectedDungeon.count == 1 && this.selectedDungeon.resetCount == 0) {
-                if(!this.reduceCount())
-                    this.toggleBattle();
+            if(this.selectedDungeon.resetCount == 0) {
+                return this.reduceCount();
             }
+            return true;
         },
         gainExpByLv(lv, type) {
             let exp = 35+lv*5;
