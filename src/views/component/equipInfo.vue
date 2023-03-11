@@ -113,6 +113,7 @@ export default {
             percent: [
                 'STRP','AGIP','INTP','ALLP','CRIT','CRITDMG','ATKP','DEFP','MRP','HPP','MPP'
             ],
+            enhanceBonus: 0.1
         };
     },
     mounted() {
@@ -273,7 +274,7 @@ export default {
                     entry[i].base = Math.round(Math.pow(Math.pow(base, 1.5)/2, 0.66))+ran;
                 else
                     entry[i].base = Math.ceil(base)+ran;
-                entry[i].value = Math.floor(entry[i].base * (1+enhanceLv*0.05));
+                entry[i].value = Math.floor(entry[i].base * (1+enhanceLv*this.enhanceBonus));
                 entry[i].showVal = '+' + entry[i].value;
                 entry[i].name = this.entryInfo[type].name;
             }
@@ -388,11 +389,11 @@ export default {
 
             baseEntry.forEach(entry => {
                 if(percent.indexOf(entry.type) > -1) {
-                    entry.value = Math.floor(entry.base * (1+equip.enhanceLv*0.05));
+                    entry.value = Math.floor(entry.base * (1+equip.enhanceLv*this.enhanceBonus));
                     entry.showVal = '+' + entry.value + '%';
                 }
                 else {
-                    entry.value = Math.floor(entry.base * (1+equip.enhanceLv*0.05));
+                    entry.value = Math.floor(entry.base * (1+equip.enhanceLv*this.enhanceBonus));
                     entry.showVal = '+' + entry.value;
                 }
             });

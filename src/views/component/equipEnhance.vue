@@ -40,9 +40,9 @@
                 <div class="beforeEnhance">
                     <div v-for="v in equip.baseEntry" :key="v.id">
                         <div>
-                            <span>{{v.name}} + {{Math.floor(v.base*(1+(equip.enhanceLv+1)*0.05))}}</span> 
+                            <span>{{v.name}} + {{Math.floor(v.base*(1+(equip.enhanceLv+1)*enhanceBonus))}}</span> 
                             <span class="bonus">
-                                ↑({{Math.floor(v.base*(1+(equip.enhanceLv+1)*0.05)-v.value)}})
+                                ↑({{Math.floor(v.base*(1+(equip.enhanceLv+1)*enhanceBonus)-v.value)}})
                             </span>
                         </div>
                     </div>
@@ -70,14 +70,18 @@ export default {
     data() {
         return {
             value: [1, 5, 10, 25, 100],
-            req: [1, 2, 3, 4, 5, 
-                10, 15, 20, 25, 30,
-                75, 100, 125, 150, 175, 
-                250, 300, 350, 400, 450, 
-                600, 700, 800, 900, 1000  ],
+            req: [
+                1, 2, 3, 4, 5, 
+                20, 30, 40, 50, 60, 
+                150, 200, 250, 300, 350, 
+                500, 600, 700, 800, 900, 
+                1200, 1400, 1600, 1800, 2000  
+            ],
             gemType: ['inv_misc_gem_diamond_05', 'inv_misc_gem_diamond_04', 'inv_misc_gem_diamond_03', 'inv_misc_gem_diamond_02', 'inv_misc_gem_diamond_01'],
             applied: [],
             currentProgress: 0,
+            enhanceBonus: 0.1
+
 
         };
     },
