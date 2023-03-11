@@ -103,7 +103,7 @@ export default {
                 ['train5', 'shop5', 'smith5'],
                 ['train6', 'shop6', 'smith6'],
             ],
-            // applicantList: [],
+            applicantList: [],
             typeName: {shop:'商店', smith:'铁匠铺', train:'练功房', train2:'中级练功房', train3:'高级练功房', mine: '矿场', herb: '药园'},
             viewType: 'list',
             sortKey: 'name',
@@ -128,13 +128,6 @@ export default {
             // }
             return max;
         },
-        applicantList() {
-            let guildPosition = this.$store.globalComponent["guildPosition"];
-            if(guildPosition)
-                return guildPosition.applicantList;
-            else
-                return [];
-        }
     },
     methods: {
         generateApplicant(lv, race, name) {
