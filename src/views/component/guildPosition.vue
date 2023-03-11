@@ -580,7 +580,9 @@ export default {
                 for(let k=0; k<rewardList.length; k++) {
                     let random = Math.random()*100;
                     if(random <= rewardList[k][1]) {
-                        rewardList[k][0].quantity++;
+                        let qty = rewardList[k][2]==undefined ? 1 : rewardList[k][2];
+                        qty = rewardList[k][3]==undefined ? qty : qty+Math.ceil(Math.random()*(rewardList[k][3]-qty));
+                        rewardList[k][0].quantity += qty;
                     }
                 }
                 rewardCount--;
