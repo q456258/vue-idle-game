@@ -256,12 +256,6 @@ export default {
             // for(let type in types) 
             //     this.computeLv(types[type]);
             this.generateGuildQuest();
-
-
-            
-            this.guild.bar.lv = 1;
-            let guildMember = this.$store.globalComponent["guildMember"];
-            guildMember.generateApplicant();
         },
         upgradeBuilding(type) {
             let guild = this.$store.globalComponent["guild"];
