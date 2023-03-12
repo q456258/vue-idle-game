@@ -260,9 +260,8 @@ export const itemEffect = {
         //     return true;
         // },
         upgradeGuildBuild(type) {
-            let guild = this.$store.state.guildAttribute;
-            guild[type].lv += 1;
-            return true;
+            let guild = this.$store.globalComponent["guild"];
+            return guild.upgradeGuildBuild(type);
         },
         giveItem(code, qty) {
             let itemInfo = this.$store.globalComponent["itemInfo"];;
