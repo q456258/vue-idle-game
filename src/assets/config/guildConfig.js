@@ -37,7 +37,34 @@ export const guildConfig = {
                 herb: []
             },
             buildingPreReq: {
-                blackmarket: [['shop', 2]],
+                questBoard: [
+                    [['guild', 1]],
+                    [['guild', 2]],
+                    [['guild', 3]],
+                ],
+                shop: [
+                    [['guild', 1]],
+                    [['guild', 2]],
+                    [['guild', 3]],
+                    [['guild', 4]],
+                ],
+                smith: [
+                    [['guild', 1]],
+                    [['guild', 2]],
+                    [['guild', 3]],
+                    [['guild', 4]],
+                    [['guild', 5]],
+                ],
+                bar: [
+                    [['guild', 1]],
+                    [['guild', 2]],
+                    [['guild', 3]],
+                    [['guild', 4]],
+                    [['guild', 5]],
+                ],
+                blackmarket: [
+                    [['shop', 2]]
+                ],
             }, 
             upgradeCost: {
                 questBoard: [100,10000,100000],

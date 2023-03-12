@@ -233,8 +233,12 @@ export default {
         },
         displayUpgrades() {
             return Object.keys(this.upgradeCost).filter((k) => {
-                for(let i in this.buildingPreReq[k]) {
-                    if(this.guild[this.buildingPreReq[k][i][0]].lv < this.buildingPreReq[k][i][1])
+                if(!this.buildingPreReq[k])
+                    return;
+                let lv = this.guild[k].lv;
+                for(let i in this.buildingPreReq[k][lv]) {
+                    let info = this.buildingPreReq[k][lv][i];
+                    if(this.guild[info[0]].lv < info[1])
                         return false;
                 }
                 return true;
