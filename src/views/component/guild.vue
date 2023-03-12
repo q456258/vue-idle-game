@@ -95,9 +95,9 @@ export default {
                 itemInfo.removeItemByCode('inv_misc_bone_06', 1);
                 this.$set(this.guild, 'name', name);
                 this.guild.guild.lv = 1;
-                this.guild.shop.lv = 1;
-                this.guild.smith.lv = 1;
-                this.guild.bar.lv = 1;
+                // this.guild.shop.lv = 1;
+                // this.guild.smith.lv = 1;
+                // this.guild.bar.lv = 1;
                 quest.assignQuest(18);
                 quest.assignQuest(20);
                 quest.assignQuest(25);
@@ -117,6 +117,13 @@ export default {
             alert.innerHTML = "";
             return true;
         },  
+        upgradeGuildBuild(type) {
+            guild[type].lv += 1;
+            return true;
+        },
+        setGuildBuild(type, lv) {
+            guild[type].lv = lv;
+        },
         switchTab(e, type){
             let guildPosition = this.$store.globalComponent["guildPosition"];
             let active = document.getElementById(guildPosition.displayPage+'Btn');
