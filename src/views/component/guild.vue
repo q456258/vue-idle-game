@@ -119,6 +119,19 @@ export default {
         },  
         upgradeGuildBuild(type) {
             guild[type].lv += 1;
+            if(type == 'guild') {
+                let quest =  this.$store.globalComponent['quest']; 
+                let lv = guild[type].lv;
+                switch(lv) {
+                    case 1:
+                        quest.assignQuest(19);
+                        quest.assignQuest(20);
+                        break;
+                    case 2:
+                        quest.assignQuest(18);
+                        break;
+                }
+            }
             return true;
         },
         setGuildBuild(type, lv) {
