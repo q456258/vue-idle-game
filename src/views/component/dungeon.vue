@@ -267,6 +267,8 @@ export default {
                     return;
                 }
             }, 15000)
+            let quest = this.$store.globalComponent["quest"];
+            quest.trackProgress('event', 13, 1);
         },
         quitDungeon(dungeon) {
             let curDungeon = this.dungeonProgress[dungeon];
