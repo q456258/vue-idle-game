@@ -77,9 +77,9 @@ export const itemEffect = {
                 case 'inv_misc_note_06_mine2':
                     used = this.upgradeGuildBuild('mine');
                     break;
-                // case 'inv_misc_note_06':
-                //     used = this.inv_misc_note_06();
-                //     break;
+                case 'inv_misc_note_06':
+                    used = this.inv_misc_note_06();
+                    break;
                 case 'random_equip_normal_0':
                     equipOption.baseOption = ['STR', 'AGI', 'STA'];
                     used = this.randomEquip(0, lv, equipOption, toBackpack);
@@ -254,11 +254,11 @@ export const itemEffect = {
             return used;
         },
         //招募声明
-        // inv_misc_note_06() {
-        //     let guildMember = this.$store.globalComponent["guildMember"];
-        //     guildMember.generateApplicant();
-        //     return true;
-        // },
+        inv_misc_note_06() {
+            let guildMember = this.$store.globalComponent["guildMember"];
+            guildMember.generateApplicant();
+            return true;
+        },
         upgradeGuildBuild(type) {
             let guild = this.$store.globalComponent["guild"];
             return guild.upgradeGuildBuild(type);
