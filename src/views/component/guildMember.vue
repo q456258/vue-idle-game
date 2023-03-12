@@ -270,13 +270,6 @@ export default {
                 return;
             this.applicantList[k].isMember = true;
             this.guild.member.push(this.applicantList[k]);
-            for(let index in this.applicantList[k].skill) {
-                let skill = this.applicantList[k].skill[index];
-                let type = this.guildSkill[skill].type;
-                let value = this.guildSkill[skill].value;
-                this.guild[type].lv = this.guild[type].lv + value;
-                this.guild['guild'].lv = this.guild['guild'].lv + value;
-            }
             this.applicantList.splice(k, 1);
         },
         reject(k) {
@@ -295,13 +288,6 @@ export default {
         },
         kick(k) {
             let member = this.guild.member[k];
-            for(let index in member.skill) {
-                let skill = member.skill[index];
-                let type = this.guildSkill[skill].type;
-                let value = this.guildSkill[skill].value;
-                this.guild[type].lv = this.guild[type].lv - value;
-                this.guild['guild'].lv = this.guild['guild'].lv - value;
-            }
             this.guild.member.splice(k, 1);
         },
         sortBy(type, type2='talent') {
