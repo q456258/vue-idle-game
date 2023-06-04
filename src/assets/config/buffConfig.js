@@ -105,7 +105,7 @@ data() {
                 deathImmune: {
                     cleanse: true,
                     stacked: true,
-                    iconSrc: "./icons/buff/deathImmune.jpg",
+                    iconSrc: "./icons/spell/deathImmune.jpg",
                     desc: "死亡免疫: 免疫一次会造成角色死亡的伤害",
                     turnbased: true
                 },
