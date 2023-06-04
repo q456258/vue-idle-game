@@ -14,6 +14,7 @@ export const questConfig = {
                 10: '分解装备',
                 11: '合成铜锭',
                 12: '锻造装备',
+                13: '挑战副本',
             },
             rewardType: {gold: '金币', exp: '经验', guildReputation: '公会名望'},
             questCategory: {
@@ -32,7 +33,7 @@ export const questConfig = {
                 0: {
                     name: '杀鸡',
                     category: 'newbie',
-                    desc: '我也不知道为什么要你去杀鸡, 但是你去杀只鸡……吧, 就是中间地图上写着lv0，有个棕色骷髅头的图标（没错其实那个是骷髅头），点一下，然后点下面的开始战斗。找不到写着lv0的？那就参考任务【重置地图】',
+                    desc: '我也不知道为什么要你去杀鸡, 但是你去杀只鸡……吧, 就是中间地图上写着lv0, 有个棕色骷髅头的图标（没错其实那个是骷髅头）, 点一下, 然后点下面的开始战斗。找不到写着lv0的? 那就参考任务【重置地图】',
                     target: '在晴风村杀1只0级的小鸡',
                     lv: 1,
                     reqs: [['slain', 0, 1]],
@@ -44,7 +45,7 @@ export const questConfig = {
                 1: {
                     name: '重置地图',
                     category: 'newbie',
-                    desc: '如果找不到想要打的怪，可以点击屏幕中间，地图上方，"重置地图"刷新地图上的内容',
+                    desc: '如果找不到想要打的怪, 可以点击屏幕中间, 地图上方, "重置地图"刷新地图上的内容',
                     target: '点击重置地图',
                     lv: 1,
                     reqs: [['event', 1, 1]],
@@ -56,7 +57,7 @@ export const questConfig = {
                 2: {
                     name: '击败训练假人',
                     category: 'newbie',
-                    desc: '试着击败一只训练假人吧，晴风村1-5级，图标为棕色骷髅头的怪物为训练假人。获取足够的装备，变得强大后继续挑战更高级的怪物吧！',
+                    desc: '试着击败一只训练假人吧, 晴风村1-5级, 图标为棕色骷髅头的怪物为训练假人。获取足够的装备, 变得强大后继续挑战更高级的怪物吧! ',
                     target: '击败训练假人',
                     lv: 2,
                     reqs: [['slain', 1, 1]],
@@ -68,7 +69,7 @@ export const questConfig = {
                 3: {
                     name: '击败训练假人精英',
                     category: 'newbie',
-                    desc: '接下来击败三只训练假人精英吧，晴风村1-5级，图标为银色骷髅头的怪物为训练假人精英。失败了一次不要紧，精英可以挑战两次！',
+                    desc: '接下来击败三只训练假人精英吧, 晴风村1-5级, 图标为银色骷髅头的怪物为训练假人精英。失败了一次不要紧, 精英可以挑战两次! ',
                     target: '击败训练假人精英',
                     lv: 5,
                     reqs: [['slain', 3, 3]],
@@ -80,7 +81,7 @@ export const questConfig = {
                 4: {
                     name: '击败高级训练假人',
                     category: 'newbie',
-                    desc: '试着击败一只高级训练假人吧，晴风村6-10级，图标为棕色骷髅头的怪物为高级训练假人。',
+                    desc: '试着击败一只高级训练假人吧, 晴风村6-10级, 图标为棕色骷髅头的怪物为高级训练假人。',
                     target: '击败高级训练假人',
                     lv: 5,
                     reqs: [['slain', 2, 1]],
@@ -92,7 +93,7 @@ export const questConfig = {
                 5: {
                     name: '击败高级训练假人精英',
                     category: 'newbie',
-                    desc: '接下来击败五只高级训练假人精英吧，晴风村6-10级，图标为银色骷髅头的怪物为训练假人精英。',
+                    desc: '接下来击败五只高级训练假人精英吧, 晴风村6-10级, 图标为银色骷髅头的怪物为训练假人精英。',
                     target: '击败高级训练假人精英',
                     lv: 10,
                     reqs: [['slain', 4, 5]],
@@ -104,7 +105,7 @@ export const questConfig = {
                 6: {
                     name: '毕业',
                     category: 'newbie',
-                    desc: '击败精英怪后有概率获得BOSS挑战券，通过击败晴风村精英获得导师挑战券来挑战他吧！如同精英怪物，BOSS类怪物可以挑战5次才算失败，并且奖励非常丰富！',
+                    desc: '击败精英怪后有概率获得BOSS挑战券, 通过击败晴风村精英获得导师挑战券来挑战他吧! 如同精英怪物, BOSS类怪物可以挑战5次才算失败, 并且奖励非常丰富! ',
                     target: '击败导师',
                     lv: 10,
                     reqs: [['slain', 5, 1]],
@@ -116,7 +117,7 @@ export const questConfig = {
                 7: {
                     name: '穿戴装备',
                     category: 'newbie',
-                    desc: '打开左下角的背包，在"装备"分类下双击或者右键装备单击装备，即可穿戴或更换装备',
+                    desc: '打开左下角的背包, 在"装备"分类下双击或者右键装备单击装备, 即可穿戴或更换装备',
                     target: '穿戴一件装备',
                     lv: 1,
                     reqs: [['event', 2, 1]],
@@ -152,7 +153,7 @@ export const questConfig = {
                 10: {
                     name: '使用药剂',
                     category: 'newbie',
-                    desc: '打开背包，在上方切换至【消耗】，在战斗外使用一次特效生命药水恢复生命值吧！',
+                    desc: '打开背包, 在上方切换至【消耗】, 在战斗外使用一次特效生命药水恢复生命值吧! ',
                     target: '使用一次药剂',
                     lv: 1,
                     reqs: [['event', 8, 1]],
@@ -164,7 +165,7 @@ export const questConfig = {
                 11: {
                     name: '击败杂斑野猪',
                     category: 'newbie',
-                    desc: '试着击败一只杂斑野猪吧，克罗莫丹11-15级，图标为棕色骷髅头的怪物为杂斑野猪。',
+                    desc: '试着击败一只杂斑野猪吧, 克罗莫丹11-15级, 图标为棕色骷髅头的怪物为杂斑野猪。',
                     target: '击败杂斑野猪',
                     lv: 10,
                     reqs: [['slain', 11, 1]],
@@ -176,7 +177,7 @@ export const questConfig = {
                 12: {
                     name: '击败杂斑野猪精英',
                     category: 'newbie',
-                    desc: '接下来击败五只杂斑野猪精英吧，克罗莫丹11-15级，图标为银色骷髅头的怪物为杂斑野猪精英。精英比起普通怪物会多出一个技能，杂斑野猪精英的技能是愤怒之气，可提升20%攻击力，20%暴击率，持续20秒',
+                    desc: '接下来击败五只杂斑野猪精英吧, 克罗莫丹11-15级, 图标为银色骷髅头的怪物为杂斑野猪精英。精英比起普通怪物会多出一个技能, 杂斑野猪精英的技能是愤怒之气, 可提升20%攻击力, 20%暴击率, 持续20秒',
                     target: '击败5只杂斑野猪精英',
                     lv: 15,
                     reqs: [['slain', 13, 5]],
@@ -194,13 +195,13 @@ export const questConfig = {
                     reqs: [['slain', 15, 1]],
                     reward: [['exp', 7000]],
                     rewardItem: [['inv_misc_bone_06', 1, 100]],
-                    successor: [],
+                    successor: [27],
                     forfeit: false
                 },
                 15: {
                     name: '升级天赋',
                     category: 'newbie',
-                    desc: '10级开始每次升级可以获得一点天赋点，点击左上角的‘天赋’切换到天赋界面。左键点击天赋可提升一级，右键降低一级，按住shift一次5级。',
+                    desc: '10级开始每次升级可以获得一点天赋点, 点击左上角的‘天赋’切换到天赋界面。左键点击天赋可提升一级, 右键降低一级, 按住shift一次5级。',
                     target: '升级一次天赋',
                     lv: 10,
                     reqs: [['event', 4, 1]],
@@ -212,7 +213,7 @@ export const questConfig = {
                 16: {
                     name: '强化装备',
                     category: 'newbie',
-                    desc: '10级后可强化装备，右键身上的或者背包的装备点击强化。每强化一级提升5%基础属性(向下取整)。',
+                    desc: '10级后可强化装备, 右键身上的或者背包的装备点击强化。每强化一级提升10%基础属性(向下取整)。',
                     target: '提升一次装备强化等级',
                     lv: 10,
                     reqs: [['event', 5, 1]],
@@ -224,7 +225,7 @@ export const questConfig = {
                 17: {
                     name: '锁定/解锁装备',
                     category: 'newbie',
-                    desc: '在背包中右键点击装备，可锁定/解锁装备。装备强化后自动锁定，被锁定的装备无法出售/不会被出售。',
+                    desc: '在背包中右键点击装备, 可锁定/解锁装备。装备强化后自动锁定, 被锁定的装备无法出售/不会被出售。',
                     target: '锁定/解锁装备',
                     lv: 10,
                     reqs: [['event', 9, 1]],
@@ -236,7 +237,7 @@ export const questConfig = {
                 18: {
                     name: '重铸装备',
                     category: 'newbie',
-                    desc: '公会铁匠铺2级解锁重铸功能，可一次性重置装备所有的额外词条，或者额外花费金币锁定部分词条后重置剩下词条。',
+                    desc: '公会铁匠铺2级解锁重铸功能, 可一次性重置装备所有的额外词条, 或者额外花费金币锁定部分词条后重置剩下词条。',
                     target: '重铸一次装备',
                     lv: 20,
                     reqs: [['event', 6, 1]],
@@ -245,11 +246,23 @@ export const questConfig = {
                     successor: [],
                     forfeit: false
                 },
+                19: {
+                    name: '挑战副本',
+                    category: 'newbie',
+                    desc: '公会酒馆一级可开始招募公会成员, 通过挑战副本获取材料、提升成员等级。',
+                    target: '挑战一次副本',
+                    lv: 15,
+                    reqs: [['event', 13, 1]],
+                    reward: [['gold', 2000], ['exp', 200]],
+                    rewardItem: [['inv_misc_note_06', 5, 100]],
+                    successor: [],
+                    forfeit: false
+                },
                 20: {
                     name: '分解装备',
                     category: 'newbie',
-                    desc: '公会铁匠铺1级解锁分解功能，背包右键装备可分解品质破旧以上的装备',
-                    target: '',
+                    desc: '公会铁匠铺1级解锁分解功能, 背包右键装备可分解品质破旧以上的装备',
+                    target: '分解一件装备',
                     lv: 20,
                     reqs: [['event', 10, 1]],
                     reward: [['gold', 500], ['exp', 200]],
@@ -260,7 +273,7 @@ export const questConfig = {
                 21: {
                     name: '合成铜锭',
                     category: 'newbie',
-                    desc: '左下角新增的【锻造】功能，选择【矿物】，使用铜矿石合成四次铜锭',
+                    desc: '左下角新增的【锻造】功能, 选择【矿物】, 使用铜矿石合成四次铜锭',
                     target: '合成4个铜锭',
                     lv: 20,
                     reqs: [['event', 11, 4]],
@@ -272,7 +285,7 @@ export const questConfig = {
                 22: {
                     name: '合成装备',
                     category: 'newbie',
-                    desc: '打开左下角【锻造】功能，选择【打造】，选择【随机罕见装备】，使用10份罕见装备精华打造一件随机罕见装备，记得添加4块铜锭增加成品的装备等级。',
+                    desc: '打开左下角【锻造】功能, 选择【打造】, 选择【随机罕见装备】, 使用10份罕见装备精华打造一件随机罕见装备, 记得添加4块铜锭增加成品的装备等级。',
                     target: '打造装备',
                     lv: 20,
                     reqs: [['event', 12, 1]],
@@ -284,7 +297,7 @@ export const questConfig = {
                 25: {
                     name: '夺回矿场',
                     category: 'guild',
-                    desc: '矿场被狗头人矿工霸占了，击败他们夺回矿场。（矿场可将地图上的矿托管自动挖矿）',
+                    desc: '矿场被狗头人矿工霸占了, 击败他们夺回矿场。（矿场可将地图上的矿托管自动挖矿）',
                     target: '击败5个狗头人矿工精英',
                     lv: 25,
                     reqs: [['slain', 23, 5]],
@@ -296,12 +309,60 @@ export const questConfig = {
                 26: {
                     name: '打败幕后黑手',
                     category: 'guild',
-                    desc: '狗头人矿工只是打工仔，金牙才是幕后黑手，击败他夺回剩下的矿场。',
+                    desc: '狗头人矿工只是打工仔, 金牙才是幕后黑手, 击败他夺回剩下的矿场。',
                     target: '击败金牙',
                     lv: 30,
                     reqs: [['slain', 25, 1]],
                     reward: [['exp', 10000]],
                     rewardItem: [['inv_misc_note_06_mine', 1, 100]],
+                    successor: [],
+                    forfeit: false
+                },
+                27: {
+                    name: '实力的证明II',
+                    category: 'newbie',
+                    desc: '击败金牙证明自己的实力, 获得拥有二级公会的许可。',
+                    target: '击败金牙',
+                    lv: 30,
+                    reqs: [['slain', 25, 1]],
+                    reward: [['exp', 10000]],
+                    rewardItem: [['inv_misc_note_06_guild', 1, 100]],
+                    successor: [36],
+                    forfeit: false
+                },
+                36: {
+                    name: '实力的证明III',
+                    category: 'newbie',
+                    desc: '击败霍格证明自己的实力, 获得拥有三级公会的许可',
+                    target: '击败霍格',
+                    lv: 40,
+                    reqs: [['slain', 35, 1]],
+                    reward: [['exp', 20000]],
+                    rewardItem: [['inv_misc_note_06_guild', 1, 100]],
+                    successor: [46],
+                    forfeit: false
+                },
+                46: {
+                    name: '实力的证明IV',
+                    category: 'newbie',
+                    desc: '击败铁背龟证明自己的实力, 获得拥有四级公会的许可',
+                    target: '击败铁背龟',
+                    lv: 50,
+                    reqs: [['slain', 45, 1]],
+                    reward: [['exp', 50000]],
+                    rewardItem: [['inv_misc_note_06_guild', 1, 100]],
+                    successor: [56],
+                    forfeit: false
+                },
+                56: {
+                    name: '实力的证明V',
+                    category: 'newbie',
+                    desc: '击败熔岩元素证明自己的实力, 获得拥有五级公会的许可',
+                    target: '击败熔岩元素',
+                    lv: 60,
+                    reqs: [['slain', 55, 1]],
+                    reward: [['exp', 100000]],
+                    rewardItem: [['inv_misc_note_06_guild', 1, 100]],
                     successor: [],
                     forfeit: false
                 },
