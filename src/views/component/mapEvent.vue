@@ -177,7 +177,7 @@ export default {
         },
         startBattle(type) {
             if(!type)
-                type = this.dungeonInfo['advanture'].type;
+                type = this.dungeonInfo['normal'].type;
             if(['normal', 'elite', 'boss', 'mine', 'herb'].indexOf(type) != -1)
                 this.battle(type);
             if(type == 'chest') {
@@ -543,15 +543,15 @@ export default {
         },
         reward() {
             let lottery = this.$store.globalComponent["lottery"];
-            if(this.dungeonInfo.advanture.isLottery) {
-                lottery.initLottery(this.dungeonInfo.advanture.lotReward, this.dungeonInfo.advanture.level);
+            if(this.dungeonInfo.normal.isLottery) {
+                lottery.initLottery(this.dungeonInfo.normal.lotReward, this.dungeonInfo.normal.level);
                 return;
             }
             let equip = ['helmet', 'weapon', 'armor', 'shoe', 'shoulder', 'glove', 'ring', 'cape', 'bracer', 'belt', 'legging', 'necklace'];
             let itemInfo = this.$store.globalComponent["itemInfo"];
             let equipInfo = this.$store.globalComponent["equipInfo"];   
             let backpack = this.$store.globalComponent["backpack"];   
-            let rewardList = this.dungeonInfo.advanture.reward;
+            let rewardList = this.dungeonInfo.normal.reward;
             for(let k=0; k<rewardList.length; k++) {
                 let random = Math.random()*100;
                 if(random <= rewardList[k][1]) {

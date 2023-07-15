@@ -71,10 +71,16 @@
       <enemyInfo :enemy="enemyInfo"></enemyInfo>
       <div class="zoneSelect">    
         <div class="zoneAction">    
-          <!-- <button id="advanture" class="btn btn-light btn-sm lvZone" @click="switchZone('advanture')">
-            冒险区
-          </button>     -->
-          <button class="btn btn-outline-light btn-sm" id="resetMap" v-show="dungeonInfo.current=='advanture'" @click="resetMapClick()">
+          <button id="normal" class="btn btn-light btn-sm lvZone" @click="switchZone('normal')">
+            普通
+          </button>    
+          <button id="elite" class="btn btn-outline-light btn-sm lvZone" @click="switchZone('elite')">
+            精英
+          </button>    
+          <button id="boss" class="btn btn-outline-light btn-sm lvZone" @click="switchZone('boss')">
+            BOSS
+          </button>    
+          <button class="btn btn-outline-light btn-sm" id="resetMap" v-show="dungeonInfo.current=='normal'" @click="resetMapClick()">
             重置地图<span v-if="resetTime>0">({{resetTime}})</span>
           </button>   
           <select v-model="selectedZone" @change="setSelectedZone($event)" class="btn btn-light">
@@ -84,7 +90,7 @@
           </select>
         </div>    
         <div class="zone">
-          <div v-if="dungeonInfo.current=='advanture'">
+          <div v-if="dungeonInfo.current=='normal'">
             <div v-for="(dungeon, key) in mapArr" :key="key" @click="choseDungeon($event, key)">
               <span class="dungeon" v-if="dungeon.count!=0" :style="{backgroundImage:'url('+dungeon.img+')',top:dungeon.top+'%', left:dungeon.left+'%', backgroundColor:dungeon.selected?dungeon.color+'7':'#0008', boxShadow: '0 0 4px 4px'+dungeon.color}">
                 <span class="lv">lv{{dungeon.lv}}</span>
@@ -233,7 +239,7 @@ export default {
       enhanceEquip: {},
       dungeonInfo: {},
       dungeon: {},
-      enemyInfo: 'advanture',
+      enemyInfo: 'normal',
       equipEnhancePanel: false,
       equipForgePanel: false,
       equipPotentialPanel: false,
@@ -422,6 +428,7 @@ export default {
           this.dungeon.selected = false;
           this.dungeon = {};
         }
+        console.log(this.dungeonInfo.current)
         let mapEvent = this.$store.globalComponent["mapEvent"];
         if(this.inBattle) {
             mapEvent.toggleBattle();
@@ -431,8 +438,11 @@ export default {
         }
         mapEvent.autoBattle(false);
         let element = document.getElementById(this.dungeonInfo.current);
+        console.log(element)
         element.classList.replace('btn-light', 'btn-outline-light');
         element = document.getElementById(type);
+        console.log(element)
+        console.log(type)
         element.classList.replace('btn-outline-light', 'btn-light');
         // this.$store.commit('set_enemy_hp', 0);
         this.dungeonInfo.current = type;
@@ -444,7 +454,7 @@ export default {
     },
     createMaps() {    
       let count = 7;
-      let type = 'advanture';
+      let type = 'normal';
       this.mapArr = this.generateMapByZone(count, this.monsterZone[this.selectedZone]);
       this.actualReward(this.mapArr);
 
@@ -452,12 +462,12 @@ export default {
       this.dungeonInfo[type].reward = 'None';
       this.dungeonInfo[type].lotReward = [];
       this.dungeonInfo[type].isLottery = false;
-      this.dungeonInfo[type].type = 'normal';
+      this.dungeonInfo[type].type = type;
       this.dungeonInfo[type].monsterID = 0;
       this.dungeonInfo[type].monsterName = '';
       this.dungeonInfo.current = type;
     },
-    addToMap(type='advanture', lv, count=1, monsterID) {
+    addToMap(type='normal', lv, count=1, monsterID) {
       let newMaps = this.generateMapByID(count, this.monsterZone[this.selectedZone], monsterID);
       this.actualReward(newMaps);
       this.mapArr = this.mapArr.concat(newMaps);
@@ -655,7 +665,7 @@ export default {
     setSelectedZone(e) {
       let quest = this.$store.globalComponent["quest"];
       quest.trackProgress('event', 7, 1);
-      this.switchZone('advanture');
+      this.switchZone('normal');
       let zone = document.getElementsByClassName('zone')[0];
       let value = e.target.value;
       this.selectedZone = value;

@@ -166,8 +166,8 @@ export default new Vuex.Store({
         dungeonInfo: {
             auto: false,
             inBattle: false,
-            current: 'advanture',
-            advanture: {
+            current: 'normal',
+            normal: {
                 level: -1,
                 reward: 'None',
                 type: 'normal',

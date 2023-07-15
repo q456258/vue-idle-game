@@ -147,7 +147,7 @@ export default {
                 index.battleInfo = this.$store.state.battleInfo;
                 index.dungeonInfo = this.$store.state.dungeonInfo;
                 index.createMaps();
-                // index.switchZone('advanture');
+                index.switchZone('normal');
 
                 // let guild = this.$store.globalComponent["guild"];
                 // guild.getAllCost();
