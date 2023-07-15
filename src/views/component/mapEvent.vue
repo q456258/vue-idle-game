@@ -99,7 +99,6 @@ export default {
     data() {
         return {
             battleTimer: "",
-            battleID: 1,
             harvestProgress: 0,
             harvestTimer: "",
             harvesting: false,
@@ -202,34 +201,32 @@ export default {
                 msg: '————战斗开始————'
             });
             this.setBattleStatus(true, true);
-            let currentBattle = Math.floor(Math.random()*90071992547);
-            this.battleID = currentBattle;
             setTimeout(() => {
-                if(!this.dungeonInfo.inBattle || this.battleID != currentBattle) {
+                if(!this.dungeonInfo.inBattle) {
                     return;
                 }
-                if(this.playerAction(playerAttribute, enemyAttribute, currentBattle) != false) {
+                if(this.playerAction(playerAttribute, enemyAttribute,) != false) {
                     setTimeout(() => {
-                        this.enemyAction(enemyAttribute, playerAttribute, currentBattle);
+                        this.enemyAction(enemyAttribute, playerAttribute,);
                     }, 1000);
                 }
                 clearInterval(this.battleTimer);
                 this.battleTimer = setInterval(() => {
-                    if(!this.dungeonInfo.inBattle || this.battleID != currentBattle) {
+                    if(!this.dungeonInfo.inBattle) {
                         clearInterval(this.battleTimer);
                         return;
                     }
-                    if(this.playerAction(playerAttribute, enemyAttribute, currentBattle) != false) {
+                    if(this.playerAction(playerAttribute, enemyAttribute) != false) {
                         setTimeout(() => {
-                            this.enemyAction(enemyAttribute, playerAttribute, currentBattle);
+                            this.enemyAction(enemyAttribute, playerAttribute);
                         }, 1000);
                     }
                 }, 2000)
             }, 1000);
         },
-        playerAction(source, target, battleID) {
+        playerAction(source, target) {
             let dungeonInfo = this.dungeonInfo;
-            if(!dungeonInfo.inBattle || this.battleID != battleID)
+            if(!dungeonInfo.inBattle)
                 return false;
             this.onAttack(source, target);
             if(source.attribute.CURHP.value == 0 || target.attribute.CURHP.value == 0) {
@@ -241,8 +238,8 @@ export default {
                 return false;
             return true;
         },
-        enemyAction(source, target, battleID) {
-            if(!this.dungeonInfo.inBattle || this.battleID != battleID)
+        enemyAction(source, target) {
+            if(!this.dungeonInfo.inBattle)
                 return false;
             this.onAttack(source, target);
             if(source.attribute.CURHP.value == 0 || target.attribute.CURHP.value == 0) {
@@ -394,8 +391,6 @@ export default {
             let index = this.$store.globalComponent["index"];
             index.clearShield(this.playerAttr);
             index.clearTurnbaseBuff(this.playerAttr);
-            if(!inBattle)
-                this.battleID = -1;
             if(immediate || inBattle) {
                 this.dungeonInfo.inBattle = inBattle;
                 if(!inBattle) {
