@@ -186,7 +186,7 @@ export default {
         },
         battle(type) {
             let playerAttribute = this.playerAttr,
-                enemyAttribute = this.$store.state.enemyAttribute,
+                enemyAttribute = type == 'normal' ? this.$store.state.enemyAttribute : type == 'elite' ? this.$store.state.eliteAttribute : this.$store.state.bossAttribute,
                 dungeonInfo = this.dungeonInfo;
             if(dungeonInfo.inBattle || !this.reduceResetCount()) {
                 this.setBattleStatus(false, false);
@@ -527,7 +527,7 @@ export default {
             
             let enemyPos = document.getElementById("enemyAnime");
             enemyPos.style.backgroundImage = "url(/icons/character/"+this.monster[monsterID].anime+")";
-            this.$store.commit('set_enemy_attribute', enemyAttribute);
+            this.$store.commit('set_enemy_attribute', {'type': type, 'attr': enemyAttribute});
         },
         onAttack(source, target) {
             let index = this.$store.globalComponent["index"];

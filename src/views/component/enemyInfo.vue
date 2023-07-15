@@ -154,7 +154,9 @@ export default {
     watch: {
     },
     computed: {
-        attr() { return this.$store.state.enemyAttribute; },
+        attr() { 
+            return this.enemy == 'normal' ? this.$store.state.enemyAttribute : this.enemy == 'elite' ? this.$store.state.eliteAttribute : this.$store.state.bossAttribute;
+        },
     },
     methods: {      
 

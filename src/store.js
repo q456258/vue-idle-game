@@ -168,9 +168,23 @@ export default new Vuex.Store({
             inBattle: false,
             current: 'normal',
             normal: {
-                level: -1,
+                level: 1,
                 reward: 'None',
                 type: 'normal',
+                monsterID: 0,
+                monsterName: ''
+            },
+            elite: {
+                level: 1,
+                reward: 'None',
+                type: 'elite',
+                monsterID: 0,
+                monsterName: ''
+            },
+            boss: {
+                level: 1,
+                reward: 'None',
+                type: 'boss',
                 monsterID: 0,
                 monsterName: ''
             },
@@ -293,7 +307,51 @@ export default new Vuex.Store({
                 CRITDMG: { value: 0, showValue: 0, },
             },
             tempStat: []
-        },             
+        },     
+        eliteAttribute: {
+            name: "小鸡",
+            lv: 0,
+            attribute: {
+                CURHP: { value: 0, showValue: 0, },
+                MAXHP: { value: 0, showValue: 0, },   
+                SHIELD: { value: 0, showValue: 0, },   
+                ATK: { value: 0, showValue: 0, },
+                DEF: { value: 0, showValue: 0, },
+                DEFRED: { value: 0, showValue: 0, },
+                BLOCK: { value: 0, showValue: 0, },
+                AP: { value: 0, showbaseVal: 0},
+                APCRIT: { value: 0, showbaseVal: 0},
+                APCRITDMG: { value: 0, showbaseVal: 0},
+                APPEN: { value: 0, showbaseVal: 0},
+                MR: { value: 0, showbaseVal: 0},
+                HEAL: { value: 0, showbaseVal: 0},
+                CRIT: { value: 0, showValue: 0, },
+                CRITDMG: { value: 0, showValue: 0, },
+            },
+            tempStat: []
+        },    
+        bossAttribute: {
+            name: "小鸡",
+            lv: 0,
+            attribute: {
+                CURHP: { value: 0, showValue: 0, },
+                MAXHP: { value: 0, showValue: 0, },   
+                SHIELD: { value: 0, showValue: 0, },   
+                ATK: { value: 0, showValue: 0, },
+                DEF: { value: 0, showValue: 0, },
+                DEFRED: { value: 0, showValue: 0, },
+                BLOCK: { value: 0, showValue: 0, },
+                AP: { value: 0, showbaseVal: 0},
+                APCRIT: { value: 0, showbaseVal: 0},
+                APCRITDMG: { value: 0, showbaseVal: 0},
+                APPEN: { value: 0, showbaseVal: 0},
+                MR: { value: 0, showbaseVal: 0},
+                HEAL: { value: 0, showbaseVal: 0},
+                CRIT: { value: 0, showValue: 0, },
+                CRITDMG: { value: 0, showValue: 0, },
+            },
+            tempStat: []
+        },        
         baseAttribute: {
             CURHP: 0,
             MAXHP: 0,
@@ -634,7 +692,14 @@ export default new Vuex.Store({
             CURMP.showValue = CURMP.value;
         },
         set_enemy_attribute(state, data) {
-            this.state.enemyAttribute = data;
+            let type = data.type;
+            let attr = data.attr;
+            if(type == 'normal')
+                this.state.enemyAttribute = attr;
+            else if(type == 'elite')
+                this.state.eliteAttribute = attr;
+            else if(type == 'boss')
+                this.state.bossAttribute = attr;
         },
         set_hp(state, data) {
             let CURHP = data.CURHP,
