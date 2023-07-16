@@ -53,7 +53,6 @@
                             </div>
                             <div class="reward" v-for="(v, k) in quests[selectedQuest].reward" :key="k+'a'">
                                 <div v-if="v[0]=='gold'"><currency :isCost="false" :amount="v[1]"></currency></div>
-                                <div v-else-if="v[0]=='exp'">经验值: {{v[1]}}</div>
                                 <div v-else>{{rewardType[v[0]]+': '+v[1]}}</div>
                             </div>
                         </div>
@@ -350,9 +349,6 @@ export default {
             rewardList = this.$store.state.quests[this.selectedQuest].reward;
             for(let k=0; k<rewardList.length; k++) {
                 switch(rewardList[k][0]) {
-                    case 'exp':
-                        mapEvent.gainExp(rewardList[k][1]);
-                        break;
                     case 'gold':
                         guild.getGold('任务奖励', rewardList[k][1]);
                         break;

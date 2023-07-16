@@ -16,7 +16,7 @@ export const questConfig = {
                 12: '锻造装备',
                 13: '挑战副本',
             },
-            rewardType: {gold: '金币', exp: '经验', guildReputation: '公会名望'},
+            rewardType: {gold: '金币', guildReputation: '公会名望'},
             questCategory: {
                 undefined: '其他',
                 newbie: '新手指引',
@@ -37,7 +37,6 @@ export const questConfig = {
                     target: '在晴风村杀1只0级的小鸡',
                     lv: 1,
                     reqs: [['slain', 0, 1]],
-                    reward: [['exp', 50]],
                     rewardItem: [['random_equip_normal_0', 1, 100, {types: ['helmet']}]],
                     successor: [2, 7],
                     forfeit: false
@@ -49,7 +48,6 @@ export const questConfig = {
                     target: '点击重置地图',
                     lv: 1,
                     reqs: [['event', 1, 1]],
-                    reward: [['exp', 50]],
                     rewardItem: [['inv_alchemy_80_potion01red', 20, 100]],
                     successor: [10],
                     forfeit: false
@@ -61,7 +59,6 @@ export const questConfig = {
                     target: '击败训练假人',
                     lv: 2,
                     reqs: [['slain', 1, 1]],
-                    reward: [['exp', 100]],
                     rewardItem: [['random_equip_normal_0', 1, 100, {types: ['necklace']}]],
                     successor: [3, 4],
                     forfeit: false
@@ -73,7 +70,6 @@ export const questConfig = {
                     target: '击败训练假人精英',
                     lv: 5,
                     reqs: [['slain', 3, 3]],
-                    reward: [['exp', 500]],
                     rewardItem: [['random_equip_elite_1', 1, 100, {types: ['shoulder']}]],
                     successor: [],
                     forfeit: false
@@ -85,7 +81,6 @@ export const questConfig = {
                     target: '击败高级训练假人',
                     lv: 5,
                     reqs: [['slain', 2, 1]],
-                    reward: [['exp', 400]],
                     rewardItem: [['random_equip_normal_0', 1, 100, {types: ['ring']}]],
                     successor: [5],
                     forfeit: false
@@ -97,7 +92,6 @@ export const questConfig = {
                     target: '击败高级训练假人精英',
                     lv: 10,
                     reqs: [['slain', 4, 5]],
-                    reward: [['exp', 1000]],
                     rewardItem: [['random_equip_elite_1', 1, 100, {types: ['glove']}]],
                     successor: [6, 9, 11],
                     forfeit: false
@@ -109,7 +103,6 @@ export const questConfig = {
                     target: '击败导师',
                     lv: 10,
                     reqs: [['slain', 5, 1]],
-                    reward: [['exp', 4000]],
                     rewardItem: [['unique_equip', 'inv_sword_05', 1, 100], ['unique_equip', 'inv_wand_06', 1, 100]],
                     successor: [],
                     forfeit: false
@@ -121,7 +114,6 @@ export const questConfig = {
                     target: '穿戴一件装备',
                     lv: 1,
                     reqs: [['event', 2, 1]],
-                    reward: [['exp', 100]],
                     rewardItem: [['inv_alchemy_80_potion01red', 20, 100]],
                     successor: [8],
                     forfeit: false
@@ -133,7 +125,6 @@ export const questConfig = {
                     target: '保存一次游戏进度',
                     lv: 1,
                     reqs: [['event', 3, 1]],
-                    reward: [['exp', 200]],
                     rewardItem: [['inv_alchemy_80_potion01red', 20, 100]],
                     successor: [],
                     forfeit: false
@@ -145,7 +136,6 @@ export const questConfig = {
                     target: '切换一次地区',
                     lv: 10,
                     reqs: [['event', 7, 1]],
-                    reward: [['exp', 500]],
                     rewardItem: [['inv_alchemy_80_potion01red', 20, 100], ['inv_alchemy_80_potion01blue', 20, 100]],
                     successor: [],
                     forfeit: false
@@ -157,7 +147,6 @@ export const questConfig = {
                     target: '使用一次药剂',
                     lv: 1,
                     reqs: [['event', 8, 1]],
-                    reward: [['exp', 200]],
                     rewardItem: [['inv_alchemy_80_potion01red', 20, 100], ['inv_alchemy_80_potion01blue', 20, 100]],
                     successor: [],
                     forfeit: false
@@ -169,7 +158,6 @@ export const questConfig = {
                     target: '击败杂斑野猪',
                     lv: 10,
                     reqs: [['slain', 11, 1]],
-                    reward: [['exp', 800]],
                     rewardItem: [['random_equip_normal_0', 1, 100]],
                     successor: [12],
                     forfeit: false
@@ -181,7 +169,6 @@ export const questConfig = {
                     target: '击败5只杂斑野猪精英',
                     lv: 15,
                     reqs: [['slain', 13, 5]],
-                    reward: [['exp', 3000]],
                     rewardItem: [['random_equip_elite_1', 1, 100]],
                     successor: [13],
                     forfeit: false
@@ -193,7 +180,6 @@ export const questConfig = {
                     target: '击败阿迦玛',
                     lv: 20,
                     reqs: [['slain', 15, 1]],
-                    reward: [['exp', 7000]],
                     rewardItem: [['inv_misc_bone_06', 1, 100]],
                     successor: [27],
                     forfeit: false
@@ -205,7 +191,6 @@ export const questConfig = {
                     target: '升级一次天赋',
                     lv: 10,
                     reqs: [['event', 4, 1]],
-                    reward: [['exp', 300]],
                     rewardItem: [['random_equip_normal_0', 1, 100]],
                     successor: [],
                     forfeit: false
@@ -217,7 +202,6 @@ export const questConfig = {
                     target: '提升一次装备强化等级',
                     lv: 10,
                     reqs: [['event', 5, 1]],
-                    reward: [['exp', 400]],
                     rewardItem: [['inv_misc_gem_diamond_04', 5, 100]],
                     successor: [17],
                     forfeit: false
@@ -229,7 +213,7 @@ export const questConfig = {
                     target: '锁定/解锁装备',
                     lv: 10,
                     reqs: [['event', 9, 1]],
-                    reward: [['gold', 500], ['exp', 200]],
+                    reward: [['gold', 500]],
                     rewardItem: [],
                     successor: [],
                     forfeit: false
@@ -241,7 +225,7 @@ export const questConfig = {
                     target: '重铸一次装备',
                     lv: 20,
                     reqs: [['event', 6, 1]],
-                    reward: [['gold', 2000], ['exp', 200]],
+                    reward: [['gold', 2000]],
                     rewardItem: [],
                     successor: [],
                     forfeit: false
@@ -253,7 +237,7 @@ export const questConfig = {
                     target: '挑战一次副本',
                     lv: 15,
                     reqs: [['event', 13, 1]],
-                    reward: [['gold', 2000], ['exp', 200]],
+                    reward: [['gold', 2000]],
                     rewardItem: [['inv_misc_note_06', 5, 100]],
                     successor: [],
                     forfeit: false
@@ -265,7 +249,7 @@ export const questConfig = {
                     target: '分解一件装备',
                     lv: 20,
                     reqs: [['event', 10, 1]],
-                    reward: [['gold', 500], ['exp', 200]],
+                    reward: [['gold', 500]],
                     rewardItem: [['inv_ore_copper_01', 12, 100]],
                     successor: [21],
                     forfeit: false
@@ -277,7 +261,7 @@ export const questConfig = {
                     target: '合成4个铜锭',
                     lv: 20,
                     reqs: [['event', 11, 4]],
-                    reward: [['gold', 500], ['exp', 200]],
+                    reward: [['gold', 500]],
                     rewardItem: [['dust3', 10, 100]],
                     successor: [22],
                     forfeit: false
@@ -289,7 +273,7 @@ export const questConfig = {
                     target: '打造装备',
                     lv: 20,
                     reqs: [['event', 12, 1]],
-                    reward: [['gold', 2000], ['exp', 200]],
+                    reward: [['gold', 2000]],
                     rewardItem: [],
                     successor: [],
                     forfeit: false
@@ -301,7 +285,6 @@ export const questConfig = {
                     target: '击败5个狗头人矿工精英',
                     lv: 25,
                     reqs: [['slain', 23, 5]],
-                    reward: [['exp', 1000]],
                     rewardItem: [['inv_misc_note_06_mine', 1, 100]],
                     successor: [26],
                     forfeit: false
@@ -313,7 +296,6 @@ export const questConfig = {
                     target: '击败金牙',
                     lv: 30,
                     reqs: [['slain', 25, 1]],
-                    reward: [['exp', 10000]],
                     rewardItem: [['inv_misc_note_06_mine', 1, 100]],
                     successor: [],
                     forfeit: false
@@ -325,7 +307,6 @@ export const questConfig = {
                     target: '击败金牙',
                     lv: 30,
                     reqs: [['slain', 25, 1]],
-                    reward: [['exp', 10000]],
                     rewardItem: [['inv_misc_note_06_guild', 1, 100]],
                     successor: [36],
                     forfeit: false
@@ -337,7 +318,6 @@ export const questConfig = {
                     target: '击败霍格',
                     lv: 40,
                     reqs: [['slain', 35, 1]],
-                    reward: [['exp', 20000]],
                     rewardItem: [['inv_misc_note_06_guild', 1, 100]],
                     successor: [46],
                     forfeit: false
@@ -349,7 +329,6 @@ export const questConfig = {
                     target: '击败铁背龟',
                     lv: 50,
                     reqs: [['slain', 45, 1]],
-                    reward: [['exp', 50000]],
                     rewardItem: [['inv_misc_note_06_guild', 1, 100]],
                     successor: [56],
                     forfeit: false
@@ -361,7 +340,6 @@ export const questConfig = {
                     target: '击败熔岩元素',
                     lv: 60,
                     reqs: [['slain', 55, 1]],
-                    reward: [['exp', 100000]],
                     rewardItem: [['inv_misc_note_06_guild', 1, 100]],
                     successor: [],
                     forfeit: false
@@ -373,7 +351,7 @@ export const questConfig = {
                     target: '击败10只杂斑野猪',
                     lv: 15,
                     reqs: [['slain', 11, 10]],
-                    reward: [['gold', 200], ['exp', 400], ['guildReputation', 10]],
+                    reward: [['gold', 200], ['guildReputation', 10]],
                     rewardItem: [['random_equip_normal_2', 1, 100]],
                     successor: [],
                     forfeit: true
@@ -385,7 +363,7 @@ export const questConfig = {
                     target: '击败25只杂斑野猪',
                     lv: 15,
                     reqs: [['slain', 11, 25]],
-                    reward: [['gold', 400], ['exp', 800], ['guildReputation', 25]],
+                    reward: [['gold', 400], ['guildReputation', 25]],
                     rewardItem: [['random_equip_normal_2', 1, 100, {lv: 17}]],
                     successor: [],
                     forfeit: true
@@ -397,7 +375,7 @@ export const questConfig = {
                     target: '击败10只杂斑野猪精英',
                     lv: 15,
                     reqs: [['slain', 13, 10]],
-                    reward: [['gold', 300], ['exp', 600], ['guildReputation', 20]],
+                    reward: [['gold', 300], ['guildReputation', 20]],
                     rewardItem: [['random_equip_elite_4', 1, 100, {lv: 17}]],
                     successor: [],
                     forfeit: true
@@ -409,7 +387,7 @@ export const questConfig = {
                     target: '击败25只杂斑野猪精英',
                     lv: 15,
                     reqs: [['slain', 13, 25]],
-                    reward: [['gold', 700], ['exp', 1400], ['guildReputation', 50]],
+                    reward: [['gold', 700], ['guildReputation', 50]],
                     rewardItem: [['random_equip_elite_4', 1, 100, {lv: 20}]],
                     successor: [],
                     forfeit: true
@@ -421,7 +399,7 @@ export const questConfig = {
                     target: '击败10只癞皮山猪',
                     lv: 20,
                     reqs: [['slain', 12, 10]],
-                    reward: [['gold', 300], ['exp', 600], ['guildReputation', 10]],
+                    reward: [['gold', 300], ['guildReputation', 10]],
                     rewardItem: [['random_equip_normal_2', 1, 100]],
                     successor: [],
                     forfeit: true
@@ -433,7 +411,7 @@ export const questConfig = {
                     target: '击败25只癞皮山猪',
                     lv: 20,
                     reqs: [['slain', 12, 25]],
-                    reward: [['gold', 450], ['exp', 900], ['guildReputation', 25]],
+                    reward: [['gold', 450], ['guildReputation', 25]],
                     rewardItem: [['random_equip_normal_2', 1, 100, {lv: 22}]],
                     successor: [],
                     forfeit: true
@@ -445,7 +423,7 @@ export const questConfig = {
                     target: '击败10只癞皮山猪精英',
                     lv: 20,
                     reqs: [['slain', 14, 10]],
-                    reward: [['gold', 600], ['exp', 1200], ['guildReputation', 20]],
+                    reward: [['gold', 600], ['guildReputation', 20]],
                     rewardItem: [['random_equip_elite_4', 1, 100, {lv: 22}]],
                     successor: [],
                     forfeit: true
@@ -457,7 +435,7 @@ export const questConfig = {
                     target: '击败25只癞皮山猪精英',
                     lv: 20,
                     reqs: [['slain', 14, 25]],
-                    reward: [['gold', 1000], ['exp', 2000], ['guildReputation', 50]],
+                    reward: [['gold', 1000], ['guildReputation', 50]],
                     rewardItem: [['random_equip_elite_4', 1, 100, {lv: 25}]],
                     successor: [],
                     forfeit: true
@@ -469,7 +447,7 @@ export const questConfig = {
                     target: '击败阿迦玛',
                     lv: 20,
                     reqs: [['slain', 15, 1]],
-                    reward: [['gold', 2000], ['exp', 4000], ['guildReputation', 100]],
+                    reward: [['gold', 2000], ['guildReputation', 100]],
                     rewardItem: [['random_equip_6', 1, 100]],
                     successor: [],
                     forfeit: true
@@ -481,7 +459,7 @@ export const questConfig = {
                     target: '击败10只狗头人矿工',
                     lv: 25,
                     reqs: [['slain', 21, 10]],
-                    reward: [['gold', 600], ['exp', 1200], ['guildReputation', 10]],
+                    reward: [['gold', 600], ['guildReputation', 10]],
                     rewardItem: [['random_equip_normal_2', 1, 100]],
                     successor: [],
                     forfeit: true
@@ -493,7 +471,7 @@ export const questConfig = {
                     target: '击败25只狗头人矿工',
                     lv: 25,
                     reqs: [['slain', 21, 25]],
-                    reward: [['gold', 1200], ['exp', 2400], ['guildReputation', 25]],
+                    reward: [['gold', 1200], ['guildReputation', 25]],
                     rewardItem: [['random_equip_normal_2', 1, 100, {lv: 27}]],
                     successor: [],
                     forfeit: true
@@ -505,7 +483,7 @@ export const questConfig = {
                     target: '击败10只狗头人矿工精英',
                     lv: 25,
                     reqs: [['slain', 23, 10]],
-                    reward: [['gold', 900], ['exp', 1800], ['guildReputation', 20]],
+                    reward: [['gold', 900], ['guildReputation', 20]],
                     rewardItem: [['random_equip_elite_4', 1, 100, {lv: 27}]],
                     successor: [],
                     forfeit: true
@@ -517,7 +495,7 @@ export const questConfig = {
                     target: '击败25只狗头人矿工精英',
                     lv: 25,
                     reqs: [['slain', 23, 25]],
-                    reward: [['gold', 2100], ['exp', 4200], ['guildReputation', 50]],
+                    reward: [['gold', 2100], ['guildReputation', 50]],
                     rewardItem: [['random_equip_elite_4', 1, 100, {lv: 30}]],
                     successor: [],
                     forfeit: true
@@ -529,7 +507,7 @@ export const questConfig = {
                     target: '击败10只狗头人地卜师',
                     lv: 30,
                     reqs: [['slain', 22, 10]],
-                    reward: [['gold', 720], ['exp', 1440], ['guildReputation', 10]],
+                    reward: [['gold', 720], ['guildReputation', 10]],
                     rewardItem: [['random_equip_normal_2', 1, 100]],
                     successor: [],
                     forfeit: true
@@ -541,7 +519,7 @@ export const questConfig = {
                     target: '击败25只狗头人地卜师',
                     lv: 30,
                     reqs: [['slain', 22, 25]],
-                    reward: [['gold', 1680], ['exp', 3360], ['guildReputation', 25]],
+                    reward: [['gold', 1680], ['guildReputation', 25]],
                     rewardItem: [['random_equip_normal_2', 1, 100, {lv: 32}]],
                     successor: [],
                     forfeit: true
@@ -553,7 +531,7 @@ export const questConfig = {
                     target: '击败10只狗头人地卜师精英',
                     lv: 30,
                     reqs: [['slain', 24, 10]],
-                    reward: [['gold', 1080], ['exp', 2160], ['guildReputation', 20]],
+                    reward: [['gold', 1080], ['guildReputation', 20]],
                     rewardItem: [['random_equip_elite_4', 1, 100, {lv: 32}]],
                     successor: [],
                     forfeit: true
@@ -565,7 +543,7 @@ export const questConfig = {
                     target: '击败25只狗头人地卜师精英',
                     lv: 30,
                     reqs: [['slain', 24, 25]],
-                    reward: [['gold', 2400], ['exp', 4800], ['guildReputation', 50]],
+                    reward: [['gold', 2400], ['guildReputation', 50]],
                     rewardItem: [['random_equip_elite_4', 1, 100, {lv: 35}]],
                     successor: [],
                     forfeit: true
@@ -577,7 +555,7 @@ export const questConfig = {
                     target: '击败金牙',
                     lv: 30,
                     reqs: [['slain', 25, 1]],
-                    reward: [['gold', 4000], ['exp', 8000], ['guildReputation', 100]],
+                    reward: [['gold', 4000], ['guildReputation', 100]],
                     rewardItem: [['random_equip_6', 1, 100]],
                     successor: [],
                     forfeit: true
@@ -589,7 +567,7 @@ export const questConfig = {
                     target: '击败10只河爪豺狼人',
                     lv: 35,
                     reqs: [['slain', 31, 10]],
-                    reward: [['gold', 900], ['exp', 1800], ['guildReputation', 10]],
+                    reward: [['gold', 900], ['guildReputation', 10]],
                     rewardItem: [['random_equip_normal_2', 1, 100]],
                     successor: [],
                     forfeit: true
@@ -601,7 +579,7 @@ export const questConfig = {
                     target: '击败25只河爪豺狼人',
                     lv: 35,
                     reqs: [['slain', 31, 25]],
-                    reward: [['gold', 1800], ['exp', 3600], ['guildReputation', 25]],
+                    reward: [['gold', 1800], ['guildReputation', 25]],
                     rewardItem: [['random_equip_normal_2', 1, 100, {lv: 37}]],
                     successor: [],
                     forfeit: true
@@ -613,7 +591,7 @@ export const questConfig = {
                     target: '击败100只河爪豺狼人',
                     lv: 35,
                     reqs: [['slain', 31, 100]],
-                    reward: [['gold', 3600], ['exp', 7200], ['guildReputation', 100]],
+                    reward: [['gold', 3600], ['guildReputation', 100]],
                     rewardItem: [['random_equip_normal_3', 1, 100, {lv: 40}]],
                     successor: [],
                     forfeit: true
@@ -625,7 +603,7 @@ export const questConfig = {
                     target: '击败10只河爪豺狼人精英',
                     lv: 35,
                     reqs: [['slain', 33, 10]],
-                    reward: [['gold', 1350], ['exp', 2700], ['guildReputation', 20]],
+                    reward: [['gold', 1350], ['guildReputation', 20]],
                     rewardItem: [['random_equip_elite_4', 1, 100, {lv: 37}]],
                     successor: [],
                     forfeit: true
@@ -637,7 +615,7 @@ export const questConfig = {
                     target: '击败25只河爪豺狼人精英',
                     lv: 35,
                     reqs: [['slain', 33, 25]],
-                    reward: [['gold', 3150], ['exp', 6300], ['guildReputation', 50]],
+                    reward: [['gold', 3150], ['guildReputation', 50]],
                     rewardItem: [['random_equip_elite_4', 1, 100, {lv: 40}]],
                     successor: [],
                     forfeit: true
@@ -649,7 +627,7 @@ export const questConfig = {
                     target: '击败10只黑爪豺狼人',
                     lv: 40,
                     reqs: [['slain', 32, 10]],
-                    reward: [['gold', 1080], ['exp', 2160], ['guildReputation', 10]],
+                    reward: [['gold', 1080], ['guildReputation', 10]],
                     rewardItem: [['random_equip_normal_2', 1, 100]],
                     successor: [],
                     forfeit: true
@@ -661,7 +639,7 @@ export const questConfig = {
                     target: '击败25只黑爪豺狼人',
                     lv: 40,
                     reqs: [['slain', 32, 25]],
-                    reward: [['gold', 2160], ['exp', 4320], ['guildReputation', 25]],
+                    reward: [['gold', 2160], ['guildReputation', 25]],
                     rewardItem: [['random_equip_normal_2', 1, 100, {lv: 42}]],
                     successor: [],
                     forfeit: true
@@ -673,7 +651,7 @@ export const questConfig = {
                     target: '击败100只黑爪豺狼人',
                     lv: 40,
                     reqs: [['slain', 32, 100]],
-                    reward: [['gold', 4320], ['exp', 8640], ['guildReputation', 100]],
+                    reward: [['gold', 4320], ['guildReputation', 100]],
                     rewardItem: [['random_equip_normal_3', 1, 100, {lv: 45}]],
                     successor: [],
                     forfeit: true
@@ -685,7 +663,7 @@ export const questConfig = {
                     target: '击败10只黑爪豺狼人精英',
                     lv: 40,
                     reqs: [['slain', 34, 10]],
-                    reward: [['gold', 1620], ['exp', 3240], ['guildReputation', 20]],
+                    reward: [['gold', 1620], ['guildReputation', 20]],
                     rewardItem: [['random_equip_elite_4', 1, 100, {lv: 42}]],
                     successor: [],
                     forfeit: true
@@ -697,7 +675,7 @@ export const questConfig = {
                     target: '击败25只黑爪豺狼人精英',
                     lv: 40,
                     reqs: [['slain', 34, 25]],
-                    reward: [['gold', 3240], ['exp', 6480], ['guildReputation', 50]],
+                    reward: [['gold', 3240], ['guildReputation', 50]],
                     rewardItem: [['random_equip_elite_4', 1, 100, {lv: 45}]],
                     successor: [],
                     forfeit: true
@@ -709,7 +687,7 @@ export const questConfig = {
                     target: '击败霍格',
                     lv: 40,
                     reqs: [['slain', 35, 1]],
-                    reward: [['gold', 6000], ['exp', 12000], ['guildReputation', 100]],
+                    reward: [['gold', 6000], ['guildReputation', 100]],
                     rewardItem: [['random_equip_6', 1, 100]],
                     successor: [],
                     forfeit: true
@@ -721,7 +699,7 @@ export const questConfig = {
                     target: '击败10只盐壳龟',
                     lv: 45,
                     reqs: [['slain', 41, 10]],
-                    reward: [['gold', 1350], ['exp', 2700], ['guildReputation', 10]],
+                    reward: [['gold', 1350], ['guildReputation', 10]],
                     rewardItem: [['random_equip_normal_3', 1, 100]],
                     successor: [],
                     forfeit: true
@@ -733,7 +711,7 @@ export const questConfig = {
                     target: '击败25只盐壳龟',
                     lv: 45,
                     reqs: [['slain', 41, 25]],
-                    reward: [['gold', 2700], ['exp', 5400], ['guildReputation', 25]],
+                    reward: [['gold', 2700], ['guildReputation', 25]],
                     rewardItem: [['random_equip_normal_3', 1, 100, {lv: 47,}]],
                     successor: [],
                     forfeit: true
@@ -745,7 +723,7 @@ export const questConfig = {
                     target: '击败100只盐壳龟',
                     lv: 45,
                     reqs: [['slain', 41, 100]],
-                    reward: [['gold', 5400], ['exp', 10800], ['guildReputation', 100]],
+                    reward: [['gold', 5400], ['guildReputation', 100]],
                     rewardItem: [['random_equip_normal_4', 1, 100, {lv: 50}]],
                     successor: [],
                     forfeit: true
@@ -757,7 +735,7 @@ export const questConfig = {
                     target: '击败10只盐壳龟精英',
                     lv: 45,
                     reqs: [['slain', 43, 10]],
-                    reward: [['gold', 2025], ['exp', 4050], ['guildReputation', 20]],
+                    reward: [['gold', 2025], ['guildReputation', 20]],
                     rewardItem: [['random_equip_elite_4', 1, 100, {lv: 47,}]],
                     successor: [],
                     forfeit: true
@@ -769,7 +747,7 @@ export const questConfig = {
                     target: '击败25只盐壳龟精英',
                     lv: 45,
                     reqs: [['slain', 43, 25]],
-                    reward: [['gold', 4725], ['exp', 9450], ['guildReputation', 50]],
+                    reward: [['gold', 4725], ['guildReputation', 50]],
                     rewardItem: [['random_equip_elite_4', 1, 100, {lv: 50}]],
                     successor: [],
                     forfeit: true
@@ -781,7 +759,7 @@ export const questConfig = {
                     target: '击败10只钳嘴龟',
                     lv: 50,
                     reqs: [['slain', 42, 10]],
-                    reward: [['gold', 1620], ['exp', 3240], ['guildReputation', 10]],
+                    reward: [['gold', 1620], ['guildReputation', 10]],
                     rewardItem: [['random_equip_normal_3', 1, 100]],
                     successor: [],
                     forfeit: true
@@ -793,7 +771,7 @@ export const questConfig = {
                     target: '击败25只钳嘴龟',
                     lv: 50,
                     reqs: [['slain', 42, 25]],
-                    reward: [['gold', 3780], ['exp', 7560], ['guildReputation', 25]],
+                    reward: [['gold', 3780], ['guildReputation', 25]],
                     rewardItem: [['random_equip_normal_3', 1, 100, {lv: 52}]],
                     successor: [],
                     forfeit: true
@@ -805,7 +783,7 @@ export const questConfig = {
                     target: '击败100只钳嘴龟',
                     lv: 50,
                     reqs: [['slain', 42, 100]],
-                    reward: [['gold', 7560], ['exp', 15120], ['guildReputation', 100]],
+                    reward: [['gold', 7560], ['guildReputation', 100]],
                     rewardItem: [['random_equip_normal_4', 1, 100, {lv: 55}]],
                     successor: [],
                     forfeit: true
@@ -817,7 +795,7 @@ export const questConfig = {
                     target: '击败10只钳嘴龟精英',
                     lv: 50,
                     reqs: [['slain', 44, 10]],
-                    reward: [['gold', 2430], ['exp', 4860], ['guildReputation', 20]],
+                    reward: [['gold', 2430], ['guildReputation', 20]],
                     rewardItem: [['random_equip_elite_4', 1, 100, {lv: 52}]],
                     successor: [],
                     forfeit: true
@@ -829,7 +807,7 @@ export const questConfig = {
                     target: '击败25只钳嘴龟精英',
                     lv: 50,
                     reqs: [['slain', 44, 25]],
-                    reward: [['gold', 5670], ['exp', 11340], ['guildReputation', 50]],
+                    reward: [['gold', 5670], ['guildReputation', 50]],
                     rewardItem: [['random_equip_elite_4', 1, 100, {lv: 55}]],
                     successor: [],
                     forfeit: true
@@ -841,7 +819,7 @@ export const questConfig = {
                     target: '击败铁背龟',
                     lv: 50,
                     reqs: [['slain', 45, 1]],
-                    reward: [['gold', 9000], ['exp', 18000], ['guildReputation', 100]],
+                    reward: [['gold', 9000], ['guildReputation', 100]],
                     rewardItem: [['random_equip_6', 1, 100]],
                     successor: [],
                     forfeit: true
@@ -853,7 +831,7 @@ export const questConfig = {
                     target: '击败10只灼热元素',
                     lv: 55,
                     reqs: [['slain', 41, 10]],
-                    reward: [['gold', 2020], ['exp', 4040], ['guildReputation', 10]],
+                    reward: [['gold', 2020], ['guildReputation', 10]],
                     rewardItem: [['random_equip_normal_3', 1, 100]],
                     successor: [],
                     forfeit: true
@@ -865,7 +843,7 @@ export const questConfig = {
                     target: '击败25只灼热元素',
                     lv: 55,
                     reqs: [['slain', 41, 25]],
-                    reward: [['gold', 4050], ['exp', 8100], ['guildReputation', 25]],
+                    reward: [['gold', 4050], ['guildReputation', 25]],
                     rewardItem: [['random_equip_normal_3', 1, 100, {lv: 57,}]],
                     successor: [],
                     forfeit: true
@@ -877,7 +855,7 @@ export const questConfig = {
                     target: '击败100只灼热元素',
                     lv: 55,
                     reqs: [['slain', 41, 100]],
-                    reward: [['gold', 8100], ['exp', 16200], ['guildReputation', 100]],
+                    reward: [['gold', 8100], ['guildReputation', 100]],
                     rewardItem: [['random_equip_normal_4', 1, 100, {lv: 60}]],
                     successor: [],
                     forfeit: true
@@ -889,7 +867,7 @@ export const questConfig = {
                     target: '击败10只灼热元素精英',
                     lv: 55,
                     reqs: [['slain', 43, 10]],
-                    reward: [['gold', 3030], ['exp', 6060], ['guildReputation', 20]],
+                    reward: [['gold', 3030], ['guildReputation', 20]],
                     rewardItem: [['random_equip_elite_4', 1, 100, {lv: 57,}]],
                     successor: [],
                     forfeit: true
@@ -901,7 +879,7 @@ export const questConfig = {
                     target: '击败25只灼热元素精英',
                     lv: 55,
                     reqs: [['slain', 43, 25]],
-                    reward: [['gold', 7080], ['exp', 14160], ['guildReputation', 50]],
+                    reward: [['gold', 7080], ['guildReputation', 50]],
                     rewardItem: [['random_equip_elite_4', 1, 100, {lv: 60}]],
                     successor: [],
                     forfeit: true
@@ -913,7 +891,7 @@ export const questConfig = {
                     target: '击败10只熔岩元素',
                     lv: 60,
                     reqs: [['slain', 42, 10]],
-                    reward: [['gold', 2430], ['exp', 4860], ['guildReputation', 10]],
+                    reward: [['gold', 2430], ['guildReputation', 10]],
                     rewardItem: [['random_equip_normal_3', 1, 100]],
                     successor: [],
                     forfeit: true
@@ -925,7 +903,7 @@ export const questConfig = {
                     target: '击败25只熔岩元素',
                     lv: 60,
                     reqs: [['slain', 42, 25]],
-                    reward: [['gold', 5670], ['exp', 11340], ['guildReputation', 25]],
+                    reward: [['gold', 5670], ['guildReputation', 25]],
                     rewardItem: [['random_equip_normal_3', 1, 100, {lv: 62}]],
                     successor: [],
                     forfeit: true
@@ -937,7 +915,7 @@ export const questConfig = {
                     target: '击败100只熔岩元素',
                     lv: 60,
                     reqs: [['slain', 42, 100]],
-                    reward: [['gold', 11340], ['exp', 22680], ['guildReputation', 100]],
+                    reward: [['gold', 11340], ['guildReputation', 100]],
                     rewardItem: [['random_equip_normal_4', 1, 100, {lv: 65}]],
                     successor: [],
                     forfeit: true
@@ -949,7 +927,7 @@ export const questConfig = {
                     target: '击败10只熔岩元素精英',
                     lv: 60,
                     reqs: [['slain', 44, 10]],
-                    reward: [['gold', 3645], ['exp', 7290], ['guildReputation', 20]],
+                    reward: [['gold', 3645], ['guildReputation', 20]],
                     rewardItem: [['random_equip_elite_4', 1, 100, {lv: 62}]],
                     successor: [],
                     forfeit: true
@@ -961,7 +939,7 @@ export const questConfig = {
                     target: '击败25只熔岩元素精英',
                     lv: 60,
                     reqs: [['slain', 44, 25]],
-                    reward: [['gold', 8500], ['exp', 17000], ['guildReputation', 50]],
+                    reward: [['gold', 8500], ['guildReputation', 50]],
                     rewardItem: [['random_equip_elite_4', 1, 100, {lv: 65}]],
                     successor: [],
                     forfeit: true
@@ -973,7 +951,7 @@ export const questConfig = {
                     target: '击败地狱元素',
                     lv: 60,
                     reqs: [['slain', 45, 1]],
-                    reward: [['gold', 15000], ['exp', 30000], ['guildReputation', 100]],
+                    reward: [['gold', 15000], ['guildReputation', 100]],
                     rewardItem: [['random_equip_6', 1, 100]],
                     successor: [],
                     forfeit: true
@@ -985,7 +963,7 @@ export const questConfig = {
                     target: '击败地狱元素',
                     lv: 60,
                     reqs: [['slain', 45, 1]],
-                    reward: [['gold', 15000], ['exp', 30000], ['guildReputation', 100]],
+                    reward: [['gold', 15000], ['guildReputation', 100]],
                     rewardItem: [['random_equip_6', 1, 100]],
                     successor: [],
                     forfeit: true

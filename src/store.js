@@ -202,7 +202,6 @@ export default new Vuex.Store({
             name: '无名',
             lv: 1,
             talentLv: 1,
-            exp: {cur: 0, req: 30},
             type: 'player',
             healthRecoverySpeed: 1,
             attribute: {

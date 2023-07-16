@@ -26,16 +26,6 @@
                     <!-- <p class="info">* 每通过一次试炼提升等级</p> -->
                 </template>
             </cTooltip>
-            <div class="exp">
-                <div class="progress" style="width:80%;">
-                    <div class="progress-bar" :style="{width:player.exp.cur/player.exp.req*100+'%'}">
-                    </div>
-                </div>
-                <div class="value">
-                    <span id="expInfo"></span>
-                    <span>{{player.exp.cur+'/'+player.exp.req}}</span>
-                </div>
-            </div>
             <cTooltip placement="bottom">
                 <template v-slot:content>
                     <div class="hpmp">
@@ -916,21 +906,6 @@ export default {
         display: flex;
         align-items: center;
         flex-wrap: wrap;
-    }
-    .exp {
-        .progress {
-            width: 80%;
-            margin: auto;
-            height: 1px;
-            .progress-bar {
-                background-color: orange;  
-            }
-        }
-        .value {
-            text-align: right;
-            font-size: 0.75rem;
-            margin-right: 2.3rem;
-        }
     }
     .buffList {
         margin: -0.4rem 2rem 0 2rem;
