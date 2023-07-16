@@ -2,30 +2,14 @@
     <div class='mapEvent scrollbar-morpheus-den scrollbar-square'>
         <minesweeper :difficulty="mineDifficulty" :rewardList="mineReward"></minesweeper>
         <battleAnime v-show="inBattle"></battleAnime>
-        <div class="dungeonInfo" v-if="dungeon.type">
+        <div class="dungeonInfo">
             <a v-show="!inBattle" href="#" class="smallClose close" @click="close()"></a>
-            <div class="title">
-                信息
-            </div>
-            <div class="detail">
-                <!-- <div class="centerImg"><img :src="selectedDungeon.img"></div> -->
-                <div>怪物: {{selectedDungeon.monsterName}}</div>
-                <div>等级: {{selectedDungeon.lv}}</div>
-                <div>类型: {{type[selectedDungeon.type]}}</div>
-                <div>剩余次数: 
-                    <span v-if="selectedDungeon.count>=0">
-                        {{selectedDungeon.count}}
-                        <!-- ({{selectedDungeon.resetCount+"/"+selectedDungeon.resetMax}}) -->
-                    </span>
-                    <span v-else>无限</span>
-                </div>
-            </div>
             <div class="title">
                 奖励
             </div>
             <div class="detail">
                 <div class="reward">
-                    <div v-for="(v, k) in selectedDungeon.reward" :key="k">
+                    <div v-for="(v, k) in extraDungeonInfo[dungeonInfo.current].reward" :key="k">
                         <div class="grid" v-if="v[0]" @mouseover="showInfo($event,v[0].itemType,v[0],true)" @mouseleave="closeInfo(v[0].itemType)">
                             <div class="mediumIconContainer">
                                 <del :class="[{grey:v[0].quality.qualityLv==1, green:v[0].quality.qualityLv==3, blue:v[0].quality.qualityLv==4, purple:v[0].quality.qualityLv==5, orange:v[0].quality.qualityLv==6}, 'mediumIcon iconBorder']"></del>
@@ -85,6 +69,7 @@
 
 
 import { spellEffect } from '../../assets/js/spellEffect';
+import { map } from '../../assets/js/map';
 import { monsterConfig } from '@/assets/config/monsterConfig'
 import { spellConfig } from '@/assets/config/spellConfig'
 import { buffConfig } from '@/assets/config/buffConfig'
@@ -92,7 +77,7 @@ import minesweeper from '../component/minesweeper';
 import battleAnime from '../component/battleAnime';
 export default {
     name: 'mapEvent',
-    mixins: [spellEffect, monsterConfig, spellConfig, buffConfig],
+    mixins: [spellEffect, map, monsterConfig, spellConfig, buffConfig],
     components: {minesweeper, battleAnime},
     props: {
     },
@@ -103,6 +88,7 @@ export default {
             harvestTimer: "",
             harvesting: false,
             selectedDungeon: {},
+            extraDungeonInfo: {normal:{}, elite:{}, boss:{}},
             type: {normal: '普通', elite: '精英', boss: 'BOSS', chest: '宝藏', mine: '矿物', herb: '草药'},
             mineDifficulty: 0,
             mineReward: [],
@@ -131,6 +117,9 @@ export default {
         playerAttr() { return this.$store.state.playerAttribute;},
     },
     methods: {
+        init() {
+            this.setReward();
+        },
         toggleBattle(type, auto=false) {
             this.autoBattle(auto);
             if(this.dungeonInfo.inBattle) 
@@ -267,6 +256,16 @@ export default {
                 type: 'lose',
                 msg: '战斗结束, 你扑街了'
             });
+        },
+        setReward() {
+            let types = ['normal', 'elite', 'boss'];
+            for(let i in types) {
+                let type = types[i];
+                let lv = this.dungeonInfo[type].level;
+                let monsterID = this.getMonsterID(lv, type);
+                let reward = this.getReward(type, monsterID);
+                this.extraDungeonInfo[type].reward = this.actualReward(reward);
+            }            
         },
         reduceCount(count=1) {
             if(this.selectedDungeon.count > 0) {
@@ -453,81 +452,6 @@ export default {
         chest() {
             this.reduceResetCount();
             this.reward();
-        },
-        generateenemy(type, level, monsterID) {
-            let enemyAttribute = {};
-            if(!type)
-                type = this.dungeonInfo[this.dungeonInfo.current].type;
-            if(!level)
-                level = this.dungeonInfo[this.dungeonInfo.current].level;
-            if(!monsterID)
-                monsterID = this.dungeonInfo[this.dungeonInfo.current].monsterID;
-            enemyAttribute.attribute = {};
-            enemyAttribute.buff = {};
-            enemyAttribute.buffCounter = {};
-            enemyAttribute.tempStat = [];
-            enemyAttribute.timedBuff = {};
-            enemyAttribute.spellCycle = this.$deepCopy(this.monster[monsterID].spellCycle);
-            enemyAttribute.talent = this.$deepCopy(this.monster[monsterID].talent);
-            enemyAttribute.curSpell = 0;
-            for(let stat in this.monster[monsterID].template) {
-                enemyAttribute.attribute[stat] = { value: this.monster[monsterID].template[stat] };
-            }
-            let attribute = enemyAttribute.attribute,
-            val = 0.0,
-            flexStats = ['MAXHP', 'ATK', 'AP', 'DEF', 'MR'],
-            lvStats = ['BLOCK', 'HEAL', 'APPEN'],
-            percentStats = ['CRIT', 'CRITDMG', 'APCRIT', 'APCRITDMG']; 
-            enemyAttribute.lv = level;
-            let flexLv = level - this.monster[monsterID].minLv;
-            enemyAttribute.type = type;
-            enemyAttribute.name = this.dungeonInfo[this.dungeonInfo.current].monsterName;
-            // enemyAttribute.spell = {};
-            flexStats.forEach(stat => {
-                let attr = enemyAttribute.attribute[stat];
-                // attribute.value = Math.round(attribute.value*(1+enemyAttribute.lv*0.15)*(1+Math.random()/10));
-                // attribute.value = Math.round(attribute.value*(1+enemyAttribute.lv*0.15));
-                // attribute.value = Math.round(attribute.value*(1.5+enemyAttribute.lv*(enemyAttribute.lv-1)*(enemyAttribute.lv/50)));
-                // attr.value = Math.round(attr.value*(2+enemyAttribute.lv*(enemyAttribute.lv/35)*(0.9+Math.random()*0.2)));
-                attr.value = Math.round(attr.value*(1+flexLv*(flexLv/75))*(0.95+Math.random()*0.1));
-                attr.showValue = attr.value;
-                enemyAttribute.attribute[stat] = attr;
-            });
-            lvStats.forEach(stat => {
-                let attr = enemyAttribute.attribute[stat];
-                attr.value = Math.round(attr.value*(1+flexLv/10));
-                attr.showValue = attr.value;
-                enemyAttribute.attribute[stat] = attr;
-            });
-            percentStats.forEach(stat => {
-                let attr = enemyAttribute.attribute[stat];
-                // attribute.value = Math.round(attribute.value*(enemyAttribute.lv));
-                attr.showValue = attr.value + '%';
-                enemyAttribute.attribute[stat] = attr;
-            });
-            attribute['CURHP'] = {
-                value: attribute['MAXHP'].value,
-                showValue: attribute['MAXHP'].value
-            }
-            attribute['SHIELD'] = {
-                value: 0,
-                showValue: 0
-            }
-            // if(type=='elite') {
-            //     attribute = this.eliteStat(attribute);
-            // }
-            // else if(type=='boss') {
-            //     attribute = this.bossStat(attribute);
-            // }
-            val = this.getDefRed(attribute['DEF'].value);
-            attribute['DEFRED'] = {
-                value: val,
-                showValue: val+'%'
-            }
-            
-            let enemyPos = document.getElementById("enemyAnime");
-            enemyPos.style.backgroundImage = "url(/icons/character/"+this.monster[monsterID].anime+")";
-            this.$store.commit('set_enemy_attribute', {'type': type, 'attr': enemyAttribute});
         },
         onAttack(source, target) {
             let index = this.$store.globalComponent["index"];

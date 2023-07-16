@@ -287,6 +287,9 @@ export default {
 
     let battleAnime =  this.$store.globalComponent['battleAnime'];   
     battleAnime.init();
+
+    let mapEvent =  this.$store.globalComponent['mapEvent'];   
+    mapEvent.init();
     
     // this.$store.commit("set_statistic", {gameStartDate: Date.now()});
     //初始系统、战斗信息
@@ -303,8 +306,10 @@ export default {
       saveload.saveGame(true);
     }, 5 * 60 * 1000)
 
-    //初始生成地图
-    this.createMaps();
+    //初始生成怪物数据
+    this.generateenemy('normal');
+    this.generateenemy('elite');
+    this.generateenemy('boss');
     //测试·随机装备
     // let equipLv = 100;
     // let equipQuality = 5;
@@ -428,7 +433,6 @@ export default {
           this.dungeon.selected = false;
           this.dungeon = {};
         }
-        console.log(this.dungeonInfo.current)
         let mapEvent = this.$store.globalComponent["mapEvent"];
         if(this.inBattle) {
             mapEvent.toggleBattle();
@@ -438,62 +442,17 @@ export default {
         }
         mapEvent.autoBattle(false);
         let element = document.getElementById(this.dungeonInfo.current);
-        console.log(element)
         element.classList.replace('btn-light', 'btn-outline-light');
         element = document.getElementById(type);
-        console.log(element)
-        console.log(type)
         element.classList.replace('btn-outline-light', 'btn-light');
         // this.$store.commit('set_enemy_hp', 0);
+        this.enemyInfo = type;
         this.dungeonInfo.current = type;
       }
     },
     toggleBattle(type) {
       let mapEvent = this.$store.globalComponent["mapEvent"];
       mapEvent.toggleBattle(type);
-    },
-    createMaps() {    
-      let count = 7;
-      let type = 'normal';
-      this.mapArr = this.generateMapByZone(count, this.monsterZone[this.selectedZone]);
-      this.actualReward(this.mapArr);
-
-      this.dungeonInfo[type].level = -1;
-      this.dungeonInfo[type].reward = 'None';
-      this.dungeonInfo[type].lotReward = [];
-      this.dungeonInfo[type].isLottery = false;
-      this.dungeonInfo[type].type = type;
-      this.dungeonInfo[type].monsterID = 0;
-      this.dungeonInfo[type].monsterName = '';
-      this.dungeonInfo.current = type;
-    },
-    addToMap(type='normal', lv, count=1, monsterID) {
-      let newMaps = this.generateMapByID(count, this.monsterZone[this.selectedZone], monsterID);
-      this.actualReward(newMaps);
-      this.mapArr = this.mapArr.concat(newMaps);
-
-    },
-    actualReward(mapArr) {
-      let equipInfo = this.$store.globalComponent["equipInfo"];;   
-      let itemInfo = this.$store.globalComponent["itemInfo"];;
-      for(let map in mapArr) {
-        // 抽奖类型，不立即生成奖励
-        if(mapArr[map].isLottery) {
-          mapArr[map].lotReward = mapArr[map].rewardType;
-        }
-        mapArr[map].reward = [];
-        for(let type in mapArr[map].rewardType) {
-          let rewardInfo = mapArr[map].rewardType[type];
-          if(rewardInfo[0] == 'unique_equip') {
-            let newEquip = JSON.parse(equipInfo.createUniqueEquipTemplate(rewardInfo[1]));
-            mapArr[map].reward.push([newEquip,rewardInfo[2]]);
-          }
-          else {
-            let minQty = rewardInfo[2]==undefined ? 1 : rewardInfo[2];
-            mapArr[map].reward.push([JSON.parse(itemInfo.createItem(rewardInfo[0], minQty, mapArr[map].lv)), rewardInfo[1], rewardInfo[2], rewardInfo[3]]);
-          }
-        }
-      }
     },
     showInfo(e, type, item, compare) {
       this.compare = compare;
@@ -650,7 +609,6 @@ export default {
       if(this.harvesting)
         mapEvent.toggleHarvest();
       this.set_enemy_hp('remove');
-      this.createMaps();
       this.resetTime = 1;
       element.disabled = true;
       clearInterval(this.resetTimer);

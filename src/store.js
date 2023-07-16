@@ -169,24 +169,15 @@ export default new Vuex.Store({
             current: 'normal',
             normal: {
                 level: 1,
-                reward: 'None',
-                type: 'normal',
                 monsterID: 0,
-                monsterName: ''
             },
             elite: {
                 level: 1,
-                reward: 'None',
-                type: 'elite',
-                monsterID: 0,
-                monsterName: ''
+                monsterID: 3,
             },
             boss: {
                 level: 1,
-                reward: 'None',
-                type: 'boss',
-                monsterID: 0,
-                monsterName: ''
+                monsterID: 5,
             },
         },
         guildAttribute: {

@@ -1,7 +1,8 @@
 
 import { monsterConfig } from '@/assets/config/monsterConfig';
+import { spellEffect } from '@/assets/js/spellEffect';
 export const map = {
-    mixins: [monsterConfig],
+    mixins: [monsterConfig, spellEffect],
     data() {
         return {
             typeColor: {
@@ -15,92 +16,123 @@ export const map = {
         }
     },
     methods: {
-        generateMapByZone(count, zoneInfo) {
-            let map = [];
-            this.arrList = Array.from(Array(24).keys());
-            for(let i=0; i<count; i++) {
-                let choice = {};
-                let monsterID = this.getMonsterID(zoneInfo.monsterList, zoneInfo.weight);
-                let monsterInfo = this.monster[monsterID];
-                let ran = Math.floor(Math.random()*this.arrList.length);
-                let eventType = monsterInfo.type;
-                let monsterName = this.getName(eventType, monsterID);
-                let lv = this.getLv(eventType, zoneInfo, monsterInfo);
-                choice = {
-                    type: eventType, 
-                    color: this.typeColor[eventType],
-                    rewardType: this.getReward(eventType, monsterID), 
-                    isLottery: this.getIsLottery(eventType, monsterID),
-                    img: './icons/other/'+eventType+'.png',
-                    lv: lv,
-                    monsterID: monsterID,
-                    monsterName: monsterName,
-                    count: this.getCount(eventType),
-                    resetCount: this.getResetCount(eventType),
-                    resetMax: this.getResetCount(eventType),
-                    left: Math.floor(this.arrList[ran]%6)*15+Math.random()*10+5,
-                    top: this.arrList[ran]/6*20+Math.random()*10+5,
-                };
-                [this.arrList[ran], this.arrList[this.arrList.length-1]] = [this.arrList[this.arrList.length-1], this.arrList[ran]];
-                this.arrList.pop();
-                map.push(choice);
+        actualReward(mapArr) {
+            let equipInfo = this.$store.globalComponent["equipInfo"];;   
+            let itemInfo = this.$store.globalComponent["itemInfo"];;
+            // 抽奖类型，不立即生成奖励
+            if(mapArr.isLottery) {
+                mapArr.lotReward = mapArr.rewardType;
             }
-            if(Math.random()<0.5 && zoneInfo.harvestList.length>0) {
-                let count = (Math.random()<0.5 || zoneInfo.harvestList.length==1) ? 1 : 2;
-                let harvest = this.generateMapByID(count, zoneInfo, this.getMonsterID(zoneInfo.harvestList, zoneInfo.harvestWeight));
-                map = map.concat(harvest)
-            }
-            return map;
-        },
-        generateMapByID(count, zoneInfo, monsterID) {
-            let map = [];
-            for(let i=0; i<count; i++) {
-                let choice = {};
-                let monsterInfo = this.monster[monsterID];
-                let ran = Math.floor(Math.random()*this.arrList.length);
-                let eventType = monsterInfo.type;
-                let monsterName = this.getName(eventType, monsterID);
-                let lv = this.getLv(eventType, zoneInfo, monsterInfo);
-                choice = {
-                    type: eventType, 
-                    color: this.typeColor[eventType],
-                    rewardType: this.getReward(eventType, monsterID), 
-                    isLottery: this.getIsLottery(eventType, monsterID),
-                    img: './icons/other/'+eventType+'.png',
-                    lv: lv,
-                    monsterID: monsterID,
-                    monsterName: monsterName,
-                    count: this.getCount(eventType),
-                    resetCount: this.getResetCount(eventType),
-                    resetMax: this.getResetCount(eventType),
-                    left: Math.floor(this.arrList[ran]%6)*15+Math.random()*10+5,
-                    top: this.arrList[ran]/6*20+Math.random()*10+5,
-                };
-                [this.arrList[ran], this.arrList[this.arrList.length-1]] = [this.arrList[this.arrList.length-1], this.arrList[ran]];
-                this.arrList.pop();
-                map.push(choice);
-            }
-            return map;
-        },
-        getMonsterID(monsters, weights) {
-            let probability = [];
-            let total = 0;
-            for(let type in weights) {
-                total += weights[type];
-                probability.push(total);
-            }
-            let random = Math.random()*total;
-            for(let k=0; k<weights.length; k++) {
-                if(random <= probability[k]) {
-                    return monsters[k];
+            let reward = [];
+            for(let type in mapArr) {
+                let rewardInfo = mapArr[type];
+                if(rewardInfo[0] == 'unique_equip') {
+                    let newEquip = JSON.parse(equipInfo.createUniqueEquipTemplate(rewardInfo[1]));
+                    reward.push([newEquip,rewardInfo[2]]);
+                }
+                else {
+                    let minQty = rewardInfo[2]==undefined ? 1 : rewardInfo[2];
+                    reward.push([JSON.parse(itemInfo.createItem(rewardInfo[0], minQty, mapArr.lv)), rewardInfo[1], rewardInfo[2], rewardInfo[3]]);
                 }
             }
+            return reward;
         },
-        getLv(type, zoneInfo, monsterInfo) {
-            if(['chest','mine','herb'].indexOf(type) != -1)
-                return zoneInfo.minLv+Math.round(Math.random()*(zoneInfo.maxLv-zoneInfo.minLv));
-            else
-                return monsterInfo.minLv+Math.round(Math.random()*(monsterInfo.maxLv-monsterInfo.minLv));
+        generateenemy(type, level, monsterID) {
+            let enemyAttribute = {};
+            if(!type)
+                type = this.dungeonInfo[this.dungeonInfo.current].type;
+            if(!level)
+                level = this.getLv(type);
+            if(!monsterID)
+                monsterID = this.getMonsterID(level, type);
+            enemyAttribute.attribute = {};
+            enemyAttribute.buff = {};
+            enemyAttribute.buffCounter = {};
+            enemyAttribute.tempStat = [];
+            enemyAttribute.timedBuff = {};
+            enemyAttribute.spellCycle = this.$deepCopy(this.monster[monsterID].spellCycle);
+            enemyAttribute.talent = this.$deepCopy(this.monster[monsterID].talent);
+            enemyAttribute.curSpell = 0;
+            for(let stat in this.monster[monsterID].template) {
+                enemyAttribute.attribute[stat] = { value: this.monster[monsterID].template[stat] };
+            }
+            let attribute = enemyAttribute.attribute,
+            val = 0.0,
+            flexStats = ['MAXHP', 'ATK', 'AP', 'DEF', 'MR'],
+            lvStats = ['BLOCK', 'HEAL', 'APPEN'],
+            percentStats = ['CRIT', 'CRITDMG', 'APCRIT', 'APCRITDMG']; 
+            enemyAttribute.lv = level;
+            let flexLv = level - this.monster[monsterID].minLv;
+            enemyAttribute.type = type;
+            enemyAttribute.name = this.getName(type, monsterID);;
+            // enemyAttribute.spell = {};
+            flexStats.forEach(stat => {
+                let attr = enemyAttribute.attribute[stat];
+                // attribute.value = Math.round(attribute.value*(1+enemyAttribute.lv*0.15)*(1+Math.random()/10));
+                // attribute.value = Math.round(attribute.value*(1+enemyAttribute.lv*0.15));
+                // attribute.value = Math.round(attribute.value*(1.5+enemyAttribute.lv*(enemyAttribute.lv-1)*(enemyAttribute.lv/50)));
+                // attr.value = Math.round(attr.value*(2+enemyAttribute.lv*(enemyAttribute.lv/35)*(0.9+Math.random()*0.2)));
+                attr.value = Math.round(attr.value*(1+flexLv*(flexLv/75))*(0.95+Math.random()*0.1));
+                attr.showValue = attr.value;
+                enemyAttribute.attribute[stat] = attr;
+            });
+            lvStats.forEach(stat => {
+                let attr = enemyAttribute.attribute[stat];
+                attr.value = Math.round(attr.value*(1+flexLv/10));
+                attr.showValue = attr.value;
+                enemyAttribute.attribute[stat] = attr;
+            });
+            percentStats.forEach(stat => {
+                let attr = enemyAttribute.attribute[stat];
+                // attribute.value = Math.round(attribute.value*(enemyAttribute.lv));
+                attr.showValue = attr.value + '%';
+                enemyAttribute.attribute[stat] = attr;
+            });
+            attribute['CURHP'] = {
+                value: attribute['MAXHP'].value,
+                showValue: attribute['MAXHP'].value
+            }
+            attribute['SHIELD'] = {
+                value: 0,
+                showValue: 0
+            }
+            // if(type=='elite') {
+            //     attribute = this.eliteStat(attribute);
+            // }
+            // else if(type=='boss') {
+            //     attribute = this.bossStat(attribute);
+            // }
+            val = this.getDefRed(attribute['DEF'].value);
+            attribute['DEFRED'] = {
+                value: val,
+                showValue: val+'%'
+            }
+            
+            let enemyPos = document.getElementById("enemyAnime");
+            enemyPos.style.backgroundImage = "url(/icons/character/"+this.monster[monsterID].anime+")";
+            this.$store.commit('set_enemy_attribute', {'type': type, 'attr': enemyAttribute});
+        },
+        getMonsterID(lv, type) {
+            let monsterID = 0;
+            if(lv <= 10 && type == 'normal')
+                return monsterID;
+            monsterID = Math.floor(lv/100)*10;
+            if(type == 'normal')
+                monsterID += Math.floor(lv%100/50)+1;
+            else if(type == 'elite')
+                monsterID += Math.floor(lv%100/50)+3;
+            else if(type == 'boss')
+                monsterID += 5;
+            return monsterID;
+        },
+        getLv(type) {
+            let level = this.dungeonInfo[type].level;
+            if(type == 'normal')
+                return level;
+            else if(type == 'elite')
+                return level*5;
+            else if(type == 'boss')
+                return level*10;
         },
         getName(type, id) {
             let name = '';
@@ -117,52 +149,6 @@ export const map = {
                     name = this.monster[id].name;
             }
             return name;
-        },
-        getCount(type) {
-            let count = 1;
-            switch(type) {
-                case 'mine':
-                case 'herb':
-                    count = Math.ceil(Math.random()*9);
-                    break;
-                case 'normal':
-                    count = -1;
-                    break;
-                case 'elite':
-                    count = 5;
-                    break;
-                case 'boss':
-                    count = 1;
-                    break;
-                case 'chest':
-                    count = 1;
-                    break;
-                default:
-                    count = 1;
-            }
-            return count;
-        },
-        getResetCount(type) {
-            let count = 1;
-            switch(type) {
-                case 'mine':
-                case 'herb':
-                case 'chest':
-                case 'normal':
-                    count = 1;
-                    break;
-                case 'elite':
-                    // count = 2;
-                    count = 1;
-                    break;
-                case 'boss':
-                    // count = 5;
-                    count = 1;
-                    break;
-                default:
-                    count = 1;
-            }
-            return count;
         },
         getReward(type, monsterID) {
             let reward = this.$deepCopy(this.monsterReward[monsterID]);
