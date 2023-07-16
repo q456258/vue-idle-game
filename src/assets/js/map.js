@@ -37,7 +37,12 @@ export const map = {
             }
             return reward;
         },
-        generateenemy(type, level, monsterID) {
+        generateEnemyWithDelay(type, level, monsterID) {
+            setTimeout(() => {
+                this.generateEnemy(type, level, monsterID);
+            }, 1000);
+        },
+        generateEnemy(type, level, monsterID) {
             let enemyAttribute = {};
             if(!type)
                 type = this.dungeonInfo[this.dungeonInfo.current].type;

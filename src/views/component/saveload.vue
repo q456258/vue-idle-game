@@ -144,9 +144,9 @@ export default {
                 index.sysInfo = this.$store.state.sysInfo;
                 index.battleInfo = this.$store.state.battleInfo;
                 index.dungeonInfo = this.$store.state.dungeonInfo;
-                index.generateenemy('normal');
-                index.generateenemy('elite');
-                index.generateenemy('boss');
+                index.generateEnemy('normal');
+                index.generateEnemy('elite');
+                index.generateEnemy('boss');
                 index.switchZone('normal');
 
                 // let guild = this.$store.globalComponent["guild"];

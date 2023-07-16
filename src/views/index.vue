@@ -307,9 +307,9 @@ export default {
     }, 5 * 60 * 1000)
 
     //初始生成怪物数据
-    this.generateenemy('normal');
-    this.generateenemy('elite');
-    this.generateenemy('boss');
+    this.generateEnemy('normal');
+    this.generateEnemy('elite');
+    this.generateEnemy('boss');
     //测试·随机装备
     // let equipLv = 100;
     // let equipQuality = 5;

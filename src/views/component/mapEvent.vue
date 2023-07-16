@@ -84,6 +84,7 @@ export default {
     data() {
         return {
             battleTimer: "",
+            battleID: 1,
             harvestProgress: 0,
             harvestTimer: "",
             harvesting: false,
@@ -180,7 +181,7 @@ export default {
                 return;
             }
             if(enemyAttribute.attribute.CURHP.value == 0) {
-                this.generateenemy();
+                this.generateEnemy();
                 enemyAttribute = this.$store.state.enemyAttribute;
             }
             this.$store.commit("set_battle_info", {
@@ -188,32 +189,34 @@ export default {
                 msg: '————战斗开始————'
             });
             this.setBattleStatus(true, true);
+            let currentBattle = Math.floor(Math.random()*90071992547);
+            this.battleID = currentBattle;
             setTimeout(() => {
-                if(!this.dungeonInfo.inBattle) {
+                if(!this.dungeonInfo.inBattle || this.battleID != currentBattle) {
                     return;
                 }
-                if(this.playerAction(playerAttribute, enemyAttribute,) != false) {
+                if(this.playerAction(playerAttribute, enemyAttribute, currentBattle) != false) {
                     setTimeout(() => {
-                        this.enemyAction(enemyAttribute, playerAttribute,);
+                        this.enemyAction(enemyAttribute, playerAttribute, currentBattle);
                     }, 1000);
                 }
                 clearInterval(this.battleTimer);
                 this.battleTimer = setInterval(() => {
-                    if(!this.dungeonInfo.inBattle) {
+                    if(!this.dungeonInfo.inBattle || this.battleID != currentBattle) {
                         clearInterval(this.battleTimer);
                         return;
                     }
-                    if(this.playerAction(playerAttribute, enemyAttribute) != false) {
+                    if(this.playerAction(playerAttribute, enemyAttribute, currentBattle) != false) {
                         setTimeout(() => {
-                            this.enemyAction(enemyAttribute, playerAttribute);
+                            this.enemyAction(enemyAttribute, playerAttribute, currentBattle);
                         }, 1000);
                     }
                 }, 2000)
             }, 1000);
         },
-        playerAction(source, target) {
+        playerAction(source, target, battleID) {
             let dungeonInfo = this.dungeonInfo;
-            if(!dungeonInfo.inBattle)
+            if(!dungeonInfo.inBattle || this.battleID != battleID)
                 return false;
             this.onAttack(source, target);
             if(source.attribute.CURHP.value == 0 || target.attribute.CURHP.value == 0) {
@@ -225,8 +228,8 @@ export default {
                 return false;
             return true;
         },
-        enemyAction(source, target) {
-            if(!this.dungeonInfo.inBattle)
+        enemyAction(source, target, battleID) {
+            if(!this.dungeonInfo.inBattle || this.battleID != battleID)
                 return false;
             this.onAttack(source, target);
             if(source.attribute.CURHP.value == 0 || target.attribute.CURHP.value == 0) {
@@ -235,12 +238,16 @@ export default {
             this.callAction(source, target);
         },
         victory(source, target) {
+            let currentType = this.dungeonInfo.current;
+            let enemyLv = this.dungeonInfo[currentType].level++;
             this.reward();
             this.setBattleStatus(false, this.dungeonInfo.auto);
             if(this.selectedDungeon.resetCount != this.selectedDungeon.resetMax)
                 this.reduceResetCount(this.selectedDungeon.resetCount);
             if(this.selectedDungeon.count == 0)
                 this.autoBattle(false);
+            this.levelToTarget(enemyLv);
+            this.generateEnemyWithDelay(currentType);
             this.$store.commit("set_battle_info", {
                 type: 'win',
                 msg: '战斗结束, 你胜利了'
@@ -283,11 +290,11 @@ export default {
             }
             return true;
         },
-        // levelToTarget(target) {
-        //     this.talentLevelToTarget(target);
-        //     while(this.playerAttr.lv < target)
-        //         this.levelUp();
-        // },
+        levelToTarget(target) {
+            this.talentLevelToTarget(target);
+            while(this.playerAttr.lv < target)
+                this.levelUp();
+        },
         levelUp() {
             let quest = this.$store.globalComponent['quest']; 
             this.playerAttr.lv += 1;
@@ -318,6 +325,8 @@ export default {
             let index = this.$store.globalComponent["index"];
             index.clearShield(this.playerAttr);
             index.clearTurnbaseBuff(this.playerAttr);
+            if(!inBattle)
+                this.battleID = -1;
             if(immediate || inBattle) {
                 this.dungeonInfo.inBattle = inBattle;
                 if(!inBattle) {
