@@ -80,24 +80,12 @@
           <button id="boss" class="btn btn-outline-light btn-sm lvZone" @click="switchZone('boss')">
             BOSS
           </button>    
-          <button class="btn btn-outline-light btn-sm" id="resetMap" v-show="dungeonInfo.current=='normal'" @click="resetMapClick()">
-            重置地图<span v-if="resetTime>0">({{resetTime}})</span>
-          </button>   
           <select v-model="selectedZone" @change="setSelectedZone($event)" class="btn btn-light">
             <option :value="index" v-for="(zone, index) in filteredMonsterZone" :key="index">
               {{zone.name+'('+zone.minLv+'-'+zone.maxLv+'级)'}}
             </option>
           </select>
         </div>    
-        <div class="zone">
-          <div v-if="dungeonInfo.current=='normal'">
-            <div v-for="(dungeon, key) in mapArr" :key="key" @click="choseDungeon($event, key)">
-              <span class="dungeon" v-if="dungeon.count!=0" :style="{backgroundImage:'url('+dungeon.img+')',top:dungeon.top+'%', left:dungeon.left+'%', backgroundColor:dungeon.selected?dungeon.color+'7':'#0008', boxShadow: '0 0 4px 4px'+dungeon.color}">
-                <span class="lv">lv{{dungeon.lv}}</span>
-              </span>
-            </div>
-          </div>
-        </div>
         <mapEvent :dungeon="dungeon"></mapEvent>
       </div>
     </div>
@@ -557,78 +545,6 @@ export default {
           this.equipPotentialPanel = false;
           this.compare = false;
       }
-    },
-    choseDungeon(e, k) {
-      if(!this.inBattle && !this.harvesting) {
-        if(this.mapArr[k] && !this.mapArr[k].selected && this.$store.state.enemyAttribute.attribute.CURHP.value != 0) {
-          this.$message({
-            message: '是否放弃当前正在挑战的目标? ',
-            confirmBtnText: '放弃',
-            onClose: () => {
-              this.set_enemy_hp('remove');
-              this.confirmDungeon(k);
-            }
-          });
-        }
-        else
-          this.confirmDungeon(k);
-      }
-    },
-    confirmDungeon(k) {
-      let mapEvent = this.$store.globalComponent["mapEvent"];
-      if(mapEvent.selectedDungeon.resetCount != mapEvent.selectedDungeon.resetMax)
-        mapEvent.reduceResetCount(mapEvent.selectedDungeon.resetCount);
-      mapEvent.displayDungeon = true;
-      if(this.dungeon)
-        this.dungeon.selected = false;
-      this.dungeon = this.mapArr[k];
-      this.dungeon.selected = true;
-      let dungeon = this.dungeonInfo[this.dungeonInfo.current];
-      dungeon.level = this.dungeon.lv;
-      dungeon.reward = this.dungeon.reward;
-      dungeon.isLottery = this.dungeon.isLottery;
-      dungeon.lotReward = this.dungeon.lotReward;
-      dungeon.type = this.dungeon.type;
-      dungeon.monsterID = this.dungeon.monsterID;
-      dungeon.monsterName = this.dungeon.monsterName;
-    },
-    resetMapClick() {
-      this.resetMap();
-      let quest = this.$store.globalComponent["quest"];
-      quest.trackProgress('event', 1, 1);
-    },
-    resetMap(forceReset=false) {
-      let element = document.getElementById('resetMap');
-      let mapEvent = this.$store.globalComponent["mapEvent"];
-      if(!forceReset && this.resetTime > 0) {
-        return;
-      }
-      this.dungeon = {};
-      if(this.inBattle)
-        mapEvent.toggleBattle();
-      if(this.harvesting)
-        mapEvent.toggleHarvest();
-      this.set_enemy_hp('remove');
-      this.resetTime = 1;
-      element.disabled = true;
-      clearInterval(this.resetTimer);
-      this.resetTimer = setInterval(() => {
-        this.resetTime -= 1;
-        if(this.resetTime == 0) {
-          clearInterval(this.resetTimer);
-          element.disabled = false;
-        }
-      }, 1000);
-    },
-    setSelectedZone(e) {
-      let quest = this.$store.globalComponent["quest"];
-      quest.trackProgress('event', 7, 1);
-      this.switchZone('normal');
-      let zone = document.getElementsByClassName('zone')[0];
-      let value = e.target.value;
-      this.selectedZone = value;
-      zone.style.backgroundImage = 'url('+this.monsterZone[value].imgSrc+')';
-      this.resetMap(true);
     },
     slowTick() {
       clearInterval(this.autoHealthRecovery);

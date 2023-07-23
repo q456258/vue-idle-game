@@ -176,7 +176,7 @@ export default {
             let playerAttribute = this.playerAttr,
                 enemyAttribute = type == 'normal' ? this.$store.state.enemyAttribute : type == 'elite' ? this.$store.state.eliteAttribute : this.$store.state.bossAttribute,
                 dungeonInfo = this.dungeonInfo;
-            if(dungeonInfo.inBattle || !this.reduceResetCount()) {
+            if(dungeonInfo.inBattle) {
                 this.setBattleStatus(false, false);
                 return;
             }
@@ -242,10 +242,6 @@ export default {
             let enemyLv = this.dungeonInfo[currentType].level++;
             this.reward();
             this.setBattleStatus(false, this.dungeonInfo.auto);
-            if(this.selectedDungeon.resetCount != this.selectedDungeon.resetMax)
-                this.reduceResetCount(this.selectedDungeon.resetCount);
-            if(this.selectedDungeon.count == 0)
-                this.autoBattle(false);
             this.levelToTarget(enemyLv);
             this.generateEnemyWithDelay(currentType);
             this.$store.commit("set_battle_info", {
