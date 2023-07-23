@@ -182,6 +182,7 @@ export default {
                 this.generateEnemy();
                 enemyAttribute = this.$store.state.enemyAttribute;
             }
+            this.setEnemyAnime(this.dungeonInfo[this.dungeonInfo.current].monsterID);
             this.$store.commit("set_battle_info", {
                 type: '',
                 msg: '————战斗开始————'
@@ -253,6 +254,10 @@ export default {
                 type: 'lose',
                 msg: '战斗结束, 你扑街了'
             });
+        },
+        setEnemyAnime(monsterID) {
+            let enemyPos = document.getElementById("enemyAnime");
+            enemyPos.style.backgroundImage = "url(/icons/character/"+this.monster[monsterID].anime+")";
         },
         setReward() {
             let types = ['normal', 'elite', 'boss'];

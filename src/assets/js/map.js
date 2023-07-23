@@ -113,8 +113,6 @@ export const map = {
                 showValue: val+'%'
             }
             
-            let enemyPos = document.getElementById("enemyAnime");
-            enemyPos.style.backgroundImage = "url(/icons/character/"+this.monster[monsterID].anime+")";
             this.$store.commit('set_enemy_attribute', {'type': type, 'attr': enemyAttribute});
         },
         getMonsterID(lv, type) {
