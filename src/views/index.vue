@@ -86,7 +86,7 @@
             </option>
           </select>
         </div>    
-        <mapEvent :dungeon="dungeon"></mapEvent>
+        <mapEvent :type="dungeonInfo.current"></mapEvent>
       </div>
     </div>
 
@@ -226,7 +226,6 @@ export default {
       compareEquip: {},
       enhanceEquip: {},
       dungeonInfo: {},
-      dungeon: {},
       enemyInfo: 'normal',
       equipEnhancePanel: false,
       equipForgePanel: false,
@@ -286,7 +285,6 @@ export default {
     this.dungeonInfo = this.$store.state.dungeonInfo;
     // 自动恢复
     this.slowTick(); 
-
 
     // 自动保存
     setInterval(() => {
@@ -419,7 +417,6 @@ export default {
       if(this.dungeonInfo.current != type) {
         if(this.dungeon) {
           this.dungeon.selected = false;
-          this.dungeon = {};
         }
         let mapEvent = this.$store.globalComponent["mapEvent"];
         if(this.inBattle) {
@@ -569,10 +566,11 @@ export default {
         else {
           this.set_player_hp(Math.ceil(amount), player);
         }
+        console.log(this.dungeonInfo)
         if(this.attribute.CURHP.value == this.attribute.MAXHP.value && this.dungeonInfo.auto) {
           setTimeout(() => {
             if(!this.inBattle)
-              mapEvent.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
+              mapEvent.startBattle(this.dungeonInfo.current);
           }, 200);
         }
       }, 5000);
