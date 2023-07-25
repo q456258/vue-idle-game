@@ -169,39 +169,6 @@ export const itemEffect = {
                 // case 'inv_box_03':
                 //     used = this.inv_box_03();
                 //     break;
-                case 'bossTicket0':
-                    used = this.bossTicket(5);
-                    break;
-                case 'bossTicket1':
-                    used = this.bossTicket(15);
-                    break;
-                case 'bossTicket2':
-                    used = this.bossTicket(25);
-                    break;
-                case 'bossTicket3':
-                    used = this.bossTicket(35);
-                    break;
-                case 'bossTicket4':
-                    used = this.bossTicket(45);
-                    break;
-                case 'bossTicket5':
-                    used = this.bossTicket(55);
-                    break;
-                case 'bossTicket6':
-                    used = this.bossTicket(65);
-                    break;
-                case 'bossTicket7':
-                    used = this.bossTicket(75);
-                    break;
-                case 'bossTicket8':
-                    used = this.bossTicket(85);
-                    break;
-                case 'bossTicket9':
-                    used = this.bossTicket(95);
-                    break;
-                case 'bossTicket10':
-                    used = this.bossTicket(105);
-                    break;
                 // 药剂
                 case 'inv_misc_food_73cinnamonroll':
                 case 'inv_misc_gem_sapphire_02':
@@ -291,11 +258,6 @@ export const itemEffect = {
             if(!toBackpack)
                 return equip;
             backpack.giveEquip(equip, true, true);
-            return true;
-        },
-        bossTicket(monsterID) {
-            let index = this.$store.globalComponent.index;
-            index.addToMap('boss', (monsterID+5)*2, 1, monsterID);
             return true;
         },
         learnRecipe(type) {

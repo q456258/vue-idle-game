@@ -705,7 +705,6 @@ export default {
                 this.player.name = name;
                 let quest = this.$store.globalComponent["quest"];
                 quest.assignQuest(0);
-                quest.assignQuest(1);
                 quest.$forceUpdate();
             }
         },
