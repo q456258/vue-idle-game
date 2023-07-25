@@ -126,6 +126,7 @@ export const map = {
                 monsterID += Math.floor(lv%100/50)+3;
             else if(type == 'boss')
                 monsterID += 5;
+            this.$store.state.dungeonInfo[type].monsterID = monsterID;
             return monsterID;
         },
         getLv(type) {
