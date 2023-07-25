@@ -297,11 +297,14 @@ export default {
         levelUp() {
             let quest = this.$store.globalComponent['quest']; 
             this.playerAttr.lv += 1;
-            this.talentLevelUp();
-            if(this.playerAttr.lv == 10) {
+            if(this.playerAttr.lv/10 > this.playerAttr.talentLv)
+                this.talentLevelUp();
+            if(this.playerAttr.lv == 100) {
                 let element = document.getElementById('talentTree');
                 element.classList.add('glow');
                 quest.assignQuest(15);
+            }
+            if(this.playerAttr.lv == 10) {
                 quest.assignQuest(16);
             }
         },

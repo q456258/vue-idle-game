@@ -31,7 +31,7 @@
         <a class="nav-link" :class="{active: displayPage=='shop' }" id="shop" @click="switchTab('shop')" v-show="guild.shop.lv > 0">商店</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" :class="{active: displayPage=='talentTree' }" id="talentTree" @click="switchTab('talentTree')" v-show="playerLv >= 10">天赋</a>
+        <a class="nav-link" :class="{active: displayPage=='talentTree' }" id="talentTree" @click="switchTab('talentTree')" v-show="playerLv >= 100">天赋</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" id="faq" @click="switchTab('faq')">FA♂Q</a>
@@ -566,7 +566,6 @@ export default {
         else {
           this.set_player_hp(Math.ceil(amount), player);
         }
-        console.log(this.dungeonInfo)
         if(this.attribute.CURHP.value == this.attribute.MAXHP.value && this.dungeonInfo.auto) {
           setTimeout(() => {
             if(!this.inBattle)
