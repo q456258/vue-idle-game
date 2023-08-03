@@ -676,7 +676,7 @@ export const buffAndTrigger = {
             if(target.type == 'player')
                 this.set_player_hp(-1*totalDmg, source);
             else
-                this.set_enemy_hp(-1*totalDmg, source);
+                this.set_enemy_hp(-1*totalDmg, source, target);
         },
         heal(source, target, heal, sourceName) {
             if(target.buff['plague'] != undefined)
@@ -699,7 +699,7 @@ export const buffAndTrigger = {
             if(target.type == 'player')
                 this.set_player_hp(heal, source);
             else
-                this.set_enemy_hp(heal);
+                this.set_enemy_hp(heal, source, target);
             if(sourceName != undefined) {
                 if(target.type == source.type) {
                     this.$store.commit("set_battle_info", {
@@ -855,9 +855,7 @@ export const buffAndTrigger = {
             CURHP.showValue = CURHP.value;
         },
         // remove=移除怪物, dead=击杀
-        set_enemy_hp(data) {
-            let source = this.player;
-            let target = this.$store.state.enemyAttribute;
+        set_enemy_hp(data, source, target) {
             let CURHP = target.attribute.CURHP,
                 MAXHP = target.attribute.MAXHP;
             let mapEvent = this.$store.globalComponent["mapEvent"];

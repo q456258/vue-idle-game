@@ -50,7 +50,9 @@ export default {
     },
     computed: {
         attribute() { return this.$store.state.playerAttribute.attribute },
-        enemyAttr() { return this.$store.state.enemyAttribute; },
+        enemyAttr() { let type = this.$store.state.dungeonInfo.current;
+            return type == 'normal' ? this.$store.state.enemyAttribute : type == 'elite' ? this.$store.state.eliteAttribute : this.$store.state.bossAttribute;
+        },
         size() { return this.$store.state.setting.animeSize; },
     },
     methods: {   

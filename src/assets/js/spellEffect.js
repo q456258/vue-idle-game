@@ -637,7 +637,7 @@ export const spellEffect = {
             // 处刑
             let talent = 'ability_deathknight_deathchain';
             if(target.type != 'BOSS' && source.talent[talent] > 0 && hp_percent < source.talent[talent]*5) {
-                index.set_enemy_hp('dead');
+                index.set_enemy_hp('dead', source, target);
             } else {
                 // 斩杀
                 talent = 'ability_blackhand_marked4death';
