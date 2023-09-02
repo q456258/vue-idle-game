@@ -263,7 +263,7 @@ export default {
             let types = ['normal', 'elite', 'boss'];
             for(let i in types) {
                 let type = types[i];
-                let lv = this.dungeonInfo[type].level;
+                let lv = this.getLv(type);
                 let monsterID = this.getMonsterID(lv, type);
                 let reward = this.getReward(type, monsterID);
                 this.extraDungeonInfo[type].reward = this.actualReward(reward);
