@@ -93,12 +93,12 @@ export default {
             newEquip: {},
             qualityProbability: [
                 [0.75, 1, 1, 1, 1, 1], //0普通(1-10)
-                [0.55, 0.85, 1, 1, 1, 1], //1普通(11-30)，精英（1-10）
-                [0.45, 0.78, 0.99, 1, 1, 1], //2普通(30+)，精英（11-20）
-                [0.2, 0.5, 0.82, 1, 1, 1], //3精英(21-30)
-                [0.09, 0.34, 0.69, 0.99, 1, 1], //4精英(30+)，boss（1-20）
+                [0.4, 0.74, 0.94, 0.99, 1, 1], //1普通(11-30)）
+                [0.45, 0.78, 0.99, 1, 1, 1], //2
+                [0, 0.4, 0.75, 0.95, 0.995, 1], //3精英(21-30)
+                [0.09, 0.34, 0.69, 0.99, 1, 1], //4
                 [0, 0.3, 0.6, 0.945, 0.995, 1], //5宝箱
-                [0, 0.15, 0.47, 0.92, 0.99, 1], //6BOSS（30+）
+                [0, 0, 0.35, 0.9, 0.99, 1], //6BOSS（30+）
                 [0.1, 0.25, 0.55, 0.85, 0.99, 1], //7
                 [0.05, 0.15, 0.35, 0.75, 0.95, 1], //8
                 [0, 0, 0.15, 0.55, 0.9, 1], //9
@@ -320,10 +320,10 @@ export default {
         },
         createExtraEntryValue(entry, random, lv, mod=1) {
             if(entry.type == 'CRITDMG' || entry.type == 'APCRITDMG') {
-                entry.value = Math.round((0.5+0.5*random) * this.entryInfo[entry.type].base);
+                entry.value = Math.ceil((0.5+0.5*random) * this.entryInfo[entry.type].base);
                 entry.showVal = '+' + entry.value + '%';
             } else {
-                entry.value = Math.round((0.5+0.5*random) * this.entryInfo[entry.type].base * mod * (1.6+lv*0.08));
+                entry.value = Math.ceil((0.5+0.5*random) * this.entryInfo[entry.type].base * mod * (1.6+lv*0.08));
                 entry.showVal = '+' + entry.value;
             }
             entry.quality = Math.round(random*100);
