@@ -243,6 +243,7 @@ export default {
             this.setBattleStatus(false, this.dungeonInfo.auto);
             this.levelToTarget(enemyLv);
             this.generateEnemyWithDelay(currentType);
+            this.setReward(currentType);
             this.$store.commit("set_battle_info", {
                 type: 'win',
                 msg: '战斗结束, 你胜利了'
@@ -259,8 +260,11 @@ export default {
             let enemyPos = document.getElementById("enemyAnime");
             enemyPos.style.backgroundImage = "url(/icons/character/"+this.monster[monsterID].anime+")";
         },
-        setReward() {
-            let types = ['normal', 'elite', 'boss'];
+        setReward(types='all') {
+            if(types == 'all')
+                types = ['normal', 'elite', 'boss'];
+            else
+                types = [types];
             for(let i in types) {
                 let type = types[i];
                 let lv = this.getLv(type);
