@@ -179,8 +179,8 @@ export default {
                 return;
             }
             if(enemyAttribute.attribute.CURHP.value == 0) {
-                this.generateEnemy();
-                enemyAttribute = this.$store.state.enemyAttribute;
+                this.generateEnemy(type);
+                enemyAttribute = type == 'normal' ? this.$store.state.enemyAttribute : type == 'elite' ? this.$store.state.eliteAttribute : this.$store.state.bossAttribute;
             }
             this.setEnemyAnime(this.dungeonInfo[this.dungeonInfo.current].monsterID);
             this.$store.commit("set_battle_info", {
@@ -334,9 +334,6 @@ export default {
                 if(!inBattle) {
                     clearInterval(this.battleTimer);
                     this.autoBattle(auto);
-                    if(this.extraDungeonInfo[this.type].resetCount < 1) {
-                        index.set_enemy_hp('remove');
-                    }
                 }
             }
             else {
@@ -345,9 +342,6 @@ export default {
                     if(!inBattle) {
                         clearInterval(this.battleTimer);
                         this.autoBattle(auto);
-                        if(this.extraDungeonInfo[this.type].resetCount < 1) {
-                            index.set_enemy_hp('remove');
-                        }
                         if(auto && !this.$store.state.setting.waitFull)
                             this.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
                     }
