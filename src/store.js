@@ -123,7 +123,7 @@ export default new Vuex.Store({
     state: {
         sysInfo: [{
             type: '',
-            msg: "欢迎你勇士, 点击左下角的任务了解一下操作吧"
+            msg: "欢迎你勇士, 点击左下角的任务(快捷键Q)了解一下操作吧"
         }],
         battleInfo: [{
             type: '',
