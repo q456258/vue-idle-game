@@ -19,10 +19,6 @@ export const map = {
         actualReward(mapArr) {
             let equipInfo = this.$store.globalComponent["equipInfo"];;   
             let itemInfo = this.$store.globalComponent["itemInfo"];;
-            // 抽奖类型，不立即生成奖励
-            if(mapArr.isLottery) {
-                mapArr.lotReward = mapArr.rewardType;
-            }
             let reward = [];
             for(let type in mapArr) {
                 let rewardInfo = mapArr[type];
@@ -117,15 +113,23 @@ export const map = {
         },
         getMonsterID(lv, type) {
             let monsterID = 0;
-            if(lv <= 10 && type == 'normal')
-                return monsterID;
-            monsterID = Math.floor(lv/100)*10;
-            if(type == 'normal')
-                monsterID += Math.floor(lv%100/50)+1;
-            else if(type == 'elite')
-                monsterID += Math.floor(lv%100/50)+3;
-            else if(type == 'boss')
-                monsterID += 5;
+            // 新手教程
+            if(lv <= 20) {
+                if(type == 'normal')
+                    monsterID = Math.ceil(lv/10);
+                else if(type == 'elite')
+                    monsterID = Math.ceil(lv/10)+2;
+                else if(type == 'boss')
+                    monsterID = 5;
+            } else {
+                monsterID = Math.ceil(lv/100)*10;
+                if(type == 'normal')
+                    monsterID += Math.ceil(lv%100/50)+1;
+                else if(type == 'elite')
+                    monsterID += Math.ceil(lv%100/50)+3;
+                else if(type == 'boss')
+                    monsterID += 5;
+            }
             this.$store.state.dungeonInfo[type].monsterID = monsterID;
             return monsterID;
         },

@@ -9,7 +9,7 @@
             </div>
             <div class="detail">
                 <div class="reward">
-                    <div v-for="(v, k) in extraDungeonInfo[dungeonInfo.current].reward" :key="k">
+                    <div v-for="(v, k) in extraDungeonInfo[dungeonInfo.current].reward.actualReward" :key="k">
                         <div class="grid" v-if="v[0]" @mouseover="showInfo($event,v[0].itemType,v[0],true)" @mouseleave="closeInfo(v[0].itemType)">
                             <div class="mediumIconContainer">
                                 <del :class="[{grey:v[0].quality.qualityLv==1, green:v[0].quality.qualityLv==3, blue:v[0].quality.qualityLv==4, purple:v[0].quality.qualityLv==5, orange:v[0].quality.qualityLv==6}, 'mediumIcon iconBorder']"></del>
@@ -88,7 +88,7 @@ export default {
             harvestProgress: 0,
             harvestTimer: "",
             harvesting: false,
-            extraDungeonInfo: {normal:{}, elite:{}, boss:{}},
+            extraDungeonInfo: {normal:{reward:{}}, elite:{reward:{}}, boss:{reward:{}}},
             typeDef: {normal: '普通', elite: '精英', boss: 'BOSS', chest: '宝藏', mine: '矿物', herb: '草药'},
             mineDifficulty: 0,
             mineReward: [],
@@ -270,25 +270,32 @@ export default {
                 let lv = this.getLv(type);
                 let monsterID = this.getMonsterID(lv, type);
                 let reward = this.getReward(type, monsterID);
-                this.extraDungeonInfo[type].reward = this.actualReward(reward);
+                let isLottery = this.getIsLottery(type, monsterID);
+                let rewardList = this.extraDungeonInfo[type].reward;
+                rewardList.isLottery = isLottery;
+                if(isLottery)
+                    rewardList.lotReward = reward;
+                rewardList.actualReward = this.actualReward(reward);
             }            
         },
         reduceCount(count=1) {
-            if(this.extraDungeonInfo[this.type].count > 0) {
-                this.extraDungeonInfo[this.type].count -= Math.min(count, this.extraDungeonInfo[this.type].count);
-                this.extraDungeonInfo[this.type].resetCount = this.extraDungeonInfo[this.type].resetMax;
+            let dungeonInfo = this.extraDungeonInfo[this.type];
+            if(dungeonInfo.count > 0) {
+                dungeonInfo.count -= Math.min(count, dungeonInfo.count);
+                dungeonInfo.resetCount = dungeonInfo.resetMax;
                 return true;
             }
-            else if(this.extraDungeonInfo[this.type].count == 0)
+            else if(dungeonInfo.count == 0)
                 return false;
             return true;
         },
         reduceResetCount(count=1) {
-            if(this.extraDungeonInfo[this.type].resetCount <= 0) {
+            let dungeonInfo = this.extraDungeonInfo[this.type];
+            if(dungeonInfo.resetCount <= 0) {
                 return this.reduceCount();
             }
-            this.extraDungeonInfo[this.type].resetCount -= count;
-            if(this.extraDungeonInfo[this.type].resetCount == 0) {
+            dungeonInfo.resetCount -= count;
+            if(dungeonInfo.resetCount == 0) {
                 return this.reduceCount();
             }
             return true;
@@ -301,14 +308,16 @@ export default {
         levelUp() {
             let quest = this.$store.globalComponent['quest']; 
             this.playerAttr.lv += 1;
-            if(this.playerAttr.lv/10 > this.playerAttr.talentLv)
+            let lv = this.playerAttr.lv;
+            quest.trackProgress('event', 1, 1);
+            if(lv/10 > this.playerAttr.talentLv)
                 this.talentLevelUp();
-            if(this.playerAttr.lv == 100) {
+            if(lv == 100) {
                 let element = document.getElementById('talentTree');
                 element.classList.add('glow');
                 quest.assignQuest(15);
             }
-            if(this.playerAttr.lv == 10) {
+            if(lv == 10) {
                 quest.assignQuest(16);
             }
         },
@@ -399,15 +408,16 @@ export default {
         },
         reward(type) {
             let lottery = this.$store.globalComponent["lottery"];
-            if(this.dungeonInfo.normal.isLottery) {
-                lottery.initLottery(this.dungeonInfo[type].lotReward, this.dungeonInfo[type].level);
+            let reward = this.extraDungeonInfo[type].reward;
+            if(reward.isLottery) {
+                lottery.initLottery(reward.lotReward, this.dungeonInfo[type].level);
                 return;
             }
             let equip = ['helmet', 'weapon', 'armor', 'shoe', 'shoulder', 'glove', 'ring', 'cape', 'bracer', 'belt', 'legging', 'necklace'];
             let itemInfo = this.$store.globalComponent["itemInfo"];
             let equipInfo = this.$store.globalComponent["equipInfo"];   
             let backpack = this.$store.globalComponent["backpack"];   
-            let rewardList = this.extraDungeonInfo[type].reward;
+            let rewardList = reward.actualReward;
             for(let k=0; k<rewardList.length; k++) {
                 let random = Math.random()*100;
                 if(random <= rewardList[k][1]) {
