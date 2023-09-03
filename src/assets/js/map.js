@@ -114,19 +114,20 @@ export const map = {
         getMonsterID(lv, type) {
             let monsterID = 0;
             // 新手教程
-            if(lv <= 20) {
+            if(lv <= 10) {
                 if(type == 'normal')
-                    monsterID = Math.ceil(lv/10);
+                    monsterID = Math.ceil(lv/5);
                 else if(type == 'elite')
-                    monsterID = Math.ceil(lv/10)+2;
+                    monsterID = Math.ceil(lv/5)+2;
                 else if(type == 'boss')
                     monsterID = 5;
             } else {
                 monsterID = Math.ceil(lv/100)*10;
+                // 两种怪物根据等级/10后的奇数偶数轮换
                 if(type == 'normal')
-                    monsterID += Math.ceil(lv%100/50)+1;
+                    monsterID += 1+Math.floor(lv/10)%2;
                 else if(type == 'elite')
-                    monsterID += Math.ceil(lv%100/50)+3;
+                    monsterID += 3+Math.floor(lv/10)%2;
                 else if(type == 'boss')
                     monsterID += 5;
             }
