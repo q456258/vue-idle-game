@@ -98,6 +98,7 @@ export default {
                 // this.guild.shop.lv = 1;
                 // this.guild.smith.lv = 1;
                 // this.guild.bar.lv = 1;
+                quest.assignQuest(16);
                 quest.assignQuest(18);
                 quest.assignQuest(20);
                 quest.assignQuest(25);

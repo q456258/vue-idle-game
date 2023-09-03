@@ -312,13 +312,10 @@ export default {
             quest.trackProgress('event', 1, 1);
             if(lv/10 > this.playerAttr.talentLv)
                 this.talentLevelUp();
-            if(lv == 100) {
+            if(lv == 10) {
                 let element = document.getElementById('talentTree');
                 element.classList.add('glow');
                 quest.assignQuest(15);
-            }
-            if(lv == 10) {
-                quest.assignQuest(16);
             }
         },
         talentLevelToTarget(target) {
