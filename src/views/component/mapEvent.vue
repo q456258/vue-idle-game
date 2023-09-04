@@ -69,7 +69,6 @@
 
 
 import { spellEffect } from '../../assets/js/spellEffect';
-import { map } from '../../assets/js/map';
 import { monsterConfig } from '@/assets/config/monsterConfig'
 import { spellConfig } from '@/assets/config/spellConfig'
 import { buffConfig } from '@/assets/config/buffConfig'
@@ -77,7 +76,7 @@ import minesweeper from '../component/minesweeper';
 import battleAnime from '../component/battleAnime';
 export default {
     name: 'mapEvent',
-    mixins: [spellEffect, map, monsterConfig, spellConfig, buffConfig],
+    mixins: [spellEffect, monsterConfig, spellConfig, buffConfig],
     components: {minesweeper, battleAnime},
     props: {
     },
@@ -171,6 +170,7 @@ export default {
             }
         },
         battle(type) {
+            let index = this.$store.globalComponent["index"];
             let playerAttribute = this.playerAttr,
                 enemyAttribute = type == 'normal' ? this.$store.state.enemyAttribute : type == 'elite' ? this.$store.state.eliteAttribute : this.$store.state.bossAttribute,
                 dungeonInfo = this.dungeonInfo;
@@ -179,7 +179,7 @@ export default {
                 return;
             }
             if(enemyAttribute.attribute.CURHP.value == 0) {
-                this.generateEnemy(type);
+                index.generateEnemy(type);
                 enemyAttribute = type == 'normal' ? this.$store.state.enemyAttribute : type == 'elite' ? this.$store.state.eliteAttribute : this.$store.state.bossAttribute;
             }
             this.setEnemyAnime(this.dungeonInfo[this.dungeonInfo.current].monsterID);
@@ -237,12 +237,13 @@ export default {
             this.callAction(source, target);
         },
         victory(source, target) {
+            let index = this.$store.globalComponent["index"];
             let currentType = this.dungeonInfo.current;
             let enemyLv = this.dungeonInfo[currentType].level++;
             this.reward(currentType);
             this.setBattleStatus(false, this.dungeonInfo.auto);
             this.levelToTarget(enemyLv);
-            this.generateEnemyWithDelay(currentType);
+            index.generateEnemyWithDelay(currentType);
             this.setReward(currentType);
             this.$store.commit("set_battle_info", {
                 type: 'win',
@@ -261,21 +262,24 @@ export default {
             enemyPos.style.backgroundImage = "url(/icons/character/"+this.monster[monsterID].anime+")";
         },
         setReward(types='all') {
+            let index = this.$store.globalComponent["index"];
             if(types == 'all')
                 types = ['normal', 'elite', 'boss'];
             else
                 types = [types];
             for(let i in types) {
                 let type = types[i];
-                let lv = this.getLv(type);
-                let monsterID = this.getMonsterID(lv, type);
-                let reward = this.getReward(type, monsterID);
-                let isLottery = this.getIsLottery(type, monsterID);
+                let lv = index.getLv(type);
+                let monsterID = index.getMonsterID(lv, type);
+                let reward = index.getReward(type, monsterID);
+                let isLottery = index.getIsLottery(type, monsterID);
                 let rewardList = this.extraDungeonInfo[type].reward;
                 rewardList.isLottery = isLottery;
                 if(isLottery)
                     rewardList.lotReward = reward;
-                rewardList.actualReward = this.actualReward(reward);
+                rewardList.actualReward = index.actualReward(reward);
+                // 不强制更新的话奖励列表不会更新
+                this.$forceUpdate()
             }            
         },
         reduceCount(count=1) {

@@ -80,11 +80,9 @@
           <button id="boss" class="btn btn-outline-light btn-sm lvZone" @click="switchZone('boss')">
             BOSS
           </button>    
-          <select v-model="selectedZone" @change="setSelectedZone($event)" class="btn btn-light">
-            <option :value="index" v-for="(zone, index) in filteredMonsterZone" :key="index">
-              {{zone.name+'('+zone.minLv+'-'+zone.maxLv+'级)'}}
-            </option>
-          </select>
+          <br>
+          <button class="btn btn-secondary " @click="modLvAndSetEnemy(dungeonInfo.current, -5)">-5</button>
+          <button class="btn btn-secondary " @click="modLvAndSetEnemy(dungeonInfo.current, 5)">+5</button>
         </div>    
         <mapEvent :type="dungeonInfo.current"></mapEvent>
       </div>
@@ -434,6 +432,12 @@ export default {
         this.enemyInfo = type;
         this.dungeonInfo.current = type;
       }
+    },
+    modLvAndSetEnemy(type, lv) {
+      let mapEvent = this.$store.globalComponent["mapEvent"];
+      this.modLv(type, lv);
+      this.generateEnemy(type);
+      mapEvent.setReward(type);
     },
     toggleBattle(type) {
       let mapEvent = this.$store.globalComponent["mapEvent"];

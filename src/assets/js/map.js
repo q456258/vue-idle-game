@@ -11,8 +11,7 @@ export const map = {
                 boss: '#d63',
                 chest: '#c0f'
             },
-            monsterName: {},
-            arrList: []
+            levels: {normal: -1, elite: -1, boss: -1}
         }
     },
     methods: {
@@ -40,6 +39,7 @@ export const map = {
         },
         generateEnemy(type, level, monsterID) {
             let enemyAttribute = {};
+            
             if(!type)
                 type = this.dungeonInfo[this.dungeonInfo.current].type;
             if(!level)
@@ -134,8 +134,30 @@ export const map = {
             this.$store.state.dungeonInfo[type].monsterID = monsterID;
             return monsterID;
         },
+        initLvs() {
+            for(let type in this.levels) {
+                this.levels[type] = this.dungeonInfo[type].level;
+            }
+        },
+        modLv(type, lv) {
+            let newLv = this.levels[type]+lv;
+            if(newLv > this.dungeonInfo[type].level) {
+                newLv = this.dungeonInfo[type].level;
+                if(this.levels[type] == this.dungeonInfo[type].level)
+                    return false;
+            }
+            else if(newLv <= 0) {
+                newLv = 1;
+                if(this.levels[type] == 1)
+                    return false;
+            }
+            this.levels[type] = newLv;
+            return true;
+        },
         getLv(type) {
-            let level = this.dungeonInfo[type].level;
+            if(this.levels[type] == -1)
+                this.initLvs();
+            let level = this.levels[type];
             if(type == 'normal')
                 return level;
             else if(type == 'elite')
