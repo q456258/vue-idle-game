@@ -435,9 +435,10 @@ export default {
     },
     modLvAndSetEnemy(type, lv) {
       let mapEvent = this.$store.globalComponent["mapEvent"];
-      this.modLv(type, lv);
-      this.generateEnemy(type);
-      mapEvent.setReward(type);
+      if(this.modLv(type, lv)) {
+        this.generateEnemy(type);
+        mapEvent.setReward(type);
+      }
     },
     toggleBattle(type) {
       let mapEvent = this.$store.globalComponent["mapEvent"];
