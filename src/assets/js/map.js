@@ -140,6 +140,15 @@ export const map = {
                 this.levels[type] = dungeonInfo[type].level;
             }
         },
+        addMaxLv(type) {
+            let dungeonInfo = this.$store.state.dungeonInfo;
+            if(this.levels[type] == dungeonInfo[type].level){
+                this.dungeonInfo[type].level++;
+                this.levels[type]++;
+                return this.levels[type];
+            }
+            return -1;
+        },
         modLv(type, lv) {
             let dungeonInfo = this.$store.state.dungeonInfo;
             let newLv = this.levels[type]+lv;
@@ -147,8 +156,7 @@ export const map = {
                 newLv = dungeonInfo[type].level;
                 if(this.levels[type] == dungeonInfo[type].level)
                     return false;
-            }
-            else if(newLv <= 0) {
+            } else if(newLv <= 0) {
                 newLv = 1;
                 if(this.levels[type] == 1)
                     return false;

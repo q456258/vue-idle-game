@@ -238,13 +238,13 @@ export default {
         },
         victory(source, target) {
             let index = this.$store.globalComponent["index"];
-            let currentType = this.dungeonInfo.current;
-            let enemyLv = this.dungeonInfo[currentType].level++;
-            this.reward(currentType);
+            let type = this.dungeonInfo.current;
+            let enemyLv = index.addMaxLv(type);
+            this.reward(type);
             this.setBattleStatus(false, this.dungeonInfo.auto);
             this.levelToTarget(enemyLv);
-            index.generateEnemyWithDelay(currentType);
-            this.setReward(currentType);
+            index.generateEnemyWithDelay(type);
+            this.setReward(type);
             this.$store.commit("set_battle_info", {
                 type: 'win',
                 msg: '战斗结束, 你胜利了'
