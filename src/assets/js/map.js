@@ -135,15 +135,17 @@ export const map = {
             return monsterID;
         },
         initLvs() {
+            let dungeonInfo = this.$store.state.dungeonInfo;
             for(let type in this.levels) {
-                this.levels[type] = this.dungeonInfo[type].level;
+                this.levels[type] = dungeonInfo[type].level;
             }
         },
         modLv(type, lv) {
+            let dungeonInfo = this.$store.state.dungeonInfo;
             let newLv = this.levels[type]+lv;
-            if(newLv > this.dungeonInfo[type].level) {
-                newLv = this.dungeonInfo[type].level;
-                if(this.levels[type] == this.dungeonInfo[type].level)
+            if(newLv > dungeonInfo[type].level) {
+                newLv = dungeonInfo[type].level;
+                if(this.levels[type] == dungeonInfo[type].level)
                     return false;
             }
             else if(newLv <= 0) {
