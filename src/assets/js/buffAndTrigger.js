@@ -13,7 +13,14 @@ export const buffAndTrigger = {
     },
     computed: {
         player() {return this.$store.state.playerAttribute; },
-        enemy() {return this.$store.state.enemyAttribute; }
+        enemies() {
+            let enemies = {
+                normal: this.$store.state.enemyAttribute,
+                elite: this.$store.state.eliteAttribute,
+                boss: this.$store.state.bossAttribute
+            }
+            return enemies; 
+        }
 
     },
     methods: {
@@ -65,23 +72,26 @@ export const buffAndTrigger = {
                         this.statBuffRemove(this.player, this.player, playerBuff[i].type, playerBuff[i].value, i);
                     }
                 }
-                let enemyBuff = this.enemy.buff;
-                for(let buff in this.enemy.timedBuff) {
-                    timeGap = this.getTimeGap(this.enemy.timedBuff[buff], now);
-                    stackRemain = Math.ceil((this.player.timedBuff[buff] - now)/1000);
-                    if(stackRemain == 120 || stackRemain == 7200)
-                        this.buffSetStack(this.player, this.player, buff, 120);
-                    let curStack = (this.enemy.timedBuff[buff] - now)/timeGap;
-                    if(curStack < 0)
-                        this.buffRemoved(this.enemy, this.enemy, buff);
-                    let diff = Math.floor(enemyBuff[buff] - curStack);
-                    if(diff > 0)
-                        this.buffReduce(this.enemy, this.enemy, buff, diff);
-                }
-                enemyBuff = this.enemy.tempStat;
-                for(let i=enemyBuff.length-1; i>=0; i--) {
-                    if(enemyBuff[i].expire < now) {
-                        this.statBuffRemove(this.enemy, this.enemy, enemyBuff[i].type, enemyBuff[i].value, i);
+                for(let type in this.enemies) {
+                    let enemy = this.enemies[type];
+                    let enemyBuff = enemy.buff;
+                    for(let buff in enemy.timedBuff) {
+                        timeGap = this.getTimeGap(enemy.timedBuff[buff], now);
+                        stackRemain = Math.ceil((this.player.timedBuff[buff] - now)/1000);
+                        if(stackRemain == 120 || stackRemain == 7200)
+                            this.buffSetStack(this.player, this.player, buff, 120);
+                        let curStack = (enemy.timedBuff[buff] - now)/timeGap;
+                        if(curStack < 0)
+                            this.buffRemoved(enemy, enemy, buff);
+                        let diff = Math.floor(enemyBuff[buff] - curStack);
+                        if(diff > 0)
+                            this.buffReduce(enemy, enemy, buff, diff);
+                    }
+                    enemyBuff = enemy.tempStat;
+                    for(let i=enemyBuff.length-1; i>=0; i--) {
+                        if(enemyBuff[i].expire < now) {
+                            this.statBuffRemove(enemy, enemy, enemyBuff[i].type, enemyBuff[i].value, i);
+                        }
                     }
                 }
             }, 1000);
