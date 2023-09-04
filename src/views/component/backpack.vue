@@ -59,7 +59,7 @@
         </div>
         <ul v-show="visible && displayPage=='equip'" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
             <li @click="equip()">装备</li>
-            <li @click="equipEnhance()" v-if="(guild.smith.lv>=1)">强化</li>
+            <li @click="equipEnhance()" v-if="(playerLv>=15)">强化</li>
             <li @click="equipForge()" v-if="(guild.smith.lv>=2)">重铸</li>
             <li @click="equipPotential()" v-if="(guild.smith.lv>=3)">洗炼</li>
             <li @click="lockEquipment(true)" v-if="!currentItem.locked">锁定</li>

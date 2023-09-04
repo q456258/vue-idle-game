@@ -603,7 +603,7 @@
         </div>
         <ul v-show="visible" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
             <li @click="unEquip()">卸下</li>
-            <li @click="equipEnhance()" v-if="(guild.smith.lv>=1)">强化</li>
+            <li @click="equipEnhance()" v-if="(playerLv>=15)">强化</li>
             <li @click="equipForge()" v-if="(guild.smith.lv>=2)">重铸</li>
             <li @click="equipPotential()" v-if="(guild.smith.lv>=3)">洗炼</li>
             <!-- <li @click="equipLevelUp()" v-if="guild.smith.lv>=30 && currentEquip.lv < playerLv && currentEquip.quality.qualityLv>1">升级</li> -->
