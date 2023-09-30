@@ -99,6 +99,37 @@
         </div>
     </div>
     <div class="building" v-show="displayPage=='bar'" :set="type='bar'">
+        
+        <div class="member scrollbar-morpheus-den">
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col">名称</th>
+                        <th scope="col" style="cursor:pointer" @click="sortAppBy('lv')">等级</th>
+                        <th scope="col" style="cursor:pointer" @click="sortAppBy('HP', 'stat')">生命</th>
+                        <th scope="col" style="cursor:pointer" @click="sortAppBy('ATK', 'stat')">攻击</th>
+                        <th scope="col" style="cursor:pointer" @click="sortAppBy('BLOCK', 'stat')">防御</th>
+                        <th scope="col" style="cursor:pointer" @click="sortAppBy('GROWTH', 'stat')">成长</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(v, k) in applicantList" :key="k">
+                        <td>{{v.name}}</td>
+                        <td>{{v.lv}}</td>
+                        <td>{{v.stat.HP}}</td>
+                        <td>{{v.stat.ATK}}</td>
+                        <td>{{v.stat.BLOCK}}</td>
+                        <td>{{v.stat.GROWTH}}</td>
+                        <td style="width: 4em;">
+                            <span class="button specialButton accept" @click="recruit(k)">招募</span>
+                        </td>
+                        <td style="width: 4em;">
+                            <span class="button specialButton reject" @click="reject(k)">婉拒</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
     
@@ -177,6 +208,7 @@ export default {
             displayPage: 'guild',
             mineQueue: [],
             memberID: 0,
+            applicantList: [],
         };
     },
     props: {
@@ -360,6 +392,33 @@ export default {
                 }
             }, 1*1000);
         },
+        startBar() {
+            this.timerList['mine'] = setInterval(() => {
+                for(let i=this.mineQueue.length-1; i>=0; i--) {
+                    let mine = this.mineQueue[i];
+                    if(!this.increaseMineProgress(mine)) 
+                        this.mineQueue.splice(i, 1);
+                }
+            }, 1*1000);
+        },
+        generateApplicant(lv, race, name) {
+            let guildMember = this.$store.globalComponent["guildMember"];
+            let applicant = guildMember.generateApplicant();
+            this.applicantList.push(applicant);
+        },
+        sortAppBy(type, type2='talent') {
+            this.reverseSort = type==this.sortKey ? -1*this.reverseSort : -1;
+            this.sortKey = type;
+            if(type == 'lv') {
+                this.applicantList.sort((a, b) => {
+                    return this.reverseSort*(a[type]-b[type]);
+                })
+            } else {
+                this.applicantList.sort((a, b) => {
+                    return this.reverseSort*(a[type2][type]-b[type2][type]);
+                })
+            }
+        },
         smith() {
             let equipInfo = this.$store.globalComponent["equipInfo"];
             let backpack = this.$store.globalComponent["backpack"];
@@ -466,12 +525,14 @@ export default {
             return -1;
         },
         recruit(k) {
-            let guildMember = this.$store.globalComponent["guildMember"];
-            guildMember.recruit(k);
+            if(this.guild.member.length >= this.maxMember)
+                return;
+            this.applicantList[k].isMember = true;
+            this.guild.member.push(this.applicantList[k]);
+            this.applicantList.splice(k, 1);
         },
         reject(k) {
-            let guildMember = this.$store.globalComponent["guildMember"];
-            guildMember.reject(k);
+            this.applicantList.splice(k, 1);
         },
         removeFromQueue(type, index) {
             this.mineReward(this.mineQueue[index].reward, this.mineQueue[index].available);

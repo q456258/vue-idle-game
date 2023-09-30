@@ -42,37 +42,6 @@
             </tbody>
         </table>
     </div>
-    <div class="member scrollbar-morpheus-den">
-        申请列表&nbsp;
-        <table>
-            <thead>
-                <tr>
-                    <th scope="col">名称</th>
-                    <th scope="col" style="cursor:pointer" @click="sortAppBy('lv')">等级</th>
-                    <th scope="col" style="cursor:pointer" @click="sortAppBy('HP', 'stat')">生命</th>
-                    <th scope="col" style="cursor:pointer" @click="sortAppBy('ATK', 'stat')">攻击</th>
-                    <th scope="col" style="cursor:pointer" @click="sortAppBy('BLOCK', 'stat')">防御</th>
-                    <th scope="col" style="cursor:pointer" @click="sortAppBy('GROWTH', 'stat')">成长</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(v, k) in applicantList" :key="k">
-                    <td>{{v.name}}</td>
-                    <td>{{v.lv}}</td>
-                    <td>{{v.stat.HP}}</td>
-                    <td>{{v.stat.ATK}}</td>
-                    <td>{{v.stat.BLOCK}}</td>
-                    <td>{{v.stat.GROWTH}}</td>
-                    <td style="width: 4em;">
-                        <span class="button specialButton accept" @click="recruit(k)">招募</span>
-                    </td>
-                    <td style="width: 4em;">
-                        <span class="button specialButton reject" @click="reject(k)">婉拒</span>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
  </div>
 </template>
 <script>
@@ -142,7 +111,7 @@ export default {
             // applicant.skill = this.createSkill(applicant);
             applicant.special = [];
             applicant.id = this.generateMemberId();
-            this.applicantList.push(applicant);
+            return applicant;
         },
         generateMemberId() {
             let id = Math.floor(Math.random()*90071992547);
@@ -265,17 +234,6 @@ export default {
             }
             this.$store.commit('set_player_attribute');
         },
-        recruit(k) {
-            if(this.guild.member.length >= this.maxMember)
-                return;
-            this.applicantList[k].isMember = true;
-            this.guild.member.push(this.applicantList[k]);
-            this.applicantList.splice(k, 1);
-        },
-        reject(k) {
-            this.applicantList.splice(k, 1);
-        },
-        
         allCancel() {
             var guildPosition = this.$store.globalComponent["guildPosition"];
             var members = this.guild.member;
@@ -299,19 +257,6 @@ export default {
                 })
             } else {
                 this.guild.member.sort((a, b) => {
-                    return this.reverseSort*(a[type2][type]-b[type2][type]);
-                })
-            }
-        },
-        sortAppBy(type, type2='talent') {
-            this.reverseSort = type==this.sortKey ? -1*this.reverseSort : -1;
-            this.sortKey = type;
-            if(type == 'lv') {
-                this.applicantList.sort((a, b) => {
-                    return this.reverseSort*(a[type]-b[type]);
-                })
-            } else {
-                this.applicantList.sort((a, b) => {
                     return this.reverseSort*(a[type2][type]-b[type2][type]);
                 })
             }
