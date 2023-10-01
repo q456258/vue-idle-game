@@ -277,7 +277,7 @@ export default {
                 rewardList.isLottery = isLottery;
                 if(isLottery)
                     rewardList.lotReward = reward;
-                rewardList.actualReward = index.actualReward(reward);
+                rewardList.actualReward = index.actualReward(reward, lv);
                 // 不强制更新的话奖励列表不会更新
                 this.$forceUpdate()
             }            
@@ -408,10 +408,11 @@ export default {
             }
         },
         reward(type) {
+            let index = this.$store.globalComponent["index"];
             let lottery = this.$store.globalComponent["lottery"];
             let reward = this.extraDungeonInfo[type].reward;
             if(reward.isLottery) {
-                lottery.initLottery(reward.lotReward, this.dungeonInfo[type].level);
+                lottery.initLottery(reward.lotReward, index.getLv(type));
                 return;
             }
             let equip = ['helmet', 'weapon', 'armor', 'shoe', 'shoulder', 'glove', 'ring', 'cape', 'bracer', 'belt', 'legging', 'necklace'];

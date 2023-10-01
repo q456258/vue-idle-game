@@ -15,7 +15,7 @@ export const map = {
         }
     },
     methods: {
-        actualReward(mapArr) {
+        actualReward(mapArr, lv) {
             let equipInfo = this.$store.globalComponent["equipInfo"];;   
             let itemInfo = this.$store.globalComponent["itemInfo"];;
             let reward = [];
@@ -27,7 +27,7 @@ export const map = {
                 }
                 else {
                     let minQty = rewardInfo[2]==undefined ? 1 : rewardInfo[2];
-                    reward.push([JSON.parse(itemInfo.createItem(rewardInfo[0], minQty, mapArr.lv)), rewardInfo[1], rewardInfo[2], rewardInfo[3]]);
+                    reward.push([JSON.parse(itemInfo.createItem(rewardInfo[0], minQty, lv)), rewardInfo[1], rewardInfo[2], rewardInfo[3]]);
                 }
             }
             return reward;
