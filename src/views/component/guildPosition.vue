@@ -12,7 +12,6 @@
             </div>
         </div>
     </div>
-    <!-- 
     <div class="building" v-show="displayPage=='train'" :set="type='train'">
         <div class="training">
             <div class="trainingProgressbars">
@@ -23,7 +22,6 @@
             </div>
         </div>
     </div> 
-    -->
     <div class="building" v-show="displayPage=='shop'" :set="type='shop'">
         <!-- <div class="action">
             <div v-if="!inProgress[type]">
