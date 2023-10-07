@@ -15,8 +15,8 @@
     <div class="building" v-show="displayPage=='train'" :set="type='train'">
         <div class="training">
             <div class="trainingProgressbars">
-                <countdown ref="countdown" :tier="0" :timer="$store.state.train.train1.timer" :level="guild.train.lv" v-if="guild.train.lv>0"></countdown>
-                <countdown :tier="1" :timer="$store.state.train.train2.timer" :level="guild.train2.lv" v-if="guild.train.lv>0"></countdown>
+                <trainStat></trainStat>
+                <countdown :tier="0" :timer="$store.state.train.train1.timer" :level="guild.train.lv" v-if="guild.train.lv>0"></countdown>
                 <countdown :tier="1" :timer="$store.state.train.train2.timer" :level="guild.train2.lv" v-if="guild.train2.lv>0"></countdown>
                 <countdown :tier="2" :timer="$store.state.train.train3.timer" :level="guild.train3.lv" v-if="guild.train3.lv>0"></countdown>
             </div>
@@ -141,10 +141,11 @@ import countdown from '../uiComponent/countdown';
 import timer from '../uiComponent/timer';
 import craftEquip from '../component/craftEquip';
 import currency from '../uiComponent/currency';
+import trainStat from '../component/trainStat';
 export default {
     name: "guildPosition",
     mixins: [guildConfig, guildMemberConfig, questConfig],
-    components: {cTooltip, countdown, timer, craftEquip, currency},
+    components: {cTooltip, countdown, trainStat, timer, craftEquip, currency},
     mounted() {
         this.$store.globalComponent.guildPosition = this;
     },

@@ -1,7 +1,6 @@
 
 <template>
 <div>
-    <trainStat></trainStat>
     <div class="progressbar">
         <svg class="progressbar_svg">
             <!-- <circle cx="80" cy="80" r="70" :stroke-dashoffset="timeRemain/totalTime*440" :class="'progressbar_svg-circle circle shadow-'+type"> </circle> -->
@@ -61,11 +60,10 @@
 <script>
 
 import {equipConfig} from '@/assets/config/equipConfig'
-import trainStat from '../component/trainStat';
 export default {
     name:"countdown",
     mixins: [equipConfig],
-    components: {trainStat},
+    components: {},
     props: {
         tier: {
             type: Number
