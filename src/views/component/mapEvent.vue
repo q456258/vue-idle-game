@@ -242,7 +242,8 @@ export default {
             let enemyLv = index.addMaxLv(type);
             this.reward(type);
             this.setBattleStatus(false, this.dungeonInfo.auto);
-            this.levelToTarget(enemyLv);
+            // 上面加了一级, 这边减少一级, 不然打同等级怪也会升级
+            this.levelToTarget(enemyLv-1);
             index.generateEnemyWithDelay(type);
             this.setReward(type);
             this.$store.commit("set_battle_info", {
@@ -306,6 +307,7 @@ export default {
         },
         levelToTarget(target) {
             this.talentLevelToTarget(target);
+            console.log(target)
             while(this.playerAttr.lv < target)
                 this.levelUp();
         },
