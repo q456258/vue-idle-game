@@ -307,7 +307,6 @@ export default {
         },
         levelToTarget(target) {
             this.talentLevelToTarget(target);
-            console.log(target)
             while(this.playerAttr.lv < target)
                 this.levelUp();
         },
