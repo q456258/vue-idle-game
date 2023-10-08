@@ -592,9 +592,10 @@ export default {
     .buildingUpgradeContainer {
         position: relative;
         display: flex;
+        flex-wrap: wrap;
         width: 100%;
         .buildingUpgrade {
-            width: 45%;
+            width: 30%;
             border: 1px solid rgba(255, 255, 255, 0.404);
             border-radius: 7px;
             margin: 5px;
