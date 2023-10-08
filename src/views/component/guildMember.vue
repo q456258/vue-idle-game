@@ -49,10 +49,11 @@
 import { nameGenerator } from '../../assets/js/nameGenerator';
 import { guildMemberConfig } from '@/assets/config/guildMemberConfig'
 import { equipConfig } from '@/assets/config/equipConfig'
+import { v4 as uuidv4 } from 'uuid';
 export default {
     name:"guildMember",
     mixins: [nameGenerator, guildMemberConfig, equipConfig],
-    components: {},
+    components: {uuidv4},
     props: {
     },
     data () {
@@ -114,14 +115,7 @@ export default {
             return applicant;
         },
         generateMemberId() {
-            let id = Math.floor(Math.random()*90071992547);
-            let attemp = 0;
-            while(this.findTargetByID(id).id != undefined || attemp>=10) {
-                id = Math.floor(Math.random()*90071992547);
-                attemp++;
-            }
-            if(attemp>=10)
-                console.log("你这id生成有问题啊?");
+            let id = uuidv4();
             return id;
         },
         createRace() {

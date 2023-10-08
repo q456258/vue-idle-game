@@ -208,7 +208,7 @@ export default {
             },
             displayPage: 'guild',
             mineQueue: [],
-            memberID: 0,
+            memberID: '',
             applicantList: [],
         };
     },
