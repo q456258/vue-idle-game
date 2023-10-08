@@ -196,8 +196,8 @@ export default new Vuex.Store({
         },
         playerAttribute: {
             name: '无名',
-            lv: 1,
-            talentLv: 1,
+            lv: 0,
+            talentLv: 0,
             type: 'player',
             healthRecoverySpeed: 1,
             attribute: {
