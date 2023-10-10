@@ -222,11 +222,10 @@ export default {
                     multi = 225;
                     break;
             }
-            
             for(let i=0; i<count; i++) {
                 setTimeout(()=>{
                     let type = this.values[Math.floor(Math.random()*this.values.length)];
-                    let value = Math.round((10+this.trainLevel)/10*this.entryInfo[type].base*Math.random()*multi);
+                    let value = Math.round((10+this.trainLevel)/10*Math.random()*multi);
                     this.increaseProgress(type, value);
                     let node = document.createElement("DIV");
                     let textnode = document.createTextNode(this.entryInfo[type].name+"+"+value);
