@@ -73,7 +73,8 @@ export const map = {
                 // attribute.value = Math.round(attribute.value*(1+enemyAttribute.lv*0.15));
                 // attribute.value = Math.round(attribute.value*(1.5+enemyAttribute.lv*(enemyAttribute.lv-1)*(enemyAttribute.lv/50)));
                 // attr.value = Math.round(attr.value*(2+enemyAttribute.lv*(enemyAttribute.lv/35)*(0.9+Math.random()*0.2)));
-                attr.value = Math.round(attr.value*(1+flexLv*(flexLv/75))*(0.95+Math.random()*0.1));
+                // attr.value = Math.round(attr.value*(1+flexLv*(flexLv/75))*(0.95+Math.random()*0.1));
+                attr.value = Math.round(attr.value*(1+(20+flexLv)*(flexLv/500))*(0.95+Math.random()*0.1));
                 attr.showValue = attr.value;
                 enemyAttribute.attribute[stat] = attr;
             });
