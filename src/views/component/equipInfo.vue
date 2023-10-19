@@ -209,6 +209,7 @@ export default {
             let fixEntry = [];
             let type = newEquip.itemType;
             let mod = this.equipMod[type];
+            let lv = newEquip.lv;
             if(baseEntry.length < 2 && option.length > 0) {
                 let count = (Math.random()>0.5 && option.length > 1) ? 1 : 2;
                 let ran = Math.floor(Math.random()*options.length);
@@ -227,9 +228,9 @@ export default {
                     fixEntry.push({type: this[type].fixEntry[i]});
             }
 
-            this.createBaseEntryValue(newEquip.quality.qualityCoefficient, fixEntry, 0, newEquip.lv, newEquip.enhanceLv, mod);
-            let bonus = newEquip.quality.qualityLv != 3 ? 1 : Math.round(1+(newEquip.quality.qualityCoefficient * mod * (1.6+newEquip.lv*0.08)));
-            this.createBaseEntryValue(newEquip.quality.qualityCoefficient, baseEntry, bonus, newEquip.lv, newEquip.enhanceLv, mod);
+            this.createBaseEntryValue(newEquip.quality.qualityCoefficient, fixEntry, 0, lv, newEquip.enhanceLv, mod);
+            let bonus = newEquip.quality.qualityLv != 3 ? 1 : Math.round(1+(newEquip.quality.qualityCoefficient * mod * (1.6+lv*0.08+lv*lv/1000)));
+            this.createBaseEntryValue(newEquip.quality.qualityCoefficient, baseEntry, bonus, lv, newEquip.enhanceLv, mod);
             
             return fixEntry.concat(baseEntry);
         },
