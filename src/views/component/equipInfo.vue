@@ -269,7 +269,7 @@ export default {
             for(let i=0; i<entry.length; i++) {
                 let type = entry[i].type;
                 let ran = Math.round(Math.random()*bonus);
-                let base = qualityCoefficient * this.entryInfo[type].base * mod * (1.6+lv*0.08);
+                let base = qualityCoefficient * this.entryInfo[type].base * mod * (1.6+lv*0.08+lv*lv/1000);
                 if(entry.length > 1)
                     entry[i].base = Math.round(Math.pow(Math.pow(base, 1.5)/2, 0.66))+ran;
                 else
@@ -319,11 +319,12 @@ export default {
             return extraEntry;
         },
         createExtraEntryValue(entry, random, lv, mod=1) {
-            if(entry.type == 'CRITDMG' || entry.type == 'APCRITDMG') {
+            if(['CRITDMG', 'HASTE', 'APPEN', 'APCRITDMG', 'VERS'].indexOf(entry.type) != -1) {
                 entry.value = Math.ceil((0.5+0.5*random) * this.entryInfo[entry.type].base);
                 entry.showVal = '+' + entry.value + '%';
             } else {
-                entry.value = Math.ceil((0.5+0.5*random) * this.entryInfo[entry.type].base * mod * (1.6+lv*0.08));
+                // entry.value = Math.ceil((0.5+0.5*random) * this.entryInfo[entry.type].base * mod * (1.6+lv*0.08));
+                entry.value = Math.ceil((0.5+0.5*random) * this.entryInfo[entry.type].base * mod * (1.6+lv*0.08+lv*lv/1000));
                 entry.showVal = '+' + entry.value;
             }
             entry.quality = Math.round(random*100);
@@ -341,6 +342,7 @@ export default {
                 'STRP','AGIP','INTP','ALLP','CRIT','CRITDMG','ATKP','DEFP','BLOCKP','HPP','MPP'
             ];
             let potentials = [];
+            let lv = newEquip.lv;
             for(let i=0; i<3; i++) {
                 if(newEquip.maxEnhanceLv < (i+1)*3)
                     break;
@@ -354,7 +356,7 @@ export default {
                 //     value = ran>0.5 ? value*1 : value*1.5;
                 // }
                 if(percent.indexOf(extraEntry[index]) == -1)
-                    value = value * (1.6+newEquip.lv*0.08);
+                    value = value * (1.6+lv*0.08+lv*lv/1000);
                 value = Math.round(value);
 
                 potentials.push({
