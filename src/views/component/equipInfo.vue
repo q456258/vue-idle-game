@@ -113,7 +113,7 @@ export default {
             percent: [
                 'STRP','AGIP','INTP','ALLP','CRIT','CRITDMG','ATKP','DEFP','MRP','HPP','MPP'
             ],
-            enhanceBonus: 0.1
+            enhanceBonus: 0.2
         };
     },
     mounted() {

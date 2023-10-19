@@ -80,7 +80,7 @@ export default {
             gemType: ['inv_misc_gem_diamond_05', 'inv_misc_gem_diamond_04', 'inv_misc_gem_diamond_03', 'inv_misc_gem_diamond_02', 'inv_misc_gem_diamond_01'],
             applied: [],
             currentProgress: 0,
-            enhanceBonus: 0.1
+            enhanceBonus: 0.2
 
 
         };
