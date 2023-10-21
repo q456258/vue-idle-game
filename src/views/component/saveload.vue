@@ -144,6 +144,7 @@ export default {
                 index.sysInfo = this.$store.state.sysInfo;
                 index.battleInfo = this.$store.state.battleInfo;
                 index.dungeonInfo = this.$store.state.dungeonInfo;
+                index.initLvs();
                 index.generateEnemy('normal');
                 index.generateEnemy('elite');
                 index.generateEnemy('boss');
