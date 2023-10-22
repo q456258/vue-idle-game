@@ -101,7 +101,7 @@ export default {
                 quest.assignQuest(16);
                 quest.assignQuest(18);
                 quest.assignQuest(20);
-                quest.assignQuest(25);
+                // quest.assignQuest(25);
             }
         },
         checkValidity(name) {
