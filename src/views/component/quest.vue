@@ -304,8 +304,9 @@ export default {
         submitQuest() {
             this.removeQuestItem();
             this.reward();
-            this.successorQuest();
+            let temp = this.selectedQuest;
             this.removeQuest();
+            this.successorQuest(temp);
         },
         forfeitQuest() {
             this.$message({
@@ -358,8 +359,11 @@ export default {
                 }
             }
         },
-        successorQuest() {
-            let successor = this.questList[this.selectedQuest].successor;
+        successorQuest(questID=-1) {
+            if(questID == -1) {
+                questID = this.selectedQuest;
+            }
+            let successor = this.questList[questID].successor;
             for(let i in successor) {
                 this.assignQuest(successor[i]);
             }
