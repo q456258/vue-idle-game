@@ -81,8 +81,8 @@
             BOSS
           </button>    
           <br>
-          <button class="btn btn-secondary " @click="modLvAndSetEnemy(dungeonInfo.current, -5)">-5</button>
-          <button class="btn btn-secondary " @click="modLvAndSetEnemy(dungeonInfo.current, 5)">+5</button>
+          <button class="btn btn-secondary " @click="modLvAndSetEnemy(dungeonInfo.current, -1)">降低等级</button>
+          <button class="btn btn-secondary " @click="modLvAndSetEnemy(dungeonInfo.current, 1)">提升等级</button>
         </div>    
         <mapEvent :type="dungeonInfo.current"></mapEvent>
       </div>
@@ -433,8 +433,12 @@ export default {
         this.dungeonInfo.current = type;
       }
     },
-    modLvAndSetEnemy(type, lv) {
+    modLvAndSetEnemy(type, multi) {
       let mapEvent = this.$store.globalComponent["mapEvent"];
+      let lv = 5;
+      if(type == 'elite' || type == 'boss')
+        lv = 1;
+      lv *= multi;
       if(this.modLv(type, lv)) {
         this.generateEnemy(type);
         mapEvent.setReward(type);
