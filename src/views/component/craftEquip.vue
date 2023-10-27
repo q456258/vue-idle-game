@@ -673,7 +673,7 @@ export default {
             }
 
             // 随机隐藏潜能
-            newEquip.potential = newEquip.lv >= 30 ? equipInfo.createPotential(newEquip) : [];
+            newEquip.potential = newEquip.lv >= 200 ? equipInfo.createPotential(newEquip) : [];
 
             // 应用属性上限
             newEquip.quality.qualityCoefficient += (this.finalEquip.baseStatBoost/20);

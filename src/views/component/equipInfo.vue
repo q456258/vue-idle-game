@@ -144,7 +144,7 @@ export default {
             newEquip.baseEntry = this.createBaseEntry(newEquip, baseEntry, optional.baseOption);
             newEquip.extraBaseEntry = this.createExtraBaseEntry(newEquip, optional.extraBaseEntry);
             newEquip.extraEntry = this.createExtraEntry(newEquip);
-            newEquip.potential = newEquip.lv >= 30 ? this.createPotential(newEquip) : [];
+            newEquip.potential = newEquip.lv >= 200 ? this.createPotential(newEquip) : [];
             newEquip.rating = this.rating(newEquip);
             newEquip.description = this.getEquipDesc(newEquip);
             return JSON.stringify(newEquip);
