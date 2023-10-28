@@ -109,7 +109,7 @@
           <p class="info">* 任务 (Q)</p>
         </template>
       </cTooltip>
-      <cTooltip :placement="'top'" v-if="(playerLv>=15)">
+      <cTooltip :placement="'top'" v-if="(guild.bar.lv>=1)">
         <template v-slot:content>
           <div class="menu" @click="openMenuPanel('dungeon')">
             <img src="../assets/icons/menu/dungeon.png" alt="">
@@ -119,7 +119,7 @@
           <p class="info">* 副本 (D)</p>
         </template>
       </cTooltip>
-      <cTooltip :placement="'top'" v-if="guild['smith'].lv>=1">
+      <cTooltip :placement="'top'" v-if="guild['smith'].lv>=3">
         <template v-slot:content>
           <div class="menu" @click="openMenuPanel('craft')">
             <img src="../assets/icons/menu/craft.png" alt="">

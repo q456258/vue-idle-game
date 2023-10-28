@@ -59,12 +59,12 @@
         </div>
         <ul v-show="visible && displayPage=='equip'" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
             <li @click="equip()">装备</li>
-            <li @click="equipEnhance()" v-if="(playerLv>=15)">强化</li>
+            <li @click="equipEnhance()" v-if="(guild.smith.lv>=1)">强化</li>
             <li @click="equipForge()" v-if="(guild.smith.lv>=2)">重铸</li>
-            <li @click="equipPotential()" v-if="(guild.smith.lv>=3)">洗炼</li>
+            <li @click="equipPotential()" v-if="(guild.smith.lv>=4)">洗炼</li>
             <li @click="lockEquipment(true)" v-if="!currentItem.locked">锁定</li>
             <li @click="lockEquipment(false)" v-if="currentItem.locked">解锁</li>
-            <li @click="disintegrate()" v-if="guild.smith.lv>=1 && !currentItem.locked && currentItem.quality && currentItem.quality.qualityLv>1">分解</li>
+            <li @click="disintegrate()" v-if="guild.smith.lv>=3 && !currentItem.locked && currentItem.quality && currentItem.quality.qualityLv>1">分解</li>
             <li @click="sellEquipment()" v-if="!currentItem.locked">出售</li>
         </ul>
         <ul v-show="visible && displayPage=='use'" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
@@ -83,7 +83,7 @@
                     <span @click="setlockedToEnd()"><input type="checkbox" name="" v-model="lockedToEnd"></span>
                     ————————
                 </div>
-                <div v-if="guild.smith.lv>=30">
+                <div v-if="guild.smith.lv>=3">
                     自动出售优先级
                     <br>
                     <span @click="setAutoPrio('sell')"><input type="checkbox" name="" v-model="sellPrio">出售</span>
@@ -111,7 +111,7 @@
                 <!-- <i class="icon icon-setting"></i> -->
                 </span>
             </a>
-            <a class="function" v-show="guild.smith.lv>=1 && displayPage=='equip'" @click="disintegrateAll()">一键分解</a>
+            <a class="function" v-show="guild.smith.lv>=3 && displayPage=='equip'" @click="disintegrateAll()">一键分解</a>
             <a class="function" v-show="displayPage=='equip'" @click="sellAll()">一键出售</a>
             <a class="function" @click="sort()">整理背包</a>
         </div>
