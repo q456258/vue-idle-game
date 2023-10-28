@@ -313,6 +313,7 @@ export default {
         levelUp() {
             let quest = this.$store.globalComponent['quest']; 
             this.playerAttr.lv += 1;
+            this.$store.commit('set_player_attribute');
             let lv = this.playerAttr.lv;
             quest.trackProgress('event', 1, this.playerAttr.lv, true);
             if(lv/10 > this.playerAttr.talentLv)
