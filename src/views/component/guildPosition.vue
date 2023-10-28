@@ -38,7 +38,7 @@
         </div> -->
     </div>
     <div class="building" v-show="displayPage=='smith'" :set="type='smith'">
-        <div class="action" v-if="guild.smith.lv>=3">
+        <div class="action" v-if="guild.smith.lv>=4">
             <div style="display:flex" v-if="!inProgress[type]">
                 <select v-model="selectedType[type]" @change="setSelectedType($event, type)" class="btn btn-light">
                     <option :value="option.value" v-for="(option, index) in selectOption[type]" :key="index" :disabled="guild[type].lv<option.lv">
@@ -253,10 +253,19 @@ export default {
             //     this.computeLv(types[type]);
         },
         upgradeBuilding(type) {
+            let eventID = {
+                guild: 101, bar: 102,
+                questBoard:103, shop:104, blackmarket:105, smith:106, 
+                train:107, train2:108, train3:109, 
+                mine: 110, herb: 111
+            };
+            let quest = this.$store.globalComponent["quest"];
             let guild = this.$store.globalComponent["guild"];
             let cost = this.upgradeCost[type][this.guild[type].lv];
             guild.useGold(cost);
             this.guild[type].lv += 1;
+            if(type in eventID)
+                quest.trackProgress('event', eventID[type], this.guild[type].lv, true);
             if(type == 'questBoard')
                 this.upgradeQuestBoard();
         },
@@ -542,9 +551,11 @@ export default {
         recruit(k) {
             if(this.guild.member.length >= this.maxMember)
                 return;
+            let quest = this.$store.globalComponent["quest"];
             this.applicantList[k].isMember = true;
             this.guild.member.push(this.applicantList[k]);
             this.applicantList.splice(k, 1);
+            quest.trackProgress('event', 14, 1, true);
         },
         reject(k) {
             this.applicantList.splice(k, 1);

@@ -95,12 +95,13 @@ export default {
                 itemInfo.removeItemByCode('inv_misc_bone_06', 1);
                 this.$set(this.guild, 'name', name);
                 this.guild.guild.lv = 1;
-                // this.guild.shop.lv = 1;
-                // this.guild.smith.lv = 1;
-                // this.guild.bar.lv = 1;
-                quest.assignQuest(16);
-                quest.assignQuest(18);
-                quest.assignQuest(20);
+                quest.assignQuest(100);
+                quest.assignQuest(110);
+                quest.assignQuest(120);
+                quest.assignQuest(140);
+                quest.assignQuest(150);
+                // quest.assignQuest(180);
+                // quest.assignQuest(190);
                 // quest.assignQuest(25);
             }
         },
