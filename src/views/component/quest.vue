@@ -214,10 +214,10 @@ export default {
             }
             return reqList;
         },
-        trackProgress(type, key, quantity) {
+        trackProgress(type, key, quantity, set=false) {
             let track = this.questTrack[type];
             for(let i in track[key]) {
-                this.increaseProgress(type, track[key][i], key, quantity);
+                this.increaseProgress(type, track[key][i], key, quantity, set);
             }
         },
         removeFromCateg(questId) {
@@ -249,7 +249,7 @@ export default {
                     delete this.questTrack[reqs[i].reqType][reqs[i].type];
             }
         },
-        increaseProgress(type, questId, key, quantity) {
+        increaseProgress(type, questId, key, quantity, set=false) {
             quantity = parseInt(quantity);
             let quest = this.quests[questId];
             let itemInfo = this.$store.globalComponent.itemInfo;
@@ -259,12 +259,12 @@ export default {
                         quest.reqs[i].current = itemInfo.getItemQty(key);
                         quantity = 0;
                     }
-                    if(quest.reqs[i].current+quantity >= quest.reqs[i].target) {
+                    if(set)
+                        quest.reqs[i].current = quantity;
+                    else
                         quest.reqs[i].current += quantity;
+                    if(quest.reqs[i].current >= quest.reqs[i].target)
                         this.checkStatus(questId);
-                    }
-                    else 
-                        quest.reqs[i].current += quantity;
                 }
             }
             if(quantity <= 0)

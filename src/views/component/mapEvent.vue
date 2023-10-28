@@ -314,7 +314,7 @@ export default {
             let quest = this.$store.globalComponent['quest']; 
             this.playerAttr.lv += 1;
             let lv = this.playerAttr.lv;
-            quest.trackProgress('event', 1, 1);
+            quest.trackProgress('event', 1, this.playerAttr.lv, true);
             if(lv/10 > this.playerAttr.talentLv)
                 this.talentLevelUp();
             if(lv == 10) {
