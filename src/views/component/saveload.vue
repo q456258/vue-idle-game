@@ -139,6 +139,7 @@ export default {
                 
                 let index = this.$store.globalComponent["index"];
                 let mapEvent = this.$store.globalComponent["mapEvent"];
+                let quest =  this.$store.globalComponent['quest'];  
                 this.$store.state.dungeonInfo.auto = false;
                 this.$store.state.dungeonInfo.inBattle = false;
                 this.$store.state.enemyAttribute.attribute.CURHP.value = 0;
@@ -146,6 +147,7 @@ export default {
                 index.battleInfo = this.$store.state.battleInfo;
                 index.dungeonInfo = this.$store.state.dungeonInfo;
                 index.initLvs();
+                quest.init();
                 mapEvent.setReward();
                 index.generateEnemy('normal');
                 index.generateEnemy('elite');
