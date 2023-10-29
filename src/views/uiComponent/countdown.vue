@@ -144,6 +144,8 @@ export default {
     },
     methods: {
         startTrain() {
+            let quest = this.$store.globalComponent["quest"];
+            quest.trackProgress('event', 15, 1, true);
             this.startTimer(this.trainTime);
         },
         startTimer(time) {
