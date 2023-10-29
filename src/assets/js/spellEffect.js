@@ -457,8 +457,13 @@ export const spellEffect = {
                 bonus -= 0.10;
             if(source.attribute.VERSBONUS != undefined)
                 bonus += source.attribute.VERSBONUS.value/100;
-            if(target.attribute.VERSBONUS != undefined)
-                bonus -= target.attribute.VERSBONUS.value/100;
+            // 全能减伤上限60%
+            if(target.attribute.VERSBONUS != undefined) {
+                if(target.attribute.VERSBONUS.value < 60)
+                    bonus -= target.attribute.VERSBONUS.value/100;
+                else
+                    bonus -= 0.6;
+            }
             for(let i in dmgs) {
                 dmgs[i] = dmgs[i]*bonus;
             }

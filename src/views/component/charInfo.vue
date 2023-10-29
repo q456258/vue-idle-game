@@ -398,7 +398,7 @@
                             <br>
                             增伤/减伤: {{attribute.VERSBONUS.showValue}}
                         </p>
-                        <p class="info">提升造成的伤害, 降低受到的伤害</p>
+                        <p class="info">提升造成的伤害, 降低受到的伤害, 减伤上限为60%</p>
                     </template>
                 </cTooltip>
                 <cTooltip placement="bottom">
