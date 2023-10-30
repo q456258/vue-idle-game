@@ -77,7 +77,6 @@ export default {
     },
     data () {
         return {
-            trainerTier: 1,
             trainTier: '1',
             trainLevel: 0,
             trainTime: 0,
@@ -95,12 +94,12 @@ export default {
     mounted () {
         // 不要break
         switch(this.tier) {
-            case 2:
-                this.values = this.values.concat(['STR', 'AGI', 'INT']);
-            case 1:
-                this.values = this.values.concat(['SUNDER', 'BLOCK']);
+            // case 2:
+            //     this.values = this.values.concat(['STR', 'AGI', 'INT']);
+            // case 1:
+            //     this.values = this.values.concat(['SUNDER', 'BLOCK']);
             case 0:
-                this.values = this.values.concat(['HP', 'MP', 'ATK', 'DEF']);
+                this.values = this.values.concat(['HP', 'AP', 'ATK', 'DEF']);
         }
         
         this.countdownTimer = this.timer;
