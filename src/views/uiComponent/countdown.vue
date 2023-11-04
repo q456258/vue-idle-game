@@ -208,25 +208,25 @@ export default {
                     multi = 1;
                     break;
                 case '2':
-                    multi = 6;
+                    multi = 5;
                     break;
                 case '3':
-                    multi = 11;
+                    multi = 8;
                     break;
                 case '4':
-                    multi = 21;
+                    multi = 15;
                     break;
                 case '5':
-                    multi = 80;
+                    multi = 50;
                     break;
                 case '6':
-                    multi = 225;
+                    multi = 125;
                     break;
             }
             for(let i=0; i<count; i++) {
                 setTimeout(()=>{
                     let type = this.values[Math.floor(Math.random()*this.values.length)];
-                    let value = Math.round((10+this.trainLevel)/10*Math.random()*multi);
+                    let value = Math.ceil(this.trainLevel*(0.9+0.2*Math.random())*multi);
                     this.increaseProgress(type, value);
                     let node = document.createElement("DIV");
                     let textnode = document.createTextNode(this.entryInfo[type].name+"+"+value);
