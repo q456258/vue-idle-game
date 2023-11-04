@@ -246,6 +246,8 @@ export default {
             this.setReward(type);
             // 上面加了一级, 这边减少一级, 不然打同等级怪也会升级
             this.levelToTarget(enemyLv-1);
+            if(type == 'boss' && enemyLv != -1)
+                this.talentLevelUp()
             this.$store.commit("set_battle_info", {
                 type: 'win',
                 msg: '战斗结束, 你胜利了'
@@ -306,7 +308,6 @@ export default {
             return true;
         },
         levelToTarget(target) {
-            this.talentLevelToTarget(target);
             while(this.playerAttr.lv < target)
                 this.levelUp();
         },
@@ -315,8 +316,8 @@ export default {
             this.playerAttr.lv += 1;
             this.$store.commit('set_player_attribute');
             let lv = this.playerAttr.lv;
-            quest.trackProgress('event', 1, this.playerAttr.lv, true);
-            if(lv/10 > this.playerAttr.talentLv)
+            quest.trackProgress('event', 1, lv, true);
+            if(lv%10 == 0)
                 this.talentLevelUp();
             if(lv == 10) {
                 let element = document.getElementById('talentTree');
@@ -324,14 +325,9 @@ export default {
                 quest.assignQuest(15);
             }
         },
-        talentLevelToTarget(target) {
-            while(this.playerAttr.talentLv < target)
-                this.talentLevelUp();
-        },
         talentLevelUp() {
             this.playerAttr.talentLv += 1;
-            if(this.playerAttr.talentLv > 10)
-                this.playerAttr.talentPoint += 1;
+            this.playerAttr.talentPoint += 1;
         },
         autoBattle(auto) {
             if(auto == undefined)
