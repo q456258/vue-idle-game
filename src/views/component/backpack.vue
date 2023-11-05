@@ -537,6 +537,7 @@ export default {
         },
         drop(event, k) {
             event.preventDefault();
+            this.dragging = false;
             let gridId = event.dataTransfer.getData("gridId");
             let temp;
             if(gridId) {
