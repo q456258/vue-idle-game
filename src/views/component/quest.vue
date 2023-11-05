@@ -282,6 +282,11 @@ export default {
         },
         changeStatus(questId, status) {
             let quest = this.quests[questId];
+            if(quest.status == '未完成' && status == '完成')
+                this.$store.commit("set_sys_info", {
+                    type: 'win',
+                    msg: '任务【 '+this.questList[questId].name+'】完成',
+                });
             quest.status = status;
         },
         expandQuestCateg(e) {
