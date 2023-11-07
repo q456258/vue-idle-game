@@ -47,28 +47,28 @@ export const itemEffect = {
                     used = this.giveItem('inv_misc_gem_diamond_01', 10);
                     break;
                 case 'racial_dwarf_findtreasure':
-                    used = this.randomGold(50000, 50000, msg, qty);
+                    used = this.randomGold(50000, 50000, msg, 0, qty);
                     break;
                 case 'inv_misc_coin_05':
-                    used = this.randomGold(1, 2, msg, qty);
+                    used = this.randomGold(1, 2, msg, lv, qty);
                     break;
                 case 'inv_misc_coin_06':
-                    used = this.randomGold(1, 10, msg, qty);
+                    used = this.randomGold(1, 10, msg, lv, qty);
                     break;
                 case 'inv_misc_coin_03':
-                    used = this.randomGold(100, 200, msg, qty);
+                    used = this.randomGold(100, 200, msg, lv, qty);
                     break;
                 case 'inv_misc_coin_04':
-                    used = this.randomGold(100, 1000, msg, qty);
+                    used = this.randomGold(100, 1000, msg, lv, qty);
                     break;
                 case 'inv_misc_coin_01':
-                    used = this.randomGold(10000, 20000, msg, qty);
+                    used = this.randomGold(10000, 20000, msg, lv, qty);
                     break;
                 case 'inv_misc_coin_02':
-                    used = this.randomGold(10000, 100000, msg, qty);
+                    used = this.randomGold(10000, 100000, msg, lv, qty);
                     break;
                 case 'ability_racial_packhobgoblin':
-                    used = this.randomGold(1000000, 10000000, msg, qty);
+                    used = this.randomGold(1000000, 10000000, msg, lv, qty);
                     break;
                 case 'inv_misc_note_06_guild':
                     used = this.upgradeGuildBuild('guild');
@@ -222,8 +222,8 @@ export const itemEffect = {
         },
         //招募声明
         inv_misc_note_06() {
-            let guildMember = this.$store.globalComponent["guildMember"];
-            guildMember.generateApplicant();
+            let guildPosition = this.$store.globalComponent["guildPosition"];
+            guildPosition.generateApplicant();
             return true;
         },
         upgradeGuildBuild(type) {
@@ -236,12 +236,12 @@ export const itemEffect = {
             itemInfo.addItem(JSON.parse(item));
             return true;
         },
-        randomGold(min, max, msg, qty=1) {
+        randomGold(min, max, msg, lv, qty=1) {
             let guild = this.$store.globalComponent["guild"];
             let gold = 0;
             for(; qty>0; qty--)
                 gold += Math.round(((max-min)*Math.random())+min);
-            guild.getGold('', gold, msg);
+            guild.getGold('', gold, msg, lv);
             return true;
         },
         randomEquip(qualitySet, lv, optional={}, toBackpack) {

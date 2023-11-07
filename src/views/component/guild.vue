@@ -146,12 +146,13 @@ export default {
             guildPosition.displayPage = type;
             e.target.classList.add('btnActive');
         },    
-        getGold(text, amount, showText=true, bonus=true) {
+        getGold(text, amount, showText=true, lv=0) {
             if(isNaN(amount)) {
                 console.log("获得异常数额金币");
                 console.trace();
                 return;
             }
+            amount *= (1+0.02*lv*this.guild.treasury.lv);
             amount = parseInt(amount);
             if(amount <= 0){
                 console.log("获得0或者负数金币"+amount);
