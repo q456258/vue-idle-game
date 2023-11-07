@@ -440,6 +440,7 @@ export default {
         lv = 1;
       lv *= multi;
       if(this.modLv(type, lv)) {
+        mapEvent.toggleBattle();
         this.generateEnemy(type);
         mapEvent.setReward(type);
       }
