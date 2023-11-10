@@ -185,13 +185,13 @@ export const questConfig = {
                     lv: 10,
                     reqs: [['event', 4, 1]],
                     rewardItem: [['random_equip_normal_0', 1, 100]],
-                    successor: [16],
+                    successor: [],
                     forfeit: false
                 },
                 16: {
                     name: '强化装备',
                     category: 'newbie',
-                    desc: '15级后可强化装备, 右键身上的或者背包的装备点击强化。每强化一级提升20%基础属性(向下取整)。',
+                    desc: '一级铁匠铺后可强化装备, 右键身上的或者背包的装备点击强化。每强化一级提升20%基础属性(向下取整)。',
                     target: '提升一次装备强化等级',
                     lv: 10,
                     reqs: [['event', 5, 1]],
