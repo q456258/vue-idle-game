@@ -2,12 +2,12 @@ export const questConfig = {
     data() {
         return {
             eventId: {
-                //1: '重置地图',
+                1: '提升等级',
                 2: '穿戴装备',
                 3: '存档',
                 4: '升级天赋',
                 5: '强化装备',
-                6: '锻造装备',
+                6: '重铸装备',
                 // 7: '切换地图',
                 8: '使用药剂',
                 9: '锁定/解锁装备',
@@ -15,6 +15,19 @@ export const questConfig = {
                 11: '合成铜锭',
                 12: '锻造装备',
                 13: '挑战副本',
+                14: '招募成员',
+                15: '使用练功房',
+                101: '升级公会',
+                102: '升级酒馆',
+                103: '升级任务榜',
+                104: '升级商店',
+                105: '升级黑市',
+                106: '升级铁匠铺',
+                107: '升级练功房',
+                108: '升级中级练功房',
+                109: '升级高级练功房',
+                110: '升级矿场',
+                111: '升级药园',
             },
             rewardType: {gold: '金币', guildReputation: '公会名望'},
             questCategory: {
@@ -24,6 +37,7 @@ export const questConfig = {
                 repeat: '循环'
             },
             questBoardList: [
+                [],
                 [1000, 1002, 1010, 1012, 1019 ],
                 [1020, 1022, 1030, 1032, 1039 ],
                 [1040, 1043, 1050, 1053, 1059 ],
@@ -43,12 +57,12 @@ export const questConfig = {
                     forfeit: false
                 },
                 2: {
-                    name: '击败训练假人',
+                    name: '提升等级到5级',
                     category: 'newbie',
                     desc: '试着再击败四只训练假人吧, 将等级提升到5级! ',
-                    target: '击败4只训练假人',
+                    target: '提升等级到5级',
                     lv: 2,
-                    reqs: [['slain', 1, 5]],
+                    reqs: [['event', 1, 5]],
                     rewardItem: [['random_equip_normal_0', 1, 100, {types: ['necklace']}]],
                     successor: [3, 4],
                     forfeit: false
@@ -56,7 +70,7 @@ export const questConfig = {
                 3: {
                     name: '击败训练假人精英',
                     category: 'newbie',
-                    desc: '接下来击败一只训练假人精英吧, 在游戏界面中间位置, 切换"精英"区, 再点击"开始战斗"。失败了不要紧, 怪物不会回血! 每次被击败后等级会提升5级',
+                    desc: '击败一只训练假人精英, 在游戏界面中间位置, 切换"精英"区, 再点击"开始战斗"。失败了不要紧, 怪物不会回血! 精英每次被击败后等级会提升5级',
                     target: '击败训练假人精英',
                     lv: 5,
                     reqs: [['slain', 3, 1]],
@@ -67,7 +81,7 @@ export const questConfig = {
                 4: {
                     name: '击败高级训练假人',
                     category: 'newbie',
-                    desc: '试着击败一只高级训练假人吧, 6级开始, 普通区的怪物将转换为高级训练假人, 拥有比训练假人更强的属性。',
+                    desc: '试着击败一只高级训练假人吧, 5级开始, 普通区的怪物将转换为高级训练假人, 拥有比训练假人更强的属性。',
                     target: '击败高级训练假人',
                     lv: 5,
                     reqs: [['slain', 2, 1]],
@@ -78,18 +92,18 @@ export const questConfig = {
                 5: {
                     name: '击败高级训练假人精英',
                     category: 'newbie',
-                    desc: '击败1只高级训练假人精英吧, 比起普通区怪物, 精英一般会拥有一个技能。',
+                    desc: '击败1只高级训练假人精英吧, 比起普通区怪物, 精英一般会拥有一个技能。训练假人没有, 因为他们是训练假人。',
                     target: '击败高级训练假人精英',
                     lv: 10,
                     reqs: [['slain', 4, 1]],
                     rewardItem: [['random_equip_elite_1', 1, 100, {types: ['glove']}]],
-                    successor: [6, 9, 11],
+                    successor: [6, 11],
                     forfeit: false
                 },
                 6: {
                     name: '毕业',
                     category: 'newbie',
-                    desc: '在游戏界面中间位置, 切换"BOSS"区! BOSS类怪物奖励非常丰富! 每次被击败后等级会一次性提升10级',
+                    desc: '在游戏界面中间位置, 切换"BOSS"区! BOSS类怪物奖励非常丰富! BOSS每次被击败后等级会一次性提升10级',
                     target: '击败导师',
                     lv: 10,
                     reqs: [['slain', 5, 1]],
@@ -100,23 +114,23 @@ export const questConfig = {
                 7: {
                     name: '穿戴装备',
                     category: 'newbie',
-                    desc: '打开左下角的背包, 在"装备"分类下双击或者右键装备单击装备, 即可穿戴或更换装备',
+                    desc: '打开左下角的【背包】(快捷键B), 在【装备】分类下双击或者右键装备单击装备, 即可穿戴或更换装备',
                     target: '穿戴一件装备',
                     lv: 1,
                     reqs: [['event', 2, 1]],
-                    rewardItem: [['inv_alchemy_80_potion01red', 20, 100]],
+                    rewardItem: [['random_equip_normal_0', 1, 100, {types: ['bracer']}]],
                     successor: [8],
                     forfeit: false
                 },
                 8: {
                     name: '存档',
                     category: 'newbie',
-                    desc: '点击左下角的【保存/加载游戏】, 点击后自动进行一次存档, 平时每5分钟自动存档一次',
+                    desc: '点击左下角的【保存/加载游戏】(快捷键S), 点击后自动进行一次存档, 平时每5分钟自动存档一次',
                     target: '保存一次游戏进度',
                     lv: 1,
                     reqs: [['event', 3, 1]],
                     rewardItem: [['inv_alchemy_80_potion01red', 20, 100]],
-                    successor: [],
+                    successor: [10],
                     forfeit: false
                 },
                 10: {
@@ -131,23 +145,23 @@ export const questConfig = {
                     forfeit: false
                 },
                 11: {
-                    name: '击败杂斑野猪',
+                    name: '击败癞皮山猪',
                     category: 'newbie',
-                    desc: '击败一只杂斑野猪, 克罗莫丹11-15级, 图标为棕色骷髅头的怪物为杂斑野猪。',
-                    target: '击败杂斑野猪',
+                    desc: '10级后, 普通区每10级轮换一次地区怪物类型, 每100级更换一次地区',
+                    target: '击败癞皮山猪',
                     lv: 10,
-                    reqs: [['slain', 11, 1]],
-                    rewardItem: [['random_equip_normal_0', 1, 100]],
+                    reqs: [['slain', 12, 1]],
+                    rewardItem: [['random_equip_normal_0', 1, 100, {types: ['belt']}]],
                     successor: [12],
                     forfeit: false
                 },
                 12: {
-                    name: '击败杂斑野猪精英',
+                    name: '击败癞皮山猪精英',
                     category: 'newbie',
-                    desc: '击败五只杂斑野猪精英, 克罗莫丹11-15级, 图标为银色骷髅头的怪物为杂斑野猪精英。精英比起普通怪物会多出一个技能, 杂斑野猪精英的技能是愤怒之气, 可提升20%攻击力, 20%暴击率, 持续20秒',
-                    target: '击败5只杂斑野猪精英',
+                    desc: '10级后, 精英区每10级轮换一次地区怪物类型, 每100级更换一次地区。精英比起普通怪物会多出一个技能, 癞皮山猪精英的技能是头槌, 可造成攻击力*1.2点伤害, 有20%眩晕目标',
+                    target: '击败1只癞皮山猪精英',
                     lv: 15,
-                    reqs: [['slain', 13, 5]],
+                    reqs: [['slain', 14, 1]],
                     rewardItem: [['random_equip_elite_1', 1, 100]],
                     successor: [13],
                     forfeit: false
@@ -155,7 +169,7 @@ export const questConfig = {
                 13: {
                     name: '实力的证明',
                     category: 'newbie',
-                    desc: '击败阿迦玛可获得创建公会的资格。',
+                    desc: '10级后, BOSS区每100级更换一次怪物类型, BOSS拥有更多的技能, 击败阿迦玛可获得创建公会的资格。打不过? 可以考虑降低怪物等级, 刷点装备再来',
                     target: '击败阿迦玛',
                     lv: 20,
                     reqs: [['slain', 15, 1]],
@@ -166,18 +180,18 @@ export const questConfig = {
                 15: {
                     name: '升级天赋',
                     category: 'newbie',
-                    desc: '10级开始每次升级可以获得一点天赋点, 点击左上角的‘天赋’切换到天赋界面。左键点击天赋可提升一级, 右键降低一级, 按住shift一次5级。',
+                    desc: '每10级可以获得一点天赋点击败, 每次击败BOSS额外获得一点。点击左上角的‘天赋’切换到天赋界面。左键点击天赋可提升一级, 右键降低一级, 按住shift一次5级。如果想要使用法术攻击, 可升级一次法师的寒冰箭(第三组第一排第一个)',
                     target: '升级一次天赋',
                     lv: 10,
                     reqs: [['event', 4, 1]],
                     rewardItem: [['random_equip_normal_0', 1, 100]],
-                    successor: [],
+                    successor: [16],
                     forfeit: false
                 },
                 16: {
                     name: '强化装备',
                     category: 'newbie',
-                    desc: '10级后可强化装备, 右键身上的或者背包的装备点击强化。每强化一级提升10%基础属性(向下取整)。',
+                    desc: '15级后可强化装备, 右键身上的或者背包的装备点击强化。每强化一级提升20%基础属性(向下取整)。',
                     target: '提升一次装备强化等级',
                     lv: 10,
                     reqs: [['event', 5, 1]],
@@ -200,7 +214,7 @@ export const questConfig = {
                 18: {
                     name: '重铸装备',
                     category: 'newbie',
-                    desc: '公会铁匠铺2级解锁重铸功能, 可一次性重置装备所有的额外词条, 或者额外花费金币锁定部分词条后重置剩下词条。',
+                    desc: '公会铁匠铺2级解锁重铸功能。右键点击装备图标, 选择重铸。可一次性重置装备所有的额外词条, 或者额外花费金币锁定部分词条后重置剩下词条。',
                     target: '重铸一次装备',
                     lv: 20,
                     reqs: [['event', 6, 1]],
@@ -210,9 +224,9 @@ export const questConfig = {
                     forfeit: false
                 },
                 19: {
-                    name: '挑战副本',
+                    name: '下副本',
                     category: 'newbie',
-                    desc: '公会酒馆一级可开始招募公会成员, 通过挑战副本获取材料、提升成员等级。',
+                    desc: '左下角新增的【副本】(快捷键D)功能, 通过挑战副本获取材料、提升成员等级。',
                     target: '挑战一次副本',
                     lv: 15,
                     reqs: [['event', 13, 1]],
@@ -236,7 +250,7 @@ export const questConfig = {
                 21: {
                     name: '合成铜锭',
                     category: 'newbie',
-                    desc: '左下角新增的【锻造】功能, 选择【矿物】, 使用铜矿石合成四次铜锭',
+                    desc: '左下角新增的【锻造】(快捷键C)功能, 选择【矿物】, 使用铜矿石合成四次铜锭',
                     target: '合成4个铜锭',
                     lv: 20,
                     reqs: [['event', 11, 4]],
@@ -248,10 +262,34 @@ export const questConfig = {
                 22: {
                     name: '合成装备',
                     category: 'newbie',
-                    desc: '打开左下角【锻造】功能, 选择【打造】, 选择【随机罕见装备】, 使用10份罕见装备精华打造一件随机罕见装备, 记得添加4块铜锭增加成品的装备等级。',
+                    desc: '打开左下角【锻造】功能, 选择【打造】, 选择【随机罕见装备】以及装备类型, 使用10份罕见装备精华打造一件随机罕见装备, 记得添加4块铜锭增加成品的装备等级。',
                     target: '打造装备',
                     lv: 20,
                     reqs: [['event', 12, 1]],
+                    reward: [['gold', 2000]],
+                    rewardItem: [],
+                    successor: [],
+                    forfeit: false
+                },
+                22: {
+                    name: '扩大工会',
+                    category: 'guild',
+                    desc: '在【公会】选项下切换至【酒馆】可以招募成员进行地下城挑战, 酒馆每5分钟刷新一次, 最多可容纳10人',
+                    target: '招募成员',
+                    lv: 20,
+                    reqs: [['event', 14, 1]],
+                    reward: [['gold', 2000]],
+                    rewardItem: [],
+                    successor: [19],
+                    forfeit: false
+                },
+                23: {
+                    name: '训练',
+                    category: 'guild',
+                    desc: '在【公会】选项下切换至【练功房】可以使用练功房进行训练, 时间结束后可提升属性, 时间越长提升越多, 不需要保持游戏在线',
+                    target: '使用练功房',
+                    lv: 20,
+                    reqs: [['event', 15, 1]],
                     reward: [['gold', 2000]],
                     rewardItem: [],
                     successor: [],
@@ -273,7 +311,7 @@ export const questConfig = {
                     category: 'guild',
                     desc: '狗头人矿工只是打工仔, 金牙才是幕后黑手, 击败他夺回剩下的矿场。',
                     target: '击败金牙',
-                    lv: 30,
+                    lv: 20,
                     reqs: [['slain', 25, 1]],
                     rewardItem: [['inv_misc_note_06_mine', 1, 100]],
                     successor: [],
@@ -284,7 +322,7 @@ export const questConfig = {
                     category: 'newbie',
                     desc: '击败金牙证明自己的实力, 获得拥有二级公会的许可。',
                     target: '击败金牙',
-                    lv: 30,
+                    lv: 100,
                     reqs: [['slain', 25, 1]],
                     rewardItem: [['inv_misc_note_06_guild', 1, 100]],
                     successor: [36],
@@ -295,7 +333,7 @@ export const questConfig = {
                     category: 'newbie',
                     desc: '击败霍格证明自己的实力, 获得拥有三级公会的许可',
                     target: '击败霍格',
-                    lv: 40,
+                    lv: 200,
                     reqs: [['slain', 35, 1]],
                     rewardItem: [['inv_misc_note_06_guild', 1, 100]],
                     successor: [46],
@@ -306,7 +344,7 @@ export const questConfig = {
                     category: 'newbie',
                     desc: '击败铁背龟证明自己的实力, 获得拥有四级公会的许可',
                     target: '击败铁背龟',
-                    lv: 50,
+                    lv: 300,
                     reqs: [['slain', 45, 1]],
                     rewardItem: [['inv_misc_note_06_guild', 1, 100]],
                     successor: [56],
@@ -317,9 +355,177 @@ export const questConfig = {
                     category: 'newbie',
                     desc: '击败熔岩元素证明自己的实力, 获得拥有五级公会的许可',
                     target: '击败熔岩元素',
-                    lv: 60,
+                    lv: 400,
                     reqs: [['slain', 55, 1]],
                     rewardItem: [['inv_misc_note_06_guild', 1, 100]],
+                    successor: [],
+                    forfeit: false
+                },
+                100: {
+                    name: '升级酒馆I',
+                    category: 'guild',
+                    desc: '升级酒馆至1级。',
+                    target: '升级酒馆至1级',
+                    lv: 20,
+                    reqs: [['event', 102, 1]],
+                    reward: [],
+                    rewardItem: [],
+                    successor: [22],
+                    forfeit: false
+                },
+                110: {
+                    name: '升级任务榜I',
+                    category: 'guild',
+                    desc: '升级任务榜至1级。',
+                    target: '升级任务榜至1级',
+                    lv: 20,
+                    reqs: [['event', 103, 1]],
+                    reward: [],
+                    rewardItem: [],
+                    successor: [],
+                    forfeit: false
+                },
+                120: {
+                    name: '升级商店I',
+                    category: 'guild',
+                    desc: '升级商店至1级。',
+                    target: '升级商店至1级',
+                    lv: 20,
+                    reqs: [['event', 104, 1]],
+                    reward: [],
+                    rewardItem: [],
+                    successor: [],
+                    forfeit: false
+                },
+                121: {
+                    name: '升级商店II',
+                    category: 'guild',
+                    desc: '升级商店至2级。',
+                    target: '升级商店至2级',
+                    lv: 20,
+                    reqs: [['event', 104, 2]],
+                    reward: [],
+                    rewardItem: [],
+                    successor: [],
+                    forfeit: false
+                },
+                122: {
+                    name: '升级商店III',
+                    category: 'guild',
+                    desc: '升级商店至3级。',
+                    target: '升级商店至3级',
+                    lv: 20,
+                    reqs: [['event', 104, 3]],
+                    reward: [],
+                    rewardItem: [],
+                    successor: [130],
+                    forfeit: false
+                },
+                130: {
+                    name: '升级黑市I',
+                    category: 'guild',
+                    desc: '升级黑市至1级。',
+                    target: '升级黑市至1级',
+                    lv: 20,
+                    reqs: [['event', 105, 1]],
+                    reward: [],
+                    rewardItem: [],
+                    successor: [],
+                    forfeit: false
+                },
+                140: {
+                    name: '升级铁匠铺I',
+                    category: 'guild',
+                    desc: '升级铁匠铺至1级。',
+                    target: '升级铁匠铺至1级',
+                    lv: 20,
+                    reqs: [['event', 106, 1]],
+                    reward: [],
+                    rewardItem: [],
+                    successor: [16, 141],
+                    forfeit: false
+                },
+                141: {
+                    name: '升级铁匠铺II',
+                    category: 'guild',
+                    desc: '升级铁匠铺至2级。',
+                    target: '升级铁匠铺至2级',
+                    lv: 20,
+                    reqs: [['event', 106, 2]],
+                    reward: [],
+                    rewardItem: [],
+                    successor: [18, 142],
+                    forfeit: false
+                },
+                142: {
+                    name: '升级铁匠铺III',
+                    category: 'guild',
+                    desc: '升级铁匠铺至3级。',
+                    target: '升级铁匠铺至3级',
+                    lv: 20,
+                    reqs: [['event', 106, 3]],
+                    reward: [],
+                    rewardItem: [],
+                    successor: [20],
+                    forfeit: false
+                },
+                150: {
+                    name: '升级练功房I',
+                    category: 'guild',
+                    desc: '升级练功房至1级。',
+                    target: '升级练功房至1级',
+                    lv: 20,
+                    reqs: [['event', 107, 1]],
+                    reward: [],
+                    rewardItem: [],
+                    successor: [23],
+                    forfeit: false
+                },
+                160: {
+                    name: '升级中级练功房I',
+                    category: 'guild',
+                    desc: '升级中级练功房至1级。',
+                    target: '升级中级练功房至1级',
+                    lv: 20,
+                    reqs: [['event', 108, 1]],
+                    reward: [],
+                    rewardItem: [],
+                    successor: [],
+                    forfeit: false
+                },
+                170: {
+                    name: '升级高级练功房I',
+                    category: 'guild',
+                    desc: '升级高级练功房至1级。',
+                    target: '升级高级练功房至1级',
+                    lv: 20,
+                    reqs: [['event', 109, 1]],
+                    reward: [],
+                    rewardItem: [],
+                    successor: [],
+                    forfeit: false
+                },
+                180: {
+                    name: '升级矿场I',
+                    category: 'guild',
+                    desc: '升级矿场至1级。',
+                    target: '升级矿场至1级',
+                    lv: 20,
+                    reqs: [['event', 110, 1]],
+                    reward: [],
+                    rewardItem: [],
+                    successor: [],
+                    forfeit: false
+                },
+                190: {
+                    name: '升级药园I',
+                    category: 'guild',
+                    desc: '升级药园至1级。',
+                    target: '升级药园至1级',
+                    lv: 20,
+                    reqs: [['event', 111, 1]],
+                    reward: [],
+                    rewardItem: [],
                     successor: [],
                     forfeit: false
                 },
@@ -327,13 +533,13 @@ export const questConfig = {
                     name: '魔物扫荡：杂斑野猪',
                     category: 'repeat',
                     desc: '清理克罗莫丹周边的魔物',
-                    target: '击败50只杂斑野猪',
+                    target: '击败20只杂斑野猪',
                     lv: 15,
-                    reqs: [['slain', 11, 50]],
-                    reward: [['gold', 200], ['guildReputation', 10]],
+                    reqs: [['slain', 11, 20]],
+                    reward: [['gold', 2000], ['guildReputation', 10]],
                     rewardItem: [['random_equip_normal_2', 1, 100]],
                     successor: [1000],
-                    forfeit: true
+                    forfeit: false
                 },
                 1002: {
                     name: '魔物扫荡：杂斑野猪精英',
@@ -342,22 +548,22 @@ export const questConfig = {
                     target: '击败10只杂斑野猪精英',
                     lv: 15,
                     reqs: [['slain', 13, 10]],
-                    reward: [['gold', 300], ['guildReputation', 20]],
+                    reward: [['gold', 3000], ['guildReputation', 20]],
                     rewardItem: [['random_equip_elite_4', 1, 100, {lv: 17}]],
                     successor: [1002],
-                    forfeit: true
+                    forfeit: false
                 },
                 1010: {
                     name: '魔物扫荡：癞皮山猪',
                     category: 'repeat', 
                     desc: '清理克罗莫丹周边的魔物',
-                    target: '击败50只癞皮山猪',
+                    target: '击败20只癞皮山猪',
                     lv: 20,
-                    reqs: [['slain', 12, 50]],
-                    reward: [['gold', 300], ['guildReputation', 10]],
+                    reqs: [['slain', 12, 20]],
+                    reward: [['gold', 3000], ['guildReputation', 10]],
                     rewardItem: [['random_equip_normal_2', 1, 100]],
                     successor: [1010],
-                    forfeit: true
+                    forfeit: false
                 },
                 1012: {
                     name: '魔物扫荡：癞皮山猪精英',
@@ -366,10 +572,10 @@ export const questConfig = {
                     target: '击败10只癞皮山猪精英',
                     lv: 20,
                     reqs: [['slain', 14, 10]],
-                    reward: [['gold', 600], ['guildReputation', 20]],
+                    reward: [['gold', 6000], ['guildReputation', 20]],
                     rewardItem: [['random_equip_elite_4', 1, 100, {lv: 22}]],
                     successor: [1012],
-                    forfeit: true
+                    forfeit: false
                 },
                 1019: {
                     name: '魔物扫荡：阿迦玛',
@@ -378,10 +584,10 @@ export const questConfig = {
                     target: '击败5只阿迦玛',
                     lv: 20,
                     reqs: [['slain', 15, 5]],
-                    reward: [['gold', 2000], ['guildReputation', 100]],
+                    reward: [['gold', 10000], ['guildReputation', 50]],
                     rewardItem: [['random_equip_6', 1, 100]],
                     successor: [1019],
-                    forfeit: true
+                    forfeit: false
                 },
                 1020: {
                     name: '魔物扫荡：狗头人矿工',
@@ -390,10 +596,10 @@ export const questConfig = {
                     target: '击败50只狗头人矿工',
                     lv: 25,
                     reqs: [['slain', 21, 50]],
-                    reward: [['gold', 600], ['guildReputation', 10]],
+                    reward: [['gold', 6000], ['guildReputation', 10]],
                     rewardItem: [['random_equip_normal_2', 1, 100]],
                     successor: [1020],
-                    forfeit: true
+                    forfeit: false
                 },
                 1022: {
                     name: '魔物扫荡：狗头人矿工精英',
@@ -402,10 +608,10 @@ export const questConfig = {
                     target: '击败10只狗头人矿工精英',
                     lv: 25,
                     reqs: [['slain', 23, 10]],
-                    reward: [['gold', 900], ['guildReputation', 20]],
+                    reward: [['gold', 9000], ['guildReputation', 20]],
                     rewardItem: [['random_equip_elite_4', 1, 100, {lv: 27}]],
                     successor: [1022],
-                    forfeit: true
+                    forfeit: false
                 },
                 1030: {
                     name: '魔物扫荡：狗头人地卜师',
@@ -414,10 +620,10 @@ export const questConfig = {
                     target: '击败50只狗头人地卜师',
                     lv: 30,
                     reqs: [['slain', 22, 50]],
-                    reward: [['gold', 720], ['guildReputation', 10]],
+                    reward: [['gold', 7200], ['guildReputation', 10]],
                     rewardItem: [['random_equip_normal_2', 1, 100]],
                     successor: [1030],
-                    forfeit: true
+                    forfeit: false
                 },
                 1032: {
                     name: '魔物扫荡：狗头人地卜师精英',
@@ -426,10 +632,10 @@ export const questConfig = {
                     target: '击败10只狗头人地卜师精英',
                     lv: 30,
                     reqs: [['slain', 24, 10]],
-                    reward: [['gold', 1080], ['guildReputation', 20]],
+                    reward: [['gold', 10800], ['guildReputation', 20]],
                     rewardItem: [['random_equip_elite_4', 1, 100, {lv: 32}]],
                     successor: [1032],
-                    forfeit: true
+                    forfeit: false
                 },
                 1039: {
                     name: '魔物扫荡：金牙',
@@ -438,10 +644,10 @@ export const questConfig = {
                     target: '击败5只金牙',
                     lv: 30,
                     reqs: [['slain', 25, 5]],
-                    reward: [['gold', 4000], ['guildReputation', 100]],
+                    reward: [['gold', 40000], ['guildReputation', 50]],
                     rewardItem: [['random_equip_6', 1, 100]],
                     successor: [1039],
-                    forfeit: true
+                    forfeit: false
                 },
                 1040: {
                     name: '魔物扫荡：河爪豺狼人',
@@ -450,10 +656,10 @@ export const questConfig = {
                     target: '击败50只河爪豺狼人',
                     lv: 35,
                     reqs: [['slain', 31, 50]],
-                    reward: [['gold', 900], ['guildReputation', 10]],
+                    reward: [['gold', 9000], ['guildReputation', 10]],
                     rewardItem: [['random_equip_normal_2', 1, 100]],
                     successor: [1040],
-                    forfeit: true
+                    forfeit: false
                 },
                 1043: {
                     name: '魔物扫荡：河爪豺狼人精英',
@@ -462,10 +668,10 @@ export const questConfig = {
                     target: '击败10只河爪豺狼人精英',
                     lv: 35,
                     reqs: [['slain', 33, 10]],
-                    reward: [['gold', 1350], ['guildReputation', 20]],
+                    reward: [['gold', 13500], ['guildReputation', 20]],
                     rewardItem: [['random_equip_elite_4', 1, 100, {lv: 37}]],
                     successor: [1043],
-                    forfeit: true
+                    forfeit: false
                 },
                 1050: {
                     name: '魔物扫荡：黑爪豺狼人',
@@ -474,10 +680,10 @@ export const questConfig = {
                     target: '击败50只黑爪豺狼人',
                     lv: 40,
                     reqs: [['slain', 32, 10]],
-                    reward: [['gold', 1080], ['guildReputation', 10]],
+                    reward: [['gold', 10800], ['guildReputation', 10]],
                     rewardItem: [['random_equip_normal_2', 1, 100]],
                     successor: [1050],
-                    forfeit: true
+                    forfeit: false
                 },
                 1053: {
                     name: '魔物扫荡：黑爪豺狼人精英',
@@ -486,10 +692,10 @@ export const questConfig = {
                     target: '击败10只黑爪豺狼人精英',
                     lv: 40,
                     reqs: [['slain', 34, 10]],
-                    reward: [['gold', 1620], ['guildReputation', 20]],
+                    reward: [['gold', 16200], ['guildReputation', 20]],
                     rewardItem: [['random_equip_elite_4', 1, 100, {lv: 42}]],
                     successor: [1053],
-                    forfeit: true
+                    forfeit: false
                 },
                 1059: {
                     name: '魔物扫荡：霍格',
@@ -498,10 +704,10 @@ export const questConfig = {
                     target: '击败5只霍格',
                     lv: 40,
                     reqs: [['slain', 35, 5]],
-                    reward: [['gold', 6000], ['guildReputation', 100]],
+                    reward: [['gold', 60000], ['guildReputation', 50]],
                     rewardItem: [['random_equip_6', 1, 100]],
                     successor: [1059],
-                    forfeit: true
+                    forfeit: false
                 },
                 1060: {
                     name: '魔物扫荡：盐壳龟',
@@ -510,10 +716,10 @@ export const questConfig = {
                     target: '击败50只盐壳龟',
                     lv: 45,
                     reqs: [['slain', 41, 50]],
-                    reward: [['gold', 1350], ['guildReputation', 10]],
+                    reward: [['gold', 13500], ['guildReputation', 10]],
                     rewardItem: [['random_equip_normal_3', 1, 100]],
                     successor: [1060],
-                    forfeit: true
+                    forfeit: false
                 },
                 1063: {
                     name: '魔物扫荡：盐壳龟精英',
@@ -522,10 +728,10 @@ export const questConfig = {
                     target: '击败10只盐壳龟精英',
                     lv: 45,
                     reqs: [['slain', 43, 10]],
-                    reward: [['gold', 2025], ['guildReputation', 20]],
+                    reward: [['gold', 20250], ['guildReputation', 20]],
                     rewardItem: [['random_equip_elite_4', 1, 100, {lv: 47,}]],
                     successor: [1063],
-                    forfeit: true
+                    forfeit: false
                 },
                 1070: {
                     name: '魔物扫荡：钳嘴龟',
@@ -534,10 +740,10 @@ export const questConfig = {
                     target: '击败50只钳嘴龟',
                     lv: 50,
                     reqs: [['slain', 42, 50]],
-                    reward: [['gold', 1620], ['guildReputation', 10]],
+                    reward: [['gold', 16200], ['guildReputation', 10]],
                     rewardItem: [['random_equip_normal_3', 1, 100]],
                     successor: [1070],
-                    forfeit: true
+                    forfeit: false
                 },
                 1073: {
                     name: '魔物扫荡：钳嘴龟精英',
@@ -546,10 +752,10 @@ export const questConfig = {
                     target: '击败10只钳嘴龟精英',
                     lv: 50,
                     reqs: [['slain', 44, 10]],
-                    reward: [['gold', 2430], ['guildReputation', 20]],
+                    reward: [['gold', 24300], ['guildReputation', 20]],
                     rewardItem: [['random_equip_elite_4', 1, 100, {lv: 52}]],
                     successor: [1073],
-                    forfeit: true
+                    forfeit: false
                 },
                 1079: {
                     name: '魔物扫荡：铁背龟',
@@ -558,10 +764,10 @@ export const questConfig = {
                     target: '击败5只铁背龟',
                     lv: 50,
                     reqs: [['slain', 45, 5]],
-                    reward: [['gold', 9000], ['guildReputation', 100]],
+                    reward: [['gold', 90000], ['guildReputation', 50]],
                     rewardItem: [['random_equip_6', 1, 100]],
                     successor: [1079],
-                    forfeit: true
+                    forfeit: false
                 },
                 1080: {
                     name: '魔物扫荡：灼热元素',
@@ -570,10 +776,10 @@ export const questConfig = {
                     target: '击败50只灼热元素',
                     lv: 55,
                     reqs: [['slain', 41, 50]],
-                    reward: [['gold', 2020], ['guildReputation', 10]],
+                    reward: [['gold', 20200], ['guildReputation', 10]],
                     rewardItem: [['random_equip_normal_3', 1, 100]],
                     successor: [1080],
-                    forfeit: true
+                    forfeit: false
                 },
                 1083: {
                     name: '魔物扫荡：灼热元素精英',
@@ -582,10 +788,10 @@ export const questConfig = {
                     target: '击败10只灼热元素精英',
                     lv: 55,
                     reqs: [['slain', 43, 10]],
-                    reward: [['gold', 3030], ['guildReputation', 20]],
+                    reward: [['gold', 30300], ['guildReputation', 20]],
                     rewardItem: [['random_equip_elite_4', 1, 100, {lv: 57,}]],
                     successor: [1083],
-                    forfeit: true
+                    forfeit: false
                 },
                 1090: {
                     name: '魔物扫荡：熔岩元素',
@@ -594,10 +800,10 @@ export const questConfig = {
                     target: '击败50只熔岩元素',
                     lv: 60,
                     reqs: [['slain', 42, 50]],
-                    reward: [['gold', 2430], ['guildReputation', 10]],
+                    reward: [['gold', 24300], ['guildReputation', 10]],
                     rewardItem: [['random_equip_normal_3', 1, 100]],
                     successor: [1090],
-                    forfeit: true
+                    forfeit: false
                 },
                 1093: {
                     name: '魔物扫荡：熔岩元素精英',
@@ -606,10 +812,10 @@ export const questConfig = {
                     target: '击败10只熔岩元素精英',
                     lv: 60,
                     reqs: [['slain', 44, 10]],
-                    reward: [['gold', 3645], ['guildReputation', 20]],
+                    reward: [['gold', 36450], ['guildReputation', 20]],
                     rewardItem: [['random_equip_elite_4', 1, 100, {lv: 62}]],
                     successor: [1093],
-                    forfeit: true
+                    forfeit: false
                 },
                 1099: {
                     name: '魔物扫荡：地狱元素',
@@ -618,10 +824,10 @@ export const questConfig = {
                     target: '击败5只地狱元素',
                     lv: 60,
                     reqs: [['slain', 45, 5]],
-                    reward: [['gold', 15000], ['guildReputation', 100]],
+                    reward: [['gold', 150000], ['guildReputation', 50]],
                     rewardItem: [['random_equip_6', 1, 100]],
                     successor: [1099],
-                    forfeit: true
+                    forfeit: false
                 },
             }
         }

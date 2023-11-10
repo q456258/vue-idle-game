@@ -723,7 +723,7 @@ export const itemConfig = {
                     description: {
                         name: '阿迦玛的牙',
                         category: '材料',
-                        desc: '击败阿迦玛的证明，创建公会时会消耗。随着更多公会被创建，阿迦玛数量也逐渐稀少。',
+                        desc: '击败阿迦玛的证明，创建公会时会消耗。',
                         iconSrc: "./icons/item/inv_misc_bone_06.jpg",
                     },
                     stack: true,
@@ -796,7 +796,7 @@ export const itemConfig = {
                     description: {
                         name: '少量铜币',
                         category: '消耗品',
-                        desc: '使用: 获得1-2铜币',
+                        desc: '获得1-2铜币',
                         iconSrc: "./icons/item/inv_misc_coin_05.jpg",
                     },
                     autoUse: true, batch: true,

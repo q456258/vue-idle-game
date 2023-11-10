@@ -63,7 +63,7 @@ export const dungeonConfig = {
                     reward: [['inv_misc_gem_diamond_04', 100, 1]]
                 },
                 5: {
-                    type:'normal', name:'怒焰穴居人', stat: { HP:750, ATK: 200, BLOCK: 75 }, 
+                    type:'normal', name:'怒焰穴居人', stat: { HP:500, ATK: 175, BLOCK: 0 }, 
                     reward: [['inv_misc_gem_diamond_05', 20, 1]]
                 },
                 6: {
