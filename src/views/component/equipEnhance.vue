@@ -177,9 +177,8 @@ export default {
             } else {
                 gemToApply = this.addGemsFloor(req);
                 let remain = req - this.getEnhancePoint(gemToApply);
-                gemToApply = this.addGemsCeil(-1*remain, gemToApply);
-                remain = req - this.getEnhancePoint(gemToApply);
-                gemToApply = this.removeOverflow(remain, gemToApply);
+                remain = this.addGemsCeil(remain, gemToApply);
+                this.removeOverflow(-1*remain, gemToApply);
             }
             
             for(let i=0; i<gemTypes; i++) {
@@ -226,26 +225,27 @@ export default {
                 if(req == 0)
                     break;
                 let count = Math.ceil(req/this.value[i]);
+                count = count>=0 ? count : 0;
                 count = Math.min(this.itemQty[i], count);
                 let val = this.value[i]*count;
                 req -= val;
                 gemToApply[i] += count;
             }
-            return gemToApply;
+            return req;
         },
         // 从下往上计算可能会导致溢出强化点数过多, 对溢出的进行一波优化
         removeOverflow(req, gemToApply) {
             let len = this.value.length;
             for(let i=0; i<len-1; i++) {
                 if(req == 0)
-                    break;
+                    return;
                 let count = Math.floor(req/this.value[i]);
+                count = count>=0 ? count : 0;
                 count = Math.min(this.itemQty[i], count);
                 let val = this.value[i]*count;
                 req -= val;
                 gemToApply[i] -= count;
             }
-            return gemToApply;
         },
         addMaterial(event, k, qty=1) {
             if(this.applied[k] >= this.itemQty[k])
