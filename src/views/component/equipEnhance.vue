@@ -48,10 +48,11 @@
                     </div>
                 </div>
             </div>
-            <div class="confirm" @click="enhance()" v-show="equip.enhanceLv < equip.maxEnhanceLv">
+            <span  class="check_box actions" @click="autoApplyGem(!autoApply)"><input type="checkbox" name="" v-model="autoApply">自动添加</span>
+            <div class="confirm actions image_button" @click="enhance()" v-show="equip.enhanceLv < equip.maxEnhanceLv">
                 强化
             </div>
-            <div class="cancel" @click="closeInfo()">
+            <div class="cancel actions image_button" @click="closeInfo()">
                 取消
             </div>
         </div>
@@ -79,6 +80,7 @@ export default {
             ],
             gemType: ['inv_misc_gem_diamond_05', 'inv_misc_gem_diamond_04', 'inv_misc_gem_diamond_03', 'inv_misc_gem_diamond_02', 'inv_misc_gem_diamond_01'],
             applied: [],
+            autoApply: false,
             currentProgress: 0,
             enhanceBonus: 0.2
 
@@ -97,9 +99,9 @@ export default {
         equip() {
             if(this.equip.enhanceCur == undefined)
                 this.equip.enhanceCur = 0;
-            this.currentProgress = this.equip.enhanceCur
             this.targetLv = this.equip.enhanceLv+1;
-            this.applied = new Array(this.gemType.length).fill(0, 0, this.gemType.length);
+            this.clearProgress();
+            this.autoApplyGem();
         }
     },
     computed: {
@@ -134,6 +136,12 @@ export default {
                 let quest = this.$store.globalComponent["quest"];
                 quest.trackProgress('event', 5, 1);
             }
+            this.autoApplyGem();
+        },
+        clearProgress() {
+            this.currentProgress = this.equip.enhanceCur
+            this.targetLv = this.equip.enhanceLv+1;
+            this.applied = new Array(this.gemType.length).fill(0, 0, this.gemType.length);
         },
         consumeGem() {
             let itemInfo = this.$store.globalComponent["itemInfo"];
@@ -151,10 +159,98 @@ export default {
             }
             this.equip.enhanceCur = cur;
         },
-        addMaterial(event, k) {
+        // 并非完美解, dp太消耗资源了
+        autoApplyGem(autoApply) {
+            if(autoApply==null)
+                autoApply = this.autoApply;
+            if(!autoApply)
+                return;
+            this.clearProgress();
+            let req = this.req[this.equip.enhanceLv] - this.equip.enhanceCur;
+            let gemTypes = this.value.length;
+            let gemToApply = new Array(gemTypes).fill(0);
+            let maxPoint = this.getMaxEnhancePoint();
+            if(maxPoint <= req) {
+                for(let i=0; i<gemTypes; i++) {
+                    gemToApply[i] = this.itemQty[i];
+                }
+            } else {
+                gemToApply = this.addGemsFloor(req);
+                let remain = req - this.getEnhancePoint(gemToApply);
+                gemToApply = this.addGemsCeil(-1*remain, gemToApply);
+                remain = req - this.getEnhancePoint(gemToApply);
+                gemToApply = this.removeOverflow(remain, gemToApply);
+            }
+            
+            for(let i=0; i<gemTypes; i++) {
+                this.addMaterial({}, i, gemToApply[i]);
+            }
+        },
+        // 获取一个数组可提供的强化点数
+        getEnhancePoint(gemToApply) {
+            let total = 0;
+            let len = this.value.length;
+            for(let i=0; i<len; i++) {
+                total += gemToApply[i]*this.value[i];
+            }
+            return total;
+        },
+        // 获取拥有的强化石可提供的强化点数上限
+        getMaxEnhancePoint() {
+            let total = 0;
+            let len = this.value.length;
+            for(let i=0; i<len; i++) {
+                total += this.itemQty[i]*this.value[i];
+            }
+            return total;
+        },
+        // 初始化数组, 从上往下计算, 材料充足可直接获取最优解
+        addGemsFloor(req) {
+            let len = this.value.length;
+            let gemToApply = new Array(len).fill(0);
+            for(let i=len-1; i>=0; i--) {
+                if(req == 0)
+                    break;
+                let count = Math.floor(req/this.value[i]);
+                count = Math.min(this.itemQty[i], count);
+                let val = this.value[i]*count;
+                req -= val;
+                gemToApply[i] = count;
+            }
+            return gemToApply;
+        },
+        // 从下往上计算, 低级强化石不足以支撑最优解时, 允许溢出以达到目标强化点数, 部分情况非最优解
+        addGemsCeil(req, gemToApply) {
+            let len = this.value.length;
+            for(let i=0; i<len-1; i++) {
+                if(req == 0)
+                    break;
+                let count = Math.ceil(req/this.value[i]);
+                count = Math.min(this.itemQty[i], count);
+                let val = this.value[i]*count;
+                req -= val;
+                gemToApply[i] += count;
+            }
+            return gemToApply;
+        },
+        // 从下往上计算可能会导致溢出强化点数过多, 对溢出的进行一波优化
+        removeOverflow(req, gemToApply) {
+            let len = this.value.length;
+            for(let i=0; i<len-1; i++) {
+                if(req == 0)
+                    break;
+                let count = Math.floor(req/this.value[i]);
+                count = Math.min(this.itemQty[i], count);
+                let val = this.value[i]*count;
+                req -= val;
+                gemToApply[i] -= count;
+            }
+            return gemToApply;
+        },
+        addMaterial(event, k, qty=1) {
             if(this.applied[k] >= this.itemQty[k])
                 return;
-            let qty = 1;
+            // let qty = 1;
             if(event.shiftKey)
                 qty = this.itemQty[k]-this.applied[k];
             this.currentProgress += this.value[k]*qty;
