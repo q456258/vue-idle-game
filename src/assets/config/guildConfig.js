@@ -35,7 +35,7 @@ export const guildConfig = {
                 train3: [],
                 mine:  ['','增加一个矿位','增加两个矿位','增加三个矿位'],
                 herb: [],
-                treasury:  ['每级提升怪物等级*2%金币获取'],
+                treasury:  ['每级提升怪物等级*2%金币获取','','','','','',''],
             },
             buildingPreReq: {
                 questBoard: [
