@@ -48,7 +48,7 @@
                     </div>
                 </div>
             </div>
-            <span  class="check_box actions" @click="autoApplyGem(!autoApply)"><input type="checkbox" name="" v-model="autoApply">自动添加</span>
+            <span  class="check_box actions"><input type="checkbox" name="" v-model="autoApply" @click="autoApplyGem(!autoApply)">自动添加</span>
             <div class="confirm actions image_button" @click="enhance()" v-show="equip.enhanceLv < equip.maxEnhanceLv">
                 强化
             </div>
