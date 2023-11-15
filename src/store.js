@@ -129,32 +129,6 @@ export default new Vuex.Store({
             type: '',
             msg: "战斗记录"
         }],
-        train: {
-            train1: {
-                timer: 0,
-                tier: 0,
-                finishTime: 0,
-                speedUp: false
-            },
-            train2: {
-                timer: 0,
-                tier: 0,
-                finishTime: 0,
-                speedUp: false
-            },
-            train3: {
-                timer: 0,
-                tier: 0,
-                finishTime: 0,
-                speedUp: false
-            },
-            train4: {
-                timer: 0,
-                tier: 0,
-                finishTime: 0,
-                speedUp: false
-            }
-        },
         questCateg: {
         },
         quests: {
@@ -182,9 +156,6 @@ export default new Vuex.Store({
             reputation: 0,
             guild: {lv: 0},
             bar: {lv: 0},
-            train: {lv: 0},
-            train2: {lv: 0},
-            train3: {lv: 0},
             shop: {lv: 0},
             blackmarket: {lv: 0},
             smith: {lv: 0},
@@ -383,88 +354,6 @@ export default new Vuex.Store({
             APPENP: 0,
             MRP: 0,
         },    
-        trainAttribute: {
-            CURHP: 0,
-            MAXHP: 0,
-            CURMP: 0,
-            MAXMP: 0,
-            SHIELD: 0,
-            HP: 0,
-            MP: 0,
-            STR: 0,
-            AGI: 0,
-            INT: 0,
-            STA: 0,
-            SPI: 0,
-            ALL: 0,
-            ATK: 10,
-            DEF: 0,
-            DEFRED: 0,
-            BLOCK: 0,
-            AP: 0,
-            APCRIT: 0,
-            APCRITDMG: 0,
-            APPEN: 0,
-            MR: 0,
-            HASTE: 0,
-            HEAL: 0,
-            VERS: 0,
-            VERSBONUS: 0,
-            CRIT: 0,
-            CRITDMG: 0,
-            STRP: 0,
-            AGIP: 0,
-            INTP: 0,
-            STAP: 0,
-            SPIP: 0,
-            ALLP: 0,
-            HPP: 0,
-            MPP: 0,
-            ATKP: 0,
-            DEFP: 0,
-            BLOCKP: 0,
-            APP: 0,
-            APPENP: 0,
-            MRP: 0,
-        },
-        trainProgress: {
-            HP: {
-                level: 0,
-                progress: 0
-            },
-            MP: {
-                level: 0,
-                progress: 0
-            },
-            STR: {
-                level: 0,
-                progress: 0
-            },
-            AGI: {
-                level: 0,
-                progress: 0
-            },
-            INT: {
-                level: 0,
-                progress: 0
-            },
-            ATK: {
-                level: 0,
-                progress: 0
-            },
-            DEF: {
-                level: 0,
-                progress: 0
-            },
-            AP: {
-                level: 0,
-                progress: 0
-            },
-            MR: {
-                level: 0,
-                progress: 0
-            },
-        },
         setting: {
             waitFull: false,
             animeSize: 'medium'
@@ -617,7 +506,7 @@ export default new Vuex.Store({
                 ALL: { VERS: 1}
             };
             attributes.forEach(attr => {
-                let val = this.state.baseAttribute[attr] + this.state.trainAttribute[attr];
+                let val = this.state.baseAttribute[attr];
                 attribute[attr] = { 
                     baseVal: val, 
                     value: val, 

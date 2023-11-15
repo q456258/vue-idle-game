@@ -20,7 +20,7 @@ export const guildConfig = {
             guildBuildingName: {
                 guild: '公会', bar: '酒馆',
                 questBoard:'任务榜', shop:'商店', blackmarket:'黑市', smith:'铁匠铺', 
-                train:'练功房', train2:'中级练功房', train3:'高级练功房', 
+                // train:'练功房', train2:'中级练功房', train3:'高级练功房', 
                 mine: '矿场', herb: '药园', treasury: '金库'
             },
             guildBuildingDesc: {
@@ -30,9 +30,6 @@ export const guildConfig = {
                 shop: ['','解锁杂货店','解锁名望商店','增加商品','增加商品'],
                 blackmarket: ['','解锁黑市'],
                 smith: ['','解锁装备强化', '解锁装备重铸', '解锁装备分解、锻造', '解锁装备洗炼', '解锁装备精炼', '解锁装备熔炼'],
-                train: ['', '解锁练功房', '提升练功房效率', '解锁第二个练功房', '提升练功房效率', '解锁第三个练功房'],
-                train2: [],
-                train3: [],
                 mine:  ['','增加一个矿位','增加两个矿位','增加三个矿位'],
                 herb: [],
                 treasury:  ['每级提升怪物等级*2%金币获取','','','','','',''],
@@ -57,19 +54,19 @@ export const guildConfig = {
                     [['guild', 3]],
                     [['guild', 4]],
                 ],
-                train: [
-                    [['guild', 1]],
-                    [['guild', 1]],
-                    [['guild', 2]],
-                    [['guild', 2]],
-                    [['guild', 3]],
-                ],
-                train2: [
-                    [],
-                ],
-                train3: [
-                    [],
-                ],
+                // train: [
+                //     [['guild', 1]],
+                //     [['guild', 1]],
+                //     [['guild', 2]],
+                //     [['guild', 2]],
+                //     [['guild', 3]],
+                // ],
+                // train2: [
+                //     [],
+                // ],
+                // train3: [
+                //     [],
+                // ],
                 bar: [
                     [['guild', 1]],
                 ],

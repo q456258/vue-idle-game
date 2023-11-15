@@ -59,11 +59,10 @@ import {guildConfig} from '@/assets/config/guildConfig'
 import currency from '../uiComponent/currency';
 import cTooltip from '../uiComponent/tooltip';
 import guildPosition from '../component/guildPosition';
-import countdown from '../uiComponent/countdown';
 export default {
     name: "guild",
     mixins: [guildConfig],
-    components: {cTooltip, guildPosition, countdown, currency},
+    components: {cTooltip, guildPosition, currency},
     mounted() {
         this.$store.globalComponent.guild = this;
     },
@@ -249,27 +248,6 @@ export default {
     width: 10rem;
     font-size: 1rem;
     margin: 0.5rem;
-}
-
-.training {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	min-height: 10rem;
-    width: 50rem;
-    padding: 0.5rem;
-    margin: 0.5rem;
-	background-color: #000;
-}
-
-.trainingProgressbars {
-	display: flex;
-	justify-content: space-around;
-	align-items: center;
-	flex-wrap: wrap;
-	min-width: 270px;
-	width: 100%;
-	min-height: 100%;
 }
 a.glowBtn{
 	z-index: 1;
