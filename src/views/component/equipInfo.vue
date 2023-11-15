@@ -321,13 +321,13 @@ export default {
         },
         createExtraEntryValue(entry, random, lv, mod=1) {
             if(['CRITDMG', 'HASTE', 'APPEN', 'APCRITDMG', 'VERS'].indexOf(entry.type) != -1) {
-                entry.value = Math.ceil((0.5+0.5*random) * this.entryInfo[entry.type].base);
+                entry.value = Math.ceil((0.5+1*random) * this.entryInfo[entry.type].base);
                 entry.showVal = '+' + entry.value;
                 if(['CRITDMG', 'APCRITDMG'].indexOf(entry.type) != -1)
                     entry.showVal += '%';
             } else {
                 // entry.value = Math.ceil((0.5+0.5*random) * this.entryInfo[entry.type].base * mod * (1.6+lv*0.08));
-                entry.value = Math.ceil((0.5+0.5*random) * this.entryInfo[entry.type].base * mod * (1.6+lv*0.08+lv*lv/1000));
+                entry.value = Math.ceil((0.5+1*random) * this.entryInfo[entry.type].base * mod * (1.6+lv*0.08+lv*lv/1000));
                 entry.showVal = '+' + entry.value;
             }
             entry.quality = Math.round(random*100);
