@@ -80,12 +80,12 @@ export const equipConfig = {
         necklace: 0.68
       },
       entryInfo: {
-        STR: { base: 2.5, name: '力量' }, 
-        AGI: { base: 2.5, name: '敏捷' }, 
-        INT: { base: 2.5, name: '智力' }, 
-        STA: { base: 2.5, name: '耐力' }, 
-        SPI: { base: 2.5, name: '精神' }, 
-        ALL: { base: 0.8, name: '全属性'},
+        STR: { base: 1, name: '力量' }, 
+        AGI: { base: 1, name: '敏捷' }, 
+        INT: { base: 1, name: '智力' }, 
+        STA: { base: 1, name: '耐力' }, 
+        SPI: { base: 1, name: '精神' }, 
+        ALL: { base: 0.35, name: '全属性'},
         ATK: { base: 5, name: '攻击' }, 
         DEF: { base: 10, name: '护甲' }, 
         BLOCK: { base: 2, name: '格挡' }, 

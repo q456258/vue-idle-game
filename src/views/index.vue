@@ -565,12 +565,9 @@ export default {
         if(this.playerTalent[talent] > 0) {
           bonus += this.playerTalent[talent]*0.05;
         }
-        let amount = this.attribute.MAXHP.value*recover+this.attribute.STA.value;
+        let amount = this.attribute.MAXHP.value*recover+5*this.attribute.STA.value;
         amount *= bonus;
         if(this.inBattle) {
-          amount = this.attribute.STA.value;
-          amount *= bonus;
-          this.set_player_hp(Math.ceil(amount), player);
           return;
         } 
         else {
@@ -588,23 +585,23 @@ export default {
         let recover = 0.10;
         let bonus = 1;
         let talent = 'spell_arcane_studentofmagic';
-        let amount = this.attribute.SPI.value;
+        let amount = 5*this.attribute.SPI.value;
         if(this.playerTalent[talent] > 0) {
           bonus += this.playerTalent[talent]*0.05;
         }
         if(!this.inBattle) {
+          amount += this.attribute.MAXMP.value*recover;
           talent = 'spell_arcane_mindmastery';
           if(this.playerTalent[talent] > 0) {
             amount *= (1+this.playerTalent[talent]*0.1);
           }
-          amount += this.attribute.MAXMP.value*recover;
-          this.mpChange(player, player, Math.ceil(amount));
+          amount *= bonus;
         }
         else {
           amount = this.attribute.SPI.value;
           amount *= bonus;
-          this.mpChange(player, player, Math.ceil(amount));
         }
+        this.mpChange(player, player, Math.ceil(amount));
       }, 5000);
     },
     openMenuPanel(type) {

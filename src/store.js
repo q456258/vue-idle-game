@@ -497,12 +497,12 @@ export default new Vuex.Store({
                 'STR','AGI','INT','STA','SPI','ALL','ATK','DEF','BLOCK','AP','APPEN','MR','HP','MP'
                 
             ];
-            let advancedAttr = {
-                STR: { DEF: 3, BLOCK: 0.5}, 
-                AGI: { ATK: 2, CRIT: 0.01}, 
-                INT: { AP: 2, APCRIT: 0.01}, 
-                STA: { HP: 15}, 
-                SPI: { MP: 25}, 
+            let advancedAttr = {                
+                STR: { DEF: 8, BLOCK: 1}, 
+                AGI: { ATK: 5, CRIT: 0.01}, 
+                INT: { AP: 5, APCRIT: 0.01}, 
+                STA: { HP: 40}, 
+                SPI: { }, 
                 ALL: { VERS: 1}
             };
             attributes.forEach(attr => {
