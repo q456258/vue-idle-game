@@ -151,7 +151,7 @@ export default {
                 console.trace();
                 return;
             }
-            amount *= (1+0.02*lv*this.guild.treasury.lv);
+            amount *= (1+0.05*lv*this.guild.treasury.lv);
             amount = parseInt(amount);
             if(amount <= 0){
                 console.log("获得0或者负数金币"+amount);
