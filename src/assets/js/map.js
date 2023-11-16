@@ -12,7 +12,8 @@ export const map = {
                 chest: '#c0f'
             },
             levels: {normal: -1, elite: -1, boss: -1},
-            enemyType: 0
+            normalEnemyType: 0,
+            eliteEnemyType: 0
         }
     },
     methods: {
@@ -119,18 +120,18 @@ export const map = {
             // 新手教程
             if(lv <= 10) {
                 if(type == 'normal')
-                    monsterID = 1+this.enemyType;
+                    monsterID = 1+this.normalEnemyType;
                 else if(type == 'elite')
-                    monsterID = 3+this.enemyType;
+                    monsterID = 3+this.eliteEnemyType;
                 else if(type == 'boss')
                     monsterID = 5;
             } else {
                 monsterID = Math.ceil(lv/50)*10;
                 // 两种怪物根据等级/10后的奇数偶数轮换
                 if(type == 'normal')
-                    monsterID += 1+this.enemyType;
+                    monsterID += 1+this.normalEnemyType;
                 else if(type == 'elite')
-                    monsterID += 3+this.enemyType;
+                    monsterID += 3+this.eliteEnemyType;
                 else if(type == 'boss')
                     monsterID += 5;
             }

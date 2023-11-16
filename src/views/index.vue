@@ -80,7 +80,7 @@
           <button id="boss" class="btn btn-outline-light btn-sm lvZone" @click="switchZone('boss')">
             BOSS
           </button>    
-          <div class="refresh btn btn-secondary" @click="changeEnemy()"></div>
+          <div class="refresh btn btn-secondary" @click="changeEnemy(dungeonInfo.current)" v-if="dungeonInfo.current != 'boss'"></div>
           <br>
           <button class="btn btn-secondary " @click="modLvAndSetEnemy(dungeonInfo.current, -1)">降低等级</button>
           <button class="btn btn-secondary " @click="modLvAndSetEnemy(dungeonInfo.current, 1)">提升等级</button>
@@ -446,9 +446,11 @@ export default {
         mapEvent.setReward(type);
       }
     },
-    changeEnemy() {
-      this.enemyType = this.enemyType==0 ? 1 : 0;
-      let type = this.dungeonInfo.current;
+    changeEnemy(type) {
+      if(type == 'normal')
+        this.normalEnemyType = this.normalEnemyType==0 ? 1 : 0;
+      else if(type == 'elite')
+        this.eliteEnemyType = this.eliteEnemyType==0 ? 1 : 0;
       this.generateEnemy(type);
     },
     toggleBattle(type) {
