@@ -447,10 +447,12 @@ export default {
       }
     },
     changeEnemy(type) {
+      let mapEvent = this.$store.globalComponent["mapEvent"];
       if(type == 'normal')
         this.normalEnemyType = this.normalEnemyType==0 ? 1 : 0;
       else if(type == 'elite')
         this.eliteEnemyType = this.eliteEnemyType==0 ? 1 : 0;
+      mapEvent.toggleBattle();
       this.generateEnemy(type);
     },
     toggleBattle(type) {
