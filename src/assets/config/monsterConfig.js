@@ -99,10 +99,10 @@ export const monsterConfig = {
                     }
                 }, 
                 2:{
-                    name: '高级训练假人', type: 'normal', minLv: 6, maxLv: 10,
-                    spellCycle: ['attack'], talent: {}, anime: 'trainingDummy2.png',
+                    name: '冰霜训练假人', type: 'normal', minLv: 6, maxLv: 10,
+                    spellCycle: ['spell_frost_frostbolt02'], talent: {}, anime: 'trainingDummy2.png',
                     template:{  
-                        MAXHP: 150, ATK: 30, DEF: 20, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 150, ATK: 0, DEF: 20, BLOCK: 0, AP: 30, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
@@ -115,10 +115,10 @@ export const monsterConfig = {
                     }
                 },  
                 4: {
-                    name: '高级训练假人精英', type: 'elite', minLv: 6, maxLv: 10,
-                    spellCycle: ['attack'], talent: {}, anime: 'trainingDummy2.png',
+                    name: '冰霜训练假人精英', type: 'elite', minLv: 6, maxLv: 10,
+                    spellCycle: ['spell_frost_frostbolt02'], talent: {}, anime: 'trainingDummy2.png',
                     template:{  
-                        MAXHP: 350, ATK: 45, DEF: 30, BLOCK: 5, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 350, ATK: 0, DEF: 30, BLOCK: 5, AP: 45, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
@@ -140,9 +140,9 @@ export const monsterConfig = {
                 }, 
                 12: {
                     name: '癞皮山猪', type: 'normal', minLv: 11, maxLv: 100,
-                    spellCycle: ['attack'], talent: {}, anime: 'mottledBoar2.png',
+                    spellCycle: ['spell_frost_frostbolt02'], talent: {}, anime: 'mottledBoar2.png',
                     template:{  
-                        MAXHP: 800, ATK: 60, DEF: 70, BLOCK: 10, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 800, ATK: 0, DEF: 70, BLOCK: 10, AP: 60, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 30, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
@@ -156,9 +156,9 @@ export const monsterConfig = {
                 }, 
                 14: {
                     name: '癞皮山猪精英', type: 'elite', minLv: 15, maxLv: 100,
-                    spellCycle: ['attack','ability_hunter_pet_boar','attack','attack'], talent: {}, anime: 'mottledBoar2.png',
+                    spellCycle: ['spell_frost_frostbolt02','ability_hunter_pet_boar','spell_frost_frostbolt02','spell_frost_frostbolt02'], talent: {}, anime: 'mottledBoar2.png',
                     template:{  
-                        MAXHP: 2050, ATK: 65, DEF: 70, BLOCK: 20, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 2050, ATK: 0, DEF: 70, BLOCK: 20, AP: 65, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 30, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
@@ -222,9 +222,9 @@ export const monsterConfig = {
                 }, 
                 32: {
                     name: '黑爪豺狼人', type: 'normal', minLv: 36, maxLv: 40,
-                    spellCycle: ['attack'], talent: {}, anime: 'mudsnoutGnoll.png',
+                    spellCycle: ['spell_frost_frostbolt02'], talent: {}, anime: 'mudsnoutGnoll.png',
                     template:{  
-                        MAXHP: 2800, ATK: 200, DEF: 500, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 2800, ATK: 0, DEF: 500, BLOCK: 0, AP: 200, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 50, CRITDMG: 250, HEAL: 0, APPEN: 0, MR: 10,
                     }
                 }, 
@@ -238,9 +238,9 @@ export const monsterConfig = {
                 }, 
                 34: {
                     name: '黑爪豺狼人精英', type: 'elite', minLv: 36, maxLv: 40,
-                    spellCycle: ['attack','attack','attack','attack','ability_ghoulfrenzy'], talent: {}, anime: 'mudsnoutGnoll.png',
+                    spellCycle: ['spell_frost_frostbolt02','spell_frost_frostbolt02','spell_frost_frostbolt02','spell_frost_frostbolt02','ability_ghoulfrenzy'], talent: {}, anime: 'mudsnoutGnoll.png',
                     template:{  
-                        MAXHP: 4000, ATK: 225, DEF: 800, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 4000, ATK: 0, DEF: 800, BLOCK: 0, AP: 225, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 50, CRITDMG: 250, HEAL: 0, APPEN: 0, MR: 15,
                     }
                 }, 
