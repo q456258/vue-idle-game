@@ -187,7 +187,7 @@ export default {
         },
         autofill(dungeon) {
             let curDungeon = this.dungeonProgress[dungeon];
-            if(curDungeon.members.length>=curDungeon.limit) {
+            if(curDungeon.members.length>=curDungeon.limit || curDungeon.members.length==this.guild.member.length) {
                 for(let i in this.selected) {
                     let id = this.selected[i];
                     this.updateMemberStat(false, id, dungeon);
@@ -199,11 +199,10 @@ export default {
                         return;
                     let member = this.guild.member[i];
                     let id = this.guild.member[i].id;
-                    if(member.status == 'none') {
+                    if(this.selected.indexOf(id) == -1) {
                         this.selected.push(id);
                         this.updateMemberStat(true, id, dungeon);
                     }
-                
                 }
             }
         },
