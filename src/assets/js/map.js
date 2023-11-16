@@ -11,7 +11,8 @@ export const map = {
                 boss: '#d63',
                 chest: '#c0f'
             },
-            levels: {normal: -1, elite: -1, boss: -1}
+            levels: {normal: -1, elite: -1, boss: -1},
+            enemyType: 0
         }
     },
     methods: {
@@ -74,7 +75,8 @@ export const map = {
                 // attribute.value = Math.round(attribute.value*(1.5+enemyAttribute.lv*(enemyAttribute.lv-1)*(enemyAttribute.lv/50)));
                 // attr.value = Math.round(attr.value*(2+enemyAttribute.lv*(enemyAttribute.lv/35)*(0.9+Math.random()*0.2)));
                 // attr.value = Math.round(attr.value*(1+flexLv*(flexLv/75))*(0.95+Math.random()*0.1));
-                attr.value = Math.round(attr.value*(1+(20+flexLv)*(flexLv/500))*(0.95+Math.random()*0.1));
+                // attr.value = Math.round(attr.value*(1+(20+flexLv)*(flexLv/500))*(0.95+Math.random()*0.1));
+                attr.value = Math.round(attr.value*(1+(10+flexLv)*(flexLv/125))*(0.95+Math.random()*0.1));
                 attr.showValue = attr.value;
                 enemyAttribute.attribute[stat] = attr;
             });
@@ -117,18 +119,18 @@ export const map = {
             // 新手教程
             if(lv <= 10) {
                 if(type == 'normal')
-                    monsterID = Math.ceil(lv/5);
+                    monsterID = this.enemyType;
                 else if(type == 'elite')
-                    monsterID = Math.ceil(lv/5)+2;
+                    monsterID = 3+this.enemyType;
                 else if(type == 'boss')
                     monsterID = 5;
             } else {
-                monsterID = Math.ceil(lv/100)*10;
+                monsterID = Math.ceil(lv/50)*10;
                 // 两种怪物根据等级/10后的奇数偶数轮换
                 if(type == 'normal')
-                    monsterID += 1+Math.floor(lv/10)%2;
+                    monsterID += 1+this.enemyType;
                 else if(type == 'elite')
-                    monsterID += 3+Math.floor(lv/10)%2;
+                    monsterID += 3+this.enemyType;
                 else if(type == 'boss')
                     monsterID += 5;
             }
