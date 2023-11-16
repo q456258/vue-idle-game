@@ -119,7 +119,7 @@ export const map = {
             // 新手教程
             if(lv <= 10) {
                 if(type == 'normal')
-                    monsterID = this.enemyType;
+                    monsterID = 1+this.enemyType;
                 else if(type == 'elite')
                     monsterID = 3+this.enemyType;
                 else if(type == 'boss')
