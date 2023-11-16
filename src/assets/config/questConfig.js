@@ -79,10 +79,10 @@ export const questConfig = {
                     forfeit: false
                 },
                 4: {
-                    name: '击败高级训练假人',
+                    name: '击败冰霜训练假人',
                     category: 'newbie',
-                    desc: '试着击败一只高级训练假人吧, 5级开始, 普通区的怪物将转换为高级训练假人, 拥有比训练假人更强的属性。',
-                    target: '击败高级训练假人',
+                    desc: '试着击败一只冰霜训练假人吧。点击"BOSS"右边的刷新键可切换区域怪物类型。 普通区的怪物将转换为冰霜训练假人, 使用法术攻击。',
+                    target: '击败冰霜训练假人',
                     lv: 5,
                     reqs: [['slain', 2, 1]],
                     rewardItem: [['random_equip_normal_0', 1, 100, {types: ['ring']}]],
@@ -90,10 +90,10 @@ export const questConfig = {
                     forfeit: false
                 },
                 5: {
-                    name: '击败高级训练假人精英',
+                    name: '击败冰霜训练假人精英',
                     category: 'newbie',
-                    desc: '击败1只高级训练假人精英吧, 比起普通区怪物, 精英一般会拥有一个技能。训练假人没有, 因为他们是训练假人。',
-                    target: '击败高级训练假人精英',
+                    desc: '击败1只冰霜训练假人精英吧, 比起普通区怪物, 精英一般会拥有一个技能。训练假人没有, 因为他们是训练假人。',
+                    target: '击败冰霜训练假人精英',
                     lv: 10,
                     reqs: [['slain', 4, 1]],
                     rewardItem: [['random_equip_elite_1', 1, 100, {types: ['glove']}]],
