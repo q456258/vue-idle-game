@@ -246,7 +246,11 @@ export default {
             this.setReward(type);
             // 上面加了一级, 这边减少一级, 不然打同等级怪也会升级
             this.levelToTarget(enemyLv-1);
-            if(type == 'boss' && enemyLv != -1)
+            if(type == 'boss' && enemyLv != -1) {
+                this.talentLevelUp()
+                this.talentLevelUp()
+            }
+            if(type == 'elite' && enemyLv != -1)
                 this.talentLevelUp()
             this.$store.commit("set_battle_info", {
                 type: 'win',
@@ -317,8 +321,6 @@ export default {
             this.$store.commit('set_player_attribute');
             let lv = this.playerAttr.lv;
             quest.trackProgress('event', 1, lv, true);
-            if(lv%10 == 0)
-                this.talentLevelUp();
             if(lv == 10) {
                 let element = document.getElementById('talentTree');
                 element.classList.add('glow');
