@@ -1,5 +1,5 @@
 <template>
-<draggable v-show="size!='none'" :left_limit="-750" :right_limit="600" :top_limit="-200" :bot_limit="400" style="position:absolute; top:0;" :style="{width:size=='large'?'535px':size=='medium'?'410px':'355px'}" >
+<draggable v-show="size!='none'" :left_limit="-750" :right_limit="600" :top_limit="-200" :bot_limit="400" style="position:absolute; top:250px;" :style="{width:size=='large'?'535px':size=='medium'?'410px':'355px'}" >
     <template slot="header">
         <div class="battleAnimeHeader"></div>
     </template>
