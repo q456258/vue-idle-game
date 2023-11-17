@@ -101,7 +101,7 @@ export default {
     },
     methods: {
         forgeAll() {
-            if(this.warning) {
+            if(this.warning || this.equip.extraEntry.length == 0) {
                 return;
             }
             this.$store.state.guildAttribute.gold -= this.cost;
