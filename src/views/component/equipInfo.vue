@@ -425,10 +425,10 @@ export default {
             extraEntry.forEach(entry => {
                 let random = Math.random();
                 if(entry.type == 'CRITDMG' || entry.type == 'APCRITDMG') {
-                    entry.value = Math.round((0.5+0.5*random) * this.entryInfo[entry.type].base);
+                    entry.value = Math.ceil((0.5+0.5*random) * this.entryInfo[entry.type].base);
                     entry.showVal = '+' + entry.value + '%';
                 } else {
-                    entry.value = Math.round((0.5+0.5*random) * this.entryInfo[entry.type].base * mod * (1.6+equip.lv*0.08));
+                    entry.value = Math.ceil((0.5+0.5*random) * this.entryInfo[entry.type].base * mod * (1.6+equip.lv*0.08));
                     entry.showVal = '+' + entry.value;
                 }
                 entry.quality = Math.round(random*100);
