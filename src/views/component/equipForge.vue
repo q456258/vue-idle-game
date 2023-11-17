@@ -153,7 +153,7 @@ export default {
             this.computeCost();
         },
         computeCost() {
-            let cost = 25+this.equip.lv**2/7;
+            let cost = 15+this.equip.lv**2/7;
             cost = cost*1.2**this.equip.quality.qualityLv;
             for(let entry in this.equip.extraEntry) {
                 if(this.equip.extraEntry[entry].locked)
