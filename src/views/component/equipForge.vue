@@ -17,7 +17,7 @@
         <div class="forge">
             <div class="extraEntry" v-if="equip.extraEntry">
                 <!-- <div v-for="(v, k) in equip.extraEntry" :key="v.id" @click="forge(v, k)"> -->
-                <div v-for="(v, k) in equip.extraEntry" :key="v.id" @click="lock(v, k)">
+                <div v-for="(v, k) in equip.extraEntry" :key="v.id" @click="forge(v, k)">
                     <!-- <div>{{v.name}} : {{v.showVal}}</div> -->
                     <button class="btn btn-snake-border"  :class="v.qualityLv">
                         <span class="locked" v-show="v.locked"><img src="../../assets/icons/lock.png" alt=""></span>
@@ -132,17 +132,19 @@ export default {
             let quest = this.$store.globalComponent["quest"];
             quest.trackProgress('event', 6, 1);
         },
-        // 重铸单个词条，未被使用
+        // 重铸单个词条
         forge(entry, key) {       
-            if(entry.locked) {
+            if(entry.locked || this.warning) {
                 return;
             }
+            this.$store.state.guildAttribute.gold -= this.cost;
             let equipInfo = this.$store.globalComponent["equipInfo"];
             equipInfo.forgeEntry(this.equip, key);
             this.$store.commit('set_player_attribute');
             let quest = this.$store.globalComponent["quest"];
             quest.trackProgress('event', 6, 1);
         },
+        // 锁定词条, 未被使用
         lock(entry, key) {
             if(entry.locked == undefined)
                 entry.locked = true;
