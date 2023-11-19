@@ -98,6 +98,7 @@ export default {
                 quest.assignQuest(110);
                 quest.assignQuest(120);
                 quest.assignQuest(140);
+                quest.assignQuest(200);
                 // quest.assignQuest(150);
                 // quest.assignQuest(180);
                 // quest.assignQuest(190);
