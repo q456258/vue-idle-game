@@ -32,8 +32,8 @@ let initial_shoe = {
         potential: []
     },
     initial_weapon = {
-        lv: 1,
-        lvReq: 1,
+        lv: 0,
+        lvReq: 0,
         itemType: 'weapon',
         maxEnhanceLv: 0,
         enhanceLv: 0,
@@ -61,8 +61,8 @@ let initial_shoe = {
         potential: []
     },
     initial_armor = {
-        lv: 1,
-        lvReq: 1,
+        lv: 0,
+        lvReq: 0,
         itemType: 'armor',
         maxEnhanceLv: 0,
         enhanceLv: 0,
@@ -90,8 +90,8 @@ let initial_shoe = {
         potential: []
     },
     initial_legging = {
-        lv: 1,
-        lvReq: 1,
+        lv: 0,
+        lvReq: 0,
         itemType: 'legging',
         maxEnhanceLv: 0, 
         enhanceLv: 0,
