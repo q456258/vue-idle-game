@@ -221,7 +221,7 @@ export default {
             let eventID = {
                 guild: 101, bar: 102,
                 questBoard:103, shop:104, blackmarket:105, smith:106, 
-                mine: 110, herb: 111
+                mine: 110, herb: 111, treasury: 112
             };
             let quest = this.$store.globalComponent["quest"];
             let guild = this.$store.globalComponent["guild"];
