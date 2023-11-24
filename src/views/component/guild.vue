@@ -120,7 +120,7 @@ export default {
             return true;
         },  
         upgradeGuildBuild(type) {
-            guild[type].lv += 1;
+            this.guild[type].lv += 1;
             if(type == 'guild') {
                 let quest =  this.$store.globalComponent['quest']; 
                 let lv = guild[type].lv;
