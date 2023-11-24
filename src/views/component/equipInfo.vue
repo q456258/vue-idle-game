@@ -92,13 +92,13 @@ export default {
         return {
             newEquip: {},
             qualityProbability: [
-                [0.75, 1, 1, 1, 1, 1], //0普通(1-10)
-                [0.4, 0.74, 0.94, 0.99, 1, 1], //1普通(11-30)）
-                [0.45, 0.78, 0.99, 1, 1, 1], //2
-                [0, 0.4, 0.75, 0.95, 0.995, 1], //3精英(21-30)
-                [0.09, 0.34, 0.69, 0.99, 1, 1], //4
-                [0, 0.3, 0.6, 0.945, 0.995, 1], //5宝箱
-                [0, 0, 0.35, 0.9, 0.99, 1], //6BOSS（30+）
+                [0.75, 1, 1, 1, 1, 1], //0 0-10级
+                [0.55, 0.9, 1, 1, 1, 1], //1 1-51
+                [0.45, 0.78, 0.99, 1, 1, 1], //2 11-100
+                [0.25, 0.55, 0.95, 1, 1, 1], //3 51-150
+                [0.09, 0.34, 0.79, 0.99, 1, 1], //4 101-200
+                [0, 0.3, 0.6, 0.945, 0.995, 1], //5 151-250
+                [0, 0, 0.35, 0.9, 0.99, 1], //6 200+
                 [0.1, 0.25, 0.55, 0.85, 0.99, 1], //7
                 [0.05, 0.15, 0.35, 0.75, 0.95, 1], //8
                 [0, 0, 0.15, 0.55, 0.9, 1], //9
@@ -229,7 +229,7 @@ export default {
             }
 
             this.createBaseEntryValue(newEquip.quality.qualityCoefficient, fixEntry, 0, lv, newEquip.enhanceLv, mod);
-            let bonus = newEquip.quality.qualityLv != 3 ? 1 : Math.round(1+(newEquip.quality.qualityCoefficient * mod * (1.6+lv*0.08+lv*lv/1000)));
+            let bonus = newEquip.quality.qualityLv != 3 ? 1 : Math.round(1+(newEquip.quality.qualityCoefficient * this.getEntryValue(1, mod, lv)));
             this.createBaseEntryValue(newEquip.quality.qualityCoefficient, baseEntry, bonus, lv, newEquip.enhanceLv, mod);
             
             return fixEntry.concat(baseEntry);
@@ -270,7 +270,7 @@ export default {
             for(let i=0; i<entry.length; i++) {
                 let type = entry[i].type;
                 let ran = Math.round(Math.random()*bonus);
-                let base = qualityCoefficient * this.entryInfo[type].base * mod * (1.6+lv*0.08+lv*lv/1000);
+                let base = qualityCoefficient * this.getEntryValue(this.entryInfo[type].base, mod, lv);
                 if(entry.length > 1)
                     entry[i].base = Math.round(Math.pow(Math.pow(base, 1.5)/2, 0.66))+ran;
                 else
@@ -327,7 +327,7 @@ export default {
                     entry.showVal += '%';
             } else {
                 // entry.value = Math.ceil((0.5+0.5*random) * this.entryInfo[entry.type].base * mod * (1.6+lv*0.08));
-                entry.value = Math.ceil((0.5+1*random) * this.entryInfo[entry.type].base * mod * (1.6+lv*0.08+lv*lv/1000));
+                entry.value = Math.ceil((0.5+1.5*random) * this.getEntryValue(this.entryInfo[entry.type].base, mod, lv));
                 entry.showVal = '+' + entry.value;
             }
             entry.quality = Math.round(random*100);
@@ -359,7 +359,7 @@ export default {
                 //     value = ran>0.5 ? value*1 : value*1.5;
                 // }
                 if(percent.indexOf(extraEntry[index]) == -1)
-                    value = value * (1.6+lv*0.08+lv*lv/1000);
+                    value = this.getEntryValue(value, 1, lv);
                 value = Math.round(value);
 
                 potentials.push({
@@ -373,6 +373,10 @@ export default {
                 });
             }
             return potentials;
+        },
+        getEntryValue(base, mod, lv) {
+            let val = base * mod * (4+lv*0.08+lv*lv/1000);
+            return val;
         },
         getEquipDesc(newEquip) {
             let index = 0;
@@ -425,10 +429,10 @@ export default {
             extraEntry.forEach(entry => {
                 let random = Math.random();
                 if(entry.type == 'CRITDMG' || entry.type == 'APCRITDMG') {
-                    entry.value = Math.ceil((0.5+0.5*random) * this.entryInfo[entry.type].base);
+                    entry.value = Math.ceil((0.5+1.5*random) * this.entryInfo[entry.type].base);
                     entry.showVal = '+' + entry.value + '%';
                 } else {
-                    entry.value = Math.ceil((0.5+0.5*random) * this.entryInfo[entry.type].base * mod * (1.6+equip.lv*0.08));
+                    entry.value = Math.ceil((0.5+1.5*random) * this.getEntryValue( this.entryInfo[entry.type].base, mod, equip.lv));
                     entry.showVal = '+' + entry.value;
                 }
                 entry.quality = Math.round(random*100);
