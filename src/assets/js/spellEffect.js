@@ -243,7 +243,7 @@ export const spellEffect = {
             }
         },
         generalSpell(source, target, spell) {
-            let dmgs = this.getSpellDmg(spell, source);
+            let dmgs = this.getSpellDmg(spell, source, target);
             this.getSpellHeal(spell, source, target, dmgs);
             let effectList = this.getSpellEffect(source, spell);
             let statBuffList = this.getStatBuff(source, spell);
@@ -318,32 +318,51 @@ export const spellEffect = {
                 }
             }
         },
-        getSpellDmg(spell, source) {
+        getSpellDmg(spell, source, target) {
             let spellLv = source.spells == undefined ? 0 : source.spells[spell].lv-1;
             let dmgs = this.spell[spell].level[spellLv];
             let dmg = {};
+            console.log(dmgs)
             // 物理
             if(dmgs.adDmg) {
                 dmg.adDmg = dmgs.adDmg['FIX'] == undefined ? 0 : dmgs.adDmg['FIX'];
                 for(let attr in dmgs.adDmg) {
-                    if(source.attribute[attr] != undefined)
-                        dmg.adDmg += source.attribute[attr].value*dmgs.adDmg[attr];
+                    if(attr.startsWith('t_')) {
+                        let attr_no_t = attr.substring(2);
+                        if(target.attribute[attr_no_t] != undefined)
+                            dmg.adDmg += target.attribute[attr_no_t].value*dmgs.adDmg[attr];
+                    } else {
+                        if(source.attribute[attr] != undefined)
+                            dmg.adDmg += source.attribute[attr].value*dmgs.adDmg[attr];
+                    }
                 }
             }
             // 魔法
             if(dmgs.apDmg) {
                 dmg.apDmg = dmgs.apDmg['FIX'] == undefined ? 0 : dmgs.apDmg['FIX'];
                 for(let attr in dmgs.apDmg) {
-                    if(source.attribute[attr] != undefined)
-                        dmg.apDmg += source.attribute[attr].value*dmgs.apDmg[attr];
+                    if(attr.startsWith('t_')) {
+                        let attr_no_t = attr.substring(2);
+                        if(target.attribute[attr_no_t] != undefined)
+                            dmg.apDmg += target.attribute[attr_no_t].value*dmgs.apDmg[attr];
+                    } else {
+                        if(source.attribute[attr] != undefined)
+                            dmg.apDmg += source.attribute[attr].value*dmgs.apDmg[attr];
+                    }
                 }
             }
             // 神圣
             if(dmgs.trueDmg) {
                 dmg.trueDmg = dmgs.trueDmg['FIX'] == undefined ? 0 : dmgs.trueDmg['FIX'];
                 for(let attr in dmgs.trueDmg) {
-                    if(source.attribute[attr] != undefined)
-                        dmg.trueDmg += source.attribute[attr].value*dmgs.trueDmg[attr];
+                    if(attr.startsWith('t_')) {
+                        let attr_no_t = attr.substring(2);
+                        if(target.attribute[attr_no_t] != undefined)
+                            dmg.trueDmg += target.attribute[attr_no_t].value*dmgs.trueDmg[attr];
+                    } else {
+                        if(source.attribute[attr] != undefined)
+                            dmg.trueDmg += source.attribute[attr].value*dmgs.trueDmg[attr];
+                    }
                 }
             }
             return dmg;
@@ -591,7 +610,7 @@ export const spellEffect = {
         // 普通攻击
         attack(source, target, spell) {
             let index = this.$store.globalComponent["index"];
-            let dmgs = this.getSpellDmg(spell, source);
+            let dmgs = this.getSpellDmg(spell, source, target);
             let effectList = this.getSpellEffect(source, spell);
             // 强化攻击
             let talent = 'classicon_warrior';
@@ -610,7 +629,7 @@ export const spellEffect = {
         },
         // 雷霆一击
         spell_nature_thunderclap(source, target, spell) {
-            let dmg = this.getSpellDmg(spell, source);
+            let dmg = this.getSpellDmg(spell, source, target);
             let effectList = this.getSpellEffect(source, spell);
             // 风暴之锤
             let talent = 'warrior_talent_icon_stormbolt';
@@ -637,7 +656,7 @@ export const spellEffect = {
         // 屠杀
         inv_sword_48(source, target, spell) {
             let index = this.$store.globalComponent["index"];
-            let dmg = this.getSpellDmg(spell, source);
+            let dmg = this.getSpellDmg(spell, source, target);
             let hp_percent = target.attribute.CURHP.value/target.attribute.MAXHP.value*100;
             // 处刑
             let talent = 'ability_deathknight_deathchain';
@@ -657,7 +676,7 @@ export const spellEffect = {
         },
         // 盾击
         ability_warrior_shieldbash(source, target, spell) {
-            let dmg = this.getSpellDmg(spell, source);
+            let dmg = this.getSpellDmg(spell, source, target);
             let effectList = this.getSpellEffect(source, spell);
             // 盾牌猛击
             let talent = 'inv_shield_05';
@@ -689,7 +708,7 @@ export const spellEffect = {
                 if(this.buffType.statusDebuff[buff] != undefined)
                     index.buffRemoved(source, source, buff);
             }
-            let dmg = this.getSpellDmg(spell, source);            
+            let dmg = this.getSpellDmg(spell, source, target);            
             this.applyDmg(source, target, spell, dmg);
         },
         // 天神下凡
@@ -708,7 +727,7 @@ export const spellEffect = {
         },
         // 勾魂
         spell_warlock_soulburn(source, target, spell) {
-            let dmg = this.getSpellDmg(spell, source);
+            let dmg = this.getSpellDmg(spell, source, target);
             let effectList = this.getSpellEffect(source, spell);
             // 夺魄
             let talent = 'ability_warlock_jinx';
@@ -722,7 +741,7 @@ export const spellEffect = {
         },
         // 破裂投掷
         ability_warrior_shatteringthrow(source, target, spell) {
-            let dmg = this.getSpellDmg(spell, source);
+            let dmg = this.getSpellDmg(spell, source, target);
             let effectList = this.getSpellEffect(source, spell);
             // 粉碎投掷
             let talent = 'ability_warrior_colossussmash';
@@ -759,7 +778,7 @@ export const spellEffect = {
             index.addToTimerList(target.type, timer);
         },
         spell_frost_icestorm_dmg(source, target, spell) {
-            let dmg = this.getSpellDmg(spell, source);
+            let dmg = this.getSpellDmg(spell, source, target);
             let effectList = this.getSpellEffect(source, spell);
 
             this.applyDmg(source, target, spell, dmg);
@@ -778,7 +797,7 @@ export const spellEffect = {
             index.addToTimerList(target.type, timer);
         },
         ability_warlock_burningembersblue_dmg(source, target, spell) {
-            let dmg = this.getSpellDmg(spell, source);
+            let dmg = this.getSpellDmg(spell, source, target);
             let effectList = this.getSpellEffect(source, spell);
             
             this.applyDmg(source, target, spell, dmg);
@@ -868,7 +887,7 @@ export const spellEffect = {
         },
         arcaneGeneralSpell(source, target, spell, arcCharge) {
             let index = this.$store.globalComponent["index"];
-            let dmg = this.getSpellDmg(spell, source);
+            let dmg = this.getSpellDmg(spell, source, target);
             let effectList = this.getSpellEffect(source, spell);
             switch(spell) {
                 case 'ability_mage_arcanebarrage':
@@ -910,7 +929,7 @@ export const spellEffect = {
             if(source.talent[talent] > 0) {
                 count += (2*source.talent[talent]);
             }
-            let dmgs = this.getSpellDmg(spell, source);
+            let dmgs = this.getSpellDmg(spell, source, target);
             this.getSpellHeal(spell, source, target, dmgs);
             let timer = setInterval(() => {
                 this.applyDmg(source, target, spell, dmgs);
@@ -921,7 +940,7 @@ export const spellEffect = {
         },
         // 绝望祷言
         spell_holy_testoffaith(source, target, spell) {
-            let dmgs = this.getSpellDmg(spell, source);
+            let dmgs = this.getSpellDmg(spell, source, target);
             this.getSpellHeal(spell, source, target, dmgs);
             let statBuffList = this.getStatBuff(source, spell);
             
@@ -930,7 +949,7 @@ export const spellEffect = {
         },
         // 心灵震爆
         spell_shadow_unholyfrenzy(source, target, spell) {
-            let dmgs = this.getSpellDmg(spell, source);
+            let dmgs = this.getSpellDmg(spell, source, target);
             this.getSpellHeal(spell, source, target, dmgs);
             let effectList = this.getSpellEffect(source, spell);
             let statBuffList = this.getStatBuff(source, spell);
@@ -954,7 +973,7 @@ export const spellEffect = {
         // 暗言术：痛
         spell_shadow_shadowwordpain(source, target, spell) {
             let index = this.$store.globalComponent["index"];
-            let dmgs = this.getSpellDmg(spell, source);
+            let dmgs = this.getSpellDmg(spell, source, target);
             this.applyDmg(source, target, spell, dmgs);
 
             let count = 12;
@@ -969,7 +988,7 @@ export const spellEffect = {
         // 暗影愈合
         spell_shadow_shadowmend(source, target, spell) {
             let index = this.$store.globalComponent["index"];
-            let dmgs = this.getSpellDmg(spell, source);
+            let dmgs = this.getSpellDmg(spell, source, target);
             this.getSpellHeal(spell, source, target, dmgs);
             let timer;
             // 忍辱负重
@@ -1012,7 +1031,7 @@ export const spellEffect = {
         // 暗言术·灭
         spell_shadow_demonicfortitude(source, target, spell) {
             let index = this.$store.globalComponent["index"];
-            let dmgs = this.getSpellDmg(spell, source);
+            let dmgs = this.getSpellDmg(spell, source, target);
 
             if(target.attribute.CURHP.value < target.attribute.MAXHP.value*0.5)
                 index.set_ap_dmg(dmgs, index.get_dmg(dmgs, 'ap')*2.5);
@@ -1025,7 +1044,7 @@ export const spellEffect = {
         // 真言术：慰
         ability_priest_flashoflight(source, target, spell) {
             let index = this.$store.globalComponent["index"];
-            let dmgs = this.getSpellDmg(spell, source);
+            let dmgs = this.getSpellDmg(spell, source, target);
             let manaRec = source.attribute['MAXMP'].value*(0.05*source.spells[spell].lv);
 
             index.mpChange(source, source, manaRec);
@@ -1051,7 +1070,7 @@ export const spellEffect = {
         // 河爪烙印
         spell_frost_frostward(source, target, spell) {
             let index = this.$store.globalComponent["index"];
-            let dmg = this.getSpellDmg(spell, source);
+            let dmg = this.getSpellDmg(spell, source, target);
             let count = 0;
             let timer = setInterval(() => {
                 this.applyDmg(source, target, spell, dmg);
@@ -1065,7 +1084,7 @@ export const spellEffect = {
             let index = this.$store.globalComponent["index"];
             let count = Math.floor(Math.random()*4)+1;
             let timer = setInterval(() => {
-                let dmg = this.getSpellDmg(spell, source);
+                let dmg = this.getSpellDmg(spell, source, target);
                 index.set_ad_dmg(dmg, index.get_dmg(dmg, 'ad')*(0.5+Math.random()*0.5))
                 this.applyDmg(source, target, spell, dmg);
                 if(--count <= 0)
@@ -1077,7 +1096,7 @@ export const spellEffect = {
         inv_misc_food_meat_raw_04(source, target, spell) {
             let index = this.$store.globalComponent["index"];
             let count = 4;
-            let dmgs = this.getSpellDmg(spell, source);
+            let dmgs = this.getSpellDmg(spell, source, target);
             this.getSpellHeal(spell, source, target, dmgs);
             let timer = setInterval(() => {
                 this.applyDmg(source, target, spell, dmgs);
@@ -1096,7 +1115,7 @@ export const spellEffect = {
         spell_fire_flameblades(source, target, spell) {
             let index = this.$store.globalComponent["index"];
             let count = 3;
-            let dmgs = this.getSpellDmg(spell, source);
+            let dmgs = this.getSpellDmg(spell, source, target);
             let effectList = this.getSpellEffect(source, spell);
 
             this.applyDmg(source, target, spell, dmgs);
@@ -1128,7 +1147,7 @@ export const spellEffect = {
         // 碎裂心智(熔岩元素)
         sha_spell_fire_bluehellfire_nightmare(source, target, spell) {
             let index = this.$store.globalComponent["index"];
-            let dmgs = this.getSpellDmg(spell, source);
+            let dmgs = this.getSpellDmg(spell, source, target);
             let effectList = this.getSpellEffect(source, spell);
             let stack = target.buff['sha_spell_fire_bluehellfire_nightmare'] ? target.buff['sha_spell_fire_bluehellfire_nightmare'] : 0;
 
