@@ -258,7 +258,7 @@ export default {
             });
         },
         defeat(source, target) {
-            this.setBattleStatus(false, false);
+            this.setBattleStatus(false, this.dungeonInfo.auto);
             this.$store.commit("set_battle_info", {
                 type: 'lose',
                 msg: '战斗结束, 你扑街了'
