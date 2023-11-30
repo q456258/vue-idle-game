@@ -913,9 +913,9 @@ export const talentConfig = {
                 spell_ice_lament:{
                     name: '【技能】寒冰护体',
                     desc: ['',
-                        '为你施加寒冰护盾，吸收0.2*最大生命值*(1+全能*0.1)点伤害',
-                        '为你施加寒冰护盾，吸收0.25*最大生命值*(1+全能*0.1)点伤害',
-                        '为你施加寒冰护盾，吸收0.3*最大生命值*(1+全能*0.1)点伤害'
+                        '为你施加寒冰护盾，吸收0.1*最大生命值*(1+全能*0.01)点伤害, 持续10秒',
+                        '为你施加寒冰护盾，吸收0.1*最大生命值*(1+全能*0.01)点伤害, 持续15秒',
+                        '为你施加寒冰护盾，吸收0.1*最大生命值*(1+全能*0.01)点伤害, 持续20秒'
                     ],
                     type: 'spell_ice_lament',
                     iconSrc: './icons/spell/mage/spell_ice_lament.jpg',
@@ -1246,9 +1246,9 @@ export const talentConfig = {
                 spell_holy_powerwordshield:{
                     name: '【技能】真言术：盾',
                     desc: ['',
-                        '施加一个护盾，吸收法术强度*1*(1+全能*0.01)点伤害',
-                        '施加一个护盾，吸收法术强度*1.1*(1+全能*0.01)点伤害',
-                        '施加一个护盾，吸收法术强度*1.2*(1+全能*0.01)点伤害',
+                        '施加一个护盾，吸收法术强度*1*(1+全能*0.01)点伤害, 持续10秒',
+                        '施加一个护盾，吸收法术强度*1.1*(1+全能*0.01)点伤害, 持续15秒',
+                        '施加一个护盾，吸收法术强度*1.2*(1+全能*0.01)点伤害, 持续20秒',
                     ],
                     type: 'spell_holy_powerwordshield',
                     iconSrc: './icons/spell/priest/spell_holy_powerwordshield.jpg',
@@ -1352,7 +1352,7 @@ export const talentConfig = {
                 ability_shaman_astralshift:{
                     name: '灵魂护壳',
                     desc: ['',
-                        '溢出的治疗效果将会转换为护盾，数值相当于治疗量的80%'
+                        '溢出的治疗效果将会转换为护盾，数值相当于治疗量的80%， 持续20秒'
                     ],
                     type: 'ability_shaman_astralshift',
                     iconSrc: './icons/spell/priest/ability_shaman_astralshift.jpg',
@@ -1409,7 +1409,7 @@ export const talentConfig = {
                 spell_holy_persuitofjustice:{
                     name: '【技能】圣言术：静',
                     desc: ['',
-                        '施展神迹，恢复最大生命值*1点生命值，溢出值将转为护盾'
+                        '施展神迹，恢复最大生命值*1点生命值，溢出值将转为护盾，持续20秒'
                     ],
                     type: 'spell_holy_persuitofjustice',
                     iconSrc: './icons/spell/priest/spell_holy_persuitofjustice.jpg',

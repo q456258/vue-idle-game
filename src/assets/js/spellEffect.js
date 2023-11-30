@@ -805,7 +805,10 @@ export const spellEffect = {
         // 寒冰护体
         spell_ice_lament(source, target, spell) {
             let index = this.$store.globalComponent["index"];
-            let shield = source.attribute.MAXHP.value*(0.05+source.spells[spell].lv*0.05)*(1+source.attribute.VERS.value*0.01);
+            let spellLv = source.spells[spell].lv-1;
+            let shield = {};
+            shield.val = source.attribute.MAXHP.value*0.1*(1+source.attribute.VERS.value*0.01);
+            shield.time = this.spell[spell].level[spellLv].duration.time;
             index.shield(source, target, shield, spell);
         },
         // 法力护盾
@@ -966,7 +969,10 @@ export const spellEffect = {
         // 真言术：盾
         spell_holy_powerwordshield(source, target, spell) {
             let index = this.$store.globalComponent["index"];
-            let shield = source.attribute.AP.value*(0.9+source.spells[spell].lv*0.1)*(1+source.attribute.VERS.value*0.01);
+            let spellLv = source.spells[spell].lv-1;
+            let shield = {};
+            shield.val = source.attribute.AP.value*1*(1+source.attribute.VERS.value*0.01);
+            shield.time = this.spell[spell].level[spellLv].duration.time;
             index.shield(source, target, shield, spell);
         },
         // 暗言术：痛
@@ -1107,7 +1113,9 @@ export const spellEffect = {
         // 防护之壳(盐壳龟)
         ability_vehicle_shellshieldgenerator(source, target, spell) {
             let index = this.$store.globalComponent["index"];
-            let shield = source.attribute.DEF.value*0.1;
+            let shield = {};
+            shield.val = source.attribute.DEF.value*0.1;
+            shield.time = this.spell[spell].level[1].duration.time;
             index.shield(source, target, shield, spell);
         },
         // 熔岩之弧（火元素）
@@ -1130,17 +1138,21 @@ export const spellEffect = {
         // 石肤(石元素)
         inv_spiritshard_01(source, target, spell) {
             let index = this.$store.globalComponent["index"];
-            let shield = source.attribute.MAXHP.value*0.3;
             let effectList = this.getSpellEffect(source, spell);
             this.applyEffect(source, target, effectList);
+            let shield = {};
+            shield.val = source.attribute.MAXHP.value*0.3;
+            shield.time = this.spell[spell].level[1].duration.time;
             index.shield(source, target, shield, spell);
         },
         // 火焰护盾(熔岩元素)
         spell_fire_immolation(source, target, spell) {
             let index = this.$store.globalComponent["index"];
-            let shield = source.attribute.MAXHP.value*0.3;
             let effectList = this.getSpellEffect(source, spell);
             this.applyEffect(source, target, effectList);
+            let shield = {};
+            shield.val = source.attribute.MAXHP.value*0.3;
+            shield.time = this.spell[spell].level[1].duration.time;
             index.shield(source, target, shield, spell);
         },
         // 碎裂心智(熔岩元素)

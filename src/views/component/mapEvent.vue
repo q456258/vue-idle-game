@@ -339,7 +339,6 @@ export default {
         },
         setBattleStatus(inBattle, auto=true, immediate=false) {
             let index = this.$store.globalComponent["index"];
-            index.clearShield(this.playerAttr);
             index.clearTurnbaseBuff(this.playerAttr);
             if(!inBattle)
                 this.battleID = -1;

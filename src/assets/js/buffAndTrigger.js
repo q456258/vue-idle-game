@@ -72,9 +72,11 @@ export const buffAndTrigger = {
                         this.statBuffRemove(this.player, this.player, playerBuff[i].type, playerBuff[i].value, i);
                     }
                 }
+                this.checkShield(this.player);
                 for(let type in this.enemies) {
                     let enemy = this.enemies[type];
                     let enemyBuff = enemy.buff;
+                    this.checkShield(enemy);
                     for(let buff in enemy.timedBuff) {
                         timeGap = this.getTimeGap(enemy.timedBuff[buff], now);
                         stackRemain = Math.ceil((this.player.timedBuff[buff] - now)/1000);
@@ -124,21 +126,17 @@ export const buffAndTrigger = {
             if(this.buffCateg.counter.indexOf(type) != -1)
                 target.buffCounter[type] = 0;
             if(this.buffCateg.buffer.indexOf(type) == -1) {
-                if(target.buff[type] == undefined) {
+                if(target.buff[type] == undefined)
                     this.setBuff(source, target, type, stack);
-                }
-                else {
+                else
                     this.setBuff(source, target, type, target.buff[type]+stack);
-                }
             }
             else {
                 setTimeout(() => {
-                    if(target.buff[type] == undefined) {
+                    if(target.buff[type] == undefined)
                         this.setBuff(source, target, type, stack);
-                    }
-                    else {
+                    else
                         this.setBuff(source, target, type, target.buff[type]+stack);
-                    }
                 }, 10);
             }
         },
@@ -310,6 +308,23 @@ export const buffAndTrigger = {
                 }
             }, gap);
             this.addToTimerList(target.type, timer);
+        },
+        checkShield(target) {
+            let shieldList = target.attribute.SHIELD.list;
+            if(shieldList == undefined)
+                return;
+            let now = Date.now();
+            for(let shield in shieldList) {
+                if(shieldList[shield].time < now) {
+                    this.removeShield(undefined, target, shield);
+                }
+            }
+        },
+        removeShield(source, target, shield) {
+            let shieldList = target.attribute.SHIELD.list;
+            target.attribute.SHIELD.value -= shieldList[shield].val;
+            this.triggerOnShieldBreak(source, target, shield);
+            delete shieldList[shield];
         },
         addToTimerList(type, timer) {
             if(type == 'player')
@@ -540,10 +555,9 @@ export const buffAndTrigger = {
         triggerOnHeal(source, target) {
         },
         // 破盾触发
-        triggerOnShieldBreak(source, target) {
-            if(target.buff['inv_spiritshard_01'] != undefined) {
+        triggerOnShieldBreak(source, target, shieldType) {
+            if(shieldType == 'inv_spiritshard_01') {
                 this.buffApply(target, target, 'vulnerable', 3);
-                this.buffRemoved(source, target, 'inv_spiritshard_01');
             }
         },
         // 临死前触发, target为被杀者
@@ -628,7 +642,7 @@ export const buffAndTrigger = {
             this.vulnerable(target, dmgs);
             this.void(target, dmgs);
             this.minionSlayer(source, target, dmgs);
-            this.dmgShield(source, target, dmgs, sourceName);
+            this.calcShield(source, target, dmgs, sourceName);
             for(let dmgType in dmgs)
                 dmgs[dmgType] = Math.round(dmgs[dmgType]);
             let totalDmg = this.get_dmg(dmgs, 'ad')+this.get_dmg(dmgs, 'ap')+this.get_dmg(dmgs, 'true');
@@ -726,26 +740,49 @@ export const buffAndTrigger = {
             }
         },
         shield(source, target, shield, sourceName) {
-            shield = Math.round(shield);
+            let val = Math.round(shield.val)
+            if(target.attribute.SHIELD.list == undefined)
+                target.attribute.SHIELD.list = {};
+            target.attribute.SHIELD.list[sourceName] = {val: val, time: Date.now()+shield.time*1000}
+            console.log(target.attribute.SHIELD)
             if(target.attribute.SHIELD.value == undefined)
-                target.attribute.SHIELD.value = shield;
+                target.attribute.SHIELD.value = val;
             else 
-                target.attribute.SHIELD.value += shield;
+                target.attribute.SHIELD.value += val;
         },
-        dmgShield(source, target, dmgs, sourceName) {
+        calcShield(source, target, dmgs, sourceName) {
             if(target.attribute.SHIELD.value == undefined)
                 return;
             let block = Math.min(target.attribute.SHIELD.value, this.get_dmg(dmgs, 'ad'));
-            target.attribute.SHIELD.value -= block;
+            this.dmgShield(source, target, block);
             this.set_ad_dmg(dmgs, this.get_dmg(dmgs, 'ad')-block);
             
             block = Math.min(target.attribute.SHIELD.value, this.get_dmg(dmgs, 'ap'));
-            target.attribute.SHIELD.value -= block;
+            this.dmgShield(source, target, block);
             this.set_ap_dmg(dmgs, this.get_dmg(dmgs, 'ap')-block);
-            target.attribute.SHIELD.value = Math.round(target.attribute.SHIELD.value);
 
-            if(target.attribute.SHIELD.value <= 0)
-                this.triggerOnShieldBreak(source, target);
+            this.recalcShield(target);
+        },
+        dmgShield(source, target, dmg) {
+            let shieldList = target.attribute.SHIELD.list;
+            for(let shield in shieldList) {
+                if(dmg <= 0)
+                    break;
+                let shieldBreak = Math.min(dmg, shieldList[shield].val);
+                target.attribute.SHIELD.value -= shieldBreak;
+                shieldList[shield].val -= shieldBreak;
+                dmg -= shieldBreak;
+                if(shieldList[shield].val <= 0)
+                    this.removeShield(source, target, shield);
+            }
+        },
+        recalcShield(target) {
+            let shieldList = target.attribute.SHIELD.list;
+            let sum = 0;
+            for(let shield in shieldList) {
+                sum += shieldList[shield].val;
+            }
+            target.attribute.SHIELD.value = Math.floor(sum);
         },
         clearShield(target) {
             target.attribute.SHIELD =  { baseVal: 0, value: 0, showbaseVal: 0};
