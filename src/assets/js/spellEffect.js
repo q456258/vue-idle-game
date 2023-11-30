@@ -322,7 +322,6 @@ export const spellEffect = {
             let spellLv = source.spells == undefined ? 0 : source.spells[spell].lv-1;
             let dmgs = this.spell[spell].level[spellLv];
             let dmg = {};
-            console.log(dmgs)
             // 物理
             if(dmgs.adDmg) {
                 dmg.adDmg = dmgs.adDmg['FIX'] == undefined ? 0 : dmgs.adDmg['FIX'];
@@ -806,7 +805,7 @@ export const spellEffect = {
         // 寒冰护体
         spell_ice_lament(source, target, spell) {
             let index = this.$store.globalComponent["index"];
-            let shield = source.attribute.MAXHP.value*(0.15+source.spells[spell].lv*0.05)*(1+source.attribute.VERS.value*0.1);
+            let shield = source.attribute.MAXHP.value*(0.05+source.spells[spell].lv*0.05)*(1+source.attribute.VERS.value*0.01);
             index.shield(source, target, shield, spell);
         },
         // 法力护盾
