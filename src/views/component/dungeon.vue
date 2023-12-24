@@ -309,18 +309,19 @@ export default {
             let curDungeon = this.dungeonProgress[dungeon];
             let msg = '击败'+ curDungeon.map[curDungeon.level].name+', 失去'+dmg+'点生命值';
             let haveReward = false;
-            
             for(let i in curDungeon.map[curDungeon.level].reward) {
                 let random = Math.random()*100;
                 let reward = curDungeon.map[curDungeon.level].reward[i];
                 if(random <= reward[1]) {
-                    this.addToPrizePool(dungeon, reward[0], reward[2]);
+                    let qty = reward[2]==undefined ? 1 : reward[2];
+                    qty = reward[3]==undefined ? qty : qty+Math.ceil(Math.random()*(reward[3]-qty));
+                    this.addToPrizePool(dungeon, reward[0], qty);
                     if(!haveReward) {
                         msg += '，获得战利品: '
-                        msg += this.itemType[reward[0]].description.name + '*' + reward[2];
+                        msg += this.itemType[reward[0]].description.name + '*' + qty;
                     }
                     else
-                        msg += ', ' + this.itemType[reward[0]].description.name + '*' + reward[2];
+                        msg += ', ' + this.itemType[reward[0]].description.name + '*' + qty;
                     haveReward = true;
                 }
             }

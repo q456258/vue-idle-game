@@ -2,6 +2,22 @@ export const dungeonConfig = {
     data() {
         return {
             dungeons: {
+                Deadmines: {
+                    name: '死亡矿井',
+                    lv: 15,
+                    limit: 5,
+                    map: [
+                        107,107,102,108,108,103,109,109,104,110,110,105,111,111,106,101
+                    ],
+                    suggestStat: [30000, 1000, 2000],
+                    rewardList: [
+                        'inv_ore_copper_01','inv_stone_16','inv_ore_iron_01','inv_ore_gold_01',
+                    ],
+                    desc: [
+                        "据说死亡矿井的黄金矿藏能使暴风城积聚的财富增加三分之一。在第一次兽人战争之中，矿井遭到废弃，还曾经冒出闹鬼的传说，导致该处一直荒废。",
+                        "直到有一群落草为寇的劳动群众组成迪菲亚兄弟会，前来占据这座迷宫，作为他们对暴风城展开破坏行动的根据地。"
+                    ]
+                },
                 RagefireChasm: {
                     name: '怒焰裂谷',
                     lv: 15,
@@ -131,6 +147,52 @@ export const dungeonConfig = {
                 62: {
                     type:'normal', name:'死灵勇士', stat: { HP: 2000, ATK: 1500, BLOCK: 500 },
                     reward: [['inv_misc_gem_diamond_04', 40, 1]]
+                },
+                
+     
+                101: {
+                    type:'boss', name:'凡妮莎·范克里夫', stat: { HP: 20000, ATK: 2500, BLOCK: 500 },
+                    reward: [['inv_ore_gold_01', 100, 1, 3]]
+                },
+                102: {
+                    type:'elite', name:'格拉布托克', stat: { HP: 3500, ATK: 200, BLOCK: 0 },
+                    reward: [['inv_ore_copper_01', 100, 1, 3]]
+                },
+                103: {
+                    type:'elite', name:'赫利克斯·破甲', stat: { HP: 7000, ATK: 1000, BLOCK: 0 },
+                    reward: [['inv_ore_copper_01', 100, 1, 5]]
+                },
+                104: {
+                    type:'elite', name:'死神5000', stat: { HP: 10000, ATK: 1500, BLOCK: 0 },
+                    reward: [['inv_stone_16', 100, 1, 3]]
+                },
+                105: {
+                    type:'elite', name:'撕心狼将军', stat: { HP: 15000, ATK: 2000, BLOCK: 0 },
+                    reward: [['inv_ore_iron_01', 100, 1, 2]]
+                },
+                106: {
+                    type:'elite', name:'船长曲奇', stat: { HP: 20000, ATK: 2500, BLOCK: 0 },
+                    reward: [['inv_ore_gold_01', 100, 1]]
+                },
+                107: {
+                    type:'normal', name:'食人魔匪徒', stat: { HP: 1000, ATK: 150, BLOCK: 0 },
+                    reward: [['inv_ore_copper_01', 40, 1]]
+                },
+                108: {
+                    type:'normal', name:'狗头人掘地工', stat: { HP: 2000, ATK: 200, BLOCK: 200 },
+                    reward: [['inv_ore_copper_01', 50, 1]]
+                },
+                109: {
+                    type:'normal', name:'死神原型机', stat: { HP: 3000, ATK: 1000, BLOCK: 0 },
+                    reward: [['inv_stone_16', 30, 1]]
+                },
+                110: {
+                    type:'normal', name:'撕心狼', stat: { HP: 4000, ATK: 1200, BLOCK: 0 },
+                    reward: [['inv_ore_iron_01', 20, 1]]
+                },
+                111: {
+                    type:'normal', name:'迪菲亚矿工', stat: { HP: 5000, ATK: 1500, BLOCK: 0 },
+                    reward: [['inv_ore_gold_01', 10, 1]]
                 },
 
                 2000: {
