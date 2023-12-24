@@ -384,14 +384,15 @@ export default {
                         this.applicantList.splice(0, this.applicantList.length-5);
                     }
                     for(let i=0; i<5; i++) {
-                        this.generateApplicant();
+                        let lv = Math.round((this.guild.bar.lv-Math.random())*10);
+                        this.generateApplicant(lv);
                     }
                 }
             }, 1*1000);
         },
         generateApplicant(lv, race, name) {
             let guildMember = this.$store.globalComponent["guildMember"];
-            let applicant = guildMember.generateApplicant();
+            let applicant = guildMember.generateApplicant(lv, race, name);
             this.applicantList.push(applicant);
         },
         sortAppBy(type, type2='talent') {
