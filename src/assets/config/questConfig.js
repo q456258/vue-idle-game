@@ -28,6 +28,7 @@ export const questConfig = {
                 109: '升级高级练功房',
                 110: '升级矿场',
                 111: '升级药园',
+                112: '升级金库'
             },
             rewardType: {gold: '金币', guildReputation: '公会名望'},
             questCategory: {
@@ -74,7 +75,7 @@ export const questConfig = {
                     target: '击败训练假人精英',
                     lv: 5,
                     reqs: [['slain', 3, 1]],
-                    rewardItem: [['random_equip_elite_1', 1, 100, {types: ['shoulder']}]],
+                    rewardItem: [['random_equip_normal_0', 1, 100, {types: ['shoulder']}]],
                     successor: [],
                     forfeit: false
                 },
@@ -96,7 +97,7 @@ export const questConfig = {
                     target: '击败冰霜训练假人精英',
                     lv: 10,
                     reqs: [['slain', 4, 1]],
-                    rewardItem: [['random_equip_elite_1', 1, 100, {types: ['glove']}]],
+                    rewardItem: [['random_equip_normal_0', 1, 100, {types: ['glove']}]],
                     successor: [6, 11],
                     forfeit: false
                 },
@@ -147,7 +148,7 @@ export const questConfig = {
                 11: {
                     name: '击败癞皮山猪',
                     category: 'newbie',
-                    desc: '10级后, 普通区每10级轮换一次地区怪物类型, 每100级更换一次地区',
+                    desc: '10级后, 每50级更换一次地区, 每个地区的普通、精英、BOSS会更换',
                     target: '击败癞皮山猪',
                     lv: 10,
                     reqs: [['slain', 12, 1]],
@@ -158,7 +159,7 @@ export const questConfig = {
                 12: {
                     name: '击败癞皮山猪精英',
                     category: 'newbie',
-                    desc: '10级后, 精英区每10级轮换一次地区怪物类型, 每100级更换一次地区。精英比起普通怪物会多出一个技能, 癞皮山猪精英的技能是头槌, 可造成攻击力*1.2点伤害, 有20%眩晕目标',
+                    desc: '精英比起普通怪物会多出一个技能, 癞皮山猪精英的技能是头槌, 可造成攻击力*1.2点伤害, 有20%眩晕目标',
                     target: '击败1只癞皮山猪精英',
                     lv: 15,
                     reqs: [['slain', 14, 1]],
@@ -169,7 +170,7 @@ export const questConfig = {
                 13: {
                     name: '实力的证明',
                     category: 'newbie',
-                    desc: '10级后, BOSS区每100级更换一次怪物类型, BOSS拥有更多的技能, 击败阿迦玛可获得创建公会的资格。打不过? 可以考虑降低怪物等级, 刷点装备再来',
+                    desc: 'BOSS拥有更多的技能, 击败阿迦玛可获得创建公会的资格。打不过? 可以考虑降低怪物等级, 刷点装备再来',
                     target: '击败阿迦玛',
                     lv: 20,
                     reqs: [['slain', 15, 1]],
@@ -180,11 +181,11 @@ export const questConfig = {
                 15: {
                     name: '升级天赋',
                     category: 'newbie',
-                    desc: '每10级可以获得一点天赋点击败, 每次击败BOSS额外获得一点。点击左上角的‘天赋’切换到天赋界面。左键点击天赋可提升一级, 右键降低一级, 按住shift一次5级。如果想要使用法术攻击, 可升级一次法师的寒冰箭(第三组第一排第一个)',
+                    desc: '每击败一次最高级的精英可获得一点天赋点数, 每击败一次最高级的BOSS可获得两点。点击左上角的【天赋】切换到天赋界面。左键点击天赋可提升一级, 右键降低一级, 按住shift一次5级。如果想要使用法术攻击, 可升级一次法师的寒冰箭(第三组第一排第一个)',
                     target: '升级一次天赋',
                     lv: 10,
                     reqs: [['event', 4, 1]],
-                    rewardItem: [['random_equip_normal_0', 1, 100]],
+                    rewardItem: [['random_equip_normal_0', 1, 100, {types: ['cape']}]],
                     successor: [],
                     forfeit: false
                 },
@@ -226,7 +227,7 @@ export const questConfig = {
                 19: {
                     name: '下副本',
                     category: 'newbie',
-                    desc: '左下角新增的【副本】(快捷键D)功能, 通过挑战副本获取材料、提升成员等级。',
+                    desc: '左下角新增的【副本】(快捷键D)功能, 通过挑战副本获取材料、提升成员等级。点击【名称】前面的0/5可快速选人、取消选择',
                     target: '挑战一次副本',
                     lv: 15,
                     reqs: [['event', 13, 1]],
@@ -274,7 +275,7 @@ export const questConfig = {
                 22: {
                     name: '扩大工会',
                     category: 'guild',
-                    desc: '在【公会】选项下切换至【酒馆】可以招募成员进行地下城挑战, 酒馆每5分钟刷新一次, 最多可容纳10人',
+                    desc: '在【公会】选项下切换至【酒馆】可以招募成员进行地下城挑战, 酒馆每5分钟刷新一次, 一级公会最多可容纳15人',
                     target: '招募成员',
                     lv: 20,
                     reqs: [['event', 14, 1]],
@@ -364,7 +365,7 @@ export const questConfig = {
                 100: {
                     name: '升级酒馆I',
                     category: 'guild',
-                    desc: '升级酒馆至1级。',
+                    desc: '酒馆可以招募公会成员进行副本探索, 获取各种材料',
                     target: '升级酒馆至1级',
                     lv: 20,
                     reqs: [['event', 102, 1]],
@@ -376,7 +377,7 @@ export const questConfig = {
                 110: {
                     name: '升级任务榜I',
                     category: 'guild',
-                    desc: '升级任务榜至1级。',
+                    desc: '公会任务榜发放怪物讨伐任务，可以获得金币以及公会名望',
                     target: '升级任务榜至1级',
                     lv: 20,
                     reqs: [['event', 103, 1]],
@@ -388,7 +389,7 @@ export const questConfig = {
                 120: {
                     name: '升级商店I',
                     category: 'guild',
-                    desc: '升级商店至1级。',
+                    desc: '商店可以使用金币、公会名望购买各类产品',
                     target: '升级商店至1级',
                     lv: 20,
                     reqs: [['event', 104, 1]],
@@ -424,7 +425,7 @@ export const questConfig = {
                 130: {
                     name: '升级黑市I',
                     category: 'guild',
-                    desc: '升级黑市至1级。',
+                    desc: '黑市随机出售各种来路不明的装备, 里面不乏各种极品装备',
                     target: '升级黑市至1级',
                     lv: 20,
                     reqs: [['event', 105, 1]],
@@ -436,7 +437,7 @@ export const questConfig = {
                 140: {
                     name: '升级铁匠铺I',
                     category: 'guild',
-                    desc: '升级铁匠铺至1级。',
+                    desc: '铁匠铺可以对装备进行强化，提升装备的基础属性',
                     target: '升级铁匠铺至1级',
                     lv: 20,
                     reqs: [['event', 106, 1]],
@@ -448,7 +449,7 @@ export const questConfig = {
                 141: {
                     name: '升级铁匠铺II',
                     category: 'guild',
-                    desc: '升级铁匠铺至2级。',
+                    desc: '二级铁匠铺可以对装备进行锻造，修改装备的额外属性',
                     target: '升级铁匠铺至2级',
                     lv: 20,
                     reqs: [['event', 106, 2]],
@@ -460,7 +461,7 @@ export const questConfig = {
                 142: {
                     name: '升级铁匠铺III',
                     category: 'guild',
-                    desc: '升级铁匠铺至3级。',
+                    desc: '三级铁匠铺可以开始消耗材料打造装备',
                     target: '升级铁匠铺至3级',
                     lv: 20,
                     reqs: [['event', 106, 3]],
@@ -524,6 +525,18 @@ export const questConfig = {
                     target: '升级药园至1级',
                     lv: 20,
                     reqs: [['event', 111, 1]],
+                    reward: [],
+                    rewardItem: [],
+                    successor: [],
+                    forfeit: false
+                },
+                200: {
+                    name: '升级金库I',
+                    category: 'guild',
+                    desc: '金库可以提升获取的金币数量',
+                    target: '升级金库至1级',
+                    lv: 20,
+                    reqs: [['event', 112, 1]],
                     reward: [],
                     rewardItem: [],
                     successor: [],

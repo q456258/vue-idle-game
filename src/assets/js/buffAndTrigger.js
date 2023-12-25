@@ -708,11 +708,14 @@ export const buffAndTrigger = {
             // 灵魂护壳
             let talent = 'ability_shaman_astralshift';
             if(target.talent[talent] > 0 || sourceName == '圣言术：静') {
-                let shield = heal-(target.attribute.MAXHP.value-target.attribute.CURHP.value);
-                if(shield > 0) {
+                let shield = {};
+                let shieldVal = heal-(target.attribute.MAXHP.value-target.attribute.CURHP.value);
+                if(shieldVal > 0) {
                     if(sourceName != '圣言术：静')
-                        shield = shield*0.8
-                    heal -= shield;
+                        shieldVal = shieldVal*0.8
+                    heal -= shieldVal;
+                    shield.val = shieldVal;
+                    shield.time = 20;
                     this.shield(source, target, shield, sourceName);
                 }
             }
@@ -744,7 +747,6 @@ export const buffAndTrigger = {
             if(target.attribute.SHIELD.list == undefined)
                 target.attribute.SHIELD.list = {};
             target.attribute.SHIELD.list[sourceName] = {val: val, time: Date.now()+shield.time*1000}
-            console.log(target.attribute.SHIELD)
             if(target.attribute.SHIELD.value == undefined)
                 target.attribute.SHIELD.value = val;
             else 

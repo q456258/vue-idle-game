@@ -3,7 +3,7 @@ export const monsterConfig = {
         return {
             monsterId: {
                 '小鸡': 0,
-                '训练假人': 1, '高级训练假人': 2, '训练假人精英': 3, '高级训练假人精英': 4, '导师': 5,
+                '训练假人': 1, '冰霜训练假人': 2, '训练假人精英': 3, '冰霜训练假人精英': 4, '导师': 5,
                 '杂斑野猪':11 , '癞皮山猪':12, '杂斑野猪精英':13 , '癞皮山猪精英':14, '阿迦玛': 15,
                 '狗头人矿工':21 , '狗头人地卜师': 22, '狗头人矿工精英':23 , '狗头人地卜师精英': 24, '金牙': 25,
                 '河爪豺狼人':31, '黑爪豺狼人':32 , '河爪豺狼人精英':33, '黑爪豺狼人精英':34, '霍格': 35, 
@@ -88,37 +88,57 @@ export const monsterConfig = {
                     template: {  
                         MAXHP: 100, ATK: 15, DEF: 0, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200,  
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
+                    },
+                    attrRange: {  
+                        MAXHP: 100, ATK: 15, DEF: 0, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200,  
+                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
                 1: {
-                    name: '训练假人', type: 'normal', minLv: 1, maxLv: 5,
+                    name: '训练假人', type: 'normal', minLv: 1, maxLv: 10,
                     spellCycle: ['attack'], talent: {}, anime: 'trainingDummy1.png',
                     template:{  
-                        MAXHP: 100, ATK: 20, DEF: 5, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 100, ATK: 25, DEF: 5, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
+                    },
+                    attrRange:{  
+                        MAXHP: 300, ATK: 70, DEF: 50, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
                 2:{
-                    name: '冰霜训练假人', type: 'normal', minLv: 6, maxLv: 10,
+                    name: '冰霜训练假人', type: 'normal', minLv: 1, maxLv: 10,
                     spellCycle: ['spell_frost_frostbolt02'], talent: {}, anime: 'trainingDummy2.png',
                     template:{  
-                        MAXHP: 150, ATK: 0, DEF: 20, BLOCK: 0, AP: 30, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 90, ATK: 0, DEF: 5, BLOCK: 0, AP: 25, APCRIT: 0, APCRITDMG: 200, 
+                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
+                    },
+                    attrRange:{  
+                        MAXHP: 270, ATK: 0, DEF: 50, BLOCK: 0, AP: 70, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
                 3: {
-                    name: '训练假人精英', type: 'elite', minLv: 1, maxLv: 5,
+                    name: '训练假人精英', type: 'elite', minLv: 5, maxLv: 10,
                     spellCycle: ['attack'], talent: {}, anime: 'trainingDummy1.png',
                     template:{  
-                        MAXHP: 275, ATK: 35, DEF: 20, BLOCK: 2, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 300, ATK: 45, DEF: 30, BLOCK: 5, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
+                    },
+                    attrRange:{  
+                        MAXHP: 900, ATK: 120, DEF: 100, BLOCK: 10, AP: 0, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 },  
                 4: {
-                    name: '冰霜训练假人精英', type: 'elite', minLv: 6, maxLv: 10,
+                    name: '冰霜训练假人精英', type: 'elite', minLv: 5, maxLv: 10,
                     spellCycle: ['spell_frost_frostbolt02'], talent: {}, anime: 'trainingDummy2.png',
                     template:{  
-                        MAXHP: 350, ATK: 0, DEF: 30, BLOCK: 5, AP: 45, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 270, ATK: 0, DEF: 30, BLOCK: 5, AP: 45, APCRIT: 0, APCRITDMG: 200, 
+                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
+                    },
+                    attrRange:{  
+                        MAXHP: 810, ATK: 0, DEF: 100, BLOCK: 10, AP: 120, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
@@ -128,129 +148,193 @@ export const monsterConfig = {
                     template:{  
                         MAXHP: 700, ATK: 50, DEF: 40, BLOCK: 5, AP: 50, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
+                    },
+                    attrRange:{  
+                        MAXHP: 700, ATK: 50, DEF: 40, BLOCK: 5, AP: 50, APCRIT: 0, APCRITDMG: 200, 
+                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
                 11: {
-                    name: '杂斑野猪', type: 'normal', minLv: 11, maxLv: 100,
+                    name: '杂斑野猪', type: 'normal', minLv: 11, maxLv: 50,
                     spellCycle: ['attack'], talent: {}, anime: 'mottledBoar1.png',
                     template:{  
-                        MAXHP: 700, ATK: 80, DEF: 50, BLOCK: 5, AP: 0, APCRIT: 0, APCRITDMG: 200, 
-                        CRIT: 20, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
+                        MAXHP: 450, ATK: 80, DEF: 50, BLOCK: 5, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        CRIT: 20, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 3,
+                    },
+                    attrRange:{  
+                        MAXHP: 3825, ATK: 560, DEF: 300, BLOCK: 50, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        CRIT: 20, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 5,
                     }
                 }, 
                 12: {
-                    name: '癞皮山猪', type: 'normal', minLv: 11, maxLv: 100,
+                    name: '癞皮山猪', type: 'normal', minLv: 11, maxLv: 50,
                     spellCycle: ['spell_frost_frostbolt02'], talent: {}, anime: 'mottledBoar2.png',
                     template:{  
-                        MAXHP: 800, ATK: 0, DEF: 70, BLOCK: 10, AP: 60, APCRIT: 0, APCRITDMG: 200, 
-                        CRIT: 30, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
+                        MAXHP: 400, ATK: 0, DEF: 50, BLOCK: 5, AP: 80, APCRIT: 20, APCRITDMG: 200, 
+                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 3,
+                    },
+                    attrRange:{  
+                        MAXHP: 3400, ATK: 0, DEF: 300, BLOCK: 50, AP: 560, APCRIT: 20, APCRITDMG: 200, 
+                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 5,
                     }
                 }, 
                 13: {
-                    name: '杂斑野猪精英', type: 'elite', minLv: 15, maxLv: 100,
-                    spellCycle: ['attack','attack','spell_magic_polymorphpig','attack','attack','attack','attack','attack'], talent: {}, anime: 'mottledBoar1.png',
+                    name: '杂斑野猪精英', type: 'elite', minLv: 15, maxLv: 50,
+                    spellCycle: ['attack','attack','ability_hunter_pet_boar','attack','attack','attack','attack','attack'], talent: {}, anime: 'mottledBoar1.png',
                     template:{  
-                        MAXHP: 1800, ATK: 85, DEF: 50, BLOCK: 10, AP: 0, APCRIT: 0, APCRITDMG: 200, 
-                        CRIT: 20, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
+                        MAXHP: 1200, ATK: 85, DEF: 50, BLOCK: 10, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        CRIT: 20, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 5,
+                    },
+                    attrRange:{  
+                        MAXHP: 8000, ATK: 560, DEF: 300, BLOCK: 100, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        CRIT: 20, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 10,
                     }
                 }, 
                 14: {
-                    name: '癞皮山猪精英', type: 'elite', minLv: 15, maxLv: 100,
-                    spellCycle: ['spell_frost_frostbolt02','ability_hunter_pet_boar','spell_frost_frostbolt02','spell_frost_frostbolt02'], talent: {}, anime: 'mottledBoar2.png',
+                    name: '癞皮山猪精英', type: 'elite', minLv: 15, maxLv: 50,
+                    spellCycle: ['spell_frost_frostbolt02','spell_magic_polymorphpig','spell_frost_frostbolt02','spell_frost_frostbolt02'], talent: {}, anime: 'mottledBoar2.png',
                     template:{  
-                        MAXHP: 2050, ATK: 0, DEF: 70, BLOCK: 20, AP: 65, APCRIT: 0, APCRITDMG: 200, 
-                        CRIT: 30, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
+                        MAXHP: 1100, ATK: 0, DEF: 50, BLOCK: 10, AP: 85, APCRIT: 20, APCRITDMG: 200, 
+                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 5,
+                    },
+                    attrRange:{  
+                        MAXHP: 7200, ATK: 0, DEF: 300, BLOCK: 100, AP: 560, APCRIT: 20, APCRITDMG: 200, 
+                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 10,
                     }
                 }, 
                 15: {
-                    name: '阿迦玛', type: 'boss', minLv: 20, maxLv: 100,
+                    name: '阿迦玛', type: 'boss', minLv: 20, maxLv: 50,
                     spellCycle: ['spell_magic_polymorphpig','attack','attack','ability_hunter_pet_boar','attack','attack','ability_hunter_pet_boar','attack'
                         ,'ability_druid_berserk','ability_hunter_pet_boar','ability_hunter_pet_boar','ability_hunter_pet_boar'
                     ], talent: {}, anime: 'agamar.png',
                     template:{  
                         MAXHP: 3700, ATK: 75, DEF: 200, BLOCK: 30, AP: 0, APCRIT: 0, APCRITDMG: 200, 
-                        CRIT: 30, CRITDMG: 250, HEAL: 0, APPEN: 0, MR: 0,
+                        CRIT: 30, CRITDMG: 250, HEAL: 0, APPEN: 0, MR: 10,
+                    },
+                    attrRange:{  
+                        MAXHP: 12500, ATK: 600, DEF: 1000, BLOCK: 200, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        CRIT: 30, CRITDMG: 250, HEAL: 0, APPEN: 0, MR: 20,
                     }
                 }, 
                 21: {
-                    name: '狗头人矿工', type: 'normal', minLv: 21, maxLv: 25,
+                    name: '狗头人矿工', type: 'normal', minLv: 51, maxLv: 100,
                     spellCycle: ['attack'], talent: {}, anime: 'kobold1.png',
                     template:{  
-                        MAXHP: 1300, ATK: 130, DEF: 200, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
-                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
+                        MAXHP: 6500, ATK: 800, DEF: 1000, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 5,
+                    },
+                    attrRange:{  
+                        MAXHP: 20000, ATK: 2000, DEF: 1500, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 10,
                     }
                 }, 
                 22: {
-                    name: '狗头人地卜师', type: 'normal', minLv: 26, maxLv: 30,
+                    name: '狗头人地卜师', type: 'normal', minLv: 51, maxLv: 100,
                     spellCycle: ['spell_frost_frostbolt02'], talent: {}, anime: 'kobold2.png',
                     template:{  
-                        MAXHP: 1300, ATK: 0, DEF: 100, BLOCK: 0, AP: 80, APCRIT: 100, APCRITDMG: 200, 
-                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
+                        MAXHP: 6500, ATK: 0, DEF: 200, BLOCK: 0, AP: 800, APCRIT: 0, APCRITDMG: 200, 
+                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 30,
+                    },
+                    attrRange:{  
+                        MAXHP: 20000, ATK: 0, DEF: 400, BLOCK: 0, AP: 2000, APCRIT: 0, APCRITDMG: 200, 
+                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 50,
                     }
                 }, 
                 23: {
-                    name: '狗头人矿工精英', type: 'elite', minLv: 21, maxLv: 25,
+                    name: '狗头人矿工精英', type: 'elite', minLv: 55, maxLv: 100,
                     spellCycle: ['spell_shadow_vampiricaura','attack','attack','attack','attack'], talent: {}, anime: 'kobold1.png',
                     template:{  
-                        MAXHP: 2000, ATK: 175, DEF: 150, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
-                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
+                        MAXHP: 10000, ATK: 800, DEF: 1800, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 10,
+                    },
+                    attrRange:{  
+                        MAXHP: 40000, ATK: 2000, DEF: 3300, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 25,
                     }
                 }, 
                 24: {
-                    name: '狗头人地卜师精英', type: 'elite', minLv: 26, maxLv: 30,
+                    name: '狗头人地卜师精英', type: 'elite', minLv: 55, maxLv: 100,
                     spellCycle: ['spell_frost_frostbolt02','spell_fire_flamebolt'], talent: {}, anime: 'kobold2.png',
                     template:{  
-                        MAXHP: 2500, ATK: 0, DEF: 100, BLOCK: 0, AP: 110, APCRIT: 0, APCRITDMG: 200, 
-                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
+                        MAXHP: 10000, ATK: 0, DEF: 400, BLOCK: 0, AP: 800, APCRIT: 0, APCRITDMG: 200, 
+                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 75,
+                    },
+                    attrRange:{  
+                        MAXHP: 40000, ATK: 0, DEF: 850, BLOCK: 0, AP: 2000, APCRIT: 0, APCRITDMG: 200, 
+                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 200,
                     }
                 }, 
                 25: {
-                    name: '金牙', type: 'boss', minLv: 30, maxLv: 30,
+                    name: '金牙', type: 'boss', minLv: 60, maxLv: 100,
                     spellCycle: ['poison_arrow','fireflask','poison_arrow','headbutt','poison_arrow',], talent: {}, anime: 'kobold2.png',
                     template:{  
-                        MAXHP: 4000, ATK: 100, DEF: 100, BLOCK: 0, AP: 100, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 30000, ATK: 100, DEF: 100, BLOCK: 0, AP: 100, APCRIT: 0, APCRITDMG: 200, 
+                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
+                    },
+                    attrRange:{  
+                        MAXHP: 150000, ATK: 100, DEF: 100, BLOCK: 0, AP: 100, APCRIT: 0, APCRITDMG: 200, 
                         CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 0,
                     }
                 }, 
                 31: {
-                    name: '河爪豺狼人', type: 'normal', minLv: 31, maxLv: 35,
+                    name: '河爪豺狼人', type: 'normal', minLv: 101, maxLv: 150,
                     spellCycle: ['attack'], talent: {}, anime: 'riverpawGnoll.png',
                     template:{  
-                        MAXHP: 2200, ATK: 150, DEF: 500, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
-                        CRIT: 50, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 10,
+                        MAXHP: 30000, ATK: 2000, DEF: 2000, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        CRIT: 50, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 75,
+                    },
+                    attrRange:{  
+                        MAXHP: 60000, ATK: 3000, DEF: 2000, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        CRIT: 50, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 75,
                     }
                 }, 
                 32: {
-                    name: '黑爪豺狼人', type: 'normal', minLv: 36, maxLv: 40,
+                    name: '黑爪豺狼人', type: 'normal', minLv: 101, maxLv: 150,
                     spellCycle: ['spell_frost_frostbolt02'], talent: {}, anime: 'mudsnoutGnoll.png',
                     template:{  
-                        MAXHP: 2800, ATK: 0, DEF: 500, BLOCK: 0, AP: 200, APCRIT: 0, APCRITDMG: 200, 
-                        CRIT: 50, CRITDMG: 250, HEAL: 0, APPEN: 0, MR: 10,
+                        MAXHP: 30000, ATK: 0, DEF: 2000, BLOCK: 0, AP: 2000, APCRIT: 50, APCRITDMG: 200, 
+                        CRIT: 0, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 75,
+                    },
+                    attrRange:{  
+                        MAXHP: 60000, ATK: 0, DEF: 2000, BLOCK: 0, AP: 6000, APCRIT: 50, APCRITDMG: 200, 
+                        CRIT: 50, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 75,
                     }
                 }, 
                 33: {
-                    name: '河爪豺狼人精英', type: 'elite', minLv: 31, maxLv: 35,
-                    spellCycle: ['attack','spell_frost_frostward','attack','attack'], talent: {}, anime: 'riverpawGnoll.png',
+                    name: '河爪豺狼人精英', type: 'elite', minLv: 105, maxLv: 150,
+                    spellCycle: ['attack','attack','attack','attack','ability_ghoulfrenzy'], talent: {}, anime: 'riverpawGnoll.png',
                     template:{  
-                        MAXHP: 3200, ATK: 180, DEF: 800, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
-                        CRIT: 50, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 15,
+                        MAXHP: 50000, ATK: 2200, DEF: 2000, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        CRIT: 50, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 75,
+                    },
+                    attrRange:{  
+                        MAXHP: 100000, ATK: 3500, DEF: 2000, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        CRIT: 50, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 75,
                     }
                 }, 
                 34: {
-                    name: '黑爪豺狼人精英', type: 'elite', minLv: 36, maxLv: 40,
-                    spellCycle: ['spell_frost_frostbolt02','spell_frost_frostbolt02','spell_frost_frostbolt02','spell_frost_frostbolt02','ability_ghoulfrenzy'], talent: {}, anime: 'mudsnoutGnoll.png',
+                    name: '黑爪豺狼人精英', type: 'elite', minLv: 105, maxLv: 150,
+                    spellCycle: ['attack','spell_frost_frostward','attack','attack'], talent: {}, anime: 'mudsnoutGnoll.png',
                     template:{  
-                        MAXHP: 4000, ATK: 0, DEF: 800, BLOCK: 0, AP: 225, APCRIT: 0, APCRITDMG: 200, 
-                        CRIT: 50, CRITDMG: 250, HEAL: 0, APPEN: 0, MR: 15,
+                        MAXHP: 50000, ATK: 2200, DEF: 2000, BLOCK: 0, AP: 2200, APCRIT: 50, APCRITDMG: 200, 
+                        CRIT: 50, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 75,
+                    },
+                    attrRange:{  
+                        MAXHP: 100000, ATK: 3500, DEF: 2000, BLOCK: 0, AP: 3500, APCRIT: 50, APCRITDMG: 200, 
+                        CRIT: 50, CRITDMG: 200, HEAL: 0, APPEN: 0, MR: 75,
                     }
                 }, 
                 35: {
-                    name: '霍格', type: 'boss', minLv: 40, maxLv: 40,
+                    name: '霍格', type: 'boss', minLv: 105, maxLv: 150,
                     spellCycle: ['spell_frost_frostward','inv_misc_food_meat_raw_04','attack','attack','ability_ghoulfrenzy','attack','attack'], talent: {}, anime: 'hogger.png',
                     template:{  
-                        MAXHP: 7000, ATK: 250, DEF: 1000, BLOCK: 0, AP: 0, APCRIT: 0, APCRITDMG: 200, 
+                        MAXHP: 100000, ATK: 2500, DEF: 1000, BLOCK: 0, AP: 0, APCRIT: 50, APCRITDMG: 250, 
                         CRIT: 50, CRITDMG: 250, HEAL: 0, APPEN: 0, MR: 20,
-                    } 
+                    } ,
+                    attrRange:{  
+                        MAXHP: 200000, ATK: 3500, DEF: 1000, BLOCK: 0, AP: 0, APCRIT: 50, APCRITDMG: 250, 
+                        CRIT: 50, CRITDMG: 250, HEAL: 0, APPEN: 0, MR: 20,
+                    }
                 }, 
                 41: {
                     name: '盐壳龟', type: 'normal', minLv: 41, maxLv: 45,
@@ -615,26 +699,26 @@ export const monsterConfig = {
             },
             monsterReward: {
                 0: [["inv_misc_coin_05", 35, 1, 2], ],
-                1: [["inv_misc_coin_05", 35, 1, 5],],
+                1: [["inv_misc_coin_05", 35, 1, 10],],
                 2: [["inv_misc_coin_05", 35, 1, 10], ],
-                3: [["random_equip_elite_1", 100], ["inv_misc_coin_05", 35, 10, 20], ],
-                4: [["random_equip_elite_1", 100], ["inv_misc_coin_05", 35, 10, 30], ],
-                5: [["random_equip_4", 100]],
-                11: [["inv_misc_coin_05", 50, 14], ["inv_misc_enchantedpearla", 1], ],
-                12: [["inv_misc_coin_05", 50, 16], ["inv_misc_enchantedpearla", 1], ],
-                13: [["inv_misc_gem_diamond_05", 100, 1, 4],["random_equip_elite_3", 100], ["inv_misc_coin_05", 35, 90], ["inv_misc_gem_diamond_04", 25, 1, 3], 
+                3: [["random_equip_elite_0", 100], ["inv_misc_coin_05", 35, 10, 20], ],
+                4: [["random_equip_elite_0", 100], ["inv_misc_coin_05", 35, 10, 20], ],
+                5: [["random_equip_1", 100]],
+                11: [["inv_misc_coin_05", 100, 14], ["inv_misc_enchantedpearla", 1], ],
+                12: [["inv_misc_coin_05", 100, 16], ["inv_misc_enchantedpearla", 1], ],
+                13: [["inv_misc_gem_diamond_05", 100, 1, 4],["random_equip_elite_1", 100], ["inv_misc_coin_05", 100, 90], ["inv_misc_gem_diamond_04", 25, 1, 3], 
                     ["inv_misc_note_06", 15], ["inv_misc_gem_diamond_04_bag", 1], ["inv_misc_enchantedpearla", 1], ],
-                14: [["inv_misc_gem_diamond_05", 100, 1, 4],["random_equip_elite_3", 100], ["inv_misc_coin_05", 35, 90], ["inv_misc_gem_diamond_04", 25, 1, 3], 
+                14: [["inv_misc_gem_diamond_05", 100, 1, 4],["random_equip_elite_1", 100], ["inv_misc_coin_05", 100, 90], ["inv_misc_gem_diamond_04", 25, 1, 3], 
                     ["inv_misc_note_06", 15], ["inv_misc_gem_diamond_04_bag", 1], ["inv_misc_enchantedpearla", 1], ],
-                15: [["random_equip_6", 100], ["inv_misc_gem_diamond_03", 50, 3, 5], ["inv_misc_coin_03", 20, 5], ["inv_misc_gem_diamond_04_bag", 5], ["inv_misc_enchantedpearla_bag", 5],
+                15: [["random_equip_2", 100], ["inv_misc_gem_diamond_03", 50, 3, 5], ["inv_misc_coin_03", 20, 2], ["inv_misc_gem_diamond_04_bag", 5], ["inv_misc_enchantedpearla_bag", 5],
                     ],
                 21: [["inv_misc_coin_05", 100, 20], ["inv_misc_enchantedpearla", 1], ],
                 22: [["inv_misc_coin_05", 100, 20], ["inv_misc_enchantedpearla", 1], ],
-                23: [["inv_misc_gem_diamond_05", 100, 3, 5], ["random_equip_elite_3", 100], ["inv_misc_coin_03", 70, 1], ["inv_misc_note_06", 15], ["inv_ore_copper_01", 30, 1, 5], ["inv_misc_gem_diamond_04", 25, 1, 3], 
+                23: [["inv_misc_gem_diamond_05", 100, 3, 5], ["random_equip_elite_2", 100], ["inv_misc_coin_03", 100, 1], ["inv_misc_note_06", 15], ["inv_ore_copper_01", 30, 1, 5], ["inv_misc_gem_diamond_04", 25, 1, 3], 
                     ["inv_misc_gem_diamond_04_bag", 1], ["inv_misc_enchantedpearla", 1], ],
-                24: [["inv_misc_gem_diamond_05", 100, 3, 6], ["random_equip_elite_3", 100], ["inv_misc_coin_03", 80, 1], ["inv_misc_gem_diamond_04", 25, 1, 3], ["inv_misc_note_06", 15], 
+                24: [["inv_misc_gem_diamond_05", 100, 3, 6], ["random_equip_elite_2", 100], ["inv_misc_coin_03", 100, 1], ["inv_misc_gem_diamond_04", 25, 1, 3], ["inv_misc_note_06", 15], 
                     ["inv_misc_gem_diamond_04_bag", 1], ["inv_misc_enchantedpearla", 1], ],
-                25: [["random_equip_6", 100], ["inv_misc_gem_diamond_03", 50, 5, 7], ["inv_misc_coin_04", 20, 3], ["inv_ingot_03", 10, 5], ["racial_dwarf_findtreasure", 5], 
+                25: [["random_equip_3", 100], ["inv_misc_gem_diamond_03", 50, 5, 7], ["inv_misc_coin_03", 20, 5], ["inv_ingot_03", 10, 5], ["racial_dwarf_findtreasure", 5], 
                     ["inv_misc_gem_diamond_04_bag", 5], ["inv_misc_enchantedpearla_bag", 5], ],
                 31: [["inv_misc_coin_05", 100, 40], ["inv_misc_enchantedpearla", 1], ],
                 32: [["inv_misc_coin_05", 100, 40], ["inv_misc_enchantedpearla", 1], ],
@@ -642,21 +726,21 @@ export const monsterConfig = {
                     ["inv_misc_gem_diamond_04_bag", 1], ["inv_misc_enchantedpearla", 1], ["inv_misc_note_06", 15], ["inv_potion_51", 10, 1, 5], ["inv_potion_72", 10, 1, 5], ["inv_potion_51_recipe", 1], ["inv_potion_72_recipe", 1]],
                 34: [["inv_misc_gem_diamond_05", 100, 7, 9], ["random_equip_elite_3", 100], ["inv_misc_coin_03", 100, 2], ["inv_misc_gem_diamond_04", 25, 2, 4], 
                     ["inv_misc_gem_diamond_04_bag", 1], ["inv_misc_enchantedpearla", 1], ["inv_misc_note_06", 15], ["inv_potion_52", 10, 1, 5], ["inv_potion_73", 10, 1, 5], ["inv_potion_52_recipe", 1], ["inv_potion_73_recipe", 1]],
-                35: [["random_equip_6", 100], ["inv_misc_gem_diamond_03", 50, 8, 10], ["inv_misc_coin_04", 20, 10], ["inv_misc_gem_diamond_04_bag", 5], ["inv_misc_enchantedpearla_bag", 5],
+                35: [["random_equip_4", 100], ["inv_misc_gem_diamond_03", 50, 8, 10], ["inv_misc_coin_04", 20, 10], ["inv_misc_gem_diamond_04_bag", 5], ["inv_misc_enchantedpearla_bag", 5],
                     ["inv_potion_160", 10, 10], ["inv_potion_163", 10, 10], ["inv_potion_160_recipe", 1], ["inv_potion_163_recipe", 1]], 
-                41: [["inv_misc_coin_03", 75, 1], ["inv_misc_enchantedpearla", 1], ],
-                42: [["inv_misc_coin_03", 75, 1], ["inv_misc_enchantedpearla", 1], ],
-                43: [["inv_misc_gem_diamond_04", 100, 1, 4], ["random_equip_elite_3", 100], ["inv_misc_coin_03", 100, 3], ["inv_misc_gem_diamond_03", 25, 2, 3], 
+                41: [["inv_misc_coin_03", 100, 1], ["inv_misc_enchantedpearla", 1], ],
+                42: [["inv_misc_coin_03", 100, 1], ["inv_misc_enchantedpearla", 1], ],
+                43: [["inv_misc_gem_diamond_04", 100, 1, 4], ["random_equip_elite_4", 100], ["inv_misc_coin_03", 100, 3], ["inv_misc_gem_diamond_03", 25, 2, 3], 
                     ["inv_misc_gem_diamond_04_bag", 1], ["inv_misc_enchantedpearla", 1], ["inv_misc_note_06", 15], ["inv_potion_44", 10, 1, 5], ["inv_potion_44_recipe", 1]],
-                44: [["inv_misc_gem_diamond_04", 100, 1, 5], ["random_equip_elite_3", 100], ["inv_misc_coin_03", 100, 3, 4], ["inv_misc_gem_diamond_03", 25, 2, 4], 
+                44: [["inv_misc_gem_diamond_04", 100, 1, 5], ["random_equip_elite_4", 100], ["inv_misc_coin_03", 100, 3, 4], ["inv_misc_gem_diamond_03", 25, 2, 4], 
                     ["inv_misc_gem_diamond_04_bag", 1], ["inv_misc_enchantedpearla", 1], ["inv_misc_note_06", 15], ["inv_potion_45", 1, 1, 5], ["inv_potion_45_recipe", 1]],
-                45: [["random_equip_6", 100], ["inv_misc_gem_diamond_02", 50, 6, 8], ["inv_misc_coin_01", 10, 1, 2], ["inv_misc_gem_diamond_03_bag", 1], ["inv_misc_gem_diamond_04_bag", 5], 
+                45: [["random_equip_5", 100], ["inv_misc_gem_diamond_02", 50, 6, 8], ["inv_misc_coin_01", 10, 1, 2], ["inv_misc_gem_diamond_03_bag", 1], ["inv_misc_gem_diamond_04_bag", 5], 
                     ["inv_misc_enchantedpearla_bag", 5], ["inv_potion_131", 10, 10], ["inv_potion_137", 10, 10], ["inv_potion_131_recipe", 1], ["inv_potion_137_recipe", 1]],
                 51: [["inv_misc_coin_03", 100, 1, 2], ["inv_misc_enchantedpearla", 1], ],
                 52: [["inv_misc_coin_03", 100, 1, 2], ["inv_misc_enchantedpearla", 1], ],
-                53: [["inv_misc_gem_diamond_04", 100, 3, 7], ["random_equip_elite_3", 100], ["inv_misc_coin_03", 100, 6], ["inv_misc_gem_diamond_03", 25, 5, 7], 
+                53: [["inv_misc_gem_diamond_04", 100, 3, 7], ["random_equip_elite_5", 100], ["inv_misc_coin_03", 100, 6], ["inv_misc_gem_diamond_03", 25, 5, 7], 
                     ["inv_misc_gem_diamond_04_bag", 1], ["inv_misc_enchantedpearla", 1], ["inv_misc_note_06", 15], ["inv_potion_53", 10, 1, 5], ["inv_potion_74", 10, 1, 5], ["inv_potion_53_recipe", 1], ["inv_potion_74_recipe", 1]],
-                54: [["inv_misc_gem_diamond_04", 100, 5, 10], ["random_equip_elite_3", 100], ["inv_misc_coin_03", 100, 7], ["inv_misc_gem_diamond_03", 25, 7, 9], 
+                54: [["inv_misc_gem_diamond_04", 100, 5, 10], ["random_equip_elite_5", 100], ["inv_misc_coin_03", 100, 7], ["inv_misc_gem_diamond_03", 25, 7, 9], 
                     ["inv_misc_gem_diamond_04_bag", 1], ["inv_misc_enchantedpearla", 1], ["inv_misc_note_06", 15], ["inv_potion_54", 1, 1, 5], ["inv_potion_75", 1, 1, 5], ["inv_potion_54_recipe", 1], ["inv_potion_75_recipe", 1]],
                 55: [["random_equip_6", 100], ["inv_misc_gem_diamond_02", 50, 10, 15], ["inv_misc_coin_01", 10, 2], ["inv_misc_gem_diamond_03_bag", 1], ["inv_misc_gem_diamond_04_bag", 5], 
                     ["inv_misc_enchantedpearla_bag", 5], ["inv_potion_55", 10, 10], ["inv_potion_76", 10, 10], ["inv_potion_142", 5, 10], ["inv_potion_148", 5, 10], ["inv_potion_55_recipe", 1], ["inv_potion_76_recipe", 1], ["inv_potion_142_recipe", 0.5], ["inv_potion_148_recipe", 0.5]],

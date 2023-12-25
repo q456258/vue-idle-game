@@ -49,7 +49,7 @@ export const guildConfig = {
                 smith: [
                     [['guild', 1]],
                     [['guild', 1]],
-                    [['guild', 1]],
+                    [['guild', 2]],
                     [['guild', 2]],
                     [['guild', 3]],
                     [['guild', 4]],

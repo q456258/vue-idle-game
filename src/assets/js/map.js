@@ -48,50 +48,49 @@ export const map = {
                 level = this.getLv(type);
             if(!monsterID)
                 monsterID = this.getMonsterID(level, type);
+            let monsterInfo = this.monster[monsterID];
+            let attrRange = monsterInfo.attrRange;
             enemyAttribute.attribute = {};
             enemyAttribute.buff = {};
             enemyAttribute.buffCounter = {};
             enemyAttribute.tempStat = [];
             enemyAttribute.timedBuff = {};
-            enemyAttribute.spellCycle = this.$deepCopy(this.monster[monsterID].spellCycle);
-            enemyAttribute.talent = this.$deepCopy(this.monster[monsterID].talent);
+            enemyAttribute.spellCycle = this.$deepCopy(monsterInfo.spellCycle);
+            enemyAttribute.talent = this.$deepCopy(monsterInfo.talent);
             enemyAttribute.curSpell = 0;
-            for(let stat in this.monster[monsterID].template) {
-                enemyAttribute.attribute[stat] = { value: this.monster[monsterID].template[stat] };
+            for(let stat in monsterInfo.template) {
+                enemyAttribute.attribute[stat] = { value: monsterInfo.template[stat] };
             }
             let attribute = enemyAttribute.attribute,
             val = 0.0,
-            flexStats = ['MAXHP', 'ATK', 'AP', 'DEF', 'MR'],
-            lvStats = ['BLOCK', 'HEAL', 'APPEN'],
+            stats = ['MAXHP', 'ATK', 'AP', 'DEF', 'MR', 'BLOCK', 'HEAL', 'APPEN', 'CRIT', 'CRITDMG', 'APCRIT', 'APCRITDMG'],
             percentStats = ['CRIT', 'CRITDMG', 'APCRIT', 'APCRITDMG']; 
             enemyAttribute.lv = level;
-            let flexLv = level - this.monster[monsterID].minLv;
+            let flexLv = level - monsterInfo.minLv;
+            let lvRange = monsterInfo.maxLv - monsterInfo.minLv;
+            if(lvRange == 0)
+                lvRange = 1;
             enemyAttribute.type = type;
-            enemyAttribute.name = this.getName(type, monsterID);;
+            enemyAttribute.name = this.getName(type, monsterID);
             // enemyAttribute.spell = {};
-            flexStats.forEach(stat => {
+            stats.forEach(stat => {
                 let attr = enemyAttribute.attribute[stat];
-                // attribute.value = Math.round(attribute.value*(1+enemyAttribute.lv*0.15)*(1+Math.random()/10));
-                // attribute.value = Math.round(attribute.value*(1+enemyAttribute.lv*0.15));
-                // attribute.value = Math.round(attribute.value*(1.5+enemyAttribute.lv*(enemyAttribute.lv-1)*(enemyAttribute.lv/50)));
-                // attr.value = Math.round(attr.value*(2+enemyAttribute.lv*(enemyAttribute.lv/35)*(0.9+Math.random()*0.2)));
-                // attr.value = Math.round(attr.value*(1+flexLv*(flexLv/75))*(0.95+Math.random()*0.1));
-                // attr.value = Math.round(attr.value*(1+(20+flexLv)*(flexLv/500))*(0.95+Math.random()*0.1));
-                attr.value = Math.round(attr.value*(1+(10+flexLv)*(flexLv/125))*(0.95+Math.random()*0.1));
+                let diff = attrRange[stat] - attr.value;
+                attr.value = Math.round(attr.value+(diff*flexLv/lvRange));
+                if(percentStats.indexOf(stat) == -1)
+                    attr.value = Math.round(attr.value*(0.95+Math.random()*0.1));
+                // attr.value = Math.round(attr.value*(1+(10+flexLv)*(flexLv/125))*(0.95+Math.random()*0.1));
                 attr.showValue = attr.value;
                 enemyAttribute.attribute[stat] = attr;
-            });
-            lvStats.forEach(stat => {
-                let attr = enemyAttribute.attribute[stat];
-                attr.value = Math.round(attr.value*(1+flexLv/10));
-                attr.showValue = attr.value;
-                enemyAttribute.attribute[stat] = attr;
+
             });
             percentStats.forEach(stat => {
-                let attr = enemyAttribute.attribute[stat];
-                // attribute.value = Math.round(attribute.value*(enemyAttribute.lv));
-                attr.showValue = attr.value + '%';
-                enemyAttribute.attribute[stat] = attr;
+                // 移除
+                // let attr = enemyAttribute.attribute[stat];
+                // attr.value = monsterInfo.template[stat];
+                // attr.showValue = attr.value;
+                // 到这
+                enemyAttribute.attribute[stat].showValue += '%';
             });
             attribute['CURHP'] = {
                 value: attribute['MAXHP'].value,
@@ -101,12 +100,6 @@ export const map = {
                 value: 0,
                 showValue: 0
             }
-            // if(type=='elite') {
-            //     attribute = this.eliteStat(attribute);
-            // }
-            // else if(type=='boss') {
-            //     attribute = this.bossStat(attribute);
-            // }
             val = this.getDefRed(attribute['DEF'].value);
             attribute['DEFRED'] = {
                 value: val,
