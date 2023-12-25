@@ -1,5 +1,5 @@
 <template>
-<draggable class="equip">
+<draggable class="equipPanel">
     <template slot="header">
     </template>
     <template slot="main" >
@@ -39,11 +39,11 @@
             <!-- 消耗<img src="/icons/item/inv_enchant_voidsphere.jpg">&nbsp;{{cost}}/{{itemQty}} -->
             消耗<currency :amount="cost"></currency>
         </span>
-        <div class="confirm" @click="forgeAll()">
+        <div class="confirm actions image_button" @click="forgeAll()">
             重铸
             <span ref="info"></span>
         </div>
-        <div class="cancel" @click="closeInfo()">
+        <div class="cancel actions image_button" @click="closeInfo()">
             取消
         </div>
     </div>
@@ -186,117 +186,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.equip {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-    height: 28rem;
-    width: 48rem;
-    background-image: url("/icons/ui/enhancePanel2.png");
-    background-repeat: no-repeat;
-    background-size: 49rem 28rem;
-    z-index: 10;
-    .title {
-        position: absolute;
-        top: 1.4rem;
-        left: 0;
-        right: 0;
-        font-weight: bold;
-        font-size: 1.5rem;
-    }
-    .info {
-        position: absolute;
-        width: 50%;
-        .name {
-            position: relative;
-            top: 11rem;
-            left: 2.5rem;
-        }
-        .largeIconContainer {
-            position: relative;
-            top: 12rem;
-            left: 2.5rem;
-        }
-    }
-    .forge {
-        position: absolute;
-        margin-left: 55%;
-        margin-top: 10%;
-        width: 53%;
-        height: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        .extraEntry {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            width: 60%;
-            color: #68d5ed;
-            .locked {
-                float:right;
-            }
-            // .value {
-                // color: #ccc;
-                // &:hover {
-                //     box-shadow: inset 0 0 7px 7px #a1a1a1a2;
-                // }
-            // }
-        }
-    }
-    .confirm {
-        position: absolute;
-        top: 21rem;
-        left: 35rem;
-        height: 2.5rem;
-        width: 8rem;
-        background-image: url("/icons/ui/button.png");
-        background-repeat: no-repeat;
-        background-size: 8rem 2.5rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.3rem;
-        opacity: 0.8; 
-        &:hover {
-            opacity: 1; 
-        }
-    }
-    .cancel {
-        position: absolute;
-        top: 24rem;
-        left: 35rem;
-        height: 2.5rem;
-        width: 8rem;
-        background-image: url("/icons/ui/button.png");
-        background-repeat: no-repeat;
-        background-size: 8rem 2.5rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.3rem;
-        opacity: 0.8; 
-        &:hover {
-            opacity: 1; 
-        }
-    }
-    .warning {
-        color: #D8000C;
-    }
-    .cost {
-        position: absolute;
-        margin-left: 55%;
-        margin-top: 40%;
-        width: 53%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 13px;
-    }    
-}
 $blue: #ccc;
 .Etext {
     color: #D9D9D9A2;

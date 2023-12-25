@@ -61,10 +61,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="confirm" @click="craft()">
+                <div class="confirm actions image_button" @click="craft()">
                     锻造
                 </div>
-                <div class="cancel" @click="closePanel()">
+                <div class="cancel actions image_button" @click="closePanel()">
                     取消
                 </div>
             </div>
@@ -93,7 +93,7 @@ export default {
             itemQty: [],
             reqQty: [],
             // categFilter: ['打造','炼金','草药','矿物','皮','杂项'],
-            categFilter: ['打造','矿物','炼金'],
+            categFilter: ['打造','矿物'],
             categFilterSelected: '打造',
             categCorres: {'打造': 'craft','炼金': 'alchemy','草药': 'herb','矿物': 'mine','皮': 'leather','杂项': 'misc'},
             craftEquipType: 'weapon',

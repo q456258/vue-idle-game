@@ -705,6 +705,50 @@
                 }
             }
         }
+        .forge {
+            position: absolute;
+            margin-left: 55%;
+            margin-top: 10%;
+            width: 53%;
+            height: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .extraEntry {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                width: 60%;
+                color: #68d5ed;
+                .locked {
+                    float:right;
+                }
+            }
+        }
+        .potential {
+            position: absolute;
+            margin-left: 55%;
+            margin-top: 10%;
+            width: 53%;
+            height: 55%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            &>div {
+                margin: 0.2rem;
+            }
+        }
+        .cost {
+            position: absolute;
+            margin-left: 55%;
+            margin-top: 40%;
+            width: 53%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+        }    
         .warning {
             color: #D8000C;
         }
