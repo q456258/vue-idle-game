@@ -22,11 +22,11 @@
         <a class="nav-link active" id="charInfo" @click="switchTab('charInfo')">角色信息</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" :class="{active: displayPage=='guild' }" id="guild" @click="switchTab('guild')" v-show="playerLv >= 20">公会</a>
+        <a class="nav-link" :class="{active: displayPage=='guild' }" id="guild" @click="switchTab('guild')" v-show="playerLv >= 10">公会</a>
       </li>
-      <!-- <li class="nav-item">
-        <a class="nav-link" :class="{active: displayPage=='guildMember' }" id="guildMember" @click="switchTab('guildMember')" v-show="playerLv >= 20">公会成员</a>
-      </li> -->
+      <li class="nav-item">
+        <a class="nav-link" :class="{active: displayPage=='guildMember' }" id="guildMember" @click="switchTab('guildMember')" v-show="guild.bar.lv > 0">公会成员</a>
+      </li>
       <li class="nav-item">
         <a class="nav-link" :class="{active: displayPage=='shop' }" id="shop" @click="switchTab('shop')" v-show="guild.shop.lv > 0">商店</a>
       </li>
@@ -71,28 +71,21 @@
       <enemyInfo :enemy="enemyInfo"></enemyInfo>
       <div class="zoneSelect">    
         <div class="zoneAction">    
-          <button id="advanture" class="btn btn-light btn-sm lvZone" @click="switchZone('advanture')">
-            冒险区
+          <button id="normal" class="btn btn-light btn-sm lvZone" @click="switchZone('normal')">
+            普通
           </button>    
-          <button class="btn btn-outline-light btn-sm" id="resetMap" v-show="dungeonInfo.current=='advanture'" @click="resetMapClick()">
-            重置地图<span v-if="resetTime>0">({{resetTime}})</span>
-          </button>   
-          <select v-model="selectedZone" @change="setSelectedZone($event)" class="btn btn-light">
-            <option :value="index" v-for="(zone, index) in filteredMonsterZone" :key="index">
-              {{zone.name+'('+zone.minLv+'-'+zone.maxLv+'级)'}}
-            </option>
-          </select>
+          <button id="elite" class="btn btn-outline-light btn-sm lvZone" @click="switchZone('elite')">
+            精英
+          </button>    
+          <button id="boss" class="btn btn-outline-light btn-sm lvZone" @click="switchZone('boss')">
+            BOSS
+          </button>    
+          <div class="refresh btn btn-secondary" @click="changeEnemy(dungeonInfo.current)" v-if="dungeonInfo.current != 'boss'"></div>
+          <br>
+          <button class="btn btn-secondary " @click="modLvAndSetEnemy(dungeonInfo.current, -1)">降低等级</button>
+          <button class="btn btn-secondary " @click="modLvAndSetEnemy(dungeonInfo.current, 1)">提升等级</button>
         </div>    
-        <div class="zone">
-          <div v-if="dungeonInfo.current=='advanture'">
-            <div v-for="(dungeon, key) in mapArr" :key="key" @click="choseDungeon($event, key)">
-              <span class="dungeon" v-if="dungeon.count!=0" :style="{backgroundImage:'url('+dungeon.img+')',top:dungeon.top+'%', left:dungeon.left+'%', backgroundColor:dungeon.selected?dungeon.color+'7':'#0008', boxShadow: '0 0 4px 4px'+dungeon.color}">
-                <span class="lv">lv{{dungeon.lv}}</span>
-              </span>
-            </div>
-          </div>
-        </div>
-        <mapEvent :dungeon="dungeon"></mapEvent>
+        <mapEvent :type="dungeonInfo.current"></mapEvent>
       </div>
     </div>
 
@@ -104,7 +97,7 @@
           </div>
         </template>
         <template v-slot:tip>
-          <p class="info">* 背包</p>
+          <p class="info">* 背包 (B)</p>
         </template>
       </cTooltip>
       <cTooltip :placement="'top'">
@@ -114,7 +107,27 @@
           </div>
         </template>
         <template v-slot:tip>
-          <p class="info">* 任务</p>
+          <p class="info">* 任务 (Q)</p>
+        </template>
+      </cTooltip>
+      <cTooltip :placement="'top'" v-if="(guild.bar.lv>=1)">
+        <template v-slot:content>
+          <div class="menu" @click="openMenuPanel('dungeon')">
+            <img src="../assets/icons/menu/dungeon.png" alt="">
+          </div>
+        </template>
+        <template v-slot:tip>
+          <p class="info">* 副本 (D)</p>
+        </template>
+      </cTooltip>
+      <cTooltip :placement="'top'" v-if="guild['smith'].lv>=3">
+        <template v-slot:content>
+          <div class="menu" @click="openMenuPanel('craft')">
+            <img src="../assets/icons/menu/craft.png" alt="">
+          </div>
+        </template>
+        <template v-slot:tip>
+          <p class="info">* 锻造 (C)</p>
         </template>
       </cTooltip>
       <cTooltip :placement="'top'">
@@ -124,7 +137,7 @@
           </div>
         </template>
         <template v-slot:tip>
-          <p class="info">* 保存/加载游戏</p>
+          <p class="info">* 保存/加载游戏 (S)</p>
         </template>
       </cTooltip>
       <cTooltip :placement="'top'">
@@ -134,7 +147,7 @@
           </div>
         </template>
         <template v-slot:tip>
-          <p class="info">* 设置</p>
+          <p class="info">* 设置 (X)</p>
         </template>
       </cTooltip>
     </div>
@@ -146,10 +159,13 @@
     </div>
     <equipEnhance :equip="enhanceEquip" v-show="equipEnhancePanel"></equipEnhance>
     <equipForge :equip="enhanceEquip" v-show="equipForgePanel"></equipForge>    
-    <equipPotential :equip="enhanceEquip" v-show="equipPotentialPanel"></equipPotential>    
+    <equipPotential :equip="enhanceEquip" v-show="equipPotentialPanel"></equipPotential> 
+    <lottery v-show="lotteryPanel"></lottery>
+    <quest v-show="questPanel"></quest>   
+    <dungeon v-show="dungeonPanel"></dungeon>
+    <craftItem v-show="craftPanel"></craftItem>
     <saveload v-show="savePanel"></saveload>
     <setting v-show="settingPanel"></setting>
-    <quest v-show="questPanel"></quest>
 
     <charInfo id="charInfo" v-show="displayPage=='charInfo'"></charInfo>
     <guild id="guild" v-show="displayPage=='guild'"></guild>
@@ -173,6 +189,8 @@ import equipEnhance from './component/equipEnhance';
 import equipForge from './component/equipForge';
 import equipPotential from './component/equipPotential';
 import mapEvent from './component/mapEvent';
+import lottery from './component/lottery';
+import dungeon from './component/dungeon';
 import backpack from './component/backpack';
 import charInfo from './component/charInfo';
 import guild from './component/guild';
@@ -185,12 +203,13 @@ import statistic from './component/statistic';
 import saveload from './component/saveload';
 import setting from './component/setting';
 import quest from './component/quest';
+import craftItem from './component/craftItem';
 import enemyInfo from './component/enemyInfo';
-import { dungeon } from '../assets/js/dungeon';
+import { map } from '../assets/js/map';
 import { buffAndTrigger } from '../assets/js/buffAndTrigger';
 export default {
   name: 'index',
-  mixins: [dungeon, buffAndTrigger],
+  mixins: [map, buffAndTrigger],
   data() {
     return {
       showEquipInfo: false,
@@ -206,14 +225,16 @@ export default {
       compareEquip: {},
       enhanceEquip: {},
       dungeonInfo: {},
-      dungeon: {},
-      enemyInfo: 'advanture',
+      enemyInfo: 'normal',
       equipEnhancePanel: false,
       equipForgePanel: false,
       equipPotentialPanel: false,
+      dungeonPanel: false,
+      lotteryPanel: false,
       savePanel: false,
       settingPanel: false,
       questPanel: false,
+      craftPanel: false,
       displayPage: 'charInfo',
       saveDateString: '',
       resetTimer: 0,
@@ -221,7 +242,7 @@ export default {
       selectedZone: 0
     }
   },
-  components: {cTooltip, equipInfo, compareEquip, itemInfo, mapEvent, backpack, equipEnhance, equipForge, equipPotential, 
+  components: {cTooltip, equipInfo, compareEquip, itemInfo, mapEvent, lottery, dungeon, backpack, equipEnhance, equipForge, equipPotential, craftItem,
               charInfo, guild, guildMember, shop, talentTree, faq, achievement, statistic, saveload, setting, quest, enemyInfo, currency},
   created() {
     this.$store.globalComponent = {};
@@ -246,6 +267,15 @@ export default {
 
     let guildPosition =  this.$store.globalComponent['guildPosition'];   
     guildPosition.init();
+
+    let dungeon =  this.$store.globalComponent['dungeon'];   
+    dungeon.init();
+
+    let battleAnime =  this.$store.globalComponent['battleAnime'];   
+    battleAnime.init();
+
+    let mapEvent =  this.$store.globalComponent['mapEvent'];   
+    mapEvent.init();
     
     // this.$store.commit("set_statistic", {gameStartDate: Date.now()});
     //初始系统、战斗信息
@@ -255,15 +285,16 @@ export default {
     // 自动恢复
     this.slowTick(); 
 
-
     // 自动保存
     setInterval(() => {
       let saveload = this.$store.globalComponent["saveload"];  
       saveload.saveGame(true);
     }, 5 * 60 * 1000)
 
-    //初始生成地图
-    this.createMaps();
+    //初始生成怪物数据
+    this.generateEnemy('normal');
+    this.generateEnemy('elite');
+    this.generateEnemy('boss');
     //测试·随机装备
     // let equipLv = 100;
     // let equipQuality = 5;
@@ -299,41 +330,17 @@ export default {
             // this.$store.state.playerAttribute.lv = 50;
 //     let itemInfo = this.$store.globalComponent["itemInfo"];;
 //     let item ;
-//     let items = ['inv_misc_note_06',
-//      'inv_potion_49',
-// 'inv_potion_50',
-// 'inv_potion_51',
-// 'inv_potion_52',
-// 'inv_potion_53',
-// 'inv_potion_54',
-// 'inv_potion_160',
-// 'inv_potion_55',
-// 'inv_potion_131',
-// 'inv_potion_142',
-// 'inv_potion_167',
-// 'inv_potion_70',
-// 'inv_potion_71',
-// 'inv_potion_72',
-// 'inv_potion_73',
-// 'inv_potion_74',
-// 'inv_potion_75',
-// 'inv_potion_163',
-// 'inv_potion_76',
-// 'inv_potion_137',
-// 'inv_potion_148',
-// 'inv_potion_168',
-// 'inv_potion_42',
-// 'inv_potion_43',
-// 'inv_potion_44',
-// 'inv_potion_45',
-// 'inv_potion_46',
-// 'inv_potion_47',
-// 'inv_potion_164',
-// 'inv_potion_48',
-// 'inv_potion_134',
-// 'inv_potion_145',];
+//     let items = [
+// 'bossTicket0',
+// 'bossTicket1',
+// 'bossTicket2',
+// 'bossTicket3',
+// 'bossTicket4',
+// 'bossTicket5',
+// 'bossTicket6',
+// ];
 //     for(let i in items) {
-//       item = itemInfo.createItem(items[i], 20);  
+//       item = itemInfo.createItem(items[i], 60);  
 //       itemInfo.addItem(JSON.parse(item));
 //     }
     // for(let i in quest.questList) {
@@ -364,6 +371,10 @@ export default {
     playerLv() { return this.$store.state.playerAttribute.lv },
     playerTalent() { return this.$store.state.playerAttribute.talent },
     inBattle() { return this.$store.state.dungeonInfo.inBattle;},
+    harvesting() { 
+      let mapEvent = this.$store.globalComponent["mapEvent"];
+      return mapEvent.harvesting;
+    },
     guild() { return this.$store.state.guildAttribute;},
     filteredMonsterZone() {
       return this.monsterZone.filter((zone)=>{return (this.playerLv+20)>=zone.maxLv});
@@ -405,11 +416,13 @@ export default {
       if(this.dungeonInfo.current != type) {
         if(this.dungeon) {
           this.dungeon.selected = false;
-          this.dungeon = {};
         }
         let mapEvent = this.$store.globalComponent["mapEvent"];
-        if(this.$store.state.dungeonInfo.inBattle) {
+        if(this.inBattle) {
             mapEvent.toggleBattle();
+        }
+        if(this.harvesting) {
+            mapEvent.toggleHarvest();
         }
         mapEvent.autoBattle(false);
         let element = document.getElementById(this.dungeonInfo.current);
@@ -417,48 +430,34 @@ export default {
         element = document.getElementById(type);
         element.classList.replace('btn-outline-light', 'btn-light');
         // this.$store.commit('set_enemy_hp', 0);
+        this.enemyInfo = type;
         this.dungeonInfo.current = type;
       }
+    },
+    modLvAndSetEnemy(type, multi) {
+      let mapEvent = this.$store.globalComponent["mapEvent"];
+      let lv = 5;
+      if(type == 'elite' || type == 'boss')
+        lv = 1;
+      lv *= multi;
+      if(this.modLv(type, lv)) {
+        mapEvent.toggleBattle();
+        this.generateEnemy(type);
+        mapEvent.setReward(type);
+      }
+    },
+    changeEnemy(type) {
+      let mapEvent = this.$store.globalComponent["mapEvent"];
+      if(type == 'normal')
+        this.normalEnemyType = this.normalEnemyType==0 ? 1 : 0;
+      else if(type == 'elite')
+        this.eliteEnemyType = this.eliteEnemyType==0 ? 1 : 0;
+      mapEvent.toggleBattle();
+      this.generateEnemy(type);
     },
     toggleBattle(type) {
       let mapEvent = this.$store.globalComponent["mapEvent"];
       mapEvent.toggleBattle(type);
-    },
-    createMaps() {    
-      let itemInfo = this.$store.globalComponent["itemInfo"];;
-      let count = 5;
-      let type = 'advanture';
-      this.mapArr = this.generateDungeonByZone(count, this.monsterZone[this.selectedZone]);
-      this.actualReward(this.mapArr);
-
-      this.dungeonInfo[type].level = -1;
-      this.dungeonInfo[type].reward = 'None';
-      this.dungeonInfo[type].type = 'normal';
-      this.dungeonInfo[type].monsterID = 0;
-      this.dungeonInfo[type].monsterName = '';
-      this.dungeonInfo.current = type;
-    },
-    addToMap(type='advanture', lv, count=1, monsterID) {
-      let newMaps = this.generateDungeonByID(count, this.monsterZone[this.selectedZone], monsterID);
-      this.actualReward(newMaps);
-      this.mapArr = this.mapArr.concat(newMaps);
-
-    },
-    actualReward(mapArr) {
-      let equipInfo = this.$store.globalComponent["equipInfo"];;   
-      let itemInfo = this.$store.globalComponent["itemInfo"];;
-      for(let map in mapArr) {
-        mapArr[map].reward = [];
-        for(let type in mapArr[map].rewardType) {
-          let rewardInfo = mapArr[map].rewardType[type];
-          if(rewardInfo[0] == 'unique_equip') {
-            let newEquip = JSON.parse(equipInfo.createUniqueEquipTemplate(rewardInfo[1]));
-            mapArr[map].reward.push([newEquip,rewardInfo[2]]);
-          }
-          else
-            mapArr[map].reward.push([JSON.parse(itemInfo.createItem(rewardInfo[0], 1, mapArr[map].lv)), rewardInfo[1]]);
-        }
-      }
     },
     showInfo(e, type, item, compare) {
       this.compare = compare;
@@ -545,8 +544,15 @@ export default {
         case 'forge':
           this.equipForgePanel = false;
           break;
+        case 'craft':
+          this.craftPanel = false;
+          break;
         case 'potential':
           this.equipPotentialPanel = false;
+          break;
+        // 不受‘关闭全部’影响
+        case 'lottery':
+          this.lotteryPanel = false;
           break;
         default:
           this.showItemInfo = false;
@@ -557,71 +563,6 @@ export default {
           this.compare = false;
       }
     },
-    choseDungeon(e, k) {
-      if(!this.dungeonInfo.inBattle) {
-        if(this.mapArr[k] && !this.mapArr[k].selected && this.$store.state.enemyAttribute.attribute.CURHP.value != 0) {
-          this.$message({
-            message: '是否放弃当前正在挑战的副本? ',
-            confirmBtnText: '更换',
-            onClose: () => {
-              this.set_enemy_hp('remove');
-              this.confirmDungeon(k);
-            }
-          });
-        }
-        else
-          this.confirmDungeon(k);
-      }
-    },
-    confirmDungeon(k) {
-      let mapEvent = this.$store.globalComponent["mapEvent"];
-      mapEvent.displayDungeon = true;
-      if(this.dungeon)
-        this.dungeon.selected = false;
-      this.dungeon = this.mapArr[k];
-      this.dungeon.selected = true;
-      let dungeon = this.dungeonInfo[this.dungeonInfo.current];
-      dungeon.level = this.dungeon.lv;
-      dungeon.reward = this.dungeon.reward;
-      dungeon.type = this.dungeon.type;
-      dungeon.monsterID = this.dungeon.monsterID;
-      dungeon.monsterName = this.dungeon.monsterName;
-    },
-    resetMapClick() {
-      this.resetMap();
-      let quest = this.$store.globalComponent["quest"];
-      quest.trackProgress('event', 1, 1);
-    },
-    resetMap(forceReset=false) {
-      let element = document.getElementById('resetMap');
-      let mapEvent = this.$store.globalComponent["mapEvent"];
-      if(!forceReset && this.resetTime > 0) {
-        return;
-      }
-      this.dungeon = {};
-      if(this.$store.state.dungeonInfo.inBattle)
-        mapEvent.toggleBattle();
-      this.set_enemy_hp('remove');
-      this.createMaps();
-      this.resetTime = 1;
-      element.disabled = true;
-      clearInterval(this.resetTimer);
-      this.resetTimer = setInterval(() => {
-        this.resetTime -= 1;
-        if(this.resetTime == 0) {
-          clearInterval(this.resetTimer);
-          element.disabled = false;
-        }
-      }, 1000);
-    },
-    setSelectedZone(e) {
-      this.switchZone('advanture');
-      let zone = document.getElementsByClassName('zone')[0];
-      let value = e.target.value;
-      this.selectedZone = value;
-      zone.style.backgroundImage = 'url('+this.monsterZone[value].imgSrc+')';
-      this.resetMap(true);
-    },
     slowTick() {
       clearInterval(this.autoHealthRecovery);
       clearInterval(this.autoManRecovery);
@@ -629,52 +570,60 @@ export default {
         let mapEvent = this.$store.globalComponent["mapEvent"];
         let player = this.$store.state.playerAttribute;
         let recover = 0.10;
+        let bonus = 1;
         let talent = 'ability_hunter_harass';
         if(this.playerTalent[talent] > 0) {
-          recover += this.playerTalent[talent]*0.01;
+          bonus += this.playerTalent[talent]*0.05;
         }
-        let amount = this.attribute.MAXHP.value*recover+this.attribute.STA.value;
-        if(this.dungeonInfo.inBattle) {
-          amount = this.attribute.STA.value;
-          this.set_player_hp(Math.ceil(amount), player);
+        let amount = this.attribute.MAXHP.value*recover+5*this.attribute.STA.value;
+        amount *= bonus;
+        if(this.inBattle) {
           return;
-        }
+        } 
         else {
           this.set_player_hp(Math.ceil(amount), player);
         }
         if(this.attribute.CURHP.value == this.attribute.MAXHP.value && this.dungeonInfo.auto) {
           setTimeout(() => {
-            if(!this.dungeonInfo.inBattle)
-              mapEvent.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
+            if(!this.inBattle)
+              mapEvent.startBattle(this.dungeonInfo.current);
           }, 200);
         }
       }, 5000);
       this.autoManRecovery = setInterval(() => {
         let player = this.$store.state.playerAttribute;
         let recover = 0.10;
+        let bonus = 1;
         let talent = 'spell_arcane_studentofmagic';
-        let amount = this.attribute.SPI.value;
-        if(!this.dungeonInfo.inBattle) {
-          if(this.playerTalent[talent] > 0) {
-            recover += this.playerTalent[talent]*0.01;
-          }
-          amount += this.attribute.MAXMP.value*recover;
-        }
-        talent = 'spell_arcane_mindmastery';
+        let amount = 5*this.attribute.SPI.value;
         if(this.playerTalent[talent] > 0) {
-          amount *= (1+this.playerTalent[talent]*0.1);
+          bonus += this.playerTalent[talent]*0.05;
+        }
+        if(!this.inBattle) {
+          amount += this.attribute.MAXMP.value*recover;
+          talent = 'spell_arcane_mindmastery';
+          if(this.playerTalent[talent] > 0) {
+            amount *= (1+this.playerTalent[talent]*0.1);
+          }
+          amount *= bonus;
+        }
+        else {
+          amount = this.attribute.SPI.value;
+          amount *= bonus;
         }
         this.mpChange(player, player, Math.ceil(amount));
       }, 5000);
     },
     openMenuPanel(type) {
       let saveload = this.$store.globalComponent["saveload"];  
+      let quest = this.$store.globalComponent["quest"];
       switch(type) {
         case 'backpack':
           this.showBackpack = !this.showBackpack;
           break;
         case 'save':
           this.savePanel = !this.savePanel;
+          quest.trackProgress('event', 3, 1);
           saveload.saveGame();
           break;
         case 'setting':
@@ -682,6 +631,12 @@ export default {
           break;
         case 'quest':
           this.questPanel = !this.questPanel;
+          break;
+        case 'dungeon':
+          this.dungeonPanel = !this.dungeonPanel;
+          break;
+        case 'craft':
+          this.craftPanel = !this.craftPanel;
           break;
       }
     },
@@ -700,6 +655,12 @@ export default {
           break;
         case 'quest':
           this.questPanel = false;
+          break;
+        case 'dungeon':
+          this.dungeonPanel = false;
+          break;
+        case 'craft':
+          this.craftPanel = false;
           break;
       }
     },

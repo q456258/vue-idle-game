@@ -1,6 +1,6 @@
 {
-  "name": "EQUIP-MASTER-RPG",
-  "version": "0.0.1",
+  "name": "wow_idle",
+  "version": "0.0.2",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",

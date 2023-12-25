@@ -2,12 +2,49 @@ export const buffConfig = {
 data() {
     return {
         buffCateg: {
-            buffer: ['sunder', 'penetrate', 'lifesteal', 'manasteal','charge','deathImmune','void','absorb','hell','focus','arcCharge',
-                'inv_spiritshard_01'],
-            timed: ['minionSlayer','spell_holy_wordfortitude','manaShield','silence','icenova','plague','spell_holy_powerwordbarrier',
-                'spell_nature_skinofearth'],
+            buffer: ['sunder', 'penetrate', 'lifesteal', 'manasteal','charge','deathImmune','void','absorb','hell','focus','arcCharge'],
+            timed: ['minionSlayer','spell_holy_wordfortitude','manaShield','silence','icenova','plague','spell_holy_powerwordbarrier','spell_frost_coldhearted',
+                'spell_fire_sealoffire','spell_holy_innerfire','spell_holy_innerfire2','spell_holy_innerfire3','spell_holy_testoffaith','spell_magic_polymorphpig',
+                'ability_druid_berserk','spell_nature_skinofearth'
+            ],
             onTick: ['burn', 'poison'],
             counter: ['icenova']
+        },
+        buffStatBonus: {
+            spell_holy_wordfortitude: [{type: 'STAP', valType: 'FIX', value: 5, stack:3600, chance: 100, target: 'self', buffGroup: 'spell_holy_wordfortitude'}],
+            spell_frost_coldhearted: [
+                {type: 'HASTE', valType: 'FIX', value: 30, stack:20, chance: 100, target: 'self', buffGroup: 'spell_frost_coldhearted'},
+            ],
+            spell_fire_sealoffire:  [
+                {type: 'APCRIT', valType: 'FIX', value: 101, stack:10, chance: 100, target: 'self', buffGroup: 'spell_fire_sealoffire'},
+            ],
+            spell_holy_innerfire: [
+                {type: 'ATK', valType: 'ATK', value: 0.1, stack:30, chance: 100, target: 'self', buffGroup: 'spell_holy_innerfire_atk'},
+                {type: 'AP', valType: 'AP', value: 0.1, stack:30, chance: 100, target: 'self', buffGroup: 'spell_holy_innerfire_ap'},
+                {type: 'DEF', valType: 'FIX', value: 500, stack:30, chance: 100, target: 'self', buffGroup: 'spell_holy_innerfire_def'},
+            ],
+            spell_holy_innerfire2: [
+                {type: 'ATK', valType: 'ATK', value: 0.12, stack:30, chance: 100, target: 'self', buffGroup: 'spell_holy_innerfire_atk'},
+                {type: 'AP', valType: 'AP', value: 0.12, stack:30, chance: 100, target: 'self', buffGroup: 'spell_holy_innerfire_ap'},
+                {type: 'DEF', valType: 'FIX', value: 750, stack:30, chance: 100, target: 'self', buffGroup: 'spell_holy_innerfire_def'},
+            ],
+            spell_holy_innerfire3: [
+                {type: 'ATK', valType: 'ATK', value: 0.14, stack:30, chance: 100, target: 'self', buffGroup: 'spell_holy_innerfire_atk'},
+                {type: 'AP', valType: 'AP', value: 0.14, stack:30, chance: 100, target: 'self', buffGroup: 'spell_holy_innerfire_ap'},
+                {type: 'DEF', valType: 'FIX', value: 1000, stack:30, chance: 100, target: 'self', buffGroup: 'spell_holy_innerfire_def'},
+            ],
+            spell_holy_testoffaith: [
+                {type: 'MAXHP', valType: 'MAXHP', value: 0.25, stack:30, chance: 100, target: 'self', buffGroup: 'spell_holy_testoffaith'},
+            ],
+            spell_magic_polymorphpig: [
+                {type: 'ATK', valType: 'ATK', value: 0.2, stack:20, chance: 100, target: 'self', buffGroup: 'spell_magic_polymorphpig_atk'},
+                {type: 'AP', valType: 'AP', value: 0.2, stack:20, chance: 100, target: 'self', buffGroup: 'spell_magic_polymorphpig_ap'},
+                {type: 'CRIT', valType: 'FIX', value: 20, stack:20, chance: 100, target: 'self', buffGroup: 'spell_magic_polymorphpig_crit'},
+            ],
+            ability_druid_berserk: [
+                {type: 'ATK', valType: 'ATK', value: 0.5, stack:6, chance: 100, target: 'self', buffGroup: 'ability_druid_berserk_atk'},
+                {type: 'CRIT', valType: 'FIX', value: 50, stack:6, chance: 100, target: 'self', buffGroup: 'ability_druid_berserk_crit'},
+            ],
         },
         buffType: {
             buff: {
@@ -68,7 +105,7 @@ data() {
                 deathImmune: {
                     cleanse: true,
                     stacked: true,
-                    iconSrc: "./icons/buff/deathImmune.jpg",
+                    iconSrc: "./icons/spell/deathImmune.jpg",
                     desc: "死亡免疫: 免疫一次会造成角色死亡的伤害",
                     turnbased: true
                 },
@@ -90,7 +127,7 @@ data() {
                     cleanse: false,
                     stacked: false,
                     iconSrc: "./icons/spell/mage/spell_shadow_detectlesserinvisibility.jpg",
-                    desc: "法力护盾: 使用魔法值抵消受到的伤害，每点魔法值可抵消一点伤害",
+                    desc: "法力护盾: 使用魔法值抵消受到的伤害，每点魔法值可抵消2点伤害",
                     turnbased: true
                 },
                 void: {
@@ -150,7 +187,47 @@ data() {
                     timed: true,
                     iconSrc: "./icons/spell/ability_racial_avatar.jpg",
                     desc: "天神下凡【分钟】: 最终伤害提升20%"
-                }
+                },
+                spell_magic_polymorphpig: {
+                    timed: true,
+                    iconSrc: "./icons/spell/neutral/spell_magic_polymorphpig.jpg",
+                    desc: '提升20%攻击力, 20%法伤，20%暴击率，持续20秒',
+                }, 
+                ability_druid_berserk: {
+                    timed: true,
+                    iconSrc: "./icons/spell/neutral/ability_druid_berserk.jpg",
+                    desc: "提升50%攻击力，50%暴击率，持续6秒"
+                },
+                spell_frost_coldhearted: {
+                    timed: true,
+                    iconSrc: "./icons/spell/mage/spell_frost_coldhearted.jpg",
+                    desc: '加快你的施法速度，使你的急速提高30，持续20秒',
+                },
+                spell_fire_sealoffire: {
+                    timed: true,
+                    iconSrc: "./icons/spell/mage/spell_fire_sealoffire.jpg",
+                    desc: '将自身包裹在烈焰之中，短时间内使你的法术爆击几率提高100%，持续10秒',
+                },            
+                spell_holy_innerfire: {
+                    timed: true,
+                    iconSrc: "./icons/spell/priest/spell_holy_innerfire.jpg",
+                    desc: '提升10%攻击力、法术强度和500护甲，持续30秒',
+                },            
+                spell_holy_innerfire2: {
+                    timed: true,
+                    iconSrc: "./icons/spell/priest/spell_holy_innerfire.jpg",
+                    desc: '提升12%攻击力、法术强度和750护甲，持续30秒',
+                },            
+                spell_holy_innerfire3: {
+                    timed: true,
+                    iconSrc: "./icons/spell/priest/spell_holy_innerfire.jpg",
+                    desc: '提升14%攻击力、法术强度和1000护甲，持续30秒',
+                },
+                spell_holy_testoffaith: {
+                    timed: true,
+                    iconSrc: "./icons/spell/priest/spell_holy_testoffaith.jpg",
+                    desc: '使最大生命值提高25%，持续10秒。',
+                },
             },
             statusDebuff: {
                 stun: {
@@ -170,7 +247,7 @@ data() {
                     cleanse: true,
                     stacked: true,
                     iconSrc: './icons/spell/mage/spell_fire_fire.jpg',
-                    desc: "灼伤: 每秒受到0.5%最大生命值点魔法伤害"
+                    desc: "灼伤: 每秒受到0.5%最大生命值点神圣伤害"
                 },
                 // bleed: {
                 //     cleanse: true,
@@ -216,12 +293,6 @@ data() {
                     iconSrc: "./icons/buff/vulnerable.jpg",
                     desc: "易伤: 受到的伤害提升30%"
                 },
-                inv_spiritshard_01: {
-                    cleanse: false,
-                    stacked: true,
-                    iconSrc: "./icons/buff/inv_spiritshard_01.jpg",
-                    desc: "石肤: 护甲被破坏后获得3层易伤"
-                }, 
                 sha_spell_fire_bluehellfire_nightmare: {
                     cleanse: true,
                     stacked: true,

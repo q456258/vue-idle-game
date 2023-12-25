@@ -2,28 +2,14 @@
     <div class='mapEvent scrollbar-morpheus-den scrollbar-square'>
         <minesweeper :difficulty="mineDifficulty" :rewardList="mineReward"></minesweeper>
         <battleAnime v-show="inBattle"></battleAnime>
-        <!-- <battleAnime></battleAnime> -->
-        <div class="dungeonInfo" v-if="dungeon.type">
-            <a href="#" class="smallClose close" @click="close()"></a>
-            <div class="title">
-                信息
-            </div>
-            <div class="detail">
-                <!-- <div class="centerImg"><img :src="selectedDungeon.img"></div> -->
-                <div>怪物: {{selectedDungeon.monsterName}}</div>
-                <div>等级: {{selectedDungeon.lv}}</div>
-                <div>类型: {{type[selectedDungeon.type]}}</div>
-                <div>剩余次数: 
-                    <span v-if="selectedDungeon.count>=0">{{selectedDungeon.count}}</span>
-                    <span v-else>无限</span>
-                </div>
-            </div>
+        <div class="dungeonInfo">
+            <a v-show="!inBattle" href="#" class="smallClose close" @click="close()"></a>
             <div class="title">
                 奖励
             </div>
             <div class="detail">
                 <div class="reward">
-                    <div v-for="(v, k) in selectedDungeon.reward" :key="k">
+                    <div v-for="(v, k) in extraDungeonInfo[dungeonInfo.current].reward.actualReward" :key="k">
                         <div class="grid" v-if="v[0]" @mouseover="showInfo($event,v[0].itemType,v[0],true)" @mouseleave="closeInfo(v[0].itemType)">
                             <div class="mediumIconContainer">
                                 <del :class="[{grey:v[0].quality.qualityLv==1, green:v[0].quality.qualityLv==3, blue:v[0].quality.qualityLv==4, purple:v[0].quality.qualityLv==5, orange:v[0].quality.qualityLv==6}, 'mediumIcon iconBorder']"></del>
@@ -34,30 +20,44 @@
                     </div>
                 </div>
             </div>
-            <div class="action" v-if="!inBattle&&selectedDungeon.count!=0">
-                <span v-if="selectedDungeon.type=='mine'" >
-                    <button class="btn btn-success btn-sm" @click="addToQueue(selectedDungeon)">
+            <div class="action" v-if="!inBattle && !harvesting">
+                <span v-if="type=='mine' || type=='herb'" >
+                    <!-- <button class="btn btn-success btn-sm" @click="addToQueue(selectedDungeon)">
                         添加至队列
                     </button>   
                     <button class="btn btn-success btn-sm" @click="initMine()">
                         手动采集
+                    </button>    -->
+                    <button class="btn btn-success btn-sm" @click="toggleHarvest()">
+                        采集
                     </button>   
                 </span>
-                <button class="btn btn-success btn-sm" @click="toggleBattle(selectedDungeon.type)">
-                    开始战斗
-                </button>   
-                <span v-if="auto">
-                    <button class="btn btn-danger btn-sm" @click="autoBattle(false)">
-                        自动中···
-                    </button>    
+                <span v-else >
+                    <button class="btn btn-success btn-sm" @click="toggleBattle(type)">
+                        开始战斗
+                    </button>   
+                    <span v-if="auto">
+                        <button class="btn btn-danger btn-sm" @click="autoBattle(false)">
+                            自动中···
+                        </button>    
+                    </span>
+                    <span v-else>
+                        <button class="btn btn-success btn-sm" @click="toggleBattle(type, true)">
+                            连续战斗
+                        </button>    
+                    </span>  
                 </span>
-                <span v-else>
-                    <button class="btn btn-success btn-sm" @click="toggleBattle(selectedDungeon.type, true)">
-                        连续战斗
-                    </button>    
-                </span>  
             </div>    
-            <div class="action" v-if="inBattle">
+            <div class="action" v-if="inBattle || harvesting">
+                <div v-show="harvesting">
+                    <div class="progress">
+                        <div id="harvestProgressBar" class="progress-bar progress-bar-striped" :style="{backgroundColor:'#f0ad4e', width: (harvestProgress*100)+'%'}">
+                        </div>
+                    </div>
+                    <button class="btn btn-danger btn-sm" @click="toggleHarvest()">
+                        停止采集
+                    </button>
+                </div>
                 <button v-if="inBattle" class="btn btn-danger btn-sm" @click="toggleBattle()">
                     放弃战斗
                 </button>
@@ -84,21 +84,23 @@ export default {
         return {
             battleTimer: "",
             battleID: 1,
-            selectedDungeon: {},
-            type: {normal: '普通', elite: '精英', boss: 'BOSS', chest: '宝藏', gold: '矿物', mine: '矿物', herb: '草药'},
+            harvestProgress: 0,
+            harvestTimer: "",
+            harvesting: false,
+            extraDungeonInfo: {normal:{reward:{}}, elite:{reward:{}}, boss:{reward:{}}},
+            typeDef: {normal: '普通', elite: '精英', boss: 'BOSS', chest: '宝藏', mine: '矿物', herb: '草药'},
             mineDifficulty: 0,
             mineReward: [],
         }
     },
     watch: {
-        dungeon() {
-            this.selectedDungeon = this.dungeon;
+        type() {
             this.$store.state.dungeonInfo.auto = false;
         }
     },
     props: {
-        dungeon: {
-            type: Object
+        type: {
+            type: String
         }
     },
     mounted() {
@@ -111,6 +113,9 @@ export default {
         playerAttr() { return this.$store.state.playerAttribute;},
     },
     methods: {
+        init() {
+            this.setReward();
+        },
         toggleBattle(type, auto=false) {
             this.autoBattle(auto);
             if(this.dungeonInfo.inBattle) 
@@ -119,25 +124,65 @@ export default {
                 this.startBattle(type);
             }
         },
+        toggleHarvest() {
+            if(this.harvesting)
+                this.stopHarvest();
+            else
+                this.startHarvest();
+        },
+        startHarvest() {
+            this.harvesting = true;
+            setTimeout(() => {
+                this.harvestProgress = 0;
+                document.getElementById('harvestProgressBar').style.transition = '3s linear';
+                this.harvestProgress = 1;
+            }, 1);
+            this.harvestTimer = setInterval(() => {
+                if(!this.reduceCount(1) || this.extraDungeonInfo[this.type].count <= 0) {
+                    clearInterval(this.harvestTimer);
+                    this.stopHarvest();
+                    return;
+                }
+                let guildPosition = this.$store.globalComponent["guildPosition"];
+                guildPosition.mineReward(this.extraDungeonInfo[this.type].reward, 1);
+                document.getElementById('harvestProgressBar').style.transition = '0s linear';
+                this.harvestProgress = 0;
+                setTimeout(() => {
+                    document.getElementById('harvestProgressBar').style.transition = '3s linear';
+                    this.harvestProgress = 1;
+                }, 10);
+            }, 3010);
+        },
+        stopHarvest() {
+            document.getElementById('harvestProgressBar').style.transition = '0s linear';
+            this.harvestProgress = 0;
+            this.harvesting = false;
+            clearInterval(this.harvestTimer);
+        },
         startBattle(type) {
             if(!type)
-                type = this.dungeonInfo['advanture'].type;
-            // if(['gold', 'wood', 'crystal', 'equip'].indexOf(type) != -1)
-            if(['normal', 'elite', 'boss', 'gold'].indexOf(type) != -1)
+                type = this.dungeonInfo['normal'].type;
+            if(['normal', 'elite', 'boss', 'mine', 'herb'].indexOf(type) != -1)
                 this.battle(type);
-            if(type == 'chest')
+            if(type == 'chest') {
                 this.chest();
+                this.autoBattle(false);
+            }
         },
         battle(type) {
+            let index = this.$store.globalComponent["index"];
             let playerAttribute = this.playerAttr,
-                enemyAttribute = this.$store.state.enemyAttribute,
+                enemyAttribute = type == 'normal' ? this.$store.state.enemyAttribute : type == 'elite' ? this.$store.state.eliteAttribute : this.$store.state.bossAttribute,
                 dungeonInfo = this.dungeonInfo;
-            if(dungeonInfo.inBattle)
+            if(dungeonInfo.inBattle) {
+                this.setBattleStatus(false, false);
                 return;
-            if(enemyAttribute.attribute.CURHP.value == 0) {
-                this.generateenemy();
-                enemyAttribute = this.$store.state.enemyAttribute;
             }
+            if(enemyAttribute.attribute.CURHP.value == 0) {
+                index.generateEnemy(type);
+                enemyAttribute = type == 'normal' ? this.$store.state.enemyAttribute : type == 'elite' ? this.$store.state.eliteAttribute : this.$store.state.bossAttribute;
+            }
+            this.setEnemyAnime(this.dungeonInfo[this.dungeonInfo.current].monsterID);
             this.$store.commit("set_battle_info", {
                 type: '',
                 msg: '————战斗开始————'
@@ -192,61 +237,99 @@ export default {
             this.callAction(source, target);
         },
         victory(source, target) {
-            this.reward();
+            let index = this.$store.globalComponent["index"];
+            let type = this.dungeonInfo.current;
+            this.reward(type);
             this.setBattleStatus(false, this.dungeonInfo.auto);
-            if(this.selectedDungeon.count == 0)
-                this.autoBattle(false);
-            this.levelToTarget(target.lv);
+            index.generateEnemyWithDelay(type);
+            let enemyLv = index.addMaxLv(type);
+            this.setReward(type);
+            // 上面加了一级, 这边减少一级, 不然打同等级怪也会升级
+            this.levelToTarget(enemyLv-1);
+            if(type == 'boss' && enemyLv != -1) {
+                this.talentLevelUp()
+                this.talentLevelUp()
+            }
+            if(type == 'elite' && enemyLv != -1)
+                this.talentLevelUp()
             this.$store.commit("set_battle_info", {
                 type: 'win',
                 msg: '战斗结束, 你胜利了'
             });
         },
         defeat(source, target) {
-            this.setBattleStatus(false, false);
+            this.setBattleStatus(false, this.dungeonInfo.auto);
             this.$store.commit("set_battle_info", {
                 type: 'lose',
                 msg: '战斗结束, 你扑街了'
             });
         },
+        setEnemyAnime(monsterID) {
+            let enemyPos = document.getElementById("enemyAnime");
+            enemyPos.style.backgroundImage = "url(/icons/character/"+this.monster[monsterID].anime+")";
+        },
+        setReward(types='all') {
+            let index = this.$store.globalComponent["index"];
+            if(types == 'all')
+                types = ['normal', 'elite', 'boss'];
+            else
+                types = [types];
+            for(let i in types) {
+                let type = types[i];
+                let lv = index.getLv(type);
+                let monsterID = index.getMonsterID(lv, type);
+                let reward = index.getReward(type, monsterID);
+                let isLottery = index.getIsLottery(type, monsterID);
+                let rewardList = this.extraDungeonInfo[type].reward;
+                rewardList.isLottery = isLottery;
+                if(isLottery)
+                    rewardList.lotReward = reward;
+                rewardList.actualReward = index.actualReward(reward, lv);
+                // 不强制更新的话奖励列表不会更新
+                this.$forceUpdate()
+            }            
+        },
         reduceCount(count=1) {
-            if(this.selectedDungeon.count > 0) {
-                this.selectedDungeon.count -= Math.min(count, this.selectedDungeon.count);
+            let dungeonInfo = this.extraDungeonInfo[this.type];
+            if(dungeonInfo.count > 0) {
+                dungeonInfo.count -= Math.min(count, dungeonInfo.count);
+                dungeonInfo.resetCount = dungeonInfo.resetMax;
                 return true;
             }
-            else if(this.selectedDungeon.count == 0)
+            else if(dungeonInfo.count == 0)
                 return false;
             return true;
         },
+        reduceResetCount(count=1) {
+            let dungeonInfo = this.extraDungeonInfo[this.type];
+            if(dungeonInfo.resetCount <= 0) {
+                return this.reduceCount();
+            }
+            dungeonInfo.resetCount -= count;
+            if(dungeonInfo.resetCount == 0) {
+                return this.reduceCount();
+            }
+            return true;
+        },
         levelToTarget(target) {
-            this.talentLevelToTarget(target);
             while(this.playerAttr.lv < target)
                 this.levelUp();
         },
         levelUp() {
+            let quest = this.$store.globalComponent['quest']; 
             this.playerAttr.lv += 1;
-            // this.playerAttr.talentPoint += 1;
-            if(this.playerAttr.lv == 10) {
+            this.$store.commit('set_player_attribute');
+            let lv = this.playerAttr.lv;
+            quest.trackProgress('event', 1, lv, true);
+            if(lv == 10) {
                 let element = document.getElementById('talentTree');
                 element.classList.add('glow');
+                quest.assignQuest(15);
             }
-            if(this.playerAttr.lv == 20) {
-                let element = document.getElementById('guild');
-                element.classList.add('glow');
-                let guild = this.$store.state.guildAttribute;
-                guild.guild.lv = 1;
-                guild.shop.lv = 1;
-                guild.smith.lv = 1;
-            }
-        },
-        talentLevelToTarget(target) {
-            while(this.playerAttr.talentLv < target)
-                this.talentLevelUp();
         },
         talentLevelUp() {
             this.playerAttr.talentLv += 1;
-            if(this.playerAttr.talentLv > 10)
-                this.playerAttr.talentPoint += 1;
+            this.playerAttr.talentPoint += 1;
         },
         autoBattle(auto) {
             if(auto == undefined)
@@ -256,7 +339,6 @@ export default {
         },
         setBattleStatus(inBattle, auto=true, immediate=false) {
             let index = this.$store.globalComponent["index"];
-            index.clearShield(this.playerAttr);
             index.clearTurnbaseBuff(this.playerAttr);
             if(!inBattle)
                 this.battleID = -1;
@@ -265,7 +347,6 @@ export default {
                 if(!inBattle) {
                     clearInterval(this.battleTimer);
                     this.autoBattle(auto);
-                    index.set_enemy_hp('remove');
                 }
             }
             else {
@@ -274,7 +355,6 @@ export default {
                     if(!inBattle) {
                         clearInterval(this.battleTimer);
                         this.autoBattle(auto);
-                        index.set_enemy_hp('remove');
                         if(auto && !this.$store.state.setting.waitFull)
                             this.startBattle(this.dungeonInfo[this.dungeonInfo.current].option);
                     }
@@ -296,7 +376,6 @@ export default {
             newDungeon.available = 0;
             this.reduceCount(999999);
             switch(dungeon.type) {
-                case 'gold':
                 case 'mine':
                     newDungeon.member = {};
                     guildPosition.mineQueue.push(newDungeon);
@@ -309,7 +388,7 @@ export default {
             if(!this.reduceCount(10))
                 return;
             this.mineDifficulty = Math.floor(Math.random()*3);
-            this.mineReward = this.$deepCopy(this.selectedDungeon.reward);
+            this.mineReward = this.$deepCopy(this.extraDungeonInfo[this.type].reward);
             let minesweeper = this.$store.globalComponent["minesweeper"];
             // 直接调用reset会导致传进去的mineDifficulty还是之前的值
             setTimeout(() => {
@@ -317,86 +396,8 @@ export default {
             }, 1);
         },
         chest() {
-            if(!this.reduceCount())
-                return;
-            this.reward();
-        },
-        generateenemy(type, level, monsterID) {
-            if(!this.reduceCount())
-                return;
-            let enemyAttribute = {};
-            if(!type)
-                type = this.dungeonInfo[this.dungeonInfo.current].type;
-            if(!level)
-                level = this.dungeonInfo[this.dungeonInfo.current].level;
-            if(!monsterID)
-                monsterID = this.dungeonInfo[this.dungeonInfo.current].monsterID;
-            enemyAttribute.attribute = {};
-            enemyAttribute.buff = {};
-            enemyAttribute.buffCounter = {};
-            enemyAttribute.tempStat = [];
-            enemyAttribute.timedBuff = {};
-            enemyAttribute.spellCycle = this.$deepCopy(this.monster[monsterID].spellCycle);
-            enemyAttribute.talent = this.$deepCopy(this.monster[monsterID].talent);
-            enemyAttribute.curSpell = 0;
-            for(let stat in this.monster[monsterID].template) {
-                enemyAttribute.attribute[stat] = { value: this.monster[monsterID].template[stat] };
-            }
-            let attribute = enemyAttribute.attribute,
-            val = 0.0,
-            flexStats = ['MAXHP', 'ATK', 'AP', 'DEF', 'MR'],
-            lvStats = ['BLOCK', 'HEAL', 'APPEN'],
-            percentStats = ['CRIT', 'CRITDMG', 'APCRIT', 'APCRITDMG']; 
-            enemyAttribute.lv = level;
-            let flexLv = level - this.monster[monsterID].minLv;
-            enemyAttribute.type = type;
-            enemyAttribute.name = this.dungeonInfo[this.dungeonInfo.current].monsterName;
-            // enemyAttribute.spell = {};
-            flexStats.forEach(stat => {
-                let attr = enemyAttribute.attribute[stat];
-                // attribute.value = Math.round(attribute.value*(1+enemyAttribute.lv*0.15)*(1+Math.random()/10));
-                // attribute.value = Math.round(attribute.value*(1+enemyAttribute.lv*0.15));
-                // attribute.value = Math.round(attribute.value*(1.5+enemyAttribute.lv*(enemyAttribute.lv-1)*(enemyAttribute.lv/50)));
-                // attr.value = Math.round(attr.value*(2+enemyAttribute.lv*(enemyAttribute.lv/35)*(0.9+Math.random()*0.2)));
-                attr.value = Math.round(attr.value*(1+flexLv*(flexLv/75))*(0.95+Math.random()*0.1));
-                attr.showValue = attr.value;
-                enemyAttribute.attribute[stat] = attr;
-            });
-            lvStats.forEach(stat => {
-                let attr = enemyAttribute.attribute[stat];
-                attr.value = Math.round(attr.value*(1+flexLv/10));
-                attr.showValue = attr.value;
-                enemyAttribute.attribute[stat] = attr;
-            });
-            percentStats.forEach(stat => {
-                let attr = enemyAttribute.attribute[stat];
-                // attribute.value = Math.round(attribute.value*(enemyAttribute.lv));
-                attr.showValue = attr.value + '%';
-                enemyAttribute.attribute[stat] = attr;
-            });
-            attribute['CURHP'] = {
-                value: attribute['MAXHP'].value,
-                showValue: attribute['MAXHP'].value
-            }
-            attribute['SHIELD'] = {
-                value: 0,
-                showValue: 0
-            }
-            // if(type=='elite') {
-            //     attribute = this.eliteStat(attribute);
-            // }
-            // else if(type=='boss') {
-            //     attribute = this.bossStat(attribute);
-            // }
-            val = this.getDefRed(attribute['DEF'].value);
-            attribute['DEFRED'] = {
-                value: val,
-                showValue: val+'%'
-            }
-            
-            let enemyPos = document.getElementById("enemyAnime");
-            enemyPos.style.backgroundImage = "url(/icons/character/"+this.monster[monsterID].anime+")";
-            this.$store.commit('set_enemy_attribute', enemyAttribute);
+            this.reduceResetCount();
+            this.reward('chest');
         },
         onAttack(source, target) {
             let index = this.$store.globalComponent["index"];
@@ -405,20 +406,32 @@ export default {
                 this.setSpellProgress(source, source, 'add', 'all', 1);
             }
         },
-        reward() {
+        reward(type) {
+            let index = this.$store.globalComponent["index"];
+            let lottery = this.$store.globalComponent["lottery"];
+            let reward = this.extraDungeonInfo[type].reward;
+            if(reward.isLottery) {
+                lottery.initLottery(reward.lotReward, index.getLv(type));
+                return;
+            }
             let equip = ['helmet', 'weapon', 'armor', 'shoe', 'shoulder', 'glove', 'ring', 'cape', 'bracer', 'belt', 'legging', 'necklace'];
             let itemInfo = this.$store.globalComponent["itemInfo"];
             let equipInfo = this.$store.globalComponent["equipInfo"];   
             let backpack = this.$store.globalComponent["backpack"];   
-            let rewardList = this.dungeonInfo.advanture.reward;
+            let rewardList = reward.actualReward;
             for(let k=0; k<rewardList.length; k++) {
                 let random = Math.random()*100;
                 if(random <= rewardList[k][1]) {
                     let type = rewardList[k][0].itemType;
                     if(equip.indexOf(type) != -1)
                         backpack.giveEquip(JSON.parse(equipInfo.finishUniqueEquip(rewardList[k][0])), false, true);
-                    else
+                    else {
+                        let qty = rewardList[k][2]==undefined ? 1 : rewardList[k][2];
+                        qty = rewardList[k][3]==undefined ? qty : qty+Math.ceil(Math.random()*(rewardList[k][3]-qty));
+                        rewardList[k][0].quantity = qty;
                         itemInfo.addItem(rewardList[k][0], true);
+                        rewardList[k][0].quantity = rewardList[k][2]==undefined ? 1 : rewardList[k][2];
+                    }
                 }
             }
         },
@@ -492,7 +505,7 @@ export default {
             let equip = ['helmet', 'weapon', 'armor', 'shoe', 'shoulder', 'glove', 'ring', 'cape', 'bracer', 'belt', 'legging', 'necklace'];
 
             if(equip.indexOf(type) != -1)
-                index.closeInfo('eqiup');
+                index.closeInfo('equip');
             else
                 index.closeInfo('item');
         },

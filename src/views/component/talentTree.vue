@@ -103,7 +103,7 @@ export default {
             this.setStatus('generalBranch');
             this.setStatus('warriorBranch');
             this.setStatus('mageBranch');
-            this.setGrid('priestBranch');
+            this.setStatus('priestBranch');
         },
         resetTalent() {
             let total = this.player.talentPoint;
@@ -158,14 +158,22 @@ export default {
             val = Math.min(val, this.player.talentPoint);
             val = Math.min(val, target.maxLv-this.playerTalent[target.type]);
             if(val > 0) {
+                let branches = Object.keys(this.playerTalent).filter(key=>(key!='generalBranch'&&key.indexOf('Branch')!=-1));
+                if(branch == 'generalBranch')
+                    this.playerTalent['generalBranch2'] += val;
                 this.playerTalent[branch] += val;
                 this.playerTalent[target.type] += val;
-                this.playerTalent['generalBranch'] = Math.max(this.playerTalent['generalBranch'], this.playerTalent[branch]);
+                this.playerTalent['generalBranch'] = this.playerTalent['generalBranch2'];
+                for(let i in branches) {
+                    this.playerTalent['generalBranch'] = Math.max(this.playerTalent['generalBranch'], this.playerTalent[branches[i]]);
+                }
                 this.player.talentPoint -= val;
                 this.setStatus(branch);
                 this.setStatus('generalBranch');
                 this.talentChange(target.type);
             }
+            let quest = this.$store.globalComponent["quest"];
+            quest.trackProgress('event', 4, 1);
         },
         rightClick(e, k, branch, val=-1) {
             let target = this.talents[branch][k];
@@ -177,13 +185,17 @@ export default {
             let targetLv = this.playerTalent[target.type]+val;
             let branchLv = this.playerTalent[branch]+val;
             let check = this.checkPreReq(target.type, targetLv, target.type) && this.checkPreReq(branch, branchLv, target.type);
+            if(branch != 'generalBranch')
+                check &= this.checkPreReq('generalBranch', this.playerTalent['generalBranch']+val, target.type);
             if(!check)
                 return;
             if(val < 0) {
+                if(branch == 'generalBranch')
+                    this.playerTalent['generalBranch2'] += val;
                 let branches = Object.keys(this.playerTalent).filter(key=>(key!='generalBranch'&&key.indexOf('Branch')!=-1));
                 this.playerTalent[branch] += val;
                 this.playerTalent[target.type] += val;
-                this.playerTalent['generalBranch'] = 0;
+                this.playerTalent['generalBranch'] = this.playerTalent['generalBranch2'];
                 for(let i in branches) {
                     this.playerTalent['generalBranch'] = Math.max(this.playerTalent['generalBranch'], this.playerTalent[branches[i]]);
                 }

@@ -1,5 +1,5 @@
 <template>
-<draggable class="equip">
+<draggable class="equipPanel">
     <template slot="header">
     </template>
     <template slot="main" >
@@ -10,14 +10,14 @@
                 {{ equip.description.name }}
             </div>
             <div class="largeIconContainer">
-                <del :class="[{grey:equip.quality.qualityLv==1, green:equip.quality.qualityLv==3, blue:equip.quality.qualityLv==4, purple:equip.quality.qualityLv==5, orange:equip.quality.qualityLv==5}, 'largeIcon iconBorder']"></del>
+                <del :class="[{grey:equip.quality.qualityLv==1, green:equip.quality.qualityLv==3, blue:equip.quality.qualityLv==4, purple:equip.quality.qualityLv==5, orange:equip.quality.qualityLv==6}, 'largeIcon iconBorder']"></del>
                 <img :src="equip.description.iconSrc" alt="icon" />
             </div>
         </div>
         <div class="forge">
             <div class="extraEntry" v-if="equip.extraEntry">
                 <!-- <div v-for="(v, k) in equip.extraEntry" :key="v.id" @click="forge(v, k)"> -->
-                <div v-for="(v, k) in equip.extraEntry" :key="v.id" @click="lock(v, k)">
+                <div v-for="(v, k) in equip.extraEntry" :key="v.id" @click="forge(v, k)">
                     <!-- <div>{{v.name}} : {{v.showVal}}</div> -->
                     <button class="btn btn-snake-border"  :class="v.qualityLv">
                         <span class="locked" v-show="v.locked"><img src="../../assets/icons/lock.png" alt=""></span>
@@ -39,11 +39,11 @@
             <!-- 消耗<img src="/icons/item/inv_enchant_voidsphere.jpg">&nbsp;{{cost}}/{{itemQty}} -->
             消耗<currency :amount="cost"></currency>
         </span>
-        <div class="confirm" @click="forgeAll()">
+        <div class="confirm actions image_button" @click="forgeAll()">
             重铸
             <span ref="info"></span>
         </div>
-        <div class="cancel" @click="closeInfo()">
+        <div class="cancel actions image_button" @click="closeInfo()">
             取消
         </div>
     </div>
@@ -101,7 +101,7 @@ export default {
     },
     methods: {
         forgeAll() {
-            if(this.warning) {
+            if(this.warning || this.equip.extraEntry.length == 0) {
                 return;
             }
             this.$store.state.guildAttribute.gold -= this.cost;
@@ -110,9 +110,16 @@ export default {
             // itemInfo.removeItemByItem(this.item, this.cost);
             // equipInfo.forgeAll(this.equip);
             let allLocked = true;
+            let anyLocked = false;
             for(let entry in this.equip.extraEntry) {
+                if(this.equip.extraEntry[entry].locked)
+                    anyLocked = true;
                 if(!this.equip.extraEntry[entry].locked)
                     allLocked = false;
+            }
+            if(!anyLocked && this.equip.quality.qualityLv == 4) {
+                // 无锁定并且目标是蓝装的情况下，重置装备的词条数量
+                this.equip.extraEntry = equipInfo.createExtraEntry(this.equip);
             }
             if(allLocked) {
                 this.forgeInfo("全锁上了你重铸个锤子? ", '')
@@ -122,15 +129,22 @@ export default {
                     equipInfo.forgeEntry(this.equip, entry);
             }
             this.$store.commit('set_player_attribute');
+            let quest = this.$store.globalComponent["quest"];
+            quest.trackProgress('event', 6, 1);
         },
+        // 重铸单个词条
         forge(entry, key) {       
-            if(entry.locked) {
+            if(entry.locked || this.warning) {
                 return;
             }
+            this.$store.state.guildAttribute.gold -= this.cost;
             let equipInfo = this.$store.globalComponent["equipInfo"];
             equipInfo.forgeEntry(this.equip, key);
             this.$store.commit('set_player_attribute');
+            let quest = this.$store.globalComponent["quest"];
+            quest.trackProgress('event', 6, 1);
         },
+        // 锁定词条, 未被使用
         lock(entry, key) {
             if(entry.locked == undefined)
                 entry.locked = true;
@@ -139,7 +153,7 @@ export default {
             this.computeCost();
         },
         computeCost() {
-            let cost = 25+this.equip.lv**2/7;
+            let cost = 15+this.equip.lv**2/7;
             cost = cost*1.2**this.equip.quality.qualityLv;
             for(let entry in this.equip.extraEntry) {
                 if(this.equip.extraEntry[entry].locked)
@@ -172,117 +186,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.equip {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-    height: 28rem;
-    width: 48rem;
-    background-image: url("/icons/ui/enhancePanel2.png");
-    background-repeat: no-repeat;
-    background-size: 49rem 28rem;
-    z-index: 10;
-    .title {
-        position: absolute;
-        top: 1.4rem;
-        left: 0;
-        right: 0;
-        font-weight: bold;
-        font-size: 1.5rem;
-    }
-    .info {
-        position: absolute;
-        width: 50%;
-        .name {
-            position: relative;
-            top: 11rem;
-            left: 2.5rem;
-        }
-        .largeIconContainer {
-            position: relative;
-            top: 12rem;
-            left: 2.5rem;
-        }
-    }
-    .forge {
-        position: absolute;
-        margin-left: 55%;
-        margin-top: 10%;
-        width: 53%;
-        height: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        .extraEntry {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            width: 60%;
-            color: #68d5ed;
-            .locked {
-                float:right;
-            }
-            // .value {
-                // color: #ccc;
-                // &:hover {
-                //     box-shadow: inset 0 0 7px 7px #a1a1a1a2;
-                // }
-            // }
-        }
-    }
-    .confirm {
-        position: absolute;
-        top: 21rem;
-        left: 35rem;
-        height: 2.5rem;
-        width: 8rem;
-        background-image: url("/icons/ui/button.png");
-        background-repeat: no-repeat;
-        background-size: 8rem 2.5rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.3rem;
-        opacity: 0.8; 
-        &:hover {
-            opacity: 1; 
-        }
-    }
-    .cancel {
-        position: absolute;
-        top: 24rem;
-        left: 35rem;
-        height: 2.5rem;
-        width: 8rem;
-        background-image: url("/icons/ui/button.png");
-        background-repeat: no-repeat;
-        background-size: 8rem 2.5rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.3rem;
-        opacity: 0.8; 
-        &:hover {
-            opacity: 1; 
-        }
-    }
-    .warning {
-        color: #D8000C;
-    }
-    .cost {
-        position: absolute;
-        margin-left: 55%;
-        margin-top: 40%;
-        width: 53%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 13px;
-    }    
-}
 $blue: #ccc;
 .Etext {
     color: #D9D9D9A2;

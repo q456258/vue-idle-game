@@ -2,11 +2,11 @@
     <div class="charInfo">
         <div id="rename" v-if="player.name=='无名'">
             <div class="container" >
-                <div class="title">创建角色</div>
-                <div class="content">
-                    <input id="name" placeholder="请输入您的角色名" type="text" @input="updateName"/>  
-                    <div id="nameAlert"></div>
-                    <button class="confirm" @click="confirmName">确认
+                <div class="nameTitle">创建角色</div>
+                <div class="nameContent">
+                    <input id="name" class="nameAnime" placeholder="请输入您的角色名" type="text" @input="updateName"/>  
+                    <div id="charNameAlert" class="alert"></div>
+                    <button class="nameConfirm" @click="confirmName">确认
                     </button>
                 </div>
             </div>
@@ -23,7 +23,7 @@
                 </template>
                 <template v-slot:tip>
                     <p class="info">* 玩家当前等级</p>
-                    <p class="info">* 每通过一次试炼提升等级</p>
+                    <!-- <p class="info">* 每通过一次试炼提升等级</p> -->
                 </template>
             </cTooltip>
             <cTooltip placement="bottom">
@@ -39,6 +39,7 @@
                         <br>
                         基础: {{attribute.HP.baseVal}}
                         <span v-if="attribute.HPP.value != 0">{{' +' + attribute.HPP.showValue}}</span>
+                        <span v-if="attribute.HP.bonus != 0"><br>{{'附加: ' + attribute.HP.bonusShowValue}}</span>
                         <br>
                         恢复: {{attribute.STA.value}} /5秒
                     </p>
@@ -47,6 +48,7 @@
                         <br>
                         基础: {{attribute.MP.baseVal}}
                         <span v-if="attribute.MPP.value != 0">{{' +' + attribute.MPP.showValue}}</span>
+                        <span v-if="attribute.MP.bonus != 0"><br>{{'附加: ' + attribute.MP.bonusShowValue}}</span>
                         <br>
                         恢复: {{attribute.SPI.value}} /5秒
                     </p>
@@ -88,15 +90,15 @@
                             <span v-if="attribute.STRP.value != 0">{{' +' + attribute.STRP.showValue}}</span>
                             <span class="info" v-if="attribute.ALL.value>0">
                                 <br>
-                                全属性: {{attribute.ALL.baseVal}}
-                                <span v-if="attribute.ALLP.value>0">{{' +'+attribute.ALLP.showValue}}</span>
+                                全属性: {{attribute.ALL.value}}
                             </span>
+                            <span v-if="attribute.STR.bonus != 0"><br>{{'附加: ' + attribute.STR.bonusShowValue}}</span>
                         </p>
                         <p class="info">* 每点提升属性
                             <br>
-                            +3护甲
+                            +8护甲
                             <br>
-                            +0.5格挡
+                            +1格挡
                         </p>
                         </template>
                 </cTooltip>
@@ -117,15 +119,15 @@
                             <span v-if="attribute.AGIP.value != 0">{{' +' + attribute.AGIP.showValue}}</span>
                             <span class="info" v-if="attribute.ALL.value>0">
                                 <br>
-                                全属性: {{attribute.ALL.baseVal}}
-                                <span v-if="attribute.ALLP.value>0">{{' +'+attribute.ALLP.showValue}}</span>
+                                全属性: {{attribute.ALL.value}}
                             </span>
+                            <span v-if="attribute.AGI.bonus != 0"><br>{{'附加: ' + attribute.AGI.bonusShowValue}}</span>
                         </p>
                         <p class="info">* 每点提升属性
                             <br>
-                            +2攻击
+                            +5攻击
                             <br>
-                            +0.2%暴击率
+                            +0.01%暴击率
                         </p>
                     </template>
                 </cTooltip>
@@ -146,15 +148,15 @@
                             <span v-if="attribute.STAP.value != 0">{{' +' + attribute.STAP.showValue}}</span>
                             <span class="info" v-if="attribute.ALL.value>0">
                                 <br>
-                                全属性: {{attribute.ALL.baseVal}}
-                                <span v-if="attribute.ALLP.value>0">{{' +'+attribute.ALLP.showValue}}</span>
+                                全属性: {{attribute.ALL.value}}
                             </span>
+                            <span v-if="attribute.STA.bonus != 0"><br>{{'附加: ' + attribute.STA.bonusShowValue}}</span>
                         </p>
                         <p class="info">* 每点提升属性
                             <br>
-                            +15生命值
+                            +40生命值
                             <br>
-                            +1每五秒回血
+                            +5每五秒非战时回血
                         </p>
                     </template>
                 </cTooltip>
@@ -175,15 +177,15 @@
                             <span v-if="attribute.INTP.value != 0">{{' +' + attribute.INTP.showValue}}</span>
                             <span class="info" v-if="attribute.ALL.value>0">
                                 <br>
-                                全属性: {{attribute.ALL.baseVal}}
-                                <span v-if="attribute.ALLP.value>0">{{' +'+attribute.ALLP.showValue}}</span>
+                                全属性: {{attribute.ALL.value}}
                             </span>
+                            <span v-if="attribute.INT.bonus != 0"><br>{{'附加: ' + attribute.INT.bonusShowValue}}</span>
                         </p>
                         <p class="info">* 每点提升属性
                             <br>
-                            +2法术强度
+                            +5法术强度
                             <br>
-                            +0.1%法术暴击率
+                            +0.01%法术暴击率
                         </p>
                     </template>
                 </cTooltip>
@@ -204,15 +206,15 @@
                             <span v-if="attribute.SPIP.value != 0">{{' +' + attribute.SPIP.showValue}}</span>
                             <span class="info" v-if="attribute.ALL.value>0">
                                 <br>
-                                全属性: {{attribute.ALL.baseVal}}
-                                <span v-if="attribute.ALLP.value>0">{{' +'+attribute.ALLP.showValue}}</span>
+                                全属性: {{attribute.ALL.value}}
                             </span>
+                            <span v-if="attribute.SPI.bonus != 0"><br>{{'附加: ' + attribute.SPI.bonusShowValue}}</span>
                         </p>
                         <p class="info">* 每点提升属性
                             <br>
-                            +25魔法值
-                            <br>
                             +1每五秒回蓝
+                            <br>
+                            +5每五秒非战时回蓝
                         </p>
                     </template>
                 </cTooltip>
@@ -231,6 +233,8 @@
                             <br>
                             全属性: {{attribute.ALL.baseVal}}
                             <span v-if="attribute.ALLP.value>0">{{' +'+attribute.ALLP.showValue}}</span>
+                            <br>
+                            附加: {{attribute.ALL.bonusShowValue}}
                         </p>
                         <p class="info">* 每点提升属性
                             <br>
@@ -258,6 +262,7 @@
                             <br>
                             基础: {{attribute.ATK.baseVal }}
                             <span v-if="attribute.ATKP.value != 0">{{' +' + attribute.ATKP.showValue}}</span>
+                            <span v-if="attribute.ATK.bonus != 0"><br>{{'附加: ' + attribute.ATK.bonusShowValue}}</span>
                             <br>
                             <span v-if="attribute.CRIT.value <= 100">
                                 DPS:{{Math.round(attribute.ATK.value*(1+attribute.CRIT.value/100*(attribute.CRITDMG.value-100)/100)) }}
@@ -298,8 +303,8 @@
                                 <img src="/icons/stat/arm.jpg" alt="" />
                             </span>
                             <span>{{attribute.DEF.showValue}}
-                                    <div class="percent">({{attribute.DEFRED.showValue}})
-                            </div></span>
+                                <div class="percent">({{attribute.DEFRED.showValue}})</div>
+                            </span>
                         </div>
                     </template>
                     <template v-slot:tip>
@@ -307,6 +312,7 @@
                             <br>
                             基础: {{attribute.DEF.baseVal }}
                             <span v-if="attribute.DEFP.value != 0">{{' +' + attribute.DEFP.showValue}}</span>
+                            <span v-if="attribute.DEF.bonus != 0"><br>{{'附加: ' + attribute.DEF.bonusShowValue}}</span>
                             <br>
                             减伤: {{attribute.DEFRED.showValue}}
                         </p>
@@ -328,6 +334,7 @@
                             <br>
                             基础: {{attribute.BLOCK.baseVal }}
                             <span v-if="attribute.BLOCKP.value != 0">{{' +' + attribute.BLOCKP.showValue}}</span>
+                            <span v-if="attribute.BLOCK.bonus != 0"><br>{{'附加: ' + attribute.BLOCK.bonusShowValue}}</span>
                         </p>
                         <p class="info">减少受到的物理伤害（结算于护甲之后）</p>
                     </template>
@@ -347,6 +354,7 @@
                             <br>
                             基础: {{attribute.AP.baseVal }}
                             <span v-if="attribute.APP.value != 0">{{' +' + attribute.APP.showValue}}</span>
+                            <span v-if="attribute.AP.bonus != 0"><br>{{'附加: ' + attribute.AP.bonusShowValue}}</span>
                         </p>
                     </template>
                 </cTooltip>
@@ -364,6 +372,7 @@
                         <p class="info">* 法术暴击
                             <br>
                             基础: {{attribute.APCRIT.baseVal+'%'}}
+                            <span v-if="attribute.APCRIT.bonus != 0"><br>{{'附加: ' + attribute.APCRIT.bonusShowValue}}</span>
                             <br>
                             法术暴击伤害: {{attribute.APCRITDMG.baseVal+'%'}}
                         </p>
@@ -385,10 +394,11 @@
                         <p class="info">* 全能
                             <br>
                             基础: {{attribute.VERS.baseVal }}
+                            <span v-if="attribute.VERS.bonus != 0"><br>{{'附加: ' + attribute.VERS.bonusShowValue}}</span>
                             <br>
                             增伤/减伤: {{attribute.VERSBONUS.showValue}}
                         </p>
-                        <p class="info">提升造成的伤害, 降低受到的伤害</p>
+                        <p class="info">提升造成的伤害, 降低受到的伤害, 减伤上限为60%</p>
                     </template>
                 </cTooltip>
                 <cTooltip placement="bottom">
@@ -405,6 +415,7 @@
                         <p class="info">* 暴击率
                             <br>
                             基础: {{attribute.CRIT.baseVal}}%
+                            <span v-if="attribute.CRIT.bonus != 0"><br>{{'附加: ' + attribute.CRIT.bonusShowValue}}</span>
                         </p>
                     </template>
                 </cTooltip>
@@ -422,6 +433,7 @@
                         <p class="info">* 暴击伤害
                             <br>
                             基础: {{attribute.CRITDMG.baseVal }}
+                            <span v-if="attribute.CRITDMG.bonus != 0"><br>{{'附加: ' + attribute.CRITDMG.bonusShowValue}}</span>
                         </p>
                     </template>
                 </cTooltip>
@@ -439,6 +451,7 @@
                         <p class="info">* 治疗效果
                             <br>
                             基础: {{attribute.HEAL.baseVal }}
+                            <span v-if="attribute.HEAL.bonus != 0"><br>{{'附加: ' + attribute.HEAL.bonusShowValue}}</span>
                         </p>
                     </template>
                 </cTooltip>
@@ -457,6 +470,7 @@
                             <br>
                             基础: {{attribute.APPEN.baseVal }}
                             <span v-if="attribute.APPENP.value != 0">{{' +' + attribute.APPENP.showValue}}</span>
+                            <span v-if="attribute.APPEN.bonus != 0"><br>{{'附加: ' + attribute.APPEN.bonusShowValue}}</span>
                         </p>
                     </template>
                 </cTooltip>
@@ -475,6 +489,7 @@
                             <br>
                             基础: {{attribute.MR.baseVal }}
                             <span v-if="attribute.MRP.value != 0">{{' +' + attribute.MRP.showValue}}</span>
+                            <span v-if="attribute.MR.bonus != 0"><br>{{'附加: ' + attribute.MR.bonusShowValue}}</span>
                         </p>
                         <p class="info">降低受到的魔法伤害</p>
                     </template>
@@ -493,6 +508,7 @@
                         <p class="info">* 急速
                             <br>
                             基础: {{attribute.HASTE.baseVal }}
+                            <span v-if="attribute.HASTE.bonus != 0"><br>{{'附加: ' + attribute.HASTE.bonusShowValue}}</span>
                         </p>
                         <p class="info">提升行动后获得的技能充能</p>
                     </template>
@@ -587,8 +603,9 @@
         </div>
         <ul v-show="visible" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
             <li @click="unEquip()">卸下</li>
-            <li @click="equipEnhance()" v-if="guild.smith.lv>=1">强化</li>
-            <li @click="equipForge()" v-if="guild.smith.lv>=2">重铸</li>
+            <li @click="equipEnhance()" v-if="(guild.smith.lv>=1)">强化</li>
+            <li @click="equipForge()" v-if="(guild.smith.lv>=2)">重铸</li>
+            <li @click="equipPotential()" v-if="(guild.smith.lv>=4)">洗炼</li>
             <!-- <li @click="equipLevelUp()" v-if="guild.smith.lv>=30 && currentEquip.lv < playerLv && currentEquip.quality.qualityLv>1">升级</li> -->
         </ul>
     </div>
@@ -687,13 +704,12 @@ export default {
             if(this.checkValidity(name)) {
                 this.player.name = name;
                 let quest = this.$store.globalComponent["quest"];
-                quest.assignQuest(0);
                 quest.assignQuest(1);
                 quest.$forceUpdate();
             }
         },
         checkValidity(name) {
-            let alert = document.getElementById("nameAlert");
+            let alert = document.getElementById("charNameAlert");
             if(name.length < 1 || name.length > 8) {
                 alert.innerHTML = "名字限定在1-8个字符之间, 别一天到晚整点阴间活";
                 return false;
@@ -768,6 +784,12 @@ export default {
             index.enhanceEquip = this.currentEquip;
             index.equipForgePanel = true;
         },
+        equipPotential() {
+            let index = this.$store.globalComponent["index"];
+            index.closeInfo();
+            index.enhanceEquip = this.currentEquip;
+            index.equipPotentialPanel = true;
+        },
         equipLevelUp() {
             let dust = ['dust2', 'dust3', 'dust4', 'dust5', 'dust6'];
             let itemInfo = this.$store.globalComponent["itemInfo"];
@@ -840,99 +862,6 @@ export default {
             background-color: rgba(15, 15, 15, 0.822);
             // border-radius: 2rem;
             box-shadow:  0 0 5px 1px rgba(255, 255, 255, 0.3);
-
-        .title {
-            font-family: "Times New Roman", Times, serif;
-            width: 100%;
-            text-align: center;
-            font-size: 1.5rem;;
-            background: linear-gradient(90deg, rgb(20, 20, 20) 0%, rgb(70, 70, 70) 50%, rgb(20, 20, 20) 100%);
-        }
-        .content {
-            margin-top: 2rem;
-            #nameAlert {
-                color: red;
-            }
-        }
-        #name {
-            width: 70%;
-            padding: 10px 5px;
-            margin: 10px 0;
-            border-top: 0;
-            border-left: 2px solid #57AAB4;
-            border-right:0;
-            border-bottom: 2px solid #57AAB4;
-            outline: none;
-            background: transparent; 
-            color: rgb(234, 234, 235);
-            font-size: 15px;
-            transition: 0.5s;
-        }
-        #name:focus{
-            border-left: 2px solid transparent;
-
-            border-bottom: 2px solid transparent;
-            animation: animINP 5s linear infinite,animBTN 5s linear infinite;;
-        }
-        .confirm {
-            position: relative;
-            display: block;
-            padding: auto;
-            margin: auto;
-            margin-top: 1rem;
-            color: #62BBC1;
-            height: 3rem;
-            width: 6rem;
-            background-color:#333;
-            font-size: 1.5rem;
-            text-align: center;
-            text-decoration: none;
-            border: 1px solid #868686;
-            overflow: hidden;
-            transition: color 150ms ease-in-out 150ms, border-color 300ms ease-out, box-shadow 300ms ease-in-out;
-            z-index: 1;
-            
-            &:after {
-                content: "";
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                height: 100%;
-                background-color: darken(#868686, 45%);
-                z-index: -1;
-                transform: scaleX(0);
-                transition: transform 300ms ease-out 200ms;
-            }
-            
-            &:hover {
-                color: rgb(160, 160, 160);
-                border-color: lighten(#868686, 20%);
-                box-shadow: 0 0 16px rgba(255, 255, 255, 0.1);
-                
-                &:after {
-                    transform: scaleX(1);
-                    transform-origin: 50% 50%;
-                    transition: transform 300ms ease-out;
-                }
-            }
-        }
-        @keyframes animBTN {
-            0%{
-                box-shadow:  0 0 10px 9px rgba(3,169,244,0.3);
-            }
-            33%{
-                box-shadow:  0 0 10px 9px rgba(244,65,165,0.3);
-                
-            }
-            66.9%{
-                box-shadow:  0 0 10px 9px rgba(255,235,59,0.3);
-                
-            }
-            100%{
-                box-shadow:  0 0 10px 9px rgba(3,169,244,0.3);
-            }
-        }
     }
 }
 .user-status {

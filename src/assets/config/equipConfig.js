@@ -80,42 +80,42 @@ export const equipConfig = {
         necklace: 0.68
       },
       entryInfo: {
-        STR: { base: 2.5, name: '力量' }, 
-        AGI: { base: 2.5, name: '敏捷' }, 
-        INT: { base: 2.5, name: '智力' }, 
-        STA: { base: 2.5, name: '耐力' }, 
-        SPI: { base: 2.5, name: '精神' }, 
-        ALL: { base: 0.8, name: '全属性'},
+        STR: { base: 1, name: '力量' }, 
+        AGI: { base: 1, name: '敏捷' }, 
+        INT: { base: 1, name: '智力' }, 
+        STA: { base: 1, name: '耐力' }, 
+        SPI: { base: 1, name: '精神' }, 
+        ALL: { base: 0.35, name: '全属性'},
         ATK: { base: 5, name: '攻击' }, 
         DEF: { base: 10, name: '护甲' }, 
         BLOCK: { base: 2, name: '格挡' }, 
         AP: { base: 5, name: '法伤' }, 
         APCRIT: { base: 1, name: '法术暴击' }, 
         APCRITDMG: { base: 5, name: '法暴伤害' }, 
-        APPEN: { base: 2, name: '法术穿透' }, 
-        MR: { base: 2, name: '魔抗' }, 
+        APPEN: { base: 1, name: '法术穿透' }, 
+        MR: { base: 1, name: '魔抗' }, 
         HASTE: { base: 4, name: '急速' }, 
         HEAL: { base: 8, name: '治疗效果' }, 
         VERS: { base: 4, name: '全能' }, 
         HP: { base: 40, name: '生命值' }, 
-        MP: { base: 60, name: '魔法值' }, 
+        MP: { base: 10, name: '魔法值' }, 
         CRIT: { base: 4, name: '暴击率' }, 
         CRITDMG: { base: 1, name: '暴击伤害' }, 
-        STRP: { base: 6, name: '力量' }, 
-        AGIP: { base: 6, name: '敏捷' }, 
-        INTP: { base: 6, name: '智力' }, 
-        STAP: { base: 6, name: '耐力' }, 
-        SPIP: { base: 6, name: '精神' }, 
-        ALLP: { base: 2, name: '全属性'},
-        ATKP: { base: 6, name: '攻击力' }, 
-        DEFP: { base: 6, name: '防御力' }, 
-        BLOCKP: { base: 6, name: '格挡' }, 
-        HPP: { base: 6, name: '生命值' }, 
-        MPP: { base: 6, name: '魔法值' }, 
-        BLOCKP: { base: 6, name: '格挡' }, 
-        APP: { base: 6, name: '法伤' }, 
-        APPENP: { base: 6, name: '法术穿透' }, 
-        MRP: { base: 6, name: '魔抗' }, 
+        STRP: { base: 9, name: '力量' }, 
+        AGIP: { base: 9, name: '敏捷' }, 
+        INTP: { base: 9, name: '智力' }, 
+        STAP: { base: 9, name: '耐力' }, 
+        SPIP: { base: 9, name: '精神' }, 
+        ALLP: { base: 3, name: '全属性'},
+        ATKP: { base: 9, name: '攻击力' }, 
+        DEFP: { base: 9, name: '防御力' }, 
+        BLOCKP: { base: 9, name: '格挡' }, 
+        HPP: { base: 9, name: '生命值' }, 
+        MPP: { base: 9, name: '魔法值' }, 
+        BLOCKP: { base: 9, name: '格挡' }, 
+        APP: { base: 9, name: '法伤' }, 
+        APPENP: { base: 9, name: '法术穿透' }, 
+        MRP: { base: 9, name: '魔抗' }, 
       },
       entries: [
         'STR','AGI','INT', 'ALL', 'CRIT','CRITDMG','ATK', 'DEF', 'BLOCK','HP', 'MP', 
@@ -1421,26 +1421,74 @@ export const equipConfig = {
       unique: {
         inv_sword_05: {
           itemType: 'weapon',
-          lv: 10, qualityIndex: 3, enhanceLv: 5,
-          description: {
+          lv: 10, quality: 3, enhanceLv: 5,
+          desc: {
             name: '轻灵佩剑', desc: '导师的离别赠礼',
             iconSrc: "./icons/weapon/inv_sword_05.jpg",
           },
-          baseEntry: [
-            'AGI', 'AGI'
-          ]
+          baseEntry: [ 'AGI' ],
+          option: []
         },
         inv_wand_06: {
           itemType: 'weapon',
-          lv: 10, qualityIndex: 3, enhanceLv: 5,
-          description: {
+          lv: 10, quality: 3, enhanceLv: 5,
+          desc: {
             name: '魔术法杖', desc: '导师的离别赠礼',
             iconSrc: "./icons/weapon/inv_wand_06.jpg",
           },
-          baseEntry: [
-            'INT', 'INT'
-          ]
-        }
+          baseEntry: [ 'INT' ],
+          option: []
+        },
+        // inv_helmet_40: {
+        //   itemType: 'helmet',
+        //   lv: 45, quality: 2, enhanceLv: 0,
+        //   desc: {
+        //     name: '龟壳头盔', desc: '',
+        //     iconSrc: "./icons/helmet/inv_helmet_40.jpg",
+        //   },
+        //   baseEntry: [ 'STA' ],
+        //   option: ['STA', 'AGI', 'INT']
+        // },
+        // inv_gauntlets_05: {
+        //   itemType: 'glove',
+        //   lv: 45, quality: 2, enhanceLv: 0,
+        //   desc: {
+        //     name: '龟壳手套', desc: '',
+        //     iconSrc: "./icons/glove/inv_gauntlets_05.jpg",
+        //   },
+        //   baseEntry: [ 'STA' ],
+        //   option: ['STA', 'AGI', 'INT']
+        // },
+        // inv_bracer_06: {
+        //   itemType: 'bracer',
+        //   lv: 45, quality: 2, enhanceLv: 0,
+        //   desc: {
+        //     name: '龟壳护腕', desc: '',
+        //     iconSrc: "./icons/bracer/inv_bracer_06.jpg",
+        //   },
+        //   baseEntry: [ 'STA' ],
+        //   option: ['STA', 'AGI', 'INT']
+        // },
+        // inv_pants_02: {
+        //   itemType: 'legging',
+        //   lv: 45, quality: 2, enhanceLv: 0,
+        //   desc: {
+        //     name: '龟壳护腿', desc: '',
+        //     iconSrc: "./icons/legging/inv_pants_02.jpg",
+        //   },
+        //   baseEntry: [ 'STA' ],
+        //   option: ['STA', 'AGI', 'INT']
+        // },
+        // inv_chest_chain_12: {
+        //   itemType: 'armor',
+        //   lv: 45, quality: 2, enhanceLv: 0,
+        //   desc: {
+        //     name: '龟壳胸甲', desc: '',
+        //     iconSrc: "./icons/armor/inv_chest_chain_12.jpg",
+        //   },
+        //   baseEntry: [ 'STA' ],
+        //   option: ['STA', 'AGI', 'INT']
+        // },
       },
     }
   },

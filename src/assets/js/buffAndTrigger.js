@@ -13,7 +13,14 @@ export const buffAndTrigger = {
     },
     computed: {
         player() {return this.$store.state.playerAttribute; },
-        enemy() {return this.$store.state.enemyAttribute; }
+        enemies() {
+            let enemies = {
+                normal: this.$store.state.enemyAttribute,
+                elite: this.$store.state.eliteAttribute,
+                boss: this.$store.state.bossAttribute
+            }
+            return enemies; 
+        }
 
     },
     methods: {
@@ -45,8 +52,14 @@ export const buffAndTrigger = {
                 achievement.set_statistic({gameTime: 1000});
                 let now = Date.now();
                 let playerBuff = this.player.buff;
+                let timeGap = 0;
+                let stackRemain = 0;
                 for(let buff in this.player.timedBuff) {
-                    let curStack = (this.player.timedBuff[buff] - now)/60000;
+                    timeGap = this.getTimeGap(this.player.timedBuff[buff], now);
+                    stackRemain = Math.ceil((this.player.timedBuff[buff] - now)/1000);
+                    if(stackRemain == 120 || stackRemain == 7200)
+                        this.buffSetStack(this.player, this.player, buff, 120);
+                    let curStack = (this.player.timedBuff[buff] - now)/timeGap;
                     if(curStack < 0)
                         this.buffRemoved(this.player, this.player, buff);
                     let diff = Math.floor(playerBuff[buff] - curStack);
@@ -59,27 +72,35 @@ export const buffAndTrigger = {
                         this.statBuffRemove(this.player, this.player, playerBuff[i].type, playerBuff[i].value, i);
                     }
                 }
-                let enemyBuff = this.enemy.buff;
-                for(let buff in this.enemy.timedBuff) {
-                    let curStack = (this.enemy.timedBuff[buff] - now)/60000;
-                    if(curStack < 0)
-                        this.buffRemoved(this.enemy, this.enemy, buff);
-                    let diff = Math.floor(enemyBuff[buff] - curStack);
-                    if(diff > 0)
-                        this.buffReduce(this.enemy, this.enemy, buff, diff);
-                }
-                enemyBuff = this.enemy.tempStat;
-                for(let i=enemyBuff.length-1; i>=0; i--) {
-                    if(enemyBuff[i].expire < now) {
-                        this.statBuffRemove(this.enemy, this.enemy, enemyBuff[i].type, enemyBuff[i].value, i);
+                this.checkShield(this.player);
+                for(let type in this.enemies) {
+                    let enemy = this.enemies[type];
+                    let enemyBuff = enemy.buff;
+                    this.checkShield(enemy);
+                    for(let buff in enemy.timedBuff) {
+                        timeGap = this.getTimeGap(enemy.timedBuff[buff], now);
+                        stackRemain = Math.ceil((this.player.timedBuff[buff] - now)/1000);
+                        if(stackRemain == 120 || stackRemain == 7200)
+                            this.buffSetStack(this.player, this.player, buff, 120);
+                        let curStack = (enemy.timedBuff[buff] - now)/timeGap;
+                        if(curStack < 0)
+                            this.buffRemoved(enemy, enemy, buff);
+                        let diff = Math.floor(enemyBuff[buff] - curStack);
+                        if(diff > 0)
+                            this.buffReduce(enemy, enemy, buff, diff);
+                    }
+                    enemyBuff = enemy.tempStat;
+                    for(let i=enemyBuff.length-1; i>=0; i--) {
+                        if(enemyBuff[i].expire < now) {
+                            this.statBuffRemove(enemy, enemy, enemyBuff[i].type, enemyBuff[i].value, i);
+                        }
                     }
                 }
             }, 1000);
         },
         // 添加buff
         buffApply(source, target, type, stack=1){
-            if(type == 'spell_holy_wordfortitude')
-                this.$store.commit('set_player_attribute');
+            let now = Date.now();
             // 优雅
             let talent = 'spell_holy_hopeandgrace';
             if(target.talent[talent] > 0 && this.buffType.statusDebuff[type] != undefined) {
@@ -90,40 +111,37 @@ export const buffAndTrigger = {
             }
             if(this.buffCateg.timed.indexOf(type) != -1) {
                 if(target.timedBuff[type] == undefined) {
-                    target.timedBuff[type] = Date.now()+stack*1000;
+                    target.timedBuff[type] = now+stack*1000;
                 }
                 else
                     target.timedBuff[type] += stack*1000;
+                let timeGap = this.getTimeGap(target.timedBuff[type], now);
                 if(target.buff[type])
-                    stack = Math.ceil((target.timedBuff[type]-Date.now())/60000)-target.buff[type];
+                    stack = Math.floor((target.timedBuff[type]-now)/timeGap)-target.buff[type];
                 else
-                    stack = Math.ceil((target.timedBuff[type]-Date.now())/60000);
+                    stack = Math.floor((target.timedBuff[type]-now)/timeGap);
             }
             if(this.buffCateg.onTick.indexOf(type) != -1 && target.buff[type] == undefined)
                 this.buffOnTick(source, target, type);
             if(this.buffCateg.counter.indexOf(type) != -1)
                 target.buffCounter[type] = 0;
             if(this.buffCateg.buffer.indexOf(type) == -1) {
-                if(target.buff[type] == undefined) {
+                if(target.buff[type] == undefined)
                     this.setBuff(source, target, type, stack);
-                }
-                else {
+                else
                     this.setBuff(source, target, type, target.buff[type]+stack);
-                }
             }
             else {
                 setTimeout(() => {
-                    if(target.buff[type] == undefined) {
+                    if(target.buff[type] == undefined)
                         this.setBuff(source, target, type, stack);
-                    }
-                    else {
+                    else
                         this.setBuff(source, target, type, target.buff[type]+stack);
-                    }
                 }, 10);
             }
         },
         // 添加buff
-        statBuffApply(source, target, type, value, stack=1) {
+        statBuffApply(source, target, type, value, stack=1, buffGroup=false) {
             if(isNaN(value)) {
                 console.trace();
                 console.log("属性buff传入无效数字");
@@ -133,17 +151,17 @@ export const buffAndTrigger = {
             let percent = [
                 'STRP','AGIP','INTP','STAP','SPIP','ALLP','CRIT','CRITDMG','APCRIT','APCRITDMG','ATKP','DEFP','BLOCKP','APP','APPENP','MRP','HPP','MPP'
             ];
-            let buff = {type: type, value: value, expire: Date.now()+stack*1000};
+            this.removeStatBuffByGroup(source, target, buffGroup);
+            let buff = {type: type, value: value, expire: Date.now()+stack*1000, buffGroup: buffGroup};
             target.tempStat.push(buff);
             attr[type].value += value;
-            attr[type].showValue = attr[type].value;
 
             if(percent.indexOf(type) > -1)
                 attr[type].showValue = attr[type].value + '%';
             else
                 attr[type].showValue = attr[type].value;
             if(type == 'DEF') {
-                attr['DEFRED'].value = Math.round((attr['DEF'].value/(attr['DEF'].value+5500))*10000)/100;
+                attr['DEFRED'].value = Math.round((attr['DEF'].value/(attr['DEF'].value+3000))*10000)/100;
                 attr['DEFRED'].showValue = attr['DEFRED'].value+'%';
             } else if(type == 'VERS') {
                 attr['VERSBONUS'].value = Math.round(attr['VERS'].value*4)/100;
@@ -151,9 +169,13 @@ export const buffAndTrigger = {
             }
         },
         setBuff(source, target, type, stack) {
+            let mapEvent = this.$store.globalComponent["mapEvent"];
             let talent = 'spell_arcane_arcane01'
             if(type == 'arcCharge')
                 stack = Math.min(stack, source.talent[talent]);
+            if(this.buffStatBonus[type] != undefined) {
+                mapEvent.applyStatBuff(source, target, this.buffStatBonus[type]);
+            }
             this.$set(target.buff, type, stack);
         },
         // 战斗结束移除buff
@@ -173,8 +195,12 @@ export const buffAndTrigger = {
         },
         // 移除buff
         buffRemoved(source, target, type){
-            if(type == 'spell_holy_wordfortitude')
-                this.$store.commit('set_player_attribute');
+            if(this.buffStatBonus[type] != undefined) {
+                for(let i in this.buffStatBonus[type]) {
+                    let buffInfo = this.buffStatBonus[type][i];
+                    this.removeStatBuffByGroup(source, target, buffInfo.buffGroup);
+                }
+            }
             let attr = this.player.attribute;
             if(type == 'icenova') {
                 let dmgs = {apDmg: target.buffCounter[type]*0.25};
@@ -200,15 +226,19 @@ export const buffAndTrigger = {
             ];
             // 容易出现浮点错误
             attr[type].value = Math.round((attr[type].value-value)*100)/100;
-            attr[type].showValue = attr[type].value;
+            attr[type].bonus = Math.round((attr[type].bonus-value)*100)/100;
             target.tempStat.splice(index, 1);
 
-            if(percent.indexOf(type) > -1)
+            if(percent.indexOf(type) > -1) {
                 attr[type].showValue = attr[type].value + '%';
-            else
+                attr[type].bonusShowValue = attr[type].bonus + '%';
+            }
+            else {
                 attr[type].showValue = attr[type].value;
+                attr[type].bonusShowValue = attr[type].bonus;
+            }
             if(type == 'DEF') {
-                attr['DEFRED'].value = Math.round((attr['DEF'].value/(attr['DEF'].value+5500))*10000)/100;
+                attr['DEFRED'].value = Math.round((attr['DEF'].value/(attr['DEF'].value+3000))*10000)/100;
                 attr['DEFRED'].showValue = attr['DEFRED'].value+'%';
             } else if(type == 'VERS') {
                 attr['VERSBONUS'].value = Math.round(attr['VERS'].value*4)/100;
@@ -218,12 +248,35 @@ export const buffAndTrigger = {
                 attr['CURHP'].showValue = attr['CURHP'].value;
             }
         },
+        removeStatBuffByGroup(source, target, buffGroup) {
+            if(buffGroup) {
+                for(let i in target.tempStat) {
+                    if(target.tempStat[i].buffGroup == buffGroup) {
+                        // 如果重复添加不可叠加buff，移除原有的，再添加新的
+                        this.statBuffRemove(source, target, target.tempStat[i].type, target.tempStat[i].value, i);
+                        return true;
+                    }
+                }
+            }
+            return false;
+        },
         // 减少buff层数
         buffReduce(source, target, type, stack=1){
             if(target.buff == undefined)
                 target.buff = {};
             if(target.buff[type] != undefined) {
                 this.$set(target.buff, type, target.buff[type]-stack)
+                if(target.buff[type] <= 0){
+                    this.buffRemoved(source, target, type);
+                }
+                return true;
+            }
+            return false;
+        },
+        // 更改buff层数，主要为时间类型改动(小时->分钟->秒)
+        buffSetStack(source, target, type, stack=1){
+            if(target.buff[type] != undefined) {
+                this.$set(target.buff, type, stack)
                 if(target.buff[type] <= 0){
                     this.buffRemoved(source, target, type);
                 }
@@ -255,6 +308,23 @@ export const buffAndTrigger = {
                 }
             }, gap);
             this.addToTimerList(target.type, timer);
+        },
+        checkShield(target) {
+            let shieldList = target.attribute.SHIELD.list;
+            if(shieldList == undefined)
+                return;
+            let now = Date.now();
+            for(let shield in shieldList) {
+                if(shieldList[shield].time < now) {
+                    this.removeShield(undefined, target, shield);
+                }
+            }
+        },
+        removeShield(source, target, shield) {
+            let shieldList = target.attribute.SHIELD.list;
+            target.attribute.SHIELD.value -= shieldList[shield].val;
+            this.triggerOnShieldBreak(source, target, shield);
+            delete shieldList[shield];
         },
         addToTimerList(type, timer) {
             if(type == 'player')
@@ -455,7 +525,7 @@ export const buffAndTrigger = {
         // 灼伤
         burn(source, target) {
             let burnDmg = target.attribute.MAXHP.value * 0.005;
-            let dmgs = {apDmg: Math.round(burnDmg)};
+            let dmgs = {trueDmg: Math.round(burnDmg)};
             this.damage(source, target, dmgs, '灼伤');
         },
         // 中毒
@@ -469,9 +539,10 @@ export const buffAndTrigger = {
             this.buffReduce(source, source, 'hell');
             let talent = 'ability_rogue_preparation';
             if(source.talent[talent] > 0) {
-                let recover = source.talent[talent]*10;
-                this.hpChange(source, source, {heal: recover});
+                let recover = source.talent[talent]*5;
                 this.mpChange(source, source, recover);
+                recover += Math.ceil(source.attribute.MAXHP.value*source.talent[talent]*0.002);
+                this.hpChange(source, source, {heal: recover});
             }
         },
         // 受攻击伤害触发, source为攻击发起者
@@ -484,10 +555,9 @@ export const buffAndTrigger = {
         triggerOnHeal(source, target) {
         },
         // 破盾触发
-        triggerOnShieldBreak(source, target) {
-            if(target.buff['inv_spiritshard_01'] != undefined) {
+        triggerOnShieldBreak(source, target, shieldType) {
+            if(shieldType == 'inv_spiritshard_01') {
                 this.buffApply(target, target, 'vulnerable', 3);
-                this.buffRemoved(source, target, 'inv_spiritshard_01');
             }
         },
         // 临死前触发, target为被杀者
@@ -572,7 +642,7 @@ export const buffAndTrigger = {
             this.vulnerable(target, dmgs);
             this.void(target, dmgs);
             this.minionSlayer(source, target, dmgs);
-            this.dmgShield(source, target, dmgs, sourceName);
+            this.calcShield(source, target, dmgs, sourceName);
             for(let dmgType in dmgs)
                 dmgs[dmgType] = Math.round(dmgs[dmgType]);
             let totalDmg = this.get_dmg(dmgs, 'ad')+this.get_dmg(dmgs, 'ap')+this.get_dmg(dmgs, 'true');
@@ -630,29 +700,33 @@ export const buffAndTrigger = {
             if(target.type == 'player')
                 this.set_player_hp(-1*totalDmg, source);
             else
-                this.set_enemy_hp(-1*totalDmg, source);
+                this.set_enemy_hp(-1*totalDmg, source, target);
         },
         heal(source, target, heal, sourceName) {
             if(target.buff['plague'] != undefined)
-                heal = Math.round(heal/2);
+                heal = heal/2;
             // 灵魂护壳
             let talent = 'ability_shaman_astralshift';
             if(target.talent[talent] > 0 || sourceName == '圣言术：静') {
-                let shield = heal-(target.attribute.MAXHP.value-target.attribute.CURHP.value);
-                if(shield > 0) {
+                let shield = {};
+                let shieldVal = heal-(target.attribute.MAXHP.value-target.attribute.CURHP.value);
+                if(shieldVal > 0) {
                     if(sourceName != '圣言术：静')
-                        shield = shield*0.8
-                    heal -= shield;
+                        shieldVal = shieldVal*0.8
+                    heal -= shieldVal;
+                    shield.val = shieldVal;
+                    shield.time = 20;
                     this.shield(source, target, shield, sourceName);
                 }
             }
+            heal = Math.round(heal);
             // this.triggerOnHeal(source, target)
             let battleAnime = this.$store.globalComponent["battleAnime"];
             battleAnime.displayText(target.type, "dmg", {heal: heal});
             if(target.type == 'player')
                 this.set_player_hp(heal, source);
             else
-                this.set_enemy_hp(heal);
+                this.set_enemy_hp(heal, source, target);
             if(sourceName != undefined) {
                 if(target.type == source.type) {
                     this.$store.commit("set_battle_info", {
@@ -669,26 +743,48 @@ export const buffAndTrigger = {
             }
         },
         shield(source, target, shield, sourceName) {
-            shield = Math.round(shield);
+            let val = Math.round(shield.val)
+            if(target.attribute.SHIELD.list == undefined)
+                target.attribute.SHIELD.list = {};
+            target.attribute.SHIELD.list[sourceName] = {val: val, time: Date.now()+shield.time*1000}
             if(target.attribute.SHIELD.value == undefined)
-                target.attribute.SHIELD.value = shield;
+                target.attribute.SHIELD.value = val;
             else 
-                target.attribute.SHIELD.value += shield;
+                target.attribute.SHIELD.value += val;
         },
-        dmgShield(source, target, dmgs, sourceName) {
+        calcShield(source, target, dmgs, sourceName) {
             if(target.attribute.SHIELD.value == undefined)
                 return;
             let block = Math.min(target.attribute.SHIELD.value, this.get_dmg(dmgs, 'ad'));
-            target.attribute.SHIELD.value -= block;
+            this.dmgShield(source, target, block);
             this.set_ad_dmg(dmgs, this.get_dmg(dmgs, 'ad')-block);
             
             block = Math.min(target.attribute.SHIELD.value, this.get_dmg(dmgs, 'ap'));
-            target.attribute.SHIELD.value -= block;
+            this.dmgShield(source, target, block);
             this.set_ap_dmg(dmgs, this.get_dmg(dmgs, 'ap')-block);
-            target.attribute.SHIELD.value = Math.round(target.attribute.SHIELD.value);
 
-            if(target.attribute.SHIELD.value <= 0)
-                this.triggerOnShieldBreak(source, target);
+            this.recalcShield(target);
+        },
+        dmgShield(source, target, dmg) {
+            let shieldList = target.attribute.SHIELD.list;
+            for(let shield in shieldList) {
+                if(dmg <= 0)
+                    break;
+                let shieldBreak = Math.min(dmg, shieldList[shield].val);
+                target.attribute.SHIELD.value -= shieldBreak;
+                shieldList[shield].val -= shieldBreak;
+                dmg -= shieldBreak;
+                if(shieldList[shield].val <= 0)
+                    this.removeShield(source, target, shield);
+            }
+        },
+        recalcShield(target) {
+            let shieldList = target.attribute.SHIELD.list;
+            let sum = 0;
+            for(let shield in shieldList) {
+                sum += shieldList[shield].val;
+            }
+            target.attribute.SHIELD.value = Math.floor(sum);
         },
         clearShield(target) {
             target.attribute.SHIELD =  { baseVal: 0, value: 0, showbaseVal: 0};
@@ -808,9 +904,7 @@ export const buffAndTrigger = {
             CURHP.showValue = CURHP.value;
         },
         // remove=移除怪物, dead=击杀
-        set_enemy_hp(data) {
-            let source = this.player;
-            let target = this.$store.state.enemyAttribute;
+        set_enemy_hp(data, source, target) {
             let CURHP = target.attribute.CURHP,
                 MAXHP = target.attribute.MAXHP;
             let mapEvent = this.$store.globalComponent["mapEvent"];
@@ -837,5 +931,14 @@ export const buffAndTrigger = {
             }
             CURHP.showValue = CURHP.value;
         },    
+        // 获取计时buff时间间隔，低于120秒按秒显示，高于120秒低于120分钟按分钟显示，高于120分钟按小时显示
+        getTimeGap(time, now) {
+            let timeGap = 60000;
+            if((time-now)/1000 < 120)
+                timeGap = 1000;
+            else if((time-now)/1000 > 7200)
+                timeGap = 3600000;
+            return timeGap;
+        }
     }
 }

@@ -11,7 +11,7 @@
                 <div class="grid" v-for="(v, k) in guildShop.generalShop[guild.shop.lv]" :key="k">
                     <div @mouseover="showInfo($event,itemType[v].itemType,itemType[v],true)" @mouseleave="closeInfo('item')">
                         <div class="mediumIconContainer">
-                            <del :class="[{grey:itemType[v].quality==1, green:itemType[v].quality==3, blue:itemType[v].quality==4, purple:itemType[v].quality==5, orange:itemType[v].quality==5}, 'mediumIcon iconBorder']"></del>
+                            <del :class="[{grey:itemType[v].quality==1, green:itemType[v].quality==3, blue:itemType[v].quality==4, purple:itemType[v].quality==5, orange:itemType[v].quality==6}, 'mediumIcon iconBorder']"></del>
                             <img :src="itemType[v].description.iconSrc" alt="" />
                         </div>
                         <div class="quantity">{{itemType[v].quantity}}</div>
@@ -30,7 +30,7 @@
                 <div class="grid" v-for="(v, k) in guildShop.reputationShop[guild.shop.lv]" :key="k">
                     <div @mouseover="showInfo($event,itemType[v[0]].itemType,itemType[v[0]],true)" @mouseleave="closeInfo('item')">
                         <div class="mediumIconContainer">
-                            <del :class="[{grey:itemType[v[0]].quality==1, green:itemType[v[0]].quality==3, blue:itemType[v[0]].quality==4, purple:itemType[v[0]].quality==5, orange:itemType[v[0]].quality==5}, 'mediumIcon iconBorder']"></del>
+                            <del :class="[{grey:itemType[v[0]].quality==1, green:itemType[v[0]].quality==3, blue:itemType[v[0]].quality==4, purple:itemType[v[0]].quality==5, orange:itemType[v[0]].quality==6}, 'mediumIcon iconBorder']"></del>
                             <img :src="itemType[v[0]].description.iconSrc" alt="" />
                         </div>
                         <div class="quantity">{{itemType[v[0]].quantity}}</div>
@@ -43,7 +43,7 @@
                 </div>
             </div>
         </div>
-        <div class="shops" v-if="guild['shop'].lv>2">
+        <div class="shops" v-if="guild['blackmarket'].lv>0">
             黑市
             <div class="wrapper">
                 <div v-for="(v, k) in equipShop" :key="k">
@@ -68,7 +68,9 @@
                         <span class="time"><span v-if="equipTimerRemain%60<10">0</span>{{equipTimerRemain%60}}</span>
                     </button>
                     &nbsp;
-                    <button type="button" class="btn btn-outline-warning"  :disabled="playerGold<100000" @click="forceRefresh(100000)">刷新(10w金)</button>
+                    <button type="button" class="btn btn-outline-warning"  :disabled="playerGold<bmRefreshCost" @click="forceRefresh(bmRefreshCost)">
+                        刷新 <currency :amount="bmRefreshCost"></currency>
+                    </button>
                 </span>
             </div>
         </div>
@@ -92,7 +94,8 @@ export default {
             equipCost: [],
             equipTimer: 0,
             equipTimerRemain: 600,
-            freeRefreshCount: 1
+            freeRefreshCount: 1,
+            bmRefreshCost: 10000
         }
     },
     mounted () {
@@ -283,7 +286,7 @@ export default {
 .shopAction {
     display: flex;
     flex-direction: column;
-    align-items: start;
+    align-items: flex-start;
 }
 .equipTimer {
     width: 100%;

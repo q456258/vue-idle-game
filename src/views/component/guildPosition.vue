@@ -2,61 +2,12 @@
 <div class="container scrollbar-morpheus-den">
     <div class="building" v-show="displayPage=='guild'">
         <div class="buildingUpgradeContainer">
-            <div class="buildingUpgrade" v-for="(v, k) in upgradeCost" :key="k">
-                <div>{{guild[k].lv}}级{{guildBuildingName[k]}}
+            <div class="buildingUpgrade" v-for="(v, k) in displayUpgrades" :key="k">
+                <div>{{guild[v].lv}}级{{guildBuildingName[v]}}
                     <br>
-                    费用： <currency :amount="upgradeCost[k][guild[k].lv]"></currency><span v-if="!upgradeCost[k][guild[k].lv]">已满级</span>
+                    费用： <currency :amount="upgradeCost[v][guild[v].lv]"></currency><span v-if="!upgradeCost[v][guild[v].lv]">已满级</span>
                     <br>
-                    <button class="btn btn-secondary" v-if="upgradeCost[k][guild[k].lv]" @click="upgradeBuilding(k)" :disabled="guild.gold<upgradeCost[k][guild[k].lv]">升级</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- 
-    <div class="building" v-show="displayPage=='train'" :set="type='train'">
-        <div class="training">
-            <div class="trainingProgressbars">
-                <countdown ref="countdown" :tier="0" :timer="$store.state.train.train1.timer" :level="guild.train.lv" v-if="guild.train.lv>0"></countdown>
-                <countdown :tier="1" :timer="$store.state.train.train2.timer" :level="guild.train2.lv" v-if="guild.train.lv>0"></countdown>
-                <countdown :tier="1" :timer="$store.state.train.train2.timer" :level="guild.train2.lv" v-if="guild.train2.lv>0"></countdown>
-                <countdown :tier="2" :timer="$store.state.train.train3.timer" :level="guild.train3.lv" v-if="guild.train3.lv>0"></countdown>
-            </div>
-        </div>
-    </div> 
-    -->
-    <div class="building" v-show="displayPage=='questBoard'">
-        <div class="buildInfo">
-            <div class="questRefresh">
-                {{questTimer}}<div class="refresh btn btn-secondary" @click="refreshGuildQuest(false)"></div>
-                <currency :amount="questRefreshCost"></currency>
-            </div>
-        </div>
-        <div class="questBoardContainer">
-            <div class="questContainer" v-for="(v1, k1) in guildAvailableQuest" :key="k1">
-                <div class="questDetailField">
-                    <div class="questDetailTitle">{{"("+v1.lv+")"+v1.name}}</div>
-                    <br>
-                    <div v-for="(v, k) in v1.reqs" :key="k">
-                        {{v.current+"/"+v.target+" "+v.name}}
-                    </div>
-                </div>
-                <div class="questDetailField">
-                    <div class="questDetailTitle">奖励</div>
-                    <div class="questDetailContent">
-                        <div class="reward" v-for="(v, k) in v1.rewardItem" :key="k">
-                            <div v-if="v[0]" @mouseover="showInfo($event,v[0].itemType,v[0],true)" @mouseleave="closeInfo(v[0].itemType)">
-                                <div class="smallIconContainer">
-                                    <del :class="[{grey:v[0].quality.qualityLv==1, green:v[0].quality.qualityLv==3, blue:v[0].quality.qualityLv==4, purple:v[0].quality.qualityLv==5, orange:v[0].quality.qualityLv==6}, 'smallIcon iconBorder']"></del>
-                                    <img :src="v[0].description.iconSrc" alt="" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="reward" v-for="(v, k) in v1.reward" :key="k+'a'">
-                            <div v-if="v[0]=='gold'"><currency :isCost="false" :amount="v[1]"></currency></div>
-                            <div v-else>{{rewardType[v[0]]+': '+v[1]}}</div>
-                        </div>
-                        <div class="acceptQuest btn btn-secondary" @click="acceptQuest(k1, v1)">领取</div>
-                    </div>
+                    <button class="btn btn-secondary" v-if="upgradeCost[v][guild[v].lv]" @click="upgradeBuilding(v)" :disabled="guild.gold<upgradeCost[v][guild[v].lv]">升级</button>
                 </div>
             </div>
         </div>
@@ -77,7 +28,7 @@
         </div> -->
     </div>
     <div class="building" v-show="displayPage=='smith'" :set="type='smith'">
-        <div class="action" v-if="guild.smith.lv>=3">
+        <div class="action" v-if="guild.smith.lv>=4">
             <div style="display:flex" v-if="!inProgress[type]">
                 <select v-model="selectedType[type]" @change="setSelectedType($event, type)" class="btn btn-light">
                     <option :value="option.value" v-for="(option, index) in selectOption[type]" :key="index" :disabled="guild[type].lv<option.lv">
@@ -135,6 +86,39 @@
             </table>
         </div>
     </div>
+    <div class="building" v-show="displayPage=='bar'" :set="type='bar'">
+        <timer :time="this.progress['bar'].current"></timer>
+        <div class="member scrollbar-morpheus-den">
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col">名称</th>
+                        <th scope="col" style="cursor:pointer" @click="sortAppBy('lv')">等级</th>
+                        <th scope="col" style="cursor:pointer" @click="sortAppBy('HP', 'stat')">生命</th>
+                        <th scope="col" style="cursor:pointer" @click="sortAppBy('ATK', 'stat')">攻击</th>
+                        <th scope="col" style="cursor:pointer" @click="sortAppBy('BLOCK', 'stat')">防御</th>
+                        <th scope="col" style="cursor:pointer" @click="sortAppBy('GROWTH', 'stat')">成长</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(v, k) in applicantList" :key="k">
+                        <td>{{v.name}}</td>
+                        <td>{{v.lv}}</td>
+                        <td>{{v.stat.HP}}</td>
+                        <td>{{v.stat.ATK}}</td>
+                        <td>{{v.stat.BLOCK}}</td>
+                        <td>{{v.stat.GROWTH}}</td>
+                        <td style="width: 4em;">
+                            <span class="button specialButton accept" @click="recruit(k)">招募</span>
+                        </td>
+                        <td style="width: 4em;">
+                            <span class="button specialButton reject" @click="reject(k)">婉拒</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
     
 </template>
@@ -143,13 +127,13 @@ import { questConfig } from '@/assets/config/questConfig';
 import {guildConfig} from '@/assets/config/guildConfig'
 import {guildMemberConfig} from '@/assets/config/guildMemberConfig'
 import cTooltip from '../uiComponent/tooltip';
-import countdown from '../uiComponent/countdown';
+import timer from '../uiComponent/timer';
 import craftEquip from '../component/craftEquip';
 import currency from '../uiComponent/currency';
 export default {
     name: "guildPosition",
     mixins: [guildConfig, guildMemberConfig, questConfig],
-    components: {cTooltip, countdown, craftEquip, currency},
+    components: {cTooltip, timer, craftEquip, currency},
     mounted() {
         this.$store.globalComponent.guildPosition = this;
     },
@@ -158,63 +142,39 @@ export default {
             building: {
                 shop: [],
                 smith: [],
-                train: [],
-                train2: [],
-                train3: [],
                 mine: [],
                 herb: [],
             }, 
-            maxMember: {
-                shop: 1,
-                smith: 1,
-                train: 2,
-                train2: 2,
-                train3: 2,
-                mine: 2,
-                herb: 2,
-            },
             totalEfficiency: {
-                shop: 1, smith: 1, train: 1, train2: 1, train3: 1,
+                shop: 1, smith: 1,
             },
             timerList: {
-                shop: 0, smith: 0, train: 0, train2: 0, train3: 0, mine: 0, quest: 0
+                shop: 0, smith: 0, mine: 0, bar: 0
             },
             progress: {
                 shop: { current: 0, max: 1000 },
                 smith: { current: 0, max: 30 },
-                train: { current: 0, max: 1000 },
-                train2: { current: 0, max: 1000 },
-                train3: { current: 0, max: 1000 },
-                quest: { current: 0, max: 599 },
+                bar: { current: 0, max: 300 },
             },
             smith_main: {},
             smith_sub: {},
-            train1_member: {},
             selectFor: 'None',
             selectOption: {
                 shop: [{name: '1级贸易', value: 'shop1', lv: 0}, {name: '2级贸易', value: 'shop2', lv: 15}, {name: '3级贸易', value: 'shop3', lv: 30}, 
                         {name: '4级贸易', value: 'shop4', lv: 45}],
                 smith: [{name: '打造', value: 'smith', lv: 3},{name: '精炼', value: 'refine', lv: 5}, {name: '熔炼', value: 'melt', lv: 6}],
-                train: [{name: '生命训练', value: 'HP', lv: 0}, {name: '魔法训练', value: 'MP', lv: 0}, {name: '攻击训练', value: 'ATK', lv: 0},
-                        {name: '防御训练', value: 'DEF', lv: 0}],
-                train2: [{name: '元素训练', value: 'SUNDER', lv: 0}, {name: '格挡训练', value: 'BLOCK', lv: 0}],
-                train3: [{name: '力量训练', value: 'STR', lv: 0}, {name: '敏捷训练', value: 'AGI', lv: 0}, {name: '智力训练', value: 'INT', lv: 0}],
             },
             selectedType: {
                 shop: 'shop1',
                 smith: 'smith',
-                train: 'HP',
-                train2: 'SUNDER',
-                train3: 'STR',
             },
             inProgress: {
-                shop: false, smith: false, train:  false, train2: false, train3: false,
+                shop: false, smith: false, 
             },
             displayPage: 'guild',
             mineQueue: [],
-            memberID: 0,
+            memberID: '',
             applicantList: [],
-            guildAvailableQuest: [],
         };
     },
     props: {
@@ -223,85 +183,63 @@ export default {
         guild() { return this.$store.state.guildAttribute; },
         player() { return this.$store.state.playerAttribute; },
         playerGold() { return this.$store.state.guildAttribute.gold; },
-        questRefreshCost() { return 5*Math.pow(10, this.guild.questBoard.lv); },
         smithCost() { return Math.pow(10, this.guild.smith.lv)/2; },
-        questTimer() { 
-            let s = this.progress['quest'].current < 60 ? '00:' : '0'+Math.floor(this.progress['quest'].current/60)+':';
-            s += this.progress['quest'].current%60  < 10 ? '0'+this.progress['quest'].current%60 : this.progress['quest'].current%60;
+        displayUpgrades() {
+            return Object.keys(this.upgradeCost).filter((k) => {
+                if(!this.buildingPreReq[k])
+                    return;
+                let lv = this.guild[k].lv;
+                for(let i in this.buildingPreReq[k][lv]) {
+                    let info = this.buildingPreReq[k][lv][i];
+                    if(this.guild[info[0]].lv < info[1])
+                        return false;
+                }
+                return true;
+            });
+        },
+        barTimer() { 
+            let s = this.progress['bar'].current < 60 ? '00:' : '0'+Math.floor(this.progress['bar'].current/60)+':';
+            s += this.progress['bar'].current%60  < 10 ? '0'+this.progress['bar'].current%60 : this.progress['bar'].current%60;
             return s;
         },
     },
     methods: {    
         init() {
-            // for(let mem in this.maxMember) {
-            //     this.maxMember[mem] = Math.floor(this.guild[mem].lv/10+1);
-            // }
-            for(var mem in this.guild.member) {
-                if(this.guild.member[mem].job != 'None')
-                    this.assignPosition(this.guild.member[mem].job, -1, this.guild.member[mem], true);
-            }
             for(let timer in this.timerList) 
                 clearInterval(this.timerList[timer]);
             // this.start('shop');
             this.start('mine');
-            this.start('quest');
+            this.start('bar');
             // this.start('smith');
             // this.smith_main = this.player.shoulder;
             // this.smith_sub = this.player.weapon;
-            let types = ['guild','shop','smith','train','train2','train3'];
+            let types = ['guild','shop','smith',];
             // for(let type in types) 
             //     this.computeLv(types[type]);
-            this.generateGuildQuest();
         },
         upgradeBuilding(type) {
+            let eventID = {
+                guild: 101, bar: 102,
+                questBoard:103, shop:104, blackmarket:105, smith:106, 
+                mine: 110, herb: 111, treasury: 112
+            };
+            let quest = this.$store.globalComponent["quest"];
             let guild = this.$store.globalComponent["guild"];
             let cost = this.upgradeCost[type][this.guild[type].lv];
             guild.useGold(cost);
             this.guild[type].lv += 1;
+            if(type in eventID)
+                quest.trackProgress('event', eventID[type], this.guild[type].lv, true);
+            if(type == 'questBoard')
+                this.upgradeQuestBoard();
         },
-        refreshGuildQuest(free) {
-            if(!free && this.playerGold < this.questRefreshCost)
-                return;
-            if(!free) {
-                let guild = this.$store.globalComponent["guild"];
-                guild.useGold(this.questRefreshCost);
+        upgradeQuestBoard() {
+            let quest =  this.$store.globalComponent['quest']; 
+            let lv = this.guild['questBoard'].lv;
+            for(let i in this.questBoardList[lv]) {
+                let questID = this.questBoardList[lv][i];
+                quest.assignQuest(questID);
             }
-            this.generateGuildQuest();
-        },
-        generateGuildQuest() {
-            let quest = this.$store.globalComponent["quest"];
-            let list = [];
-            this.guildAvailableQuest = [];
-            for(let l=0; l<this.questBoardList.length; l++) {
-                if(this.player.lv <= (l+1)*10)
-                    break;
-                for(let j=0; j<this.guild['questBoard'].lv; j++) {
-                    for(let k in this.questBoardList[l][j]) {
-                        list.push(this.questBoardList[l][j][k]);
-                    }
-                }
-            }
-            let len = Math.min(list.length, 6);
-            for(let i=0; i<len; i++) {
-                let index = Math.floor(Math.random()*list.length);
-                let questId = list[index];
-                let newQuest = quest.generateQuest(questId);
-                this.guildAvailableQuest.push(newQuest);
-                list[index], list[list.length-1] = list[list.length-1] , list[index];
-                list.pop();
-            }
-        },
-        acceptQuest(index, questInfo) {
-            let quest = this.$store.globalComponent["quest"];
-            if(quest.quests[questInfo.id] != undefined) {
-                this.$store.commit("set_sys_info", {
-                    type: '',
-                    msg: '任务重复接取!',
-                });
-                return;
-            }
-            quest.assignQuest(questInfo.id, questInfo);
-            this.guildAvailableQuest.splice(index, 1);
         },
         selectEquip(type) {
             let backpack = this.$store.globalComponent["backpack"];
@@ -372,8 +310,8 @@ export default {
                 case 'mine':
                     this.startMine();
                     break;
-                case 'quest':
-                    this.startQuest();
+                case 'bar':
+                    this.startBar();
                     break;
             }
         },
@@ -436,14 +374,39 @@ export default {
                 }
             }, 1*1000);
         },
-        startQuest() {
-            this.timerList['quest'] = setInterval(() => {
-                this.progress['quest'].current -= 1;
-                if(this.progress['quest'].current <= 0) {
-                    this.refreshGuildQuest(true);
-                    this.progress['quest'].current = this.progress['quest'].max;
+        startBar() {
+            let type = 'bar';
+            this.timerList[type] = setInterval(() => {
+                this.progress[type].current -= 1;
+                if(this.progress[type].current <= 0) {
+                    this.progress[type].current = this.progress[type].max;
+                    if(this.applicantList.length >= 5) {
+                        this.applicantList.splice(0, this.applicantList.length-5);
+                    }
+                    for(let i=0; i<5; i++) {
+                        let lv = Math.round((this.guild.bar.lv-Math.random())*10);
+                        this.generateApplicant(lv);
+                    }
                 }
             }, 1*1000);
+        },
+        generateApplicant(lv, race, name) {
+            let guildMember = this.$store.globalComponent["guildMember"];
+            let applicant = guildMember.generateApplicant(lv, race, name);
+            this.applicantList.push(applicant);
+        },
+        sortAppBy(type, type2='talent') {
+            this.reverseSort = type==this.sortKey ? -1*this.reverseSort : -1;
+            this.sortKey = type;
+            if(type == 'lv') {
+                this.applicantList.sort((a, b) => {
+                    return this.reverseSort*(a[type]-b[type]);
+                })
+            } else {
+                this.applicantList.sort((a, b) => {
+                    return this.reverseSort*(a[type2][type]-b[type2][type]);
+                })
+            }
         },
         smith() {
             let equipInfo = this.$store.globalComponent["equipInfo"];
@@ -527,7 +490,9 @@ export default {
                 for(let k=0; k<rewardList.length; k++) {
                     let random = Math.random()*100;
                     if(random <= rewardList[k][1]) {
-                        rewardList[k][0].quantity++;
+                        let qty = rewardList[k][2]==undefined ? 1 : rewardList[k][2];
+                        qty = rewardList[k][3]==undefined ? qty : qty+Math.ceil(Math.random()*(rewardList[k][3]-qty));
+                        rewardList[k][0].quantity += qty;
                     }
                 }
                 rewardCount--;
@@ -541,36 +506,24 @@ export default {
         findTarget(target) {
             if(target.job == 'None')
                 return -1;
-            var list = this.building[target.job];
-            for(var i in list) {
+            let list = this.building[target.job];
+            for(let i in list) {
                 if(list[i].id == target.id)
                     return i;
             }
             return -1;
         },
-        assignPosition(type, index, target, force=false) {
-            if(!force && type == target.job)
-                return;
-            if(target.job != 'None') {
-                let targetIndex = this.findTarget(target);
-                if(targetIndex != -1)
-                    this.cancelPosition(target.job, targetIndex);
-            }
-            if(index == -1)
-                this.building[type].push(target);
-            else {
-                this.cancelPosition(type, index, true);
-                this.building[type][index] = target;
-            }
-            target.job = type;
-        },
         recruit(k) {
-            var guildMember = this.$store.globalComponent["guildMember"];
-            guildMember.recruit(k);
+            if(this.guild.member.length >= this.maxMember)
+                return;
+            let quest = this.$store.globalComponent["quest"];
+            this.applicantList[k].isMember = true;
+            this.guild.member.push(this.applicantList[k]);
+            this.applicantList.splice(k, 1);
+            quest.trackProgress('event', 14, 1, true);
         },
         reject(k) {
-            var guildMember = this.$store.globalComponent["guildMember"];
-            guildMember.reject(k);
+            this.applicantList.splice(k, 1);
         },
         removeFromQueue(type, index) {
             this.mineReward(this.mineQueue[index].reward, this.mineQueue[index].available);
@@ -615,9 +568,10 @@ export default {
     .buildingUpgradeContainer {
         position: relative;
         display: flex;
+        flex-wrap: wrap;
         width: 100%;
         .buildingUpgrade {
-            width: 45%;
+            width: 30%;
             border: 1px solid rgba(255, 255, 255, 0.404);
             border-radius: 7px;
             margin: 5px;
@@ -696,36 +650,6 @@ export default {
             }
         }
     }
-}
-.questBoardContainer {
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-    .questContainer {
-        display: flex;
-        flex-wrap: wrap;
-        margin: 1px;
-        padding: 2px;
-        height: auto;
-        width: 32%;
-        border: 1px solid #48463f;
-        border-radius: 0.3rem;
-    }
-    .questDetailField {
-        position: relative;
-        width: 100%;
-    }
-    .questDetailTitle {
-        font-size: 15px;
-    }
-    .acceptQuest {
-        position: absolute;
-        right: 0;
-        bottom: 0;
-    }
-}
-.questRefresh {
-    float: right;
 }
 .queue {
     width: 100%;

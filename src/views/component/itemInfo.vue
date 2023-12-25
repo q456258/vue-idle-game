@@ -12,7 +12,7 @@
                     <img :src="item.description.iconSrc" alt="icon">
                 </div> -->
                 <div class="largeIconContainer">
-                    <del :class="[{grey:item.quality.qualityLv==1, green:item.quality.qualityLv==3, blue:item.quality.qualityLv==4, purple:item.quality.qualityLv==5, orange:item.quality.qualityLv==5}, 'largeIcon iconBorder']"></del>
+                    <del :class="[{grey:item.quality.qualityLv==1, green:item.quality.qualityLv==3, blue:item.quality.qualityLv==4, purple:item.quality.qualityLv==5, orange:item.quality.qualityLv==6}, 'largeIcon iconBorder']"></del>
                     <img :src="item.description.iconSrc" alt="item icon" />
                 </div>
                 <div class="lv" v-if="item.lvReq > 0">
@@ -23,8 +23,7 @@
                 <div class="type">
                     物品分类: {{item.description.category}}
                 </div>
-                <div class="baseEntry">
-                    {{item.description.desc}}
+                <div class="baseEntry" v-html="item.description.desc">
                 </div>
                 <div class="extraEntry">
                     数量: {{item.quantity}}
@@ -81,7 +80,7 @@ export default {
                 return this.quality[5];
             return this.quality[quality];
         },
-        findItemIndex(name, checkStack=false) {        
+        findItemIndex(name, checkStack=false) {   
             let backpack = this.$store.globalComponent["backpack"];
             let grid = this.itemType[name].use ? backpack.useGrid: backpack.etcGrid;
             for (let i = 0; i < grid.length; i++) {
@@ -176,7 +175,8 @@ export default {
         removeItemByCode(code, quantity) {
             let index = this.findItemIndex(code);
             let type = this.itemType[code].use ? 'use': 'etc';
-            this.removeItemByIndex(index, quantity, type);
+            if(index != -1)
+                this.removeItemByIndex(index, quantity, type);
         },
         removeItemByIndex(index, quantity, type='use') {
             let backpack = this.$store.globalComponent["backpack"];

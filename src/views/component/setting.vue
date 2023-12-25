@@ -20,6 +20,16 @@
                         <div class="slider"></div>
                         </label>
                     </div>
+                    <div class="item">
+                        <div class="label">
+                            战斗动画
+                        </div>
+                        <select v-model="animeSize">
+                            <option v-for="(item, key) in animeSizes" :key="key">
+                            {{item}}
+                            </option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
@@ -38,7 +48,9 @@ export default {
     data() {
         return {
             dragging: false,
-            waitFull: false
+            waitFull: false,
+            animeSizes: ['大', '中', '小', '无'],
+            animeSize: '大'
         };
     },
     mounted() {
@@ -47,13 +59,18 @@ export default {
     watch: {
         waitFull() {
             this.changeWaitFull();
+        },
+        animeSize() {
+            this.changeAnimeSize();
         }
     },
     computed: {
     },
     methods: {
         readSetting() {
+            let sizes = {'large': '大', 'medium': '中', 'small': '小', 'none': '无'}
             this.waitFull = this.$store.state.setting.waitFull== undefined ? false : this.$store.state.setting.waitFull;
+            this.animeSize = this.$store.state.setting.animeSize== undefined ? false : sizes[this.$store.state.setting.animeSize];
         },
         closeSetting() {
             let index = this.$store.globalComponent["index"];
@@ -62,6 +79,10 @@ export default {
         changeWaitFull() {
             this.$store.state.setting.waitFull = this.waitFull;
         },
+        changeAnimeSize() {
+            let sizes = {'大': 'large', '中': 'medium', '小': 'small', '无': 'none'}
+            this.$store.state.setting.animeSize = sizes[this.animeSize];
+        }
     }
 }
 </script>

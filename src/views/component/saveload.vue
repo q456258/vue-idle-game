@@ -105,7 +105,11 @@ export default {
             try {
                 let data = JSON.parse(Base64.decode(Base64.decode(loadData)));
 
-                // data.state.guildAttribute.questBoard = {lv:1};
+                // 临时
+                if(!data.state.guildAttribute.blackmarket)
+                    data.state.guildAttribute.blackmarket = {lv:0};
+                if(!data.state.playerAttribute.learntRecipe)
+                    data.state.playerAttribute.learntRecipe = [];
                 
                 this.$store.replaceState(data.state);
                 let backpack = this.$store.globalComponent["backpack"];
@@ -134,14 +138,21 @@ export default {
                 setting.readSetting();
                 
                 let index = this.$store.globalComponent["index"];
+                let mapEvent = this.$store.globalComponent["mapEvent"];
+                let quest =  this.$store.globalComponent['quest'];  
                 this.$store.state.dungeonInfo.auto = false;
                 this.$store.state.dungeonInfo.inBattle = false;
                 this.$store.state.enemyAttribute.attribute.CURHP.value = 0;
                 index.sysInfo = this.$store.state.sysInfo;
                 index.battleInfo = this.$store.state.battleInfo;
                 index.dungeonInfo = this.$store.state.dungeonInfo;
-                index.createMaps();
-                // index.switchZone('advanture');
+                index.initLvs();
+                quest.init();
+                mapEvent.setReward();
+                index.generateEnemy('normal');
+                index.generateEnemy('elite');
+                index.generateEnemy('boss');
+                index.switchZone('normal');
 
                 // let guild = this.$store.globalComponent["guild"];
                 // guild.getAllCost();

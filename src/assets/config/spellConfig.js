@@ -58,25 +58,25 @@ data() {
             },
             spell_nature_thunderclap: {
                 name: '雷霆一击',
-                max: 7,
+                max: 5,
                 iconSrc: "./icons/spell/spell_nature_thunderclap.jpg",
                 quality: 1,
                 level: [{
                         des: '造成攻击力*1.1点伤害',
                         adDmg: { ATK: 1.1, },
-                        cost: { MP: 10, },
+                        cost: { MP: 20, },
                     }, {
                         des: '造成攻击力*1.2点伤害',
                         adDmg: { ATK: 1.2, },
-                        cost: { MP: 25, },
+                        cost: { MP: 30, },
                     }, {
                         des: '造成攻击力*1.3点伤害',
                         adDmg: { ATK: 1.3, },
-                        cost: { MP: 50, },
+                        cost: { MP: 40, },
                     }, {
                         des: '造成攻击力*1.4点伤害',
                         adDmg: { ATK: 1.4, },
-                        cost: { MP: 100, },
+                        cost: { MP: 50, },
                     }
                 ],
                 tag: ['攻击']
@@ -89,20 +89,20 @@ data() {
                 level: [{
                         des: '造成攻击力*0.5点伤害, 对低于80%的目标造成额外攻击力*0.75点伤害',
                         adDmg: { ATK: 0.5},
-                        cost: { MP: 200, },
+                        cost: { MP: 50, },
                     },
                 ],
                 tag: []
             },
             ability_whirlwind: {
                 name: '剑刃风暴',
-                max: 100,
+                max: 50,
                 iconSrc: "./icons/spell/ability_whirlwind.jpg",
                 quality: 1,
                 level: [{
                         des: '造成8次100+攻击力*0.5点伤害, 移除所有负面状态效果',
                         adDmg: { FIX: 100, ATK: 0.5},
-                        cost: { MP: 500, },
+                        cost: { MP: 1000, },
                     },
                 ],
                 tag: []
@@ -126,292 +126,47 @@ data() {
                 iconSrc: "./icons/spell/ability_warrior_shieldbash.jpg",
                 quality: 1,
                 level: [{
-                        des: '造成攻击力*0.5+护甲*0.5点伤害',
-                        adDmg: { ATK: 0.5, DEF: 0.5 },
+                        des: '造成攻击力*0.5+护甲*0.4点伤害',
+                        adDmg: { ATK: 0.5, DEF: 0.4 },
+                        cost: { MP: 25, },
+                    }, {
+                        des: '造成攻击力*0.5+护甲*0.45点伤害',
+                        adDmg: { ATK: 0.5, DEF: 0.45 },
                         cost: { MP: 50, },
                     }, {
-                        des: '造成攻击力*0.5+护甲*0.6点伤害',
-                        adDmg: { ATK: 0.5, DEF: 0.6 },
+                        des: '造成攻击力*0.5+护甲*0.5点伤害',
+                        adDmg: { ATK: 0.5, DEF: 0.5 },
+                        cost: { MP: 75, },
+                    }, {
+                        des: '造成攻击力*0.5+护甲*0.55点伤害',
+                        adDmg: { ATK: 0.5, DEF: 0.55 },
                         cost: { MP: 100, },
-                    }, {
-                        des: '造成攻击力*0.5+护甲*0.7点伤害',
-                        adDmg: { ATK: 0.5, DEF: 0.7 },
-                        cost: { MP: 150, },
-                    }, {
-                        des: '造成攻击力*0.5+护甲*0.8点伤害',
-                        adDmg: { ATK: 0.5, DEF: 0.8 },
-                        cost: { MP: 200, },
                     }
                 ],
                 tag: ['攻击', '护甲']
             },
-            ability_druid_maul: {
-                name: '槌击',
-                max: 10,
-                iconSrc: "./icons/spell/ability_druid_maul.jpg",
-                quality: 1,
-                level: [{
-                        des: '造成攻击*1+力量*3点伤害',
-                        adDmg: { ATK:1, STR: 3 },
-                        cost: { MP: 100, },
-                    }, {
-                        des: '造成攻击*1+力量*6点伤害',
-                        adDmg: { ATK:1, STR: 6 },
-                        cost: { MP: 150, },
-                    }, {
-                        des: '造成攻击*1+力量*9点伤害',
-                        adDmg: { ATK:1, STR: 9 },
-                        cost: { MP: 200, },
-                    }, {
-                        des: '造成攻击*1+力量*12点伤害',
-                        adDmg: { ATK:1, STR: 12 },
-                        cost: { MP: 250, },
-                    }
-                ],
-                tag: ['攻击', '力量']
-            },
-            spell_shadow_ritualofsacrifice: {
-                name: '影袭',
-                max: 20,
-                iconSrc: "./icons/spell/spell_shadow_ritualofsacrifice.jpg",
-                quality: 1,
-                level: [{
-                        des: '造成攻击力*0.8+敏捷*10点伤害',
-                        adDmg: { ATK:0.8, AGI: 10, },
-                        cost: { MP: 175, },
-                    }, {
-                        des: '造成攻击力*0.9+敏捷*12点伤害',
-                        adDmg: { ATK:0.9, AGI: 12, },
-                        cost: { MP: 250, },
-                    }, {
-                        des: '造成攻击力*1+敏捷*15点伤害',
-                        adDmg: { ATK:1, AGI: 15, },
-                        cost: { MP: 350, },
-                    }
-                ],
-                tag: ['攻击', '敏捷']
-            },
-            spell_warlock_soulburn: {
-                name: '勾魂',
-                max: 50,
-                iconSrc: "./icons/spell/spell_warlock_soulburn.jpg",
-                quality: 1,
-                level: [{
-                        des: '造成最大生命值*0.8点伤害',
-                        adDmg: { MAXHP: 0.8 },
-                        cost: { MAXHP: 0.1, },
-                    }, {
-                        des: '造成最大生命值*0.9点伤害',
-                        adDmg: { MAXHP: 0.9 },
-                        cost: { MAXHP: 0.1, },
-                    }
-                ],
-                tag: ['生命']
-            },
             ability_warrior_shatteringthrow: {
                 name: '碎裂投掷',
-                max: 30,
+                max: 10,
                 iconSrc: "./icons/spell/ability_warrior_shatteringthrow.jpg",
                 quality: 1,
                 level: [{
-                        des: '造成攻击力*1点伤害, 30%获得一层穿透效果',
-                        adDmg: { ATK: 1 },
-                        cost: { MP: 100, },
+                        des: '造成攻击力*1.1点伤害, 30%获得一层穿透效果',
+                        adDmg: { ATK: 1.1 },
+                        cost: { MP: 35, },
                         effect: { penetrate: {stack: 1, chance: 30, target: 'self'} },
                     }, {
                         des: '造成攻击力*1.2点伤害, 30%获得一层穿透效果',
                         adDmg: { ATK: 1.2 },
                         effect: { penetrate: {stack: 1, chance: 30, target: 'self'} },
-                        cost: { MP: 300, },
+                        cost: { MP: 70, },
                     }
                 ],
                 tag: ['攻击', 'BUFF']
             },
-            spell_holy_holybolt: {
-                name: '圣光术',
-                max: 30,
-                iconSrc: "./icons/spell/spell_holy_holybolt.jpg",
-                quality: 2,
-                level: [{
-                        des: '恢复自身1000+10%最大生命值',
-                        adDmg: {},
-                        apDmg: {},
-                        heal: { FIX: 1000, MAXHP: 0.1 },
-                        cost: { MP: 100, },
-                    }, {
-                        des: '恢复自身2000+12%最大生命值',
-                        adDmg: {},
-                        apDmg: {},
-                        heal: { FIX: 2000, MAXHP: 0.12 },
-                        cost: { MP: 200, },
-                    }, {
-                        des: '恢复自身3000+15%最大生命值',
-                        adDmg: {},
-                        apDmg: {},
-                        heal: { FIX: 3000, MAXHP: 0.15 },
-                        cost: { MP: 300, },
-                    }, {
-                        des: '恢复自身4000+17%最大生命值',
-                        adDmg: {},
-                        apDmg: {},
-                        heal: { FIX: 4000, MAXHP: 0.17 },
-                        cost: { MP: 400, },
-                    }
-                ],
-                tag: ['生命', '恢复']
-            },
-            spell_nature_lightning: {
-                name: '闪电箭',
-                max: 25,
-                iconSrc: "./icons/spell/spell_nature_lightning.jpg",
-                quality: 2,
-                level: [{
-                        des: '造成50+智力*10点伤害。',
-                        adDmg: { FIX: 5000, INT: 10, },
-                        cost: { MP: 50, },
-                    }, {
-                        des: '造成300+智力*12点伤害。',
-                        adDmg: { FIX: 30000, INT: 12, },
-                        cost: { MP: 150, },
-                    }, {
-                        des: '造成1000+智力*15点伤害。',
-                        adDmg: { FIX: 1000, INT: 15, },
-                        cost: { MP: 450, },
-                    }
-                ],
-                tag: ['智力']
-            },
-            spell_holy_powerwordshield: {
-                name: '圣佑术',
-                max: 40,
-                iconSrc: "./icons/spell/spell_holy_powerwordshield.jpg",
-                quality: 2,
-                level: [{
-                        des: '获得两层虚无效果',
-                        adDmg: {},
-                        apDmg: {},
-                        effect: { void: {stack: 2, chance: 100, target: 'self'} },
-                        cost: { MP: 400, },
-                    }, {
-                        des: '获得三层虚无效果',
-                        adDmg: {},
-                        apDmg: {},
-                        effect: { void: {stack: 3, chance: 100, target: 'self'} },
-                        cost: { MP: 1000, },
-                    }
-                ],
-
-                tag: ['BUFF']
-            },
-            spell_animabastion_buff: {
-                name: '灵感',
-                max: 30,
-                iconSrc: "./icons/spell/spell_animabastion_buff.jpg",
-                quality: 2,
-                level: [{
-                        des: '恢复最大魔法值*0.5点生命值, 100%获得一层蓄力效果',
-                        adDmg: {},
-                        apDmg: {},
-                        heal: { MAXMP: 0.5 },
-                        cost: { MP: 0, },
-                    }, {
-                        des: '恢复最大魔法值*0.7点生命值, 100%获得一层蓄力效果',
-                        adDmg: {},
-                        apDmg: {},
-                        heal: { MAXMP: 0.7 },
-                        cost: { MP: 0, },
-                    }
-                ],
-                tag: ['魔法', '恢复', 'BUFF']
-            },
-            spell_animaardenweald_orb: {
-                name: '法夜祝福',
-                max: 20,
-                iconSrc: "./icons/spell/spell_animaardenweald_orb.jpg",
-                quality: 2,
-                level: [{
-                        des: '获得两层吸蓝效果',
-                        adDmg: {},
-                        apDmg: {},
-                        effect: { manasteal: {stack: 2, chance: 100, target: 'self'} },
-                        cost: { MP: 50, },
-                    }, {
-                        des: '获得三层吸蓝效果',
-                        adDmg: {},
-                        apDmg: {},
-                        effect: { manasteal: {stack: 3, chance: 100, target: 'self'} },
-                        cost: { MP: 100, },
-                    }
-                ],
-
-                tag: ['BUFF']
-            },
-            spell_shadow_curseofmannoroth: {
-                name: '残废术',
-                max: 25,
-                iconSrc: "./icons/spell/spell_shadow_curseofmannoroth.jpg",
-                quality: 3,
-                level: [{
-                        des: '造成攻击力*0.8点伤害, 50%对敌人附加一层虚弱效果',
-                        adDmg: { ATK: 0.8},
-                        apDmg: {},
-                        effect: { weak: {stack: 1, chance: 50, target: 'enemy'} },
-                        cost: { MP: 100, },
-                    }, {
-                        des: '造成攻击力*0.9点伤害, 50%对敌人附加一层虚弱效果',
-                        adDmg: { ATK: 0.9},
-                        apDmg: {},
-                        effect: { weak: {stack: 1, chance: 50, target: 'enemy'} },
-                        cost: { MP: 200, },
-                    }, {
-                        des: '造成攻击力*1点伤害, 50%对敌人附加一层虚弱效果',
-                        adDmg: { ATK: 1},
-                        apDmg: {},
-                        effect: { weak: {stack: 1, chance: 50, target: 'enemy'} },
-                        cost: { MP: 300, },
-                    }, {
-                        des: '造成攻击力*1.1点伤害, 50%对敌人附加一层虚弱效果',
-                        adDmg: { ATK: 1.1},
-                        apDmg: {},
-                        effect: { weak: {stack: 1, chance: 50, target: 'enemy'} },
-                        cost: { MP: 400, },
-                    }
-                ],
-                tag: ['攻击力', 'DEBUFF']
-            },
-            spell_animaardenweald_groundstate: {
-                name: '冥想',
-                max: 20,
-                iconSrc: "./icons/spell/spell_animaardenweald_groundstate.jpg",
-                quality: 2,
-                level: [{
-                        des: '获得一层吸蓝效果和一层蓄力效果',
-                        adDmg: {},
-                        apDmg: {},
-                        effect: { manasteal: {stack: 1, chance: 100, target: 'self'},
-                                charge: {stack: 1, chance: 100, target: 'self'} },
-                        cost: { MP: 0, },
-                    }, {
-                        des: '获得两层吸蓝效果和一层蓄力效果',
-                        adDmg: {},
-                        apDmg: {},
-                        effect: { manasteal: {stack: 2, chance: 100, target: 'self'},
-                                charge: {stack: 1, chance: 100, target: 'self'} },
-                        cost: { MP: 0, },
-                    }, {
-                        des: '获得两层吸蓝效果和两层蓄力效果',
-                        adDmg: {},
-                        apDmg: {},
-                        effect: { manasteal: {stack: 2, chance: 100, target: 'self'},
-                                charge: {stack: 2, chance: 100, target: 'self'} },
-                        cost: { MP: 0, },
-                    }
-                ],
-                tag: ['BUFF']
-            },
             spell_holy_crusaderstrike: {
                 name: '十字军打击',
-                max: 40,
+                max: 25,
                 iconSrc: "./icons/spell/spell_holy_crusaderstrike.jpg",
                 quality: 3,
                 level: [{
@@ -421,114 +176,14 @@ data() {
                     }, {
                         des: '造成攻击力*2.5点伤害',
                         adDmg: { ATK: 2.5, },
-                        cost: { MP: 400, },
+                        cost: { MP: 300, },
                     }
                 ],
                 tag: ['攻击']
             },
-            spell_shadow_deathcoil: {
-                name: '凋零缠绕',
-                max: 60,
-                iconSrc: "./icons/spell/spell_shadow_deathcoil.jpg",
-                quality: 3,
-                level: [{
-                        des: '造成当前生命值*10点伤害, 50%获得一层吸收效果',
-                        adDmg: {CURHP: 10},
-                        effect: { absorb: {stack: 1, chance: 50, target: 'self'}},
-                        cost: { MP: 500, },
-                    }, {
-                        des: '造成当前生命值*10点伤害, 50%获得一层吸收效果',
-                        adDmg: {CURHP: 10},
-                        effect: { absorb: {stack: 1, chance: 50, target: 'self'}},
-                        cost: { MP: 1000, },
-                    }
-                ],
-                tag: ['生命', 'BUFF']
-            },
-            ability_rogue_shadowstrike: {
-                name: '裂缝打击',
-                max: 75,
-                iconSrc: "./icons/spell/ability_rogue_shadowstrike.jpg",
-                quality: 4,
-                level: [{
-                        des: '造成攻击力*1+敏捷*3点伤害, 50%获得一层穿透效果',
-                        adDmg: { ATK: 1, AGI: 3},
-                        effect: { penetrate: {stack: 1, chance: 50, target: 'self'}},
-                        cost: { MP: 100, },
-                    }, {
-                        des: '造成攻击力*1.1+敏捷*5点伤害, 50%获得一层穿透效果',
-                        adDmg: { ATK: 1.1, AGI: 5},
-                        effect: { penetrate: {stack: 1, chance: 50, target: 'self'}},
-                        cost: { MP: 200, },
-                    }, {
-                        des: '造成攻击力*1.2+敏捷*7点伤害, 50%获得一层穿透效果',
-                        adDmg: { ATK: 1.2, AGI: 7},
-                        effect: { penetrate: {stack: 1, chance: 50, target: 'self'}},
-                        cost: { MP: 300, },
-                    }, {
-                        des: '造成攻击力*1.3+敏捷*9点伤害, 50%获得一层穿透效果',
-                        adDmg: { ATK: 1.3, AGI: 9},
-                        effect: { penetrate: {stack: 1, chance: 50, target: 'self'}},
-                        cost: { MP: 400, },
-                    }
-                ],
-                tag: ['攻击力', '敏捷', 'BUFF']
-            },
-            // spell_holy_innerfire: {
-            //     name: '心灵之火',
-            //     max: 35,
-            //     iconSrc: "./icons/spell/spell_holy_innerfire.jpg",
-            //     quality: 4,
-            //     level: [{
-            //             des: '获得一层虚无效果和一层蓄力效果',
-            //             adDmg: {},
-            //             apDmg: {},
-            //             effect: { void: {stack: 1, chance: 100, target: 'self'},
-            //                     charge: {stack: 1, chance: 100, target: 'self'} },
-            //             cost: { MP: 50, },
-            //         }, {
-            //             des: '获得两层虚无效果和一层蓄力效果',
-            //             adDmg: {},
-            //             apDmg: {},
-            //             effect: { void: {stack: 2, chance: 100, target: 'self'},
-            //                     charge: {stack: 1, chance: 100, target: 'self'} },
-            //             cost: { MP: 100, },
-            //         }, {
-            //             des: '获得三层虚无效果和一层蓄力效果',
-            //             adDmg: {},
-            //             apDmg: {},
-            //             effect: { void: {stack: 3, chance: 100, target: 'self'},
-            //                     charge: {stack: 1, chance: 100, target: 'self'} },
-            //             cost: { MP: 150, },
-            //         }
-            //     ],
-
-            //     tag: ['BUFF']
-            // },
-            spell_holy_layonhands: {
-                name: '圣疗术',
-                max: 85,
-                iconSrc: "./icons/spell/spell_holy_layonhands.jpg",
-                quality: 4,
-                level: [{
-                        des: '恢复自身所有生命值',
-                        adDmg: {},
-                        apDmg: {},
-                        heal: { MAXHP: 1 },
-                        cost: { CURMP: 1, },
-                    }, {
-                        des: '恢复自身所有生命值',
-                        adDmg: {},
-                        apDmg: {},
-                        heal: { MAXHP: 1 },
-                        cost: { CURMP: 0.9, },
-                    }
-                ],
-                tag: ['恢复']
-            },
             spell_shadow_deathscream: {
                 name: '死亡嚎叫',
-                max: 35,
+                max: 25,
                 iconSrc: "./icons/spell/spell_shadow_deathscream.jpg",
                 quality: 4,
                 level: [{
@@ -548,58 +203,9 @@ data() {
 
                 tag: ['攻击力', 'BUFF', 'DEBUFF']
             },
-            ability_druid_starfall: {
-                name: '无尽之星',
-                max: 20,
-                iconSrc: "./icons/spell/ability_druid_starfall.jpg",
-                quality: 5,
-                level: [{
-                        des: '造成当前魔法值*6点伤害',
-                        adDmg: { CURMP: 6 },
-                        cost: { MAXMP: 1, },
-                    }, {
-                        des: '造成当前魔法值*8点伤害',
-                        adDmg: { CURMP: 8 },
-                        cost: { MAXMP: 1, },
-                    }, {
-                        des: '造成当前魔法值*10点伤害',
-                        adDmg: { CURMP: 10 },
-                        cost: { MAXMP: 1, },
-                    }
-                ],
-                tag: ['魔法']
-            },
-            warrior_talent_icon_innerrage: {
-                name: '鲁莽',
-                max: 90,
-                iconSrc: "./icons/spell/warrior_talent_icon_innerrage.jpg",
-                quality: 5,
-                level: [{
-                        des: '获得一层破甲、穿透、吸血、蓄力',
-                        adDmg: {},
-                        apDmg: {},
-                        effect: {sunder: {stack: 1, chance: 100, target: 'self'},
-                                penetrate: {stack: 1, chance: 100, target: 'self'} ,
-                                lifesteal: {stack: 1, chance: 100, target: 'self'} ,
-                                charge: {stack: 1, chance: 100, target: 'self'} },
-                        cost: { MAXHP: 0.1, },
-                    }, {
-                        des: '获得两层破甲、穿透、吸血、蓄力',
-                        adDmg: {},
-                        apDmg: {},
-                        effect: {sunder: {stack: 2, chance: 100, target: 'self'},
-                                penetrate: {stack: 2, chance: 100, target: 'self'} ,
-                                lifesteal: {stack: 2, chance: 100, target: 'self'} ,
-                                charge: {stack: 2, chance: 100, target: 'self'} },
-                        cost: { MAXHP: 0.2, },
-                    }
-                ],
-
-                tag: ['BUFF']
-            },
             ability_revendreth_paladin: {
                 name: '血祭',
-                max: 100,
+                max: 60,
                 iconSrc: "./icons/spell/ability_revendreth_paladin.jpg",
                 quality: 6,
                 level: [{
@@ -620,37 +226,6 @@ data() {
                     }
                 ],
                 tag: ['生命', 'BUFF']
-            },
-            ability_ardenweald_paladin_summer: {
-                name: '仲夏祝福',
-                max: 100,
-                iconSrc: "./icons/spell/ability_ardenweald_paladin_summer.jpg",
-                quality: 6,
-                level: [{
-                        des: '获得一层吸血、吸蓝、蓄力、死亡免疫、虚无、吸收',
-                        adDmg: {},
-                        apDmg: {},
-                        effect: {lifesteal: {stack: 1, chance: 100, target: 'self'},
-                                manasteal: {stack: 1, chance: 100, target: 'self'} ,
-                                charge: {stack: 1, chance: 100, target: 'self'} ,
-                                deathImmune: {stack: 1, chance: 100, target: 'self'},
-                                void: {stack: 1, chance: 100, target: 'self'} ,
-                                absorb: {stack: 1, chance: 100, target: 'self'},  },
-                        cost: { },
-                    }, {
-                        des: '获得一层吸血、吸蓝、蓄力、死亡免疫、虚无、吸收',
-                        adDmg: {},
-                        apDmg: {},
-                        effect: {lifesteal: {stack: 1, chance: 100, target: 'self'},
-                                manasteal: {stack: 1, chance: 100, target: 'self'} ,
-                                charge: {stack: 1, chance: 100, target: 'self'} ,
-                                deathImmune: {stack: 1, chance: 100, target: 'self'},
-                                void: {stack: 1, chance: 100, target: 'self'} ,
-                                absorb: {stack: 1, chance: 100, target: 'self'}, },
-                        cost: { },
-                    }
-                ],
-                tag: ['BUFF']
             },
             inv_misc_food_73cinnamonroll: {
                 name: '造餐术',
@@ -773,7 +348,7 @@ data() {
             },
             spell_fire_fireball02: {
                 name: '炎爆术',
-                max: 25,
+                max: 20,
                 iconSrc: "./icons/spell/mage/spell_fire_fireball02.jpg",
                 quality: 1,
                 level: [{
@@ -794,40 +369,19 @@ data() {
             },
             ability_mage_arcanebarrage: {
                 name: '奥术弹幕',
-                max: 10,
-                iconSrc: "./icons/spell/mage/ability_mage_arcanebarrage.jpg",
-                quality: 1,
-                level: [{
-                        des: '向敌方目标发射1-5发奥术能量箭矢，每发造成法术强度*0.4点魔法伤害。每层奥术充能使伤害提高25%',
-                        apDmg: { AP: 0.4, },
-                        cost: { MP: 50, },
-                    }, {
-                        des: '向敌方目标发射1-5发奥术能量箭矢，每发造成法术强度*0.43点魔法伤害。每层奥术充能使伤害提高25%',
-                        apDmg: { AP: 0.43, },
-                        cost: { MP: 75, },
-                    }, {
-                        des: '向敌方目标发射1-5发奥术能量箭矢，每发造成法术强度*0.46点魔法伤害。每层奥术充能使伤害提高25%',
-                        apDmg: { AP: 0.46, },
-                        cost: { MP: 100, },
-                    }
-                ],
-                tag: ['法术强度']
-            },
-            ability_mage_arcanebarrage: {
-                name: '奥术弹幕',
                 max: 15,
                 iconSrc: "./icons/spell/mage/ability_mage_arcanebarrage.jpg",
                 quality: 1,
                 level: [{
-                        des: '向敌方目标发射1-5发奥术能量箭矢，每发造成智力*0.8点魔法伤害。每层奥术充能使伤害提高25%',
+                        des: '向敌方目标发射1-5发奥术能量箭矢，每发造成智力*1.6点魔法伤害。每层奥术充能使伤害提高25%',
                         apDmg: { INT: 0.8, },
                         cost: { MP: 50, },
                     }, {
-                        des: '向敌方目标发射1-5发奥术能量箭矢，每发造成智力*0.85点魔法伤害。每层奥术充能使伤害提高25%',
+                        des: '向敌方目标发射1-5发奥术能量箭矢，每发造成智力*1.7点魔法伤害。每层奥术充能使伤害提高25%',
                         apDmg: { INT: 0.85, },
                         cost: { MP: 75, },
                     }, {
-                        des: '向敌方目标发射1-5发奥术能量箭矢，每发造成智力*0.9点魔法伤害。每层奥术充能使伤害提高25%',
+                        des: '向敌方目标发射1-5发奥术能量箭矢，每发造成智力*1.8点魔法伤害。每层奥术充能使伤害提高25%',
                         apDmg: { INT: 0.9, },
                         cost: { MP: 100, },
                     }
@@ -840,13 +394,16 @@ data() {
                 iconSrc: "./icons/spell/mage/spell_ice_lament.jpg",
                 quality: 1,
                 level: [{
-                        des: '为你施加寒冰护盾，吸收0.2*最大生命值*(1+全能*0.1)点伤害',
+                        des: '为你施加寒冰护盾，吸收0.1*最大生命值*(1+全能*0.01)点伤害, 持续10秒',
+                        duration: { time: 10 },
                         cost: { MP: 40, },
                     }, {
-                        des: '为你施加寒冰护盾，吸收0.25*最大生命值*(1+全能*0.1)点伤害',
+                        des: '为你施加寒冰护盾，吸收0.1*最大生命值*(1+全能*0.01)点伤害, 持续15秒',
+                        duration: { time: 15 },
                         cost: { MP: 60, },
                     }, {
-                        des: '为你施加寒冰护盾，吸收0.3*最大生命值*(1+全能*0.1)点伤害',
+                        des: '为你施加寒冰护盾，吸收0.1*最大生命值*(1+全能*0.01)点伤害, 持续20秒',
+                        duration: { time: 20 },
                         cost: { MP: 80, },
                     }
                 ],
@@ -858,7 +415,7 @@ data() {
                 iconSrc: "./icons/spell/mage/spell_shadow_detectlesserinvisibility.jpg",
                 quality: 1,
                 level: [{
-                        des: '制造一个护盾，使用魔法值抵消受到的伤害，每点魔法值可抵消一点伤害，持续10秒',
+                        des: '制造一个护盾，使用魔法值抵消受到的伤害，每点魔法值可抵消2点伤害，持续10秒',
                         cost: { MP: 40, },
                     }
                 ],
@@ -892,19 +449,19 @@ data() {
                 quality: 1,
                 level: [{
                         des: '对目标造成目标当前生命值*0.1点魔法伤害，并附加2层灼伤效果',
-                        apDmg: { CURHP: 0.1, },
+                        apDmg: { t_CURHP: 0.1, },
                         effect: {burn: {stack: 2, chance: 100, target: 'enemy'},},
-                        cost: { MP: 40, },
+                        cost: { MP: 10, },
                     }, {
                         des: '对目标造成目标当前生命值*0.12点魔法伤害，并附加2层灼伤效果',
-                        apDmg: { CURHP: 0.12, },
+                        apDmg: { t_CURHP: 0.12, },
                         effect: {burn: {stack: 2, chance: 100, target: 'enemy'},},
-                        cost: { MP: 50, },
+                        cost: { MP: 150, },
                     }, {
                         des: '对目标造成目标当前生命值*0.15点魔法伤害，并附加2层灼伤效果',
-                        apDmg: { CURHP: 0.15, },
+                        apDmg: { t_CURHP: 0.15, },
                         effect: {burn: {stack: 2, chance: 100, target: 'enemy'},},
-                        cost: { MP: 60, },
+                        cost: { MP: 200, },
                     }
                 ],
                 tag: ['法术强度']
@@ -917,15 +474,15 @@ data() {
                 level: [{
                         des: '向敌人射出五波奥术飞弹，每发造成智力*0.5点魔法伤害。每层奥术充能额外发射一波奥术飞弹',
                         apDmg: { INT: 0.5, },
-                        cost: { MP: 40, },
+                        cost: { MP: 75, },
                     }, {
                         des: '向敌人射出五波奥术飞弹，每发造成智力*0.55点魔法伤害。每层奥术充能额外发射一波奥术飞弹',
                         apDmg: { INT: 0.55, },
-                        cost: { MP: 50, },
+                        cost: { MP: 100, },
                     }, {
                         des: '向敌人射出五波奥术飞弹，每发造成智力*0.6点魔法伤害。每层奥术充能额外发射一波奥术飞弹',
                         apDmg: { INT: 0.6, },
-                        cost: { MP: 60, },
+                        cost: { MP: 125, },
                     }
                 ],
                 tag: ['法术强度']
@@ -937,9 +494,7 @@ data() {
                 quality: 1,
                 level: [{
                         des: '加快你的施法速度，使你的急速提高30，持续20秒',
-                        statBuff: [
-                            {type: 'HASTE', valType: 'FIX', value: 30, stack:20, chance: 100, target: 'self'},
-                        ],
+                        effect: {spell_frost_coldhearted: {stack: 20, chance: 100, target: 'self'},},
                         cost: { MP: 100, },
                     }
                 ],
@@ -947,12 +502,12 @@ data() {
             },
             spell_frost_wizardmark: {
                 name: '急速冷却',
-                max: 60,
+                max: 30,
                 iconSrc: "./icons/spell/mage/spell_frost_wizardmark.jpg",
                 quality: 1,
                 level: [{
                         des: '将暴风雪、冰风暴、寒冰护体和冰冷血脉完全充能',
-                        cost: { MP: 100, },
+                        cost: { MP: 200, },
                     }
                 ],
                 tag: []
@@ -1003,14 +558,12 @@ data() {
             },
             spell_fire_sealoffire: {
                 name: '燃烧',
-                max: 90,
+                max: 70,
                 iconSrc: "./icons/spell/mage/spell_fire_sealoffire.jpg",
                 quality: 1,
                 level: [{
                         des: '将自身包裹在烈焰之中，短时间内使你的法术爆击几率提高100%，持续10秒',
-                        statBuff: [
-                            {type: 'APCRIT', valType: 'FIX', value: 101, stack:10, chance: 100, target: 'self'},
-                        ],
+                        effect: {spell_fire_sealoffire: {stack: 10, chance: 100, target: 'self'},},
                         cost: { MP: 200, },
                     }
                 ],
@@ -1034,20 +587,20 @@ data() {
                 iconSrc: "./icons/spell/priest/spell_holy_renew.jpg",
                 quality: 1,
                 level: [{
-                        des: '满怀对圣光的信仰，每秒恢复法术强度*0.1点生命值，持续15秒',
-                        heal: { AP: 0.1 },
+                        des: '满怀对圣光的信仰，每秒恢复法术强度*0.06点生命值，持续15秒',
+                        heal: { AP: 0.06 },
                         cost: { MP: 50, },
                     }, {
-                        des: '满怀对圣光的信仰，每秒恢复法术强度*0.11点生命值，持续15秒',
-                        heal: { AP: 0.11 },
+                        des: '满怀对圣光的信仰，每秒恢复法术强度*0.07点生命值，持续15秒',
+                        heal: { AP: 0.07 },
                         cost: { MP: 75, },
                     }, {
-                        des: '满怀对圣光的信仰，每秒恢复法术强度*0.12点生命值，持续15秒',
-                        heal: { AP: 0.12 },
+                        des: '满怀对圣光的信仰，每秒恢复法术强度*0.08点生命值，持续15秒',
+                        heal: { AP: 0.08 },
                         cost: { MP: 100, },
                     }, {
-                        des: '满怀对圣光的信仰，每秒恢复法术强度*0.13点生命值，持续15秒',
-                        heal: { AP: 0.13 },
+                        des: '满怀对圣光的信仰，每秒恢复法术强度*0.09点生命值，持续15秒',
+                        heal: { AP: 0.09 },
                         cost: { MP: 125, },
                     }
                 ],
@@ -1059,20 +612,20 @@ data() {
                 iconSrc: "./icons/spell/priest/spell_holy_flashheal.jpg",
                 quality: 1,
                 level: [{
-                        des: '恢复自身法术强度*1.4点生命值',
-                        heal: { AP: 1.4 },
+                        des: '恢复自身法术强度*0.8点生命值',
+                        heal: { AP: 0.8 },
                         cost: { MP: 50, },
                     }, {
-                        des: '恢复自身法术强度*1.55点生命值',
-                        heal: { AP: 1.55 },
+                        des: '恢复自身法术强度*0.9点生命值',
+                        heal: { AP: 0.9 },
                         cost: { MP: 75, },
                     }, {
-                        des: '恢复自身法术强度*1.7点生命值',
-                        heal: { AP: 1.7 },
+                        des: '恢复自身法术强度*1点生命值',
+                        heal: { AP: 1 },
                         cost: { MP: 100, },
                     }, {
-                        des: '恢复自身法术强度*1.85点生命值',
-                        heal: { AP: 1.85 },
+                        des: '恢复自身法术强度*1.1点生命值',
+                        heal: { AP: 1.1 },
                         cost: { MP: 125, },
                     }
                 ],
@@ -1085,27 +638,15 @@ data() {
                 quality: 1,
                 level: [{
                         des: '提升10%攻击力、法术强度和500护甲，持续30秒',
-                        statBuff: [
-                            {type: 'ATK', valType: 'ATK', value: 0.1, stack:30, chance: 100, target: 'self'},
-                            {type: 'AP', valType: 'AP', value: 0.1, stack:30, chance: 100, target: 'self'},
-                            {type: 'DEF', valType: 'FIX', value: 500, stack:30, chance: 100, target: 'self'},
-                        ],
+                        effect: {spell_holy_innerfire: {stack: 30, chance: 100, target: 'self'},},
                         cost: { MP: 20, },
                     }, {
                         des: '提升12%攻击力、法术强度和750护甲，持续30秒',
-                        statBuff: [
-                            {type: 'ATK', valType: 'ATK', value: 0.12, stack:30, chance: 100, target: 'self'},
-                            {type: 'AP', valType: 'AP', value: 0.12, stack:30, chance: 100, target: 'self'},
-                            {type: 'DEF', valType: 'FIX', value: 750, stack:30, chance: 100, target: 'self'},
-                        ],
+                        effect: {spell_holy_innerfire2: {stack: 30, chance: 100, target: 'self'},},
                         cost: { MP: 30, },
                     }, {
                         des: '提升14%攻击力、法术强度和1000护甲，持续30秒',
-                        statBuff: [
-                            {type: 'ATK', valType: 'ATK', value: 0.14, stack:30, chance: 100, target: 'self'},
-                            {type: 'AP', valType: 'AP', value: 0.14, stack:30, chance: 100, target: 'self'},
-                            {type: 'DEF', valType: 'FIX', value: 1000, stack:30, chance: 100, target: 'self'},
-                        ],
+                        effect: {spell_holy_innerfire3: {stack: 30, chance: 100, target: 'self'},},
                         cost: { MP: 40, },
                     }
                 ],
@@ -1117,11 +658,9 @@ data() {
                 iconSrc: "./icons/spell/priest/spell_holy_testoffaith.jpg",
                 quality: 1,
                 level: [{
-                        des: '使最大生命值提高25%，持续10 sec。同时立即为你恢复同样数量的生命值',
+                        des: '使最大生命值提高25%，持续10秒。同时立即为你恢复同样数量的生命值',
                         heal: { MAXHP: 0.25, },
-                        statBuff: [
-                            {type: 'MAXHP', valType: 'MAXHP', value: 0.25, stack:30, chance: 100, target: 'self'},
-                        ],
+                        effect: {spell_holy_testoffaith: {stack: 30, chance: 100, target: 'self'},},
                         cost: { MP: 200, },
                     }
                 ],
@@ -1158,13 +697,19 @@ data() {
                 iconSrc: "./icons/spell/priest/spell_holy_powerwordshield.jpg",
                 quality: 1,
                 level: [{
-                        des: '施加一个护盾，吸收法术强度*1*(1+全能*0.1)点伤害',
+                        des: '施加一个护盾，吸收法术强度*1*(1+全能*0.01)点伤害, 持续10秒',
+                        duration: { time: 10 },
+                        effect: {spell_holy_powerwordshield: {stack: 10, chance: 100, target: 'self'},},
                         cost: { MP: 50, },
                     }, {
-                        des: '施加一个护盾，吸收法术强度*1.1*(1+全能*0.1)点伤害',
+                        des: '施加一个护盾，吸收法术强度*1.1*(1+全能*0.01)点伤害, 持续15秒',
+                        duration: { time: 15 },
+                        effect: {spell_holy_powerwordshield: {stack: 15, chance: 100, target: 'self'},},
                         cost: { MP: 60, },
                     }, {
-                        des: '施加一个护盾，吸收法术强度*1.2*(1+全能*0.1)点伤害',
+                        des: '施加一个护盾，吸收法术强度*1.2*(1+全能*0.01)点伤害, 持续20秒',
+                        duration: { time: 20 },
+                        effect: {spell_holy_powerwordshield: {stack: 20, chance: 100, target: 'self'},},
                         cost: { MP: 70, },
                     }
                 ],
@@ -1334,8 +879,9 @@ data() {
                 iconSrc: "./icons/spell/priest/spell_holy_persuitofjustice.jpg",
                 quality: 1,
                 level: [{
-                        des: '施展神迹，恢复最大生命值*1点生命值，溢出值将转为护盾',
+                        des: '施展神迹，恢复最大生命值*1点生命值，溢出值将转为护盾, 持续20秒',
                         heal: { MAXHP: 1 },
+                        duration: { time: 20 },
                         cost: { MP: 300, },
                     }
                 ],
@@ -1345,11 +891,8 @@ data() {
             spell_magic_polymorphpig: {
                 name: '愤怒之气', max: 100, iconSrc: "", quality: 1,
                 level: [{
-                        des: '提升20%攻击力，20%暴击率，持续20秒',
-                        statBuff: [
-                            {type: 'ATK', valType: 'ATK', value: 0.2, stack:20, chance: 100, target: 'self'},
-                            {type: 'CRIT', valType: 'FIX', value: 20, stack:20, chance: 100, target: 'self'},
-                        ],
+                        des: '提升20%攻击力, 20%法伤，20%暴击率，持续20秒',
+                        effect: {spell_magic_polymorphpig: {stack: 20, chance: 100, target: 'self'},},
                         cost: { MP: 20, },
                     }
                 ],
@@ -1370,10 +913,7 @@ data() {
                 name: '狂暴', max: 100, iconSrc: "", quality: 1,
                 level: [{
                         des: '提升50%攻击力，50%暴击率，持续6秒',
-                        statBuff: [
-                            {type: 'ATK', valType: 'ATK', value: 0.5, stack:6, chance: 100, target: 'self'},
-                            {type: 'CRIT', valType: 'FIX', value: 50, stack:6, chance: 100, target: 'self'},
-                        ],
+                        effect: {ability_druid_berserk: {stack: 6, chance: 100, target: 'self'},},
                         cost: { MP: 20, },
                     }
                 ],
@@ -1385,7 +925,7 @@ data() {
                         des: '造成攻击力*0.8点伤害，使敌人的护甲降低50%，持续10秒',
                         adDmg: { ATK: 0.8 },
                         statBuff: [
-                            {type: 'DEF', valType: 'DEF', value: -0.5, stack:10, chance: 100, target: 'enemy', valSource: 'enemy'},
+                            {type: 'DEF', valType: 'DEF', value: -0.5, stack:10, chance: 100, target: 'enemy', valSource: 'enemy', buffGroup: 'spell_shadow_vampiricaura'},
                         ],
                         cost: { MP: 20, },
                     }
@@ -1395,8 +935,8 @@ data() {
             poison_arrow: {
                 name: '毒箭', max: 20, iconSrc: "", quality: 1,
                 level: [{
-                        des: '附加20层中毒效果',
-                        effect: {poison: {stack: 20, chance: 100, target: 'enemy'},},
+                        des: '附加30层中毒效果',
+                        effect: {poison: {stack: 30, chance: 100, target: 'enemy'},},
                         cost: { MP: 25, },
                     }
                 ],
@@ -1456,7 +996,8 @@ data() {
             ability_vehicle_shellshieldgenerator: {
                 name: '防护之壳', max: 100, iconSrc: "", quality: 1,
                 level: [{
-                        des: '获得护甲*0.1点护盾',
+                        des: '获得护甲*0.1点护盾, 持续10秒',
+                        duration: { time: 10 },
                         cost: { MP: 20, },
                     }
                 ],
@@ -1497,8 +1038,8 @@ data() {
             inv_spiritshard_01: {
                 name: '石肤', max: 100, iconSrc: "", quality: 1,
                 level: [{
-                        des: '获得最大生命值*0.3点护盾，护甲被破坏后获得5层易伤',
-                        effect: {inv_spiritshard_01: {stack: 1, chance: 100, target: 'self'},},
+                        des: '获得最大生命值*0.3点护盾，持续20秒, 护甲被破坏后获得5层易伤',
+                        duration: { time: 20 },
                         cost: { MP: 20, },
                     }
                 ],
@@ -1507,8 +1048,9 @@ data() {
             spell_fire_immolation: {
                 name: '火焰护盾', max: 100, iconSrc: "", quality: 1,
                 level: [{
-                        des: '获得最大生命值*0.3点护盾，护甲持续期间，受到物理伤害时对伤害来源造成150点魔法伤害',
+                        des: '获得最大生命值*0.3点护盾，持续20秒，护甲持续期间，受到物理伤害时对伤害来源造成150点魔法伤害',
                         effect: {spell_fire_immolation: {stack: 1, chance: 100, target: 'self'},},
+                        duration: { time: 10 },
                         cost: { MP: 20, },
                     }
                 ],
@@ -1525,6 +1067,434 @@ data() {
                 ],
                 tag: []
             }, 
+            // archive
+            // 德鲁伊
+            
+            // ability_druid_maul: {
+            //     name: '槌击',
+            //     max: 10,
+            //     iconSrc: "./icons/spell/ability_druid_maul.jpg",
+            //     quality: 1,
+            //     level: [{
+            //             des: '造成攻击*1+力量*1点伤害',
+            //             adDmg: { ATK:1, STR: 1 },
+            //             cost: { MP: 100, },
+            //         }, {
+            //             des: '造成攻击*1+力量*2点伤害',
+            //             adDmg: { ATK:1, STR: 2 },
+            //             cost: { MP: 150, },
+            //         }, {
+            //             des: '造成攻击*1+力量*3点伤害',
+            //             adDmg: { ATK:1, STR: 3 },
+            //             cost: { MP: 200, },
+            //         }, {
+            //             des: '造成攻击*1+力量*4点伤害',
+            //             adDmg: { ATK:1, STR: 4 },
+            //             cost: { MP: 250, },
+            //         }
+            //     ],
+            //     tag: ['攻击', '力量']
+            // },
+            // spell_holy_powerwordshield: {
+            //     name: '圣佑术',
+            //     max: 40,
+            //     iconSrc: "./icons/spell/spell_holy_powerwordshield.jpg",
+            //     quality: 2,
+            //     level: [{
+            //             des: '获得两层虚无效果',
+            //             adDmg: {},
+            //             apDmg: {},
+            //             effect: { void: {stack: 2, chance: 100, target: 'self'} },
+            //             cost: { MP: 400, },
+            //         }, {
+            //             des: '获得三层虚无效果',
+            //             adDmg: {},
+            //             apDmg: {},
+            //             effect: { void: {stack: 3, chance: 100, target: 'self'} },
+            //             cost: { MP: 1000, },
+            //         }
+            //     ],
+
+            //     tag: ['BUFF']
+            // },
+            // spell_animabastion_buff: {
+            //     name: '灵感',
+            //     max: 30,
+            //     iconSrc: "./icons/spell/spell_animabastion_buff.jpg",
+            //     quality: 2,
+            //     level: [{
+            //             des: '恢复最大魔法值*0.5点生命值, 100%获得一层蓄力效果',
+            //             adDmg: {},
+            //             apDmg: {},
+            //             heal: { MAXMP: 0.5 },
+            //             cost: { MP: 0, },
+            //         }, {
+            //             des: '恢复最大魔法值*0.7点生命值, 100%获得一层蓄力效果',
+            //             adDmg: {},
+            //             apDmg: {},
+            //             heal: { MAXMP: 0.7 },
+            //             cost: { MP: 0, },
+            //         }
+            //     ],
+            //     tag: ['魔法', '恢复', 'BUFF']
+            // },
+            // spell_animaardenweald_orb: {
+            //     name: '法夜祝福',
+            //     max: 20,
+            //     iconSrc: "./icons/spell/spell_animaardenweald_orb.jpg",
+            //     quality: 2,
+            //     level: [{
+            //             des: '获得两层吸蓝效果',
+            //             adDmg: {},
+            //             apDmg: {},
+            //             effect: { manasteal: {stack: 2, chance: 100, target: 'self'} },
+            //             cost: { MP: 50, },
+            //         }, {
+            //             des: '获得三层吸蓝效果',
+            //             adDmg: {},
+            //             apDmg: {},
+            //             effect: { manasteal: {stack: 3, chance: 100, target: 'self'} },
+            //             cost: { MP: 100, },
+            //         }
+            //     ],
+
+            //     tag: ['BUFF']
+            // },
+            // spell_shadow_curseofmannoroth: {
+            //     name: '残废术',
+            //     max: 25,
+            //     iconSrc: "./icons/spell/spell_shadow_curseofmannoroth.jpg",
+            //     quality: 3,
+            //     level: [{
+            //             des: '造成攻击力*0.8点伤害, 50%对敌人附加一层虚弱效果',
+            //             adDmg: { ATK: 0.8},
+            //             apDmg: {},
+            //             effect: { weak: {stack: 1, chance: 50, target: 'enemy'} },
+            //             cost: { MP: 100, },
+            //         }, {
+            //             des: '造成攻击力*0.9点伤害, 50%对敌人附加一层虚弱效果',
+            //             adDmg: { ATK: 0.9},
+            //             apDmg: {},
+            //             effect: { weak: {stack: 1, chance: 50, target: 'enemy'} },
+            //             cost: { MP: 200, },
+            //         }, {
+            //             des: '造成攻击力*1点伤害, 50%对敌人附加一层虚弱效果',
+            //             adDmg: { ATK: 1},
+            //             apDmg: {},
+            //             effect: { weak: {stack: 1, chance: 50, target: 'enemy'} },
+            //             cost: { MP: 300, },
+            //         }, {
+            //             des: '造成攻击力*1.1点伤害, 50%对敌人附加一层虚弱效果',
+            //             adDmg: { ATK: 1.1},
+            //             apDmg: {},
+            //             effect: { weak: {stack: 1, chance: 50, target: 'enemy'} },
+            //             cost: { MP: 400, },
+            //         }
+            //     ],
+            //     tag: ['攻击力', 'DEBUFF']
+            // },
+            // spell_animaardenweald_groundstate: {
+            //     name: '冥想',
+            //     max: 20,
+            //     iconSrc: "./icons/spell/spell_animaardenweald_groundstate.jpg",
+            //     quality: 2,
+            //     level: [{
+            //             des: '获得一层吸蓝效果和一层蓄力效果',
+            //             adDmg: {},
+            //             apDmg: {},
+            //             effect: { manasteal: {stack: 1, chance: 100, target: 'self'},
+            //                     charge: {stack: 1, chance: 100, target: 'self'} },
+            //             cost: { MP: 0, },
+            //         }, {
+            //             des: '获得两层吸蓝效果和一层蓄力效果',
+            //             adDmg: {},
+            //             apDmg: {},
+            //             effect: { manasteal: {stack: 2, chance: 100, target: 'self'},
+            //                     charge: {stack: 1, chance: 100, target: 'self'} },
+            //             cost: { MP: 0, },
+            //         }, {
+            //             des: '获得两层吸蓝效果和两层蓄力效果',
+            //             adDmg: {},
+            //             apDmg: {},
+            //             effect: { manasteal: {stack: 2, chance: 100, target: 'self'},
+            //                     charge: {stack: 2, chance: 100, target: 'self'} },
+            //             cost: { MP: 0, },
+            //         }
+            //     ],
+            //     tag: ['BUFF']
+            // },
+            // spell_shadow_ritualofsacrifice: {
+            //     name: '影袭',
+            //     max: 20,
+            //     iconSrc: "./icons/spell/spell_shadow_ritualofsacrifice.jpg",
+            //     quality: 1,
+            //     level: [{
+            //             des: '造成攻击力*0.8+敏捷*10点伤害',
+            //             adDmg: { ATK:0.8, AGI: 10, },
+            //             cost: { MP: 175, },
+            //         }, {
+            //             des: '造成攻击力*0.9+敏捷*12点伤害',
+            //             adDmg: { ATK:0.9, AGI: 12, },
+            //             cost: { MP: 250, },
+            //         }, {
+            //             des: '造成攻击力*1+敏捷*15点伤害',
+            //             adDmg: { ATK:1, AGI: 15, },
+            //             cost: { MP: 350, },
+            //         }
+            //     ],
+            //     tag: ['攻击', '敏捷']
+            // },
+            // spell_warlock_soulburn: {
+            //     name: '勾魂',
+            //     max: 50,
+            //     iconSrc: "./icons/spell/spell_warlock_soulburn.jpg",
+            //     quality: 1,
+            //     level: [{
+            //             des: '造成最大生命值*0.8点伤害',
+            //             adDmg: { MAXHP: 0.8 },
+            //             cost: { MAXHP: 0.1, },
+            //         }, {
+            //             des: '造成最大生命值*0.9点伤害',
+            //             adDmg: { MAXHP: 0.9 },
+            //             cost: { MAXHP: 0.1, },
+            //         }
+            //     ],
+            //     tag: ['生命']
+            // },
+            // spell_nature_lightning: {
+            //     name: '闪电箭',
+            //     max: 25,
+            //     iconSrc: "./icons/spell/spell_nature_lightning.jpg",
+            //     quality: 2,
+            //     level: [{
+            //             des: '造成50+智力*10点伤害。',
+            //             adDmg: { FIX: 5000, INT: 10, },
+            //             cost: { MP: 50, },
+            //         }, {
+            //             des: '造成300+智力*12点伤害。',
+            //             adDmg: { FIX: 30000, INT: 12, },
+            //             cost: { MP: 150, },
+            //         }, {
+            //             des: '造成1000+智力*15点伤害。',
+            //             adDmg: { FIX: 1000, INT: 15, },
+            //             cost: { MP: 450, },
+            //         }
+            //     ],
+            //     tag: ['智力']
+            // },
+            // spell_shadow_deathcoil: {
+            //     name: '凋零缠绕',
+            //     max: 60,
+            //     iconSrc: "./icons/spell/spell_shadow_deathcoil.jpg",
+            //     quality: 3,
+            //     level: [{
+            //             des: '造成当前生命值*10点伤害, 50%获得一层吸收效果',
+            //             adDmg: {CURHP: 10},
+            //             effect: { absorb: {stack: 1, chance: 50, target: 'self'}},
+            //             cost: { MP: 500, },
+            //         }, {
+            //             des: '造成当前生命值*10点伤害, 50%获得一层吸收效果',
+            //             adDmg: {CURHP: 10},
+            //             effect: { absorb: {stack: 1, chance: 50, target: 'self'}},
+            //             cost: { MP: 1000, },
+            //         }
+            //     ],
+            //     tag: ['生命', 'BUFF']
+            // },
+            // ability_rogue_shadowstrike: {
+            //     name: '裂缝打击',
+            //     max: 75,
+            //     iconSrc: "./icons/spell/ability_rogue_shadowstrike.jpg",
+            //     quality: 4,
+            //     level: [{
+            //             des: '造成攻击力*1+敏捷*3点伤害, 50%获得一层穿透效果',
+            //             adDmg: { ATK: 1, AGI: 3},
+            //             effect: { penetrate: {stack: 1, chance: 50, target: 'self'}},
+            //             cost: { MP: 100, },
+            //         }, {
+            //             des: '造成攻击力*1.1+敏捷*5点伤害, 50%获得一层穿透效果',
+            //             adDmg: { ATK: 1.1, AGI: 5},
+            //             effect: { penetrate: {stack: 1, chance: 50, target: 'self'}},
+            //             cost: { MP: 200, },
+            //         }, {
+            //             des: '造成攻击力*1.2+敏捷*7点伤害, 50%获得一层穿透效果',
+            //             adDmg: { ATK: 1.2, AGI: 7},
+            //             effect: { penetrate: {stack: 1, chance: 50, target: 'self'}},
+            //             cost: { MP: 300, },
+            //         }, {
+            //             des: '造成攻击力*1.3+敏捷*9点伤害, 50%获得一层穿透效果',
+            //             adDmg: { ATK: 1.3, AGI: 9},
+            //             effect: { penetrate: {stack: 1, chance: 50, target: 'self'}},
+            //             cost: { MP: 400, },
+            //         }
+            //     ],
+            //     tag: ['攻击力', '敏捷', 'BUFF']
+            // },
+            // spell_holy_innerfire: {
+            //     name: '心灵之火',
+            //     max: 35,
+            //     iconSrc: "./icons/spell/spell_holy_innerfire.jpg",
+            //     quality: 4,
+            //     level: [{
+            //             des: '获得一层虚无效果和一层蓄力效果',
+            //             adDmg: {},
+            //             apDmg: {},
+            //             effect: { void: {stack: 1, chance: 100, target: 'self'},
+            //                     charge: {stack: 1, chance: 100, target: 'self'} },
+            //             cost: { MP: 50, },
+            //         }, {
+            //             des: '获得两层虚无效果和一层蓄力效果',
+            //             adDmg: {},
+            //             apDmg: {},
+            //             effect: { void: {stack: 2, chance: 100, target: 'self'},
+            //                     charge: {stack: 1, chance: 100, target: 'self'} },
+            //             cost: { MP: 100, },
+            //         }, {
+            //             des: '获得三层虚无效果和一层蓄力效果',
+            //             adDmg: {},
+            //             apDmg: {},
+            //             effect: { void: {stack: 3, chance: 100, target: 'self'},
+            //                     charge: {stack: 1, chance: 100, target: 'self'} },
+            //             cost: { MP: 150, },
+            //         }
+            //     ],
+
+            // //     tag: ['BUFF']
+            // // },
+            // spell_holy_layonhands: {
+            //     name: '圣疗术',
+            //     max: 85,
+            //     iconSrc: "./icons/spell/spell_holy_layonhands.jpg",
+            //     quality: 4,
+            //     level: [{
+            //             des: '恢复自身所有生命值',
+            //             adDmg: {},
+            //             apDmg: {},
+            //             heal: { MAXHP: 1 },
+            //             cost: { CURMP: 1, },
+            //         }, {
+            //             des: '恢复自身所有生命值',
+            //             adDmg: {},
+            //             apDmg: {},
+            //             heal: { MAXHP: 1 },
+            //             cost: { CURMP: 0.9, },
+            //         }
+            //     ],
+            //     tag: ['恢复']
+            // },
+            // spell_holy_holybolt: {
+            //     name: '圣光术',
+            //     max: 30,
+            //     iconSrc: "./icons/spell/spell_holy_holybolt.jpg",
+            //     quality: 2,
+            //     level: [{
+            //             des: '恢复自身1000+10%最大生命值',
+            //             adDmg: {},
+            //             apDmg: {},
+            //             heal: { FIX: 1000, MAXHP: 0.1 },
+            //             cost: { MP: 100, },
+            //         }, {
+            //             des: '恢复自身2000+12%最大生命值',
+            //             adDmg: {},
+            //             apDmg: {},
+            //             heal: { FIX: 2000, MAXHP: 0.12 },
+            //             cost: { MP: 200, },
+            //         }, {
+            //             des: '恢复自身3000+15%最大生命值',
+            //             adDmg: {},
+            //             apDmg: {},
+            //             heal: { FIX: 3000, MAXHP: 0.15 },
+            //             cost: { MP: 300, },
+            //         }, {
+            //             des: '恢复自身4000+17%最大生命值',
+            //             adDmg: {},
+            //             apDmg: {},
+            //             heal: { FIX: 4000, MAXHP: 0.17 },
+            //             cost: { MP: 400, },
+            //         }
+            //     ],
+            //     tag: ['生命', '恢复']
+            // },
+            // ability_druid_starfall: {
+            //     name: '无尽之星',
+            //     max: 20,
+            //     iconSrc: "./icons/spell/ability_druid_starfall.jpg",
+            //     quality: 5,
+            //     level: [{
+            //             des: '造成当前魔法值*6点伤害',
+            //             adDmg: { CURMP: 6 },
+            //             cost: { MAXMP: 1, },
+            //         }, {
+            //             des: '造成当前魔法值*8点伤害',
+            //             adDmg: { CURMP: 8 },
+            //             cost: { MAXMP: 1, },
+            //         }, {
+            //             des: '造成当前魔法值*10点伤害',
+            //             adDmg: { CURMP: 10 },
+            //             cost: { MAXMP: 1, },
+            //         }
+            //     ],
+            //     tag: ['魔法']
+            // },
+            // warrior_talent_icon_innerrage: {
+            //     name: '鲁莽',
+            //     max: 90,
+            //     iconSrc: "./icons/spell/warrior_talent_icon_innerrage.jpg",
+            //     quality: 5,
+            //     level: [{
+            //             des: '获得一层破甲、穿透、吸血、蓄力',
+            //             adDmg: {},
+            //             apDmg: {},
+            //             effect: {sunder: {stack: 1, chance: 100, target: 'self'},
+            //                     penetrate: {stack: 1, chance: 100, target: 'self'} ,
+            //                     lifesteal: {stack: 1, chance: 100, target: 'self'} ,
+            //                     charge: {stack: 1, chance: 100, target: 'self'} },
+            //             cost: { MAXHP: 0.1, },
+            //         }, {
+            //             des: '获得两层破甲、穿透、吸血、蓄力',
+            //             adDmg: {},
+            //             apDmg: {},
+            //             effect: {sunder: {stack: 2, chance: 100, target: 'self'},
+            //                     penetrate: {stack: 2, chance: 100, target: 'self'} ,
+            //                     lifesteal: {stack: 2, chance: 100, target: 'self'} ,
+            //                     charge: {stack: 2, chance: 100, target: 'self'} },
+            //             cost: { MAXHP: 0.2, },
+            //         }
+            //     ],
+
+            //     tag: ['BUFF']
+            // },
+            // ability_ardenweald_paladin_summer: {
+            //     name: '仲夏祝福',
+            //     max: 100,
+            //     iconSrc: "./icons/spell/ability_ardenweald_paladin_summer.jpg",
+            //     quality: 6,
+            //     level: [{
+            //             des: '获得一层吸血、吸蓝、蓄力、死亡免疫、虚无、吸收',
+            //             adDmg: {},
+            //             apDmg: {},
+            //             effect: {lifesteal: {stack: 1, chance: 100, target: 'self'},
+            //                     manasteal: {stack: 1, chance: 100, target: 'self'} ,
+            //                     charge: {stack: 1, chance: 100, target: 'self'} ,
+            //                     deathImmune: {stack: 1, chance: 100, target: 'self'},
+            //                     void: {stack: 1, chance: 100, target: 'self'} ,
+            //                     absorb: {stack: 1, chance: 100, target: 'self'},  },
+            //             cost: { },
+            //         }, {
+            //             des: '获得一层吸血、吸蓝、蓄力、死亡免疫、虚无、吸收',
+            //             adDmg: {},
+            //             apDmg: {},
+            //             effect: {lifesteal: {stack: 1, chance: 100, target: 'self'},
+            //                     manasteal: {stack: 1, chance: 100, target: 'self'} ,
+            //                     charge: {stack: 1, chance: 100, target: 'self'} ,
+            //                     deathImmune: {stack: 1, chance: 100, target: 'self'},
+            //                     void: {stack: 1, chance: 100, target: 'self'} ,
+            //                     absorb: {stack: 1, chance: 100, target: 'self'}, },
+            //             cost: { },
+            //         }
+            //     ],
+            //     tag: ['BUFF']
+            // },
         }
     }
 },

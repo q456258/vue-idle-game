@@ -20,7 +20,7 @@
         </ul>
         <div class="equip" v-show="displayPage=='equip'">
             <div class="grid" :style="{cursor:leftClickEnabled?'pointer':''}" @click="selectForSmith($event, k)" v-on:drop="drop($event, k)" v-on:dragover="allowDrop($event)" v-for="(v, k) in grid" :key="k">
-                <div v-if="v.lv" draggable="true" v-on:dblclick="equip($event, k)" v-on:dragstart="dragStart($event,k)" v-on:dragend="dragEnd" @contextmenu.prevent="openMenu(k,$event)" @touchstart.stop.prevent="openMenu(k,$event)"  @mouseover="showInfo($event,v.itemType,v,true)" @mouseleave="closeInfo('equip')">
+                <div v-if="v.lv!=undefined" draggable="true" v-on:dblclick="equip($event, k)" v-on:dragstart="dragStart($event,k)" v-on:dragend="dragEnd" @contextmenu.prevent="openMenu(k,$event)" @touchstart.stop.prevent="openMenu(k,$event)"  @mouseover="showInfo($event,v.itemType,v,true)" @mouseleave="closeInfo('equip')">
                     <div class="mediumIconContainer" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v.quality.color }">
                         <del :class="[{grey:v.quality.qualityLv==1, green:v.quality.qualityLv==3, blue:v.quality.qualityLv==4, purple:v.quality.qualityLv==5, orange:v.quality.qualityLv==6}, 'mediumIcon iconBorder']"></del>
                         <img :src="v.description.iconSrc" alt="" />
@@ -48,7 +48,7 @@
             <div class="grid" v-on:drop="drop($event, k)" v-on:dragover="allowDrop($event)" v-for="(v, k) in etcGrid" :key="k">
                 <div v-if="v.description" draggable="true" v-on:dragstart="dragStart($event,k)" v-on:dragend="dragEnd" @contextmenu.prevent="openMenu(k,$event)" @touchstart.stop.prevent="openMenu(k,$event)"  @mouseover="showInfo($event,v.itemType,v,true)" @mouseleave="closeInfo('item')">
                     <div class="mediumIconContainer" :style="{'box-shadow': 'inset 0 0 7px 2px ' + v.quality.color }">
-                        <del :class="[{grey:v.quality.qualityLv==1, green:v.quality.qualityLv==3, blue:v.quality.qualityLv==4, purple:v.quality.qualityLv==5, orange:v.quality.qualityLv==5}, 'mediumIcon iconBorder']"></del>
+                        <del :class="[{grey:v.quality.qualityLv==1, green:v.quality.qualityLv==3, blue:v.quality.qualityLv==4, purple:v.quality.qualityLv==5, orange:v.quality.qualityLv==6}, 'mediumIcon iconBorder']"></del>
                         <img :src="v.description.iconSrc" alt="" />
                     </div>
                     <div class="quantity" v-if="v.stack">
@@ -59,25 +59,21 @@
         </div>
         <ul v-show="visible && displayPage=='equip'" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
             <li @click="equip()">装备</li>
-            <li @click="equipEnhance()" v-if="guild.smith.lv>1">强化</li>
-            <li @click="equipForge()" v-if="guild.smith.lv>=2">重铸</li>
-            <li @click="equipPotential()" v-if="guild.smith.lv>=4">洗炼</li>
+            <li @click="equipEnhance()" v-if="(guild.smith.lv>=1)">强化</li>
+            <li @click="equipForge()" v-if="(guild.smith.lv>=2)">重铸</li>
+            <li @click="equipPotential()" v-if="(guild.smith.lv>=4)">洗炼</li>
             <li @click="lockEquipment(true)" v-if="!currentItem.locked">锁定</li>
             <li @click="lockEquipment(false)" v-if="currentItem.locked">解锁</li>
-            <!-- <li @click="disintegrate()" v-if="guild.smith.lv>=30 && !currentItem.locked">分解</li> -->
+            <li @click="disintegrate()" v-if="guild.smith.lv>=3 && !currentItem.locked && currentItem.quality && currentItem.quality.qualityLv>1">分解</li>
             <li @click="sellEquipment()" v-if="!currentItem.locked">出售</li>
         </ul>
         <ul v-show="visible && displayPage=='use'" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
             <li @click="useItemByIndex()" v-if="usable">使用</li>
             <li @click="useAllItemByIndex('use')" v-if="usable && useGrid[currentItemIndex].quantity > 1">全部使用</li>
-            <li @click="mergeItem('use')" v-if="mergeable">合成</li>
-            <li @click="mergeAll('use')" v-if="mergeable && useGrid[currentItemIndex].quantity > 1">全部合成</li>
             <li @click="throwItem('use')">丢弃</li>
         </ul>
         <ul v-show="visible && displayPage=='etc'" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
             <li @click="useAllItemByIndex('etc')" v-if="usable && etcGrid[currentItemIndex].quantity > 1">全部使用</li>
-            <li @click="mergeItem('etc')" v-if="mergeable">合成</li>
-            <li @click="mergeAll('etc')" v-if="mergeable && etcGrid[currentItemIndex].quantity > 1">全部合成</li>
             <li @click="throwItem('etc')">丢弃</li>
         </ul>
         <div class="footer">
@@ -87,7 +83,7 @@
                     <span @click="setlockedToEnd()"><input type="checkbox" name="" v-model="lockedToEnd"></span>
                     ————————
                 </div>
-                <div v-if="guild.smith.lv>=30">
+                <div v-if="guild.smith.lv>=3">
                     自动出售优先级
                     <br>
                     <span @click="setAutoPrio('sell')"><input type="checkbox" name="" v-model="sellPrio">出售</span>
@@ -96,16 +92,16 @@
                 </div>
                 <!-- 若勾选会在副本获得该品质装备时自动出售 -->
                 <div>
-                    <span style="color:#a1a1a1;" @click="setAutoSell(0)"><input type="checkbox" name="" v-model="autoSell[0]">破旧</span>
+                    <span style="color:#9D9D9D;" @click="setAutoSell(0)"><input type="checkbox" name="" v-model="autoSell[0]">破旧</span>
                     <span style="color:#D9D9D9;" @click="setAutoSell(1)"><input type="checkbox" name="" v-model="autoSell[1]">普通</span>
                 </div>
                 <div>
-                    <span style="color:#00BBFF;" @click="setAutoSell(2)"><input type="checkbox" name="" v-model="autoSell[2]">精良</span>
-                    <span style="color:#BB00FF;" @click="setAutoSell(3)"><input type="checkbox" name="" v-model="autoSell[3]">完美</span>
+                    <span style="color:#1EFF00;" @click="setAutoSell(2)"><input type="checkbox" name="" v-model="autoSell[2]">精良</span>
+                    <span style="color:#0070DD;" @click="setAutoSell(3)"><input type="checkbox" name="" v-model="autoSell[3]">完美</span>
                 </div>
                 <div>
-                    <span style="color:#FFBB00;" @click="setAutoSell(4)"><input type="checkbox" name="" v-model="autoSell[4]">史诗</span>
-                    <span style="color:#FF0000;" @click="setAutoSell(5)"><input type="checkbox" name="" v-model="autoSell[5]">传说</span>
+                    <span style="color:#9345FF;" @click="setAutoSell(4)"><input type="checkbox" name="" v-model="autoSell[4]">史诗</span>
+                    <span style="color:#FF8000;" @click="setAutoSell(5)"><input type="checkbox" name="" v-model="autoSell[5]">传说</span>
                 </div>
 
             </div>
@@ -115,7 +111,7 @@
                 <!-- <i class="icon icon-setting"></i> -->
                 </span>
             </a>
-            <a class="function" v-show="guild.smith.lv>=30 && displayPage=='equip'" @click="disintegrateAll()">一键分解</a>
+            <a class="function" v-show="guild.smith.lv>=3 && displayPage=='equip'" @click="disintegrateAll()">一键分解</a>
             <a class="function" v-show="displayPage=='equip'" @click="sellAll()">一键出售</a>
             <a class="function" @click="sort()">整理背包</a>
         </div>
@@ -141,7 +137,6 @@ export default {
             etcGrid: [],
             visible: false,
             usable: false,
-            mergeable: false,
             dragging: false,
             lockedToEnd: true,
             autoSellPanel: false,
@@ -263,6 +258,8 @@ export default {
         lockEquipment(lock) {
             let equip = this.grid[this.currentItemIndex];
             equip.locked = lock;
+            let quest = this.$store.globalComponent["quest"];
+            quest.trackProgress('event', 9, 1);
         },
         sellEquipment(index) {
             if(index == undefined)
@@ -293,6 +290,8 @@ export default {
             let item = itemInfo.createItem(dust[equip.quality.qualityLv-2], quantity);  
             itemInfo.addItem(JSON.parse(item), true);  
             this.grid[index] = {};
+            let quest = this.$store.globalComponent["quest"];
+            quest.trackProgress('event', 10, 1);
         },
         disintegrateByEquip(equip) {
             if(equip.quality.qualityLv < 2)
@@ -303,6 +302,8 @@ export default {
             let quantity = Math.ceil(equip.lv/10);
             let item = itemInfo.createItem(dust[equip.quality.qualityLv-2], quantity);  
             itemInfo.addItem(JSON.parse(item), true);  
+            let quest = this.$store.globalComponent["quest"];
+            quest.trackProgress('event', 10, 1);
             return true;
         },
         useItemByIndex(k) {
@@ -352,59 +353,6 @@ export default {
                 success = this.callItemEffect(item.type, item.lv, {msg: msg});
             return success;
         },
-        mergeItem(grid='use', k, count=1) {
-            this.closeInfo();
-            if(k != undefined)
-                this.currentItemIndex = k; 
-            let type = grid=='use' ? this.useGrid[this.currentItemIndex].type : this.etcGrid[this.currentItemIndex].type;
-            let quantity = grid=='use' ? this.useGrid[this.currentItemIndex].quantity : this.etcGrid[this.currentItemIndex].quantity;
-            let item = this.itemType[type];
-            let mergeCount = item.mergeCount;
-            let targetSet = item.mergeTarget;
-            if(!item.merge)
-                return;
-            if(quantity < mergeCount*count)
-                return;
-            let resultSet = {};
-            for(let a=0; a<count; a++) {
-                let ran = Math.random()*100;
-                let cur = 0;
-                for(let i in targetSet) {
-                    cur += targetSet[i][1];
-                    if(ran <= cur) {
-                        if(resultSet[targetSet[i][0]] == undefined)
-                            resultSet[targetSet[i][0]] = 0;
-                        resultSet[targetSet[i][0]]++;
-                        break;
-                    }
-                }
-            }
-            let itemInfo = this.$store.globalComponent["itemInfo"];
-            itemInfo.removeItemByIndex(this.currentItemIndex, mergeCount*count, grid);
-            if(Object.keys(resultSet).length == 0) {
-                this.$store.commit("set_sys_info", {
-                    type: 'danger',
-                    msg: '合成失败',
-                });
-            } else {
-                for(let i in resultSet) {
-                    let newItem = itemInfo.createItem(i, resultSet[i]);
-                    itemInfo.addItem(JSON.parse(newItem), true);
-                }
-                this.$forceUpdate();
-            }
-        },
-        mergeAll(grid='use', k) {
-            this.closeInfo();
-            if(k != undefined)
-                this.currentItemIndex = k; 
-            let type = grid=='use' ? this.useGrid[this.currentItemIndex].type : this.etcGrid[this.currentItemIndex].type;
-            let quantity = grid=='use' ? this.useGrid[this.currentItemIndex].quantity : this.etcGrid[this.currentItemIndex].quantity;
-            let item = this.itemType[type];
-            let mergeCount = item.mergeCount;
-            let count = Math.floor(quantity/mergeCount);
-            this.mergeItem(grid, this.currentItemIndex, count);
-        },
         throwItem(grid) {
             let itemInfo = this.$store.globalComponent["itemInfo"];
             if(grid == 'use') {
@@ -419,7 +367,7 @@ export default {
             if(msg) {
                 this.$store.commit("set_sys_info", {
                     type: 'reward',
-                    msg: '获得战利品',
+                    msg: '获得装备',
                     equip: equip
                 });
             }
@@ -553,12 +501,10 @@ export default {
             if(this.displayPage == 'use') {
                 let type = this.itemType[this.useGrid[this.currentItemIndex].type];
                 this.usable = type.use;
-                this.mergeable = type.merge;
             }
             else if(this.displayPage == 'etc') {
                 let type = this.itemType[this.etcGrid[this.currentItemIndex].type];
                 this.usable = false;
-                this.mergeable = type.merge;
             }
             // this.$store.commit('set_need_strengthen_equipment', this.currentItem)
             const menuMinWidth = 105;
@@ -591,6 +537,7 @@ export default {
         },
         drop(event, k) {
             event.preventDefault();
+            this.dragging = false;
             let gridId = event.dataTransfer.getData("gridId");
             let temp;
             if(gridId) {

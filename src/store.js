@@ -32,8 +32,8 @@ let initial_shoe = {
         potential: []
     },
     initial_weapon = {
-        lv: 1,
-        lvReq: 1,
+        lv: 0,
+        lvReq: 0,
         itemType: 'weapon',
         maxEnhanceLv: 0,
         enhanceLv: 0,
@@ -61,8 +61,8 @@ let initial_shoe = {
         potential: []
     },
     initial_armor = {
-        lv: 1,
-        lvReq: 1,
+        lv: 0,
+        lvReq: 0,
         itemType: 'armor',
         maxEnhanceLv: 0,
         enhanceLv: 0,
@@ -90,8 +90,8 @@ let initial_shoe = {
         potential: []
     },
     initial_legging = {
-        lv: 1,
-        lvReq: 1,
+        lv: 0,
+        lvReq: 0,
         itemType: 'legging',
         maxEnhanceLv: 0, 
         enhanceLv: 0,
@@ -123,42 +123,12 @@ export default new Vuex.Store({
     state: {
         sysInfo: [{
             type: '',
-            msg: "欢迎你勇士, 点击左下角的任务了解一下操作吧"
+            msg: "欢迎你勇士, 点击左下角的任务(快捷键Q)了解一下操作吧"
         }],
         battleInfo: [{
             type: '',
             msg: "战斗记录"
         }],
-        train: {
-            train1: {
-                timer: 0,
-                tier: 0,
-                finishTime: 0,
-                speedUp: false,
-                memberID: 0
-            },
-            train2: {
-                timer: 0,
-                tier: 0,
-                finishTime: 0,
-                speedUp: false,
-                memberID: 0
-            },
-            train3: {
-                timer: 0,
-                tier: 0,
-                finishTime: 0,
-                speedUp: false,
-                memberID: 0
-            },
-            train4: {
-                timer: 0,
-                tier: 0,
-                finishTime: 0,
-                speedUp: false,
-                memberID: 0
-            }
-        },
         questCateg: {
         },
         quests: {
@@ -166,34 +136,40 @@ export default new Vuex.Store({
         dungeonInfo: {
             auto: false,
             inBattle: false,
-            current: 'advanture',
-            advanture: {
-                level: -1,
-                reward: 'None',
-                type: 'normal',
+            current: 'normal',
+            normal: {
+                level: 1,
                 monsterID: 0,
-                monsterName: ''
+            },
+            elite: {
+                level: 1,
+                monsterID: 3,
+            },
+            boss: {
+                level: 1,
+                monsterID: 5,
             },
         },
         guildAttribute: {
+            name: null,
             gold: 0,
             reputation: 0,
             guild: {lv: 0},
-            train: {lv: 0},
-            train2: {lv: 0},
-            train3: {lv: 0},
+            bar: {lv: 0},
             shop: {lv: 0},
+            blackmarket: {lv: 0},
             smith: {lv: 0},
             mine: {lv: 0},
             herb: {lv: 0},
             bar: {lv: 0},
             questBoard: {lv: 0},
+            treasury: {lv: 0},
             member: []
         },
         playerAttribute: {
             name: '无名',
-            lv: 1,
-            talentLv: 1,
+            lv: 0,
+            talentLv: 0,
             type: 'player',
             healthRecoverySpeed: 1,
             attribute: {
@@ -265,7 +241,8 @@ export default new Vuex.Store({
             bracer: {},
             belt: {},
             legging: initial_legging,
-            necklace: {}
+            necklace: {},
+            learntRecipe: []
         },
         enemyAttribute: {
             name: "小鸡",
@@ -288,7 +265,51 @@ export default new Vuex.Store({
                 CRITDMG: { value: 0, showValue: 0, },
             },
             tempStat: []
-        },             
+        },     
+        eliteAttribute: {
+            name: "小鸡",
+            lv: 0,
+            attribute: {
+                CURHP: { value: 0, showValue: 0, },
+                MAXHP: { value: 0, showValue: 0, },   
+                SHIELD: { value: 0, showValue: 0, },   
+                ATK: { value: 0, showValue: 0, },
+                DEF: { value: 0, showValue: 0, },
+                DEFRED: { value: 0, showValue: 0, },
+                BLOCK: { value: 0, showValue: 0, },
+                AP: { value: 0, showbaseVal: 0},
+                APCRIT: { value: 0, showbaseVal: 0},
+                APCRITDMG: { value: 0, showbaseVal: 0},
+                APPEN: { value: 0, showbaseVal: 0},
+                MR: { value: 0, showbaseVal: 0},
+                HEAL: { value: 0, showbaseVal: 0},
+                CRIT: { value: 0, showValue: 0, },
+                CRITDMG: { value: 0, showValue: 0, },
+            },
+            tempStat: []
+        },    
+        bossAttribute: {
+            name: "小鸡",
+            lv: 0,
+            attribute: {
+                CURHP: { value: 0, showValue: 0, },
+                MAXHP: { value: 0, showValue: 0, },   
+                SHIELD: { value: 0, showValue: 0, },   
+                ATK: { value: 0, showValue: 0, },
+                DEF: { value: 0, showValue: 0, },
+                DEFRED: { value: 0, showValue: 0, },
+                BLOCK: { value: 0, showValue: 0, },
+                AP: { value: 0, showbaseVal: 0},
+                APCRIT: { value: 0, showbaseVal: 0},
+                APCRITDMG: { value: 0, showbaseVal: 0},
+                APPEN: { value: 0, showbaseVal: 0},
+                MR: { value: 0, showbaseVal: 0},
+                HEAL: { value: 0, showbaseVal: 0},
+                CRIT: { value: 0, showValue: 0, },
+                CRITDMG: { value: 0, showValue: 0, },
+            },
+            tempStat: []
+        },        
         baseAttribute: {
             CURHP: 0,
             MAXHP: 0,
@@ -333,15 +354,9 @@ export default new Vuex.Store({
             APPENP: 0,
             MRP: 0,
         },    
-        memberAttribute: {
-            STR: 0,
-            AGI: 0,
-            STA: 0,
-            INT: 0,
-            SPI: 0
-        },
         setting: {
-            waitFull: false
+            waitFull: false,
+            animeSize: 'medium'
         },
         statistic: {
             slain: {},
@@ -482,18 +497,16 @@ export default new Vuex.Store({
                 'STR','AGI','INT','STA','SPI','ALL','ATK','DEF','BLOCK','AP','APPEN','MR','HP','MP'
                 
             ];
-            let advancedAttr = {
-                STR: { DEF: 3, BLOCK: 0.5}, 
-                AGI: { ATK: 2, CRIT: 0.2}, 
-                INT: { AP: 2, APCRIT: 0.1}, 
-                STA: { HP: 15}, 
-                SPI: { MP: 25}, 
+            let advancedAttr = {                
+                STR: { DEF: 8, BLOCK: 1}, 
+                AGI: { ATK: 5, CRIT: 0.01}, 
+                INT: { AP: 5, APCRIT: 0.01}, 
+                STA: { HP: 40}, 
+                SPI: { }, 
                 ALL: { VERS: 1}
             };
             attributes.forEach(attr => {
                 let val = this.state.baseAttribute[attr];
-                if(this.state.memberAttribute[attr] != undefined)
-                    val += this.state.memberAttribute[attr];
                 attribute[attr] = { 
                     baseVal: val, 
                     value: val, 
@@ -531,10 +544,7 @@ export default new Vuex.Store({
             attribute['STAP'].baseVal += attribute['ALLP'].baseVal;
             attribute['SPIP'].baseVal += attribute['ALLP'].baseVal;
 
-            // 真言术·韧
-            if(playerAttribute.buff['spell_holy_wordfortitude'] != undefined)
-                attribute['STAP'].baseVal += 5;
-
+            // 天赋技能加成
             hasPercent.forEach(attr => {
                 if(playerAttribute.talent[attr])
                     attribute[attr+'P'].baseVal += playerAttribute.talent[attr]*2;
@@ -550,6 +560,16 @@ export default new Vuex.Store({
                 else
                     attribute[attr].value = attribute[attr].baseVal;
             });
+
+            // 清空额外属性
+            attributes.map(stat => {
+                attribute[stat].bonus = 0;
+            });
+
+            //等级加成
+            attribute['ALL'].value += playerAttribute.lv;
+            attribute['ALL'].bonus += playerAttribute.lv;
+
             attribute['STR'].value += attribute['ALL'].value;
             attribute['AGI'].value += attribute['ALL'].value;
             attribute['INT'].value += attribute['ALL'].value;
@@ -560,11 +580,6 @@ export default new Vuex.Store({
                     attribute[attr].baseVal += Math.round(advancedAttr[adv][attr]*attribute[adv].value*100)/100;
                 }
             }
-
-            // buff附加的属性，不享受任何加成
-            tempStat.map(stat => {
-                attribute[stat.type].value += stat.value;
-            });
             
             normalAttributes.forEach(attr => {
                 if(hasPercent.indexOf(attr) > -1)
@@ -573,12 +588,21 @@ export default new Vuex.Store({
                     attribute[attr].value = attribute[attr].baseVal;
             });
 
+            // buff附加的属性，不享受任何加成
+            tempStat.map(stat => {
+                attribute[stat.type].bonus += stat.value;
+                attribute[stat.type].value += stat.value;
+            });
+
             for(let key in attribute) {
                 if(percent.indexOf(key) > -1) {
                     attribute[key].showValue = attribute[key].value + '%';
+                    attribute[key].bonusShowValue = attribute[key].bonus + '%';
                 }
-                else
+                else {
                     attribute[key].showValue = attribute[key].value;
+                    attribute[key].bonusShowValue = attribute[key].bonus;
+                }
             }
             attribute['MAXHP'].value += attribute['HP'].value;
             attribute['CURHP'].value = Math.floor(hpPercent*attribute['HP'].value);
@@ -591,7 +615,7 @@ export default new Vuex.Store({
             // attribute['DEFRED'].value = 
             //     Math.round((attribute['DEF'].value/(100+attribute['DEF'].value) + attribute['DEF'].value/(attribute['DEF'].value+3500))/2*10000)/100;
             attribute['DEFRED'].value = 
-                Math.round((attribute['DEF'].value/(attribute['DEF'].value+5500))*10000)/100;
+                Math.round((attribute['DEF'].value/(attribute['DEF'].value+3000))*10000)/100;
             // attribute['DEFRED'].value = Math.round(0.01 * attribute['DEF'].value / (1 + (0.0105 * attribute['DEF'].value))*1000000)/10000;
             // attribute['DEFRED'].value = Math.round(0.01 * attribute['DEF'].value / (1 + (0.01 * attribute['DEF'].value))*10000)/100;
             attribute['DEFRED'].showValue = attribute['DEFRED'].value+'%';
@@ -626,7 +650,14 @@ export default new Vuex.Store({
             CURMP.showValue = CURMP.value;
         },
         set_enemy_attribute(state, data) {
-            this.state.enemyAttribute = data;
+            let type = data.type;
+            let attr = data.attr;
+            if(type == 'normal')
+                this.state.enemyAttribute = attr;
+            else if(type == 'elite')
+                this.state.eliteAttribute = attr;
+            else if(type == 'boss')
+                this.state.bossAttribute = attr;
         },
         set_hp(state, data) {
             let CURHP = data.CURHP,

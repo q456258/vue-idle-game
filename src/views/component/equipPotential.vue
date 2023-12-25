@@ -1,5 +1,5 @@
 <template>
-<draggable class="equip">
+<draggable class="equipPanel">
     <template slot="header">
     </template>
     <template slot="main" >
@@ -9,7 +9,8 @@
                 <div class="name" :style="{color:equip.quality.color}">
                     {{ equip.description.name }}
                 </div>
-                <div class='icon'>
+                <div class='largeIconContainer'>
+                    <del :class="[{grey:equip.quality.qualityLv==1, green:equip.quality.qualityLv==3, blue:equip.quality.qualityLv==4, purple:equip.quality.qualityLv==5, orange:equip.quality.qualityLv==6}, 'largeIcon iconBorder']"></del>
                     <img :src="equip.description.iconSrc" alt="icon">
                 </div>
             </div>
@@ -22,16 +23,16 @@
                 </div>
             </div>
             <span class="cost">
-                消耗<img src="/icons/item/inv_misc_enchantedpearla.png">*1
+                消耗<img src="/icons/item/inv_misc_enchantedpearla.jpg">*1
             </span>
             <span class="has">
                 目前持有数: {{itemQty}}
             </span>
-            <div class="confirm" @click="washPotential()" v-show="item.quantity>0">
+            <div class="confirm actions image_button" @click="washPotential()" v-show="item.quantity>0">
             <!-- <div class="confirm" @click="washPotential()"> -->
                 洗炼
             </div>
-            <div class="cancel" @click="closeInfo()" >
+            <div class="cancel actions image_button" @click="closeInfo()" >
                 取消
             </div>
         </div>
@@ -120,63 +121,9 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.equip {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-    height: 28rem;
-    width: 48rem;
-    background-image: url("/icons/ui/enhancePanel2.png");
-    background-repeat: no-repeat;
-    background-size: 49rem 28rem;
-    z-index: 10;
-    .title {
-        position: absolute;
-        top: 1.4rem;
-        left: 0;
-        right: 0;
-        font-weight: bold;
-        font-size: 1.5rem;
-    }
-    .info {
-        position: absolute;
-        width: 50%;
-        .name {
-            position: relative;
-            top: 11rem;
-            left: 2.5rem;
-        }
-        .icon {
-            position: relative;
-            top: 12rem;
-            left: 2.5rem;
-        }
-    }
-    .potential {
-        position: absolute;
-        margin-left: 70%;
-        margin-top: 15%;
-        width: 50%;
-        height: 55%;
-        &>div {
-            margin: 0.2rem;
-        }
-    }
-    .warning {
-        color: #D8000C;
-    }
+.equipPanel {
     .cost {
-        position: absolute;
-        top: 10rem;
-        left: 36rem;
-        bottom: 1.2rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1rem;
+        top: -2rem;
         img {
             height: 2rem;
             width: 2rem;
@@ -192,44 +139,7 @@ export default {
         justify-content: center;
         font-size: 1rem;
     }
-    .confirm {
-        position: absolute;
-        top: 21rem;
-        left: 35rem;
-        height: 2.5rem;
-        width: 8rem;
-        background-image: url("/icons/ui/button.png");
-        background-repeat: no-repeat;
-        background-size: 8rem 2.5rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.3rem;
-        opacity: 0.8; 
-        &:hover {
-            opacity: 1; 
-        }
-    }
-    .cancel {
-        position: absolute;
-        top: 24rem;
-        left: 35rem;
-        height: 2.5rem;
-        width: 8rem;
-        background-image: url("/icons/ui/button.png");
-        background-repeat: no-repeat;
-        background-size: 8rem 2.5rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.3rem;
-        opacity: 0.8; 
-        &:hover {
-            opacity: 1; 
-        }
-    }
 }
-
 .tag {
     position: relative;
     display: block;
@@ -243,26 +153,6 @@ export default {
     color: #fff;
     height: 2rem;
     letter-spacing: 2px;
-    // &:before {
-    //     content: attr( data-content-default );	
-    //     }
-    // &:active {
-    //     animation: spinner 200ms infinite linear;
-        
-    //     &:before {
-    //     content: attr( data-content-spinning );	}
-    // }
 }
-
-
-// @keyframes spinner {
-// 	from {
-// 	box-shadow: 0 10px 20px rgba( 0,0,0, 0.2 );
-// 	transform: rotateX( 0 ) rotateY( -360deg );	}
-	
-// 	to {
-// 	box-shadow: 0 10px 20px rgba( 0,0,0, 0.2 );
-// 	transform: rotateX( 360deg ) rotateY( -360deg ); }
-// }
 
 </style>

@@ -20,25 +20,38 @@
     招募所
 -->
 <div class="guild">
-    <div id="resource">
-        金币:<currency :amount="guild.gold"></currency> <br>
-        公会名望: {{guild.reputation}}<img class="guildReputationIcon">
-    </div>
-    <div id="building">
-        <div v-for="(v, k) in guildBuildingOptions" :key="k">
-            <cTooltip :placement="'bottom'" v-if="guild[v].lv>0">
-                <template v-slot:content>
-                    <a :id="v+'Btn'" class='glowBtn' @click="switchTab($event, v)">{{guildBuildingName[v]+" "+guild[v].lv}}</a>
-                </template>
-                <template v-slot:tip>
-                    <div v-for="(v2, k2) in guildBuildingDesc[v]" :key="k2">
-                        <span v-if="guildBuildingDesc[v][k2]!=''" :style="{color:guild[v].lv<k2?'#888':''}">{{k2+"级: "+guildBuildingDesc[v][k2]}}</span>
-                    </div>
-                </template>
-            </cTooltip>
+    <div v-if="guild.name==null" id="createGuild">
+        <div class="nameTitle">创建公会</div>
+        <div class="nameContent">
+            <input id="guildName" class="nameAnime" placeholder="请输入您的公会名" type="text" @input="updateName"/>  
+            <div id="guildNameAlert" class="alert"></div>
+            <button class="nameConfirm" @click="confirmName">确认
+            </button>
         </div>
     </div>
-    <guildPosition></guildPosition>
+    <div v-show="guild.name">
+        <div id="resource">
+            {{guild.name}}
+            <br>
+            金币:<currency :amount="guild.gold"></currency> <br>
+            公会名望: {{guild.reputation}}<img class="guildReputationIcon">
+        </div>
+        <div id="building">
+            <div v-for="(v, k) in guildBuildingOptions" :key="k">
+                <cTooltip :placement="'bottom'" v-if="guild[v].lv>0">
+                    <template v-slot:content>
+                        <a :id="v+'Btn'" class='glowBtn' @click="switchTab($event, v)">{{guildBuildingName[v]+" "+guild[v].lv}}</a>
+                    </template>
+                    <template v-slot:tip>
+                        <div v-for="(v2, k2) in guildBuildingDesc[v]" :key="k2">
+                            <span v-if="guildBuildingDesc[v][k2]!=''" :style="{color:guild[v].lv<k2?'#888':''}">{{k2+"级: "+guildBuildingDesc[v][k2]}}</span>
+                        </div>
+                    </template>
+                </cTooltip>
+            </div>
+        </div>
+        <guildPosition></guildPosition>
+    </div>
 </div>
 </template>
 <script>
@@ -46,11 +59,10 @@ import {guildConfig} from '@/assets/config/guildConfig'
 import currency from '../uiComponent/currency';
 import cTooltip from '../uiComponent/tooltip';
 import guildPosition from '../component/guildPosition';
-import countdown from '../uiComponent/countdown';
 export default {
     name: "guild",
     mixins: [guildConfig],
-    components: {cTooltip, guildPosition, countdown, currency},
+    components: {cTooltip, guildPosition, currency},
     mounted() {
         this.$store.globalComponent.guild = this;
     },
@@ -69,7 +81,64 @@ export default {
             })
         }
     },
-    methods: {      
+    methods: {    
+        updateName(e) {
+            let name = e.target.value;
+            this.checkValidity(name);
+        },
+        confirmName() {
+            let name = document.getElementById("guildName").value;
+            let itemInfo = this.$store.globalComponent["itemInfo"];
+            if(this.checkValidity(name)) {
+                let quest =  this.$store.globalComponent['quest']; 
+                itemInfo.removeItemByCode('inv_misc_bone_06', 1);
+                this.$set(this.guild, 'name', name);
+                this.guild.guild.lv = 1;
+                quest.assignQuest(100);
+                quest.assignQuest(110);
+                quest.assignQuest(120);
+                quest.assignQuest(140);
+                quest.assignQuest(200);
+                // quest.assignQuest(150);
+                // quest.assignQuest(180);
+                // quest.assignQuest(190);
+                // quest.assignQuest(25);
+            }
+        },
+        checkValidity(name) {
+            let itemInfo = this.$store.globalComponent["itemInfo"];
+            let alert = document.getElementById("guildNameAlert");
+            if(name.length < 1 || name.length > 8) {
+                alert.innerHTML = "公会名字限定在1-8个字符之间！";
+                return false;
+            }
+            if(itemInfo.findItemIndex('inv_misc_bone_06') == -1) {
+                alert.innerHTML = "缺少关键道具【阿迦玛的牙】";
+                return false;
+            }
+            alert.innerHTML = "";
+            return true;
+        },  
+        upgradeGuildBuild(type) {
+            this.guild[type].lv += 1;
+            if(type == 'guild') {
+                let quest =  this.$store.globalComponent['quest']; 
+                let lv = guild[type].lv;
+                switch(lv) {
+                    case 1:
+                        quest.assignQuest(19);
+                        quest.assignQuest(20);
+                        break;
+                    case 2:
+                        quest.assignQuest(18);
+                        break;
+                }
+            }
+            return true;
+        },
+        setGuildBuild(type, lv) {
+            guild[type].lv = lv;
+        },
         switchTab(e, type){
             let guildPosition = this.$store.globalComponent["guildPosition"];
             let active = document.getElementById(guildPosition.displayPage+'Btn');
@@ -77,12 +146,13 @@ export default {
             guildPosition.displayPage = type;
             e.target.classList.add('btnActive');
         },    
-        getGold(text, amount, showText=true, bonus=true) {
+        getGold(text, amount, showText=true, lv=0) {
             if(isNaN(amount)) {
                 console.log("获得异常数额金币");
                 console.trace();
                 return;
             }
+            amount *= (1+0.02*lv*this.guild.treasury.lv);
             amount = parseInt(amount);
             if(amount <= 0){
                 console.log("获得0或者负数金币"+amount);
@@ -142,6 +212,12 @@ export default {
 }
 </script>
 <style lang="scss">
+#createGuild {
+    padding: 0.5rem;
+    margin: 0.5rem;
+    height: 100%;
+    width: 50rem;
+}
 #resource {
     padding: 0.5rem;
     margin: 0.5rem;
@@ -173,27 +249,6 @@ export default {
     width: 10rem;
     font-size: 1rem;
     margin: 0.5rem;
-}
-
-.training {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	min-height: 10rem;
-    width: 50rem;
-    padding: 0.5rem;
-    margin: 0.5rem;
-	background-color: #000;
-}
-
-.trainingProgressbars {
-	display: flex;
-	justify-content: space-around;
-	align-items: center;
-	flex-wrap: wrap;
-	min-width: 270px;
-	width: 100%;
-	min-height: 100%;
 }
 a.glowBtn{
 	z-index: 1;

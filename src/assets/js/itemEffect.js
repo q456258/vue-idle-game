@@ -14,6 +14,9 @@ export const itemEffect = {
             let cd = this.$store.state.playerAttribute.globalCD[itemInfo.cdgroup];
             let msg = options.msg;
             let qty = options.qty;
+            let recipeName = type;
+            if(type.includes('_recipe'))
+                type = 'recipe';
             if(cd != undefined && cd > Date.now()) {
                 this.$store.commit("set_sys_info", {
                     msg: '物品冷却中, 剩余: '+Math.round((cd-Date.now())/1000)+'秒',
@@ -22,98 +25,163 @@ export const itemEffect = {
                 return used;
             }
             switch(type) {
+                case 'recipe':
+                    used = this.learnRecipe(recipeName);
+                    break;
+                case 'inv_enchant_voidsphere_bag':
+                    used = this.giveItem('inv_enchant_voidsphere', 10);
+                    break;
+                case 'inv_misc_gem_diamond_05_bag':
+                    used = this.giveItem('inv_misc_gem_diamond_05', 10);
+                    break;
+                case 'inv_misc_gem_diamond_04_bag':
+                    used = this.giveItem('inv_misc_gem_diamond_04', 10);
+                    break;
+                case 'inv_misc_gem_diamond_03_bag':
+                    used = this.giveItem('inv_misc_gem_diamond_03', 10);
+                    break;
+                case 'inv_misc_gem_diamond_02_bag':
+                    used = this.giveItem('inv_misc_gem_diamond_02', 10);
+                    break;
+                case 'inv_misc_gem_diamond_01_bag':
+                    used = this.giveItem('inv_misc_gem_diamond_01', 10);
+                    break;
                 case 'racial_dwarf_findtreasure':
-                    used = this.randomGold(10000, 10000, msg, qty);
+                    used = this.randomGold(50000, 50000, msg, 0, qty);
                     break;
                 case 'inv_misc_coin_05':
-                    used = this.randomGold(1, 20, msg, qty);
-                    break;
-                case 'inv_misc_coin_05_2':
-                    used = this.randomGold(21, 60, msg, qty);
+                    used = this.randomGold(1, 2, msg, lv, qty);
                     break;
                 case 'inv_misc_coin_06':
-                    used = this.randomGold(60, 100, msg, qty);
+                    used = this.randomGold(1, 10, msg, lv, qty);
                     break;
                 case 'inv_misc_coin_03':
-                    used = this.randomGold(100, 2000, msg, qty);
-                    break;
-                case 'inv_misc_coin_03_2':
-                    used = this.randomGold(2000, 6000, msg, qty);
+                    used = this.randomGold(100, 200, msg, lv, qty);
                     break;
                 case 'inv_misc_coin_04':
-                    used = this.randomGold(6000, 10000, msg, qty);
+                    used = this.randomGold(100, 1000, msg, lv, qty);
                     break;
                 case 'inv_misc_coin_01':
-                    used = this.randomGold(10000, 200000, msg, qty);
-                    break;
-                case 'inv_misc_coin_01_2':
-                    used = this.randomGold(200000, 600000, msg, qty);
+                    used = this.randomGold(10000, 20000, msg, lv, qty);
                     break;
                 case 'inv_misc_coin_02':
-                    used = this.randomGold(600000, 1000000, msg, qty);
+                    used = this.randomGold(10000, 100000, msg, lv, qty);
                     break;
                 case 'ability_racial_packhobgoblin':
-                    used = this.randomGold(1000000, 10000000, msg, qty);
+                    used = this.randomGold(1000000, 10000000, msg, lv, qty);
                     break;
-                // case 'inv_misc_note_06':
-                //     used = this.inv_misc_note_06();
-                //     break;
+                case 'inv_misc_note_06_guild':
+                    used = this.upgradeGuildBuild('guild');
+                    break;
+                case 'inv_misc_note_06_mine':
+                case 'inv_misc_note_06_mine2':
+                    used = this.upgradeGuildBuild('mine');
+                    break;
+                case 'inv_misc_note_06':
+                    used = this.inv_misc_note_06();
+                    break;
                 case 'random_equip_normal_0':
-                    equipOption.types = ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove'];
                     equipOption.baseOption = ['STR', 'AGI', 'STA'];
                     used = this.randomEquip(0, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_normal_1':
-                    equipOption.types = ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove'];
                     used = this.randomEquip(1, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_normal_2':
-                    equipOption.types = ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove'];
                     used = this.randomEquip(2, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_normal_3':
-                    equipOption.types = ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove'];
                     used = this.randomEquip(3, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_normal_4':
-                    equipOption.types = ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove'];
                     used = this.randomEquip(4, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_normal_10':
-                    equipOption.types = ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove'];
                     equipOption.baseOption = ['STR', 'AGI', 'STA'];
                     used = this.randomEquip(10, lv, equipOption, toBackpack);
                     break;
-                case 'random_equip_elite_1':
-                    equipOption.types = ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove', 'shoulder', 'cape', 'bracer', 'belt'];
+                case 'random_equip_elite_0':
                     equipOption.baseOption = ['STR', 'AGI', 'STA'];
+                    equipOption.lv = lv+2;
                     used = this.randomEquip(1, lv, equipOption, toBackpack);
                     break;
+                case 'random_equip_elite_1':
+                    equipOption.lv = lv+2;
+                    used = this.randomEquip(1, lv, equipOption, toBackpack);
+                    break;
+                case 'random_equip_elite_2':
+                    equipOption.lv = lv+2;
+                    used = this.randomEquip(2, lv, equipOption, toBackpack);
+                    break;
                 case 'random_equip_elite_3':
-                    equipOption.types = ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove', 'shoulder', 'cape', 'bracer', 'belt'];
+                    equipOption.lv = lv+2;
                     used = this.randomEquip(3, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_elite_4':
-                    equipOption.types = ['helmet', 'weapon', 'armor', 'shoe', 'legging', 'glove', 'shoulder', 'cape', 'bracer', 'belt'];
+                    equipOption.lv = lv+2;
                     used = this.randomEquip(4, lv, equipOption, toBackpack);
                     break;
+                case 'random_equip_elite_5':
+                    equipOption.lv = lv+2;
+                    used = this.randomEquip(5, lv, equipOption, toBackpack);
+                    break;
+                case 'random_equip_elite_6':
+                    equipOption.lv = lv+2;
+                    used = this.randomEquip(6, lv, equipOption, toBackpack);
+                    break;
+                case 'random_equip_1':
+                    equipOption.lv = lv+5;
+                    used = this.randomEquip(1, lv, equipOption, toBackpack);
+                    break;
+                case 'random_equip_2':
+                    equipOption.lv = lv+5;
+                    used = this.randomEquip(2, lv, equipOption, toBackpack);
+                    break;
+                case 'random_equip_3':
+                    equipOption.lv = lv+5;
+                    used = this.randomEquip(3, lv, equipOption, toBackpack);
+                    break;
                 case 'random_equip_4':
+                    equipOption.lv = lv+5;
                     used = this.randomEquip(4, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_5':
+                    equipOption.lv = lv+5;
                     used = this.randomEquip(5, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_6':
+                    equipOption.lv = lv+5;
                     used = this.randomEquip(6, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_7':
+                    equipOption.lv = lv+5;
                     used = this.randomEquip(7, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_8':
+                    equipOption.lv = lv+5;
                     used = this.randomEquip(8, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_9':
+                    equipOption.lv = lv+5;
                     used = this.randomEquip(9, lv, equipOption, toBackpack);
+                    break;
+                case 'random_poor_equip':
+                    used = this.randomEquip(10, lv, equipOption, toBackpack);
+                    break;
+                case 'random_common_equip':
+                    used = this.randomEquip(11, lv, equipOption, toBackpack);
+                    break;
+                case 'random_uncommon_equip':
+                    used = this.randomEquip(12, lv, equipOption, toBackpack);
+                    break;
+                case 'random_rare_equip':
+                    used = this.randomEquip(13, lv, equipOption, toBackpack);
+                    break;
+                case 'random_epic_equip':
+                    used = this.randomEquip(14, lv, equipOption, toBackpack);
+                    break;
+                case 'random_legendary_equip':
+                    used = this.randomEquip(15, lv, equipOption, toBackpack);
                     break;
                 // case 'inv_box_01':
                 //     used = this.inv_box_01();
@@ -124,39 +192,6 @@ export const itemEffect = {
                 // case 'inv_box_03':
                 //     used = this.inv_box_03();
                 //     break;
-                case 'bossTicket0':
-                    used = this.bossTicket(5);
-                    break;
-                case 'bossTicket1':
-                    used = this.bossTicket(15);
-                    break;
-                case 'bossTicket2':
-                    used = this.bossTicket(25);
-                    break;
-                case 'bossTicket3':
-                    used = this.bossTicket(35);
-                    break;
-                case 'bossTicket4':
-                    used = this.bossTicket(45);
-                    break;
-                case 'bossTicket5':
-                    used = this.bossTicket(55);
-                    break;
-                case 'bossTicket6':
-                    used = this.bossTicket(65);
-                    break;
-                case 'bossTicket7':
-                    used = this.bossTicket(75);
-                    break;
-                case 'bossTicket8':
-                    used = this.bossTicket(85);
-                    break;
-                case 'bossTicket9':
-                    used = this.bossTicket(95);
-                    break;
-                case 'bossTicket10':
-                    used = this.bossTicket(105);
-                    break;
                 // 药剂
                 case 'inv_misc_food_73cinnamonroll':
                 case 'inv_misc_gem_sapphire_02':
@@ -195,6 +230,11 @@ export const itemEffect = {
                 case 'inv_potion_48':
                 case 'inv_potion_134':
                 case 'inv_potion_145':
+                case 'trade_alchemy_potionc2':
+                case 'trade_alchemy_potionc6':
+                case 'trade_alchemy_potionc3':
+                case 'trade_alchemy_potionc4':
+                case 'trade_alchemy_potionc5':
                     used = this.potion(type);
                     break;
             }
@@ -204,17 +244,29 @@ export const itemEffect = {
             return used;
         },
         //招募声明
-        // inv_misc_note_06() {
-        //     let guildMember = this.$store.globalComponent["guildMember"];
-        //     guildMember.generateApplicant();
-        //     return true;
-        // },
-        randomGold(min, max, msg, qty=1) {
+        inv_misc_note_06() {
+            if(this.$store.state.guildAttribute.bar.lv == 0)
+                return false;
+            let guildPosition = this.$store.globalComponent["guildPosition"];
+            guildPosition.generateApplicant();
+            return true;
+        },
+        upgradeGuildBuild(type) {
+            let guild = this.$store.globalComponent["guild"];
+            return guild.upgradeGuildBuild(type);
+        },
+        giveItem(code, qty) {
+            let itemInfo = this.$store.globalComponent["itemInfo"];;
+            let item = itemInfo.createItem(code, qty);  
+            itemInfo.addItem(JSON.parse(item));
+            return true;
+        },
+        randomGold(min, max, msg, lv, qty=1) {
             let guild = this.$store.globalComponent["guild"];
             let gold = 0;
             for(; qty>0; qty--)
                 gold += Math.round(((max-min)*Math.random())+min);
-            guild.getGold('', gold, msg);
+            guild.getGold('', gold, msg, lv);
             return true;
         },
         randomEquip(qualitySet, lv, optional={}, toBackpack) {
@@ -233,14 +285,24 @@ export const itemEffect = {
             backpack.giveEquip(equip, true, true);
             return true;
         },
-        bossTicket(monsterID) {
-            let index = this.$store.globalComponent.index;
-            index.addToMap('boss', (monsterID+5)*2, 1, monsterID);
+        learnRecipe(type) {
+            let learnt = this.$store.state.playerAttribute.learntRecipe;
+            let newType = type.replace("_recipe","");
+            if(learnt.indexOf(newType) != -1) {
+                this.$store.commit("set_sys_info", {
+                    type: 'warning',
+                    msg: '无法重复学习配方!'
+                });
+                return false;
+            }
+            learnt.push(newType);
             return true;
         },
         potion(type) {
             let used = false;
             let itemInfo = this.itemType[type];
+            let src = this.$store.state.playerAttribute;
+            let index = this.$store.globalComponent["index"];
             switch(type) {
                 case 'inv_potion_27':
                     used = this.inv_potion_27();
@@ -323,10 +385,10 @@ export const itemEffect = {
                     used = this.hpPotion(15, 1, 10, 'fix') | this.mpPotion(15, 1, 10, 'fix');
                     break;
                 case 'inv_potion_43':
-                    used = this.hpPotion(100, 0, 0, 'fix', itemInfo.description.name) | this.mpPotion(100, 0, 0, 'fix', itemInfo.description.name);
+                    used = this.hpPotion(125, 0, 0, 'fix', itemInfo.description.name) | this.mpPotion(125, 0, 0, 'fix', itemInfo.description.name);
                     break;
                 case 'inv_potion_44':
-                    used = this.hpPotion(150, 1, 10, 'fix') | this.mpPotion(150, 1, 10, 'fix');
+                    used = this.hpPotion(100, 1, 10, 'fix') | this.mpPotion(100, 1, 10, 'fix');
                     break;
                 case 'inv_potion_45':
                     used = this.hpPotion(1000, 0, 0, 'fix', itemInfo.description.name) | this.mpPotion(1000, 0, 0, 'fix', itemInfo.description.name);
@@ -349,7 +411,29 @@ export const itemEffect = {
                 case 'inv_potion_145':
                     used = this.hpPotion(75, 0, 0, 'maxPercent', itemInfo.description.name) | this.mpPotion(75, 0, 0, 'maxPercent', itemInfo.description.name);
                     break;
+                case 'trade_alchemy_potionc2':
+                    index.statBuffApply(src, src, 'STR', src.lv, 1800, itemInfo.cdgroup);
+                    used = true;
+                    break;
+                case 'trade_alchemy_potionc6':
+                    index.statBuffApply(src, src, 'AGI', src.lv, 1800, itemInfo.cdgroup);
+                    used = true;
+                    break;
+                case 'trade_alchemy_potionc3':
+                    index.statBuffApply(src, src, 'STA', src.lv, 1800, itemInfo.cdgroup);
+                    used = true;
+                    break;
+                case 'trade_alchemy_potionc4':
+                    index.statBuffApply(src, src, 'INT', src.lv, 1800, itemInfo.cdgroup);
+                    used = true;
+                    break;
+                case 'trade_alchemy_potionc5':
+                    index.statBuffApply(src, src, 'SPI', src.lv, 1800, itemInfo.cdgroup);
+                    used = true;
+                    break;
             }
+            let quest = this.$store.globalComponent["quest"];
+            quest.trackProgress('event', 8, 1);
             return used;
         },
         inBattle() {

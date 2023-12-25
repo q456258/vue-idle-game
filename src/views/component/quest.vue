@@ -16,8 +16,8 @@
                         <span class="questButton">&nbsp;&minus;&nbsp;</span>&nbsp;{{questCategory[k]}}
                     </span>
                     <span v-if="questCateg[k]">
-                        <div :class="[{questSelected: val==selectedQuest}, 'quests']" v-for="(val, key) in questCateg[k].list" :key="key" @click="selectQuest(val)">
-                            <a class="questHover"></a>
+                        <div :class="[{optionSelected: val==selectedQuest}, 'quests']" v-for="(val, key) in questCateg[k].list" :key="key" @click="selectQuest(val)">
+                            <a class="optionHover"></a>
                             <span class="questName">（{{quests[val].lv}}）{{quests[val].name}}
                             </span>
                             <span class="questStatus" v-show="quests[val].status=='完成'">(完成)</span>
@@ -108,6 +108,11 @@ export default {
             this.resetTracker();
         },
         resetTracker() {
+            this.questTrack = {
+                slain: {},
+                collect: {},
+                event: {}
+            }
             let quests = this.$store.state.quests;
             for(let questId in quests) {
                 let reqs = quests[questId].reqs;
@@ -214,10 +219,10 @@ export default {
             }
             return reqList;
         },
-        trackProgress(type, key, quantity) {
+        trackProgress(type, key, quantity, set=false) {
             let track = this.questTrack[type];
             for(let i in track[key]) {
-                this.increaseProgress(type, track[key][i], key, quantity);
+                this.increaseProgress(type, track[key][i], key, quantity, set);
             }
         },
         removeFromCateg(questId) {
@@ -249,7 +254,8 @@ export default {
                     delete this.questTrack[reqs[i].reqType][reqs[i].type];
             }
         },
-        increaseProgress(type, questId, key, quantity) {
+        increaseProgress(type, questId, key, quantity, set=false) {
+            quantity = parseInt(quantity);
             let quest = this.quests[questId];
             let itemInfo = this.$store.globalComponent.itemInfo;
             for(let i in quest.reqs) {
@@ -258,12 +264,12 @@ export default {
                         quest.reqs[i].current = itemInfo.getItemQty(key);
                         quantity = 0;
                     }
-                    if(quest.reqs[i].current+quantity >= quest.reqs[i].target) {
+                    if(set)
+                        quest.reqs[i].current = quantity;
+                    else
                         quest.reqs[i].current += quantity;
+                    if(quest.reqs[i].current >= quest.reqs[i].target)
                         this.checkStatus(questId);
-                    }
-                    else 
-                        quest.reqs[i].current += quantity;
                 }
             }
             if(quantity <= 0)
@@ -281,6 +287,11 @@ export default {
         },
         changeStatus(questId, status) {
             let quest = this.quests[questId];
+            if(quest.status == '未完成' && status == '完成')
+                this.$store.commit("set_sys_info", {
+                    type: 'win',
+                    msg: '任务【 '+this.questList[questId].name+'】完成',
+                });
             quest.status = status;
         },
         expandQuestCateg(e) {
@@ -303,8 +314,9 @@ export default {
         submitQuest() {
             this.removeQuestItem();
             this.reward();
-            this.successorQuest();
+            let temp = this.selectedQuest;
             this.removeQuest();
+            this.successorQuest(temp);
         },
         forfeitQuest() {
             this.$message({
@@ -336,6 +348,7 @@ export default {
             let equipInfo = this.$store.globalComponent["equipInfo"];   
             let backpack = this.$store.globalComponent["backpack"];   
             let guild = this.$store.globalComponent["guild"];
+            let mapEvent = this.$store.globalComponent["mapEvent"];
             let rewardList = this.$store.state.quests[this.selectedQuest].rewardItem;
             for(let k=0; k<rewardList.length; k++) {
                 let type = rewardList[k][0].itemType;
@@ -356,8 +369,11 @@ export default {
                 }
             }
         },
-        successorQuest() {
-            let successor = this.questList[this.selectedQuest].successor;
+        successorQuest(questID=-1) {
+            if(questID == -1) {
+                questID = this.selectedQuest;
+            }
+            let successor = this.questList[questID].successor;
             for(let i in successor) {
                 this.assignQuest(successor[i]);
             }
@@ -375,7 +391,7 @@ export default {
             let equip = ['helmet', 'weapon', 'armor', 'shoe', 'shoulder', 'glove', 'ring', 'cape', 'bracer', 'belt', 'legging', 'necklace'];
 
             if(equip.indexOf(type) != -1)
-                index.closeInfo('eqiup');
+                index.closeInfo('equip');
             else
                 index.closeInfo('item');
         },
@@ -476,21 +492,6 @@ export default {
 }
 .questStatus {
     float: right;
-}
-.questHover {
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    width: 100%;
-    height: 100%;
-    display: block;
-    &:hover{
-        box-shadow: inset 0 0 10px rgba(123, 176, 255, 0.651);
-    }
-}
-.questSelected {
-    box-shadow: inset 0 0 10px rgba(123, 255, 139, 0.651);
-    background-image: linear-gradient(-270deg, rgba(167, 160, 160, 0) 0%, #59b94c85 40%, #87cf6b69 60%, rgba(255,255,255,0.00) 100%);
 }
 .questFooterField {
     display: flex;
