@@ -320,7 +320,7 @@ export default {
             return extraEntry;
         },
         createExtraEntryValue(entry, random, lv, mod=1) {
-            if(['CRITDMG', 'HASTE', 'APPEN', 'APCRITDMG', 'VERS'].indexOf(entry.type) != -1) {
+            if(['CRITDMG', 'HASTE', 'APCRITDMG', 'VERS'].indexOf(entry.type) != -1) {
                 entry.value = Math.ceil((0.5+1*random) * this.entryInfo[entry.type].base);
                 entry.showVal = '+' + entry.value;
                 if(['CRITDMG', 'APCRITDMG'].indexOf(entry.type) != -1)
