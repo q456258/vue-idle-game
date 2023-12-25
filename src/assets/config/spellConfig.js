@@ -394,13 +394,16 @@ data() {
                 iconSrc: "./icons/spell/mage/spell_ice_lament.jpg",
                 quality: 1,
                 level: [{
-                        des: '为你施加寒冰护盾，吸收0.2*最大生命值*(1+全能*0.1)点伤害',
+                        des: '为你施加寒冰护盾，吸收0.1*最大生命值*(1+全能*0.01)点伤害, 持续10秒',
+                        duration: { time: 10 },
                         cost: { MP: 40, },
                     }, {
-                        des: '为你施加寒冰护盾，吸收0.25*最大生命值*(1+全能*0.1)点伤害',
+                        des: '为你施加寒冰护盾，吸收0.1*最大生命值*(1+全能*0.01)点伤害, 持续15秒',
+                        duration: { time: 15 },
                         cost: { MP: 60, },
                     }, {
-                        des: '为你施加寒冰护盾，吸收0.3*最大生命值*(1+全能*0.1)点伤害',
+                        des: '为你施加寒冰护盾，吸收0.1*最大生命值*(1+全能*0.01)点伤害, 持续20秒',
+                        duration: { time: 20 },
                         cost: { MP: 80, },
                     }
                 ],
@@ -446,17 +449,17 @@ data() {
                 quality: 1,
                 level: [{
                         des: '对目标造成目标当前生命值*0.1点魔法伤害，并附加2层灼伤效果',
-                        apDmg: { CURHP: 0.1, },
+                        apDmg: { t_CURHP: 0.1, },
                         effect: {burn: {stack: 2, chance: 100, target: 'enemy'},},
                         cost: { MP: 10, },
                     }, {
                         des: '对目标造成目标当前生命值*0.12点魔法伤害，并附加2层灼伤效果',
-                        apDmg: { CURHP: 0.12, },
+                        apDmg: { t_CURHP: 0.12, },
                         effect: {burn: {stack: 2, chance: 100, target: 'enemy'},},
                         cost: { MP: 150, },
                     }, {
                         des: '对目标造成目标当前生命值*0.15点魔法伤害，并附加2层灼伤效果',
-                        apDmg: { CURHP: 0.15, },
+                        apDmg: { t_CURHP: 0.15, },
                         effect: {burn: {stack: 2, chance: 100, target: 'enemy'},},
                         cost: { MP: 200, },
                     }
@@ -694,13 +697,19 @@ data() {
                 iconSrc: "./icons/spell/priest/spell_holy_powerwordshield.jpg",
                 quality: 1,
                 level: [{
-                        des: '施加一个护盾，吸收法术强度*1*(1+全能*0.01)点伤害',
+                        des: '施加一个护盾，吸收法术强度*1*(1+全能*0.01)点伤害, 持续10秒',
+                        duration: { time: 10 },
+                        effect: {spell_holy_powerwordshield: {stack: 10, chance: 100, target: 'self'},},
                         cost: { MP: 50, },
                     }, {
-                        des: '施加一个护盾，吸收法术强度*1.1*(1+全能*0.01)点伤害',
+                        des: '施加一个护盾，吸收法术强度*1.1*(1+全能*0.01)点伤害, 持续15秒',
+                        duration: { time: 15 },
+                        effect: {spell_holy_powerwordshield: {stack: 15, chance: 100, target: 'self'},},
                         cost: { MP: 60, },
                     }, {
-                        des: '施加一个护盾，吸收法术强度*1.2*(1+全能*0.01)点伤害',
+                        des: '施加一个护盾，吸收法术强度*1.2*(1+全能*0.01)点伤害, 持续20秒',
+                        duration: { time: 20 },
+                        effect: {spell_holy_powerwordshield: {stack: 20, chance: 100, target: 'self'},},
                         cost: { MP: 70, },
                     }
                 ],
@@ -870,8 +879,9 @@ data() {
                 iconSrc: "./icons/spell/priest/spell_holy_persuitofjustice.jpg",
                 quality: 1,
                 level: [{
-                        des: '施展神迹，恢复最大生命值*1点生命值，溢出值将转为护盾',
+                        des: '施展神迹，恢复最大生命值*1点生命值，溢出值将转为护盾, 持续20秒',
                         heal: { MAXHP: 1 },
+                        duration: { time: 20 },
                         cost: { MP: 300, },
                     }
                 ],
@@ -881,7 +891,7 @@ data() {
             spell_magic_polymorphpig: {
                 name: '愤怒之气', max: 100, iconSrc: "", quality: 1,
                 level: [{
-                        des: '提升20%攻击力，20%暴击率，持续20秒',
+                        des: '提升20%攻击力, 20%法伤，20%暴击率，持续20秒',
                         effect: {spell_magic_polymorphpig: {stack: 20, chance: 100, target: 'self'},},
                         cost: { MP: 20, },
                     }
@@ -925,8 +935,8 @@ data() {
             poison_arrow: {
                 name: '毒箭', max: 20, iconSrc: "", quality: 1,
                 level: [{
-                        des: '附加15层中毒效果',
-                        effect: {poison: {stack: 15, chance: 100, target: 'enemy'},},
+                        des: '附加30层中毒效果',
+                        effect: {poison: {stack: 30, chance: 100, target: 'enemy'},},
                         cost: { MP: 25, },
                     }
                 ],
@@ -986,7 +996,8 @@ data() {
             ability_vehicle_shellshieldgenerator: {
                 name: '防护之壳', max: 100, iconSrc: "", quality: 1,
                 level: [{
-                        des: '获得护甲*0.1点护盾',
+                        des: '获得护甲*0.1点护盾, 持续10秒',
+                        duration: { time: 10 },
                         cost: { MP: 20, },
                     }
                 ],
@@ -1027,8 +1038,8 @@ data() {
             inv_spiritshard_01: {
                 name: '石肤', max: 100, iconSrc: "", quality: 1,
                 level: [{
-                        des: '获得最大生命值*0.3点护盾，护甲被破坏后获得5层易伤',
-                        effect: {inv_spiritshard_01: {stack: 1, chance: 100, target: 'self'},},
+                        des: '获得最大生命值*0.3点护盾，持续20秒, 护甲被破坏后获得5层易伤',
+                        duration: { time: 20 },
                         cost: { MP: 20, },
                     }
                 ],
@@ -1037,8 +1048,9 @@ data() {
             spell_fire_immolation: {
                 name: '火焰护盾', max: 100, iconSrc: "", quality: 1,
                 level: [{
-                        des: '获得最大生命值*0.3点护盾，护甲持续期间，受到物理伤害时对伤害来源造成150点魔法伤害',
+                        des: '获得最大生命值*0.3点护盾，持续20秒，护甲持续期间，受到物理伤害时对伤害来源造成150点魔法伤害',
                         effect: {spell_fire_immolation: {stack: 1, chance: 100, target: 'self'},},
+                        duration: { time: 10 },
                         cost: { MP: 20, },
                     }
                 ],

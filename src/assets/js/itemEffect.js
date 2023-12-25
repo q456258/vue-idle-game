@@ -100,13 +100,16 @@ export const itemEffect = {
                     equipOption.baseOption = ['STR', 'AGI', 'STA'];
                     used = this.randomEquip(10, lv, equipOption, toBackpack);
                     break;
-                case 'random_equip_elite_1':
+                case 'random_equip_elite_0':
                     equipOption.baseOption = ['STR', 'AGI', 'STA'];
                     equipOption.lv = lv+2;
                     used = this.randomEquip(1, lv, equipOption, toBackpack);
                     break;
+                case 'random_equip_elite_1':
+                    equipOption.lv = lv+2;
+                    used = this.randomEquip(1, lv, equipOption, toBackpack);
+                    break;
                 case 'random_equip_elite_2':
-                    equipOption.baseOption = ['STR', 'AGI', 'STA'];
                     equipOption.lv = lv+2;
                     used = this.randomEquip(2, lv, equipOption, toBackpack);
                     break;
@@ -117,6 +120,26 @@ export const itemEffect = {
                 case 'random_equip_elite_4':
                     equipOption.lv = lv+2;
                     used = this.randomEquip(4, lv, equipOption, toBackpack);
+                    break;
+                case 'random_equip_elite_5':
+                    equipOption.lv = lv+2;
+                    used = this.randomEquip(5, lv, equipOption, toBackpack);
+                    break;
+                case 'random_equip_elite_6':
+                    equipOption.lv = lv+2;
+                    used = this.randomEquip(6, lv, equipOption, toBackpack);
+                    break;
+                case 'random_equip_1':
+                    equipOption.lv = lv+5;
+                    used = this.randomEquip(1, lv, equipOption, toBackpack);
+                    break;
+                case 'random_equip_2':
+                    equipOption.lv = lv+5;
+                    used = this.randomEquip(2, lv, equipOption, toBackpack);
+                    break;
+                case 'random_equip_3':
+                    equipOption.lv = lv+5;
+                    used = this.randomEquip(3, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_4':
                     equipOption.lv = lv+5;
@@ -222,6 +245,8 @@ export const itemEffect = {
         },
         //招募声明
         inv_misc_note_06() {
+            if(this.$store.state.guildAttribute.bar.lv == 0)
+                return false;
             let guildPosition = this.$store.globalComponent["guildPosition"];
             guildPosition.generateApplicant();
             return true;

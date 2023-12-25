@@ -246,7 +246,11 @@ export default {
             this.setReward(type);
             // 上面加了一级, 这边减少一级, 不然打同等级怪也会升级
             this.levelToTarget(enemyLv-1);
-            if(type == 'boss' && enemyLv != -1)
+            if(type == 'boss' && enemyLv != -1) {
+                this.talentLevelUp()
+                this.talentLevelUp()
+            }
+            if(type == 'elite' && enemyLv != -1)
                 this.talentLevelUp()
             this.$store.commit("set_battle_info", {
                 type: 'win',
@@ -254,7 +258,7 @@ export default {
             });
         },
         defeat(source, target) {
-            this.setBattleStatus(false, false);
+            this.setBattleStatus(false, this.dungeonInfo.auto);
             this.$store.commit("set_battle_info", {
                 type: 'lose',
                 msg: '战斗结束, 你扑街了'
@@ -317,8 +321,6 @@ export default {
             this.$store.commit('set_player_attribute');
             let lv = this.playerAttr.lv;
             quest.trackProgress('event', 1, lv, true);
-            if(lv%10 == 0)
-                this.talentLevelUp();
             if(lv == 10) {
                 let element = document.getElementById('talentTree');
                 element.classList.add('glow');
@@ -337,7 +339,6 @@ export default {
         },
         setBattleStatus(inBattle, auto=true, immediate=false) {
             let index = this.$store.globalComponent["index"];
-            index.clearShield(this.playerAttr);
             index.clearTurnbaseBuff(this.playerAttr);
             if(!inBattle)
                 this.battleID = -1;

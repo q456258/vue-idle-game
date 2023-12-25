@@ -2,11 +2,10 @@ export const buffConfig = {
 data() {
     return {
         buffCateg: {
-            buffer: ['sunder', 'penetrate', 'lifesteal', 'manasteal','charge','deathImmune','void','absorb','hell','focus','arcCharge',
-                'inv_spiritshard_01'],
+            buffer: ['sunder', 'penetrate', 'lifesteal', 'manasteal','charge','deathImmune','void','absorb','hell','focus','arcCharge'],
             timed: ['minionSlayer','spell_holy_wordfortitude','manaShield','silence','icenova','plague','spell_holy_powerwordbarrier','spell_frost_coldhearted',
                 'spell_fire_sealoffire','spell_holy_innerfire','spell_holy_innerfire2','spell_holy_innerfire3','spell_holy_testoffaith','spell_magic_polymorphpig',
-                'ability_druid_berserk','spell_nature_skinofearth',
+                'ability_druid_berserk','spell_nature_skinofearth'
             ],
             onTick: ['burn', 'poison'],
             counter: ['icenova']
@@ -39,6 +38,7 @@ data() {
             ],
             spell_magic_polymorphpig: [
                 {type: 'ATK', valType: 'ATK', value: 0.2, stack:20, chance: 100, target: 'self', buffGroup: 'spell_magic_polymorphpig_atk'},
+                {type: 'AP', valType: 'AP', value: 0.2, stack:20, chance: 100, target: 'self', buffGroup: 'spell_magic_polymorphpig_ap'},
                 {type: 'CRIT', valType: 'FIX', value: 20, stack:20, chance: 100, target: 'self', buffGroup: 'spell_magic_polymorphpig_crit'},
             ],
             ability_druid_berserk: [
@@ -191,7 +191,7 @@ data() {
                 spell_magic_polymorphpig: {
                     timed: true,
                     iconSrc: "./icons/spell/neutral/spell_magic_polymorphpig.jpg",
-                    desc: '提升20%攻击力，20%暴击率，持续20秒',
+                    desc: '提升20%攻击力, 20%法伤，20%暴击率，持续20秒',
                 }, 
                 ability_druid_berserk: {
                     timed: true,
@@ -293,12 +293,6 @@ data() {
                     iconSrc: "./icons/buff/vulnerable.jpg",
                     desc: "易伤: 受到的伤害提升30%"
                 },
-                inv_spiritshard_01: {
-                    cleanse: false,
-                    stacked: true,
-                    iconSrc: "./icons/buff/inv_spiritshard_01.jpg",
-                    desc: "石肤: 护甲被破坏后获得3层易伤"
-                }, 
                 sha_spell_fire_bluehellfire_nightmare: {
                     cleanse: true,
                     stacked: true,

@@ -11,31 +11,22 @@
     <div ref="battle" class="tab-wrap">
       <!-- active tab on page load gets checked attribute -->
 
-      <input type="radio" id="battle1" name="battle" class="tab" checked>
-      <label for="battle1">图标</label>
+        <input type="radio" id="battle1" name="battle" class="tab" checked>
+        <label for="battle1">玩家相关</label>
 
+        <input type="radio" id="battle2" name="battle" class="tab">
+        <label for="battle2">怪物相关</label>
 
-      <div class="tab__content">
-            <h3>地图上的图标分别代表什么? </h3>
+        <div class="tab__content">
+            <h3>属性分别都有什么作用? </h3>
             <p>
-                <span class="box">
-                    <span class="dungeon" style="background-image:url(./icons/other/normal.png);box-shadow:0 0 4px 4px #6d3"></span>
-                    <span class="description">普通怪物</span>
-                    <span class="dungeon" style="background-image:url(./icons/other/elite.png);box-shadow:0 0 4px 4px #dc3"></span>
-                    <span class="description">精英怪物</span>
-                    <span class="dungeon" style="background-image:url(./icons/other/boss.png);box-shadow:0 0 4px 4px #d63"></span>
-                    <span class="description">BOSS</span>
-                    <span class="dungeon" style="background-image:url(./icons/other/chest.png);box-shadow:0 0 4px 4px #c0f"></span>
-                    <span class="description">宝箱</span>
-                    <span class="dungeon" style="background-image:url(./icons/other/mine.png);box-shadow:0 0 4px 4px #b60"></span>
-                    <span class="description">矿石</span>
-                    <span class="dungeon" style="background-image:url(./icons/other/herb.png);box-shadow:0 0 4px 4px #bd7"></span>
-                    <span class="description">草药</span>
-                </span>
+                ✵鼠标悬停在玩家属性图标上可查看属性的作用
             </p>
+            <h3>法术抗性怎么不明不白的? </h3>
             <p>
+                ✵法术抗性根据法术抗性数值降低魔法伤害0%、25%、50%、75%、100%，同法术抗性每次遭受魔法伤害后受到的伤害不同
             </p>
-      </div>
+        </div>
 
         <div class="tab__content">
             <h3>怪物拥有哪些属性? </h3>
@@ -44,6 +35,12 @@
             </p>
             <h3>怪物攻击频率是多久一次? </h3>
             <p>✵同玩家一致, 每秒一次, 玩家先攻</p>
+            <h3>普通、精英、BOSS的区别? </h3>
+            <p>
+                ✵普通怪物最弱，击败他们后可提升等级<br>
+                ✵精英怪物属性较高，拥有技能，击败他们后可获得一些不错的奖励<br>
+                ✵BOSS拥有多倍的生命值，拥有多个技能，击败他们后可进行抽奖，消耗金币获得额外奖励数量
+            </p>
         </div>
     </div>
 
@@ -65,6 +62,13 @@
             <p style="background-color: #000;">            
                 <span :style="{color:data.color}" v-for="(data, key) in quality" :key="key"><span v-if="data.name!='贫乏'"> &lt; </span>{{data.name}}</span>
             </p>
+            <p>
+                ✵罕见装备有拥有额外的基础属性
+                <br>
+                ✵稀有装备可获得最多3条额外的附加词条数
+                <br>
+                ✵史诗、传奇装备额外获得两条特殊基础词条
+            </p>
             <table class="table">
                 <thead>
                     <tr>
@@ -82,7 +86,7 @@
                 </tbody>
             </table>
             <h3>强化装备有什么用? </h3>
-            <p>✵每一级强化提升10%基础属性, 达到对应等级后会激活装备的潜在属性(30级装备解锁)</p>
+            <p>✵每一级强化提升20%基础属性, 达到对应等级后会激活装备的潜在属性</p>
         </div>
 
         <div class="tab__content">
@@ -100,7 +104,7 @@
             </p>
             <h3>潜在属性是什么? </h3>
             <p>
-                ✵30级或以上的装备根据品质拥有1-3条潜在属性, 潜在属性可百分比提升某一项属性, 分别在+3、+6、+9时激活
+                ✵200级或以上的装备根据品质拥有1-3条潜在属性, 潜在属性可百分比提升某一项属性, 分别在+3、+6、+9时激活，也可以通过洗炼强制激活
             </p>
             <!-- <h3>额外潜在属性是什么? </h3>
             <p>
@@ -118,24 +122,24 @@
             <h3>怎么打开装备界面? </h3>
             <p>✵右键已装备的或者背包中的装备图标</p>
             <h3>强化是什么? </h3>
-            <p>✵提升装备的基础属性, 根据装备品质可强化0-25次, 每次强化提升基础属性10%
-                <br>
-                ✵解锁条件: 1级公会铁匠铺
-            </p>
-            <h3>锻造是什么? </h3>
-            <p>✵打造装备
+            <p>✵提升装备的基础属性, 根据装备品质可强化0-25次, 每次强化提升基础属性20%
                 <br>
                 ✵解锁条件: 1级公会铁匠铺
             </p>
             <h3>重铸是什么? </h3>
-            <p>✵重置装备的附加词条, 可重置单条或者全部
+            <p>✵重置装备的附加词条, 可重置单条或者全部，蓝色装备重铸全部词条时有概率增加/减少词条数量
                 <br>
                 ✵解锁条件: 2级公会铁匠铺
             </p>
-            <h3>洗炼是什么? </h3>
-            <p>✵重置装备的潜在属性, 需要消耗一个神秘宝珠
+            <h3>锻造是什么? </h3>
+            <p>✵消耗材料打造装备
                 <br>
                 ✵解锁条件: 3级公会铁匠铺
+            </p>
+            <h3>洗炼是什么? </h3>
+            <p>✵激活/重置装备的潜在属性, 需要消耗一个神秘宝珠
+                <br>
+                ✵解锁条件: 4级公会铁匠铺
             </p>
             <!-- <h3>升级是什么? </h3>
             <p>✵提升装备的等级, 提升基础属性以及附加属性数值, 保留强化以及词条属性类别
@@ -144,7 +148,7 @@
                 <br>
                 ✵解锁条件: 30级公会铁匠铺
             </p> -->
-            <h3>精炼是什么? </h3>
+            <!-- <h3>精炼是什么? </h3>
             <p>✵消耗一个装备, 将主装备基础属性提升至两者之间较好的属性（暴击伤害、暴击率无效）
                 <br>
                 ✵解锁条件: 4级公会铁匠铺
@@ -153,7 +157,7 @@
             <p>✵消耗一个装备, 将消耗的装备的潜在属性转移至主装备的潜在属性
                 <br>
                 ✵解锁条件: 5级公会铁匠铺
-            </p>
+            </p> -->
         </div>
 
         <!-- <div class="tab__content">
@@ -227,7 +231,7 @@
         <div class="tab__content">
             <h3>技能从哪学? </h3>
             <p>
-                ✵天赋激活技能
+                ✵天赋树提升有包含【技能】的天赋后激活技能
             </p>
             <h3>哪个技能强? </h3>
             <p>
@@ -267,9 +271,13 @@
         <label for="guild2">成员</label>
 
         <div class="tab__content">
-            <h3>公会的作用是什么? </h3>
+            <h3>公会建筑的作用是什么? </h3>
             <p>            
-                ✵解锁功能
+                ✵鼠标悬浮在对应的建筑按键上可查看建筑功能
+            </p>
+            <h3>公会怎么升级? </h3>
+            <p>            
+                ✵每个BOSS拥有一个对应【实力的证明】任务，完成后提升公会等级一级
             </p>
             <!-- <h3>练功房的作用是什么? </h3>
             <p>            
@@ -297,22 +305,6 @@
             <p>            
                 ✵训练消耗的时间减半, 花费*4, 20级练功房激活
             </p> -->
-            <h3>商店的作用是什么? </h3>
-            <p>            
-                ✵解锁商店
-            </p>
-            <h3>铁匠铺的作用是什么? </h3>
-            <p>            
-                ✵1级 - 激活强化、锻造功能
-                <br>
-                ✵2级 - 激活重铸功能
-                <br>
-                ✵3级 - 激活洗炼功能
-                <br>
-                ✵4级 - 激活精炼功能
-                <br>
-                ✵5级 - 激活熔炼功能
-            </p>
         </div>
         
         <div class="tab__content">
@@ -321,6 +313,7 @@
                 ✵完成副本后，根据副本完成度升级
             </p>
             <h3>公会成员的属性有什么用? </h3>
+            <p>           
                 ✵生命值: 每点生命值可承受一点伤害
                 <br>
                 ✵攻击力: 每点攻击力造成一点伤害
@@ -328,7 +321,6 @@
                 ✵防御: 每点防御可抵消一点伤害
                 <br>
                 ✵成长: 每次升级属性为提升基础值*成长
-            <p>           
             </p>
         </div>
     </div>

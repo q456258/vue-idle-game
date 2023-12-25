@@ -12,16 +12,6 @@
             </div>
         </div>
     </div>
-    <div class="building" v-show="displayPage=='train'" :set="type='train'">
-        <div class="training">
-            <div class="trainingProgressbars">
-                <trainStat></trainStat>
-                <countdown :tier="0" :timer="$store.state.train.train1.timer" :level="guild.train.lv" v-if="guild.train.lv>0"></countdown>
-                <countdown :tier="0" :timer="$store.state.train.train2.timer" :level="guild.train.lv" v-if="guild.train.lv>2"></countdown>
-                <countdown :tier="0" :timer="$store.state.train.train3.timer" :level="guild.train.lv" v-if="guild.train.lv>4"></countdown>
-            </div>
-        </div>
-    </div> 
     <div class="building" v-show="displayPage=='shop'" :set="type='shop'">
         <!-- <div class="action">
             <div v-if="!inProgress[type]">
@@ -137,15 +127,13 @@ import { questConfig } from '@/assets/config/questConfig';
 import {guildConfig} from '@/assets/config/guildConfig'
 import {guildMemberConfig} from '@/assets/config/guildMemberConfig'
 import cTooltip from '../uiComponent/tooltip';
-import countdown from '../uiComponent/countdown';
 import timer from '../uiComponent/timer';
 import craftEquip from '../component/craftEquip';
 import currency from '../uiComponent/currency';
-import trainStat from '../component/trainStat';
 export default {
     name: "guildPosition",
     mixins: [guildConfig, guildMemberConfig, questConfig],
-    components: {cTooltip, countdown, trainStat, timer, craftEquip, currency},
+    components: {cTooltip, timer, craftEquip, currency},
     mounted() {
         this.$store.globalComponent.guildPosition = this;
     },
@@ -154,57 +142,34 @@ export default {
             building: {
                 shop: [],
                 smith: [],
-                train: [],
-                train2: [],
-                train3: [],
                 mine: [],
                 herb: [],
             }, 
-            maxMember: {
-                shop: 1,
-                smith: 1,
-                train: 2,
-                train2: 2,
-                train3: 2,
-                mine: 2,
-                herb: 2,
-            },
             totalEfficiency: {
-                shop: 1, smith: 1, train: 1, train2: 1, train3: 1,
+                shop: 1, smith: 1,
             },
             timerList: {
-                shop: 0, smith: 0, train: 0, train2: 0, train3: 0, mine: 0, bar: 0
+                shop: 0, smith: 0, mine: 0, bar: 0
             },
             progress: {
                 shop: { current: 0, max: 1000 },
                 smith: { current: 0, max: 30 },
-                train: { current: 0, max: 1000 },
-                train2: { current: 0, max: 1000 },
-                train3: { current: 0, max: 1000 },
                 bar: { current: 0, max: 300 },
             },
             smith_main: {},
             smith_sub: {},
-            train1_member: {},
             selectFor: 'None',
             selectOption: {
                 shop: [{name: '1级贸易', value: 'shop1', lv: 0}, {name: '2级贸易', value: 'shop2', lv: 15}, {name: '3级贸易', value: 'shop3', lv: 30}, 
                         {name: '4级贸易', value: 'shop4', lv: 45}],
                 smith: [{name: '打造', value: 'smith', lv: 3},{name: '精炼', value: 'refine', lv: 5}, {name: '熔炼', value: 'melt', lv: 6}],
-                train: [{name: '生命训练', value: 'HP', lv: 0}, {name: '魔法训练', value: 'MP', lv: 0}, {name: '攻击训练', value: 'ATK', lv: 0},
-                        {name: '防御训练', value: 'DEF', lv: 0}],
-                train2: [{name: '元素训练', value: 'SUNDER', lv: 0}, {name: '格挡训练', value: 'BLOCK', lv: 0}],
-                train3: [{name: '力量训练', value: 'STR', lv: 0}, {name: '敏捷训练', value: 'AGI', lv: 0}, {name: '智力训练', value: 'INT', lv: 0}],
             },
             selectedType: {
                 shop: 'shop1',
                 smith: 'smith',
-                train: 'HP',
-                train2: 'SUNDER',
-                train3: 'STR',
             },
             inProgress: {
-                shop: false, smith: false, train:  false, train2: false, train3: false,
+                shop: false, smith: false, 
             },
             displayPage: 'guild',
             mineQueue: [],
@@ -248,7 +213,7 @@ export default {
             // this.start('smith');
             // this.smith_main = this.player.shoulder;
             // this.smith_sub = this.player.weapon;
-            let types = ['guild','shop','smith','train','train2','train3'];
+            let types = ['guild','shop','smith',];
             // for(let type in types) 
             //     this.computeLv(types[type]);
         },
@@ -256,8 +221,7 @@ export default {
             let eventID = {
                 guild: 101, bar: 102,
                 questBoard:103, shop:104, blackmarket:105, smith:106, 
-                train:107, train2:108, train3:109, 
-                mine: 110, herb: 111
+                mine: 110, herb: 111, treasury: 112
             };
             let quest = this.$store.globalComponent["quest"];
             let guild = this.$store.globalComponent["guild"];
@@ -420,14 +384,15 @@ export default {
                         this.applicantList.splice(0, this.applicantList.length-5);
                     }
                     for(let i=0; i<5; i++) {
-                        this.generateApplicant();
+                        let lv = Math.round((this.guild.bar.lv-Math.random())*10);
+                        this.generateApplicant(lv);
                     }
                 }
             }, 1*1000);
         },
         generateApplicant(lv, race, name) {
             let guildMember = this.$store.globalComponent["guildMember"];
-            let applicant = guildMember.generateApplicant();
+            let applicant = guildMember.generateApplicant(lv, race, name);
             this.applicantList.push(applicant);
         },
         sortAppBy(type, type2='talent') {

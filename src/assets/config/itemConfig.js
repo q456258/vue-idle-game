@@ -986,6 +986,21 @@ export const itemConfig = {
                     cost: 99990000,
                     maxStack: 20
                 },
+                random_equip_elite_0: {
+                    quality: 1,
+                    description: {
+                        name: '随机装备',
+                        category: '消耗品',
+                        desc: '随机获得一件装备<br><span class="equipGrey">贫乏</span>: 75%<br>普通: 25%',
+                        iconSrc: "./icons/item/inv_misc_questionmark.jpg",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
+                },
                 random_equip_elite_1: {
                     quality: 1,
                     description: {
@@ -1002,11 +1017,11 @@ export const itemConfig = {
                     maxStack: 20
                 },
                 random_equip_elite_2: {
-                    quality: 1,
+                    quality: 2,
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '随机获得一件装备<br>贫乏: 45%<br>普通: 33%<br>罕见: 21%<br>稀有: 1%',
+                        desc: '随机获得一件装备<br><span class="equipGrey">贫乏</span>: 45%<br>普通: 33%<br><span class="equipGreen">罕见</span>: 21%<br><span class="equipBlue">稀有</span>: 1%',
                         iconSrc: "./icons/item/inv_misc_questionmark.jpg",
                     },
                     autoUse: true,
@@ -1017,11 +1032,11 @@ export const itemConfig = {
                     maxStack: 20
                 },
                 random_equip_elite_3: {
-                    quality: 1,
+                    quality: 2,
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '随机获得一件装备<br>普通: 10%<br><span class="equipGreen">罕见</span>: 35%<br><span class="equipBlue">稀有</span>: 20%<br><span class="equipPurple">史诗</span>: 4.5%<br><span class="equipOrange">传奇</span>: 0.5%',
+                        desc: '随机获得一件装备<br><span class="equipGrey">贫乏</span>: 25%<br>普通: 30%<br><span class="equipGreen">罕见</span>: 40%<br><span class="equipBlue">稀有</span>: 5%',
                         iconSrc: "./icons/item/inv_misc_questionmark.jpg",
                     },
                     autoUse: true,
@@ -1032,11 +1047,86 @@ export const itemConfig = {
                     maxStack: 20
                 },
                 random_equip_elite_4: {
+                    quality: 3,
+                    description: {
+                        name: '随机装备',
+                        category: '消耗品',
+                        desc: '随机获得一件装备<br><span class="equipGrey">贫乏</span>: 9%<br>普通: 25%<br><span class="equipGreen">罕见</span>: 35%<br><span class="equipBlue">稀有</span>: 30%<br><span class="equipPurple">史诗</span>: 1%',
+                        iconSrc: "./icons/item/inv_misc_questionmark.jpg",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
+                },
+                random_equip_elite_5: {
+                    quality: 3,
+                    description: {
+                        name: '随机装备',
+                        category: '消耗品',
+                        desc: '随机获得一件装备<br>普通: 30%<br><span class="equipGreen">罕见</span>: 30%<br><span class="equipBlue">稀有</span>: 34.5%<br><span class="equipPurple">史诗</span>: 5%<br><span class="equipOrange">传奇</span>: 0.5%',
+                        iconSrc: "./icons/item/inv_misc_questionmark.jpg",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
+                },
+                random_equip_elite_6: {
+                    quality: 4,
+                    description: {
+                        name: '随机装备',
+                        category: '消耗品',
+                        desc: '随机获得一件装备<br><span class="equipGreen">罕见</span>: 35%<br><span class="equipBlue">稀有</span>: 55%<br><span class="equipPurple">史诗</span>: 9%<br><span class="equipOrange">传奇</span>: 1%',
+                        iconSrc: "./icons/item/inv_misc_questionmark.jpg",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
+                },
+                random_equip_1: {
                     quality: 1,
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '随机获得一件装备<br>贫乏: 9%<br>普通: 25%<br>罕见: 35%<br>稀有: 30%<br>史诗: 1%',
+                        desc: '随机获得一件装备<br><span class="equipGrey">贫乏</span>: 55%<br>普通: 30%<br><span class="equipGreen">罕见</span>: 15%',
+                        iconSrc: "./icons/item/inv_misc_questionmark.jpg",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
+                },
+                random_equip_2: {
+                    quality: 2,
+                    description: {
+                        name: '随机装备',
+                        category: '消耗品',
+                        desc: '随机获得一件装备<br><span class="equipGrey">贫乏</span>: 45%<br>普通: 33%<br><span class="equipGreen">罕见</span>: 21%<br><span class="equipBlue">稀有</span>: 1%',
+                        iconSrc: "./icons/item/inv_misc_questionmark.jpg",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 20
+                },
+                random_equip_3: {
+                    quality: 2,
+                    description: {
+                        name: '随机装备',
+                        category: '消耗品',
+                        desc: '随机获得一件装备<br><span class="equipGrey">贫乏</span>: 25%<br>普通: 30%<br><span class="equipGreen">罕见</span>: 40%<br><span class="equipBlue">稀有</span>: 5%',
                         iconSrc: "./icons/item/inv_misc_questionmark.jpg",
                     },
                     autoUse: true,
@@ -1066,7 +1156,7 @@ export const itemConfig = {
                     description: {
                         name: '随机装备',
                         category: '消耗品',
-                        desc: '随机获得一件装备<br>贫乏: 0%<br>普通: 30%<br>罕见: 30%<br>稀有: 34.5%<br>史诗: 5%<br>传奇: 0.5%',
+                        desc: '随机获得一件装备<br>普通: 30%<br><span class="equipGreen">罕见</span>: 30%<br><span class="equipBlue">稀有</span>: 34.5%<br><span class="equipPurple">史诗</span>: 5%<br><span class="equipOrange">传奇</span>: 0.5%',
                         iconSrc: "./icons/item/inv_misc_questionmark.jpg",
                     },
                     autoUse: true,

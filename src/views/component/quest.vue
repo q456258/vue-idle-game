@@ -108,6 +108,11 @@ export default {
             this.resetTracker();
         },
         resetTracker() {
+            this.questTrack = {
+                slain: {},
+                collect: {},
+                event: {}
+            }
             let quests = this.$store.state.quests;
             for(let questId in quests) {
                 let reqs = quests[questId].reqs;
