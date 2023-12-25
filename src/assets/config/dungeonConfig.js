@@ -152,7 +152,7 @@ export const dungeonConfig = {
      
                 101: {
                     type:'boss', name:'凡妮莎·范克里夫', stat: { HP: 20000, ATK: 2500, BLOCK: 500 },
-                    reward: [['inv_ore_gold_01', 100, 1, 3]]
+                    reward: [['inv_ore_gold_01', 100, 1, 1]]
                 },
                 102: {
                     type:'elite', name:'格拉布托克', stat: { HP: 3500, ATK: 200, BLOCK: 0 },
@@ -172,7 +172,7 @@ export const dungeonConfig = {
                 },
                 106: {
                     type:'elite', name:'船长曲奇', stat: { HP: 20000, ATK: 2500, BLOCK: 0 },
-                    reward: [['inv_ore_gold_01', 100, 1]]
+                    reward: [['inv_ore_gold_01', 20, 1]]
                 },
                 107: {
                     type:'normal', name:'食人魔匪徒', stat: { HP: 1000, ATK: 150, BLOCK: 0 },
