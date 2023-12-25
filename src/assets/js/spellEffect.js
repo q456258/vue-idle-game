@@ -514,10 +514,10 @@ export const spellEffect = {
                 mr -= source.attribute.APPEN.value;
             let total = 0;
             let random = Math.random()*100;
-            reduce[4] = mr/(mr+100)*25;
-            reduce[3] = mr/(mr+50)*40;
-            reduce[2] = mr/(mr+25)*20;
-            reduce[1] = mr/(mr+10)*14;
+            reduce[4] = mr/(mr+1000);
+            reduce[3] = mr/(mr+200)*(100-reduce[4]);
+            reduce[2] = mr/(mr+100)*(100-reduce[4]-reduce[3]);
+            reduce[1] = mr/(mr+25)*(100-reduce[4]-reduce[3]-reduce[2]);
             for(let i=4; i>0; i--) {
                 total += reduce[i];
                 if(random < total) {
