@@ -376,12 +376,7 @@ export default {
       return mapEvent.harvesting;
     },
     guild() { return this.$store.state.guildAttribute;},
-    filteredMonsterZone() {
-      return this.monsterZone.filter((zone)=>{return (this.playerLv+20)>=zone.maxLv});
-      // return this.monsterZone.filter((zone)=>{return (this.playerLv+120)>=zone.maxLv});
-    }
-    // operatorSchemaIsMobile() { return this.$store.state.operatorSchemaIsMobile }
-    // healthRecoverySpeed() { return this.$store.state.playerAttribute.healthRecoverySpeed },
+    // operatorSchemaIsMobile() { return this.$store.state.operatorSchemaIsMobile 
 
   },  
   watch: {

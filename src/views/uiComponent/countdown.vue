@@ -334,7 +334,6 @@ $color-DEF: hsl(244, 71%, 43%);
         fill: none;
         stroke-width: 10;
         stroke-dasharray: 440;
-        // stroke-dashoffset: 440;
         stroke: hsla(0, 0%, 100%, 0.75);
         stroke-linecap: round;
         transform: translate(5px, 5px); // stroke-width / 2
@@ -345,7 +344,6 @@ $color-DEF: hsl(244, 71%, 43%);
         fill: none;
         stroke-width: 10;
         stroke-dasharray: 440;
-        // stroke-dashoffset: 440;
         stroke: hsla(0, 0%, 100%, 0.2);
         stroke-linecap: round;
         transform: translate(5px, 5px); // stroke-width / 2
@@ -362,7 +360,6 @@ $color-DEF: hsl(244, 71%, 43%);
         }
     }
     .circle {
-        // animation: anim_circle-html 1s ease-in-out forwards;
         transition: 1s linear;
     }
     .progressbar_text {

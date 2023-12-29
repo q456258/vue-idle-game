@@ -328,15 +328,10 @@ export default {
 <style lang="scss" scoped>
 .container {
     position: relative;
-    // display: flex;
-    // flex-wrap: wrap;
-    // flex-direction: column;
     width: 50rem;
     height: 100%;
     margin: 0.5rem 0.5rem;
     padding: 0;
-    // overflow-x: visible;
-    // overflow-y: scroll;
     overflow: hidden;
 }
 .talentTree {

@@ -207,7 +207,6 @@ export default {
     height: 20rem;
     width: 50rem;
     border: 4px solid rgb(37, 32, 32);
-    // padding: 1rem;
     background: linear-gradient(180deg, rgb(99, 87, 90) 0%, rgb(139, 139, 139) 20%, rgb(104, 101, 98) 100%);
     margin: auto;
     border-radius: 15px;

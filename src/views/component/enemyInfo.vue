@@ -199,26 +199,6 @@ export default {
         }
     }
 }
-// .buffList {
-//     margin: 0.1rem 0rem 0 0rem;
-//     width: 30.5rem;
-//     height: 1.5rem;
-//     display: flex;
-//     flex-direction: row-reverse;
-//     .buff{
-//         position: relative;
-//         img {
-//             height: 1.7rem;
-//         }
-//         .buffText {
-//             position: absolute;
-//             font-size: 0.9rem;
-//             top: 0.6rem;
-//             left: 1rem; 
-//             text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
-//         }
-//     }
-// }
 .other {
     width: 100%;
     flex: 1;

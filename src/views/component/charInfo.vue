@@ -819,7 +819,6 @@ export default {
         },
         openMenu(equip, e) {
             this.currentEquip = equip;
-            // this.$store.commit('set_need_strengthen_equipment', this.currentItem)
             const menuMinWidth = 105;
             const offsetLeft = this.$el.getBoundingClientRect().left; // container margin left
             const offsetWidth = this.$el.offsetWidth; // container width
@@ -860,7 +859,6 @@ export default {
             height: 15rem;
             width: 30rem;
             background-color: rgba(15, 15, 15, 0.822);
-            // border-radius: 2rem;
             box-shadow:  0 0 5px 1px rgba(255, 255, 255, 0.3);
     }
 }
@@ -877,12 +875,10 @@ export default {
     flex-direction: column;
     .lv {
         cursor: pointer;
-        // border: 2px solid #ccc;
         height: 2rem;
         width: 100%;
         margin: 0.7rem 0rem 0.1rem 0rem;
         padding-left: 0.2rem;
-        // margin-bottom: 0.5rem;
         display: flex;
         .value {
           display: flex;
@@ -895,12 +891,10 @@ export default {
     }
     .hpmp {
         cursor: pointer;
-        // border: 2px solid #ccc;
         height: 4rem;
         width: 100%;
         padding-left: 2rem;
         padding-right: 2rem;
-        // margin-bottom: 0.5rem;
         font-weight: bold;
         display: flex;
         align-items: center;
@@ -1019,7 +1013,6 @@ export default {
                     img {
                         width: 90%;
                         height: 90%;
-                        // border-radius: 1rem;
                     }
                 }
                 .name {
@@ -1049,7 +1042,6 @@ export default {
             cursor: pointer;
             height: 5.3rem;
             border: 1px solid rgba(255, 255, 255, 0.404);
-            // border-image: linear-gradient(to right, darkorchid, rgb(0, 129, 123)) 1;
             border-radius: 1rem;
             margin: 0.1rem;
             .spellIcon {
@@ -1226,15 +1218,12 @@ export default {
             left: 50%;
             transform: translateX(-50%);
             width: calc(100%);
-            // background: rgb(94, 58, 58);
             border-radius: 100%;
-            
             opacity: 0.7;
             background-image: linear-gradient(-270deg, rgba(167, 160, 160, 0) 0%, #ffffff93 40%, #ffffff93 60%, rgba(255,255,255,0.00) 100%);
         }
 }
 .nav {
-    // background-color: #ccc;
     width: 45rem;
     .nav-item {
         .nav-link {
@@ -1260,8 +1249,6 @@ export default {
     }
 }
 .nav-tabs {
-    // border-right: 1px solid #dee2e6;
-    // border-bottom-right-radius: 0.25rem;
     border-bottom: 1px solid #e6e5de;
 }
 </style>

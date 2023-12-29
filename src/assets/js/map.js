@@ -85,11 +85,6 @@ export const map = {
 
             });
             percentStats.forEach(stat => {
-                // 移除
-                // let attr = enemyAttribute.attribute[stat];
-                // attr.value = monsterInfo.template[stat];
-                // attr.showValue = attr.value;
-                // 到这
                 enemyAttribute.attribute[stat].showValue += '%';
             });
             attribute['CURHP'] = {

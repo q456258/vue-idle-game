@@ -20,16 +20,6 @@ export default {
     },
     methods: {
         set_statistic(data) {
-            // if(data.gameTime != undefined) {
-            //     let time = this.$store.state.statistic.gameTime;
-            //     let hourGap = this.timeGap('hour', time, time+data.gameTime);
-            //     if(hourGap == 1) {
-            //         let guildMember = this.$store.globalComponent["guildMember"];
-            //         guildMember.levelupAll();
-            //     }
-
-            // }
-            
             if(data.slain != undefined) {
                 let quest = this.$store.globalComponent["quest"];
                 for(let id in data.slain) {

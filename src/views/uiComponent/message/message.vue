@@ -55,16 +55,6 @@ body {
     background: #467fae;
     font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', 'Helvetica', 'Arial', 'Lucida Grande', sans-serif;
 }
-// @keyframes fade {
-//     from {
-//         opacity: 0.5;
-//         transform: translate(-50%, -50%) scale(0.8);
-//     }
-//     to {
-//         opacity: 1;
-//         transform: translate(-50%, -50%) scale(1);
-//     }
-// }
 .confirm {
     position: absolute;
     top: 40%;
@@ -116,7 +106,6 @@ body {
     border-radius: 0 0 10px 0;
 }
 .confirm button:hover {
-    // font-weight: bold;
     background: #000000;
     color: #B4B4B4;
 }

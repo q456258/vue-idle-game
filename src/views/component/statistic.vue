@@ -121,7 +121,6 @@ export default {
 .resource {
     padding: 0.5rem;
     margin: 0.5rem;
-    // border: 1px solid rgba(255, 255, 255, 0.404);
     border-radius: 1rem;
     height: 100%;
     width: 50rem;
@@ -130,7 +129,6 @@ export default {
 .time {
     padding: 0.5rem;
     margin: 0.5rem;
-    // border: 1px solid rgba(255, 255, 255, 0.404);
     border-radius: 1rem;
     height: 100%;
     width: 50rem;
@@ -139,7 +137,6 @@ export default {
 .slain {
     padding: 0.5rem;
     margin: 0.5rem;
-    // border: 1px solid rgba(255, 255, 255, 0.404);
     border-radius: 1rem;
     height: 100%;
     width: 50rem;
@@ -148,15 +145,11 @@ export default {
 .slainBy {
     padding: 0.5rem;
     margin: 0.5rem;
-    // border: 1px solid rgba(255, 255, 255, 0.404);
     border-radius: 1rem;
     height: 100%;
     width: 50rem;
     text-align: left;
 }
-// .title {
-    // margin-left: rem;
-// }
 .content {
     margin-left: 2rem;
 }

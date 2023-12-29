@@ -479,9 +479,7 @@ export default {
     text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
     border-radius: 5px;
     box-shadow: inset 0 -5px 20px hsla(0, 0%, 0%, 1), /* top light */ inset 0 5px 20px hsla(0, 0%, 100%, 0.4), /* bottom shadow */ /* multiple light sources yall */ -8px 8px 5px hsla(0, 0%, 0%, 0.15), /* drop shadow 1 */ 5px 18px 10px hsla(0, 0%, 0%, 0.2);
-    // transition: transform 0.1s, box-shadow 0.1s;
 }
-/* highlight */
 .glossy-button:before {
     content: '';
     display: block;
@@ -502,7 +500,6 @@ export default {
 
 .dungeonStat {
     display: flex;
-    // flex-direction: column;
     flex-wrap: wrap;
     width: 200px;
     height: 170px;
@@ -510,7 +507,6 @@ export default {
     text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
     .dungeonIcon {
         position: relative;
-        // width: 50%;
         width: 99px;
         text-align: left;
     }

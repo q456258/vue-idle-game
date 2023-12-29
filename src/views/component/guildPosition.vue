@@ -555,9 +555,7 @@ export default {
 .building {
     padding: 0.5rem;
     margin: 0.25rem;
-    // border: 1px solid rgba(255, 255, 255, 0.404);
     border-radius: 1rem;
-    // max-height: 35rem;
     width: 50rem;
     display: flex;
     flex-direction: row;
@@ -586,8 +584,6 @@ export default {
 }
 .member {
     padding: 0.5rem;
-    // margin: 0.5rem;
-    // border: 1px solid rgba(255, 255, 255, 0.404);
     border-radius: 1rem;
     max-height: 35rem;
     width: 50rem;

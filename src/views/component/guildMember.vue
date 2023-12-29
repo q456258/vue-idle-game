@@ -345,8 +345,6 @@ export default {
     border: 1px solid rgba(255, 255, 255, 0.404);
     border-radius: 0.3rem;
     margin: 0.25rem;
-    // height: 4rem;
-    // width: 7rem;
     width: 48%;
     display: flex;
     flex-wrap: wrap;
@@ -392,37 +390,12 @@ export default {
         }
     }
 }
-
-// .button:hover {
-//     text-shadow: 0 0 20px rgba(255,255,255,0.5);
-//     transform: scale(1.05);
-// }
-
 .button:active {
     background: linear-gradient(#1f8258, #114435);
     text-shadow: 0 0 20px rgba(255,255,255,0.5);
     transform: scale(1);
     box-shadow: 0 0 75px rgba(43,137,68,0.5);
 }
-
-// .button:after {
-//     content: "";
-//     position: relative;
-//     top: -120px;
-//     left: -90px;
-//     display: block;
-//     width: 35px;
-//     height: 150px;
-//     background: rgba(255, 255, 255, 0.5);
-//     transform: rotate(35deg);
-//     filter: blur(20px);
-//     transition: none;
-//     overflow:hidden;
-// }
-// .button:hover:after {
-//     left: 400px;
-//     transition: .6s ease-in-out;
-// }
 .btn {
     margin-left: -1rem;
     padding: .375rem 0rem;
@@ -441,7 +414,6 @@ export default {
     position: relative;
     transition: background-color 0.3s ease;
 }
-
 .switch::before {
     content: "";
     height: 100%;
@@ -452,14 +424,11 @@ export default {
     border: var(--secondary) solid 0.2em;
     transition: transform 0.3s ease, border-color 0.3s ease;
 }
-
 .switch:checked {
     background-color: var(--primary);
 }
-
 .switch:checked::before {
     border-color: var(--primary);
     transform: translateX(100%);
 }
-
 </style>

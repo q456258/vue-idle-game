@@ -361,7 +361,6 @@ export default {
             else {
                 itemInfo.removeItemByIndex(this.currentItemIndex, this.etcGrid[this.currentItemIndex].quantity, 'etc');
             }
-            // grid=='use' ? this.$set(this.useGrid, this.currentItemIndex, {}) : this.$set(this.etcGrid, this.currentItemIndex, {});
         },
         giveEquip(equip, auto=true, msg=false) {
             if(msg) {
@@ -433,7 +432,6 @@ export default {
                     this.sortEtc();
                     break;
             }
-            // this.$forceUpdate();
         },
         sortEquip() {
             let type = ['头盔', '肩膀', '武器', '盔甲', '鞋子', '手部', '戒指', '背部', '手腕', '腰带', '腿部', '项链'];
@@ -506,7 +504,6 @@ export default {
                 let type = this.itemType[this.etcGrid[this.currentItemIndex].type];
                 this.usable = false;
             }
-            // this.$store.commit('set_need_strengthen_equipment', this.currentItem)
             const menuMinWidth = 105;
             const offsetLeft = this.$el.getBoundingClientRect().left; // container margin left
             const offsetWidth = this.$el.offsetWidth; // container width
@@ -679,22 +676,20 @@ export default {
             text-align: center;
             margin-left: auto;
             margin-right: auto;
-            // a {
-                text-decoration: none;
-                color: white;
-                width: 2rem;
-                height: 1rem;
-                background: $pink-hot;
-                position: relative;
-                margin: 1rem;
-                top: 0.3rem;
-                padding: 0.4rem;
-                font-size: 1rem;
-                border-radius: 10px;
-                box-shadow: 0px 10px 0px 0px darken($pink-hot, 5%), 0px 0px 10px 0px #bbb;
+            text-decoration: none;
+            color: white;
+            width: 2rem;
+            height: 1rem;
+            background: $pink-hot;
+            position: relative;
+            margin: 1rem;
+            top: 0.3rem;
+            padding: 0.4rem;
+            font-size: 1rem;
+            border-radius: 10px;
+            box-shadow: 0px 10px 0px 0px darken($pink-hot, 5%), 0px 0px 10px 0px #bbb;
 
-                transition: all 0.1s;
-            // }
+            transition: all 0.1s;
             &:active{
                 top: 0.5rem;
                 box-shadow: 0px 7px 0px 0px darken($pink-hot, 5%);
@@ -737,15 +732,12 @@ export default {
             left: 50%;
             transform: translateX(-50%);
             width: calc(100%);
-            // background: rgb(94, 58, 58);
             border-radius: 100%;
-            
             opacity: 0.7;
             background-image: linear-gradient(-270deg, rgba(167, 160, 160, 0) 0%, #ffffff93 40%, #ffffff93 60%, rgba(255,255,255,0.00) 100%);
         }
     }
     .nav {
-        // background-color: #ccc;
         margin-top: 3.5rem;
         width: 100%;
         .nav-item {
@@ -770,8 +762,6 @@ export default {
         }
     }
     .nav-tabs {
-        // border-right: 1px solid #dee2e6;
-        // border-bottom-right-radius: 0.25rem;
         border-bottom: 1px solid #e6e5de;
     }
     .autoSellSetting {

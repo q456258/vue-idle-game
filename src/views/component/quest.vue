@@ -411,13 +411,11 @@ export default {
     border: 2px solid #49474577;
     border-radius: 5px;
     background-color: #231f1bb2;
-    // width: 650px;
     width: 790px;
     height: 603px;
     z-index: 9;
 }
 #questHeader {
-    // width: 646px;
     width: 786px;
     height: 40px;
     border-top-left-radius: 5px;
@@ -435,7 +433,6 @@ export default {
     margin-top: 40px;
 	display: flex;
     flex-wrap: wrap;
-    // width: 650px;
     width: 786px;
     height: 569px;
     z-index: 10;
@@ -447,7 +444,6 @@ export default {
     flex-direction: column;
     background-color: #161616;
     padding-right: 5px;
-	// width: 254px;
 	width: 392px;
 	height: 529px;
     overflow: auto;
@@ -520,8 +516,6 @@ export default {
     flex-wrap: wrap;
     .reward {
         width: 100%;
-        // color: white;
-        // text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
     }
 }
 </style>

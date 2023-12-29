@@ -298,7 +298,6 @@ export default {
     margin: auto;
     border-radius: 15px;
     background: linear-gradient(130deg, rgba(0, 0, 0, 0.7) 0%, rgb(44, 37, 24) 40%, rgb(14, 10, 6) 70%);
-    // width: 60rem;
     width: 48rem;
     height: 40rem;
     z-index: 9;

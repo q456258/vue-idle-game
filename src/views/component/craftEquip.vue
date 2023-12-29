@@ -723,19 +723,15 @@ export default {
 </script>
 <style lang="scss" scoped>
 .craftEquip {
-    // position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
     margin: auto;
     border-radius: 15px;
-    // background: linear-gradient(130deg, rgba(0, 0, 0, 0.7) 0%, rgb(44, 37, 24) 40%, rgb(14, 10, 6) 70%);
-    // width: 60rem;
     width: 48rem;
     height: 40rem;
     z-index: 9;
-    
     .rewards {
         display: flex;
         flex-wrap: wrap;
@@ -934,9 +930,7 @@ $tertiary: #ced6d5;
     height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
-    // margin-right: 14px;
     padding-right: 233px;
-    // padding-bottom: 15px;
 }
 .selectedReward {
     margin: auto;
