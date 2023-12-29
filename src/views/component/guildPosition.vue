@@ -384,7 +384,8 @@ export default {
                         this.applicantList.splice(0, this.applicantList.length-5);
                     }
                     for(let i=0; i<5; i++) {
-                        let lv = Math.round((this.guild.bar.lv-Math.random())*10);
+                        let lv = this.guild.bar.lv > 0 ? this.guild.bar.lv : 1;
+                        lv = Math.round((lv-Math.random())*10);
                         this.generateApplicant(lv);
                     }
                 }
