@@ -92,7 +92,7 @@
     <div class="menus">
       <cTooltip :placement="'top'">
         <template v-slot:content>
-          <div class="menu" @click="openMenuPanel('backpack')">
+          <div class="menu" id="backpackMenu" @click="openMenuPanel('backpack')">
             <img src="../assets/icons/menu/backpack1.png" alt="">
           </div>
         </template>
@@ -102,7 +102,7 @@
       </cTooltip>
       <cTooltip :placement="'top'">
         <template v-slot:content>
-          <div class="menu" @click="openMenuPanel('quest')">
+          <div class="menu" id="questMenu" @click="openMenuPanel('quest')">
             <img src="../assets/icons/menu/quest.png" alt="">
           </div>
         </template>
@@ -112,7 +112,7 @@
       </cTooltip>
       <cTooltip :placement="'top'" v-if="(guild.bar.lv>=1)">
         <template v-slot:content>
-          <div class="menu" @click="openMenuPanel('dungeon')">
+          <div class="menu" id="dungeonMenu" @click="openMenuPanel('dungeon')">
             <img src="../assets/icons/menu/dungeon.png" alt="">
           </div>
         </template>
@@ -122,7 +122,7 @@
       </cTooltip>
       <cTooltip :placement="'top'" v-if="guild['smith'].lv>=3">
         <template v-slot:content>
-          <div class="menu" @click="openMenuPanel('craft')">
+          <div class="menu" id="craftMenu" @click="openMenuPanel('craft')">
             <img src="../assets/icons/menu/craft.png" alt="">
           </div>
         </template>
@@ -132,7 +132,7 @@
       </cTooltip>
       <cTooltip :placement="'top'">
         <template v-slot:content>
-          <div class="menu" @click="openMenuPanel('save')">
+          <div class="menu" id="saveMenu" @click="openMenuPanel('save')">
             <img src="../assets/icons/menu/save1.png" alt="">
           </div>
         </template>
@@ -142,7 +142,7 @@
       </cTooltip>
       <cTooltip :placement="'top'">
         <template v-slot:content>
-          <div class="menu" @click="openMenuPanel('setting')">
+          <div class="menu" id="settingMenu" @click="openMenuPanel('setting')">
             <img src="../assets/icons/menu/setting1.png" alt="">
           </div>
         </template>
@@ -405,6 +405,7 @@ export default {
         element.classList.add('active');
         element.classList.remove('glow');
         this.displayPage = type;
+        this.clearNotify(type);
       }
     },
     switchZone(type){
@@ -612,6 +613,7 @@ export default {
     openMenuPanel(type) {
       let saveload = this.$store.globalComponent["saveload"];  
       let quest = this.$store.globalComponent["quest"];
+      this.clearNotify(type+'Menu');
       switch(type) {
         case 'backpack':
           this.showBackpack = !this.showBackpack;
@@ -658,6 +660,25 @@ export default {
           this.craftPanel = false;
           break;
       }
+    },
+    addNotify(id) {
+      // backpackMenu, questMenu, dungeonMenu, craftMenu, saveMenu, settingMenu
+      // charInfo, guild, guildMember, shop, talentTree, faq, statistic
+      let element = document.getElementById(id);
+      let node = document.createElement("DIV");
+      let node2 = document.createElement("DIV");
+      node.classList.add("glowParent");
+      node2.classList.add("glow");
+      node.appendChild(node2);
+      element.parentElement.insertBefore(node, element);
+    },
+    clearNotify(id) {
+      let element = document.getElementById(id);
+      if(element == null)
+        return;
+      let node = element.previousSibling;
+      if(node != null && node.classList.contains('glowParent'))
+        node.parentElement.removeChild(node);
     },
     clearSysInfo() {
       this.$store.commit('clear_sys_info')
