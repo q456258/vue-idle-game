@@ -116,7 +116,7 @@ export default {
             else {
                 this.timeRemain = 0;
                 let element = document.getElementById('guild');
-                element.classList.add('glow');
+                // element.classList.add('glow');
             }
         }
         else
@@ -166,7 +166,7 @@ export default {
                     let index = this.$store.globalComponent["index"];
                     if(index.displayPage != 'guild') {
                         let element = document.getElementById('guild');
-                        element.classList.add('glow');
+                        // element.classList.add('glow');
                     }
                 }
             }, 1000);
@@ -183,7 +183,7 @@ export default {
                     let index = this.$store.globalComponent["index"];
                     if(index.displayPage != 'guild') {
                         let element = document.getElementById('guild');
-                        element.classList.add('glow');
+                        // element.classList.add('glow');
                     }
                 }
             }, 1000);

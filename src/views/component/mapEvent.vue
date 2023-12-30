@@ -317,13 +317,13 @@ export default {
         },
         levelUp() {
             let quest = this.$store.globalComponent['quest']; 
+            let index = this.$store.globalComponent["index"];
             this.playerAttr.lv += 1;
             this.$store.commit('set_player_attribute');
             let lv = this.playerAttr.lv;
             quest.trackProgress('event', 1, lv, true);
             if(lv == 10) {
-                let element = document.getElementById('talentTree');
-                element.classList.add('glow');
+                index.addNotify('talentTree');
                 quest.assignQuest(15);
             }
         },

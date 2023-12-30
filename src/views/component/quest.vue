@@ -131,6 +131,24 @@ export default {
                 });
                 return;
             }
+            // 添加提示红点
+            let index = this.$store.globalComponent["index"];
+            index.addNotify('questMenu');
+            switch(questId) {
+                case 7:
+                    index.addNotify('backpackMenu');
+                    break;
+                case 8:
+                    index.addNotify('saveMenu');
+                    break;
+                case 19:
+                    index.addNotify('dungeonMenu');
+                    break;
+                case 21:
+                    index.addNotify('craftMenu');
+                    break;
+            }
+
             this.$store.commit("set_sys_info", {
                 type: 'win',
                 msg: '新任务: '+this.questList[questId].name,
@@ -286,8 +304,11 @@ export default {
             this.changeStatus(questId, "完成");
         },
         changeStatus(questId, status) {
+            let index = this.$store.globalComponent["index"];
             let quest = this.quests[questId];
             if(quest.status == '未完成' && status == '完成')
+                // 添加提示红点
+                index.addNotify('questMenu');
                 this.$store.commit("set_sys_info", {
                     type: 'win',
                     msg: '任务【 '+this.questList[questId].name+'】完成',

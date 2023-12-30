@@ -403,7 +403,6 @@ export default {
 
         element = document.getElementById(type);
         element.classList.add('active');
-        element.classList.remove('glow');
         this.displayPage = type;
         this.clearNotify(type);
       }
