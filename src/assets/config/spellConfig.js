@@ -394,16 +394,16 @@ data() {
                 iconSrc: "./icons/spell/mage/spell_ice_lament.jpg",
                 quality: 1,
                 level: [{
-                        des: '为你施加寒冰护盾，吸收0.1*最大生命值*(1+全能*0.01)点伤害, 持续10秒',
-                        duration: { time: 10 },
+                        des: '为你施加寒冰护盾，吸收法术强度*0.6*(1+全能*0.01)点伤害, 持续5秒',
+                        duration: { time: 5 },
                         cost: { MP: 40, },
                     }, {
-                        des: '为你施加寒冰护盾，吸收0.1*最大生命值*(1+全能*0.01)点伤害, 持续15秒',
-                        duration: { time: 15 },
+                        des: '为你施加寒冰护盾，吸收法术强度*0.6*(1+全能*0.01)点伤害, 持续10秒',
+                        duration: { time: 10 },
                         cost: { MP: 60, },
                     }, {
-                        des: '为你施加寒冰护盾，吸收0.1*最大生命值*(1+全能*0.01)点伤害, 持续20秒',
-                        duration: { time: 20 },
+                        des: '为你施加寒冰护盾，吸收法术强度*0.6*(1+全能*0.01)点伤害, 持续15秒',
+                        duration: { time: 15 },
                         cost: { MP: 80, },
                     }
                 ],
@@ -697,18 +697,18 @@ data() {
                 iconSrc: "./icons/spell/priest/spell_holy_powerwordshield.jpg",
                 quality: 1,
                 level: [{
-                        des: '施加一个护盾，吸收法术强度*1*(1+全能*0.01)点伤害, 持续10秒',
-                        duration: { time: 10 },
+                        des: '施加一个护盾，吸收最大生命值*0.1*(1+全能*0.01)点伤害, 持续5秒',
+                        duration: { time: 5 },
                         effect: {spell_holy_powerwordshield: {stack: 10, chance: 100, target: 'self'},},
                         cost: { MP: 50, },
                     }, {
-                        des: '施加一个护盾，吸收法术强度*1.1*(1+全能*0.01)点伤害, 持续15秒',
-                        duration: { time: 15 },
+                        des: '施加一个护盾，吸收最大生命值*0.1*(1+全能*0.01)点伤害, 持续10秒',
+                        duration: { time: 10 },
                         effect: {spell_holy_powerwordshield: {stack: 15, chance: 100, target: 'self'},},
                         cost: { MP: 60, },
                     }, {
-                        des: '施加一个护盾，吸收法术强度*1.2*(1+全能*0.01)点伤害, 持续20秒',
-                        duration: { time: 20 },
+                        des: '施加一个护盾，吸收最大生命值*0.1*(1+全能*0.01)点伤害, 持续15秒',
+                        duration: { time: 15 },
                         effect: {spell_holy_powerwordshield: {stack: 20, chance: 100, target: 'self'},},
                         cost: { MP: 70, },
                     }

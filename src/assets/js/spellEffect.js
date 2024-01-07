@@ -807,7 +807,7 @@ export const spellEffect = {
             let index = this.$store.globalComponent["index"];
             let spellLv = source.spells[spell].lv-1;
             let shield = {};
-            shield.val = source.attribute.MAXHP.value*0.1*(1+source.attribute.VERS.value*0.01);
+            shield.val = source.attribute.AP.value*0.6*(1+source.attribute.VERS.value*0.01);
             shield.time = this.spell[spell].level[spellLv].duration.time;
             index.shield(source, target, shield, spell);
         },
@@ -971,7 +971,7 @@ export const spellEffect = {
             let index = this.$store.globalComponent["index"];
             let spellLv = source.spells[spell].lv-1;
             let shield = {};
-            shield.val = source.attribute.AP.value*1*(1+source.attribute.VERS.value*0.01);
+            shield.val = source.attribute.MAXHP.value*0.1*(1+source.attribute.VERS.value*0.01);
             shield.time = this.spell[spell].level[spellLv].duration.time;
             index.shield(source, target, shield, spell);
         },
