@@ -171,6 +171,7 @@ export default new Vuex.Store({
             name: '无名',
             lv: 0,
             talentLv: 0,
+            bp: 0,
             type: 'player',
             healthRecoverySpeed: 1,
             attribute: {
@@ -488,19 +489,19 @@ export default new Vuex.Store({
                 mpPercent = playerAttribute.attribute.CURMP.value/playerAttribute.attribute.MAXMP.value;
             let attribute = {};
             let attributes = [
-                'MAXHP','CURHP','MAXMP','SHIELD','CURMP','STR','AGI','INT','STA','SPI','ALL','CRIT','CRITDMG','ATK','DEF','DEFRED','BLOCK','AP','APCRIT','APCRITDMG','APPEN','MR','MRRED','HASTE','HEAL','VERS','VERSBONUS','HP','MP',
-                'STRP','AGIP','INTP','STAP','SPIP','ALLP','ATKP','DEFP','BLOCKP','APP','APPENP','MRP','HPP','MPP',
+                'MAXHP', 'CURHP', 'MAXMP', 'SHIELD', 'CURMP', 'STR', 'AGI', 'INT', 'STA', 'SPI', 'ALL', 'CRIT', 'CRITDMG', 'ATK', 'DEF', 'DEFRED', 'BLOCK', 'AP', 'APCRIT', 'APCRITDMG', 'APPEN', 'MR', 'MRRED', 'HASTE', 'HEAL', 'VERS', 'VERSBONUS', 'HP', 'MP',
+                'STRP', 'AGIP', 'INTP', 'STAP', 'SPIP', 'ALLP', 'ATKP', 'DEFP', 'BLOCKP', 'APP', 'APPENP', 'MRP', 'HPP', 'MPP',
             ];
-            let advancedAttributes = ['STR','AGI','INT','STA','SPI','ALL','STRP','AGIP','INTP','STAP','SPIP','ALLP',];
+            let advancedAttributes = ['STR', 'AGI', 'INT', 'STA', 'SPI', 'ALL', 'STRP', 'AGIP', 'INTP', 'STAP', 'SPIP', 'ALLP',];
             let normalAttributes = [
-                'CRIT','CRITDMG','ATK','DEF','DEFRED','BLOCK','AP','APCRIT','APCRITDMG','APPEN','MR','MRRED','HASTE','HEAL','VERS','VERSBONUS','HP','MP',
-                'ATKP','DEFP','BLOCKP','APP','APPENP','MRP','HPP','MPP',
+                'CRIT', 'CRITDMG', 'ATK', 'DEF', 'DEFRED', 'BLOCK', 'AP', 'APCRIT', 'APCRITDMG', 'APPEN', 'MR', 'MRRED', 'HASTE', 'HEAL', 'VERS', 'VERSBONUS', 'HP', 'MP',
+                'ATKP', 'DEFP', 'BLOCKP', 'APP', 'APPENP', 'MRP', 'HPP', 'MPP',
             ];
             let percent = [
-                'STRP','AGIP','INTP','STAP','SPIP','ALLP','CRIT','CRITDMG','APCRIT','APCRITDMG','ATKP','DEFP','BLOCKP','APP','APPENP','MRP','HPP','MPP'
+                'STRP', 'AGIP', 'INTP', 'STAP', 'SPIP', 'ALLP', 'CRIT', 'CRITDMG', 'APCRIT', 'APCRITDMG', 'ATKP', 'DEFP', 'BLOCKP', 'APP', 'APPENP', 'MRP', 'HPP', 'MPP'
             ];
             let hasPercent = [
-                'STR','AGI','INT','STA','SPI','ALL','ATK','DEF','BLOCK','AP','APPEN','MR','HP','MP'
+                'STR', 'AGI', 'INT', 'STA', 'SPI', 'ALL', 'ATK', 'DEF', 'BLOCK', 'AP', 'APPEN', 'MR', 'HP', 'MP'
                 
             ];
             let advancedAttr = {                
@@ -637,6 +638,19 @@ export default new Vuex.Store({
                 playerAttribute.simulatedAttribute = attribute;
             else
                 playerAttribute.attribute = attribute;
+
+            // 战力
+            let bp = 0;
+            let bp_val = {
+                'SPI': 1, 'MAXHP': 40, 'MAXMP': 10, 'CRIT': 1, 'CRITDMG': 4, 'ATK': 5, 'DEF': 10, 'BLOCK': 2, 'AP': 5, 'APCRIT': 1, 'APCRITDMG': 4,
+                'APPEN': 1, 'MR': 1, 'HASTE': 4, 'HEAL': 8, 'VERS': 4
+            };
+
+            for(let stat in bp_val) {
+                let val = bp_val[stat];
+                bp += attribute[stat].value / val;
+            }
+            playerAttribute.bp = Math.floor(bp);
         },  
         // set_player_hp(state, data) {
         //     let CURHP = this.state.playerAttribute.attribute.CURHP,

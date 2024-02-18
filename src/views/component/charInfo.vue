@@ -17,12 +17,14 @@
                     <div class="lv">
                         <div class="value">
                             <span>{{player.name}}&nbsp; {{playerLv+'级'}}</span>
-                            <!-- <span>转生次数: {{playerLv}}</span> -->
                         </div>
                     </div>
                 </template>
                 <template v-slot:tip>
                     <p class="info">* 玩家当前等级</p>
+                    <p class="value">
+                        战力: {{ player.bp }}
+                    </p>
                     <!-- <p class="info">* 每通过一次试炼提升等级</p> -->
                 </template>
             </cTooltip>
