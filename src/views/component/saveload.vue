@@ -193,6 +193,7 @@ export default {
         },
         version0_0_3(data) {
             data.state.playerAttribute.bp = 0;
+            data.state.playerAttribute.equipLv = 0;
             data.state.baseAttribute.MRRED = 0;
             data.state.playerAttribute.attribute.MRRED = { baseVal: 0, value: 0, showbaseVal: 0};
             data.state.enemyAttribute.attribute.MRRED = { baseVal: 0, value: 0, showbaseVal: 0};

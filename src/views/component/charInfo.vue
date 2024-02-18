@@ -18,8 +18,8 @@
                         <div class="value">
                             <span>{{player.name}}&nbsp; {{playerLv+'级'}}</span>
                         </div>
-                        <div class="value">
-                            <span>战力 {{ player.bp }}</span>
+                        <div>
+                            <span>装备等级 {{ player.equipLv }}&nbsp; 战力 {{ player.bp }}</span>
                         </div>
                     </div>
                 </template>

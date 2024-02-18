@@ -172,6 +172,7 @@ export default new Vuex.Store({
             lv: 0,
             talentLv: 0,
             bp: 0,
+            equipLv: 0,
             type: 'player',
             healthRecoverySpeed: 1,
             attribute: {
@@ -651,6 +652,10 @@ export default new Vuex.Store({
                 bp += attribute[stat].value / val;
             }
             playerAttribute.bp = Math.floor(bp);
+
+            // 装备等级
+            let totalLv = helmet.lv + weapon.lv + armor.lv + shoe.lv + shoulder.lv + glove.lv + ring.lv + cape.lv + bracer.lv + belt.lv + legging.lv + necklace.lv
+            playerAttribute.equipLv = Math.round(totalLv/12*10)/10;
         },  
         // set_player_hp(state, data) {
         //     let CURHP = this.state.playerAttribute.attribute.CURHP,
