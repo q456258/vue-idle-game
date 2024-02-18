@@ -104,12 +104,7 @@ export default {
                 return;
             try {
                 let data = JSON.parse(Base64.decode(Base64.decode(loadData)));
-
-                // 临时
-                if(!data.state.guildAttribute.blackmarket)
-                    data.state.guildAttribute.blackmarket = {lv:0};
-                if(!data.state.playerAttribute.learntRecipe)
-                    data.state.playerAttribute.learntRecipe = [];
+                data = this.versionChange(data, data.version);
                 
                 this.$store.replaceState(data.state);
                 let backpack = this.$store.globalComponent["backpack"];
@@ -188,6 +183,21 @@ export default {
         closeSaveload() {
             let index = this.$store.globalComponent["index"];
             index.closeMenuPanel('save');
+        },
+        versionChange(loadData, version) {
+            if(version == undefined)
+                this.version0_0_3(loadData);
+            switch(version) {
+            }
+            return loadData;
+        },
+        version0_0_3(data) {
+            data.state.baseAttribute.MRRED = 0;
+            data.state.playerAttribute.attribute.MRRED = { baseVal: 0, value: 0, showbaseVal: 0};
+            data.state.enemyAttribute.attribute.MRRED = { baseVal: 0, value: 0, showbaseVal: 0};
+            data.state.eliteAttribute.attribute.MRRED = { baseVal: 0, value: 0, showbaseVal: 0};
+            data.state.bossAttribute.attribute.MRRED = { baseVal: 0, value: 0, showbaseVal: 0};
+            return data;
         }
     }
 }

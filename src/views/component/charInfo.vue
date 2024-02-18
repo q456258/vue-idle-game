@@ -481,7 +481,9 @@
                                 <del class="grey smallIcon iconBorder"></del>
                                 <img src="/icons/stat/mr.jpg" alt="" />
                             </span>
-                            <span>{{attribute.MR.showValue}}</span>
+                            <span>{{attribute.MR.showValue}}
+                                <div class="percent">({{attribute.MRRED.showValue}})</div>
+                            </span>
                         </div>
                     </template>
                     <template v-slot:tip>
@@ -490,6 +492,8 @@
                             基础: {{attribute.MR.baseVal }}
                             <span v-if="attribute.MRP.value != 0">{{' +' + attribute.MRP.showValue}}</span>
                             <span v-if="attribute.MR.bonus != 0"><br>{{'附加: ' + attribute.MR.bonusShowValue}}</span>
+                            <br>
+                            预期减伤: {{attribute.MRRED.showValue}}
                         </p>
                         <p class="info">降低受到的魔法伤害</p>
                     </template>

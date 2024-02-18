@@ -121,6 +121,7 @@ let initial_shoe = {
 
 export default new Vuex.Store({
     state: {
+        version: '0.0.3',
         sysInfo: [{
             type: '',
             msg: "欢迎你勇士, 点击左下角的任务(快捷键Q)了解一下操作吧"
@@ -195,6 +196,7 @@ export default new Vuex.Store({
                 APCRITDMG: { baseVal: 200, value: 200, showbaseVal: 0},
                 APPEN: { baseVal: 0, value: 0, showbaseVal: 0},
                 MR: { baseVal: 0, value: 0, showbaseVal: 0},
+                MRRED: { baseVal: 0, value: 0, showbaseVal: 0},
                 HASTE: { baseVal: 0, value: 0, showbaseVal: 0},
                 HEAL: { baseVal: 0, value: 0, showbaseVal: 0},
                 VERS: { baseVal: 0, value: 0, showbaseVal: 0},
@@ -260,6 +262,7 @@ export default new Vuex.Store({
                 APCRITDMG: { value: 0, showbaseVal: 0},
                 APPEN: { value: 0, showbaseVal: 0},
                 MR: { value: 0, showbaseVal: 0},
+                MRRED: { value: 0, showValue: 0, },
                 HEAL: { value: 0, showbaseVal: 0},
                 CRIT: { value: 0, showValue: 0, },
                 CRITDMG: { value: 0, showValue: 0, },
@@ -282,6 +285,7 @@ export default new Vuex.Store({
                 APCRITDMG: { value: 0, showbaseVal: 0},
                 APPEN: { value: 0, showbaseVal: 0},
                 MR: { value: 0, showbaseVal: 0},
+                MRRED: { value: 0, showValue: 0, },
                 HEAL: { value: 0, showbaseVal: 0},
                 CRIT: { value: 0, showValue: 0, },
                 CRITDMG: { value: 0, showValue: 0, },
@@ -304,6 +308,7 @@ export default new Vuex.Store({
                 APCRITDMG: { value: 0, showbaseVal: 0},
                 APPEN: { value: 0, showbaseVal: 0},
                 MR: { value: 0, showbaseVal: 0},
+                MRRED: { value: 0, showValue: 0, },
                 HEAL: { value: 0, showbaseVal: 0},
                 CRIT: { value: 0, showValue: 0, },
                 CRITDMG: { value: 0, showValue: 0, },
@@ -333,6 +338,7 @@ export default new Vuex.Store({
             APCRITDMG: 150,
             APPEN: 0,
             MR: 0,
+            MRRED: 0,
             HASTE: 0,
             HEAL: 0,
             VERS: 0,
@@ -482,12 +488,12 @@ export default new Vuex.Store({
                 mpPercent = playerAttribute.attribute.CURMP.value/playerAttribute.attribute.MAXMP.value;
             let attribute = {};
             let attributes = [
-                'MAXHP','CURHP','MAXMP','SHIELD','CURMP','STR','AGI','INT','STA','SPI','ALL','CRIT','CRITDMG','ATK','DEF','DEFRED','BLOCK','AP','APCRIT','APCRITDMG','APPEN','MR','HASTE','HEAL','VERS','VERSBONUS','HP','MP',
+                'MAXHP','CURHP','MAXMP','SHIELD','CURMP','STR','AGI','INT','STA','SPI','ALL','CRIT','CRITDMG','ATK','DEF','DEFRED','BLOCK','AP','APCRIT','APCRITDMG','APPEN','MR','MRRED','HASTE','HEAL','VERS','VERSBONUS','HP','MP',
                 'STRP','AGIP','INTP','STAP','SPIP','ALLP','ATKP','DEFP','BLOCKP','APP','APPENP','MRP','HPP','MPP',
             ];
             let advancedAttributes = ['STR','AGI','INT','STA','SPI','ALL','STRP','AGIP','INTP','STAP','SPIP','ALLP',];
             let normalAttributes = [
-                'CRIT','CRITDMG','ATK','DEF','DEFRED','BLOCK','AP','APCRIT','APCRITDMG','APPEN','MR','HASTE','HEAL','VERS','VERSBONUS','HP','MP',
+                'CRIT','CRITDMG','ATK','DEF','DEFRED','BLOCK','AP','APCRIT','APCRITDMG','APPEN','MR','MRRED','HASTE','HEAL','VERS','VERSBONUS','HP','MP',
                 'ATKP','DEFP','BLOCKP','APP','APPENP','MRP','HPP','MPP',
             ];
             let percent = [
@@ -612,15 +618,21 @@ export default new Vuex.Store({
             attribute['CURMP'].value = Math.floor(mpPercent*attribute['MP'].value);
             attribute['MAXMP'].showValue += attribute['MP'].value;
             attribute['CURMP'].showValue += playerAttribute.attribute['CURMP'].value;
-            // attribute['DEFRED'].value = 
-            //     Math.round((attribute['DEF'].value/(100+attribute['DEF'].value) + attribute['DEF'].value/(attribute['DEF'].value+3500))/2*10000)/100;
-            attribute['DEFRED'].value = 
-                Math.round((attribute['DEF'].value/(attribute['DEF'].value+3000))*10000)/100;
-            // attribute['DEFRED'].value = Math.round(0.01 * attribute['DEF'].value / (1 + (0.0105 * attribute['DEF'].value))*1000000)/10000;
-            // attribute['DEFRED'].value = Math.round(0.01 * attribute['DEF'].value / (1 + (0.01 * attribute['DEF'].value))*10000)/100;
+            attribute['DEFRED'].value = Math.round((attribute['DEF'].value/(attribute['DEF'].value+3000))*10000)/100;
             attribute['DEFRED'].showValue = attribute['DEFRED'].value+'%';
             attribute['VERSBONUS'].value = Math.round(attribute['VERS'].value*4)/100;
             attribute['VERSBONUS'].showValue = attribute['VERSBONUS'].value+'%';
+
+            
+            let reduce = [0, 0, 0, 0, 0];
+            let mr = attribute['MR'].value;
+            reduce[4] = mr/(mr+1000)*100;
+            reduce[3] = mr/(mr+200)*(100-reduce[4]);
+            reduce[2] = mr/(mr+100)*(100-reduce[4]-reduce[3]);
+            reduce[1] = mr/(mr+25)*(100-reduce[4]-reduce[3]-reduce[2]);
+            reduce[0] = 100-reduce[4]-reduce[3]-reduce[2]-reduce[1];
+            attribute['MRRED'].showValue = '~'+Math.round((reduce[3]*0.25+reduce[2]*0.5+reduce[1]*0.75+reduce[0])*100)/100+'%';
+
             if(data != undefined && data.simulate == true)
                 playerAttribute.simulatedAttribute = attribute;
             else
