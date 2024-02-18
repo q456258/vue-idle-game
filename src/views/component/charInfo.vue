@@ -18,13 +18,13 @@
                         <div class="value">
                             <span>{{player.name}}&nbsp; {{playerLv+'级'}}</span>
                         </div>
+                        <div class="value">
+                            <span>战力 {{ player.bp }}</span>
+                        </div>
                     </div>
                 </template>
                 <template v-slot:tip>
                     <p class="info">* 玩家当前等级</p>
-                    <p class="value">
-                        战力: {{ player.bp }}
-                    </p>
                     <!-- <p class="info">* 每通过一次试炼提升等级</p> -->
                 </template>
             </cTooltip>
@@ -881,11 +881,12 @@ export default {
     flex-direction: column;
     .lv {
         cursor: pointer;
-        height: 2rem;
+        height: 2.5rem;
         width: 100%;
         margin: 0.7rem 0rem 0.1rem 0rem;
         padding-left: 0.2rem;
         display: flex;
+        flex-direction: column;
         .value {
           display: flex;
           justify-content: space-around;
