@@ -633,7 +633,7 @@ export default new Vuex.Store({
             reduce[2] = mr/(mr+100)*(100-reduce[4]-reduce[3]);
             reduce[1] = mr/(mr+25)*(100-reduce[4]-reduce[3]-reduce[2]);
             reduce[0] = 100-reduce[4]-reduce[3]-reduce[2]-reduce[1];
-            attribute['MRRED'].showValue = '~'+Math.round((reduce[3]*0.25+reduce[2]*0.5+reduce[1]*0.75+reduce[0])*100)/100+'%';
+            attribute['MRRED'].showValue = '~'+Math.round(10000-(reduce[3]*0.25+reduce[2]*0.5+reduce[1]*0.75+reduce[0])*100)/100+'%';
 
             if(data != undefined && data.simulate == true)
                 playerAttribute.simulatedAttribute = attribute;
