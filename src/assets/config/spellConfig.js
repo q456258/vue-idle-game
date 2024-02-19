@@ -58,32 +58,32 @@ data() {
             },
             spell_nature_thunderclap: {
                 name: '雷霆一击',
-                max: 5,
+                max: 15,
                 iconSrc: "./icons/spell/spell_nature_thunderclap.jpg",
                 quality: 1,
                 level: [{
                         des: '造成攻击力*1.1点伤害',
                         adDmg: { ATK: 1.1, },
-                        cost: { MP: 20, },
+                        cost: { MP: 50, },
                     }, {
                         des: '造成攻击力*1.2点伤害',
                         adDmg: { ATK: 1.2, },
-                        cost: { MP: 30, },
+                        cost: { MP: 75, },
                     }, {
                         des: '造成攻击力*1.3点伤害',
                         adDmg: { ATK: 1.3, },
-                        cost: { MP: 40, },
+                        cost: { MP: 100, },
                     }, {
                         des: '造成攻击力*1.4点伤害',
                         adDmg: { ATK: 1.4, },
-                        cost: { MP: 50, },
+                        cost: { MP: 125, },
                     }
                 ],
                 tag: ['攻击']
             },
             inv_sword_48: {
                 name: '屠杀',
-                max: 10,
+                max: 25,
                 iconSrc: "./icons/spell/inv_sword_48.jpg",
                 quality: 1,
                 level: [{
@@ -122,21 +122,21 @@ data() {
             },
             ability_warrior_shieldbash: {
                 name: '盾击',
-                max: 15,
+                max: 20,
                 iconSrc: "./icons/spell/ability_warrior_shieldbash.jpg",
                 quality: 1,
                 level: [{
                         des: '造成攻击力*0.5+护甲*0.4点伤害',
                         adDmg: { ATK: 0.5, DEF: 0.4 },
-                        cost: { MP: 25, },
+                        cost: { MP: 40, },
                     }, {
                         des: '造成攻击力*0.5+护甲*0.45点伤害',
                         adDmg: { ATK: 0.5, DEF: 0.45 },
-                        cost: { MP: 50, },
+                        cost: { MP: 60, },
                     }, {
                         des: '造成攻击力*0.5+护甲*0.5点伤害',
                         adDmg: { ATK: 0.5, DEF: 0.5 },
-                        cost: { MP: 75, },
+                        cost: { MP: 80, },
                     }, {
                         des: '造成攻击力*0.5+护甲*0.55点伤害',
                         adDmg: { ATK: 0.5, DEF: 0.55 },
@@ -147,26 +147,26 @@ data() {
             },
             ability_warrior_shatteringthrow: {
                 name: '碎裂投掷',
-                max: 10,
+                max: 15,
                 iconSrc: "./icons/spell/ability_warrior_shatteringthrow.jpg",
                 quality: 1,
                 level: [{
                         des: '造成攻击力*1.1点伤害, 30%获得一层穿透效果',
                         adDmg: { ATK: 1.1 },
-                        cost: { MP: 35, },
+                        cost: { MP: 50, },
                         effect: { penetrate: {stack: 1, chance: 30, target: 'self'} },
                     }, {
                         des: '造成攻击力*1.2点伤害, 30%获得一层穿透效果',
                         adDmg: { ATK: 1.2 },
                         effect: { penetrate: {stack: 1, chance: 30, target: 'self'} },
-                        cost: { MP: 70, },
+                        cost: { MP: 75, },
                     }
                 ],
                 tag: ['攻击', 'BUFF']
             },
             spell_holy_crusaderstrike: {
                 name: '十字军打击',
-                max: 25,
+                max: 40,
                 iconSrc: "./icons/spell/spell_holy_crusaderstrike.jpg",
                 quality: 3,
                 level: [{
@@ -183,7 +183,7 @@ data() {
             },
             spell_shadow_deathscream: {
                 name: '死亡嚎叫',
-                max: 25,
+                max: 45,
                 iconSrc: "./icons/spell/spell_shadow_deathscream.jpg",
                 quality: 4,
                 level: [{
@@ -191,13 +191,13 @@ data() {
                         adDmg: {ATK: 1},
                         effect: { stun: {stack: 1, chance: 50, target: 'enemy'},
                                 lifesteal: {stack: 1, chance: 100, target: 'self'} },
-                        cost: { MP: 200, },
+                        cost: { MP: 400, },
                     }, {
                         des: '造成攻击力*1.5点伤害, 50%对敌人附加一层眩晕效果, 并获得一层吸血效果',
                         adDmg: {ATK: 1.5},
                         effect: { stun: {stack: 1, chance: 50, target: 'enemy'},
                                 lifesteal: {stack: 1, chance: 100, target: 'self'} },
-                        cost: { MP: 500, },
+                        cost: { MP: 600, },
                     }
                 ],
 
@@ -209,18 +209,18 @@ data() {
                 iconSrc: "./icons/spell/ability_revendreth_paladin.jpg",
                 quality: 6,
                 level: [{
-                        des: '造成当前生命值*3点伤害, 获得一层吸收效果',
-                        adDmg: { CURHP: 3 },
+                        des: '造成当前生命值*1.5点伤害, 获得一层吸收效果',
+                        adDmg: { CURHP: 1.5 },
                         effect: { absorb: {stack: 1, chance: 100, target: 'self'} },
                         cost: { CURHP: 0.5, },
                     }, {
-                        des: '造成当前生命值*4点伤害, 获得一层吸收效果',
-                        adDmg: { CURHP: 4 },
+                        des: '造成当前生命值*1.25点伤害, 获得一层吸收效果',
+                        adDmg: { CURHP: 2 },
                         effect: { absorb: {stack: 1, chance: 100, target: 'self'} },
                         cost: { CURHP: 0.5, },
                     }, {
-                        des: '造成当前生命值*5点伤害, 获得一层吸收效果',
-                        adDmg: { CURHP: 5 },
+                        des: '造成当前生命值*2.5点伤害, 获得一层吸收效果',
+                        adDmg: { CURHP: 2.5 },
                         effect: { absorb: {stack: 1, chance: 100, target: 'self'} },
                         cost: { CURHP: 0.5, },
                     }
@@ -278,7 +278,7 @@ data() {
             },
             spell_frost_icestorm: {
                 name: '暴风雪',
-                max: 10,
+                max: 15,
                 iconSrc: "./icons/spell/mage/spell_frost_icestorm.jpg",
                 quality: 1,
                 level: [{
@@ -310,17 +310,17 @@ data() {
                         des: '造成法术强度*0.25点魔法伤害，并附加3层灼伤效果',
                         apDmg: { AP: 0.25 },
                         effect: {burn: {stack: 3, chance: 100, target: 'enemy'},},
-                        cost: { MP: 25, },
+                        cost: { MP: 50, },
                     }, {
                         des: '造成法术强度*0.25点魔法伤害，并附加6层灼伤效果',
                         apDmg: { AP: 0.25 },
                         effect: {burn: {stack: 6, chance: 100, target: 'enemy'},},
-                        cost: { MP: 25, },
+                        cost: { MP: 50, },
                     }, {
                         des: '造成法术强度*0.25点魔法伤害，并附加9层灼伤效果',
                         apDmg: { AP: 0.25 },
                         effect: {burn: {stack: 9, chance: 100, target: 'enemy'},},
-                        cost: { MP: 25, },
+                        cost: { MP: 50, },
                     }
                 ],
                 tag: ['DEBUFF']
@@ -348,7 +348,7 @@ data() {
             },
             spell_fire_fireball02: {
                 name: '炎爆术',
-                max: 20,
+                max: 30,
                 iconSrc: "./icons/spell/mage/spell_fire_fireball02.jpg",
                 quality: 1,
                 level: [{
@@ -374,15 +374,15 @@ data() {
                 quality: 1,
                 level: [{
                         des: '向敌方目标发射1-5发奥术能量箭矢，每发造成智力*1.6点魔法伤害。每层奥术充能使伤害提高25%',
-                        apDmg: { INT: 0.8, },
+                        apDmg: { INT: 1.6, },
                         cost: { MP: 50, },
                     }, {
                         des: '向敌方目标发射1-5发奥术能量箭矢，每发造成智力*1.7点魔法伤害。每层奥术充能使伤害提高25%',
-                        apDmg: { INT: 0.85, },
+                        apDmg: { INT: 1.7, },
                         cost: { MP: 75, },
                     }, {
                         des: '向敌方目标发射1-5发奥术能量箭矢，每发造成智力*1.8点魔法伤害。每层奥术充能使伤害提高25%',
-                        apDmg: { INT: 0.9, },
+                        apDmg: { INT: 1.8, },
                         cost: { MP: 100, },
                     }
                 ],
@@ -396,15 +396,15 @@ data() {
                 level: [{
                         des: '为你施加寒冰护盾，吸收法术强度*0.6*(1+全能*0.005)点伤害, 持续5秒',
                         duration: { time: 5 },
-                        cost: { MP: 40, },
+                        cost: { MP: 60, },
                     }, {
                         des: '为你施加寒冰护盾，吸收法术强度*0.6*(1+全能*0.005)点伤害, 持续7秒',
                         duration: { time: 7 },
-                        cost: { MP: 60, },
+                        cost: { MP: 90, },
                     }, {
                         des: '为你施加寒冰护盾，吸收法术强度*0.6*(1+全能*0.005)点伤害, 持续9秒',
                         duration: { time: 9 },
-                        cost: { MP: 80, },
+                        cost: { MP: 120, },
                     }
                 ],
                 tag: []
@@ -415,8 +415,8 @@ data() {
                 iconSrc: "./icons/spell/mage/spell_shadow_detectlesserinvisibility.jpg",
                 quality: 1,
                 level: [{
-                        des: '制造一个护盾，使用魔法值抵消受到的伤害，每点魔法值可抵消2点伤害，持续10秒',
-                        cost: { MP: 40, },
+                        des: '制造一个护盾，使用魔法值抵消受到的伤害，每点魔法值可抵消20点伤害，持续10秒',
+                        cost: { MP: 20, },
                     }
                 ],
                 tag: []
@@ -427,16 +427,16 @@ data() {
                 iconSrc: "./icons/spell/mage/spell_arcane_blast.jpg",
                 quality: 1,
                 level: [{
-                        des: '用能量冲击目标，造成智力*1.7点魔法伤害。每层奥术充能使伤害提高60%，消耗的法力提高100%，增加3点充能',
-                        apDmg: { INT: 1.7, },
+                        des: '用能量冲击目标，造成智力*3.5点魔法伤害。每层奥术充能使伤害提高60%，消耗的法力提高100%，增加3点充能',
+                        apDmg: { INT: 3.5, },
                         cost: { MP: 40, },
                     }, {
-                        des: '用能量冲击目标，造成智力*1.85点魔法伤害。每层奥术充能使伤害提高60%，消耗的法力提高100%，增加3点充能',
-                        apDmg: { INT: 1.85, },
+                        des: '用能量冲击目标，造成智力*3.75点魔法伤害。每层奥术充能使伤害提高60%，消耗的法力提高100%，增加3点充能',
+                        apDmg: { INT: 3.75, },
                         cost: { MP: 50, },
                     }, {
-                        des: '用能量冲击目标，造成智力*2点魔法伤害。每层奥术充能使伤害提高60%，消耗的法力提高100%，增加3点充能',
-                        apDmg: { INT: 2, },
+                        des: '用能量冲击目标，造成智力*4点魔法伤害。每层奥术充能使伤害提高60%，消耗的法力提高100%，增加3点充能',
+                        apDmg: { INT: 4, },
                         cost: { MP: 60, },
                     }
                 ],
@@ -444,22 +444,22 @@ data() {
             },
             spell_fire_selfdestruct: {
                 name: '烈焰风暴',
-                max: 20,
+                max: 30,
                 iconSrc: "./icons/spell/mage/spell_fire_selfdestruct.jpg",
                 quality: 1,
                 level: [{
+                        des: '对目标造成目标当前生命值*0.08点魔法伤害，并附加2层灼伤效果',
+                        apDmg: { t_CURHP: 0.08, },
+                        effect: {burn: {stack: 2, chance: 100, target: 'enemy'},},
+                        cost: { MP: 100, },
+                    }, {
                         des: '对目标造成目标当前生命值*0.1点魔法伤害，并附加2层灼伤效果',
                         apDmg: { t_CURHP: 0.1, },
                         effect: {burn: {stack: 2, chance: 100, target: 'enemy'},},
-                        cost: { MP: 10, },
+                        cost: { MP: 150, },
                     }, {
                         des: '对目标造成目标当前生命值*0.12点魔法伤害，并附加2层灼伤效果',
                         apDmg: { t_CURHP: 0.12, },
-                        effect: {burn: {stack: 2, chance: 100, target: 'enemy'},},
-                        cost: { MP: 150, },
-                    }, {
-                        des: '对目标造成目标当前生命值*0.15点魔法伤害，并附加2层灼伤效果',
-                        apDmg: { t_CURHP: 0.15, },
                         effect: {burn: {stack: 2, chance: 100, target: 'enemy'},},
                         cost: { MP: 200, },
                     }
@@ -472,16 +472,16 @@ data() {
                 iconSrc: "./icons/spell/mage/spell_nature_starfall.jpg",
                 quality: 1,
                 level: [{
-                        des: '向敌人射出五波奥术飞弹，每发造成智力*0.5点魔法伤害。每层奥术充能额外发射一波奥术飞弹',
-                        apDmg: { INT: 0.5, },
+                        des: '向敌人射出五波奥术飞弹，每发造成智力*1.2点魔法伤害。每层奥术充能额外发射一波奥术飞弹',
+                        apDmg: { INT: 1.2, },
                         cost: { MP: 75, },
                     }, {
-                        des: '向敌人射出五波奥术飞弹，每发造成智力*0.55点魔法伤害。每层奥术充能额外发射一波奥术飞弹',
-                        apDmg: { INT: 0.55, },
+                        des: '向敌人射出五波奥术飞弹，每发造成智力*1.4点魔法伤害。每层奥术充能额外发射一波奥术飞弹',
+                        apDmg: { INT: 1.4, },
                         cost: { MP: 100, },
                     }, {
-                        des: '向敌人射出五波奥术飞弹，每发造成智力*0.6点魔法伤害。每层奥术充能额外发射一波奥术飞弹',
-                        apDmg: { INT: 0.6, },
+                        des: '向敌人射出五波奥术飞弹，每发造成智力*1.6点魔法伤害。每层奥术充能额外发射一波奥术飞弹',
+                        apDmg: { INT: 1.6, },
                         cost: { MP: 125, },
                     }
                 ],
@@ -489,7 +489,7 @@ data() {
             },
             spell_frost_coldhearted: {
                 name: '冰冷血脉',
-                max: 20,
+                max: 30,
                 iconSrc: "./icons/spell/mage/spell_frost_coldhearted.jpg",
                 quality: 1,
                 level: [{
@@ -502,12 +502,12 @@ data() {
             },
             spell_frost_wizardmark: {
                 name: '急速冷却',
-                max: 30,
+                max: 50,
                 iconSrc: "./icons/spell/mage/spell_frost_wizardmark.jpg",
                 quality: 1,
                 level: [{
                         des: '将暴风雪、冰风暴、寒冰护体和冰冷血脉完全充能',
-                        cost: { MP: 200, },
+                        cost: { MP: 300, },
                     }
                 ],
                 tag: []
@@ -532,7 +532,7 @@ data() {
                 quality: 1,
                 level: [{
                         des: '对你当前的目标施加大法师之触，在8秒后目标将受到期间受到的伤害总量*0.25点魔法伤害',
-                        cost: { MP: 200, },
+                        cost: { MP: 500, },
                         effect: {icenova: {stack: 8, chance: 100, target: 'enemy'},},
                     }
                 ],
@@ -564,7 +564,7 @@ data() {
                 level: [{
                         des: '将自身包裹在烈焰之中，短时间内使你的法术爆击几率提高100%，持续10秒',
                         effect: {spell_fire_sealoffire: {stack: 10, chance: 100, target: 'self'},},
-                        cost: { MP: 200, },
+                        cost: { MP: 1000, },
                     }
                 ],
                 tag: []
@@ -576,7 +576,7 @@ data() {
                 quality: 1,
                 level: [{
                         des: '将所有其他技能完全充能',
-                        cost: { MP: 500, },
+                        cost: { MP: 1000, },
                     }
                 ],
                 tag: []
@@ -637,17 +637,17 @@ data() {
                 iconSrc: "./icons/spell/priest/spell_holy_innerfire.jpg",
                 quality: 1,
                 level: [{
-                        des: '提升10%攻击力、法术强度和500护甲，持续30秒',
-                        effect: {spell_holy_innerfire: {stack: 30, chance: 100, target: 'self'},},
-                        cost: { MP: 20, },
-                    }, {
-                        des: '提升12%攻击力、法术强度和750护甲，持续30秒',
-                        effect: {spell_holy_innerfire2: {stack: 30, chance: 100, target: 'self'},},
-                        cost: { MP: 30, },
-                    }, {
-                        des: '提升14%攻击力、法术强度和1000护甲，持续30秒',
-                        effect: {spell_holy_innerfire3: {stack: 30, chance: 100, target: 'self'},},
+                        des: '提升10%攻击力、法术强度和500护甲，持续20秒',
+                        effect: {spell_holy_innerfire: {stack: 20, chance: 100, target: 'self'},},
                         cost: { MP: 40, },
+                    }, {
+                        des: '提升12%攻击力、法术强度和750护甲，持续20秒',
+                        effect: {spell_holy_innerfire2: {stack: 20, chance: 100, target: 'self'},},
+                        cost: { MP: 60, },
+                    }, {
+                        des: '提升14%攻击力、法术强度和1000护甲，持续20秒',
+                        effect: {spell_holy_innerfire3: {stack: 20, chance: 100, target: 'self'},},
+                        cost: { MP: 80, },
                     }
                 ],
                 tag: []
@@ -661,7 +661,7 @@ data() {
                         des: '使最大生命值提高25%，持续10秒。同时立即为你恢复同样数量的生命值',
                         heal: { MAXHP: 0.25, },
                         effect: {spell_holy_testoffaith: {stack: 30, chance: 100, target: 'self'},},
-                        cost: { MP: 200, },
+                        cost: { MP: 150, },
                     }
                 ],
                 tag: []
@@ -672,20 +672,20 @@ data() {
                 iconSrc: "./icons/spell/priest/spell_shadow_unholyfrenzy.jpg",
                 quality: 1,
                 level: [{
-                        des: '冲击目标的意识，造成智力*3点魔法伤害',
-                        apDmg: { INT: 3, },
+                        des: '冲击目标的意识，造成智力*6点魔法伤害',
+                        apDmg: { INT: 6, },
                         cost: { MP: 70, },
                     }, {
-                        des: '冲击目标的意识，造成智力*3.5点魔法伤害',
-                        apDmg: { INT: 3.5, },
+                        des: '冲击目标的意识，造成智力*7点魔法伤害',
+                        apDmg: { INT: 7, },
                         cost: { MP: 80, },
                     }, {
-                        des: '冲击目标的意识，造成智力*4点魔法伤害',
-                        apDmg: { INT: 4, },
+                        des: '冲击目标的意识，造成智力*8点魔法伤害',
+                        apDmg: { INT: 8, },
                         cost: { MP: 90, },
                     }, {
-                        des: '冲击目标的意识，造成智力*4.5点魔法伤害',
-                        apDmg: { INT: 4.5, },
+                        des: '冲击目标的意识，造成智力*9点魔法伤害',
+                        apDmg: { INT: 9, },
                         cost: { MP: 100, },
                     }
                 ],
@@ -717,50 +717,50 @@ data() {
             },
             spell_shadow_shadowmend: {
                 name: '暗影愈合',
-                max: 30,
+                max: 40,
                 iconSrc: "./icons/spell/priest/spell_shadow_shadowmend.jpg",
                 quality: 1,
                 level: [{
                         des: '为其恢复法术强度*3.2点生命值，此后该目标将每秒受到法术强度*0.16点伤害，直到脱离战斗为止',
                         heal: { AP: 3.2 },
-                        cost: { MP: 50, },
+                        cost: { MP: 100, },
                     }
                 ],
                 tag: []
             },       
             spell_shadow_shadowwordpain: {
                 name: '暗言术：痛',
-                max: 20,
+                max: 30,
                 iconSrc: "./icons/spell/priest/spell_shadow_shadowwordpain.jpg",
                 quality: 1,
                 level: [{
                         des: '黑暗的咒语，造成法术强度*0.5点魔法伤害，并每秒造成法术强度*0.1点魔法伤害, 持续12秒',
                         apDmg: { AP: 0.5, },
-                        cost: { MP: 70, },
+                        cost: { MP: 100, },
                     }, {
                         des: '黑暗的咒语，造成法术强度*0.5点魔法伤害，并每秒造成法术强度*0.12点魔法伤害, 持续12秒',
                         apDmg: { AP: 0.5, },
-                        cost: { MP: 80, },
+                        cost: { MP: 150, },
                     }, {
                         des: '黑暗的咒语，造成法术强度*0.5点魔法伤害，并每秒造成法术强度*0.14点魔法伤害, 持续12秒',
                         apDmg: { AP: 0.5, },
-                        cost: { MP: 90, },
+                        cost: { MP: 200, },
                     }, {
                         des: '黑暗的咒语，造成法术强度*0.5点魔法伤害，并每秒造成法术强度*0.16点魔法伤害, 持续12秒',
                         apDmg: { AP: 0.5, },
-                        cost: { MP: 100, },
+                        cost: { MP: 250, },
                     }
                 ],
                 tag: []
             },
             spell_holy_dispelmagic: {
                 name: '纯净术',
-                max: 30,
+                max: 10,
                 iconSrc: "./icons/spell/priest/spell_holy_dispelmagic.jpg",
                 quality: 1,
                 level: [{
                         des: '驱散敌方目标所有增益魔法效果',
-                        cost: { MP: 50, },
+                        cost: { MP: 25, },
                     }
                 ],
                 tag: []
@@ -784,8 +784,8 @@ data() {
                 iconSrc: "./icons/spell/priest/spell_holy_holysmite.jpg",
                 quality: 1,
                 level: [{
-                        des: '惩击一个敌人，造成法术强度*0.8点神圣伤害',
-                        trueDmg: { AP: 0.8 },
+                        des: '惩击一个敌人，造成法术强度*0.6点神圣伤害',
+                        trueDmg: { AP: 0.6 },
                         cost: { MP: 150, },
                     }
                 ],
@@ -793,7 +793,7 @@ data() {
             },   
             spell_shadow_demonicfortitude: {
                 name: '暗言术：灭',
-                max: 15,
+                max: 25,
                 iconSrc: "./icons/spell/priest/spell_shadow_demonicfortitude.jpg",
                 quality: 1,
                 level: [{
@@ -806,13 +806,13 @@ data() {
             },   
             spell_holy_powerwordbarrier: {
                 name: '真言术：障',
-                max: 30,
+                max: 50,
                 iconSrc: "./icons/spell/priest/spell_holy_powerwordbarrier.jpg",
                 quality: 1,
                 level: [{
                         des: '召唤一道神圣的屏障，降低受到的所有伤害25%。持续10秒',
                         effect: {spell_holy_powerwordbarrier: {stack: 10, chance: 100, target: 'self'},},
-                        cost: { MP: 100, },
+                        cost: { MP: 200, },
                     }
                 ],
                 tag: []
@@ -857,18 +857,18 @@ data() {
             }, 
             spell_nature_nullifydisease: {
                 name: '魔法夺取',
-                max: 40,
+                max: 30,
                 iconSrc: "./icons/spell/priest/spell_nature_nullifydisease.jpg",
                 quality: 1,
                 level: [{
                         des: '夺取敌方目标身上的2个增益魔法效果',
-                        cost: { MP: 150, },
+                        cost: { MP: 75, },
                     }, {
                         des: '夺取敌方目标身上的3个增益魔法效果',
-                        cost: { MP: 150, },
+                        cost: { MP: 100, },
                     }, {
                         des: '夺取敌方目标身上的4个增益魔法效果',
-                        cost: { MP: 150, },
+                        cost: { MP: 125, },
                     }
                 ],
                 tag: []

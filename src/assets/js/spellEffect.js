@@ -821,7 +821,7 @@ export const spellEffect = {
             let index = this.$store.globalComponent["index"];
             let curMana = target.attribute.CURMP.value;
             let manaCost = 0;
-            let denyMultiplier = 2;
+            let denyMultiplier = 20;
             let min = Math.min(index.get_dmg(dmgs, 'ad')/denyMultiplier, curMana);
             index.set_ad_dmg(dmgs, index.get_dmg(dmgs, 'ad')-min*denyMultiplier);
             manaCost -= min;

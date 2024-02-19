@@ -717,9 +717,9 @@ export const talentConfig = {
                 ability_revendreth_paladin: {
                     name: '【技能】血祭',
                     desc: ['',
-                        '造成当前生命值*3点伤害, 获得一层吸收效果',
-                        '造成当前生命值*4点伤害, 获得一层吸收效果',
-                        '造成当前生命值*5点伤害, 获得一层吸收效果',
+                        '造成当前生命值*1.5点伤害, 获得一层吸收效果',
+                        '造成当前生命值*2点伤害, 获得一层吸收效果',
+                        '造成当前生命值*2.5点伤害, 获得一层吸收效果',
                     ],
                     type: 'ability_revendreth_paladin',
                     iconSrc: "./icons/spell/ability_revendreth_paladin.jpg",
@@ -925,7 +925,7 @@ export const talentConfig = {
                 spell_shadow_detectlesserinvisibility:{
                     name: '【技能】法力护盾',
                     desc: ['',
-                        '制造一个护盾，使用魔法值抵消受到的伤害，每点魔法值可抵消2点伤害，持续10秒'
+                        '制造一个护盾，使用魔法值抵消受到的伤害，每点魔法值可抵消20点伤害，持续10秒'
                     ],
                     type: 'spell_shadow_detectlesserinvisibility',
                     iconSrc: './icons/spell/mage/spell_shadow_detectlesserinvisibility.jpg',
@@ -935,9 +935,9 @@ export const talentConfig = {
                 spell_fire_selfdestruct:{
                     name: '【技能】烈焰风暴',
                     desc: ['',
+                        '对目标造成目标当前生命值*0.08点魔法伤害，并附加2层灼伤效果',
                         '对目标造成目标当前生命值*0.1点魔法伤害，并附加2层灼伤效果',
                         '对目标造成目标当前生命值*0.12点魔法伤害，并附加2层灼伤效果',
-                        '对目标造成目标当前生命值*0.15点魔法伤害，并附加2层灼伤效果',
                     ],
                     type: 'spell_fire_selfdestruct',
                     iconSrc: './icons/spell/mage/spell_fire_selfdestruct.jpg',
@@ -1038,9 +1038,9 @@ export const talentConfig = {
                 spell_nature_starfall:{
                     name: '【技能】奥术飞弹',
                     desc: ['',
-                        '向敌人射出五波奥术飞弹，每发造成智力*1点魔法伤害。每层奥术充能额外发射一波奥术飞弹',
-                        '向敌人射出五波奥术飞弹，每发造成智力*1.05点魔法伤害。每层奥术充能额外发射一波奥术飞弹',
-                        '向敌人射出五波奥术飞弹，每发造成智力*1.1点魔法伤害。每层奥术充能额外发射一波奥术飞弹',
+                        '向敌人射出五波奥术飞弹，每发造成智力*1.2点魔法伤害。每层奥术充能额外发射一波奥术飞弹',
+                        '向敌人射出五波奥术飞弹，每发造成智力*1.4点魔法伤害。每层奥术充能额外发射一波奥术飞弹',
+                        '向敌人射出五波奥术飞弹，每发造成智力*1.6点魔法伤害。每层奥术充能额外发射一波奥术飞弹',
                     ],
                     type: 'spell_nature_starfall',
                     iconSrc: './icons/spell/mage/spell_nature_starfall.jpg',
@@ -1183,9 +1183,9 @@ export const talentConfig = {
                 spell_holy_innerfire:{
                     name: '【技能】心灵之火',
                     desc: ['',
-                        '提升10%攻击力、法术强度和500护甲，持续30秒',
-                        '提升12%攻击力、法术强度和750护甲，持续30秒',
-                        '提升14%攻击力、法术强度和1000护甲，持续30秒',
+                        '提升10%攻击力、法术强度和500护甲，持续20秒',
+                        '提升12%攻击力、法术强度和750护甲，持续20秒',
+                        '提升14%攻击力、法术强度和1000护甲，持续20秒',
                     ],
                     type: 'spell_holy_innerfire',
                     iconSrc: './icons/spell/priest/spell_holy_innerfire.jpg',
@@ -1206,10 +1206,10 @@ export const talentConfig = {
                 spell_shadow_unholyfrenzy:{
                     name: '【技能】心灵震爆',
                     desc: ['',
-                        '冲击目标的意识，造成智力*3点魔法伤害',
-                        '冲击目标的意识，造成智力*3.5点魔法伤害',
-                        '冲击目标的意识，造成智力*4点魔法伤害',
-                        '冲击目标的意识，造成智力*4.5点魔法伤害'
+                        '冲击目标的意识，造成智力*6点魔法伤害',
+                        '冲击目标的意识，造成智力*7点魔法伤害',
+                        '冲击目标的意识，造成智力*8点魔法伤害',
+                        '冲击目标的意识，造成智力*9点魔法伤害'
                     ],
                     type: 'spell_shadow_unholyfrenzy',
                     iconSrc: './icons/spell/priest/spell_shadow_unholyfrenzy.jpg',
@@ -1288,7 +1288,7 @@ export const talentConfig = {
                 spell_holy_holysmite:{
                     name: '【技能】惩击',
                     desc: ['',
-                        '惩击一个敌人，造成法术强度*0.8点神圣伤害'
+                        '惩击一个敌人，造成法术强度*0.6点神圣伤害'
                     ],
                     type: 'spell_holy_holysmite',
                     iconSrc: './icons/spell/priest/spell_holy_holysmite.jpg',
