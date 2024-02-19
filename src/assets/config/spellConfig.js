@@ -394,16 +394,16 @@ data() {
                 iconSrc: "./icons/spell/mage/spell_ice_lament.jpg",
                 quality: 1,
                 level: [{
-                        des: '为你施加寒冰护盾，吸收法术强度*0.6*(1+全能*0.01)点伤害, 持续5秒',
+                        des: '为你施加寒冰护盾，吸收法术强度*0.6*(1+全能*0.005)点伤害, 持续5秒',
                         duration: { time: 5 },
                         cost: { MP: 40, },
                     }, {
-                        des: '为你施加寒冰护盾，吸收法术强度*0.6*(1+全能*0.01)点伤害, 持续10秒',
-                        duration: { time: 10 },
+                        des: '为你施加寒冰护盾，吸收法术强度*0.6*(1+全能*0.005)点伤害, 持续7秒',
+                        duration: { time: 7 },
                         cost: { MP: 60, },
                     }, {
-                        des: '为你施加寒冰护盾，吸收法术强度*0.6*(1+全能*0.01)点伤害, 持续15秒',
-                        duration: { time: 15 },
+                        des: '为你施加寒冰护盾，吸收法术强度*0.6*(1+全能*0.005)点伤害, 持续9秒',
+                        duration: { time: 9 },
                         cost: { MP: 80, },
                     }
                 ],
@@ -583,7 +583,7 @@ data() {
             },     
             spell_holy_renew: {
                 name: '恢复',
-                max: 15,
+                max: 25,
                 iconSrc: "./icons/spell/priest/spell_holy_renew.jpg",
                 quality: 1,
                 level: [{
@@ -612,20 +612,20 @@ data() {
                 iconSrc: "./icons/spell/priest/spell_holy_flashheal.jpg",
                 quality: 1,
                 level: [{
+                        des: '恢复自身法术强度*0.75点生命值',
+                        heal: { AP: 0.75 },
+                        cost: { MP: 50, },
+                    }, {
                         des: '恢复自身法术强度*0.8点生命值',
                         heal: { AP: 0.8 },
-                        cost: { MP: 50, },
+                        cost: { MP: 75, },
+                    }, {
+                        des: '恢复自身法术强度*0.85点生命值',
+                        heal: { AP: 0.85 },
+                        cost: { MP: 100, },
                     }, {
                         des: '恢复自身法术强度*0.9点生命值',
                         heal: { AP: 0.9 },
-                        cost: { MP: 75, },
-                    }, {
-                        des: '恢复自身法术强度*1点生命值',
-                        heal: { AP: 1 },
-                        cost: { MP: 100, },
-                    }, {
-                        des: '恢复自身法术强度*1.1点生命值',
-                        heal: { AP: 1.1 },
                         cost: { MP: 125, },
                     }
                 ],
@@ -700,17 +700,17 @@ data() {
                         des: '施加一个护盾，吸收最大生命值*0.1*(1+全能*0.01)点伤害, 持续5秒',
                         duration: { time: 5 },
                         effect: {spell_holy_powerwordshield: {stack: 10, chance: 100, target: 'self'},},
-                        cost: { MP: 50, },
+                        cost: { MP: 100, },
                     }, {
-                        des: '施加一个护盾，吸收最大生命值*0.1*(1+全能*0.01)点伤害, 持续10秒',
-                        duration: { time: 10 },
-                        effect: {spell_holy_powerwordshield: {stack: 15, chance: 100, target: 'self'},},
-                        cost: { MP: 60, },
+                        des: '施加一个护盾，吸收最大生命值*0.1*(1+全能*0.01)点伤害, 持续7秒',
+                        duration: { time: 7 },
+                        effect: {spell_holy_powerwordshield: {stack: 7, chance: 100, target: 'self'},},
+                        cost: { MP: 150, },
                     }, {
-                        des: '施加一个护盾，吸收最大生命值*0.1*(1+全能*0.01)点伤害, 持续15秒',
-                        duration: { time: 15 },
-                        effect: {spell_holy_powerwordshield: {stack: 20, chance: 100, target: 'self'},},
-                        cost: { MP: 70, },
+                        des: '施加一个护盾，吸收最大生命值*0.1*(1+全能*0.01)点伤害, 持续9秒',
+                        duration: { time: 9 },
+                        effect: {spell_holy_powerwordshield: {stack: 9, chance: 100, target: 'self'},},
+                        cost: { MP: 200, },
                     }
                 ],
                 tag: []
@@ -879,8 +879,8 @@ data() {
                 iconSrc: "./icons/spell/priest/spell_holy_persuitofjustice.jpg",
                 quality: 1,
                 level: [{
-                        des: '施展神迹，恢复最大生命值*1点生命值，溢出值将转为护盾, 持续20秒',
-                        heal: { MAXHP: 1 },
+                        des: '施展神迹，恢复最大生命值*0.5点生命值，溢出值将转为护盾, 持续20秒',
+                        heal: { MAXHP: 0.5 },
                         duration: { time: 20 },
                         cost: { MP: 300, },
                     }
@@ -966,8 +966,8 @@ data() {
             spell_frost_frostward: {
                 name: '河爪烙印', max: 100, iconSrc: "", quality: 1,
                 level: [{
-                        des: '每秒对目标造成攻击力*0.5点魔法伤害，持续10秒',
-                        apDmg: { ATK: 0.5 },
+                        des: '每秒对目标造成攻击力*0.2点魔法伤害，持续10秒',
+                        apDmg: { ATK: 0.2 },
                         cost: { MP: 20, },
                     }
                 ],
@@ -986,8 +986,8 @@ data() {
             inv_misc_food_meat_raw_04: {
                 name: '恢复', max: 100, iconSrc: "", quality: 1,
                 level: [{
-                        des: '每3秒恢复5%最大生命值，持续12秒',
-                        heal: { MAXHP: 0.05 },
+                        des: '每3秒恢复2%最大生命值，持续12秒',
+                        heal: { MAXHP: 0.02 },
                         cost: { MP: 20, },
                     }
                 ],
