@@ -590,7 +590,7 @@ export default {
         let recover = 0.10;
         let bonus = 1;
         let talent = 'spell_arcane_studentofmagic';
-        let amount = 5*this.attribute.SPI.value;
+        let amount = this.attribute.SPI.value;
         if(this.playerTalent[talent] > 0) {
           bonus += this.playerTalent[talent]*0.05;
         }
@@ -603,7 +603,7 @@ export default {
           amount *= bonus;
         }
         else {
-          amount = this.attribute.SPI.value;
+          amount = 0.25*this.attribute.SPI.value;
           amount *= bonus;
         }
         this.mpChange(player, player, Math.ceil(amount));
