@@ -266,11 +266,11 @@
                             <span v-if="attribute.ATKP.value != 0">{{' +' + attribute.ATKP.showValue}}</span>
                             <span v-if="attribute.ATK.bonus != 0"><br>{{'附加: ' + attribute.ATK.bonusShowValue}}</span>
                             <br>
-                            <span v-if="attribute.CRIT.value <= 100">
-                                DPS:{{Math.round(attribute.ATK.value*(1+attribute.CRIT.value/100*(attribute.CRITDMG.value-100)/100)) }}
+                            <span v-if="attribute.CRIT.value < 100">
+                                DPS:{{Math.round(attribute.ATK.value*((1-attribute.CRIT.value/100)+(attribute.CRIT.value/100)*(attribute.CRITDMG.value/100))) }}
                             </span>
                             <span v-else>
-                                DPS:{{Math.round(attribute.ATK.value*(1+(attribute.CRITDMG.value-100)/100)) }}
+                                DPS:{{Math.round(attribute.ATK.value*(attribute.CRITDMG.value/100)) }}
                             </span>
                         </p>
                     </template>
@@ -357,6 +357,13 @@
                             基础: {{attribute.AP.baseVal }}
                             <span v-if="attribute.APP.value != 0">{{' +' + attribute.APP.showValue}}</span>
                             <span v-if="attribute.AP.bonus != 0"><br>{{'附加: ' + attribute.AP.bonusShowValue}}</span>
+                            <br>
+                            <span v-if="attribute.APCRIT.value <= 100">
+                                DPS:{{Math.round(attribute.AP.value*((1-attribute.APCRIT.value/100)+(attribute.APCRIT.value/100)*(attribute.APCRITDMG.value/100))) }}
+                            </span>
+                            <span v-else>
+                                DPS:{{Math.round(attribute.AP.value*(attribute.APCRITDMG.value/100)) }}
+                            </span>
                         </p>
                     </template>
                 </cTooltip>
