@@ -2,59 +2,60 @@
     <div class="container">
         <div>剩余天赋点: {{player.talentPoint}}
             <div class="refresh btn btn-secondary" @click="resetTalent()"></div>
-        </div>
+        </div> 
+        <span>(按住shift+滚轮  或者 鼠标拖拽，不建议结合)</span>
         <draggable :left_limit="-1100" :right_limit="1" :top_bot="false">
-    <template slot="header">
-<!-- <div class="container"> -->
-    <div class="talentTree scrollbar-morpheus-den" >
-        <div class="power" v-for="(grid, i) in talents" :key="i">
-            <div class="progress">
-                <div v-for="index in 11" :key="index">
-                    <div class="marker" :style="{top: (index-1)*100/10+'%', color:playerTalent[i]>=(index-1)*5?'#0f0':''}">{{(index-1)*5}}</div>
-                </div>
-                <div class="progress-bar" :style="{height:playerTalent[i]*2+'%', width: '1px'}">
-                </div>
-            </div>
-            <div class="talentGrid" v-for="(v, k) in talents[i]" :key="k">
-                <div :class="'down '+v.status" v-if="v.down"></div>
-                <div :class="'down2 '+v.status" v-if="v.down2"></div>
-                <div :class="'down4 '+v.status" v-if="v.down4"></div>
-                <div :class="'right '+v.status" v-if="v.right"></div>
-                <div v-if="v.name" @click="clickTalent($event, k, i)" @contextmenu="rightClick($event, k, i)">
-                    <div :class="[{grayIcon:v.status=='disable'}, 'icon']" :style="{background: 'url('+v.iconSrc+') no-repeat', backgroundSize: '45px'}">
-                        <!-- <img :src="v.iconSrc" alt="" /> -->
-                    </div>
-                    <div :class="v.status+'-frame'">
-                    </div>
-                    <div class="skill-point" :style="{color: v.status=='disable'?'#ccc':v.status=='done'?'#fc0':'#0f0'}">
-                        <span v-if="playerTalent[v.type]">{{playerTalent[v.type]}}</span><span v-else>0</span>/{{v.maxLv}}
-                    </div>
-                    <div class="talent-tip">
-                        <h5>{{v.name}}</h5>
-                        <div class="desc" v-if="playerTalent[v.type]>0">当前: {{v.desc[playerTalent[v.type]]}}</div>
-                        <div class="desc" v-if="playerTalent[v.type]<v.maxLv">下一级: {{v.desc[playerTalent[v.type]+1]}}</div>
-                        <div class="preReq" v-if="preReqList[v.type]">前置天赋: 
-                            <br>
-                            <div class="detail" v-for="(preReq, index) in preReqList[v.type]" :key="index">
-                                <div :style="{color:playerTalent[preReq[0]]>=preReq[1]?'#0f0':'#ccc'}">
-                                    {{branchInfo[preReq[0]].name}}
-                                    <span v-if="playerTalent[preReq[0]]">{{playerTalent[preReq[0]]}}</span><span v-else>0</span>/<span>{{preReq[1]+' 级'}}</span>
+            <template slot="header">
+            <!-- <div class="container"> -->
+                <div class="talentTree scrollbar-morpheus-den" onscroll="scroll()" >
+                    <div class="power" v-for="(grid, i) in talents" :key="i">
+                        <div class="progress">
+                            <div v-for="index in 11" :key="index">
+                                <div class="marker" :style="{top: (index-1)*100/10+'%', color:playerTalent[i]>=(index-1)*5?'#0f0':''}">{{(index-1)*5}}</div>
+                            </div>
+                            <div class="progress-bar" :style="{height:playerTalent[i]*2+'%', width: '1px'}">
+                            </div>
+                        </div>
+                        <div class="talentGrid" v-for="(v, k) in talents[i]" :key="k">
+                            <div :class="'down '+v.status" v-if="v.down"></div>
+                            <div :class="'down2 '+v.status" v-if="v.down2"></div>
+                            <div :class="'down4 '+v.status" v-if="v.down4"></div>
+                            <div :class="'right '+v.status" v-if="v.right"></div>
+                            <div v-if="v.name" @click="clickTalent($event, k, i)" @contextmenu="rightClick($event, k, i)">
+                                <div :class="[{grayIcon:v.status=='disable'}, 'icon']" :style="{background: 'url('+v.iconSrc+') no-repeat', backgroundSize: '45px'}">
+                                    <!-- <img :src="v.iconSrc" alt="" /> -->
+                                </div>
+                                <div :class="v.status+'-frame'">
+                                </div>
+                                <div class="skill-point" :style="{color: v.status=='disable'?'#ccc':v.status=='done'?'#fc0':'#0f0'}">
+                                    <span v-if="playerTalent[v.type]">{{playerTalent[v.type]}}</span><span v-else>0</span>/{{v.maxLv}}
+                                </div>
+                                <div class="talent-tip">
+                                    <h5>{{v.name}}</h5>
+                                    <div class="desc" v-if="playerTalent[v.type]>0">当前: {{v.desc[playerTalent[v.type]]}}</div>
+                                    <div class="desc" v-if="playerTalent[v.type]<v.maxLv">下一级: {{v.desc[playerTalent[v.type]+1]}}</div>
+                                    <div class="preReq" v-if="preReqList[v.type]">前置天赋: 
+                                        <br>
+                                        <div class="detail" v-for="(preReq, index) in preReqList[v.type]" :key="index">
+                                            <div :style="{color:playerTalent[preReq[0]]>=preReq[1]?'#0f0':'#ccc'}">
+                                                {{branchInfo[preReq[0]].name}}
+                                                <span v-if="playerTalent[preReq[0]]">{{playerTalent[preReq[0]]}}</span><span v-else>0</span>/<span>{{preReq[1]+' 级'}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="footnote">
+                                        按住shift点击一次5点
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="footnote">
-                            按住shift点击一次5点
-                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            </template>
+            <template slot="main" >
+            </template>
+        </draggable>
     </div>
-    </template>
-    <template slot="main" >
-    </template>
-</draggable>
-</div>
 </template>
 <script>
 
@@ -333,6 +334,7 @@ export default {
     margin: 0.5rem 0.5rem;
     padding: 0;
     overflow: hidden;
+    overflow-x: scroll;
 }
 .talentTree {
     display: flex;
