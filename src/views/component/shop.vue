@@ -122,10 +122,10 @@ export default {
     methods: {
         setEquipShopItem() {
             let equipInfo = this.$store.globalComponent["equipInfo"];
-            for(let i=0; i<6; i++) {
+            for(let i=0; i<5; i++) {
                 let equip = JSON.parse(equipInfo.createEquip(-1, this.playerLv, 'random', 5));
                 let cost = 100+100*Math.random();
-                cost *= (1+equip.lv/15)*(1+equip.quality.extraEntryNum**3);
+                cost *= (1+(equip.lv/50)**2)*(1+equip.quality.extraEntryNum+equip.quality.qualityLv**3);
                 this.equipShop[i] = equip;
                 this.equipCost[i] = Math.round(cost);
             }
@@ -272,7 +272,7 @@ export default {
     flex-wrap: wrap;
     margin: 1px;
     height: auto;
-    width: 100px;
+    width: 120px;
     border: none;
 }
 .itemName {
