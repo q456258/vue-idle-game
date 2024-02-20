@@ -102,67 +102,67 @@ export const itemEffect = {
                     break;
                 case 'random_equip_elite_0':
                     equipOption.baseOption = ['STR', 'AGI', 'STA'];
-                    equipOption.lv = lv+2;
+                    equipOption.lv = lv+5;
                     used = this.randomEquip(1, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_elite_1':
-                    equipOption.lv = lv+2;
+                    equipOption.lv = lv+5;
                     used = this.randomEquip(1, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_elite_2':
-                    equipOption.lv = lv+2;
+                    equipOption.lv = lv+5;
                     used = this.randomEquip(2, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_elite_3':
-                    equipOption.lv = lv+2;
+                    equipOption.lv = lv+5;
                     used = this.randomEquip(3, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_elite_4':
-                    equipOption.lv = lv+2;
+                    equipOption.lv = lv+5;
                     used = this.randomEquip(4, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_elite_5':
-                    equipOption.lv = lv+2;
+                    equipOption.lv = lv+5;
                     used = this.randomEquip(5, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_elite_6':
-                    equipOption.lv = lv+2;
+                    equipOption.lv = lv+5;
                     used = this.randomEquip(6, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_1':
-                    equipOption.lv = lv+5;
+                    equipOption.lv = lv+10;
                     used = this.randomEquip(1, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_2':
-                    equipOption.lv = lv+5;
+                    equipOption.lv = lv+10;
                     used = this.randomEquip(2, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_3':
-                    equipOption.lv = lv+5;
+                    equipOption.lv = lv+10;
                     used = this.randomEquip(3, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_4':
-                    equipOption.lv = lv+5;
+                    equipOption.lv = lv+10;
                     used = this.randomEquip(4, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_5':
-                    equipOption.lv = lv+5;
+                    equipOption.lv = lv+10;
                     used = this.randomEquip(5, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_6':
-                    equipOption.lv = lv+5;
+                    equipOption.lv = lv+10;
                     used = this.randomEquip(6, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_7':
-                    equipOption.lv = lv+5;
+                    equipOption.lv = lv+10;
                     used = this.randomEquip(7, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_8':
-                    equipOption.lv = lv+5;
+                    equipOption.lv = lv+10;
                     used = this.randomEquip(8, lv, equipOption, toBackpack);
                     break;
                 case 'random_equip_9':
-                    equipOption.lv = lv+5;
+                    equipOption.lv = lv+10;
                     used = this.randomEquip(9, lv, equipOption, toBackpack);
                     break;
                 case 'random_poor_equip':
