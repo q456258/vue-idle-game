@@ -103,6 +103,28 @@ export const map = {
             
             this.$store.commit('set_enemy_attribute', {'type': type, 'attr': enemyAttribute});
         },
+        generateMine(count, zoneInfo) {
+            let choice = {};
+            // let monsterID = this.getMonsterID(zoneInfo.monsterList, zoneInfo.probability);
+            let monsterID = 1000;
+            let monsterInfo = this.monster[monsterID];
+            let eventType = monsterInfo.type;
+            let monsterName = this.getName(eventType, monsterID);
+            // let lv = this.getLv(eventType, zoneInfo, monsterInfo);
+            let lv = 1;
+            choice = {
+                type: eventType, 
+                color: this.typeColor[eventType],
+                rewardType: this.getReward(eventType, monsterID), 
+                isLottery: this.getIsLottery(eventType, monsterID),
+                img: './icons/other/'+eventType+'.png',
+                lv: lv,
+                monsterID: monsterID,
+                monsterName: monsterName,
+                count: this.getCount(eventType),
+            };
+            return choice;
+        },
         getMonsterID(lv, type) {
             let monsterID = 0;
             // 新手教程
@@ -115,7 +137,6 @@ export const map = {
                     monsterID = 5;
             } else {
                 monsterID = Math.ceil(lv/50)*10;
-                // 两种怪物根据等级/10后的奇数偶数轮换
                 if(type == 'normal')
                     monsterID += 1+this.normalEnemyType;
                 else if(type == 'elite')
@@ -197,6 +218,21 @@ export const map = {
                 //     return this.monsterReward[monsterID];
             }
             return reward;
+        },
+        getCount(type) {
+            let count = 1;
+            switch(type) {
+                case 'mine':
+                case 'herb':
+                    count = Math.ceil(Math.random()*9);
+                    break;
+                case 'chest':
+                    count = 1;
+                    break;
+                default:
+                    count = 1;
+            }
+            return count;
         },
         getIsLottery(type, monsterID) {
             switch(type) {

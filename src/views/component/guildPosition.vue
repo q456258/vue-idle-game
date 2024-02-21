@@ -62,13 +62,15 @@
                 </thead>
                 <tbody>
                     <tr v-for="(mine, index) in mineQueue" :key="index">
-                        <td>{{mine.lv}}</td>
+                        <td>{{mine.lv || '空闲'}}</td>
                         <td>
-                            <span v-if="mine.count>=0">{{mine.available+"/"+mine.count}}</span>
-                            <span v-else>无限</span>
-                            <div style="font-size: 10px">{{mine.progress[0]+'/'+mine.progress[1]}}</div>
+                            <span v-if="mine.lv">
+                                <span v-if="mine.count>=0">{{mine.available+"/"+mine.count}}</span>
+                                <span v-else>无限</span>
+                                <div style="font-size: 10px">{{mine.progress[0]+'/'+mine.progress[1]}}</div>
+                            </span>
                         </td>
-                        <td class="reward">
+                        <td :class="{reward: mine.lv }">
                             <div class="grid" v-for="(v, k) in mine.reward" :key="k" @mouseover="showInfo($event,v[0].itemType,v[0],true)" @mouseleave="closeInfo('item')">
                                 <div class="mediumIconContainer">
                                     <del :class="[{grey:v[0].quality.qualityLv==1, green:v[0].quality.qualityLv==3, blue:v[0].quality.qualityLv==4, purple:v[0].quality.qualityLv==5, orange:v[0].quality.qualityLv==6}, 'mediumIcon iconBorder']"></del>
@@ -78,8 +80,8 @@
                              </div>
                         </td>
                         <td>
-                            <span class="button btn btn-success" @click="claimReward(index)">提取</span>
-                            <span class="button btn btn-outline-danger" @click="removeFromQueue('mine', index)">移除</span>
+                            <span class="button btn btn-success" @click="generateMine(index)">寻找矿源</span>
+                            <span v-if="mine.available" class="button btn btn-outline-warning" @click="claimReward(index)">提取</span>
                         </td>
                     </tr>
                 </tbody>
@@ -126,13 +128,14 @@
 import { questConfig } from '@/assets/config/questConfig';
 import {guildConfig} from '@/assets/config/guildConfig'
 import {guildMemberConfig} from '@/assets/config/guildMemberConfig'
+import { monsterConfig } from '@/assets/config/monsterConfig';
 import cTooltip from '../uiComponent/tooltip';
 import timer from '../uiComponent/timer';
 import craftEquip from '../component/craftEquip';
 import currency from '../uiComponent/currency';
 export default {
     name: "guildPosition",
-    mixins: [guildConfig, guildMemberConfig, questConfig],
+    mixins: [guildConfig, guildMemberConfig, questConfig, monsterConfig],
     components: {cTooltip, timer, craftEquip, currency},
     mounted() {
         this.$store.globalComponent.guildPosition = this;
@@ -366,11 +369,13 @@ export default {
             } 
         },
         startMine() {
+            for(let i=0; i<this.guild.mine.lv; i++)
+                this.mineQueue.push({});
             this.timerList['mine'] = setInterval(() => {
                 for(let i=this.mineQueue.length-1; i>=0; i--) {
                     let mine = this.mineQueue[i];
-                    if(!this.increaseMineProgress(mine)) 
-                        this.mineQueue.splice(i, 1);
+                    if(!this.increaseMineProgress(mine))
+                        this.removeFromQueue(i);
                 }
             }, 1*1000);
         },
@@ -458,7 +463,29 @@ export default {
             this.smith_main = {};
             this.smith_sub = {};
         },
+        generateMine(i) {
+            let index = this.$store.globalComponent["index"];
+            this.claimReward(i);
+            let mine = index.generateMine();
+            mine.reward = index.actualReward(mine.rewardType, mine.lv);
+            this.addToQueue(mine, i);
+            // 不强制更新会有短暂的延迟
+            this.$forceUpdate();
+        },
+        addToQueue(dungeon, i) {
+            dungeon.progress = [0, this.monster[dungeon.monsterID].template.MAXHP];
+            dungeon.available = 0;
+            switch(dungeon.type) {
+                case 'mine':
+                    this.mineQueue[i] = dungeon;
+                    break;
+                case 'herb':
+                    break;
+            }
+        },
         increaseMineProgress(mine, progress=1) {
+            if(!mine.progress)
+                return true;
             this.$set(mine.progress, 0, mine.progress[0] + progress);
             if(mine.progress[0] >= mine.progress[1]) {
                 let count = Math.floor(mine.progress[0]/mine.progress[1]);
@@ -472,11 +499,13 @@ export default {
             return true;
         },
         claimReward(index) {
+            if(!this.mineQueue[index].lv)
+                return;
             this.mineReward(this.mineQueue[index].reward, this.mineQueue[index].available);
             this.mineQueue[index].count -= this.mineQueue[index].available;
             this.mineQueue[index].available = 0;
             if(this.mineQueue[index].count <= 0) 
-                this.mineQueue.splice(index, 1);
+                this.removeFromQueue(index);
         },
         mineReward(rewardList, rewardCount) {
             // 清零
@@ -526,9 +555,9 @@ export default {
         reject(k) {
             this.applicantList.splice(k, 1);
         },
-        removeFromQueue(type, index) {
+        removeFromQueue(index) {
             this.mineReward(this.mineQueue[index].reward, this.mineQueue[index].available);
-            this.mineQueue.splice(index, 1);
+            this.mineQueue[index] = {};
         },
         showInfo($event, type, item, compare) {
             let index = this.$store.globalComponent["index"];

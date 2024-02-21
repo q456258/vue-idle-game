@@ -50,9 +50,9 @@ export const guildConfig = {
                     [['guild', 1]],
                     [['guild', 1]],
                     [['guild', 2]],
-                    [['guild', 2]],
                     [['guild', 3]],
                     [['guild', 4]],
+                    [['guild', 5]],
                 ],
                 // train: [
                 //     [['guild', 1]],
@@ -82,6 +82,11 @@ export const guildConfig = {
                     [['guild', 2]],
                     [['guild', 2]],
                 ],
+                mine: [
+                    [['guild', 2]],
+                    [['guild', 3]],
+                    [['guild', 4]],
+                ]
             }, 
             upgradeCost: {
                 questBoard: [100,10000,100000],
@@ -92,7 +97,7 @@ export const guildConfig = {
                 train: [100, 10000],
                 // train2: [10000, 1000000],
                 // train3: [1000000]
-                // mine: [1000,100000,1000000],
+                mine: [1000,100000,1000000],
                 // herb: [100,1000,10000],
                 treasury: [1000,10000,100000,1000000,10000000,50000000],
             }, 
