@@ -71,11 +71,11 @@ export const itemEffect = {
                     used = this.randomGold(1000000, 10000000, msg, lv, qty);
                     break;
                 case 'inv_misc_note_06_guild':
-                    used = this.upgradeGuildBuild('guild');
+                    used = this.upgradeBuilding('guild');
                     break;
                 case 'inv_misc_note_06_mine':
                 case 'inv_misc_note_06_mine2':
-                    used = this.upgradeGuildBuild('mine');
+                    used = this.upgradeBuilding('mine');
                     break;
                 case 'inv_misc_note_06':
                     used = this.inv_misc_note_06();
@@ -251,9 +251,9 @@ export const itemEffect = {
             guildPosition.generateApplicant();
             return true;
         },
-        upgradeGuildBuild(type) {
-            let guild = this.$store.globalComponent["guild"];
-            return guild.upgradeGuildBuild(type);
+        upgradeBuilding(type) {
+            let guildPosition = this.$store.globalComponent["guildPosition"];
+            return guildPosition.upgradeBuilding(type);
         },
         giveItem(code, qty) {
             let itemInfo = this.$store.globalComponent["itemInfo"];;

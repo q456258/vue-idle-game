@@ -235,6 +235,18 @@ export default {
                 quest.trackProgress('event', eventID[type], this.guild[type].lv, true);
             if(type == 'questBoard')
                 this.upgradeQuestBoard();
+            else if(type == 'guild') {
+                let lv = guild[type].lv;
+                switch(lv) {
+                    case 1:
+                        quest.assignQuest(19);
+                        quest.assignQuest(20);
+                        break;
+                    case 2:
+                        quest.assignQuest(18);
+                        break;
+                }
+            }
         },
         upgradeQuestBoard() {
             let quest =  this.$store.globalComponent['quest']; 
@@ -369,8 +381,6 @@ export default {
             } 
         },
         startMine() {
-            for(let i=0; i<this.guild.mine.lv; i++)
-                this.mineQueue.push({});
             this.timerList['mine'] = setInterval(() => {
                 for(let i=this.mineQueue.length-1; i>=0; i--) {
                     let mine = this.mineQueue[i];
