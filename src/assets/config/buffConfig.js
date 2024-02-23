@@ -147,7 +147,7 @@ data() {
                 block: {
                     cleanse: true,
                     stacked: true,
-                    iconSrc: "./icons/buff/absorb.jpg",
+                    iconSrc: "./icons/stat/block.jpg",
                     desc: "格挡: 免疫下一次受到的攻击伤害",
                     turnbased: true
                 },
