@@ -286,7 +286,7 @@ export default {
             let dust = ['dust2', 'dust3', 'dust4', 'dust5', 'dust6'];
 
             let itemInfo = this.$store.globalComponent["itemInfo"];
-            let quantity = Math.ceil(equip.lv/10);
+            let quantity = Math.ceil(Math.random()*5);
             let item = itemInfo.createItem(dust[equip.quality.qualityLv-2], quantity);  
             itemInfo.addItem(JSON.parse(item), true);  
             this.grid[index] = {};
@@ -299,7 +299,7 @@ export default {
             let dust = ['dust2', 'dust3', 'dust4', 'dust5', 'dust6'];
 
             let itemInfo = this.$store.globalComponent["itemInfo"];
-            let quantity = Math.ceil(equip.lv/10);
+            let quantity = Math.ceil(Math.random()*5);
             let item = itemInfo.createItem(dust[equip.quality.qualityLv-2], quantity);  
             itemInfo.addItem(JSON.parse(item), true);  
             let quest = this.$store.globalComponent["quest"];
