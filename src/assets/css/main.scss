@@ -248,6 +248,7 @@ td, th{
     border-top: none;
     vertical-align: middle;
     text-align: left;
+    color: white;
 }
 th {
     border-top-left-radius: 5px;
@@ -257,6 +258,7 @@ th {
     border-bottom: none;
     position: sticky;
     top: 0;
+    background-color: #000;
 }
 tr {
     height: 20px;
