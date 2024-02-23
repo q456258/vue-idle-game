@@ -191,42 +191,42 @@ data() {
                 spell_magic_polymorphpig: {
                     timed: true,
                     iconSrc: "./icons/spell/neutral/spell_magic_polymorphpig.jpg",
-                    desc: '提升20%攻击力, 20%法伤，20%暴击率，持续20秒',
+                    desc: '愤怒之气：提升20%攻击力, 20%法伤，20%暴击率，持续20秒',
                 }, 
                 ability_druid_berserk: {
                     timed: true,
                     iconSrc: "./icons/spell/neutral/ability_druid_berserk.jpg",
-                    desc: "提升50%攻击力，50%暴击率，持续6秒"
+                    desc: "狂暴：提升50%攻击力，50%暴击率，持续6秒"
                 },
                 spell_frost_coldhearted: {
                     timed: true,
                     iconSrc: "./icons/spell/mage/spell_frost_coldhearted.jpg",
-                    desc: '加快你的施法速度，使你的急速提高30，持续20秒',
+                    desc: '冰冷血脉：加快你的施法速度，使你的急速提高30，持续20秒',
                 },
                 spell_fire_sealoffire: {
                     timed: true,
                     iconSrc: "./icons/spell/mage/spell_fire_sealoffire.jpg",
-                    desc: '将自身包裹在烈焰之中，短时间内使你的法术爆击几率提高100%，持续10秒',
+                    desc: '燃烧：将自身包裹在烈焰之中，短时间内使你的法术爆击几率提高100%，持续10秒',
                 },            
                 spell_holy_innerfire: {
                     timed: true,
                     iconSrc: "./icons/spell/priest/spell_holy_innerfire.jpg",
-                    desc: '提升10%攻击力、法术强度和500护甲，持续30秒',
+                    desc: '心灵之火：提升10%攻击力、法术强度和500护甲，持续30秒',
                 },            
                 spell_holy_innerfire2: {
                     timed: true,
                     iconSrc: "./icons/spell/priest/spell_holy_innerfire.jpg",
-                    desc: '提升12%攻击力、法术强度和750护甲，持续30秒',
+                    desc: '心灵之火：提升12%攻击力、法术强度和750护甲，持续30秒',
                 },            
                 spell_holy_innerfire3: {
                     timed: true,
                     iconSrc: "./icons/spell/priest/spell_holy_innerfire.jpg",
-                    desc: '提升14%攻击力、法术强度和1000护甲，持续30秒',
+                    desc: '心灵之火：提升14%攻击力、法术强度和1000护甲，持续30秒',
                 },
                 spell_holy_testoffaith: {
                     timed: true,
                     iconSrc: "./icons/spell/priest/spell_holy_testoffaith.jpg",
-                    desc: '使最大生命值提高25%，持续10秒。',
+                    desc: '绝望祷言：使最大生命值提高25%，持续10秒。',
                 },
             },
             statusDebuff: {
