@@ -29,6 +29,7 @@
                     数量: {{item.quantity}}
                 </div>
             </div>
+            <div class="desc" v-html="item.description.desc2"></div>
         </div>
     </div>
 </template>
@@ -259,36 +260,6 @@ export default {
         align-self: flex-end;
         font-size: 0.85rem;
     }
-}
-.description {
-    font-size: 12px;
-    margin: 0.5rem 1rem;
-    padding: 0.5rem 0rem;
-    border-top: 1px solid #777;
-    text-align: left;
-    .type {
-        padding-bottom: 0.5rem;
-    }
-    .baseEntry {
-        padding-bottom: 0.5rem;
-        text-align: left;
-    }
-    .extraEntry {
-        color: #ABF6F4;
-        border-top: 1px dotted #777;
-        padding: 0.5rem 0rem;
-        text-align: left;
-    }
-    .potential {
-        padding: 0.5rem 0rem;
-        border-top: 1px dotted #777;
-    }
-}
-.desc {
-    color: #777;
-    padding-bottom: 0.5rem;
-    margin: 0rem 1rem;
-    text-align: left;
 }
 
 </style>   
