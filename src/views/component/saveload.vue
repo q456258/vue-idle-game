@@ -81,7 +81,9 @@ export default {
                     selectedType: guildPosition.selectedType,
                     smith_main: guildPosition.smith_main,
                     smith_sub: guildPosition.smith_sub,
-                    mineQueue: guildPosition.mineQueue
+                },
+                afk: {
+                    mine: this.getMineAfk(guildPosition.mineQueue),
                 }
             }
             // 移除部分debuff
@@ -127,7 +129,14 @@ export default {
                         guildPosition.selectedType[type] = data.guildSetting.selectedType[type];
                     guildPosition.smith_main = data.guildSetting.smith_main;
                     guildPosition.smith_sub = data.guildSetting.smith_sub;
-                    guildPosition.mineQueue = data.guildSetting.mineQueue;
+                }
+                if(data.afk != undefined) {
+                    for(let i in data.afk.mine) {
+                        if(Object.keys(data.afk.mine[i]).length == 0)
+                            guildPosition.mineQueue[i] = {};
+                        else
+                            guildPosition.addToQueue(data.afk.mine[i], i);
+                    }
                 }
 
                 setting.readSetting();
@@ -177,8 +186,20 @@ export default {
             let guildPosition = this.$store.globalComponent["guildPosition"];
             for(let i=0; i<guildPosition.mineQueue.length; i++) {
                 if(!guildPosition.increaseMineProgress(guildPosition.mineQueue[i], minute*60)) 
-                    guildPosition.mineQueue.splice(i, 1);
+                    guildPosition.mineQueue[i] = {};
             }
+        },
+        getMineAfk(mineQueue) {
+            if(!mineQueue)
+                return [];
+            let afk = [];
+            for(let i in mineQueue) {
+                let mine = mineQueue[i];
+                let temp = this.$deepCopy(mine);
+                delete temp.reward;
+                afk.push(temp);
+            }
+            return afk;
         },
         closeSaveload() {
             let index = this.$store.globalComponent["index"];

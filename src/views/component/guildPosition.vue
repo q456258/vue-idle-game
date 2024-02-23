@@ -235,6 +235,8 @@ export default {
                 quest.trackProgress('event', eventID[type], this.guild[type].lv, true);
             if(type == 'questBoard')
                 this.upgradeQuestBoard();
+            else if(type == 'mine')
+                this.mineQueue.push({});
             else if(type == 'guild') {
                 let lv = guild[type].lv;
                 switch(lv) {
@@ -477,14 +479,19 @@ export default {
             let index = this.$store.globalComponent["index"];
             this.claimReward(i);
             let mine = index.generateMine();
-            mine.reward = index.actualReward(mine.rewardType, mine.lv);
             this.addToQueue(mine, i);
             // 不强制更新会有短暂的延迟
             this.$forceUpdate();
         },
         addToQueue(dungeon, i) {
-            dungeon.progress = [0, this.monster[dungeon.monsterID].template.MAXHP];
+            if(Object.keys(dungeon).length == 0) {
+                return;
+            }
+            let index = this.$store.globalComponent["index"];
+            if(!dungeon.progress)
+                dungeon.progress = [0, this.monster[dungeon.monsterID].template.MAXHP];
             dungeon.available = 0;
+            dungeon.reward = index.actualReward(dungeon.rewardType, dungeon.lv);
             switch(dungeon.type) {
                 case 'mine':
                     this.mineQueue[i] = dungeon;
@@ -509,7 +516,7 @@ export default {
             return true;
         },
         claimReward(index) {
-            if(!this.mineQueue[index].lv)
+            if(Object.keys(this.mineQueue[index]).length == 0)
                 return;
             this.mineReward(this.mineQueue[index].reward, this.mineQueue[index].available);
             this.mineQueue[index].count -= this.mineQueue[index].available;
