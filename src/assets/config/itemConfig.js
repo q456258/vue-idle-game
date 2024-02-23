@@ -781,7 +781,8 @@ export const itemConfig = {
                     description: {
                         name: '一颗金牙',
                         category: '消耗品',
-                        desc: '使用: 获得5金<br><br>"别问他是怎么弄到的"',
+                        desc: '使用: 获得5金',
+                        desc2: '莫问出处,值钱就行',
                         iconSrc: "./icons/item/trade_archaeology_trolltooth-w-goldfilling.jpg",
                     },
                     autoUse: false, batch: true,
