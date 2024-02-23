@@ -46,7 +46,7 @@ export const itemConfig = {
                     description: {
                         name: '铜锭',
                         category: '材料',
-                        desc: '锻造附加材料, 提升5级锻造装备的等级要求和物品等级, 单次锻造最多使用16个',
+                        desc: '锻造附加材料, 提升5级锻造装备的等级要求和物品等级',
                         iconSrc: "./icons/material/inv_ingot_02.jpg",
                     },
                     stack: true,
