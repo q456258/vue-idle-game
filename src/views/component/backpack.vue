@@ -69,11 +69,10 @@
         </ul>
         <ul v-show="visible && displayPage=='use'" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
             <li @click="useItemByIndex()" v-if="usable">使用</li>
-            <li @click="useAllItemByIndex('use')" v-if="usable && useGrid[currentItemIndex].quantity > 1">全部使用</li>
+            <li @click="useAllItemByIndex(currentItemIndex)" v-if="usable && useGrid[currentItemIndex].quantity > 1">全部使用</li>
             <li @click="throwItem('use')">丢弃</li>
         </ul>
         <ul v-show="visible && displayPage=='etc'" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
-            <li @click="useAllItemByIndex('etc')" v-if="usable && etcGrid[currentItemIndex].quantity > 1">全部使用</li>
             <li @click="throwItem('etc')">丢弃</li>
         </ul>
         <div class="footer">
@@ -307,8 +306,7 @@ export default {
             return true;
         },
         useItemByIndex(k) {
-            if(this.displayPage=='use')
-                this.closeInfo();
+            this.closeInfo();
             if(k != undefined)
                 this.currentItemIndex = k; 
             if(this.useGrid[this.currentItemIndex].lvReq > this.playerLv) {
