@@ -103,10 +103,9 @@ export const map = {
             
             this.$store.commit('set_enemy_attribute', {'type': type, 'attr': enemyAttribute});
         },
-        generateMine(count, zoneInfo) {
+        generateMine(monsterID) {
             let choice = {};
             // let monsterID = this.getMonsterID(zoneInfo.monsterList, zoneInfo.probability);
-            let monsterID = 1000;
             let monsterInfo = this.monster[monsterID];
             let eventType = monsterInfo.type;
             let monsterName = this.getName(eventType, monsterID);
@@ -224,7 +223,7 @@ export const map = {
             switch(type) {
                 case 'mine':
                 case 'herb':
-                    count = Math.ceil(Math.random()*9);
+                    count = Math.ceil(Math.random()*99);
                     break;
                 case 'chest':
                     count = 1;

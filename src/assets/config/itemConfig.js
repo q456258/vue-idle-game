@@ -28,6 +28,147 @@ export const itemConfig = {
             }],
             itemType:
             {
+                inv_misc_map_01_random: {
+                    quality: 1,
+                    description: {
+                        name: '矿脉线索',
+                        category: '材料',
+                        desc: '某种未知的矿脉线索',
+                        iconSrc: "./icons/item/inv_misc_map_01_random.jpg",
+                    },
+                    autoUse: true,
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 1
+                },
+                inv_misc_map_01_copper: {
+                    quality: 1,
+                    description: {
+                        name: '铜矿矿脉线索',
+                        category: '材料',
+                        desc: '使用：添加一个可采集的铜矿矿脉到公会矿场',
+                        iconSrc: "./icons/item/inv_misc_map_01_copper.jpg",
+                    },
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 100
+                },
+                inv_misc_map_01_tin: {
+                    quality: 1,
+                    description: {
+                        name: '锡矿矿脉线索',
+                        category: '材料',
+                        desc: '使用：添加一个可采集的锡矿矿脉到公会矿场',
+                        iconSrc: "./icons/item/inv_misc_map_01_tin.jpg",
+                    },
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 100
+                },
+                inv_misc_map_01_stone: {
+                    quality: 1,
+                    description: {
+                        name: '银矿矿脉线索',
+                        category: '材料',
+                        desc: '使用：添加一个可采集的银矿矿脉到公会矿场',
+                        iconSrc: "./icons/item/inv_misc_map_01_stone.jpg",
+                    },
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 100
+                },
+                inv_misc_map_01_iron: {
+                    quality: 1,
+                    description: {
+                        name: '铁矿矿脉线索',
+                        category: '材料',
+                        desc: '使用：添加一个可采集的铁矿矿脉到公会矿场',
+                        iconSrc: "./icons/item/inv_misc_map_01_iron.jpg",
+                    },
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 100
+                },
+                inv_misc_map_01_gold: {
+                    quality: 1,
+                    description: {
+                        name: '金矿矿脉线索',
+                        category: '材料',
+                        desc: '使用：添加一个可采集的金矿矿脉到公会矿场',
+                        iconSrc: "./icons/item/inv_misc_map_01_gold.jpg",
+                    },
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 100
+                },
+                inv_misc_map_01_mithril2: {
+                    quality: 1,
+                    description: {
+                        name: '秘银矿矿脉线索',
+                        category: '材料',
+                        desc: '使用：添加一个可采集的秘银矿矿脉到公会矿场',
+                        iconSrc: "./icons/item/inv_misc_map_01_mithril2.jpg",
+                    },
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 100
+                },
+                inv_misc_map_01_truesilver: {
+                    quality: 1,
+                    description: {
+                        name: '真银矿矿脉线索',
+                        category: '材料',
+                        desc: '使用：添加一个可采集的真银矿矿脉到公会矿场',
+                        iconSrc: "./icons/item/inv_misc_map_01_truesilver.jpg",
+                    },
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 100
+                },
+                inv_misc_map_01_thorium: {
+                    quality: 1,
+                    description: {
+                        name: '瑟银矿矿脉线索',
+                        category: '材料',
+                        desc: '使用：添加一个可采集的瑟银矿矿脉到公会矿场',
+                        iconSrc: "./icons/item/inv_misc_map_01_thorium.jpg",
+                    },
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 100
+                },
+                inv_misc_map_01_mithril: {
+                    quality: 1,
+                    description: {
+                        name: '黑铁矿矿脉线索',
+                        category: '材料',
+                        desc: '使用：添加一个可采集的黑铁矿矿脉到公会矿场',
+                        iconSrc: "./icons/item/inv_misc_map_01_mithril.jpg",
+                    },
+                    use: true,
+                    stack: true,
+                    quantity: 1,
+                    cost: 99990000,
+                    maxStack: 100
+                },
                 inv_ore_copper_01: {
                     quality: 1,
                     description: {

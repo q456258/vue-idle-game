@@ -70,6 +70,36 @@ export const itemEffect = {
                 case 'ability_racial_packhobgoblin':
                     used = this.randomGold(1000000, 10000000, msg, lv, qty);
                     break;
+                case 'inv_misc_map_01_random':
+                    used = this.getMineMap('guild');
+                    break;
+                case 'inv_misc_map_01_copper':
+                    used = this.generateMine(1000);
+                    break;
+                case 'inv_misc_map_01_tin':
+                    used = this.generateMine(1001);
+                    break;
+                case 'inv_misc_map_01_stone':
+                    used = this.generateMine(1002);
+                    break;
+                case 'inv_misc_map_01_iron':
+                    used = this.generateMine(1003);
+                    break;
+                case 'inv_misc_map_01_gold':
+                    used = this.generateMine(1005);
+                    break;
+                case 'inv_misc_map_01_mithril2':
+                    used = this.generateMine(1006);
+                    break;
+                // case 'inv_misc_map_01_truesilver':
+                //     used = this.generateMine(1000);
+                //     break;
+                // case 'inv_misc_map_01_thorium':
+                //     used = this.generateMine(1000);
+                //     break;
+                // case 'inv_misc_map_01_mithril':
+                //     used = this.generateMine(1000);
+                //     break;
                 case 'inv_misc_note_06_guild':
                     used = this.upgradeBuilding('guild');
                     break;
@@ -250,6 +280,40 @@ export const itemEffect = {
             let guildPosition = this.$store.globalComponent["guildPosition"];
             guildPosition.generateApplicant();
             return true;
+        },
+        getMineMap() {
+            // let maps = {'inv_misc_map_01_copper': 1000, 'inv_misc_map_01_tin': 100, 'inv_misc_map_01_stone': 10, 'inv_misc_map_01_iron': 10, 'inv_misc_map_01_gold': 10, 
+            //     'inv_misc_map_01_mithril2': 10, 'inv_misc_map_01_truesilver': 10, 'inv_misc_map_01_thorium': 10, 'inv_misc_map_01_mithril': 10};
+            let maps = {'inv_misc_map_01_copper': 10000, 'inv_misc_map_01_stone': 500, 'inv_misc_map_01_iron': 1000, 'inv_misc_map_01_gold': 50};
+            let sum = 0;
+            let code = '';
+            let qty = 1;
+            for(let i in maps)
+                sum += maps[i];
+            let random = Math.random()*sum;
+            sum = 0;
+            for(let i in maps) {
+                sum += maps[i];
+                if(random <= sum) {
+                    code = i;
+                    break;
+                }
+            }
+            let itemInfo = this.$store.globalComponent["itemInfo"];
+            let item = itemInfo.createItem(code, qty);  
+            itemInfo.addItem(JSON.parse(item));
+            return true;
+        },
+        generateMine(monsterId) {
+            let guildPosition = this.$store.globalComponent["guildPosition"];
+            let queue = guildPosition.mineQueue;
+            for(let i in queue) {
+                if(Object.keys(queue[i]).length == 0) {
+                    guildPosition.generateMine(i, monsterId);
+                    return true;
+                }
+            }
+            return false;
         },
         upgradeBuilding(type) {
             let guildPosition = this.$store.globalComponent["guildPosition"];

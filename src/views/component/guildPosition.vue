@@ -62,6 +62,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="(mine, index) in mineQueue" :key="index">
+                        <span v-show="false">{{ forceUpdate }}</span>
                         <td>{{mine.lv || '空闲'}}</td>
                         <td>
                             <span v-if="mine.lv">
@@ -80,7 +81,7 @@
                              </div>
                         </td>
                         <td>
-                            <span class="button btn btn-success" @click="generateMine(index)">寻找矿源</span>
+                            <span v-if="mine.lv" class="button btn btn-danger" @click="removeFromQueue(index)">放弃</span>
                             <span v-if="mine.available" class="button btn btn-outline-warning" @click="claimReward(index)">提取</span>
                         </td>
                     </tr>
@@ -178,6 +179,7 @@ export default {
             mineQueue: [],
             memberID: '',
             applicantList: [],
+            forceUpdate: 0
         };
     },
     props: {
@@ -475,13 +477,13 @@ export default {
             this.smith_main = {};
             this.smith_sub = {};
         },
-        generateMine(i) {
+        generateMine(i, monsterId) {
             let index = this.$store.globalComponent["index"];
             this.claimReward(i);
-            let mine = index.generateMine();
+            let mine = index.generateMine(monsterId);
             this.addToQueue(mine, i);
             // 不强制更新会有短暂的延迟
-            this.$forceUpdate();
+            this.forceUpdate += 1;
         },
         addToQueue(dungeon, i) {
             if(Object.keys(dungeon).length == 0) {
@@ -523,6 +525,7 @@ export default {
             this.mineQueue[index].available = 0;
             if(this.mineQueue[index].count <= 0) 
                 this.removeFromQueue(index);
+            this.forceUpdate += 1;
         },
         mineReward(rewardList, rewardCount) {
             // 清零
@@ -575,6 +578,8 @@ export default {
         removeFromQueue(index) {
             this.mineReward(this.mineQueue[index].reward, this.mineQueue[index].available);
             this.mineQueue[index] = {};
+            // 不强制更新会有短暂的延迟
+            this.forceUpdate -= 1;
         },
         showInfo($event, type, item, compare) {
             let index = this.$store.globalComponent["index"];
